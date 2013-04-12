@@ -7,4 +7,4 @@ urxvt.perl-ext-common:	default,matcher
 urxvt.url-launcher:		/usr/bin/google-chrome
 urxvt.matcher.button:	1
 
-#include ".belak/xcolors/zenburn"
+#include ".belak/xcolors/tomorrow-night"

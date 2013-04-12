@@ -23,8 +23,8 @@ set ttimeout ttimeoutlen=0
 " Switches number style based on current mode
 Bundle "myusuf3/numbers.vim"
 
-" Zenburn
-Bundle "jnurmine/Zenburn"
+" Base16
+Bundle "chriskempson/base16-vim"
 
 " Convenience remappings
 let g:clipbrdDefaultReg = '+'
@@ -48,7 +48,9 @@ set dir=~/.vim/swap
 set laststatus=2
 
 " Syntax stuff
-colorscheme zenburn
+set background=dark
+let base16colorspace=256
+colorscheme base16-tomorrow
 filetype plugin indent on
 syntax on
 
