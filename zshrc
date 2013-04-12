@@ -6,12 +6,17 @@ then
 	export GOPATH="$HOME/go"
 	export WORKON_HOME="$HOME/.runtime/python"
 	export PATH="$HOME/.rbenv/bin:$GOROOT/bin:$GOPATH/bin:$HOME/bin:$PATH"
+else
+	. $HOME/.dotfiles/base16-shell/base16-tomorrow.dark.sh
 fi
+
+# Stuff for ruby dev
 if which rbenv &>/dev/null
 then
 	eval $(rbenv init -)
 fi
 
+# Stuff for python dev
 if which virtualenvwrapper.sh &>/dev/null
 then
 	source $(which virtualenvwrapper.sh)
