@@ -1,41 +1,80 @@
-## Env vars
-if [[ -z $DISPLAY ]]
+# Belak's zshrc
+
+## Platform Detection
+if [[ `uname` = "Darwin" ]]
 then
-	export EDITOR="vim"
-	export GOROOT="$HOME/.runtime/go"
-	export GOPATH="$HOME/go"
-	export WORKON_HOME="$HOME/.runtime/python"
-	export PATH="$HOME/.rbenv/bin:$GOROOT/bin:$GOPATH/bin:$HOME/bin:$PATH"
+	BELAK_OSX=true
 else
-	. $HOME/.dotfiles/base16-shell/base16-tomorrow.dark.sh
+	BELAK_LINUX=true
 fi
+
+## Non-Global Exports
+if [[ -n $BELAK_OSX ]]
+then
+	export CLICOLOR=1
+fi
+
+export GOROOT="$HOME/.runtime/go"
+export GOPATH="$HOME/go"
+export WORKON_HOME="$HOME/.runtime/python"
 
 # Stuff for ruby dev
 if which rbenv &>/dev/null
 then
-	eval $(rbenv init -)
+	#eval $(rbenv init -)
+	export PATH="/Users/belak/.rbenv/shims:${PATH}"
+	source "/Users/belak/.rbenv/libexec/../completions/rbenv.zsh"
+	rbenv rehash 2>/dev/null
+	rbenv() {
+		typeset command
+		command="$1"
+		if [ "$#" -gt 0 ]
+		then
+		shift
+		fi
+
+		case "$command" in
+			rehash|shell)
+				eval "`rbenv "sh-$command" "$@"`";;
+			*)
+				command rbenv "$command" "$@";;
+		esac
+	}
 fi
 
-# Stuff for python dev
 if which virtualenvwrapper.sh &>/dev/null
 then
 	source $(which virtualenvwrapper.sh)
-elif [[ -f /etc/bash_completion.d/virtualenvwrapper ]]
-then
-	source /etc/bash_completion.d/virtualenvwrapper
-fi	
-
-## startx on tty1
-if [[ `tty` = '/dev/tty1' ]]
-then
-        exec startx
 fi
 
-alias ls="ls --color=auto"
-alias grep="grep --color=auto"
+# Stuff that should only be defined once, such as PATH
+if [[ -n $BELAK_DEFINED ]]
+then
+	export PATH="$HOME/.rbenv/bin:$GOROOT/bin:$GOPATH/bin:$HOME/bin:$PATH"
+
+	## startx on tty1
+	if [[ `tty` = '/dev/tty1' ]]
+	then
+		exec startx
+	fi
+
+	BELAK_DEFINED=true
+fi
+
+## Magical stuff
+. $HOME/.dotfiles/base16-shell/base16-tomorrow.dark.sh
+
+## Alias cmds
 alias df="df -h"
 alias du="du -h"
 
+if [[ -n $BELAK_LINUX ]]
+then
+	alias ls="ls --color=auto"
+	alias grep="grep --color=auto"
+fi
+
+# TODO: cleanup after here
 # Disable ^s and ^q
 stty -ixon
 
@@ -59,7 +98,7 @@ setopt appendhistory
 setopt extendedglob
 setopt completeinword
 
-# Needed for prompt later 
+# Needed for prompt later
 setopt prompt_subst
 
 ## Completion and prompt
@@ -71,7 +110,7 @@ zstyle ':completion:*' squeeze-slashes true
 # Gentoo workaround for sudo path
 if [[ -f /etc/gentoo-release ]]
 then
-        zstyle ':completion:*:sudo:*' command-path "${path[@]}" /usr/local/sbin /usr/sbin /sbin
+	zstyle ':completion:*:sudo:*' command-path "${path[@]}" /usr/local/sbin /usr/sbin /sbin
 fi
 
 zstyle :compinstall filename '/home/belak/.zshrc'
@@ -94,10 +133,10 @@ zstyle ':vcs_info:*' branchformat '%b|%r'
 zstyle ':vcs_info:*' actionformats " %{$fg_bold[yellow]%}%c%{$fg_bold[red]%}%u%{$fg_bold[white]%}[%{$fg_bold[yellow]%}%s|%b|%a%{$fg_bold[white]%}]%{$reset_color%}"
 zstyle ':vcs_info:*' formats " %{$fg_bold[yellow]%}%c%{$fg_bold[red]%}%u%{$fg_bold[white]%}[%{$fg_bold[yellow]%}%s|%b%{$fg_bold[white]%}]%{$reset_color%}"
 function precmd {
-        vcs_info
+	vcs_info
 }
 function ssh_prompt {
-        [[ -n $SSH_CONNECTION ]] && echo "%{$fg_bold[red]%}(ssh) %{$reset_color%}"
+	[[ -n $SSH_CONNECTION ]] && echo "%{$fg_bold[red]%}(ssh) %{$reset_color%}"
 }
 PROMPT='$(ssh_prompt)'"$PROMPT"
 RPROMPT='${vcs_info_msg_0_}'
@@ -133,16 +172,16 @@ key[PageDown]=${terminfo[knp]}
 # Finally, make sure the terminal is in application mode, when zle is
 # active. Only then are the values from $terminfo valid.
 function zle-line-init () {
-        if [[ -n $DISPLAY ]]
-        then
-                echoti smkx
-        fi
+	if [[ -n $DISPLAY ]]
+	then
+		echoti smkx
+	fi
 }
 function zle-line-finish () {
-        if [[ -n $DISPLAY ]]
-        then
-                echoti rmkx
-        fi
+	if [[ -n $DISPLAY ]]
+	then
+		echoti rmkx
+	fi
 }
 
 zle -N zle-line-init
