@@ -8,28 +8,26 @@ call vundle#rc()
 
 " Enable go plugins
 if exists("$GOROOT")
-  set rtp+=$GOROOT/misc/vim/
+	set rtp+=$GOROOT/misc/vim/
 endif
 
-" Vundles
-" vundle
+" Airline settings
+let g:airline_left_sep=''
+let g:airline_right_sep=''
+let g:airline_theme='badwolf'
+
+" Bundles
 Bundle "gmarik/vundle"
-
-" Powerline
-Bundle "Lokaltog/vim-powerline"
-set ttimeout ttimeoutlen=0
-"let g:Powerline_symbols = 'unicode'
-
-" Switches number style based on current mode
+Bundle "bling/vim-airline"
 Bundle "myusuf3/numbers.vim"
-
-" Base16
 Bundle "chriskempson/base16-vim"
+Bundle "airblade/vim-gitgutter"
+Bundle "kien/ctrlp.vim"
+Bundle "bling/vim-bufferline"
 
 " Convenience remappings
 let g:clipbrdDefaultReg = '+'
 let mapleader=","
-nnoremap ; :
 set pastetoggle=<F2>
 
 " Random settings
@@ -56,4 +54,3 @@ syntax on
 
 " Funky filetypes
 au BufRead,BufNewFile *.md set filetype=markdown
-
