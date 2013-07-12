@@ -48,7 +48,7 @@ then
 fi
 
 # Stuff that should only be defined once, such as PATH
-if [[ -n $BELAK_DEFINED ]]
+if [[ -z $BELAK_DEFINED ]]
 then
 	export PATH="$HOME/.rbenv/bin:$GOROOT/bin:$GOPATH/bin:$HOME/bin:$PATH"
 
