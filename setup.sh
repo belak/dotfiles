@@ -5,14 +5,6 @@
 # Make all user input only needed at the start
 # MPD autostart on OSX
 
-## Useful functions
-function config_link {
-	if [[ ! -e ~/.$1 ]]
-	then
-		ln -s `pwd`/$1 ~/.$1
-	fi
-}
-
 function aur_build {
 	pushd .
 	cower -dd $1
@@ -23,10 +15,6 @@ function aur_build {
 
 function brew_install {
 	brew install "$@" &>/dev/null
-}
-
-function cask_install {
-	brew cask install "$@" &> /dev/null
 }
 
 ## Platform Detection
@@ -44,25 +32,20 @@ else
 			BELAK_DEBIAN=true
 		fi
 	elif [[ -f /etc/arch-release ]]
+	then
 		BELAK_ARCH=true
 	fi
 fi
 
-## Setup the dotfiles
-git submodule update --init &>/dev/null
-
-config_link vimrc
-config_link vim
-config_link zshrc
-config_link Xdefaults
-config_link belak
-config_link hgrc
-
-vim +BundleInstall +qall
-
 ## Platform specific setup
 if [[ -n $BELAK_LINUX ]]
 then
+	if ! which sudo &>/dev/null
+	then
+		echo "Couldn't find sudo"
+		exit 1
+	fi
+
 	# Make our directories
 	mkdir ~/code
 	mkdir ~/docs
