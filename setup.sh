@@ -13,6 +13,18 @@ function aur_build {
 	popd
 }
 
+function vcs_clone {
+	if [[ ! -d "$3" ]]
+	then
+		mkdir -p "$(dirname $3)" &>/dev/null
+		$1 clone "$2" "$3"
+	
+		return 0
+	fi
+
+	return 1
+}
+
 function brew_install {
 	brew install "$@" &>/dev/null
 }
@@ -53,23 +65,9 @@ then
 	mkdir ~/music
 	mkdir ~/videos
 
-	# Set user dirs
-	xdg-user-dirs-update --set DOWNLOAD ~/docs/downloads
-	xdg-user-dirs-update --set DOCUMENTS ~/docs
-	xdg-user-dirs-update --set MUSIC ~/music
-	xdg-user-dirs-update --set PICTURES ~/pics
-	xdg-user-dirs-update --set VIDEOS ~/videos
-
-	# Unset these
-	xdg-user-dirs-update --set TEMPLATES ~
-	xdg-user-dirs-update --set DESKTOP ~
-	xdg-user-dirs-update --set PUBLICSHARE ~
-
 	if [[ -n $BELAK_ARCH && ! -f .arch-init ]]
 	then
 		mkdir ~/docs/aur
-		su -c "pacman -S sudo"
-		su -c visudo
 		sudo pacman -S htop zsh git mercurial base-devel boost xdg-user-dirs alsa-utils \
 			cmake faience-icon-theme lxappearance mlocate openssh \
 			python-virtualenvwrapper python-pip python2-pip \
@@ -120,6 +118,18 @@ then
 
 		touch .arch-init
 	fi
+
+	# Set user dirs
+	xdg-user-dirs-update --set DOWNLOAD ~/docs/downloads
+	xdg-user-dirs-update --set DOCUMENTS ~/docs
+	xdg-user-dirs-update --set MUSIC ~/music
+	xdg-user-dirs-update --set PICTURES ~/pics
+	xdg-user-dirs-update --set VIDEOS ~/videos
+
+	# Unset these
+	xdg-user-dirs-update --set TEMPLATES ~
+	xdg-user-dirs-update --set DESKTOP ~
+	xdg-user-dirs-update --set PUBLICSHARE ~
 fi
 
 if [[ -n $BELAK_OSX ]]
@@ -181,18 +191,20 @@ then
 
 	# Install go
 	pushd .
-	hg clone https://code.google.com/p/go
-	cd go/src
-	# Make both for cross compilation
-	GOOS=linux ./make.bash
-	GOOS=darwin ./make.bash
+	if vcs_clone hg https://code.google.com go
+	then
+		cd go/src
+		# Make both for cross compilation
+		GOOS=linux ./make.bash
+		GOOS=darwin ./make.bash
+	fi
 	popd
 
 	# Cocos2d-X
 	read -p "Install Cocos2d-X? [y/N] " install_cocos
 	if [[ $install_cocos = "y" || $install_cocos = "Y" ]]
 	then
-		git clone https://github.com/cocos2d/cocos2d-x
+		vcs_clone git https://github.com/cocos2d/cocos2d-x cocos2d-x
 	fi
 
 	# go back to where the dotfiles are
