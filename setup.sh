@@ -177,7 +177,8 @@ then
 		git config --global user.name "$vcs_user"
 		git config --global user.email "$vcs_email"
 		git config --global push.default simple
-		git config --global branch.autorebase always
+		git config --global branch.autosetuprebase always
+		git config --global core.editor vim
 	fi
 fi
 
