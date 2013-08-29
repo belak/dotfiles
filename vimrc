@@ -52,5 +52,6 @@ colorscheme base16-tomorrow
 filetype plugin indent on
 syntax on
 
-" Funky filetypes
+" Filetype specific stuff
 au BufRead,BufNewFile *.md set filetype=markdown
+au BufWritePre *.go Fmt
