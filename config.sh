@@ -1,6 +1,7 @@
 #!/bin/bash
 ## Belak's config.sh
 
+<<<<<<< HEAD
 if [[ ! -f "$HOME/.ssh/id_rsa.pub" ]]
 then
 
@@ -19,9 +20,10 @@ then
 fi
 
 git submodule update --init &>/dev/null
-vim +BundleInstall +qall
 
 stow vcs
 stow vim
 stow xorg
 stow zsh
+
+vim +BundleInstall +qall
