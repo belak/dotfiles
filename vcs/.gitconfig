@@ -4,6 +4,6 @@
 [push]
 	default = simple
 [branch]
-	autorebase = always
+	autosetuprebase = always
 [core]
 	editor = vim
