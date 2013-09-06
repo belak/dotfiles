@@ -5,3 +5,5 @@
 	default = simple
 [branch]
 	autorebase = always
+[core]
+	editor = vim
