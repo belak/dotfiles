@@ -1,0 +1,7 @@
+[user]
+	name = Kaleb Elwert
+	email = kelwert@mtu.edu
+[push]
+	default = simple
+[branch]
+	autorebase = always

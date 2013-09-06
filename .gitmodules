@@ -1,5 +1,5 @@
-[submodule "vim/bundle/vundle"]
-	path = vim/bundle/vundle
+[submodule "vim/.vim/bundle/vundle"]
+	path = vim/.vim/bundle/vundle
 	url = https://github.com/gmarik/vundle
 [submodule "base16-shell"]
 	path = base16-shell
