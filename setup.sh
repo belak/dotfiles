@@ -68,8 +68,8 @@ then
 	if [[ -n $BELAK_ARCH && ! -f .arch-init ]]
 	then
 		mkdir ~/docs/aur
-		sudo pacman -S htop zsh git mercurial base-devel boost xdg-user-dirs alsa-utils \
-			cmake faience-icon-theme lxappearance mlocate openssh \
+		sudo pacman -S stow aweome htop zsh git mercurial base-devel boost xdg-user-dirs
+			alsa-utils cmake faience-icon-theme lxappearance mlocate openssh \
 			python-virtualenvwrapper python-pip python2-pip \
 			rxvt-unicode xorg-server xorg-xinit xorg-xrandr wget terminus-font jshon
 
@@ -101,16 +101,6 @@ then
 		sed -i 's/--enable-perlinterp/--disable-perlinterp/' PKGBUILD
 		sed -i 's/--disable-rubyinterp/--enable-rubyinterp/' PKGBUILD
 		makepkg -si
-		popd
-
-		pushd .
-		cower -dd dwm-pango
-		cd dwm-pango
-		# My custom patches
-		sed -i 's/pango_layout_set_text/pango_layout_set_markup/' dwm-6.0-pango.patch
-		sed -i 's/y = dc.y;/y = dc.y + 1;/' dwm-6.0-pango.patch
-		cp ~/.dotfiles/dwm-config.h config.h
-		makepkg -si --skipinteg
 		popd
 
 		# Go back to ~/.dotfiles
@@ -153,37 +143,9 @@ then
 	fi
 fi
 
-[[ ! -f "$HOME/.ssh/id_rsa.pub" ]] && ssh-keygen
-
-if [[ ! -f ~/.hgrc || ! -f ~/.gitconfig ]]
-then
-	## VCS setup
-	read -p "VCS User: " vcs_user
-	read -p "VCS Email: " vcs_email
-
-	if [[ ! -f ~/.hgrc ]]
-	then
-		read -p "Bitbucket Username: " bb_user
-		read -s -p "Bitbucket Password: " bb_pass
-		curl -u "$bb_user:$bb_pass" --data-urlencode "key=$(<$HOME/.ssh/id_rsa.pub)" --request POST https://api.bitbucket.org/1.0/ssh-keys/
-		[[ ! -f "$HOME/.hgrc" ]] && printf '[ui]\nusername = %s <%s>\n' "$vcs_user" "$vcs_email" > $HOME/.hgrc
-	fi
-
-	if [[ ! -f ~/.gitconfig ]]
-	then
-		read -p "Github Username: " gh_user
-		read -s -p "Github Password: " gh_pass
-		echo "{}" | jshon -s "$(hostname)" -i "title" -s "$(<$HOME/.ssh/id_rsa.pub)" -i "key" | curl -u "$gh_user:$gh_pass" --data @- https://api.github.com/user/keys
-		git config --global user.name "$vcs_user"
-		git config --global user.email "$vcs_email"
-		git config --global push.default simple
-		git config --global branch.autorebase always
-	fi
-fi
-
 ## Setup the runtime folder
-if [[ ! -d ~/.runtime ]]
-then
+#if [[ ! -d ~/.runtime ]]
+#then
 	pushd .
 
 	mkdir ~/.runtime
@@ -191,7 +153,7 @@ then
 
 	# Install go
 	pushd .
-	if vcs_clone hg https://code.google.com go
+	if vcs_clone hg https://code.google.com/p/go go
 	then
 		cd go/src
 		# Make both for cross compilation
@@ -209,4 +171,4 @@ then
 
 	# go back to where the dotfiles are
 	popd
-fi
+#fi

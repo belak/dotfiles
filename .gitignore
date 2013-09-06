@@ -1,3 +1,2 @@
-vim/bundle
+vim/.vim/bundle
 .arch-init
-*.sublime-workspace
