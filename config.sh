@@ -1,7 +1,6 @@
 #!/bin/bash
 ## Belak's config.sh
 
-<<<<<<< HEAD
 if [[ ! -f "$HOME/.ssh/id_rsa.pub" ]]
 then
 
