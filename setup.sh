@@ -68,7 +68,7 @@ then
 	if [[ -n $BELAK_ARCH && ! -f .arch-init ]]
 	then
 		mkdir ~/docs/aur
-		sudo pacman -S stow aweome htop zsh git mercurial base-devel boost xdg-user-dirs
+		sudo pacman -S stow awesome htop zsh git mercurial base-devel boost xdg-user-dirs \
 			alsa-utils cmake faience-icon-theme lxappearance mlocate openssh \
 			python-virtualenvwrapper python-pip python2-pip \
 			rxvt-unicode xorg-server xorg-xinit xorg-xrandr wget terminus-font jshon
