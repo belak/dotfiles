@@ -116,13 +116,11 @@ fi
 zstyle :compinstall filename '/home/belak/.zshrc'
 
 ## Load all the modules for later
-autoload -Uz compinit promptinit vcs_info colors
+autoload -Uz compinit vcs_info colors
 compinit
-promptinit
 colors
 
 ## Prompt stuff
-prompt gentoo
 zstyle ':vcs_info:hg:*' hgrevformat '%r'
 zstyle ':vcs_info:*' check-for-changes true
 zstyle ':vcs_info:*' get-revision true
@@ -130,16 +128,41 @@ zstyle ':vcs_info:*' enable git hg svn
 zstyle ':vcs_info:*' stagedstr '*'
 zstyle ':vcs_info:*' unstagedstr '*'
 zstyle ':vcs_info:*' branchformat '%b|%r'
-zstyle ':vcs_info:*' actionformats " %{$fg_bold[yellow]%}%c%{$fg_bold[red]%}%u%{$fg_bold[white]%}[%{$fg_bold[yellow]%}%s|%b|%a%{$fg_bold[white]%}]%{$reset_color%}"
-zstyle ':vcs_info:*' formats " %{$fg_bold[yellow]%}%c%{$fg_bold[red]%}%u%{$fg_bold[white]%}[%{$fg_bold[yellow]%}%s|%b%{$fg_bold[white]%}]%{$reset_color%}"
+zstyle ':vcs_info:*' actionformats "%F{blue}[ %F{yellow}%c%F{red}%u%F{white}[%{yellow}%b|%a %F{blue}]%f"
+zstyle ':vcs_info:*' formats "%F{blue}[ %F{yellow}%c%F{red}%u%F{yellow}%b %F{blue}]%f"
+
 function precmd {
 	vcs_info
 }
+
 function ssh_prompt {
-	[[ -n $SSH_CONNECTION ]] && echo "%{$fg_bold[red]%}(ssh) %{$reset_color%}"
+	[[ -n $SSH_CONNECTION ]] && echo "%F{blue}[ %F{red}ssh %F{blue}]%f"
 }
-PROMPT='$(ssh_prompt)'"$PROMPT"
-RPROMPT='${vcs_info_msg_0_}'
+
+function prompt_start_color {
+	if [[ $? != 0 ]]
+	then
+		echo "%F{red}"
+	else
+		echo "%F{yellow}"
+	fi
+}
+
+# Based on hostname, setup the prompt start character
+case `hostname` in
+	'skeeve')
+		prompt_start_char='Ξ'
+		;;
+	'aahz')
+		prompt_start_char='C:\'
+		;;
+	*)
+		prompt_start_char=''
+		;;
+esac
+
+PROMPT='$(prompt_start_color)${prompt_start_char} %F{green}%2c%F{blue} [%f '
+RPROMPT='%F{blue}]%f${vcs_info_msg_0_}%f$(ssh_prompt)%f'
 
 [[ -f "$GOROOT/misc/zsh/go" ]] && source "$GOROOT/misc/zsh/go"
 
@@ -159,7 +182,7 @@ key[Right]=${terminfo[kcuf1]}
 key[PageUp]=${terminfo[kpp]}
 key[PageDown]=${terminfo[knp]}
 
-# setup key accordingly
+# setup keys accordingly
 [[ -n "${key[Home]}"    ]]  && bindkey  "${key[Home]}"    beginning-of-line
 [[ -n "${key[End]}"     ]]  && bindkey  "${key[End]}"     end-of-line
 [[ -n "${key[Insert]}"  ]]  && bindkey  "${key[Insert]}"  overwrite-mode

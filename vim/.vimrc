@@ -24,6 +24,7 @@ Bundle "chriskempson/base16-vim"
 Bundle "airblade/vim-gitgutter"
 Bundle "kien/ctrlp.vim"
 Bundle "bling/vim-bufferline"
+Bundle "a.vim"
 
 " Convenience remappings
 let g:clipbrdDefaultReg = '+'
