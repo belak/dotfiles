@@ -156,6 +156,12 @@ case `hostname` in
 	'aahz')
 		prompt_start_char='C:\'
 		;;
+	*'.it.mtu.edu')
+		prompt_start_char='∴'
+		;;
+	'gleep')
+		prompt_start_char='☿'
+		;;
 	*)
 		prompt_start_char=''
 		;;
