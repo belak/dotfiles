@@ -45,6 +45,7 @@ set nobackup
 set writebackup
 set dir=~/.vim/swap
 set laststatus=2
+set ttyfast
 
 " Syntax stuff
 set background=dark
@@ -52,6 +53,9 @@ let base16colorspace=256
 colorscheme base16-tomorrow
 filetype plugin indent on
 syntax on
+
+" Random bindings
+nmap <leader>a :A<CR>
 
 " Filetype specific stuff
 au BufRead,BufNewFile *.md set filetype=markdown
