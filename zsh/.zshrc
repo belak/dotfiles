@@ -68,6 +68,8 @@ fi
 alias df="df -h"
 alias du="du -h"
 
+alias irc="ssh -t quigley.coded.io tmux attach -t irc"
+
 if [[ -n $BELAK_LINUX ]]
 then
 	alias ls="ls --color=auto"
@@ -99,7 +101,8 @@ setopt extendedglob
 setopt completeinword
 
 # Needed for prompt later
-setopt prompt_subst
+setopt promptsubst
+setopt promptpercent
 
 ## Completion and prompt
 zstyle ':completion:*' completer _expand _complete _ignored
@@ -156,7 +159,7 @@ case `hostname` in
 	'aahz')
 		prompt_start_char='C:\'
 		;;
-	*'.it.mtu.edu')
+	*'.mtu.edu')
 		prompt_start_char='∴'
 		;;
 	'gleep')
@@ -168,7 +171,7 @@ case `hostname` in
 esac
 
 PROMPT='$(prompt_start_color)${prompt_start_char} %F{green}%2c%F{blue} [%f '
-RPROMPT='%F{blue}]%f${vcs_info_msg_0_}%f$(ssh_prompt)%f'
+RPROMPT='%{ %}%F{blue}]${vcs_info_msg_0_}%f$(ssh_prompt)%f'
 
 [[ -f "$GOROOT/misc/zsh/go" ]] && source "$GOROOT/misc/zsh/go"
 
