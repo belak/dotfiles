@@ -43,7 +43,7 @@ beautiful.init(os.getenv("HOME") .. "/.config/awesome/themes/zenburn/theme.lua")
 
 -- This is used later as the default terminal and editor to run.
 terminal = "urxvt"
-editor = os.getenv("EDITOR") or "nano"
+editor = os.getenv("EDITOR") or "vim"
 editor_cmd = terminal .. " -e " .. editor
 
 -- Default modkey.
@@ -351,7 +351,11 @@ awful.rules.rules = {
 	  properties = { floating = true } },
 	{ rule = { name = "CS4611 Lab1 Demo" },
 	  properties = { floating = true } },
+	{ rule = { name = "CS4611 Lab2 Demo" },
+	  properties = { floating = true } },
 	{ rule = { name = "CS4611 Lab1 - Kaleb Elwert" },
+	  properties = { floating = true } },
+	{ rule = { name = "CS4611 Lab2 - Kaleb Elwert" },
 	  properties = { floating = true } },
 
     -- Set Firefox to always map on tags number 2 of screen 1.

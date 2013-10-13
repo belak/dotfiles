@@ -1,6 +1,8 @@
 ! urxvt font settings
-urxvt.font:      xft:Terminus-8
-urxvt.boldFont:  xft:Terminus-8
+urxvt.font:      xft:Terminus:pixelsize=12,xft:Inconsolata for Powerline:pixelsize=12
+urxvt.boldFont:  xft:Terminus:pixelsize=12,xft:Inconsolata for Powerline:pixelsize=12
+termite.font:      xft:Terminus:pixelsize=12,xft:Inconsolata for Powerline:pixelsize=12
+termite.boldFont:  xft:Terminus:pixelsize=12,xft:Inconsolata for Powerline:pixelsize=12
 urxvt.termName:  rxvt-256color
 urxvt.scrollBar: false
 
