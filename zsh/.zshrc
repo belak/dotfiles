@@ -171,7 +171,7 @@ case `hostname` in
 esac
 
 PROMPT='$(prompt_start_color)${prompt_start_char} %F{green}%2c%F{blue} [%f '
-RPROMPT='%{ %}%F{blue}]${vcs_info_msg_0_}%f$(ssh_prompt)%f'
+RPROMPT='%F{blue}]${vcs_info_msg_0_}%f$(ssh_prompt)%f'
 
 [[ -f "$GOROOT/misc/zsh/go" ]] && source "$GOROOT/misc/zsh/go"
 
