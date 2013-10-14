@@ -25,6 +25,8 @@ Bundle "airblade/vim-gitgutter"
 Bundle "kien/ctrlp.vim"
 Bundle "bling/vim-bufferline"
 Bundle "a.vim"
+Bundle 'nsf/gocode', {'rtp': 'vim/'}
+Bundle 'Valloric/YouCompleteMe'
 
 " Convenience remappings
 let g:clipbrdDefaultReg = '+'
