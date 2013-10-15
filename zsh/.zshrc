@@ -218,3 +218,71 @@ function zle-line-finish () {
 
 zle -N zle-line-init
 zle -N zle-line-finish
+
+function j {
+	usage=false
+
+	if [[ $# > 0 ]]
+	then
+		arg=$1
+		case "$1" in
+			"a") arg="add" ;;
+			"d") arg="del" ;;
+			"j") arg="jump" ;;
+		esac
+
+		case "$arg" in
+			"--help"|"-h")
+				usage=true
+				;;
+			"add"|"del"|"jump")
+				act=$arg
+				shift
+				if [[ $# > 0 ]]
+				then
+					dir=$1
+				else
+					usage=true
+				fi
+				;;
+			*)
+				act="jump"
+				dir=$1
+				;;
+		esac
+	else
+		usage=true
+	fi
+
+	if [[ $usage != true ]]
+	then
+		if [[ $act = "add" && -e "$HOME/.belak/j/$dir" ]]
+		then
+			msg="jump dir already exists"
+			usage=true
+		elif [[ $act != "add" && ! -e "$HOME/.belak/j/$dir" ]]
+		then
+			msg="jump dir doesn't exist"
+			usage=true
+		fi
+	fi
+
+	if [[ $usage = true ]]
+	then
+		[[ -n $msg ]] && echo $msg
+		echo 'j [add|jump|del] name'
+		return
+	fi
+
+	case "$act" in
+		"add")
+			ln -s "$(pwd)" "$HOME/.belak/j/$dir"
+			;;
+		"del")
+			rm "$HOME/.belak/j/$dir"
+			;;
+		"jump")
+			cd "$(readlink $HOME/.belak/j/$dir)"
+			;;
+	esac
+}
