@@ -165,6 +165,9 @@ case `hostname` in
 	'gleep')
 		prompt_start_char='☿'
 		;;
+	'winslow')
+		prompt_start_char='ω'
+		;;
 	*)
 		prompt_start_char=''
 		;;
