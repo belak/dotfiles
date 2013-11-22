@@ -28,6 +28,9 @@ Bundle "a.vim"
 Bundle 'nsf/gocode', {'rtp': 'vim/'}
 Bundle 'Valloric/YouCompleteMe'
 
+" Stuff for laravel
+Bundle "xsbeats/vim-blade"
+
 " Convenience remappings
 let g:clipbrdDefaultReg = '+'
 let mapleader=","

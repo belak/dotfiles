@@ -1,13 +1,13 @@
 ! urxvt font settings
-urxvt.font:      xft:Terminus:pixelsize=12
-urxvt.boldFont:  xft:Terminus:pixelsize=12
-urxvt.termName:  rxvt-256color
-urxvt.scrollBar: false
+URxvt.font:      xft:Terminus:pixelsize=12
+URxvt.boldFont:  xft:Terminus:pixelsize=12
+URxvt.termName:  rxvt-256color
+URxvt.scrollBar: false
 
 ! urxvt link matching
-urxvt.perl-ext-common:	default,matcher
-urxvt.url-launcher:		/usr/bin/google-chrome
-urxvt.matcher.button:	1
+URxvt.perl-ext-common:	default,matcher
+URxvt.url-launcher:		/usr/bin/google-chrome
+URxvt.matcher.button:	1
 
 ! include the color scheme
 #include ".belak/xcolors/tomorrow-night"
