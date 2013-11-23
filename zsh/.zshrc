@@ -136,6 +136,7 @@ zstyle ':vcs_info:*' formats "%F{blue}[ %F{yellow}%c%F{red}%u%F{yellow}%b %F{blu
 
 function precmd {
 	vcs_info
+	print -Pn "\e]0;%n@%m: %~\a"
 }
 
 function ssh_prompt {
