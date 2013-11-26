@@ -21,16 +21,15 @@ export WORKON_HOME="$HOME/.runtime/python"
 # Stuff for ruby dev
 if which rbenv &>/dev/null
 then
-	#eval $(rbenv init -)
-	export PATH="/Users/belak/.rbenv/shims:${PATH}"
-	source "/Users/belak/.rbenv/libexec/../completions/rbenv.zsh"
+	export PATH="/home/belak/.rbenv/shims:${PATH}"
+	export RBENV_SHELL=zsh
+	source '/home/belak/.rbenv/libexec/../completions/rbenv.zsh'
 	rbenv rehash 2>/dev/null
 	rbenv() {
-		typeset command
+		local command
 		command="$1"
-		if [ "$#" -gt 0 ]
-		then
-		shift
+		if [ "$#" -gt 0 ]; then
+			shift
 		fi
 
 		case "$command" in
