@@ -56,18 +56,19 @@ modkey = "Mod4"
 -- Table of layouts to cover with awful.layout.inc, order matters.
 local layouts =
 {
-    awful.layout.suit.tile,
-    awful.layout.suit.tile.left,
-    awful.layout.suit.tile.bottom,
-    awful.layout.suit.tile.top,
-    awful.layout.suit.fair,
-    awful.layout.suit.fair.horizontal,
     awful.layout.suit.spiral,
-    awful.layout.suit.spiral.dwindle,
-    awful.layout.suit.max,
-    awful.layout.suit.max.fullscreen,
-    awful.layout.suit.magnifier,
-    awful.layout.suit.floating
+    awful.layout.suit.tile,
+    --awful.layout.suit.tile.left,
+    --awful.layout.suit.tile.bottom,
+    --awful.layout.suit.tile.top,
+    --awful.layout.suit.fair,
+    --awful.layout.suit.fair.horizontal,
+    --awful.layout.suit.spiral,
+    --awful.layout.suit.spiral.dwindle,
+    --awful.layout.suit.max,
+    --awful.layout.suit.max.fullscreen,
+    --awful.layout.suit.magnifier,
+    --awful.layout.suit.floating
 }
 -- }}}
 
@@ -89,21 +90,20 @@ end
 -- }}}
 
 -- {{{ Menu
--- Create a laucher widget and a main menu
-myawesomemenu = {
-   { "manual", terminal .. " -e man awesome" },
-   { "edit config", editor_cmd .. " " .. awesome.conffile },
-   { "restart", awesome.restart },
-   { "quit", awesome.quit }
-}
-
 -- Menubar configuration
 menubar.utils.terminal = terminal -- Set the terminal for applications that require it
 -- }}}
 
 -- {{{ Wibox
 -- Create a textclock widget
-mytextclock = awful.widget.textclock()
+separator = wibox.widget.textbox()
+separator:set_text(" | ")
+
+mytextclock = wibox.widget.textbox()
+vicious.register(mytextclock, vicious.widgets.date, "%b %d, %R ", 60)
+
+mybat = wibox.widget.textbox()
+vicious.register(mybat, vicious.widgets.bat, " $2%", 30, "BAT1")
 
 -- Create a wibox for each screen and add it
 mywibox = {}
@@ -181,6 +181,8 @@ for s = 1, screen.count() do
     -- Widgets that are aligned to the right
     local right_layout = wibox.layout.fixed.horizontal()
     if s == 1 then right_layout:add(wibox.widget.systray()) end
+    right_layout:add(mybat)
+    right_layout:add(separator)
     right_layout:add(mytextclock)
     right_layout:add(mylayoutbox[s])
 
@@ -196,7 +198,6 @@ end
 
 -- {{{ Mouse bindings
 root.buttons(awful.util.table.join(
-    -- awful.button({ }, 3, function () mymainmenu:toggle() end),
     awful.button({ }, 4, awful.tag.viewnext),
     awful.button({ }, 5, awful.tag.viewprev)
 ))
@@ -218,7 +219,6 @@ globalkeys = awful.util.table.join(
             awful.client.focus.byidx(-1)
             if client.focus then client.focus:raise() end
         end),
-    -- awful.key({ modkey,           }, "w", function () mymainmenu:show() end),
 
     -- Layout manipulation
     awful.key({ modkey, "Shift"   }, "j", function () awful.client.swap.byidx(  1)    end),
@@ -346,17 +346,25 @@ awful.rules.rules = {
     { rule = { class = "gimp" },
       properties = { floating = true } },
 
-	-- Class stuff
-	{ rule = { name = "tts" },
-	  properties = { floating = true } },
-	{ rule = { name = "CS4611 Lab1 Demo" },
-	  properties = { floating = true } },
-	{ rule = { name = "CS4611 Lab2 Demo" },
-	  properties = { floating = true } },
-	{ rule = { name = "CS4611 Lab1 - Kaleb Elwert" },
-	  properties = { floating = true } },
-	{ rule = { name = "CS4611 Lab2 - Kaleb Elwert" },
-	  properties = { floating = true } },
+    -- Class stuff
+    { rule = { name = "tts" },
+      properties = { floating = true } },
+    { rule = { name = "CS4611 Lab1 Demo" },
+      properties = { floating = true } },
+    { rule = { name = "CS4611 Lab2 Demo" },
+      properties = { floating = true } },
+    { rule = { name = "CS4611 Lab3 Demo" },
+      properties = { floating = true } },
+    { rule = { name = "CS4611 Lab4 Demo" },
+      properties = { floating = true } },
+    { rule = { name = "CS4611 Lab1 - Kaleb Elwert" },
+      properties = { floating = true } },
+    { rule = { name = "CS4611 Lab2 - Kaleb Elwert" },
+      properties = { floating = true } },
+    { rule = { name = "CS4611 Lab3 - Kaleb Elwert" },
+      properties = { floating = true } },
+    { rule = { name = "CS4611 Lab4 - Kaleb Elwert" },
+      properties = { floating = true } },
 
     -- Set Firefox to always map on tags number 2 of screen 1.
     -- { rule = { class = "Firefox" },
