@@ -103,7 +103,7 @@ mytextclock = wibox.widget.textbox()
 vicious.register(mytextclock, vicious.widgets.date, "%b %d, %R ", 60)
 
 mybat = wibox.widget.textbox()
-vicious.register(mybat, vicious.widgets.bat, " $2%", 30, "BAT1")
+vicious.register(mybat, vicious.widgets.bat, " $2%", 30, "BAT0")
 
 -- Create a wibox for each screen and add it
 mywibox = {}
