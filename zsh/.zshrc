@@ -61,7 +61,7 @@ then
 fi
 
 ## Magical stuff
-. $HOME/.dotfiles/base16-shell/base16-tomorrow.dark.sh
+. $HOME/.dotfiles/base16-shell/base16-ocean.dark.sh
 
 ## Alias cmds
 alias df="df -h"

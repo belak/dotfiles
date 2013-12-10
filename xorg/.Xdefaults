@@ -10,4 +10,4 @@ URxvt.url-launcher:		/usr/bin/google-chrome
 URxvt.matcher.button:	1
 
 ! include the color scheme
-#include ".belak/xcolors/tomorrow-night"
+#include ".belak/xcolors/base16-ocean"

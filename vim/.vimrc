@@ -26,14 +26,12 @@ let g:airline_theme='badwolf'
 " Bundles
 Bundle 'gmarik/vundle'
 Bundle 'bling/vim-airline'
-Bundle 'myusuf3/numbers.vim'
 Bundle 'chriskempson/base16-vim'
 Bundle 'airblade/vim-gitgutter'
 Bundle 'kien/ctrlp.vim'
 Bundle 'bling/vim-bufferline'
 Bundle 'a.vim'
 Bundle 'nsf/gocode', {'rtp': 'vim/'}
-Bundle 'Valloric/YouCompleteMe'
 
 " Plugins to try out
 Bundle 'mattn/emmet-vim'
@@ -72,7 +70,10 @@ set smartcase                  " Ignore case if search pattern is all lower case
 set autowrite                  " Write when switching buffers
 
 set mouse=a
+
+" Line numbers
 set number
+set rnu
 
 set backupdir=~/.vim/backup
 set directory=~/.vim/swap
@@ -81,7 +82,7 @@ set wildignore+=*/vendor/**
 " Syntax stuff
 set background=dark
 let base16colorspace=256
-colorscheme base16-tomorrow
+colorscheme base16-ocean
 filetype plugin indent on
 syntax on
 
