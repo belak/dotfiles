@@ -11,6 +11,7 @@ local theme_dir = os.getenv("HOME") .. "/.config/awesome/themes/zenburn"
 -- {{{ Main
 theme = {}
 theme.wallpaper = theme_dir .. "/zenburn-background.png"
+theme.tasklist_disable_icon = true
 -- }}}
 
 -- {{{ Styles
