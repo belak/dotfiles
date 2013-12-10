@@ -56,8 +56,8 @@ modkey = "Mod4"
 -- Table of layouts to cover with awful.layout.inc, order matters.
 local layouts =
 {
-    awful.layout.suit.spiral,
     awful.layout.suit.tile,
+    awful.layout.suit.spiral,
     --awful.layout.suit.tile.left,
     --awful.layout.suit.tile.bottom,
     --awful.layout.suit.tile.top,
@@ -339,11 +339,14 @@ awful.rules.rules = {
                      focus = awful.client.focus.filter,
                      keys = clientkeys,
                      buttons = clientbuttons } },
+
+    { rule = { class = "Navigator" },
+      properties = { floating = false } },
+    { rule = { class = "google-chrome-stable" },
+      properties = { floating = false } },
     { rule = { class = "MPlayer" },
       properties = { floating = true } },
     { rule = { class = "pinentry" },
-      properties = { floating = true } },
-    { rule = { class = "gimp" },
       properties = { floating = true } },
 
     -- Class stuff
