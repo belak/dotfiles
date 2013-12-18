@@ -126,20 +126,26 @@ colors
 zstyle ':vcs_info:hg:*' hgrevformat '%r'
 zstyle ':vcs_info:*' check-for-changes true
 zstyle ':vcs_info:*' get-revision true
-zstyle ':vcs_info:*' enable git hg svn
+zstyle ':vcs_info:*' enable git hg
 zstyle ':vcs_info:*' stagedstr '*'
 zstyle ':vcs_info:*' unstagedstr '*'
 zstyle ':vcs_info:*' branchformat '%b|%r'
-zstyle ':vcs_info:*' actionformats "%F{blue}[ %F{yellow}%c%F{red}%u%F{white}[%{yellow}%b|%a %F{blue}]%f"
-zstyle ':vcs_info:*' formats "%F{blue}[ %F{yellow}%c%F{red}%u%F{yellow}%b %F{blue}]%f"
+zstyle ':vcs_info:*' actionformats "%F{red}%u%F{yellow}%c %F{red}%a %F{green}%S%f"
+zstyle ':vcs_info:*' formats "%F{red}%u%F{yellow}%c %F{green}%S%f"
 
 function precmd {
 	vcs_info
 	print -Pn "\e]0;%n@%m: %~\a"
+	if [[ -n ${vcs_info_msg_0_} ]]
+	then
+		prompt_path=${vcs_info_msg_0_}
+	else
+		prompt_path="%F{green}%2c%f"
+	fi
 }
 
 function ssh_prompt {
-	[[ -n $SSH_CONNECTION ]] && echo "%F{blue}[ %F{red}ssh %F{blue}]%f"
+	[[ -n $SSH_CONNECTION ]] && echo "↕ "
 }
 
 function prompt_start_color {
@@ -153,6 +159,9 @@ function prompt_start_color {
 
 # Based on hostname, setup the prompt start character
 case `hostname` in
+	'quigley')
+		prompt_start_char='#'
+		;;
 	'skeeve')
 		prompt_start_char='Ξ'
 		;;
@@ -163,7 +172,7 @@ case `hostname` in
 		prompt_start_char='∴'
 		;;
 	'gleep')
-		prompt_start_char='☿'
+		prompt_start_char='*'
 		;;
 	'winslow')
 		prompt_start_char='ω'
@@ -172,9 +181,13 @@ case `hostname` in
 		prompt_start_char=''
 		;;
 esac
+if [[ -n ${prompt_start_char} ]]
+then
+	prompt_start_char+=' '
+fi
 
-PROMPT='$(prompt_start_color)${prompt_start_char} %F{green}%2c%F{blue} [%f '
-RPROMPT='%F{blue}]${vcs_info_msg_0_}%f$(ssh_prompt)%f'
+PROMPT='$(prompt_start_color)$(ssh_prompt)${prompt_start_char}%f'
+RPROMPT='${prompt_path}%f'
 
 [[ -f "$GOROOT/misc/zsh/go" ]] && source "$GOROOT/misc/zsh/go"
 
