@@ -59,6 +59,7 @@ then
 	fi
 
 	# Make our directories
+	mkdir ~/bin
 	mkdir ~/code
 	mkdir ~/docs
 	mkdir ~/pics
@@ -185,3 +186,5 @@ fi
 	# go back to where the dotfiles are
 	popd
 #fi
+
+go build -o ~/bin/panel ./panel
