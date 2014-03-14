@@ -4,6 +4,22 @@
 
 This repo uses GNU Stow. In order to enable a module, make sure your cwd is the dotfiles repo. Then simply run stow module. That will symlink everything needed from the module into .., usually $HOME.
 
+Note that the panel folder is not a module
+
+## Extras
+
+### panel
+
+Dependencies:
+```
+Go (for building)
+xft
+dzen2-git
+sutils-git
+xtitle-git
+```
+
+
 ## Modules
 
 ### vcs
