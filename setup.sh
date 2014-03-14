@@ -72,11 +72,11 @@ then
 			alsa-utils cmake faience-icon-theme lxappearance mlocate openssh \
 			python-virtualenvwrapper python-pip python2-pip \
 			rxvt-unicode xorg-server xorg-xinit xorg-xrandr wget terminus-font jshon \
-			xf86-video-intel xf86-input-evdev xf86-input-synaptics
+			xf86-video-intel xf86-input-evdev xf86-input-synaptics firefox unclutter
 
 		pushd .
 
-		# get cower
+		# Get cower
 		cd ~/docs/aur
 		# not sure why, but arch starts with curl, but no wget
 		curl https://aur.archlinux.org/packages/co/cower/cower.tar.gz | tar xvz
@@ -86,11 +86,23 @@ then
 		popd
 
 		# build the easy ones
-		aur_build wmname-git
-		aur_build google-chrome
 		aur_build zukitwo-themes
 		aur_build sublime-text
-		aur_build dmenu-pango
+
+		# This takes too long
+		#aur_build lldb-svn
+
+		# WM stuff
+		aur_build dzen2-git
+		aur_build wmname-git
+		aur_build dmenu-xft
+		aur_build sutils-git
+		aur_build xtitle-git
+		aur_build bspwm-git
+		aur_build sxhkd-git
+
+		# Other
+		aur_build xlockless
 
 		# build vim with some extra configuration
 		pushd .

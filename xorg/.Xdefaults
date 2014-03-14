@@ -6,7 +6,7 @@ URxvt.scrollBar: false
 
 ! urxvt link matching
 URxvt.perl-ext-common:	default,matcher
-URxvt.url-launcher:		/usr/bin/google-chrome-stable
+URxvt.url-launcher:		/usr/bin/firefox
 URxvt.matcher.button:	1
 
 ! include the color scheme

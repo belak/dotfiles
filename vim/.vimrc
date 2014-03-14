@@ -45,6 +45,8 @@ Bundle 'ervandew/supertab'
 Bundle 'tpope/vim-fugitive'
 Bundle 'jeetsukumaran/vim-buffergator'
 Bundle 'ZoomWin'
+Bundle 'kien/rainbow_parentheses.vim'
+Bundle 'sophacles/vim-bundle-mako'
 
 " Stuff for laravel
 Bundle "xsbeats/vim-blade"
