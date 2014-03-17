@@ -3,6 +3,7 @@ package main
 import (
 	"github.com/BurntSushi/xgb"
 	"github.com/BurntSushi/xgb/xproto"
+	"github.com/cloudfoundry/gosigar"
 
 	"bufio"
 	"bytes"
@@ -60,7 +61,8 @@ type BarState struct {
 
 	Ssid string
 
-	Temp int
+	Temp       int
+	CpuPercent int
 }
 
 type BarFont struct {
@@ -145,7 +147,12 @@ func WrapCommand(parser func(string), name string, args ...string) {
 func Time() {
 	defer wg.Done()
 
-	ticker := time.NewTicker(time.Second * 3)
+	ticker := time.NewTicker(time.Second * 1)
+
+	// Last poll
+	lastCpu := sigar.Cpu{}
+	cpu := sigar.Cpu{}
+
 	for {
 		select {
 		case <-ticker.C:
@@ -186,6 +193,15 @@ func Time() {
 
 				break
 			}
+
+			// CPU info
+			lastCpu = cpu
+			cpu.Get()
+
+			// TODO: Not sure which this actually handles
+			// Sort of based off of this:
+			//  http://stackoverflow.com/questions/22429036/obtain-cpu-usage-is-this-script-correct
+			state.CpuPercent = int(100 - 100*(cpu.Idle-lastCpu.Idle)/(cpu.Total()-lastCpu.Total()))
 
 			// Refresh the timer
 			refresh <- true
@@ -322,6 +338,22 @@ func Bar() {
 						icon,
 						state.BatPercent*50/100,
 						50-state.BatPercent*50/100,
+					),
+				},
+			)
+
+			// 8 + 5 + 50 + 10
+			// icon width + 5px + bar + 10px
+			pos -= (55 + 18)
+			elements = append(
+				elements,
+				Element{
+					pos,
+					fmt.Sprintf(
+						"^i(%s)^p(5)^fg(white)^r(%dx1)^fg(darkgrey)^r(%dx1)^fg()",
+						filepath.Join(iconDir, "cpu.xbm"),
+						state.CpuPercent*50/100,
+						50-state.CpuPercent*50/100,
 					),
 				},
 			)
