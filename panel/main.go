@@ -11,6 +11,7 @@ import (
 	"os/exec"
 	"os/user"
 	"path/filepath"
+	"sort"
 	"strconv"
 	"strings"
 	"sync"
@@ -19,12 +20,33 @@ import (
 )
 
 // #cgo pkg-config: x11 xft
+// #cgo LDFLAGS: -lsensors
 // #include <X11/Xft/Xft.h>
+// #include <sensors/sensors.h>
 import "C"
 
 type DesktopState struct {
 	Occupied bool
 	Selected bool
+}
+
+type Element struct {
+	Pos  int
+	Data string
+}
+
+type ByPos []Element
+
+func (e ByPos) Len() int {
+	return len(e)
+}
+
+func (e ByPos) Swap(i, j int) {
+	e[i], e[j] = e[j], e[i]
+}
+
+func (e ByPos) Less(i, j int) bool {
+	return e[i].Pos < e[j].Pos
 }
 
 type DesktopStateSlice []DesktopState
@@ -37,6 +59,8 @@ type BarState struct {
 	BatPercent  int
 
 	Ssid string
+
+	Temp int
 }
 
 type BarFont struct {
@@ -121,10 +145,49 @@ func WrapCommand(parser func(string), name string, args ...string) {
 func Time() {
 	defer wg.Done()
 
-	ticker := time.NewTicker(time.Second * 10)
+	ticker := time.NewTicker(time.Second * 3)
 	for {
 		select {
 		case <-ticker.C:
+			// Magical libsensors stuff
+			var c C.int
+			for {
+				cn := C.sensors_get_detected_chips(nil, &c)
+				if cn == nil {
+					break
+				}
+
+				if C.GoString(cn.prefix) != "acpitz" {
+					continue
+				}
+
+				var f C.int
+				for {
+					feat := C.sensors_get_features(cn, &f)
+					if feat == nil || feat._type != C.SENSORS_FEATURE_TEMP {
+						break
+					}
+
+					sub := C.sensors_get_subfeature(cn, feat, C.SENSORS_SUBFEATURE_TEMP_INPUT)
+					if sub == nil {
+						break
+					}
+
+					if sub.flags&C.SENSORS_MODE_R != 0 {
+						var val C.double
+						rc := C.sensors_get_value(cn, sub.number, &val)
+						if rc < 0 {
+							fmt.Println("err in sensors_get_value")
+						} else {
+							state.Temp = int(val)
+						}
+					}
+				}
+
+				break
+			}
+
+			// Refresh the timer
 			refresh <- true
 		}
 	}
@@ -201,33 +264,41 @@ func Bar() {
 		case <-refresh:
 			buf := bytes.NewBufferString("")
 
-			buf.WriteString("^pa(4)")
+			var elements ByPos
 
 			// Left
-			buf.WriteString(state.Title)
+			elements = append(
+				elements,
+				Element{0, state.Title},
+			)
 
 			// Middle
 			// NOTE: Middle start point is:
 			//  middle of screen - (desktop count * (icon width + padding) - padding)
 			pos := width/2 - (len(state.Desktops)*20-12)/2
 			for _, v := range state.Desktops {
-				buf.WriteString(fmt.Sprintf("^pa(%d)%s", pos, v))
+				elements = append(
+					elements,
+					Element{pos, v.String()},
+				)
 				pos += 20
 			}
 
-			// Right
+			// Time
 			timeStr := time.Now().Format("15:04")
-			pos = width - font.textWidth(timeStr)
 
-			buf.WriteString(
-				fmt.Sprintf(
-					"^pa(%d)^i(%s)^p(5)%s",
-					pos-60-font.textWidth(state.Ssid)-18-18-18,
-					filepath.Join(iconDir, "wifi_01.xbm"),
-					state.Ssid,
-				))
+			// width - txt width - 8 - 5
+			// width - txt width - icon width - padding
+			pos = width - font.textWidth(timeStr) - 13
+			elements = append(
+				elements,
+				Element{
+					pos,
+					fmt.Sprintf("^i(%s)^p(5)%s", filepath.Join(iconDir, "clock.xbm"), timeStr),
+				},
+			)
 
-			// Bat bar
+			// Bat bar icon
 			var icon string
 			if state.BatCharging {
 				icon = filepath.Join(iconDir, "ac.xbm")
@@ -239,25 +310,58 @@ func Bar() {
 				icon = filepath.Join(iconDir, "bat_full_02.xbm")
 			}
 
-			buf.WriteString(
-				fmt.Sprintf(
-					"^pa(%d)^i(%s)^p(5)^fg(white)^r(%dx1)^fg(darkgrey)^r(%dx1)^fg()",
-					pos-55-18-18,
-					icon,
-					state.BatPercent*50/100,
-					50-state.BatPercent*50/100,
-				))
+			// 8 + 5 + 50 + 10
+			// icon width + 5px + bar + 10px
+			pos -= (55 + 18)
+			elements = append(
+				elements,
+				Element{
+					pos,
+					fmt.Sprintf(
+						"^i(%s)^p(5)^fg(white)^r(%dx1)^fg(darkgrey)^r(%dx1)^fg()",
+						icon,
+						state.BatPercent*50/100,
+						50-state.BatPercent*50/100,
+					),
+				},
+			)
 
-			buf.WriteString(
-				fmt.Sprintf(
-					"^pa(%d)^i(%s)^p(5)%s",
-					pos-18,
-					filepath.Join(iconDir, "clock.xbm"),
-					timeStr,
-				))
+			// 8 + 5 + txt width + 10
+			// icon width + padding + txt width + padding
+			pos -= (8 + 5 + font.textWidth(strconv.Itoa(state.Temp)+"°") + 10)
+			elements = append(
+				elements,
+				Element{
+					pos,
+					fmt.Sprintf(
+						"^i(%s)^p(5)%d°",
+						filepath.Join(iconDir, "temp.xbm"),
+						state.Temp,
+					),
+				},
+			)
 
-			// End
+			// 8 + 5 + txt width + 10
+			// icon width + padding + txt width + padding
+			pos -= (8 + 5 + font.textWidth(state.Ssid) + 10)
+			elements = append(
+				elements,
+				Element{
+					pos,
+					fmt.Sprintf("^i(%s)^p(5)%s", filepath.Join(iconDir, "wifi_01.xbm"), state.Ssid),
+				},
+			)
+
+			// Sort the elements and print them all
+			sort.Sort(elements)
+			for _, v := range elements {
+				buf.WriteString(fmt.Sprintf("^pa(%d)%s", v.Pos, v.Data))
+			}
+
 			buf.WriteString("\n")
+			//data := buf.String()
+			//fmt.Println(data)
+			//in.WriteString(data)
 			in.Write(buf.Bytes())
 			in.Flush()
 
@@ -316,6 +420,12 @@ func main() {
 	}
 	defer C.XftFontClose(font.Display, font.Font)
 
+	if C.sensors_init(nil) != 0 {
+		fmt.Println("Failed to initialize libsensors")
+		os.Exit(1)
+	}
+	defer C.sensors_cleanup()
+
 	wg.Add(6)
 
 	go WrapCommand(Xtitle, "xtitle", "-s")
@@ -327,4 +437,5 @@ func main() {
 	go Bar()
 
 	wg.Wait()
+
 }
