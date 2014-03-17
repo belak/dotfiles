@@ -445,6 +445,7 @@ func main() {
 	{
 		conn, err := xgb.NewConnDisplay("")
 		if err != nil {
+			fmt.Println("Could not connect to X")
 			os.Exit(1)
 		}
 		setup := xproto.Setup(conn)
