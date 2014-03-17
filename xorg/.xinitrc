@@ -7,8 +7,6 @@ fi
 xsetroot -cursor_name left_ptr &
 unclutter -grab -root &
 
-panel > /tmp/panel.log &
-
 #nitrogen --set-auto "$(find $HOME/pics/Wallpapers | sort -R | head -1)"
 nitrogen --restore
 
