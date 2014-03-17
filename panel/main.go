@@ -88,9 +88,9 @@ func (d DesktopState) String() string {
 	var data string
 
 	if d.Occupied {
-		data = fmt.Sprintf("^i(%s)", filepath.Join(iconDir, "full.xbm"))
+		data = icon("full")
 	} else {
-		data = fmt.Sprintf("^i(%s)", filepath.Join(iconDir, "empty.xbm"))
+		data = icon("empty")
 	}
 
 	if d.Selected {
@@ -262,6 +262,21 @@ func Bspwm(data string) {
 	refresh <- true
 }
 
+func icon(name string) string {
+	return fmt.Sprintf(
+		"^i(%s)",
+		filepath.Join(iconDir, name+".xbm"),
+	)
+}
+
+func percentBar(val, width int) string {
+	return fmt.Sprintf(
+		"^fg(white)^r(%dx1)^fg(darkgrey)^r(%dx1)^fg()",
+		val*width/100,
+		width-val*width/100,
+	)
+}
+
 func Bar() {
 	defer wg.Done()
 
@@ -285,6 +300,7 @@ func Bar() {
 			// Left
 			elements = append(
 				elements,
+				//Element{16, state.Title},
 				Element{0, state.Title},
 			)
 
@@ -310,20 +326,20 @@ func Bar() {
 				elements,
 				Element{
 					pos,
-					fmt.Sprintf("^i(%s)^p(5)%s", filepath.Join(iconDir, "clock.xbm"), timeStr),
+					fmt.Sprintf("%s^p(5)%s", icon("clock"), timeStr),
 				},
 			)
 
 			// Bat bar icon
-			var icon string
+			var iconName string
 			if state.BatCharging {
-				icon = filepath.Join(iconDir, "ac.xbm")
+				iconName = "ac"
 			} else if state.BatPercent < 15 {
-				icon = filepath.Join(iconDir, "bat_empty_02.xbm")
+				iconName = "bat_empty_02"
 			} else if state.BatPercent < 30 {
-				icon = filepath.Join(iconDir, "bat_low_02.xbm")
+				iconName = "bat_low_02"
 			} else {
-				icon = filepath.Join(iconDir, "bat_full_02.xbm")
+				iconName = "bat_full_02"
 			}
 
 			// 8 + 5 + 50 + 10
@@ -334,10 +350,9 @@ func Bar() {
 				Element{
 					pos,
 					fmt.Sprintf(
-						"^i(%s)^p(5)^fg(white)^r(%dx1)^fg(darkgrey)^r(%dx1)^fg()",
-						icon,
-						state.BatPercent*50/100,
-						50-state.BatPercent*50/100,
+						"%s^p(5)%s",
+						icon(iconName),
+						percentBar(state.BatPercent, 50),
 					),
 				},
 			)
@@ -350,10 +365,9 @@ func Bar() {
 				Element{
 					pos,
 					fmt.Sprintf(
-						"^i(%s)^p(5)^fg(white)^r(%dx1)^fg(darkgrey)^r(%dx1)^fg()",
-						filepath.Join(iconDir, "cpu.xbm"),
-						state.CpuPercent*50/100,
-						50-state.CpuPercent*50/100,
+						"%s^p(5)%s",
+						icon("cpu"),
+						percentBar(state.CpuPercent, 50),
 					),
 				},
 			)
@@ -366,8 +380,8 @@ func Bar() {
 				Element{
 					pos,
 					fmt.Sprintf(
-						"^i(%s)^p(5)%d°",
-						filepath.Join(iconDir, "temp.xbm"),
+						"%s^p(5)%d°",
+						icon("temp"),
 						state.Temp,
 					),
 				},
@@ -380,7 +394,7 @@ func Bar() {
 				elements,
 				Element{
 					pos,
-					fmt.Sprintf("^i(%s)^p(5)%s", filepath.Join(iconDir, "wifi_01.xbm"), state.Ssid),
+					fmt.Sprintf("%s^p(5)%s", icon("wifi_01"), state.Ssid),
 				},
 			)
 
