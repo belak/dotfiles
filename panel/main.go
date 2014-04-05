@@ -300,8 +300,7 @@ func Bar() {
 			// Left
 			elements = append(
 				elements,
-				//Element{16, state.Title},
-				Element{0, state.Title},
+				Element{16, state.Title},
 			)
 
 			// Middle
@@ -321,7 +320,7 @@ func Bar() {
 
 			// width - txt width - 8 - 5
 			// width - txt width - icon width - padding
-			pos = width - font.textWidth(timeStr) - 13
+			pos = width - font.textWidth(timeStr) - 13 - 16
 			elements = append(
 				elements,
 				Element{
@@ -404,7 +403,8 @@ func Bar() {
 				buf.WriteString(fmt.Sprintf("^pa(%d)%s", v.Pos, v.Data))
 			}
 
-			buf.WriteString("\n")
+			// I have no idea why, but moving to the end fixes some alignment issues
+			buf.WriteString(fmt.Sprintf("^pa(%d)\n", width))
 			//data := buf.String()
 			//fmt.Println(data)
 			//in.WriteString(data)

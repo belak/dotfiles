@@ -7,3 +7,5 @@
 	autosetuprebase = always
 [core]
 	editor = vim
+[github]
+	user = belak
