@@ -13,25 +13,37 @@ set go-=L
 set rtp+=~/.vim/bundle/vundle/
 call vundle#rc()
 
-" Enable go plugins
-if exists("$GOROOT")
-	set rtp+=$GOROOT/misc/vim/
-endif
-
 " Airline settings
 let g:airline_left_sep=''
 let g:airline_right_sep=''
 let g:airline_theme='badwolf'
 
-" Bundles
+" Bundle management
 Bundle 'gmarik/vundle'
+
+" Appearance stuff
 Bundle 'bling/vim-airline'
 Bundle 'chriskempson/base16-vim'
 Bundle 'airblade/vim-gitgutter'
-Bundle 'kien/ctrlp.vim'
 Bundle 'bling/vim-bufferline'
+Bundle 'myusuf3/numbers.vim'
+
+" File switching
+Bundle 'kien/ctrlp.vim'
 Bundle 'a.vim'
-Bundle 'nsf/gocode', {'rtp': 'vim/'}
+
+" Completion
+Bundle 'Valloric/YouCompleteMe'
+
+" Golang stuff
+Bundle 'fatih/vim-go'
+
+" Lispy stuff
+Bundle 'kien/rainbow_parentheses.vim'
+
+" Gist magic
+Bundle 'mattn/webapi-vim'
+Bundle 'mattn/gist-vim'
 
 " Plugins to try out
 Bundle 'mattn/emmet-vim'
@@ -45,11 +57,7 @@ Bundle 'ervandew/supertab'
 Bundle 'tpope/vim-fugitive'
 Bundle 'jeetsukumaran/vim-buffergator'
 Bundle 'ZoomWin'
-Bundle 'kien/rainbow_parentheses.vim'
 Bundle 'sophacles/vim-bundle-mako'
-
-" Stuff for laravel
-Bundle "xsbeats/vim-blade"
 
 " Convenience remappings
 let g:clipbrdDefaultReg = '+'
@@ -74,8 +82,8 @@ set autowrite                  " Write when switching buffers
 set mouse=a
 
 " Line numbers
+" This is required for numbers.vim
 set number
-set rnu
 
 set backupdir=~/.vim/backup
 set directory=~/.vim/swap
@@ -110,4 +118,5 @@ nnoremap <leader>cd :cd %:p:h<CR>:pwd<CR>
 
 " Filetype specific stuff
 au BufRead,BufNewFile *.md set filetype=markdown
+au BufRead,BufNewFile *.py set ts=8 et sw=4 ts=4
 au BufWritePre *.go Fmt
