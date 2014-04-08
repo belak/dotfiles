@@ -1,63 +1,8 @@
 # Belak's zshrc
 
-## Platform Detection
-if [[ `uname` = "Darwin" ]]
-then
-	BELAK_OSX=true
-else
-	BELAK_LINUX=true
-fi
-
-## Non-Global Exports
-if [[ -n $BELAK_OSX ]]
-then
-	export CLICOLOR=1
-fi
-
-export GOROOT="$HOME/.runtime/go"
-export GOPATH="$HOME/go"
-export WORKON_HOME="$HOME/.runtime/python"
-
-# Stuff for ruby dev
-if which rbenv &>/dev/null
-then
-	export PATH="/home/belak/.rbenv/shims:${PATH}"
-	export RBENV_SHELL=zsh
-	source '/home/belak/.rbenv/libexec/../completions/rbenv.zsh'
-	rbenv rehash 2>/dev/null
-	rbenv() {
-		local command
-		command="$1"
-		if [ "$#" -gt 0 ]; then
-			shift
-		fi
-
-		case "$command" in
-			rehash|shell)
-				eval "`rbenv "sh-$command" "$@"`";;
-			*)
-				command rbenv "$command" "$@";;
-		esac
-	}
-fi
-
 if which virtualenvwrapper.sh &>/dev/null
 then
 	source $(which virtualenvwrapper.sh)
-fi
-
-# Stuff that should only be defined once, such as PATH
-if [[ -z $BELAK_DEFINED ]]
-then
-	export PATH="$HOME/.rbenv/bin:$GOROOT/bin:$GOPATH/bin:/usr/bin/vendor_perl:$HOME/bin:/usr/local/bin:$PATH"
-
-	## startx on tty1
-	if [[ `tty` = '/dev/tty1' ]]
-	then
-		exec startx
-	fi
-
-	BELAK_DEFINED=true
 fi
 
 ## Magical stuff
