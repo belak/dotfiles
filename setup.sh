@@ -5,11 +5,15 @@
 # Make all user input only needed at the start
 # MPD autostart on OSX
 
+function pkg_installed {
+	pacman -Qi $1 &> /dev/null
+	return $?
+}
+
 function aur_build {
-	pushd .
 	cower -dd $1
-	cd $1
-	makepkg -si
+	pushd $1
+	makepkg -si --noconfirm
 	popd
 }
 
@@ -18,7 +22,6 @@ function vcs_clone {
 	then
 		mkdir -p "$(dirname $3)" &>/dev/null
 		$1 clone "$2" "$3"
-	
 		return 0
 	fi
 
@@ -66,61 +69,115 @@ then
 	mkdir ~/music
 	mkdir ~/videos
 
-	if [[ -n $BELAK_ARCH && ! -f .arch-init ]]
+	if [[ -n $BELAK_ARCH ]]
 	then
 		mkdir ~/docs/aur
-		sudo pacman -S stow awesome vicious htop zsh git mercurial base-devel boost xdg-user-dirs \
-			alsa-utils cmake faience-icon-theme lxappearance mlocate openssh \
-			python-virtualenvwrapper python-pip python2-pip \
-			rxvt-unicode xorg-server xorg-xinit xorg-xrandr wget terminus-font jshon \
-			xf86-video-intel xf86-input-evdev xf86-input-synaptics firefox unclutter
+		pushd ~/docs/aur
 
-		pushd .
+		pkg_list=(
+			boost
+			cmake
+			jshon
+
+			python-virtualenvwrapper
+			python-pip
+			python2-pip
+
+			git
+			mercurial
+
+			alsa-utils
+			dmenu-pango
+			firefox
+			htop
+			lxappearance
+			mlocate
+			openssh
+			rxvt-unicode
+			stow
+			unclutter
+			xdg-user-dirs
+			zsh
+
+			xorg-xinit
+			xorg-server
+			xf86-video-intel
+			xf86-input-evdev
+			xf86-input-synaptics
+		)
+
+		pkgs=()
+		for pkg in "${pkg_list[@]}"
+		do
+			if ! pkg_installed $pkg
+			then
+				pkgs+=($pkg)
+			fi
+		done
+
+		echo ${pkgs[@]}
+
+		if [[ ${#pkgs[@]} != 0 ]]
+		then
+			sudo pacman -S --noconfirm "${pkgs[@]}"
+		fi
 
 		# Get cower
-		cd ~/docs/aur
 		# not sure why, but arch starts with curl, but no wget
-		curl https://aur.archlinux.org/packages/co/cower/cower.tar.gz | tar xvz
-		pushd .
-		cd cower
-		makepkg -si
-		popd
+		if ! pkg_installed cower
+		then
+			curl https://aur.archlinux.org/packages/co/cower/cower.tar.gz | tar xvz
+			pushd cower
+			makepkg -si --noconfirm
+			popd
+		fi
 
-		# build the easy ones
-		aur_build zukitwo-themes
-		aur_build sublime-text
+		## Skipped pkgs
+		#lldb-svn
+		#dzen2-git
+		#wmname-git
+		#dmenu-xft
+		#sutils-git
+		#xtitle-git
+		#bspwm-git
+		#sxhkd-git
 
-		# This takes too long
-		#aur_build lldb-svn
+		## Aur pkgs
+		aur_pkgs=(
+			gtk-theme-iris-dark-git
+			numix-icon-theme-git
+			numix-circle-icon-theme-git
+			sublime-text
+			xlockless
+		)
 
-		# WM stuff
-		aur_build dzen2-git
-		aur_build wmname-git
-		aur_build dmenu-xft
-		aur_build sutils-git
-		aur_build xtitle-git
-		aur_build bspwm-git
-		aur_build sxhkd-git
-
-		# Other
-		aur_build xlockless
+		for pkg in "${aur_pkgs[@]}"
+		do
+			if ! pkg_installed $pkg
+			then
+				aur_build $pkg
+			fi
+		done
 
 		# build vim with some extra configuration
-		pushd .
-		cower -dd vim-hg
-		cd vim-hg
-		sed -i "s/depends=('gpm' 'perl' 'python' 'python2')/depends=('gpm' 'ruby')/" PKGBUILD
-		sed -i 's/--with-compiledby=ArchLinux/--with-compiledby=belak/' PKGBUILD
-		sed -i 's/--with-x=no/--with-x=yes/' PKGBUILD
-		sed -i 's/--enable-perlinterp/--disable-perlinterp/' PKGBUILD
-		sed -i 's/--disable-rubyinterp/--enable-rubyinterp/' PKGBUILD
-		makepkg -si
-		popd
+		if ! pkg_installed vim-hg
+		then
+			cower -dd vim-hg
+			pushd vim-hg
+
+			sed -i "s/depends=('gpm' 'perl' 'gawk')/depends=('gpm' 'python' 'python2')/" PKGBUILD
+			sed -i 's/--with-compiledby=ArchLinux/--with-compiledby=belak/' PKGBUILD
+			sed -i 's/--with-x=no/--with-x=yes/' PKGBUILD
+			sed -i 's/--enable-perlinterp/--disable-perlinterp/' PKGBUILD
+			sed -i 's/--disable-pythoninterp/--enable-pythoninterp/' PKGBUILD
+			sed -i 's/--disable-python3interp/--enable-python3interp/' PKGBUILD
+			makepkg -si --noconfirm
+
+			popd
+		fi
 
 		# Go back to ~/.dotfiles
 		popd
-
-		touch .arch-init
 	fi
 
 	# Set user dirs
@@ -158,33 +215,18 @@ then
 fi
 
 ## Setup the runtime folder
-#if [[ ! -d ~/.runtime ]]
-#then
-	pushd .
+mkdir ~/.runtime
+pushd ~/.runtime
 
-	mkdir ~/.runtime
-	cd ~/.runtime
-
-	# Install go
-	pushd .
-	if vcs_clone hg https://code.google.com/p/go go
-	then
-		cd go/src
-		# Make both for cross compilation
-		GOOS=linux ./make.bash
-		GOOS=darwin ./make.bash
-	fi
+# Install go
+if vcs_clone hg https://code.google.com/p/go go
+then
+	pushd go/src
+	# Make both for cross compilation
+	GOOS=linux ./make.bash
+	GOOS=darwin ./make.bash
 	popd
+fi
+popd
 
-	# Cocos2d-X
-	read -p "Install Cocos2d-X? [y/N] " install_cocos
-	if [[ $install_cocos = "y" || $install_cocos = "Y" ]]
-	then
-		vcs_clone git https://github.com/cocos2d/cocos2d-x cocos2d-x
-	fi
-
-	# go back to where the dotfiles are
-	popd
-#fi
-
-go build -o ~/bin/panel ./panel
+#go build -o ~/bin/panel ./panel
