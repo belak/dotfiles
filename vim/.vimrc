@@ -119,4 +119,3 @@ nnoremap <leader>cd :cd %:p:h<CR>:pwd<CR>
 " Filetype specific stuff
 au BufRead,BufNewFile *.md set filetype=markdown
 au BufRead,BufNewFile *.py set ts=8 et sw=4 ts=4
-au BufWritePre *.go Fmt
