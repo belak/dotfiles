@@ -4,6 +4,7 @@
 ## TODO
 # Make all user input only needed at the start
 # MPD autostart on OSX
+# Install postgres
 
 function pkg_installed {
 	pacman -Qi $1 &> /dev/null
@@ -77,7 +78,10 @@ then
 		pkg_list=(
 			boost
 			cmake
+			gdb
+			jdk7-openjdk
 			jshon
+			valgrind
 
 			python-virtualenvwrapper
 			python-pip
@@ -89,6 +93,7 @@ then
 			alsa-utils
 			dmenu-pango
 			firefox
+			gimp
 			htop
 			lxappearance
 			mlocate
