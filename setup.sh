@@ -5,6 +5,7 @@
 # Make all user input only needed at the start
 # MPD autostart on OSX
 # Install postgres
+# Setup intellij
 
 function pkg_installed {
 	pacman -Qi $1 &> /dev/null
@@ -101,6 +102,7 @@ then
 			rxvt-unicode
 			stow
 			unclutter
+			wget
 			xdg-user-dirs
 			zsh
 
@@ -231,6 +233,11 @@ then
 	GOOS=linux ./make.bash
 	GOOS=darwin ./make.bash
 	popd
+fi
+if [[ ! -d android-sdk ]]
+then
+	wget -O - http://dl.google.com/android/android-sdk_r22.6.2-linux.tgz | tar xz
+	mv android-sdk-linux android-sdk
 fi
 popd
 

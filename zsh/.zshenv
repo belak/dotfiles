@@ -20,7 +20,8 @@ then
 fi
 
 ## Path stuff
+export ANDROID_HOME="$HOME/.runtime/android-sdk"
 export GOROOT="$HOME/.runtime/go"
 export GOPATH="$HOME/go"
 export WORKON_HOME="$HOME/.runtime/python"
-export PATH="$GOROOT/bin:$GOPATH/bin:/usr/bin/vendor_perl:$HOME/bin:/usr/local/bin:$PATH"
+export PATH="$GOROOT/bin:$GOPATH/bin:/usr/bin/vendor_perl:$HOME/bin:/usr/local/bin:$PATH:$ANDROID_HOME/tools:$ANDROID_HOME/platform-tools"
