@@ -78,6 +78,7 @@ then
 
 		pkg_list=(
 			boost
+			clang
 			cmake
 			gdb
 			jdk7-openjdk
@@ -92,7 +93,6 @@ then
 			mercurial
 
 			alsa-utils
-			dmenu-pango
 			firefox
 			gimp
 			htop
@@ -141,19 +141,23 @@ then
 
 		## Skipped pkgs
 		#lldb-svn
-		#dzen2-git
-		#wmname-git
 		#dmenu-xft
-		#sutils-git
-		#xtitle-git
-		#bspwm-git
-		#sxhkd-git
 
 		## Aur pkgs
 		aur_pkgs=(
+			bspwm-git
+			sxhkd-git
+
+			dzen2-git
+			dmenu-pango
+			sutils-git
+			wmname-git
+			xtitle-git
+
 			gtk-theme-iris-dark-git
 			numix-icon-theme-git
 			numix-circle-icon-theme-git
+
 			sublime-text
 			xlockless
 		)
