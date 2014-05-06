@@ -10,4 +10,5 @@ unclutter -grab -root &
 #nitrogen --set-auto "$(find $HOME/pics/Wallpapers | sort -R | head -1)"
 nitrogen --restore
 
-exec i3
+sxhkd &
+exec bspwm
