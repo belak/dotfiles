@@ -3,6 +3,9 @@
 if which virtualenvwrapper.sh &>/dev/null
 then
 	source $(which virtualenvwrapper.sh)
+elif [[ -f /usr/share/virtualenvwrapper/virtualenvwrapper.sh ]]
+then
+	source /usr/share/virtualenvwrapper/virtualenvwrapper.sh
 fi
 
 ## Magical stuff
@@ -247,3 +250,6 @@ function j {
 			;;
 	esac
 }
+
+### Added by the Heroku Toolbelt
+export PATH="/usr/local/heroku/bin:$PATH"
