@@ -16,6 +16,7 @@ alias df="df -h"
 alias du="du -h"
 
 alias irc="ssh -t quigley.coded.io tmux attach -t irc"
+alias t="tmuxinator"
 
 if [[ -n $BELAK_LINUX ]]
 then
@@ -250,6 +251,3 @@ function j {
 			;;
 	esac
 }
-
-### Added by the Heroku Toolbelt
-export PATH="/usr/local/heroku/bin:$PATH"
