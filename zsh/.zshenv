@@ -24,4 +24,19 @@ export ANDROID_HOME="$HOME/.runtime/android-sdk"
 export GOROOT="$HOME/.runtime/go"
 export GOPATH="$HOME/go"
 export WORKON_HOME="$HOME/.runtime/python"
+export EDITOR=vim
+
+# Allows local gems to be included in the $PATH
+if which ruby &>/dev/null
+then
+	export PATH="$(ruby -rubygems -e "puts Gem.user_dir")/bin:$PATH"
+fi
+
+# Heroku toolbelt
+if [[ -d /usr/local/heroku/bin ]]
+then
+	export PATH="/usr/local/heroku/bin:$PATH"
+fi
+
+# Adds stuff for golang and android
 export PATH="$GOROOT/bin:$GOPATH/bin:/usr/bin/vendor_perl:$HOME/bin:/usr/local/bin:$PATH:$ANDROID_HOME/tools:$ANDROID_HOME/platform-tools"
