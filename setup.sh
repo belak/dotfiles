@@ -67,6 +67,7 @@ then
 	mkdir ~/bin
 	mkdir ~/code
 	mkdir ~/docs
+	mkdir ~/docs/downloads
 	mkdir ~/pics
 	mkdir ~/music
 	mkdir ~/videos
@@ -93,6 +94,8 @@ then
 			mercurial
 
 			alsa-utils
+			aspell
+			aspell-en
 			firefox
 			gimp
 			htop
@@ -102,12 +105,15 @@ then
 			rxvt-unicode
 			stow
 			unclutter
+			weechat
 			wget
 			xdg-user-dirs
 			zsh
 
+			nitrogen
 			xorg-xinit
 			xorg-server
+			xorg-xsetroot
 			xf86-video-intel
 			xf86-input-evdev
 			xf86-input-synaptics
@@ -141,7 +147,7 @@ then
 
 		## Skipped pkgs
 		#lldb-svn
-		#dmenu-xft
+		#dmenu-pango
 
 		## Aur pkgs
 		aur_pkgs=(
@@ -149,7 +155,7 @@ then
 			sxhkd-git
 
 			dzen2-git
-			dmenu-pango
+			dmenu-xft
 			sutils-git
 			wmname-git
 			xtitle-git
