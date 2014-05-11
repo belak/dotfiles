@@ -160,9 +160,8 @@ then
 			wmname-git
 			xtitle-git
 
-			gtk-theme-iris-dark-git
-			numix-icon-theme-git
-			numix-circle-icon-theme-git
+			elementary-icon-theme-bzr
+			gtk-theme-elementary-bzr
 
 			sublime-text
 			xlockless
