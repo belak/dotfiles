@@ -111,7 +111,7 @@ case `hostname` in
 	'quigley')
 		prompt_start_char='#'
 		;;
-	'skeeve')
+	'artemis')
 		prompt_start_char='Ξ'
 		;;
 	'aahz')
