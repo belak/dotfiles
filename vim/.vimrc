@@ -61,7 +61,7 @@ Bundle 'ZoomWin'
 Bundle 'sophacles/vim-bundle-mako'
 
 " Convenience remappings
-let g:clipbrdDefaultReg = '+'
+set clipboard^=unnamed
 let mapleader=","
 set pastetoggle=<F2>
 

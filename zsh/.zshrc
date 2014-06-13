@@ -189,8 +189,7 @@ function j {
 			"add"|"del"|"jump")
 				act=$arg
 				shift
-				if [[ $# > 0 ]]
-				then
+				if [[ $# > 0 ]]; then
 					dir=$1
 				else
 					usage=true
@@ -223,13 +222,14 @@ function j {
 
 	case "$act" in
 		"add")
-			ln -s "$(pwd)" "$HOME/.belak/j/$dir"
+			echo "cd '$(pwd)'" > "$HOME/.belak/j/$dir"
+			chmod +x "$HOME/.belak/j/$dir"
 			;;
 		"del")
 			rm "$HOME/.belak/j/$dir"
 			;;
 		"jump")
-			cd "$(readlink $HOME/.belak/j/$dir)"
+			source "$HOME/.belak/j/$dir"
 			;;
 	esac
 }
