@@ -35,8 +35,9 @@ Bundle 'a.vim'
 " Completion
 Bundle 'Valloric/YouCompleteMe'
 
-" Golang stuff
+" Extra language support
 Bundle 'fatih/vim-go'
+Bundle 'mustache/vim-mustache-handlebars'
 
 " Lispy stuff
 Bundle 'kien/rainbow_parentheses.vim'
@@ -92,7 +93,7 @@ set wildignore+=*/vendor/**
 " Syntax stuff
 set background=dark
 let base16colorspace=256
-colorscheme base16-ocean
+colorscheme base16-tomorrow
 filetype plugin indent on
 syntax on
 

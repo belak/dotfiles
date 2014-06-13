@@ -1,3 +1,4 @@
 vim/.vim/bundle
 .arch-init
+private
 *.swp
