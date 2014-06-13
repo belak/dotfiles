@@ -14,6 +14,7 @@ fi
 ## Alias cmds
 alias df="df -h"
 alias du="du -h"
+alias json="python -mjson.tool"
 
 alias t="tmuxinator"
 
