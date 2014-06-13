@@ -251,3 +251,4 @@ fi
 popd
 
 #go build -o ~/bin/panel ./panel
+#git clone git@bitbucket.org:belak/dotfiles-private.git private
