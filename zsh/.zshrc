@@ -3,6 +3,9 @@
 if which virtualenvwrapper.sh &>/dev/null
 then
 	source $(which virtualenvwrapper.sh)
+elif [[ -f /etc/bash_completion.d/virtualenvwrapper ]]
+then
+	source /etc/bash_completion.d/virtualenvwrapper
 elif [[ -f /usr/share/virtualenvwrapper/virtualenvwrapper.sh ]]
 then
 	source /usr/share/virtualenvwrapper/virtualenvwrapper.sh
@@ -120,7 +123,7 @@ case `hostname` in
 	*'.mtu.edu')
 		prompt_start_char='∴'
 		;;
-	'gleep')
+	'foaly')
 		prompt_start_char='*'
 		;;
 	'winslow')
