@@ -12,17 +12,16 @@ then
 fi
 
 ## Magical stuff
-. $HOME/.dotfiles/base16-shell/base16-ocean.dark.sh
+. $HOME/.dotfiles/base16-shell/base16-tomorrow.dark.sh
 
 ## Alias cmds
 alias df="df -h"
 alias du="du -h"
+alias json="python -mjson.tool"
 
-alias irc="ssh -t quigley.coded.io tmux attach -t irc"
 alias t="tmuxinator"
 
-if [[ -n $BELAK_LINUX ]]
-then
+if [[ -n $BELAK_LINUX ]]; then
 	alias ls="ls --color=auto"
 	alias grep="grep --color=auto"
 fi
@@ -62,8 +61,7 @@ zstyle ':completion:*' matcher-list '' 'm:{[:lower:]}={[:upper:]}' 'm:{[:lower:]
 zstyle ':completion:*' squeeze-slashes true
 
 # Gentoo workaround for sudo path
-if [[ -f /etc/gentoo-release ]]
-then
+if [[ -f /etc/gentoo-release ]]; then
 	zstyle ':completion:*:sudo:*' command-path "${path[@]}" /usr/local/sbin /usr/sbin /sbin
 fi
 
@@ -88,8 +86,7 @@ zstyle ':vcs_info:*' formats "%F{red}%u%F{yellow}%c %F{green}%S%f"
 function precmd {
 	vcs_info
 	print -Pn "\e]0;%n@%m: %~\a"
-	if [[ -n ${vcs_info_msg_0_} ]]
-	then
+	if [[ -n ${vcs_info_msg_0_} ]]; then
 		prompt_path=${vcs_info_msg_0_}
 	else
 		prompt_path="%F{green}%2c%f"
@@ -101,38 +98,30 @@ function ssh_prompt {
 }
 
 function prompt_start_color {
-	if [[ $? != 0 ]]
-	then
+	if [[ $? != 0 ]]; then
 		echo "%F{red}"
 	else
 		echo "%F{yellow}"
 	fi
 }
 
-# Based on hostname, setup the prompt start character
 case `hostname` in
-	'quigley')
-		prompt_start_char='#'
-		;;
-	'artemis')
-		prompt_start_char='Ξ'
-		;;
-	'aahz')
-		prompt_start_char='C:\'
-		;;
 	*'.mtu.edu')
-		prompt_start_char='∴'
-		;;
-	'foaly')
-		prompt_start_char='*'
-		;;
-	'winslow')
-		prompt_start_char='ω'
+		host='mtu.edu'
 		;;
 	*)
-		prompt_start_char=''
+		host=`hostname`
 		;;
 esac
+
+# Set a default host char
+prompt_start_char='?'
+
+# Load any additional host related settings
+if [[ -f $HOME/.belak/hosts/zsh/$host ]]; then
+	source $HOME/.belak/hosts/zsh/$host
+fi
+
 if [[ -n ${prompt_start_char} ]]
 then
 	prompt_start_char+=' '
@@ -172,14 +161,12 @@ key[PageDown]=${terminfo[knp]}
 # Finally, make sure the terminal is in application mode, when zle is
 # active. Only then are the values from $terminfo valid.
 function zle-line-init () {
-	if [[ -n $DISPLAY ]]
-	then
+	if [[ -n $DISPLAY ]]; then
 		echoti smkx
 	fi
 }
 function zle-line-finish () {
-	if [[ -n $DISPLAY ]]
-	then
+	if [[ -n $DISPLAY ]]; then
 		echoti rmkx
 	fi
 }
@@ -190,8 +177,7 @@ zle -N zle-line-finish
 function j {
 	usage=false
 
-	if [[ $# > 0 ]]
-	then
+	if [[ $# > 0 ]]; then
 		arg=$1
 		case "$1" in
 			"a") arg="add" ;;
@@ -206,8 +192,7 @@ function j {
 			"add"|"del"|"jump")
 				act=$arg
 				shift
-				if [[ $# > 0 ]]
-				then
+				if [[ $# > 0 ]]; then
 					dir=$1
 				else
 					usage=true
@@ -222,21 +207,17 @@ function j {
 		usage=true
 	fi
 
-	if [[ $usage != true ]]
-	then
-		if [[ $act = "add" && -e "$HOME/.belak/j/$dir" ]]
-		then
+	if [[ $usage != true ]]; then
+		if [[ $act = "add" && -e "$HOME/.belak/j/$dir" ]]; then
 			msg="jump dir already exists"
 			usage=true
-		elif [[ $act != "add" && ! -e "$HOME/.belak/j/$dir" ]]
-		then
+		elif [[ $act != "add" && ! -e "$HOME/.belak/j/$dir" ]]; then
 			msg="jump dir doesn't exist"
 			usage=true
 		fi
 	fi
 
-	if [[ $usage = true ]]
-	then
+	if [[ $usage = true ]]; then
 		[[ -n $msg ]] && echo $msg
 		echo 'j [add|jump|del] name'
 		return
@@ -244,13 +225,14 @@ function j {
 
 	case "$act" in
 		"add")
-			ln -s "$(pwd)" "$HOME/.belak/j/$dir"
+			echo "cd '$(pwd)'" > "$HOME/.belak/j/$dir"
+			chmod +x "$HOME/.belak/j/$dir"
 			;;
 		"del")
 			rm "$HOME/.belak/j/$dir"
 			;;
 		"jump")
-			cd "$(readlink $HOME/.belak/j/$dir)"
+			source "$HOME/.belak/j/$dir"
 			;;
 	esac
 }
