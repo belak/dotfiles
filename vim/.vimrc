@@ -18,47 +18,47 @@ let g:airline_left_sep=''
 let g:airline_right_sep=''
 let g:airline_theme='badwolf'
 
-" Bundle management
-Bundle 'gmarik/vundle'
+" Plugin management
+Plugin 'gmarik/vundle'
 
 " Appearance stuff
-Bundle 'bling/vim-airline'
-Bundle 'chriskempson/base16-vim'
-Bundle 'airblade/vim-gitgutter'
-Bundle 'bling/vim-bufferline'
-Bundle 'myusuf3/numbers.vim'
+Plugin 'bling/vim-airline'
+Plugin 'chriskempson/base16-vim'
+Plugin 'airblade/vim-gitgutter'
+Plugin 'bling/vim-bufferline'
+Plugin 'myusuf3/numbers.vim'
 
 " File switching
-Bundle 'kien/ctrlp.vim'
-Bundle 'a.vim'
+Plugin 'kien/ctrlp.vim'
+Plugin 'a.vim'
 
 " Completion
-Bundle 'Valloric/YouCompleteMe'
+Plugin 'Valloric/YouCompleteMe'
 
 " Extra language support
-Bundle 'fatih/vim-go'
-Bundle 'mustache/vim-mustache-handlebars'
+Plugin 'fatih/vim-go'
+Plugin 'mustache/vim-mustache-handlebars'
 
 " Lispy stuff
-Bundle 'kien/rainbow_parentheses.vim'
+Plugin 'kien/rainbow_parentheses.vim'
 
 " Gist magic
-Bundle 'mattn/webapi-vim'
-Bundle 'mattn/gist-vim'
+Plugin 'mattn/webapi-vim'
+Plugin 'mattn/gist-vim'
 
 " Plugins to try out
-Bundle 'mattn/emmet-vim'
-Bundle 'scrooloose/nerdtree'
-Bundle 'Lokaltog/vim-easymotion'
-Bundle 'tpope/vim-surround'
-Bundle 'mileszs/ack.vim'
-Bundle 'scrooloose/nerdcommenter'
-Bundle 'tpope/vim-unimpaired'
-Bundle 'ervandew/supertab'
-Bundle 'tpope/vim-fugitive'
-Bundle 'jeetsukumaran/vim-buffergator'
-Bundle 'ZoomWin'
-Bundle 'sophacles/vim-bundle-mako'
+Plugin 'mattn/emmet-vim'
+Plugin 'scrooloose/nerdtree'
+Plugin 'Lokaltog/vim-easymotion'
+Plugin 'tpope/vim-surround'
+Plugin 'mileszs/ack.vim'
+Plugin 'scrooloose/nerdcommenter'
+Plugin 'tpope/vim-unimpaired'
+Plugin 'ervandew/supertab'
+Plugin 'tpope/vim-fugitive'
+Plugin 'jeetsukumaran/vim-buffergator'
+Plugin 'ZoomWin'
+Plugin 'sophacles/vim-bundle-mako'
 
 " Convenience remappings
 set clipboard^=unnamed
