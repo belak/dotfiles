@@ -17,7 +17,7 @@ case "$state" in
 		)
 
 		generators=()
-		find "$HOME/.belak/j/" -not -iname '.keep' -type l | while read file
+		find -L "$HOME/.belak/j/" -not -iname '.keep' -type f | while read file
 		do
 			generators+=("$(basename "$file")")
 		done
