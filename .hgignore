@@ -1,4 +1,0 @@
-syntax: glob
-vim/bundle/*
-vim/swap/*
-*.sublime-workspace
