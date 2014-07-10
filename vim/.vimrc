@@ -32,9 +32,6 @@ Plugin 'myusuf3/numbers.vim'
 Plugin 'kien/ctrlp.vim'
 Plugin 'a.vim'
 
-" Completion
-Plugin 'Valloric/YouCompleteMe'
-
 " Extra language support
 Plugin 'fatih/vim-go'
 Plugin 'mustache/vim-mustache-handlebars'
@@ -118,5 +115,5 @@ nmap <leader>lr :e app/routes.php<cr>
 nnoremap <leader>cd :cd %:p:h<CR>:pwd<CR>
 
 " Filetype specific stuff
-au BufRead,BufNewFile *.md set filetype=markdown
-au BufRead,BufNewFile *.py set ts=8 et sw=4 ts=4
+au BufRead,BufNewFile *.md setlocal filetype=markdown
+au BufRead,BufNewFile *.py setlocal ts=8 et sw=4 ts=4
