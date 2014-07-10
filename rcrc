@@ -1,0 +1,3 @@
+COPY_ALWAYS="hgrc gitconfig"
+EXCLUDES="old README.md *.sh base16-shell"
+SYMLINK_DIRS="vim"
