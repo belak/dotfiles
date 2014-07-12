@@ -1,12 +1,11 @@
 #!/bin/bash
 ## Belak's setup.sh
 
-## TODO
-# Make all user input only needed at the start
-# MPD autostart on OSX
-# Install postgres
-# Setup intellij
+## TODO:
+#    Update OSX bootstrap
+#    Fix Android SDK for OSX
 
+## Utility functions
 function pkg_installed {
 	pacman -Qi $1 &> /dev/null
 	return $?
@@ -110,6 +109,8 @@ then
 			xdg-user-dirs
 			zsh
 
+			awesome
+			vicious
 			nitrogen
 			xorg-xinit
 			xorg-server
@@ -151,14 +152,9 @@ then
 
 		## Aur pkgs
 		aur_pkgs=(
-			bspwm-git
-			sxhkd-git
+			rcm
 
-			dzen2-git
 			dmenu-xft
-			sutils-git
-			wmname-git
-			xtitle-git
 
 			elementary-icon-theme-bzr
 			gtk-theme-elementary-bzr
@@ -167,12 +163,10 @@ then
 			xlockless
 		)
 
+		# Note that we try to install all aur packages in case they've been updated
 		for pkg in "${aur_pkgs[@]}"
 		do
-			if ! pkg_installed $pkg
-			then
-				aur_build $pkg
-			fi
+			aur_build $pkg
 		done
 
 		# build vim with some extra configuration
@@ -182,6 +176,7 @@ then
 			pushd vim-hg
 
 			sed -i "s/depends=('gpm' 'perl' 'gawk')/depends=('gpm' 'python' 'python2')/" PKGBUILD
+			sed -i 's/--with-features=big/--with-features=huge/' PKGBUILD
 			sed -i 's/--with-compiledby=ArchLinux/--with-compiledby=belak/' PKGBUILD
 			sed -i 's/--with-x=no/--with-x=yes/' PKGBUILD
 			sed -i 's/--enable-perlinterp/--disable-perlinterp/' PKGBUILD
@@ -243,12 +238,16 @@ then
 	GOOS=darwin ./make.bash
 	popd
 fi
+
 if [[ ! -d android-sdk ]]
 then
-	wget -O - http://dl.google.com/android/android-sdk_r22.6.2-linux.tgz | tar xz
+	wget -O - http://dl.google.com/android/android-sdk_r23.0.2-linux.tgz | tar xz
 	mv android-sdk-linux android-sdk
 fi
 popd
 
-#go build -o ~/bin/panel ./panel
-#git clone git@bitbucket.org:belak/dotfiles-private.git private
+## Bootstrap all config files
+RCRC=./rcrc rcup
+git submodule update --init
+vim +BundleInstall +qall
+chsh -s `which zsh`
