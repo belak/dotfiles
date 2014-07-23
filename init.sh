@@ -222,6 +222,10 @@ then
 
 		# Misc
 		brew_install jshon mpd mpc ncmpcpp pianobar
+
+		# RCM
+		brew tap thoughtbot/formulae
+		brew install rcm
 	fi
 fi
 
