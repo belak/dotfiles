@@ -19,8 +19,6 @@ alias df="df -h"
 alias du="du -h"
 alias json="python -mjson.tool"
 
-alias t="tmuxinator"
-
 if [[ -n $BELAK_LINUX ]]; then
 	alias ls="ls --color=auto"
 	alias grep="grep --color=auto"
