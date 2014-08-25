@@ -18,6 +18,9 @@ let g:airline_left_sep=''
 let g:airline_right_sep=''
 let g:airline_theme='badwolf'
 
+" Reverse the order of CtrlP
+let g:ctrlp_match_window = 'bottom,order:ttb,min:1,max:5,results:5'
+
 " Plugin management
 Plugin 'gmarik/vundle'
 
@@ -107,7 +110,9 @@ nmap <C-k> <C-w>k
 nmap <C-l> <C-w>l
 
 " Random bindings
-nmap <leader>a :A<CR>
+"nmap <leader>a :A<CR>
+nmap <leader>a :Ack
+nmap <leader>d :CtrlPBuffer<cr>
 nmap <C-b> :NERDTreeToggle<cr>
 nmap <leader>lr :e app/routes.php<cr>
 
