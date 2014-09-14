@@ -38,6 +38,7 @@ Plugin 'a.vim'
 " Extra language support
 Plugin 'fatih/vim-go'
 Plugin 'mustache/vim-mustache-handlebars'
+Plugin 'kchmck/vim-coffee-script'
 
 " Lispy stuff
 Plugin 'kien/rainbow_parentheses.vim'

@@ -25,6 +25,7 @@ export GOROOT="$HOME/.runtime/go"
 export GOPATH="$HOME/go"
 export WORKON_HOME="$HOME/.runtime/python"
 export EDITOR=vim
+export PYTHONDONTWRITEBYTECODE=true
 
 # Allows local gems to be included in the $PATH
 if which ruby &>/dev/null
