@@ -81,7 +81,36 @@ zstyle ':vcs_info:*' branchformat '%b|%r'
 zstyle ':vcs_info:*' actionformats "%F{red}%u%F{yellow}%c %F{red}%a %F{green}%S%f"
 zstyle ':vcs_info:*' formats "%F{red}%u%F{yellow}%c %F{green}%S%f"
 
+start_time=$SECONDS
+cmd=
+function preexec {
+	start_time=$SECONDS
+	cmd=$1
+}
+
 function precmd {
+	# Show a timer if we took longer than 10 seconds
+	if [[ -n $cmd ]]
+	then
+		timer_result=$(($SECONDS-$start_time))
+		h=$(($timer_result/3600))
+		m=$((($timer_result/60)%60))
+		s=$(($timer_result%60))
+
+		if [[ $h -gt 0 ]]
+		then
+			print -P "%B%F{red}>>> elapsed time ${h}h${m}m${s}s%b\n"
+		elif [[ $m -gt 0 ]]
+		then
+			print -P "%B%F{yellow}>>> elapsed time ${m}m${s}s%b\n"
+		elif [[ $s -gt 10 ]]
+		then
+			print -P "%B%F{green}>>> elapsed time ${s}s%b\n"
+		fi
+	fi
+	start_time=$SECONDS
+	cmd=
+
 	vcs_info
 	print -Pn "\e]0;%n@%m: %~\a"
 	if [[ -n ${vcs_info_msg_0_} ]]; then
