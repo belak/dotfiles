@@ -77,7 +77,7 @@ set hlsearch                   " Hilight what we're searching for
 set showcmd                    " Always show the currently entered command
 set writebackup                " Make a backup before overwriting a file
 set laststatus=2               " Always show the status line
-set ttyfast                    " Make vim more responsive
+"set ttyfast                    " Make vim more responsive
 set smartcase                  " Ignore case if search pattern is all lower case
 set autowrite                  " Write when switching buffers
 
