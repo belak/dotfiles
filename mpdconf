@@ -1,0 +1,13 @@
+music_directory    "~/Music"
+playlist_directory "~/.mpd/playlists"
+db_file            "~/.mpd/database"
+pid_file           "~/.mpd/pid"
+state_file         "~/.mpd/state"
+sticker_file       "~/.mpd/stickers"
+port               "6600"
+auto_update        "yes"
+audio_output {
+        type            "osx"
+        name            "My Mac Device"
+        mixer_type      "software"
+}
