@@ -3,7 +3,6 @@
 bspc monitor -d I II III IV
 
 # Visual options
-bspc config top_padding 14
 bspc config border_width 1
 bspc config window_gap 8
 bspc config split_ratio 0.5
@@ -13,5 +12,10 @@ bspc config borderless_monocle true
 bspc config gapless_monocle true
 bspc config focus_follows_pointer true
 
-killall panel &> /dev/null
-panel &> /tmp/panel.log
+# We don't want padding if we're on OSX as XQuartz already ignores the top bar.
+if [ `uname` != "Darwin" ]
+then
+	bspc config top_padding 14
+	killall panel &> /dev/null
+	panel &> /tmp/panel.log
+fi
