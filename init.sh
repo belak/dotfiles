@@ -227,6 +227,8 @@ then
 		brew tap thoughtbot/formulae
 		brew install rcm
 	fi
+
+	defaults write org.macosforge.xquartz.X11 app_to_run /usr/bin/true
 fi
 
 ## Setup the runtime folder

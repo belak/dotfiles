@@ -39,6 +39,7 @@ Plugin 'a.vim'
 Plugin 'fatih/vim-go'
 Plugin 'mustache/vim-mustache-handlebars'
 Plugin 'kchmck/vim-coffee-script'
+Plugin 'Glench/Vim-Jinja2-Syntax'
 
 " Lispy stuff
 Plugin 'kien/rainbow_parentheses.vim'
