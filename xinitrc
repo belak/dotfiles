@@ -4,10 +4,10 @@ xsetroot -cursor_name left_ptr &
 if [[ `uname` = "Darwin" ]]
 then
 	cd $HOME
-	source $HOME/.profile
+	source $HOME/.zshenv
 	export LANG="en_US.UTF-8"
 	exec >>~/.xsession-errors 2>&1
-	sxhkd -c $HOME/.config/sxhkd/osx-sxhkdrc &
+	sxhkd -c $HOME/.config/sxhkd/sxhkdrc &
 	exec bspwm -c $HOME/.config/bspwm/bspwmrc
 else
 	if which vmware-user &>/dev/null

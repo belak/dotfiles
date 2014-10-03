@@ -1,6 +1,6 @@
 ! urxvt font settings
-URxvt.font:      xft:Terminus:pixelsize=12
-URxvt.boldFont:  xft:Terminus:pixelsize=12
+URxvt.font:      xft:Menlo:pixelsize=12
+URxvt.boldFont:  xft:Menlo:pixelsize=12
 URxvt.termName:  rxvt-256color
 URxvt.scrollBar: false
 
