@@ -27,11 +27,16 @@ export WORKON_HOME="$HOME/.runtime/python"
 export EDITOR=vim
 export PYTHONDONTWRITEBYTECODE=true
 
-# Allows local gems to be included in the $PATH
-if which ruby &>/dev/null
+if which rbenv &>/dev/null
 then
-	export PATH="$(ruby -rubygems -e "puts Gem.user_dir")/bin:$PATH"
+	eval "$(rbenv init -)"
 fi
+
+# Allows local gems to be included in the $PATH
+#if which ruby &>/dev/null
+#then
+#	export PATH="$(ruby -rubygems -e "puts Gem.user_dir")/bin:$PATH"
+#fi
 
 # Heroku toolbelt
 if [[ -d /usr/local/heroku/bin ]]
@@ -40,4 +45,4 @@ then
 fi
 
 # Adds stuff for golang and android
-export PATH="$GOROOT/bin:$GOPATH/bin:/usr/bin/vendor_perl:$HOME/bin:/usr/local/bin:$PATH:$ANDROID_HOME/tools:$ANDROID_HOME/platform-tools"
+export PATH="$GOROOT/bin:$GOPATH/bin:/usr/bin/vendor_perl:$HOME/bin:$HOME/.rbenv/bin:/usr/local/bin:$PATH:$ANDROID_HOME/tools:$ANDROID_HOME/platform-tools"
