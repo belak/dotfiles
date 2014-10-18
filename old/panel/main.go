@@ -21,9 +21,7 @@ import (
 )
 
 // #cgo pkg-config: x11 xft
-// #cgo LDFLAGS: -lsensors
 // #include <X11/Xft/Xft.h>
-// #include <sensors/sensors.h>
 import "C"
 
 type DesktopState struct {
@@ -125,7 +123,7 @@ func WrapCommand(parser func(string), name string, args ...string) {
 
 	pipe, err := cmd.StdoutPipe()
 	if err != nil {
-		fmt.Println(err)
+		fmt.Println(name+":", err)
 		os.Exit(1)
 	}
 
@@ -156,44 +154,6 @@ func Time() {
 	for {
 		select {
 		case <-ticker.C:
-			// Magical libsensors stuff
-			var c C.int
-			for {
-				cn := C.sensors_get_detected_chips(nil, &c)
-				if cn == nil {
-					break
-				}
-
-				if C.GoString(cn.prefix) != "acpitz" {
-					continue
-				}
-
-				var f C.int
-				for {
-					feat := C.sensors_get_features(cn, &f)
-					if feat == nil || feat._type != C.SENSORS_FEATURE_TEMP {
-						break
-					}
-
-					sub := C.sensors_get_subfeature(cn, feat, C.SENSORS_SUBFEATURE_TEMP_INPUT)
-					if sub == nil {
-						break
-					}
-
-					if sub.flags&C.SENSORS_MODE_R != 0 {
-						var val C.double
-						rc := C.sensors_get_value(cn, sub.number, &val)
-						if rc < 0 {
-							fmt.Println("err in sensors_get_value")
-						} else {
-							state.Temp = int(val)
-						}
-					}
-				}
-
-				break
-			}
-
 			// CPU info
 			lastCpu = cpu
 			cpu.Get()
@@ -283,12 +243,14 @@ func Bar() {
 	cmd := exec.Command("dzen2", "-h", "14", "-fn", fontName)
 	pipe, err := cmd.StdinPipe()
 	if err != nil {
-		fmt.Println(err)
 		os.Exit(1)
 	}
 
 	in := bufio.NewWriter(pipe)
-	cmd.Start()
+	err = cmd.Start()
+	if err != nil {
+		fmt.Println("dzen2:", err)
+	}
 
 	for {
 		select {
@@ -388,14 +350,14 @@ func Bar() {
 
 			// 8 + 5 + txt width + 10
 			// icon width + padding + txt width + padding
-			pos -= (8 + 5 + font.textWidth(state.Ssid) + 10)
+			/*pos -= (8 + 5 + font.textWidth(state.Ssid) + 10)
 			elements = append(
 				elements,
 				Element{
 					pos,
 					fmt.Sprintf("%s^p(5)%s", icon("wifi_01"), state.Ssid),
 				},
-			)
+			)*/
 
 			// Sort the elements and print them all
 			sort.Sort(elements)
@@ -467,22 +429,15 @@ func main() {
 	}
 	defer C.XftFontClose(font.Display, font.Font)
 
-	if C.sensors_init(nil) != 0 {
-		fmt.Println("Failed to initialize libsensors")
-		os.Exit(1)
-	}
-	defer C.sensors_cleanup()
-
-	wg.Add(6)
+	wg.Add(5)
 
 	go WrapCommand(Xtitle, "xtitle", "-s")
 	go WrapCommand(Bspwm, "bspc", "control", "--subscribe")
-	go WrapCommand(Battery, "battery", "-s")
-	go WrapCommand(Ssid, "essid", "-s", "-w", "wlp3s0")
+	go WrapCommand(Battery, "battery", "-s", "-n", "1")
+	//go WrapCommand(Ssid, "essid", "-s", "-w", "wlp3s0")
 	go Time()
 
 	go Bar()
 
 	wg.Wait()
-
 }
