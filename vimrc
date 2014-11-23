@@ -2,24 +2,9 @@
 set nocompatible
 filetype off
 
-" Remove some gui stuff
-set guifont=Terminus\ 8
-set guioptions-=T
-set guioptions-=r
-set guioptions-=m
-set go-=L
-
 " Set up vundle
 set rtp+=~/.vim/bundle/vundle/
-call vundle#rc()
-
-" Airline settings
-let g:airline_left_sep=''
-let g:airline_right_sep=''
-let g:airline_theme='badwolf'
-
-" Reverse the order of CtrlP
-let g:ctrlp_match_window = 'bottom,order:ttb,min:1,max:5,results:5'
+call vundle#begin()
 
 " Plugin management
 Plugin 'gmarik/vundle'
@@ -61,6 +46,24 @@ Plugin 'tpope/vim-fugitive'
 Plugin 'jeetsukumaran/vim-buffergator'
 Plugin 'ZoomWin'
 Plugin 'sophacles/vim-bundle-mako'
+
+" Actually make sure all plugins are loaded
+call vundle#end()
+
+" Airline settings
+let g:airline_left_sep=''
+let g:airline_right_sep=''
+let g:airline_theme='badwolf'
+
+" Reverse the order of CtrlP
+let g:ctrlp_match_window = 'bottom,order:ttb,min:1,max:5,results:5'
+
+" Remove some gui stuff
+set guifont=Terminus\ 8
+set guioptions-=T
+set guioptions-=r
+set guioptions-=m
+set go-=L
 
 " Convenience remappings
 set clipboard^=unnamed

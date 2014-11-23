@@ -251,7 +251,8 @@ then
 	then
 		wget -O - http://dl.google.com/android/android-sdk_r23.0.2-linux.tgz | tar xz
 		mv android-sdk-linux android-sdk
-	else if [[ -n $BELAK_OSX ]]
+	elif [[ -n $BELAK_OSX ]]
+	then
 		tmp=$(mktemp /tmp/belak.XXXXXXXX)
 		wget -O "$tmp" http://dl.google.com/android/android-sdk_r23.0.2-macosx.zip
 		unzip "$tmp"
