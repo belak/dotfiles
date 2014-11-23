@@ -21,7 +21,6 @@ fi
 
 ## Path stuff
 export ANDROID_HOME="$HOME/.runtime/android-sdk"
-export GOROOT="$HOME/.runtime/go"
 export GOPATH="$HOME/go"
 export WORKON_HOME="$HOME/.runtime/python"
 export EDITOR=vim
@@ -45,4 +44,10 @@ then
 fi
 
 # Adds stuff for golang and android
-export PATH="$GOROOT/bin:$GOPATH/bin:/usr/bin/vendor_perl:$HOME/bin:$HOME/.rbenv/bin:/usr/local/bin:$PATH:$ANDROID_HOME/tools:$ANDROID_HOME/platform-tools"
+export PATH="$GOPATH/bin:/usr/bin/vendor_perl:$HOME/bin:$HOME/.rbenv/bin:/usr/local/bin:$PATH:$ANDROID_HOME/tools:$ANDROID_HOME/platform-tools"
+
+if [[ -d "$HOME/.runtime/go" ]]
+then
+	export GOROOT="$HOME/.runtime/go"
+	export PATH="$GOROOT/bin:$PATH"
+fi
