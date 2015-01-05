@@ -2,21 +2,58 @@
 set nocompatible
 filetype off
 
-if filereadable(expand($HOME . "/.vim/vimrc.bundle"))
-	source $HOME/.vim/vimrc.bundle
-endif
+" Set up vundle
+set rtp+=~/.vim/bundle/vundle/
+call vundle#begin()
 
-" Remove some gui stuff
-set guifont=Terminus\ 8
-set guioptions-=T
-set guioptions-=r
-set guioptions-=m
-set go-=L
+" Plugin management
+Plugin 'gmarik/vundle'
+
+" Appearance stuff
+Plugin 'bling/vim-airline'
+Plugin 'chriskempson/base16-vim'
+Plugin 'airblade/vim-gitgutter'
+Plugin 'bling/vim-bufferline'
+Plugin 'myusuf3/numbers.vim'
+
+" File switching
+Plugin 'kien/ctrlp.vim'
+Plugin 'a.vim'
+
+" Extra language support
+Plugin 'fatih/vim-go'
+Plugin 'mustache/vim-mustache-handlebars'
+Plugin 'kchmck/vim-coffee-script'
+Plugin 'Glench/Vim-Jinja2-Syntax'
+
+" Lispy stuff
+Plugin 'kien/rainbow_parentheses.vim'
+
+" Gist magic
+Plugin 'mattn/webapi-vim'
+Plugin 'mattn/gist-vim'
+
+" Plugins to try out
+Plugin 'mattn/emmet-vim'
+Plugin 'scrooloose/nerdtree'
+Plugin 'Lokaltog/vim-easymotion'
+Plugin 'tpope/vim-surround'
+Plugin 'mileszs/ack.vim'
+Plugin 'scrooloose/nerdcommenter'
+Plugin 'tpope/vim-unimpaired'
+Plugin 'ervandew/supertab'
+Plugin 'tpope/vim-fugitive'
+Plugin 'jeetsukumaran/vim-buffergator'
+Plugin 'ZoomWin'
+Plugin 'sophacles/vim-bundle-mako'
+
+" Actually make sure all plugins are loaded
+call vundle#end()
 
 " Airline settings
 let g:airline_left_sep=''
 let g:airline_right_sep=''
-let g:airline_theme='base16'
+let g:airline_theme='badwolf'
 
 " Reverse the order of CtrlP
 let g:ctrlp_match_window = 'bottom,order:ttb,min:1,max:5,results:5'
@@ -44,27 +81,15 @@ set hlsearch                   " Hilight what we're searching for
 set showcmd                    " Always show the currently entered command
 set writebackup                " Make a backup before overwriting a file
 set laststatus=2               " Always show the status line
-set ttyfast                    " Make vim more responsive
-set lazyredraw                 " Don't show intermediate macro steps
+"set ttyfast                    " Make vim more responsive
 set smartcase                  " Ignore case if search pattern is all lower case
 set autowrite                  " Write when switching buffers
-set colorcolumn=80             " PEP-8 usefulness
-set autoread                   " Auto re-read files when changed outside vim
-
-" Splits
-set splitbelow
-set splitright
-
-" Quicker exit of insert mode
-set ttimeout
-set ttimeoutlen=0
 
 set mouse=a
 
 " Line numbers
 " This is required for numbers.vim
 set number
-set rnu
 
 set backupdir=~/.vim/backup
 set directory=~/.vim/swap
@@ -89,10 +114,6 @@ nmap <C-j> <C-w>j
 nmap <C-k> <C-w>k
 nmap <C-l> <C-w>l
 
-" Show whitespace
-set listchars=tab:▸\ ,eol:¬
-nmap <Leader>l :set list!<CR>
-
 " Random bindings
 "nmap <leader>a :A<CR>
 nmap <leader>a :Ack
@@ -102,15 +123,6 @@ nmap <leader>lr :e app/routes.php<cr>
 
 " Auto change directory to match current file ,cd
 nnoremap <leader>cd :cd %:p:h<CR>:pwd<CR>
-
-" Brief crosshairs on the cursor
-function! CursorPing()
-	set cursorline cursorcolumn
-	redraw
-	sleep 500m
-	set nocursorline nocursorcolumn
-endfunction
-nmap <leader>f :call CursorPing()<CR>
 
 " Filetype specific stuff
 au BufRead,BufNewFile *.md setlocal filetype=markdown
