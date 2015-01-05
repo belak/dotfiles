@@ -25,6 +25,7 @@ export GOPATH="$HOME/go"
 export WORKON_HOME="$HOME/.runtime/python"
 export EDITOR=vim
 export PYTHONDONTWRITEBYTECODE=true
+export VIRTUAL_ENV_DISABLE_PROMPT=true
 
 if which rbenv &>/dev/null
 then
