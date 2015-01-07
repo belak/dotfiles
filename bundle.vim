@@ -21,6 +21,8 @@ Plugin 'fatih/vim-go'
 Plugin 'mustache/vim-mustache-handlebars'
 Plugin 'kchmck/vim-coffee-script'
 Plugin 'Glench/Vim-Jinja2-Syntax'
+Plugin 'groenewege/vim-less'
+Plugin 'ap/vim-css-color'
 
 " Lispy stuff
 Plugin 'kien/rainbow_parentheses.vim'
@@ -29,9 +31,15 @@ Plugin 'kien/rainbow_parentheses.vim'
 Plugin 'mattn/webapi-vim'
 Plugin 'mattn/gist-vim'
 
+" Autocomplete
+Plugin 'Valloric/YouCompleteMe'
+
+" Utils
+Plugin 'scrooloose/nerdtree'
+Plugin 'majutsushi/tagbar'
+
 " Plugins to try out
 Plugin 'mattn/emmet-vim'
-Plugin 'scrooloose/nerdtree'
 Plugin 'Lokaltog/vim-easymotion'
 Plugin 'tpope/vim-surround'
 Plugin 'mileszs/ack.vim'
