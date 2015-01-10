@@ -89,7 +89,8 @@ set wildignore+=*/vendor/**
 " Syntax stuff
 set background=dark
 let base16colorspace=256
-colorscheme base16-tomorrow
+let g:hybrid_use_Xresources=1
+colorscheme hybrid
 filetype plugin indent on
 syntax on
 
