@@ -20,5 +20,6 @@ else
 	#nitrogen --set-auto "$(find $HOME/pics/Wallpapers | sort -R | head -1)"
 	nitrogen --restore
 
-	exec awesome
+	sxhkd &
+	exec bspwm
 fi
