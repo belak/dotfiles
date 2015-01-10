@@ -87,9 +87,13 @@ set directory=~/.vim/swap
 set wildignore+=*/vendor/**
 
 " Syntax stuff
+if has('mac')
+	let g:hybrid_use_iTerm_colors=1
+else
+	let g:hybrid_use_Xresources=1
+endif
 set background=dark
 let base16colorspace=256
-let g:hybrid_use_Xresources=1
 colorscheme hybrid
 filetype plugin indent on
 syntax on

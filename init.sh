@@ -109,8 +109,6 @@ then
 			xdg-user-dirs
 			zsh
 
-			awesome
-			vicious
 			nitrogen
 			xorg-xinit
 			xorg-server
@@ -160,7 +158,7 @@ then
 			gtk-theme-elementary-bzr
 
 			sublime-text
-			xlockless
+			#xlockless
 		)
 
 		# Note that we try to install all aur packages in case they've been updated
@@ -236,9 +234,10 @@ mkdir ~/.runtime
 pushd ~/.runtime
 
 # Install go
-if vcs_clone hg https://code.google.com/p/go go
+if vcs_clone git https://github.com/golang/go go
 then
 	pushd go/src
+	git checkout release-branch.go1.4
 	# Make both for cross compilation
 	GOOS=linux ./make.bash
 	GOOS=darwin ./make.bash

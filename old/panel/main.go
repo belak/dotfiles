@@ -433,7 +433,7 @@ func main() {
 
 	go WrapCommand(Xtitle, "xtitle", "-s")
 	go WrapCommand(Bspwm, "bspc", "control", "--subscribe")
-	go WrapCommand(Battery, "battery", "-s", "-n", "1")
+	go WrapCommand(Battery, "battery", "-s", "-n", "0")
 	//go WrapCommand(Ssid, "essid", "-s", "-w", "wlp3s0")
 	go Time()
 
