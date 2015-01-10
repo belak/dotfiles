@@ -8,6 +8,7 @@ Plugin 'gmarik/vundle'
 " Appearance stuff
 Plugin 'bling/vim-airline'
 Plugin 'chriskempson/base16-vim'
+Plugin 'w0ng/vim-hybrid'
 Plugin 'airblade/vim-gitgutter'
 Plugin 'bling/vim-bufferline'
 Plugin 'myusuf3/numbers.vim'
