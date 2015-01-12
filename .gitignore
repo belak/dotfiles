@@ -1,5 +1,5 @@
 host-*
-vim/bundle
+vim/plugged
 .arch-init
 private
 *.swp

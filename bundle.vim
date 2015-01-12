@@ -1,55 +1,37 @@
-" Set up vundle
-set rtp+=~/.vim/bundle/vundle/
-call vundle#begin()
-
-" Plugin management
-Plugin 'gmarik/vundle'
+call plug#begin('~/.vim/plugged')
 
 " Appearance stuff
-Plugin 'bling/vim-airline'
-Plugin 'chriskempson/base16-vim'
-Plugin 'airblade/vim-gitgutter'
-Plugin 'bling/vim-bufferline'
-Plugin 'myusuf3/numbers.vim'
+Plug 'airblade/vim-gitgutter'
+Plug 'bling/vim-airline'
+Plug 'bling/vim-bufferline'
+Plug 'myusuf3/numbers.vim'
+Plug 'w0ng/vim-hybrid'
 
 " File switching
-Plugin 'kien/ctrlp.vim'
-Plugin 'a.vim'
+Plug 'kien/ctrlp.vim'
 
 " Extra language support
-Plugin 'fatih/vim-go'
-Plugin 'mustache/vim-mustache-handlebars'
-Plugin 'kchmck/vim-coffee-script'
-Plugin 'Glench/Vim-Jinja2-Syntax'
-Plugin 'groenewege/vim-less'
-Plugin 'ap/vim-css-color'
-
-" Lispy stuff
-Plugin 'kien/rainbow_parentheses.vim'
-
-" Gist magic
-Plugin 'mattn/webapi-vim'
-Plugin 'mattn/gist-vim'
-
-" Autocomplete
-Plugin 'Valloric/YouCompleteMe'
+Plug 'ap/vim-css-color'
+Plug 'fatih/vim-go'
+Plug 'Glench/Vim-Jinja2-Syntax'
+Plug 'groenewege/vim-less'
+Plug 'kchmck/vim-coffee-script'
+Plug 'mustache/vim-mustache-handlebars'
+Plug 'wting/rust.vim'
 
 " Utils
-Plugin 'scrooloose/nerdtree'
-Plugin 'majutsushi/tagbar'
+Plug 'kien/rainbow_parentheses.vim'
+Plug 'mattn/emmet-vim'
+Plug 'mileszs/ack.vim'
+Plug 'scrooloose/nerdcommenter'
+Plug 'Valloric/YouCompleteMe', {'do': './install.sh --clang-completer --system-libclang --system-boost'}
 
-" Plugins to try out
-Plugin 'mattn/emmet-vim'
-Plugin 'Lokaltog/vim-easymotion'
-Plugin 'tpope/vim-surround'
-Plugin 'mileszs/ack.vim'
-Plugin 'scrooloose/nerdcommenter'
-Plugin 'tpope/vim-unimpaired'
-Plugin 'ervandew/supertab'
-Plugin 'tpope/vim-fugitive'
-Plugin 'jeetsukumaran/vim-buffergator'
-Plugin 'ZoomWin'
-Plugin 'sophacles/vim-bundle-mako'
+" tpope!
+Plug 'tpope/vim-fugitive'
+Plug 'tpope/vim-repeat'
+Plug 'tpope/vim-sleuth'
+Plug 'tpope/vim-surround'
+Plug 'tpope/vim-unimpaired'
 
 " Actually make sure all plugins are loaded
-call vundle#end()
+call plug#end()

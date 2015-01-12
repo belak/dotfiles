@@ -11,15 +11,13 @@ then
 	source /usr/share/virtualenvwrapper/virtualenvwrapper.sh
 fi
 
-## Magical stuff
-. $HOME/.dotfiles/base16-shell/base16-tomorrow.dark.sh
-
 ## Alias cmds
 alias df="df -h"
 alias du="du -h"
 alias json="python -mjson.tool"
 
-if [[ -n $BELAK_LINUX ]]; then
+if [[ -n $BELAK_LINUX ]]
+then
 	alias ls="ls --color=auto"
 	alias grep="grep --color=auto"
 fi
@@ -52,6 +50,9 @@ setopt completeinword
 setopt promptsubst
 setopt promptpercent
 
+# Remove the extra space
+#ZLE_RPROMPT_INDENT=0
+
 ## Completion and prompt
 zstyle ':completion:*' completer _expand _complete _ignored
 zstyle ':completion:*' list-colors ''
@@ -75,11 +76,12 @@ zstyle ':vcs_info:hg:*' hgrevformat '%r'
 zstyle ':vcs_info:*' check-for-changes true
 zstyle ':vcs_info:*' get-revision true
 zstyle ':vcs_info:*' enable git hg
-zstyle ':vcs_info:*' stagedstr '*'
-zstyle ':vcs_info:*' unstagedstr '*'
-zstyle ':vcs_info:*' branchformat '%b|%r'
-zstyle ':vcs_info:*' actionformats "%F{red}%u%F{yellow}%c %F{red}%a %F{green}%S%f"
-zstyle ':vcs_info:*' formats "%F{red}%u%F{yellow}%c %F{green}%S%f"
+zstyle ':vcs_info:*' stagedstr '%B%F{yellow}*%f%b'
+zstyle ':vcs_info:*' unstagedstr '%B%F{red}*%f%r'
+
+# The things we care about: type, name, folder, branch, revision, action, staged, unstaged
+zstyle ':vcs_info:*' actionformats "%s:%r:%S:%b:%i:%a:%c:%u"
+zstyle ':vcs_info:*' formats "%s:%r:%S:%b:%i:%a:%c:%u"
 
 start_time=$SECONDS
 cmd=
@@ -112,24 +114,58 @@ function precmd {
 	cmd=
 
 	vcs_info
+
+	# Term title
 	print -Pn "\e]0;%n@%m: %~\a"
-	if [[ -n ${vcs_info_msg_0_} ]]; then
-		prompt_path=${vcs_info_msg_0_}
+
+	# Read all the info from the vcs info
+	IFS=: read vcs_type vcs_name vcs_folder vcs_branch vcs_rev vcs_action vcs_staged vcs_unstaged <<< "${vcs_info_msg_0_}"
+	case $vcs_type in
+		git)
+			vcs_icon="±"
+			;;
+		hg)
+			vcs_icon="☿"
+			;;
+		*)
+			vcs_icon=""
+			;;
+	esac
+	if [[ -n ${vcs_info_msg_0_} ]]
+	then
+		prompt_path="%F{green}$vcs_folder%f"
+		vcs_string="%F{blue}$vcs_icon%f${vcs_unstaged}${vcs_staged}%F{yellow}[$vcs_name|$vcs_branch]%f"
 	else
 		prompt_path="%F{green}%2c%f"
+		vcs_string=""
 	fi
 }
 
 function ssh_prompt {
-	[[ -n $SSH_CONNECTION ]] && echo "↕ "
+	[[ -n $SSH_CONNECTION ]] && echo -n "%F{red}[$(hostname)]%f"
 }
 
-function prompt_start_color {
+function save_color {
 	if [[ $? != 0 ]]; then
-		echo "%F{red}"
+		start_color="%F{red}"
 	else
-		echo "%F{yellow}"
+		start_color="%F{yellow}"
 	fi
+}
+
+function venv_prompt {
+	if [[ -n $VIRTUAL_ENV ]]
+	then
+		echo -n "%F{red}[$(basename "$VIRTUAL_ENV")]%f "
+	fi
+}
+
+function get_path {
+	echo -n "${prompt_path} "
+}
+
+function get_color {
+	echo -n "${start_color}"
 }
 
 case `hostname` in
@@ -141,6 +177,20 @@ case `hostname` in
 		;;
 esac
 
+prompt_funcs=()
+prompt_funcs+=(save_color)
+prompt_funcs+=(ssh_prompt)
+prompt_funcs+=(venv_prompt)
+prompt_funcs+=(get_path)
+prompt_funcs+=(get_color)
+
+function run_prompt {
+	for f in "${prompt_funcs[@]}"
+	do
+		$f
+	done
+}
+
 # Set a default host char
 prompt_start_char='?'
 
@@ -149,13 +199,8 @@ if [[ -f $HOME/.belak/hosts/zsh/$host ]]; then
 	source $HOME/.belak/hosts/zsh/$host
 fi
 
-if [[ -n ${prompt_start_char} ]]
-then
-	prompt_start_char+=' '
-fi
-
-PROMPT='$(prompt_start_color)$(ssh_prompt)${prompt_start_char}%f'
-RPROMPT='${prompt_path}%f'
+PROMPT='$(run_prompt)${prompt_start_char}%f '
+RPROMPT='${vcs_string}'
 
 [[ -f "$GOROOT/misc/zsh/go" ]] && source "$GOROOT/misc/zsh/go"
 
