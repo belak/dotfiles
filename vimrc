@@ -1,6 +1,5 @@
 " Stuff for vundle
 set nocompatible
-filetype off
 
 if filereadable(expand($HOME . "/.bundle.vim"))
 	source $HOME/.bundle.vim
@@ -8,7 +7,7 @@ endif
 
 " Remove some gui stuff
 if has("gui_running")
-	set guifont=Terminus\ 8
+	set guifont=Menlo\ 12
 	set guioptions-=l
 	set guioptions-=L
 	set guioptions-=m
@@ -88,10 +87,7 @@ set wildignore+=*/vendor/**
 
 " Syntax stuff
 set background=dark
-let base16colorspace=256
-colorscheme base16-tomorrow
-filetype plugin indent on
-syntax on
+colorscheme hybrid
 
 " Remove search results
 command! C let @/=""
