@@ -134,7 +134,7 @@ function precmd {
 	if [[ -n ${vcs_info_msg_0_} ]]
 	then
 		prompt_path="%F{green}$vcs_folder%f"
-		vcs_string="%F{blue}$vcs_icon%f${vcs_unstaged}${vcs_staged}%F{yellow}[$vcs_name|$vcs_branch]%f"
+		vcs_string="%F{blue}$vcs_icon%f${vcs_unstaged}${vcs_staged}%F{yellow}[$vcs_name|$vcs_branch|$vcs_action]%f"
 	else
 		prompt_path="%F{green}%2c%f"
 		vcs_string=""
