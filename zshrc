@@ -80,7 +80,7 @@ zstyle ':vcs_info:*' check-for-changes true
 zstyle ':vcs_info:*' get-revision true
 zstyle ':vcs_info:*' enable git hg
 zstyle ':vcs_info:*' stagedstr '%B%F{yellow}*%f%b'
-zstyle ':vcs_info:*' unstagedstr '%B%F{red}*%f%r'
+zstyle ':vcs_info:*' unstagedstr '%B%F{red}*%f%b'
 
 # The things we care about: type, name, folder, branch, revision, action, staged, unstaged
 zstyle ':vcs_info:*' actionformats "%s:%r:%S:%b:%i:%a:%c:%u"
