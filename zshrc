@@ -50,8 +50,11 @@ setopt completeinword
 setopt promptsubst
 setopt promptpercent
 
+# Make it so we don't need to rehash ever
+setopt nohashdirs
+
 # Remove the extra space
-#ZLE_RPROMPT_INDENT=0
+ZLE_RPROMPT_INDENT=0
 
 ## Completion and prompt
 zstyle ':completion:*' completer _expand _complete _ignored
@@ -134,7 +137,11 @@ function precmd {
 	if [[ -n ${vcs_info_msg_0_} ]]
 	then
 		prompt_path="%F{green}$vcs_folder%f"
-		vcs_string="%F{blue}$vcs_icon%f${vcs_unstaged}${vcs_staged}%F{yellow}[$vcs_name|$vcs_branch|$vcs_action]%f"
+		if [[ -n $vcs_action ]]
+		then
+			vcs_action="|" + $vcs_action
+		fi
+		vcs_string="%F{blue}$vcs_icon%f${vcs_unstaged}${vcs_staged}%F{yellow}[$vcs_name|$vcs_branch$vcs_action]%f"
 	else
 		prompt_path="%F{green}%2c%f"
 		vcs_string=""
