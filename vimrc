@@ -57,7 +57,7 @@ set ttyfast                    " Make vim more responsive
 set lazyredraw                 " Don't show intermediate macro steps
 set smartcase                  " Ignore case if search pattern is all lower case
 set autowrite                  " Write when switching buffers
-set colorcolumn=80             " PEP-8 usefulness
+"set colorcolumn=80             " PEP-8 usefulness
 set autoread                   " Auto re-read files when changed outside vim
 set virtualedit=block          " Make moving in visual mode make more sense
 set synmaxcol=800              " Don't try to highlight lines longer than 800 chars
