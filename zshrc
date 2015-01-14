@@ -20,6 +20,10 @@ if [[ -n $BELAK_LINUX ]]
 then
 	alias ls="ls --color=auto"
 	alias grep="grep --color=auto"
+
+	# Remove the extra space - this doesn't appear to work in iTerm, so
+	# we only do it for Linux
+	ZLE_RPROMPT_INDENT=0
 fi
 
 # TODO: cleanup after here
@@ -52,9 +56,6 @@ setopt promptpercent
 
 # Make it so we don't need to rehash ever
 setopt nohashdirs
-
-# Remove the extra space
-ZLE_RPROMPT_INDENT=0
 
 ## Completion and prompt
 zstyle ':completion:*' completer _expand _complete _ignored
