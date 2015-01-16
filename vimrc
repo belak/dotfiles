@@ -119,6 +119,9 @@ endfunction
 
 let [guibg, ctermbg] = GetBackgroundColors('SignColumn')
 
+let g:signify_sign_modify = '~'
+let g:signify_cursorhold_insert = 1
+let g:signify_cursorhold_normal = 1
 execute "highlight SignifySignAdd    ctermbg=" . ctermbg . " ctermfg=2 cterm=bold"
 execute "highlight SignifySignDelete ctermbg=" . ctermbg . " ctermfg=1 cterm=bold"
 execute "highlight SignifySignChange ctermbg=" . ctermbg . " ctermfg=3"
