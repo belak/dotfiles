@@ -1,7 +1,7 @@
 call plug#begin('~/.vim/plugged')
 
 " Appearance stuff
-Plug 'airblade/vim-gitgutter'
+Plug 'mhinz/vim-signify'
 Plug 'bling/vim-airline'
 Plug 'bling/vim-bufferline'
 Plug 'myusuf3/numbers.vim'
@@ -24,7 +24,8 @@ Plug 'kien/rainbow_parentheses.vim'
 Plug 'mattn/emmet-vim'
 Plug 'mileszs/ack.vim'
 Plug 'scrooloose/nerdcommenter'
-Plug 'Valloric/YouCompleteMe', {'do': './install.sh --clang-completer --system-libclang --system-boost'}
+" Neocomplete is disabled until lua support is added in neovim
+"Plug 'Shougo/neocomplete.vim'
 
 " tpope!
 Plug 'tpope/vim-fugitive'

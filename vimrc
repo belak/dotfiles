@@ -22,6 +22,9 @@ let g:airline_left_sep=''
 let g:airline_right_sep=''
 let g:airline_theme='base16'
 
+" Bufferline
+let g:bufferline_echo = 0
+
 " Reverse the order of CtrlP
 let g:ctrlp_match_window = 'bottom,order:ttb,min:1,max:5,results:5'
 
@@ -88,6 +91,37 @@ set wildignore+=*/vendor/**
 " Syntax stuff
 set background=dark
 colorscheme hybrid
+
+" This was taken from vim-gitgutter
+function! GetBackgroundColors(group)
+	redir => highlight
+	silent execute 'silent highlight ' . a:group
+	redir END
+
+	let link_matches = matchlist(highlight, 'links to \(\S\+\)')
+	if len(link_matches) > 0 " follow the link
+		return GetBackgroundColors(link_matches[1])
+	endif
+
+	let ctermbg = MatchHighlight(highlight, 'ctermbg=\([0-9A-Za-z]\+\)')
+	let guibg   = MatchHighlight(highlight, 'guibg=\([#0-9A-Za-z]\+\)')
+	return [guibg, ctermbg]
+endfunction
+
+" So was this
+function! MatchHighlight(highlight, pattern)
+  let matches = matchlist(a:highlight, a:pattern)
+  if len(matches) == 0
+    return 'NONE'
+  endif
+  return matches[1]
+endfunction
+
+let [guibg, ctermbg] = GetBackgroundColors('SignColumn')
+
+execute "highlight SignifySignAdd    ctermbg=" . ctermbg . " ctermfg=2 cterm=bold"
+execute "highlight SignifySignDelete ctermbg=" . ctermbg . " ctermfg=1 cterm=bold"
+execute "highlight SignifySignChange ctermbg=" . ctermbg . " ctermfg=3"
 
 " Remove search results
 command! C let @/=""
