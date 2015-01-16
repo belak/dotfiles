@@ -1,0 +1,185 @@
+# vim: set ft=sxhkdrc:
+#
+# bspwm hotkeys
+#
+
+# Workstation Monitor
+alt + w
+	bspc monitor -f next
+
+# Close window
+alt + shift + x
+	bspc  window -c
+
+# Kill window
+alt + ctrl + shift + x
+	bspc  window -k
+
+# Toggle tile
+alt + {_,shift +} t
+	bspc window -t {floating,fullscreen}
+
+# Lock node
+alt + shift + p
+	bspc window -t private
+
+# Balance tree
+alt + b
+	bspc desktop -B
+
+# Presel window for splitting
+alt + ctrl + {h,j,k,l}
+	bspc window -p {left,down,up,right}
+
+# Move window into presel position
+alt + shift {a,s,d,f}
+	bspc window -w {left.manual,down.manual,up.manual,right.manual}
+
+# Select windows, or move
+alt + {_,shift + }{h,j,k,l}
+	bspc window -{f,s} {left,down,up,right} || bspc window -f {prev, prev, next, next}
+
+# Move floating windows (requires baskerville's xdo)
+alt + {Left,Right,Up,Down}
+    xdo move {-x -20,-x +20,-y -20,-y +20}
+
+# Resize floating windows
+alt + shift + {Left,Right,Up,Down}
+    xdo resize {-w -20,-w +20,-h -20,-h +20}    bspc window -e {left -10,down +10,up -10,right +10} || {right -10,up +10,down -10,left +10}
+
+# Move current window to largest space
+alt + Return
+	bspc window -s biggest
+
+# Mirror and flip leaves of tree
+alt + {comma,period}
+	bspc desktop -F {horizontal,vertical}
+
+# Rotate leaves of tree
+alt + shift + {comma,period}
+	bspc desktop -R {90,270}
+
+# Select previous / next desktop
+alt + {p,n}
+	bspc desktop -f {prev.occupied,next.occupied} 
+
+# Lock a window from closing
+alt + Escape
+	bspc window -t locked 
+
+# Toggle monocle
+alt + space 
+	bspc desktop -l next
+
+# Toggle pseudotiled (floating in tile)
+alt + shift + space 
+	bspc window -t pseudo_tiled
+
+# Focus on floating / tiled
+alt + e
+	bspc window -f {next.floating,next.tiled}
+
+# Change desktop padding
+alt + {_, shift} + bracketright
+	bspc config -d focused right_padding $((`bspc config -d focused right_padding` {+,-} 20 ))
+
+alt + {_, shift} + bracketleft
+	bspc config -d focused left_padding $((`bspc config -d focused left_padding` {+,-} 20 ))
+
+ctrl + {_, shift} + bracketright
+	bspc config -d focused bottom_padding $((`bspc config -d focused bottom_padding` {+,-} 20 ))
+
+ctrl + {_, shift} + bracketleft
+	bspc config -d focused top_padding $((`bspc config -d focused top_padding` {+,-} 20 ))
+
+alt + shift + {minus,equal}
+	bspc config -d focused right_padding $((`bspc config -d focused right_padding` {+,-} 20 )); \
+	bspc config -d focused left_padding $((`bspc config -d focused left_padding` {+,-} 20 )); \
+	bspc config -d focused bottom_padding $((`bspc config -d focused bottom_padding` {+,-} 20 )); \
+	bspc config -d focused top_padding $((`bspc config -d focused top_padding` {+,-} 20 ));
+
+
+# Change window gap
+alt + {minus,equal}
+	bspc config -d focused window_gap $((`bspc config -d focused window_gap` {+,-} 2 ))
+
+# Set splitting ratio of windows
+alt + ctrl + {1-9}
+	bspc window -r 0.{1-9}
+
+# Focus or move window to desktops
+alt + {_,shift + }{1-9,0}
+    bspc {desktop -f, window -d} $(bspc query -M -m)/{i,ii,iii,iv,v,vi,vii,viii,ix,x}
+
+#
+# mouse bindings
+#
+
+# Move or resize window
+alt + button{1-3}
+	bspc pointer -g {move,resize_side,resize_corner}
+
+# Needed for ^^^^
+alt + !button{1-3}
+    bspc pointer -t %i %i
+
+
+alt + @button{1-3}
+    bspc pointer -u
+
+#
+# spawn programs
+#
+
+alt + shift + backslash
+	create_frame 
+
+alt + shift + Return
+	urxvt
+
+alt + ctrl + Return
+	 bspc rule -a urxvt -o pseudo_tiled=on && urxvtc
+
+alt + shift + b
+	firefox
+
+alt + shift + n
+	xterm
+
+alt + z
+	zathura
+
+Print
+	scrot -q 100
+
+#
+# Media keys
+#
+
+XF86AudioRaiseVolume
+	$HOME/.config/bspwm/panel/notify_volume + 3
+
+XF86AudioLowerVolume
+	$HOME/.config/bspwm/panel/notify_volume - 3
+
+XF86AudioMute
+	$HOME/.config/bspwm/panel/notify_volume !
+
+XF86Sleep
+	pm-suspend
+
+XF86AudioPlay
+	$HOME/.config/bspwm/panel/notify_mpd -t 
+	
+XF86AudioNext
+	$HOME/.config/bspwm/panel/notify_mpd -n
+
+XF86AudioPrev
+	$HOME/.config/bspwm/panel/notify_mpd -p
+
+XF86WebCam
+	sed -i 's/card [0-9]/card {0,1}/' $HOME/.asoundrc
+
+# make sxhkd reload its configuration files:
+alt + shift + Escape
+	pkill -USR1 -x sxhkd
