@@ -66,6 +66,14 @@ set virtualedit=block          " Make moving in visual mode make more sense
 set synmaxcol=800              " Don't try to highlight lines longer than 800 chars
 set textwidth=72               " Auto wrap comments at 72 chars
 
+" Set up our better hlsearch
+let g:incsearch#auto_nohlsearch=1
+map /  <Plug>(incsearch-forward)
+map ?  <Plug>(incsearch-backward)
+map g/ <Plug>(incsearch-stay)
+map n  <Plug>(incsearch-nohl-n)
+map N  <Plug>(incsearch-nohl-N)
+
 " Splits
 set splitbelow
 set splitright

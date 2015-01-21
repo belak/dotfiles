@@ -20,6 +20,7 @@ Plug 'mustache/vim-mustache-handlebars'
 Plug 'wting/rust.vim'
 
 " Utils
+Plug 'haya14busa/incsearch.vim'
 Plug 'kien/rainbow_parentheses.vim'
 Plug 'mattn/emmet-vim'
 Plug 'mileszs/ack.vim'
