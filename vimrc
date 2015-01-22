@@ -64,7 +64,7 @@ set autowrite                  " Write when switching buffers
 set autoread                   " Auto re-read files when changed outside vim
 set virtualedit=block          " Make moving in visual mode make more sense
 set synmaxcol=800              " Don't try to highlight lines longer than 800 chars
-set textwidth=72               " Auto wrap comments at 72 chars
+set textwidth=80               " Auto wrap comments at 80 chars
 
 " Set up our better hlsearch
 let g:incsearch#auto_nohlsearch=1
