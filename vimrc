@@ -26,7 +26,7 @@ let g:airline_theme='base16'
 let g:bufferline_echo = 0
 
 " Reverse the order of CtrlP
-let g:ctrlp_match_window = 'bottom,order:ttb,min:1,max:5,results:5'
+let g:ctrlp_match_window = 'bottom,order:ttb,min:1,max:10,results:5'
 
 " Use silver searcher for ack
 if executable('ag')
@@ -65,6 +65,7 @@ set autoread                   " Auto re-read files when changed outside vim
 set virtualedit=block          " Make moving in visual mode make more sense
 set synmaxcol=800              " Don't try to highlight lines longer than 800 chars
 set textwidth=80               " Auto wrap comments at 80 chars
+set fillchars=vert:\│          " Unicode line for separators
 
 " Set up our better hlsearch
 let g:incsearch#auto_nohlsearch=1
