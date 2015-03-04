@@ -68,12 +68,12 @@ set textwidth=80               " Auto wrap comments at 80 chars
 set fillchars=vert:\│          " Unicode line for separators
 
 " Set up our better hlsearch
-let g:incsearch#auto_nohlsearch=1
+"let g:incsearch#auto_nohlsearch=1
 map /  <Plug>(incsearch-forward)
 map ?  <Plug>(incsearch-backward)
 map g/ <Plug>(incsearch-stay)
-map n  <Plug>(incsearch-nohl-n)
-map N  <Plug>(incsearch-nohl-N)
+"map n  <Plug>(incsearch-nohl-n)
+"map N  <Plug>(incsearch-nohl-N)
 
 " Splits
 set splitbelow
@@ -95,6 +95,7 @@ set rnu
 
 set backupdir=~/.vim/backup
 set directory=~/.vim/swap
+set undodir=~/.vim/undo
 set wildignore+=*/vendor/**
 
 " Syntax stuff
@@ -119,11 +120,11 @@ endfunction
 
 " So was this
 function! MatchHighlight(highlight, pattern)
-  let matches = matchlist(a:highlight, a:pattern)
-  if len(matches) == 0
-    return 'NONE'
-  endif
-  return matches[1]
+	let matches = matchlist(a:highlight, a:pattern)
+	if len(matches) == 0
+		return 'NONE'
+	endif
+	return matches[1]
 endfunction
 
 let [guibg, ctermbg] = GetBackgroundColors('SignColumn')
@@ -157,6 +158,7 @@ nmap <leader>a :Ack<space>
 nmap <leader>d :CtrlPBuffer<cr>
 nmap <C-b> :NERDTreeToggle<cr>
 nmap <F8> :TagbarToggle<CR>
+nnoremap <Space> za
 
 " Auto change directory to match current file ,cd
 nnoremap <leader>cd :cd %:p:h<CR>:pwd<CR>
@@ -172,6 +174,26 @@ nmap <leader>f :call CursorPing()<CR>
 
 " Highlight VCS conflict markers
 match ErrorMsg '^\(<\|=\|>\)\{7\}\([^=].\+\)\?$'
+
+" Unite.vim
+let g:unite_enable_start_insert = 1
+let g:unite_split_rule = "botright"
+let g:unite_force_overwrite_statusline = 1
+let g:unite_winheight = 10
+
+call unite#filters#matcher_default#use(['matcher_fuzzy'])
+call unite#filters#sorter_default#use(['sorter_rank'])
+nnoremap <C-P> :<C-u>Unite -buffer-name=files -start-insert buffer file_rec/async:!<cr>
+autocmd FileType unite call s:unite_settings()
+function! s:unite_settings()
+	let b:SuperTabDisabled=1
+	imap <buffer> <C-j> <Plug>(unite_select_next_line)
+	imap <buffer> <C-k> <Plug>(unite_select_previous_line)
+	imap <silent><buffer><expr> <C-x> unite#do_action('split')
+	imap <silent><buffer><expr> <C-v> unite#do_action('vsplit')
+	imap <silent><buffer><expr> <C-t> unite#do_action('tabopen')
+	nmap <buffer> <ESC> <Plug>(unite_exit)
+endfunction
 
 if exists('$TMUX')
 	let &t_SI = "\<Esc>Ptmux;\<Esc>\<Esc>]50;CursorShape=1\x7\<Esc>\\"

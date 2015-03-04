@@ -1,19 +1,12 @@
-# Belak's zshrc
-
+# Load virtualenvwrapper
+# Locations:
+#  Path: Archlinux
 if which virtualenvwrapper.sh &>/dev/null
 then
 	source $(which virtualenvwrapper.sh)
-elif [[ -f /etc/bash_completion.d/virtualenvwrapper ]]
-then
-	source /etc/bash_completion.d/virtualenvwrapper
-elif [[ -f /usr/share/virtualenvwrapper/virtualenvwrapper.sh ]]
-then
-	source /usr/share/virtualenvwrapper/virtualenvwrapper.sh
 fi
 
-## Alias cmds
-alias df="df -h"
-alias du="du -h"
+# Aliases
 alias json="python -mjson.tool"
 
 if [[ -n $BELAK_LINUX ]]
@@ -21,61 +14,53 @@ then
 	alias ls="ls --color=auto"
 	alias grep="grep --color=auto"
 
-	# Remove the extra space - this doesn't appear to work in iTerm, so
-	# we only do it for Linux
+	# Remove the extra space - this doesn't appear to work in iTerm, so we only
+	# do it for linux.
 	ZLE_RPROMPT_INDENT=0
 fi
 
-# TODO: cleanup after here
-# Disable ^s and ^q
-stty -ixon
-
-## ZSH Specific Settings
+# ZSH specific settings
 fpath=("$HOME/.belak/zsh" $fpath)
 
+# History
 HISTFILE=~/.histfile
 HISTSIZE=1000
 SAVEHIST=1000
 
 setopt histverify
 setopt listpacked
-unsetopt beep
-
 setopt histignorealldups
 setopt histignorespace
 setopt incappendhistory
 setopt appendhistory
 
-# Some completion stuff
+unsetopt beep
+
+# Completion stuff
 setopt extendedglob
 setopt completeinword
 
-# Needed for prompt later
+# Needed for prompt
 setopt promptsubst
 setopt promptpercent
 
-# Make it so we don't need to rehash ever
+# Make it so we don't have to rehash
 setopt nohashdirs
 
-## Completion and prompt
+# Completion black magic
 zstyle ':completion:*' completer _expand _complete _ignored
 zstyle ':completion:*' list-colors ''
 zstyle ':completion:*' matcher-list '' 'm:{[:lower:]}={[:upper:]}' 'm:{[:lower:][:upper:]}={[:upper:][:lower:]} r:|[._-]=** r:|=**' 'l:|=* r:|=*'
 zstyle ':completion:*' squeeze-slashes true
 
-# Gentoo workaround for sudo path
-if [[ -f /etc/gentoo-release ]]; then
-	zstyle ':completion:*:sudo:*' command-path "${path[@]}" /usr/local/sbin /usr/sbin /sbin
-fi
+zstyle :compinstall filename "$HOME/.zshrc"
 
-zstyle :compinstall filename '/home/belak/.zshrc'
-
-## Load all the modules for later
+# Load modules for later
 autoload -Uz compinit vcs_info colors
 compinit
 colors
 
-## Prompt stuff
+# Prompt VCS settings
 zstyle ':vcs_info:hg:*' hgrevformat '%r'
 zstyle ':vcs_info:*' check-for-changes true
 zstyle ':vcs_info:*' get-revision true
@@ -87,56 +72,29 @@ zstyle ':vcs_info:*' unstagedstr '%B%F{red}*%f%b'
 zstyle ':vcs_info:*' actionformats "%s:%r:%S:%b:%i:%a:%c:%u"
 zstyle ':vcs_info:*' formats "%s:%r:%S:%b:%i:%a:%c:%u"
 
-start_time=$SECONDS
-cmd=
-function preexec {
-	start_time=$SECONDS
-	cmd=$1
-}
-
 function precmd {
-	# Show a timer if we took longer than 10 seconds
-	if [[ -n $cmd ]]
-	then
-		timer_result=$(($SECONDS-$start_time))
-		h=$(($timer_result/3600))
-		m=$((($timer_result/60)%60))
-		s=$(($timer_result%60))
-
-		if [[ $h -gt 0 ]]
-		then
-			print -P "%B%F{red}>>> elapsed time ${h}h${m}m${s}s%b\n"
-		elif [[ $m -gt 0 ]]
-		then
-			print -P "%B%F{yellow}>>> elapsed time ${m}m${s}s%b\n"
-		elif [[ $s -gt 10 ]]
-		then
-			print -P "%B%F{green}>>> elapsed time ${s}s%b\n"
-		fi
-	fi
-	start_time=$SECONDS
-	cmd=
-
+	# Refresh vcs info
 	vcs_info
 
 	# Term title
 	print -Pn "\e]0;%n@%m: %~\a"
 
 	# Read all the info from the vcs info
-	IFS=: read vcs_type vcs_name vcs_folder vcs_branch vcs_rev vcs_action vcs_staged vcs_unstaged <<< "${vcs_info_msg_0_}"
-	case $vcs_type in
-		git)
-			vcs_icon="±"
-			;;
-		hg)
-			vcs_icon="☿"
-			;;
-		*)
-			vcs_icon=""
-			;;
-	esac
 	if [[ -n ${vcs_info_msg_0_} ]]
 	then
+		IFS=: read vcs_type vcs_name vcs_folder vcs_branch vcs_rev vcs_action vcs_staged vcs_unstaged <<< "${vcs_info_msg_0_}"
+		case $vcs_type in
+			git)
+				vcs_icon="±"
+				;;
+			hg)
+				vcs_icon="☿"
+				;;
+			*)
+				vcs_icon=""
+				;;
+		esac
+
 		prompt_path="%F{green}$vcs_folder%f"
 		if [[ -n $vcs_action ]]
 		then
@@ -164,7 +122,7 @@ function save_color {
 function venv_prompt {
 	if [[ -n $VIRTUAL_ENV ]]
 	then
-		echo -n "%F{red}[$(basename "$VIRTUAL_ENV")]%f "
+		echo -n "%F{red}[$(basename "$VIRTUAL_ENV")]%f"
 	fi
 }
 
@@ -175,15 +133,6 @@ function get_path {
 function get_color {
 	echo -n "${start_color}"
 }
-
-case `hostname` in
-	*'.mtu.edu')
-		host='mtu.edu'
-		;;
-	*)
-		host=`hostname`
-		;;
-esac
 
 prompt_funcs=()
 prompt_funcs+=(save_color)
@@ -199,24 +148,30 @@ function run_prompt {
 	done
 }
 
-# Set a default host char
-prompt_start_char='?'
-
-# Load any additional host related settings
-if [[ -f $HOME/.belak/hosts/zsh/$host ]]; then
-	source $HOME/.belak/hosts/zsh/$host
-fi
+# Pick the char for the start of our prompt
+case `hostname` in
+	transistor)
+		prompt_start_char='&'
+		;;
+	*)
+		prompt_start_char='?'
+		;;
+esac
 
 PROMPT='$(run_prompt)${prompt_start_char}%f '
 RPROMPT='${vcs_string}'
 
 [[ -f "$GOROOT/misc/zsh/go" ]] && source "$GOROOT/misc/zsh/go"
 
-## Key Bindings
+# Key Bindings
 bindkey -e
 typeset -A key
 
-# Get Terminfo
+# Random stuff
+# Disable ^s and ^q
+stty -ixon
+
+# Terminfo can be annoying
 key[Home]=${terminfo[khome]}
 key[End]=${terminfo[kend]}
 key[Insert]=${terminfo[kich1]}
@@ -237,7 +192,7 @@ key[PageDown]=${terminfo[knp]}
 [[ -n "${key[Down]}"    ]]  && bindkey  "${key[Down]}"    down-line-or-history
 [[ -n "${key[Left]}"    ]]  && bindkey  "${key[Left]}"    backward-char
 [[ -n "${key[Right]}"   ]]  && bindkey  "${key[Right]}"   forward-char
-
+#
 # Finally, make sure the terminal is in application mode, when zle is
 # active. Only then are the values from $terminfo valid.
 function zle-line-init () {
@@ -251,9 +206,7 @@ function zle-line-finish () {
 	fi
 }
 
-zle -N zle-line-init
-zle -N zle-line-finish
-
+# Simple jump command
 function j {
 	usage=false
 
