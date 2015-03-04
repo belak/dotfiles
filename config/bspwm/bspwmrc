@@ -13,10 +13,11 @@ bspc config borderless_monocle true
 bspc config gapless_monocle true
 bspc config focus_follows_pointer true
 
-# We don't want padding if we're on OSX as XQuartz already ignores the top bar.
-if [ `uname` != "Darwin" ]
-then
-	bspc config top_padding 14
-	killall panel &> /dev/null
-	panel &> /tmp/panel.log
-fi
+# Colors
+bspc config focused_border_color "#de935f"
+bspc config normal_border_color "#373b41"
+bspc config presel_border_color "#e0e0e0"
+
+bspc config top_padding 14
+#killall panel &> /dev/null
+#panel &> /tmp/panel.log

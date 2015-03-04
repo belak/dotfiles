@@ -1,0 +1,23 @@
+#! /bin/sh
+
+. ./panel_config
+#. panel_config_dzen
+
+if [ $(pgrep -cx panel) -gt 1 ] ; then
+    pkill -o panel
+fi
+
+trap 'trap - TERM; kill 0' INT TERM QUIT EXIT
+
+[ -e "$PANEL_FIFO" ] && rm "$PANEL_FIFO"
+mkfifo "$PANEL_FIFO"
+
+bspc config top_padding $PANEL_HEIGHT
+
+cat "$PANEL_FIFO" | ./panel_bar | bar-aint-recursive -g x14 -f "$FONT" -F "$COLOR_FG" -B "$COLOR_BG" &
+
+bspc control --subscribe > "$PANEL_FIFO" &
+sleep 0.15s
+clock -i5 -sf "C$DATE_FORMAT" > "$PANEL_FIFO" &
+
+wait
