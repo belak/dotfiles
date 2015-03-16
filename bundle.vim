@@ -8,8 +8,6 @@ Plug 'myusuf3/numbers.vim'
 Plug 'w0ng/vim-hybrid'
 
 " File switching
-"Plug 'kien/ctrlp.vim'
-
 Plug 'Shougo/vimproc.vim', { 'do': 'make' }
 Plug 'Shougo/unite.vim'
 
@@ -20,7 +18,6 @@ Plug 'fatih/vim-go'
 "Plug 'groenewege/vim-less'
 "Plug 'kchmck/vim-coffee-script'
 "Plug 'mustache/vim-mustache-handlebars'
-"Plug 'wting/rust.vim'
 
 " Utils
 Plug 'haya14busa/incsearch.vim'
@@ -31,7 +28,7 @@ Plug 'haya14busa/incsearch.vim'
 "Plug 'Shougo/neocomplete.vim'
 
 " tpope!
-"Plug 'tpope/vim-fugitive'
+Plug 'tpope/vim-fugitive'
 "Plug 'tpope/vim-repeat'
 "Plug 'tpope/vim-rsi'
 "Plug 'tpope/vim-sleuth'

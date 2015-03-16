@@ -1,6 +1,6 @@
 # Load virtualenvwrapper
 # Locations:
-#  Path: Archlinux
+#  Path: Archlinux, OSX
 if which virtualenvwrapper.sh &>/dev/null
 then
 	source $(which virtualenvwrapper.sh)
@@ -62,6 +62,7 @@ colors
 
 # Prompt VCS settings
 zstyle ':vcs_info:hg:*' hgrevformat '%r'
+zstyle ':vcs_info:*' branchformat '%b'
 zstyle ':vcs_info:*' check-for-changes true
 zstyle ':vcs_info:*' get-revision true
 zstyle ':vcs_info:*' enable git hg
