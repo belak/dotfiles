@@ -3,3 +3,4 @@ vim/plugged
 .arch-init
 private
 *.swp
+.DS_Store
