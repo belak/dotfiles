@@ -35,6 +35,12 @@ if executable('ag')
 
 	" Use ag in CtrlP for listing files. Lightning fast and respects .gitignore
 	let g:ctrlp_user_command = 'ag %s -l --nocolor -g ""'
+
+	" Faster unite
+	let g:unite_source_rec_async_command= 'ag --follow --nocolor --nogroup --hidden -g ""'
+	let g:unite_source_grep_command = 'ag'
+	let g:unite_source_grep_default_opts = '--column --nogroup --nogroup'
+	let g:unite_source_grep_recursive_opt = ''
 endif
 
 " Completion
@@ -56,7 +62,7 @@ set hlsearch                   " Hilight what we're searching for
 set showcmd                    " Always show the currently entered command
 set writebackup                " Make a backup before overwriting a file
 set laststatus=2               " Always show the status line
-set ttyfast                    " Make vim more responsive
+"set ttyfast                    " Make vim more responsive
 set lazyredraw                 " Don't show intermediate macro steps
 set smartcase                  " Ignore case if search pattern is all lower case
 set autowrite                  " Write when switching buffers
@@ -180,6 +186,7 @@ let g:unite_enable_start_insert = 1
 let g:unite_split_rule = "botright"
 let g:unite_force_overwrite_statusline = 1
 let g:unite_winheight = 10
+let g:unite_source_rec_max_cache_files = 99999
 
 call unite#filters#matcher_default#use(['matcher_fuzzy'])
 call unite#filters#sorter_default#use(['sorter_rank'])
