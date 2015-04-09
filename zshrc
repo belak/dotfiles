@@ -92,7 +92,7 @@ export GOPATH=$HOME/go
 
 # Add our custom stuff
 fpath=("$HOME/.belak/zsh" $fpath)
-path=("$GOPATH/bin" $path)
+path=("$HOME/bin" "$GOPATH/bin" $path)
 
 # Load some useful zsh modules
 zmodload -i zsh/mathfunc

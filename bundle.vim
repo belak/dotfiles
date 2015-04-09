@@ -18,6 +18,7 @@ Plug 'fatih/vim-go'
 "Plug 'groenewege/vim-less'
 "Plug 'kchmck/vim-coffee-script'
 "Plug 'mustache/vim-mustache-handlebars'
+Plug 'rust-lang/rust.vim'
 
 " Utils
 Plug 'haya14busa/incsearch.vim'
