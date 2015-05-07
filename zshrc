@@ -93,7 +93,7 @@ export GOPATH=$HOME/go
 
 # Add our custom stuff
 fpath=("$HOME/.belak/zsh" $fpath)
-path=("$GOPATH/bin" $path)
+path=("$HOME/bin" "$GOPATH/bin" $path)
 if which ruby >/dev/null && which gem >/dev/null; then
 	path=("$(ruby -rubygems -e 'puts Gem.user_dir')/bin" $path)
 fi
