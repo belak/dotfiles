@@ -20,8 +20,12 @@ then
 	source $(which virtualenvwrapper.sh)
 fi
 
+# fzf
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+
 # Aliases
 alias json="python -mjson.tool"
+alias ud="./scripts/update-deps"
 
 # Disable ^s and ^q
 stty -ixon
@@ -30,9 +34,6 @@ stty -ixon
 
 # Always append to the hist file
 setopt append_history
-
-# Get new commands from the histfile in other sessions
-setopt share_history
 
 # Store timestamp and duration to the history file
 setopt extended_history
@@ -93,6 +94,9 @@ export GOPATH=$HOME/go
 # Add our custom stuff
 fpath=("$HOME/.belak/zsh" $fpath)
 path=("$GOPATH/bin" $path)
+if which ruby >/dev/null && which gem >/dev/null; then
+	path=("$(ruby -rubygems -e 'puts Gem.user_dir')/bin" $path)
+fi
 
 # Load some useful zsh modules
 zmodload -i zsh/mathfunc

@@ -25,16 +25,14 @@ let g:airline_theme='base16'
 " Bufferline
 let g:bufferline_echo = 0
 
-" Reverse the order of CtrlP
-let g:ctrlp_match_window = 'bottom,order:ttb,min:1,max:10,results:5'
+" Incsearch
+set incsearch
+let g:oblique#incsearch_highlight_all = 1
 
 " Use silver searcher for ack
 if executable('ag')
 	let g:ackprg = 'ag --nogroup --nocolor --column'
 	let grepprg = 'ag --nogroup --nocolor --column'
-
-	" Use ag in CtrlP for listing files. Lightning fast and respects .gitignore
-	let g:ctrlp_user_command = 'ag %s -l --nocolor -g ""'
 
 	" Faster unite
 	let g:unite_source_rec_async_command= 'ag --follow --nocolor --nogroup --hidden -g ""'
@@ -57,7 +55,6 @@ set shiftwidth=4
 
 " Random settings
 set backspace=indent,eol,start " Allow backspacing over everything in insert mode
-set incsearch                  " Search while typing
 set hlsearch                   " Hilight what we're searching for
 set showcmd                    " Always show the currently entered command
 set writebackup                " Make a backup before overwriting a file
@@ -72,14 +69,6 @@ set virtualedit=block          " Make moving in visual mode make more sense
 set synmaxcol=800              " Don't try to highlight lines longer than 800 chars
 set textwidth=80               " Auto wrap comments at 80 chars
 set fillchars=vert:\│          " Unicode line for separators
-
-" Set up our better hlsearch
-"let g:incsearch#auto_nohlsearch=1
-map /  <Plug>(incsearch-forward)
-map ?  <Plug>(incsearch-backward)
-map g/ <Plug>(incsearch-stay)
-"map n  <Plug>(incsearch-nohl-n)
-"map N  <Plug>(incsearch-nohl-N)
 
 " Splits
 set splitbelow
@@ -106,7 +95,7 @@ set wildignore+=*/vendor/**
 
 " Syntax stuff
 set background=dark
-colorscheme hybrid
+colorscheme seoul256
 
 " This was taken from vim-gitgutter
 function! GetBackgroundColors(group)
@@ -156,12 +145,11 @@ nmap <C-l> <C-w>l
 
 " Show whitespace
 set listchars=tab:▸\ ,eol:¬
-nmap <Leader>l :set list!<CR>
+nmap <silent> <leader>l :set list!<CR>
 
 " Random bindings
 "nmap <leader>a :A<CR>
-nmap <leader>a :Ack<space>
-nmap <leader>d :CtrlPBuffer<cr>
+nmap <silent> <leader>a :Ack<space>
 nmap <C-b> :NERDTreeToggle<cr>
 nmap <F8> :TagbarToggle<CR>
 nnoremap <Space> za
@@ -176,7 +164,7 @@ function! CursorPing()
 	sleep 500m
 	set nocursorline nocursorcolumn
 endfunction
-nmap <leader>f :call CursorPing()<CR>
+nmap <silent> <leader>p :call CursorPing()<CR>
 
 " Highlight VCS conflict markers
 match ErrorMsg '^\(<\|=\|>\)\{7\}\([^=].\+\)\?$'
@@ -209,6 +197,29 @@ else
 	let &t_SI = "\<Esc>]50;CursorShape=1\x7"
 	let &t_EI = "\<Esc>]50;CursorShape=0\x7"
 endif
+
+" fzf
+nnoremap <silent> <leader>f :FZF -m<CR>
+
+" List of buffers
+function! s:buflist()
+	redir => ls
+	silent ls
+	redir END
+	return split(ls, '\n')
+endfunction
+
+function! s:bufopen(e)
+	execute 'buffer' matchstr(a:e, '^[ 0-9]*')
+endfunction
+
+" fzf buffer list
+nnoremap <silent> <leader>d :call fzf#run({
+\   'source':  reverse(<sid>buflist()),
+\   'sink':    function('<sid>bufopen'),
+\   'options': '+m',
+\   'down':    len(<sid>buflist()) + 2
+\ })<CR>
 
 " Filetype specific stuff
 au BufRead,BufNewFile *.md setlocal filetype=markdown
