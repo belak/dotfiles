@@ -10,4 +10,4 @@ URxvt.url-launcher:		/usr/bin/firefox
 URxvt.matcher.button:	1
 
 ! include the color scheme
-#include ".belak/xcolors/hybrid"
+#include ".belak/xcolors/seoul256"
