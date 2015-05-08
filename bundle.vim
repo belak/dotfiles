@@ -14,6 +14,7 @@ Plug 'Shougo/unite.vim'
 
 " Extra language support
 "Plug 'ap/vim-css-color'
+Plug 'ekalinin/Dockerfile.vim'
 Plug 'fatih/vim-go'
 Plug 'Glench/Vim-Jinja2-Syntax'
 "Plug 'groenewege/vim-less'
