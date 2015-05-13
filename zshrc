@@ -20,9 +20,6 @@ then
 	source $(which virtualenvwrapper.sh)
 fi
 
-# fzf
-[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
-
 # Aliases
 alias json="python -mjson.tool"
 alias ud="./scripts/update-deps"
@@ -228,6 +225,9 @@ zle -N zle-line-finish
 
 # Magic moving
 autoload -U zmv
+
+# fzf
+[[ -f ~/.fzf.zsh ]] && source ~/.fzf.zsh
 
 # Important histfile stuff
 HISTFILE=$HOME/.histfile

@@ -1,7 +1,6 @@
 silent! if plug#begin('~/.vim/plugged')
 
 " Appearance stuff
-Plug 'mhinz/vim-signify'
 Plug 'bling/vim-airline'
 Plug 'bling/vim-bufferline'
 Plug 'myusuf3/numbers.vim'
@@ -14,6 +13,7 @@ Plug 'Shougo/unite.vim'
 
 " Extra language support
 "Plug 'ap/vim-css-color'
+Plug 'ekalinin/Dockerfile.vim'
 Plug 'fatih/vim-go'
 Plug 'Glench/Vim-Jinja2-Syntax'
 "Plug 'groenewege/vim-less'
@@ -36,8 +36,12 @@ Plug 'ConradIrwin/vim-bracketed-paste'
 " Neocomplete is disabled until lua support is added in neovim
 "Plug 'Shougo/neocomplete.vim'
 
-" tpope!
+" VCS
+Plug 'gregsexton/gitv'
+Plug 'mhinz/vim-signify'
 Plug 'tpope/vim-fugitive'
+
+" tpope!
 "Plug 'tpope/vim-repeat'
 Plug 'tpope/vim-rsi'
 "Plug 'tpope/vim-sleuth'
