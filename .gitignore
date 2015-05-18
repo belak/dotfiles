@@ -1,6 +1,11 @@
 host-*
+vim/.netrwhist
 vim/plugged
+vim/swap
 .arch-init
 private
 *.swp
 .DS_Store
+emacs.d/backups
+emacs.d/elpa
+emacs.d/places
