@@ -1,34 +1,21 @@
-(require 'package)
-(setq package-archives '(("gnu" . "http://elpa.gnu.org/packages/")
-                         ("marmalade" . "https://marmalade-repo.org/packages/")
-                         ("melpa" . "http://melpa.org/packages/")))
-(package-initialize)
+(add-to-list 'load-path (expand-file-name "lisp" user-emacs-directory))
 
-;; Make sure we have the package archive loaded
-(unless package-archive-contents
-  (package-refresh-contents))
+(require 'init-package)
 
-;; Helper function to install any missing packages
-(defun require-package (p)
-  (when (not (package-installed-p p))
-    (package-install p)))
+;; Simple settings changes
+(require 'init-settings)
 
-;; Treat option as meta and command as super
-(when (equal system-type 'darwin)
-  (setq mac-option-key-is-meta t)
-  (setq mac-command-key-is-meta nil)
-  (setq mac-command-modifier 'super)
-  (setq mac-option-modifier 'meta))
+;; Appearance - this is loaded before system specific stuff so the default font
+;; doesn't cause trouble.
+(require 'init-appearance)
 
-;; Better defaults
-(require-package 'better-defaults)
+;; System specific stuff
+(require 'init-osx)
+(require 'init-linux)
 
 ;; Random utils
 (require-package 'magit)
-
-;; Load the theme
-(require-package 'zenburn-theme)
-(load-theme 'zenburn t)
+(setq magit-last-seen-setup-instructions "1.4.0")
 
 ;; ido stuff
 (require-package 'smex)
@@ -63,8 +50,3 @@
 
 ;; Autocomplete
 (require-package 'auto-complete)
-
-;; Random settings
-(add-hook 'prog-mode-hook 'linum-mode)
-(setq initial-buffer-choice t)
-(setq inhibit-startup-screen t)
