@@ -22,8 +22,13 @@
 
 ;; Random settings
 (add-hook 'prog-mode-hook 'linum-mode)
-(setq initial-buffer-choice t
-      inhibit-startup-screen t)
+(setq initial-buffer-choice 't
+      inhibit-startup-screen 't
+      ring-bell-function 'ignore
+      mouse-wheel-scroll-amount '(1 ((shift) . 1))
+      ;mouse-wheel-progressive-speed nil
+      mouse-wheel-follow-mouse 't
+      scroll-step 1)
 
 ;; Set a default font which we may override later
 (set-frame-font "Monospace 12")
