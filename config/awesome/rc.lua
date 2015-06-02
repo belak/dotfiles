@@ -3,8 +3,9 @@ local gears = require("gears")
 local awful = require("awful")
 awful.rules = require("awful.rules")
 require("awful.autofocus")
--- Widget and layout library
+-- Widget and layout libraries
 local wibox = require("wibox")
+local vicious = require("vicious")
 -- Theme handling library
 local beautiful = require("beautiful")
 -- Notification library
@@ -37,18 +38,12 @@ end
 
 -- {{{ Variable definitions
 -- Themes define colours, icons, font and wallpapers.
-beautiful.init(awful.util.getdir("config") .. "/themes/default/theme.lua")
+beautiful.init(awful.util.getdir("config") .. "/themes/zenburn/theme.lua")
 
--- This is used later as the default terminal and editor to run.
+-- This is used later as the default terminal.
 terminal = "urxvt"
-editor = os.getenv("EDITOR") or "nano"
-editor_cmd = terminal .. " -e " .. editor
 
 -- Default modkey.
--- Usually, Mod4 is the key with a logo between Control and Alt.
--- If you do not like this or do not have such a key,
--- I suggest you to remap Mod4 to another key using xmodmap or other tools.
--- However, you can use another modifier like Mod1, but it may interact with others.
 modkey = "Mod4"
 
 -- Table of layouts to cover with awful.layout.inc, order matters.
@@ -87,8 +82,12 @@ end
 -- }}}
 
 -- {{{ Wibox
+--
+separator = wibox.widget.textbox()
+separator:set_text(" ")
+
 -- Create a textclock widget
-mytextclock = awful.widget.textclock()
+mytextclock = awful.widget.textclock("%D %H:%M")
 
 -- Create a wibox for each screen and add it
 mywibox = {}
@@ -120,25 +119,21 @@ mytasklist.buttons = awful.util.table.join(
                                                   client.focus = c
                                                   c:raise()
                                               end
-                                          end),
-                     awful.button({ }, 3, function ()
-                                              if instance then
-                                                  instance:hide()
-                                                  instance = nil
-                                              else
-                                                  instance = awful.menu.clients({
-                                                      theme = { width = 250 }
-                                                  })
-                                              end
-                                          end),
-                     awful.button({ }, 4, function ()
-                                              awful.client.focus.byidx(1)
-                                              if client.focus then client.focus:raise() end
-                                          end),
-                     awful.button({ }, 5, function ()
-                                              awful.client.focus.byidx(-1)
-                                              if client.focus then client.focus:raise() end
                                           end))
+
+-- {{{ Widgets
+memwidget = awful.widget.progressbar()
+memwidget:set_width(5)
+memwidget:set_vertical(true)
+vicious.register(memwidget, vicious.widgets.mem, "$1", 5)
+
+--batwidget = wibox.widget.textbox()
+--vicious.register(batwidget, vicious.widgets.bat, "$1 $2", 10, "BAT1")
+batwidget = awful.widget.progressbar()
+batwidget:set_width(5)
+batwidget:set_vertical(true)
+vicious.register(batwidget, vicious.widgets.bat, "$2", 10, "BAT1")
+-- }}}
 
 for s = 1, screen.count() do
     -- Create a promptbox for each screen
@@ -158,19 +153,23 @@ for s = 1, screen.count() do
     mytasklist[s] = awful.widget.tasklist(s, awful.widget.tasklist.filter.currenttags, mytasklist.buttons)
 
     -- Create the wibox
-    mywibox[s] = awful.wibox({ position = "top", screen = s })
+    mywibox[s] = awful.wibox({ position = "top", screen = s, height = 15 })
 
     -- Widgets that are aligned to the left
     local left_layout = wibox.layout.fixed.horizontal()
     -- left_layout:add(mylauncher)
+    left_layout:add(mylayoutbox[s])
     left_layout:add(mytaglist[s])
     left_layout:add(mypromptbox[s])
 
     -- Widgets that are aligned to the right
     local right_layout = wibox.layout.fixed.horizontal()
     if s == 1 then right_layout:add(wibox.widget.systray()) end
+	right_layout:add(memwidget)
+	right_layout:add(separator)
+	right_layout:add(batwidget)
+	right_layout:add(separator)
     right_layout:add(mytextclock)
-    right_layout:add(mylayoutbox[s])
 
     -- Now bring it all together (with the tasklist in the middle)
     local layout = wibox.layout.align.horizontal()
