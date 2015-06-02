@@ -9,11 +9,12 @@
 ;; Make sure we have use-package installed
 (unless (package-installed-p 'use-package)
   (package-refresh-contents)
-  (package-install 'use-package)) 
+  (package-install 'use-package))
 
 ;; Explicitly load use-package
 (require 'use-package)
 (require 'bind-key)
+(require 'diminish)
 
 (setq use-package-always-ensure t)
 
@@ -24,6 +25,7 @@
 (add-hook 'prog-mode-hook 'linum-mode)
 (setq initial-buffer-choice 't
       inhibit-startup-screen 't
+      show-trailing-whitespace 't
       ring-bell-function 'ignore
       mouse-wheel-scroll-amount '(1 ((shift) . 1))
       ;mouse-wheel-progressive-speed nil
@@ -33,7 +35,7 @@
 ;; Set a default font which we may override later
 (set-frame-font "Monospace 12")
 (use-package zenburn-theme
-  :config 
+  :config
   (load-theme 'zenburn t))
 
 ;; System specific stuff
@@ -47,10 +49,21 @@
             mac-command-modifier 'super
             mac-option-modifier 'meta)
 
-       (set-frame-font "Terminus (TTF) 14")))
+       (set-frame-font "Terminus (TTF) 14 ")))
+
+;; https://github.com/sandhu/emacs.d/blob/master/lisp/teppoudo-diminish.el
+(defmacro diminish-major-mode (mode new-name)
+  `(add-hook (intern (concat (symbol-name ,mode) "-hook"))
+             '(lambda () (setq mode-name ,new-name))))
+
+(diminish-major-mode 'lisp-interaction-mode "λ»")
+(diminish-major-mode 'emacs-lisp-mode "Eλ")
+(diminish-major-mode 'lisp-mode "λ")
 
 ;; Helm
 (use-package helm
+  :demand
+  :diminish helm-mode
   :bind
   ("M-x"     . helm-M-x)
   ("C-x b"   . helm-buffers-list)
@@ -68,7 +81,9 @@
 ;; Random utils
 (use-package magit
   :init
-  (setq magit-last-seen-setup-instructions "1.4.0"))
+  (setq magit-last-seen-setup-instructions "1.4.0")
+  :config
+  (magit-auto-revert-mode -1))
 
 ;; ido stuff
 (use-package smex
@@ -94,6 +109,7 @@
   (sml/apply-theme 'respectful))
 
 (use-package fic-mode
+  :diminish fic-mode
   :config
   (progn
     (add-hook 'prog-mode-hook 'turn-on-fic-mode)))
@@ -120,6 +136,7 @@
 
 ;; Autocom;; Projectile
 (use-package projectile
+  :diminish projectile-mode
   :config
   (projectile-global-mode))
 
@@ -148,5 +165,5 @@
     (setq jedi:complete-on-dot t))
 
   (setq company-idle-delay 0)
-  
+
   (add-hook 'after-init-hook 'global-company-mode))
