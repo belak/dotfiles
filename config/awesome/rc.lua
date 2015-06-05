@@ -10,6 +10,8 @@ local vicious = require("vicious")
 local beautiful = require("beautiful")
 -- Notification library
 local naughty = require("naughty")
+-- Key Bindings
+local ezconfig = require("ezconfig")
 
 -- {{{ Error handling
 -- Check if awesome encountered an error during startup and fell back to
@@ -94,32 +96,34 @@ mywibox = {}
 mypromptbox = {}
 mylayoutbox = {}
 mytaglist = {}
-mytaglist.buttons = awful.util.table.join(
-                    awful.button({ }, 1, awful.tag.viewonly),
-                    awful.button({ modkey }, 1, awful.client.movetotag),
-                    awful.button({ }, 3, awful.tag.viewtoggle),
-                    awful.button({ modkey }, 3, awful.client.toggletag),
-                    awful.button({ }, 4, function(t) awful.tag.viewnext(awful.tag.getscreen(t)) end),
-                    awful.button({ }, 5, function(t) awful.tag.viewprev(awful.tag.getscreen(t)) end)
-                    )
+mytaglist.buttons = ezconfig.btntable.join({
+	['1']   = awful.tag.viewonly,
+	['M-1'] = awful.client.movetotag,
+	['3']   = awful.tag.viewtoggle,
+	['M-3'] = awful.client.toggletag,
+	['4']   = function(t) awful.tag.viewnext(awful.tag.getscreen(t)) end,
+	['5']   = function(t) awful.tag.viewprev(awful.tag.getscreen(t)) end,
+})
+
 mytasklist = {}
-mytasklist.buttons = awful.util.table.join(
-                     awful.button({ }, 1, function (c)
-                                              if c == client.focus then
-                                                  c.minimized = true
-                                              else
-                                                  -- Without this, the following
-                                                  -- :isvisible() makes no sense
-                                                  c.minimized = false
-                                                  if not c:isvisible() then
-                                                      awful.tag.viewonly(c:tags()[1])
-                                                  end
-                                                  -- This will also un-minimize
-                                                  -- the client, if needed
-                                                  client.focus = c
-                                                  c:raise()
-                                              end
-                                          end))
+mytasklist.buttons = ezconfig.btntable.join({
+	['1'] = function (c)
+		if c == client.focus then
+			c.minimized = true
+		else
+			-- Without this, the following
+			-- :isvisible() makes no sense
+			c.minimized = false
+			if not c:isvisible() then
+				awful.tag.viewonly(c:tags()[1])
+			end
+			-- This will also un-minimize
+			-- the client, if needed
+			client.focus = c
+			c:raise()
+		end
+	end,
+})
 
 -- {{{ Widgets
 memwidget = awful.widget.progressbar()
@@ -165,10 +169,10 @@ for s = 1, screen.count() do
     -- Widgets that are aligned to the right
     local right_layout = wibox.layout.fixed.horizontal()
     if s == 1 then right_layout:add(wibox.widget.systray()) end
-	right_layout:add(memwidget)
-	right_layout:add(separator)
-	right_layout:add(batwidget)
-	right_layout:add(separator)
+    right_layout:add(memwidget)
+    right_layout:add(separator)
+    right_layout:add(batwidget)
+    right_layout:add(separator)
     right_layout:add(mytextclock)
 
     -- Now bring it all together (with the tasklist in the middle)
@@ -190,136 +194,121 @@ root.buttons(awful.util.table.join(
 -- }}}
 
 -- {{{ Key bindings
-globalkeys = awful.util.table.join(
-    awful.key({ modkey,           }, "Left",   awful.tag.viewprev       ),
-    awful.key({ modkey,           }, "Right",  awful.tag.viewnext       ),
-    awful.key({ modkey,           }, "Escape", awful.tag.history.restore),
+globalkeys = ezconfig.keytable.join({
+    ['M-Left']   = awful.tag.viewprev,
+    ['M-Right']  = awful.tag.viewnext,
+    ['M-Escape'] = awful.tag.history.restore,
+    ['M-j']      = function ()
+        awful.client.focus.byidx(1)
+        if client.focus then client.focus:raise() end
+    end,
+    ['M-k']      = function ()
+        awful.client.focus.byidx(-1)
+        if client.focus then client.focus:raise() end
+    end,
 
-    awful.key({ modkey,           }, "j",
-        function ()
-            awful.client.focus.byidx( 1)
-            if client.focus then client.focus:raise() end
-        end),
-    awful.key({ modkey,           }, "k",
-        function ()
-            awful.client.focus.byidx(-1)
-            if client.focus then client.focus:raise() end
-        end),
-    -- awful.key({ modkey,           }, "w", function () mymainmenu:show() end),
+    -- Layout Manipulation
+    ['M-S-j'] = {awful.client.swap.byidx, 1},
+    ['M-S-k'] = {awful.client.swap.byidx, -1},
+    ['M-C-j'] = {awful.screen.focus_relative, 1},
+    ['M-C-k'] = {awful.screen.focus_relative, -1},
+    ['M-u']   = awful.client.urgent.jumpto,
+    ['M-Tab'] = function()
+        awful.client.focus.history.previous()
+        if client.focus then client.focus:raise() end
+    end,
 
-    -- Layout manipulation
-    awful.key({ modkey, "Shift"   }, "j", function () awful.client.swap.byidx(  1)    end),
-    awful.key({ modkey, "Shift"   }, "k", function () awful.client.swap.byidx( -1)    end),
-    awful.key({ modkey, "Control" }, "j", function () awful.screen.focus_relative( 1) end),
-    awful.key({ modkey, "Control" }, "k", function () awful.screen.focus_relative(-1) end),
-    awful.key({ modkey,           }, "u", awful.client.urgent.jumpto),
-    awful.key({ modkey,           }, "Tab",
-        function ()
-            awful.client.focus.history.previous()
-            if client.focus then
-                client.focus:raise()
-            end
-        end),
+    -- Standard Program
+    ['M-Return'] = {awful.util.spawn, terminal},
+    ['M-C-r']    = awesome.restart,
+    ['M-S-q']    = awesome.quit,
 
-    -- Standard program
-    awful.key({ modkey,           }, "Return", function () awful.util.spawn(terminal) end),
-    awful.key({ modkey, "Control" }, "r", awesome.restart),
-    awful.key({ modkey, "Shift"   }, "q", awesome.quit),
+    ['M-l']       = {awful.tag.incmwfact, 0.05},
+    ['M-h']       = {awful.tag.incmwfact, -0.05},
+    ['M-S-h']     = {awful.tag.incnmaster, 1},
+    ['M-S-l']     = {awful.tag.incnmaster, -1},
+    ['M-C-h']     = {awful.tag.incncol, 1},
+    ['M-C-l']     = {awful.tag.incncol, -1},
+    ['M-space']   = {awful.layout.inc, layouts, 1},
+    ['M-S-space'] = {awful.layout.inc, layouts, -1},
 
-    awful.key({ modkey,           }, "l",     function () awful.tag.incmwfact( 0.05)    end),
-    awful.key({ modkey,           }, "h",     function () awful.tag.incmwfact(-0.05)    end),
-    awful.key({ modkey, "Shift"   }, "h",     function () awful.tag.incnmaster( 1)      end),
-    awful.key({ modkey, "Shift"   }, "l",     function () awful.tag.incnmaster(-1)      end),
-    awful.key({ modkey, "Control" }, "h",     function () awful.tag.incncol( 1)         end),
-    awful.key({ modkey, "Control" }, "l",     function () awful.tag.incncol(-1)         end),
-    awful.key({ modkey,           }, "space", function () awful.layout.inc(layouts,  1) end),
-    awful.key({ modkey, "Shift"   }, "space", function () awful.layout.inc(layouts, -1) end),
-
-    awful.key({ modkey, "Control" }, "n", awful.client.restore),
+    ['M-C-n'] = awful.client.restore,
 
     -- Prompt
-    awful.key({ modkey },            "r",     function () mypromptbox[mouse.screen]:run() end),
+    ['M-r'] = function () mypromptbox[mouse.screen]:run() end,
+    ['M-x'] = function ()
+        awful.prompt.run({ prompt = "Run Lua code: " },
+        mypromptbox[mouse.screen].widget,
+        awful.util.eval, nil,
+        awful.util.getdir("cache") .. "/history_eval")
+    end,
+})
 
-    awful.key({ modkey }, "x",
-              function ()
-                  awful.prompt.run({ prompt = "Run Lua code: " },
-                  mypromptbox[mouse.screen].widget,
-                  awful.util.eval, nil,
-                  awful.util.getdir("cache") .. "/history_eval")
-              end)
-    -- Menubar
-    -- awful.key({ modkey }, "p", function() menubar.show() end)
-)
-
-clientkeys = awful.util.table.join(
-    awful.key({ modkey,           }, "f",      function (c) c.fullscreen = not c.fullscreen  end),
-    awful.key({ modkey, "Shift"   }, "c",      function (c) c:kill()                         end),
-    awful.key({ modkey, "Control" }, "space",  awful.client.floating.toggle                     ),
-    awful.key({ modkey, "Control" }, "Return", function (c) c:swap(awful.client.getmaster()) end),
-    awful.key({ modkey,           }, "o",      awful.client.movetoscreen                        ),
-    awful.key({ modkey,           }, "t",      function (c) c.ontop = not c.ontop            end),
-    awful.key({ modkey,           }, "n",
-        function (c)
-            -- The client currently has the input focus, so it cannot be
-            -- minimized, since minimized clients can't have the focus.
-            c.minimized = true
-        end),
-    awful.key({ modkey,           }, "m",
-        function (c)
-            c.maximized_horizontal = not c.maximized_horizontal
-            c.maximized_vertical   = not c.maximized_vertical
-        end)
-)
+clientkeys = ezconfig.keytable.join({
+    ['M-f']        = function (c) c.fullscreen = not c.fullscreen end,
+    ['M-S-c']      = function (c) c:kill() end,
+    ['M-C-space']  = awful.client.floating.toggle,
+    ['M-C-Return'] = function (c) c:swap(awful.client.getmaster()) end,
+    ['M-o']        = awful.client.movetoscreen,
+    ['M-t']        = function (c) c.ontop = not c.ontop end,
+    ['M-n']        = function (c)
+        -- The client currently has the input focus, so it cannot be
+        -- minimized, since minimized clients can't have the focus.
+        c.minimized = true
+    end,
+    ['M-m']        = function (c)
+        c.maximized_horizontal = not c.maximized_horizontal
+        c.maximized_vertical   = not c.maximized_vertical
+    end,
+})
 
 -- Bind all key numbers to tags.
 -- Be careful: we use keycodes to make it works on any keyboard layout.
 -- This should map on the top row of your keyboard, usually 1 to 9.
 for i = 1, 9 do
-    globalkeys = awful.util.table.join(globalkeys,
+    globalkeys = ezconfig.keytable.join(globalkeys, {
         -- View tag only.
-        awful.key({ modkey }, "#" .. i + 9,
-                  function ()
-                        local screen = mouse.screen
-                        local tag = awful.tag.gettags(screen)[i]
-                        if tag then
-                           awful.tag.viewonly(tag)
-                        end
-                  end),
+        ['M-#' .. i + 9] = function ()
+			local screen = mouse.screen
+			local tag = awful.tag.gettags(screen)[i]
+			if tag then
+				awful.tag.viewonly(tag)
+			end
+		end,
         -- Toggle tag.
-        awful.key({ modkey, "Control" }, "#" .. i + 9,
-                  function ()
-                      local screen = mouse.screen
-                      local tag = awful.tag.gettags(screen)[i]
-                      if tag then
-                         awful.tag.viewtoggle(tag)
-                      end
-                  end),
+        ['M-C-#' .. i + 9] = function ()
+			local screen = mouse.screen
+			local tag = awful.tag.gettags(screen)[i]
+			if tag then
+				awful.tag.viewtoggle(tag)
+			end
+		end,
         -- Move client to tag.
-        awful.key({ modkey, "Shift" }, "#" .. i + 9,
-                  function ()
-                      if client.focus then
-                          local tag = awful.tag.gettags(client.focus.screen)[i]
-                          if tag then
-                              awful.client.movetotag(tag)
-                          end
-                     end
-                  end),
+        ['M-S-#' .. i + 9] = function ()
+			if client.focus then
+				local tag = awful.tag.gettags(client.focus.screen)[i]
+				if tag then
+					awful.client.movetotag(tag)
+				end
+			end
+		end,
         -- Toggle tag.
-        awful.key({ modkey, "Control", "Shift" }, "#" .. i + 9,
-                  function ()
-                      if client.focus then
-                          local tag = awful.tag.gettags(client.focus.screen)[i]
-                          if tag then
-                              awful.client.toggletag(tag)
-                          end
-                      end
-                  end))
+        ['M-C-S-#' .. i + 9] = function ()
+			if client.focus then
+				local tag = awful.tag.gettags(client.focus.screen)[i]
+				if tag then
+					awful.client.toggletag(tag)
+				end
+			end
+		end,
+	})
 end
 
-clientbuttons = awful.util.table.join(
-    awful.button({ }, 1, function (c) client.focus = c; c:raise() end),
-    awful.button({ modkey }, 1, awful.mouse.client.move),
-    awful.button({ modkey }, 3, awful.mouse.client.resize))
+clientbuttons = ezconfig.btntable.join({
+    ['1'] = function (c) client.focus = c; c:raise() end,
+    ['M-1'] = awful.mouse.client.move,
+    ['M-3'] = awful.mouse.client.resize,
+})
 
 -- Set keys
 root.keys(globalkeys)
