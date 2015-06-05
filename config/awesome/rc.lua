@@ -97,32 +97,32 @@ mypromptbox = {}
 mylayoutbox = {}
 mytaglist = {}
 mytaglist.buttons = ezconfig.btntable.join({
-	['1']   = awful.tag.viewonly,
-	['M-1'] = awful.client.movetotag,
-	['3']   = awful.tag.viewtoggle,
-	['M-3'] = awful.client.toggletag,
-	['4']   = function(t) awful.tag.viewnext(awful.tag.getscreen(t)) end,
-	['5']   = function(t) awful.tag.viewprev(awful.tag.getscreen(t)) end,
+    ['1']   = awful.tag.viewonly,
+    ['M-1'] = awful.client.movetotag,
+    ['3']   = awful.tag.viewtoggle,
+    ['M-3'] = awful.client.toggletag,
+    ['4']   = function(t) awful.tag.viewnext(awful.tag.getscreen(t)) end,
+    ['5']   = function(t) awful.tag.viewprev(awful.tag.getscreen(t)) end,
 })
 
 mytasklist = {}
 mytasklist.buttons = ezconfig.btntable.join({
-	['1'] = function (c)
-		if c == client.focus then
-			c.minimized = true
-		else
-			-- Without this, the following
-			-- :isvisible() makes no sense
-			c.minimized = false
-			if not c:isvisible() then
-				awful.tag.viewonly(c:tags()[1])
-			end
-			-- This will also un-minimize
-			-- the client, if needed
-			client.focus = c
-			c:raise()
-		end
-	end,
+    ['1'] = function (c)
+        if c == client.focus then
+            c.minimized = true
+        else
+            -- Without this, the following
+            -- :isvisible() makes no sense
+            c.minimized = false
+            if not c:isvisible() then
+                awful.tag.viewonly(c:tags()[1])
+            end
+            -- This will also un-minimize
+            -- the client, if needed
+            client.focus = c
+            c:raise()
+        end
+    end,
 })
 
 -- {{{ Widgets
@@ -136,7 +136,7 @@ vicious.register(memwidget, vicious.widgets.mem, "$1", 5)
 batwidget = awful.widget.progressbar()
 batwidget:set_width(5)
 batwidget:set_vertical(true)
-vicious.register(batwidget, vicious.widgets.bat, "$2", 10, "BAT1")
+vicious.register(batwidget, vicious.widgets.bat, "$2", 10, "BAT0")
 -- }}}
 
 for s = 1, screen.count() do
@@ -220,6 +220,7 @@ globalkeys = ezconfig.keytable.join({
 
     -- Standard Program
     ['M-Return'] = {awful.util.spawn, terminal},
+    ['M-p']      = {awful.util.spawn, "passmenu -fn -*-terminus-*-*-*-*-12-*-*-*-*-*-*-* -nb '#3F3F3F' -nf '#DCDCCC' -sb '#1E2320' -sf '#F0DFAF'"},
     ['M-C-r']    = awesome.restart,
     ['M-S-q']    = awesome.quit,
 
@@ -269,39 +270,39 @@ for i = 1, 9 do
     globalkeys = ezconfig.keytable.join(globalkeys, {
         -- View tag only.
         ['M-#' .. i + 9] = function ()
-			local screen = mouse.screen
-			local tag = awful.tag.gettags(screen)[i]
-			if tag then
-				awful.tag.viewonly(tag)
-			end
-		end,
+            local screen = mouse.screen
+            local tag = awful.tag.gettags(screen)[i]
+            if tag then
+                awful.tag.viewonly(tag)
+            end
+        end,
         -- Toggle tag.
         ['M-C-#' .. i + 9] = function ()
-			local screen = mouse.screen
-			local tag = awful.tag.gettags(screen)[i]
-			if tag then
-				awful.tag.viewtoggle(tag)
-			end
-		end,
+            local screen = mouse.screen
+            local tag = awful.tag.gettags(screen)[i]
+            if tag then
+                awful.tag.viewtoggle(tag)
+            end
+        end,
         -- Move client to tag.
         ['M-S-#' .. i + 9] = function ()
-			if client.focus then
-				local tag = awful.tag.gettags(client.focus.screen)[i]
-				if tag then
-					awful.client.movetotag(tag)
-				end
-			end
-		end,
+            if client.focus then
+                local tag = awful.tag.gettags(client.focus.screen)[i]
+                if tag then
+                    awful.client.movetotag(tag)
+                end
+            end
+        end,
         -- Toggle tag.
         ['M-C-S-#' .. i + 9] = function ()
-			if client.focus then
-				local tag = awful.tag.gettags(client.focus.screen)[i]
-				if tag then
-					awful.client.toggletag(tag)
-				end
-			end
-		end,
-	})
+            if client.focus then
+                local tag = awful.tag.gettags(client.focus.screen)[i]
+                if tag then
+                    awful.client.toggletag(tag)
+                end
+            end
+        end,
+    })
 end
 
 clientbuttons = ezconfig.btntable.join({
