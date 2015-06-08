@@ -1,0 +1,227 @@
+* belak's emacs config
+
+This config has been cobbled together from quite a few places.
+
+** Package setup
+
+use-package is used to organize imports in a better manner.
+package-ensure-installed is defined in init.el
+
+Note that we have to explicitly load them because use-package
+can't handle that yet and we disabled autoloading everything
+in init.el
+
+#+begin_src emacs-lisp
+  (package-ensure-installed 'use-package)
+
+  (require 'use-package)
+  (require 'bind-key)
+  (require 'diminish)
+
+  (setq use-package-always-ensure t)
+#+end_src
+
+** Appearance settings
+
+Settings such as a default font, color scheme and modeline changes.
+Note that the font should be overridden later, such as in platform
+specific settings.
+
+#+begin_src emacs-lisp
+  ;; Set a default font which we may override later
+  (set-frame-font "Monospace 12")
+  (use-package zenburn-theme
+    :config
+    (load-theme 'zenburn t))
+
+  ;; https://github.com/sandhu/emacs.d/blob/master/lisp/teppoudo-diminish.el
+  (defmacro diminish-major-mode (mode new-name)
+    `(add-hook (intern (concat (symbol-name ,mode) "-hook"))
+               '(lambda () (setq mode-name ,new-name))))
+
+  ;; Make the lisp modes a bit shorter
+  (diminish-major-mode 'lisp-interaction-mode "λ»")
+  (diminish-major-mode 'emacs-lisp-mode "Eλ")
+  (diminish-major-mode 'lisp-mode "λ")
+
+  (setq column-number-mode t
+        line-number-mode t)
+#+end_src
+
+** Basic setup
+
+Set up some smarter defaults, and make sure that some useful
+environment vars (like HOME and GOPATH) are copied into the emacs env.
+
+#+begin_src emacs-lisp
+  (use-package better-defaults)
+
+  (setq initial-buffer-choice 't
+        inhibit-startup-screen 't
+        show-trailing-whitespace 't
+        ring-bell-function 'ignore
+        mouse-wheel-scroll-amount '(1 ((shift) . 1))
+        ;mouse-wheel-progressive-speed nil
+        mouse-wheel-follow-mouse 't
+        scroll-step 1)
+
+  ;; Grab some useful env vars from the shell
+  (use-package exec-path-from-shell
+    :config
+    (exec-path-from-shell-initialize)
+    (exec-path-from-shell-copy-env "GOPATH"))
+#+end_src
+
+** Platform specifics
+
+Font overrides as well as a few mac specific key binds to make emacs
+easier to use. Additionally, in OSX we want to toggle fullscreen
+because we want to be in full screen more often than not.
+
+#+begin_src emacs-lisp
+  (cond ((eq system-type 'gnu/linux)
+         (set-frame-font "Terminus 8"))
+
+        ((eq system-type 'darwin)
+         (setq ns-use-native-fullscreen t
+               mac-option-key-is-meta t
+               mac-command-key-is-meta nil
+               mac-command-modifier 'super
+               mac-option-modifier 'meta)
+
+         (set-frame-font "Menlo 12")
+         (toggle-frame-fullscreen)))
+#+end_src
+
+** File Navigation
+
+Make sure to use ido everywhere
+
+#+begin_src emacs-lisp
+  (use-package smex
+    :disabled t
+    :config
+    (ido-mode 1)
+    (ido-everywhere 1)
+    (use-package ido-ubiquitous
+      :config
+      (ido-ubiquitous-mode 1))
+    (use-package ido-vertical-mode
+      :config
+      (ido-vertical-mode 1))
+    (use-package flx-ido
+      :config
+      (flx-ido-mode 1)))
+#+end_src
+
+Helm is a slightly fancier replacement for ido
+
+#+begin_src emacs-lisp
+  (use-package helm
+    :demand
+    :diminish helm-mode
+    :bind
+    ("M-x"     . helm-M-x)
+    ("C-x b"   . helm-buffers-list)
+    ("C-x C-f" . helm-find-files)
+    ("C-c o"   . helm-occur)
+    ("M-/"     . helm-dabbrev)
+    :config
+    ; Reverse tab and C-z
+    (bind-keys :map helm-map
+               ("<tab>" . helm-execute-persistent-action)
+               ("C-z"   . helm-select-action))
+    (helm-mode 1)
+    (helm-autoresize-mode 1))
+#+end_src
+
+Project based navigation.
+
+#+begin_src emacs-lisp
+  (use-package projectile
+    :diminish projectile-mode
+    :config
+    (projectile-global-mode))
+#+end_src
+
+** Programming
+
+Make sure line numbers are turned on in programming modes and hilight comments
+with TODO and similar things in them.
+
+#+begin_src emacs-lisp
+  (add-hook 'prog-mode-hook 'linum-mode)
+
+  (use-package fic-mode
+    :diminish fic-mode
+    :config
+    (progn
+      (add-hook 'prog-mode-hook 'turn-on-fic-mode)))
+#+end_src
+
+** Completion
+
+#+begin_src emacs-lisp
+;; Completion
+(use-package company
+  :disabled t
+  :config
+  (use-package company-go)
+  (use-package company-jedi
+    (setq jedi:complete-on-dot t))
+
+  (setq company-idle-delay 0)
+
+  (add-hook 'after-init-hook 'global-company-mode))
+
+;; Auto-complete
+(use-package auto-complete
+  :config
+  (use-package go-autocomplete)
+  (use-package jedi
+    :config
+    (add-hook 'python-mode-hook 'jedi:setup)
+    (setq jedi:complete-on-dot t))
+  (ac-linum-workaround))
+#+end_src
+** Anything leftover
+
+#+begin_src emacs-lisp
+  ;; Random utils
+  (use-package magit
+    :init
+    (setq magit-last-seen-setup-instructions "1.4.0")
+    :config
+    (magit-auto-revert-mode -1))
+
+  ;; Better mode-line
+  (use-package smart-mode-line
+    :config
+    (setq sml/no-confirm-load-theme t)
+    (sml/setup)
+    (sml/apply-theme 'respectful))
+
+  ;; Rainbow-mode
+  (use-package rainbow-mode
+    :commands rainbow-mode)
+
+  ;; Better less support
+  ;(require-package 'less-css-mode)
+
+  ;; Golang
+  ;(require-package 'go-mode)
+
+  ;; Syntax checking
+  ;(require-package 'flycheck)
+
+  ;; Snippets
+  ;(require-package 'yasnippet)
+
+  ;; Real org-mode conf
+  (use-package org
+    :mode ("\\.org\\'" . org-mode)
+    :config
+    (org-indent-mode)
+    (setq org-src-fontify-natively t
+          org-src-tab-acts-natively t))
+#+end_src
