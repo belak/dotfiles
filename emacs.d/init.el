@@ -42,7 +42,7 @@
             mac-command-modifier 'super
             mac-option-modifier 'meta)
 
-       (set-frame-font "Terminus (TTF) 14")))
+       (set-frame-font "Menlo 12")))
 
 ;; Helm
 (use-package helm
