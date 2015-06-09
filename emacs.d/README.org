@@ -46,6 +46,13 @@ specific settings.
 
   (setq column-number-mode t
         line-number-mode t)
+
+  ;; Better mode-line
+  (use-package smart-mode-line
+    :config
+    (setq sml/no-confirm-load-theme t)
+    (sml/setup)
+    (sml/apply-theme 'respectful))
 #+end_src
 
 ** Basic setup
@@ -146,51 +153,62 @@ Project based navigation.
 
 ** Programming
 
-Make sure line numbers are turned on in programming modes and hilight comments
-with TODO and similar things in them.
+*** General
+
+Turn on line numbers everywhere aside from a few major modes and
+highlight comments with TODO and similar things in them.
 
 #+begin_src emacs-lisp
   (add-hook 'prog-mode-hook 'linum-mode)
+  (add-hook 'org-mode-hook 'linum-mode)
 
   (use-package fic-mode
-    :diminish fic-mode
-    :config
-    (progn
-      (add-hook 'prog-mode-hook 'turn-on-fic-mode)))
+        :diminish fic-mode
+        :config
+        (progn (add-hook 'prog-mode-hook 'turn-on-fic-mode)))
 #+end_src
 
-** Python
-
-Enable elpy and force jedi to be used as the rpc backend so
-we can have both rope and jedi installed.
-
-#+begin_src emacs-lisp
-  (use-package elpy
-      :config
-      (elpy-enable)
-      (setq elpy-rpc-backend "jedi"))
-#+end_src
-
-** Completion
+*** Completion
 
 #+begin_src emacs-lisp
   (use-package company
     :config
     ;(use-package company-go)
-
     (setq company-idle-delay 0)
-
     (add-hook 'after-init-hook 'global-company-mode))
+#+end_src
+*** Python
 
-  (use-package auto-complete
-    :disabled t
-    :config
-    (use-package go-autocomplete)
-    (use-package jedi
+Enable elpy and force jedi to be used as the rpc backend so
+we can have both rope and jedi installed. Elpy defaults to
+using the system 'python' binary so we force it to use python2.
+
+#+begin_src emacs-lisp
+  (use-package elpy
       :config
-      (add-hook 'python-mode-hook 'jedi:setup)
-      (setq jedi:complete-on-dot t))
-    (ac-linum-workaround))
+      (elpy-enable)
+      (elpy-use-cpython "python2")
+      (setq elpy-rpc-backend "jedi"))
+#+end_src
+
+*** Lua
+
+#+begin_src emacs-lisp
+  (use-package lua-mode
+    :mode "\\.lua$")
+#+end_src
+
+** Org Mode
+
+#+begin_src emacs-lisp
+  (use-package org
+    :mode ("\\.org$" . org-mode)
+    :config
+    (setq org-src-fontify-natively t
+          org-src-tab-acts-natively t
+          org-indent-mode t
+          org-startup-indented t
+          org-support-shift-select t))
 #+end_src
 
 ** Leftovers
@@ -202,13 +220,6 @@ we can have both rope and jedi installed.
     (setq magit-last-seen-setup-instructions "1.4.0")
     :config
     (magit-auto-revert-mode -1))
-
-  ;; Better mode-line
-  (use-package smart-mode-line
-    :config
-    (setq sml/no-confirm-load-theme t)
-    (sml/setup)
-    (sml/apply-theme 'respectful))
 
   ;; Rainbow-mode
   (use-package rainbow-mode
@@ -225,15 +236,6 @@ we can have both rope and jedi installed.
 
   ;; Snippets
   ;(require-package 'yasnippet)
-
-  ;; Real org-mode conf
-  (use-package org
-    :mode ("\\.org\\'" . org-mode)
-    :config
-    (setq org-src-fontify-natively t
-          org-src-tab-acts-natively t
-          org-indent-mode t
-          org-startup-indented t))
 
   (use-package git-gutter
     :config
