@@ -159,32 +159,41 @@ with TODO and similar things in them.
       (add-hook 'prog-mode-hook 'turn-on-fic-mode)))
 #+end_src
 
+** Python
+
+Enable elpy and force jedi to be used as the rpc backend so
+we can have both rope and jedi installed.
+
+#+begin_src emacs-lisp
+  (use-package elpy
+      :config
+      (elpy-enable)
+      (setq elpy-rpc-backend "jedi"))
+#+end_src
+
 ** Completion
 
 #+begin_src emacs-lisp
-;; Completion
-(use-package company
-  :disabled t
-  :config
-  (use-package company-go)
-  (use-package company-jedi
-    (setq jedi:complete-on-dot t))
-
-  (setq company-idle-delay 0)
-
-  (add-hook 'after-init-hook 'global-company-mode))
-
-;; Auto-complete
-(use-package auto-complete
-  :config
-  (use-package go-autocomplete)
-  (use-package jedi
+  (use-package company
     :config
-    (add-hook 'python-mode-hook 'jedi:setup)
-    (setq jedi:complete-on-dot t))
-  (ac-linum-workaround))
+    ;(use-package company-go)
+
+    (setq company-idle-delay 0)
+
+    (add-hook 'after-init-hook 'global-company-mode))
+
+  (use-package auto-complete
+    :disabled t
+    :config
+    (use-package go-autocomplete)
+    (use-package jedi
+      :config
+      (add-hook 'python-mode-hook 'jedi:setup)
+      (setq jedi:complete-on-dot t))
+    (ac-linum-workaround))
 #+end_src
-** Anything leftover
+
+** Leftovers
 
 #+begin_src emacs-lisp
   ;; Random utils
@@ -221,7 +230,13 @@ with TODO and similar things in them.
   (use-package org
     :mode ("\\.org\\'" . org-mode)
     :config
-    (org-indent-mode)
     (setq org-src-fontify-natively t
-          org-src-tab-acts-natively t))
+          org-src-tab-acts-natively t
+          org-indent-mode t
+          org-startup-indented t))
+
+  (use-package git-gutter
+    :config
+    (global-git-gutter-mode 1)
+    (git-gutter:linum-setup))
 #+end_src
