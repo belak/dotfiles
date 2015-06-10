@@ -6,7 +6,4 @@ vim/swap
 private
 *.swp
 .DS_Store
-emacs.d/backups
-emacs.d/elpa
-emacs.d/places
-emacs.d/projectile-bookmarks.eld
+emacs.d/*
