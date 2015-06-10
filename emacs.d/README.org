@@ -51,8 +51,8 @@ specific settings.
   (use-package smart-mode-line
     :config
     (setq sml/no-confirm-load-theme t)
-    (sml/setup)
-    (sml/apply-theme 'respectful))
+    (sml/apply-theme 'respectful)
+    (sml/setup))
 #+end_src
 
 ** Basic setup
@@ -87,6 +87,7 @@ because we want to be in full screen more often than not.
 
 #+begin_src emacs-lisp
   (cond ((eq system-type 'gnu/linux)
+         (setq x-gtk-use-system-tooltips nil)
          (set-frame-font "Terminus 8"))
 
         ((eq system-type 'darwin)
@@ -121,6 +122,13 @@ Make sure to use ido everywhere
       (flx-ido-mode 1)))
 #+end_src
 
+Make sure we store recent files
+
+#+begin_src emacs-lisp
+  (require 'recentf)
+  (recentf-mode 1)
+#+end_src
+
 Helm is a slightly fancier replacement for ido
 
 #+begin_src emacs-lisp
@@ -129,7 +137,7 @@ Helm is a slightly fancier replacement for ido
     :diminish helm-mode
     :bind
     ("M-x"     . helm-M-x)
-    ("C-x b"   . helm-buffers-list)
+    ("C-x b"   . helm-mini)
     ("C-x C-f" . helm-find-files)
     ("C-c o"   . helm-occur)
     ("M-/"     . helm-dabbrev)
@@ -139,7 +147,8 @@ Helm is a slightly fancier replacement for ido
                ("<tab>" . helm-execute-persistent-action)
                ("C-z"   . helm-select-action))
     (helm-mode 1)
-    (helm-autoresize-mode 1))
+    (helm-autoresize-mode 1)
+    (setq helm-ff-file-name-history-use-recentf t))
 #+end_src
 
 Project based navigation.
@@ -160,7 +169,6 @@ highlight comments with TODO and similar things in them.
 
 #+begin_src emacs-lisp
   (add-hook 'prog-mode-hook 'linum-mode)
-  (add-hook 'org-mode-hook 'linum-mode)
 
   (use-package fic-mode
         :diminish fic-mode
@@ -200,6 +208,10 @@ using the system 'python' binary so we force it to use python2.
 
 ** Org Mode
 
+Make sure org mode is set up in a manner that doesn't suck. Meaning,
+make code blocks act more like their native counterparts, enable fancy
+indenting and allow for shift select.
+
 #+begin_src emacs-lisp
   (use-package org
     :mode ("\\.org$" . org-mode)
@@ -238,6 +250,7 @@ using the system 'python' binary so we force it to use python2.
   ;(require-package 'yasnippet)
 
   (use-package git-gutter
+    :diminish git-gutter-mode
     :config
     (global-git-gutter-mode 1)
     (git-gutter:linum-setup))
