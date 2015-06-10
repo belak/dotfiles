@@ -162,6 +162,9 @@ Project based navigation.
 
 ** Programming
 
+Anything programming related goes in here. There are sections for
+completion, general config and separate sections for each language.
+
 *** General
 
 Turn on line numbers everywhere aside from a few major modes and
@@ -185,6 +188,12 @@ highlight comments with TODO and similar things in them.
     (setq company-idle-delay 0)
     (add-hook 'after-init-hook 'global-company-mode))
 #+end_src
+*** Lua
+
+#+begin_src emacs-lisp
+  (use-package lua-mode
+    :mode "\\.lua$")
+#+end_src
 *** Python
 
 Enable elpy and force jedi to be used as the rpc backend so
@@ -199,12 +208,6 @@ using the system 'python' binary so we force it to use python2.
       (setq elpy-rpc-backend "jedi"))
 #+end_src
 
-*** Lua
-
-#+begin_src emacs-lisp
-  (use-package lua-mode
-    :mode "\\.lua$")
-#+end_src
 
 ** Org Mode
 
