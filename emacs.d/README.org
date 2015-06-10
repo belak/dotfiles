@@ -28,7 +28,6 @@ Note that the font should be overridden later, such as in platform
 specific settings.
 
 #+begin_src emacs-lisp
-  ;; Set a default font which we may override later
   (set-frame-font "Monospace 12")
   (use-package zenburn-theme
     :config
@@ -70,6 +69,7 @@ environment vars (like HOME and GOPATH) are copied into the emacs env.
         mouse-wheel-scroll-amount '(1 ((shift) . 1))
         ;mouse-wheel-progressive-speed nil
         mouse-wheel-follow-mouse 't
+        vc-follow-symlinks 't
         scroll-step 1)
 
   ;; Grab some useful env vars from the shell
