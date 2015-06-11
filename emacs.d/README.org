@@ -157,7 +157,10 @@ Project based navigation.
   (use-package projectile
     :diminish projectile-mode
     :config
-    (projectile-global-mode))
+    (projectile-global-mode)
+    (use-package helm-projectile
+      :config
+      (helm-projectile-on)))
 #+end_src
 
 ** Programming
@@ -207,7 +210,6 @@ using the system 'python' binary so we force it to use python2.
       (elpy-use-cpython "python2")
       (setq elpy-rpc-backend "jedi"))
 #+end_src
-
 
 ** Org Mode
 
