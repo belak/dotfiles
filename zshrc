@@ -3,6 +3,11 @@
 # Many things were taken from there, but a number of assumptions were made and
 # so many extra checks and unneeded features have been removed.
 
+# Run startx if we're on tty1
+if [[ `tty` == "/dev/tty1" ]]; then
+	exec startx
+fi
+
 # Simple OS detection
 OSTYPE=$(uname -s)
 
@@ -15,8 +20,7 @@ isdarwin() {
 }
 
 # Do our best to load virtualenvwrapper
-if which virtualenvwrapper.sh &>/dev/null
-then
+if which virtualenvwrapper.sh &>/dev/null; then
 	source $(which virtualenvwrapper.sh)
 fi
 
