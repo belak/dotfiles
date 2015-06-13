@@ -18,7 +18,6 @@ handle that yet and we disabled autoloading everything in init.el
     (defvar use-package-verbose t)
     (require 'use-package))
 
-  (require 'cl)
   (require 'diminish)
   (require 'bind-key)
 
