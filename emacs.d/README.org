@@ -12,13 +12,22 @@ can't handle that yet and we disabled autoloading everything
 in init.el
 
 #+begin_src emacs-lisp
-  (package-ensure-installed 'use-package)
+  (package-ensure-installed use-package)
 
   (require 'use-package)
   (require 'bind-key)
   (require 'diminish)
 
   (setq use-package-always-ensure t)
+#+end_src
+
+While we're in the area, we also install paradox, a better package
+interface and set up a few config options.
+
+#+begin_src emacs-lisp
+  (use-package paradox
+    :config
+    (setq paradox-automatically-star t))
 #+end_src
 
 ** Appearance settings
@@ -225,6 +234,8 @@ indenting and allow for shift select.
           org-src-tab-acts-natively t
           org-indent-mode t
           org-startup-indented t
+          org-log-done t
+          org-log-done-with-time t
           org-support-shift-select t))
 #+end_src
 
