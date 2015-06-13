@@ -7,16 +7,20 @@ This config has been cobbled together from quite a few places.
 use-package is used to organize imports in a better manner.
 package-ensure-installed is defined in init.el
 
-Note that we have to explicitly load them because use-package
-can't handle that yet and we disabled autoloading everything
-in init.el
+Note that we have to explicitly load them because use-package can't
+handle that yet and we disabled autoloading everything in init.el
 
 #+begin_src emacs-lisp
   (package-ensure-installed use-package)
+  (package-ensure-installed diminish)
 
-  (require 'use-package)
-  (require 'bind-key)
+  (eval-and-compile
+    (defvar use-package-verbose t)
+    (require 'use-package))
+
+  (require 'cl)
   (require 'diminish)
+  (require 'bind-key)
 
   (setq use-package-always-ensure t)
 #+end_src
@@ -200,17 +204,25 @@ highlight comments with TODO and similar things in them.
     (setq company-idle-delay 0)
     (add-hook 'after-init-hook 'global-company-mode))
 #+end_src
+
+*** Go
+
+#+begin_src emacs-lisp
+  
+#+end_src
+
 *** Lua
 
 #+begin_src emacs-lisp
   (use-package lua-mode
     :mode "\\.lua$")
 #+end_src
+
 *** Python
 
-Enable elpy and force jedi to be used as the rpc backend so
-we can have both rope and jedi installed. Elpy defaults to
-using the system 'python' binary so we force it to use python2.
+Enable elpy and force jedi to be used as the rpc backend so we can
+have both rope and jedi installed. Elpy defaults to using the system
+'python' binary so we force it to use python2.
 
 #+begin_src emacs-lisp
   (use-package elpy
@@ -270,4 +282,18 @@ indenting and allow for shift select.
     :config
     (global-git-gutter-mode 1)
     (git-gutter:linum-setup))
+#+end_src
+
+** Custom
+
+We still want to be able to have non-public configs, such as for
+passwords and what not, so we put them in a separate file and load it,
+but ignore errors, for instance if it doesn't exist.
+
+This also makes it so customizations will go to this file and not to
+the init.el, which we have version controlled.
+
+#+begin_src emacs-lisp
+  (setq custom-file (expand-file-name "custom.el" user-emacs-directory))
+  (load custom-file)
 #+end_src

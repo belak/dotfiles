@@ -14,7 +14,7 @@
         ("elpy"      . "http://jorgenschaefer.github.io/packages/")))
 
 ;; Make sure it's initialized
-(package-initialize t)
+(package-initialize)
 
 ;; Update package lists if we don't have any yet
 (when (not package-archive-contents)
@@ -23,8 +23,7 @@
 ;; Small macro to install a missing package
 (defmacro package-ensure-installed (package)
   (unless (package-installed-p package)
-    (package-install package)
-    (package-initialize t)))
+    (package-install package)))
 
 ;; Install org-mode
 (package-ensure-installed org)
