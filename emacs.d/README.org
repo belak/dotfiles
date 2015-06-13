@@ -11,8 +11,7 @@ Note that we have to explicitly load them because use-package can't
 handle that yet and we disabled autoloading everything in init.el
 
 #+begin_src emacs-lisp
-  (package-ensure-installed use-package)
-  (package-ensure-installed diminish)
+  (package-ensure-installed 'use-package)
 
   (eval-and-compile
     (defvar use-package-verbose t)

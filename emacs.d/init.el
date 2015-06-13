@@ -21,12 +21,12 @@
   (package-refresh-contents))
 
 ;; Small macro to install a missing package
-(defmacro package-ensure-installed (package)
+(defun package-ensure-installed (package)
   (unless (package-installed-p package)
     (package-install package)))
 
 ;; Install org-mode
-(package-ensure-installed org)
+(package-ensure-installed 'org)
 
 ;; Load org-mode
 (require 'org)
