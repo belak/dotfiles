@@ -28,6 +28,9 @@ interface and set up a few config options.
 
 #+begin_src emacs-lisp
   (use-package paradox
+    :commands
+    paradox-list-packages
+    paradox-enable
     :config
     (setq paradox-automatically-star t))
 #+end_src
@@ -86,8 +89,10 @@ environment vars (like HOME and GOPATH) are copied into the emacs env.
   ;; Grab some useful env vars from the shell
   (use-package exec-path-from-shell
     :config
-    (exec-path-from-shell-initialize)
-    (exec-path-from-shell-copy-env "GOPATH"))
+    (add-to-list 'exec-path-from-shell-variables "GOPATH")
+    (exec-path-from-shell-initialize))
+
+  (use-package password-store)
 #+end_src
 
 ** Platform specifics
@@ -108,7 +113,7 @@ because we want to be in full screen more often than not.
                mac-command-modifier 'super
                mac-option-modifier 'meta)
 
-         (set-frame-font "Menlo 12")
+         (set-frame-font "Source Code Pro 10")
          (toggle-frame-fullscreen)))
 #+end_src
 
@@ -187,6 +192,8 @@ highlight comments with TODO and similar things in them.
 #+begin_src emacs-lisp
   (add-hook 'prog-mode-hook 'linum-mode)
 
+  (setq indicate-empty-lines t)
+
   (use-package fic-mode
         :diminish fic-mode
         :config
@@ -206,7 +213,7 @@ highlight comments with TODO and similar things in them.
 *** Go
 
 #+begin_src emacs-lisp
-  
+
 #+end_src
 
 *** Lua
@@ -222,12 +229,17 @@ Enable elpy and force jedi to be used as the rpc backend so we can
 have both rope and jedi installed. Elpy defaults to using the system
 'python' binary so we force it to use python2.
 
+Elpy is pretty slow starting up, so we replace elpy-enable with what
+it actually does: run elpy-modules-global-init and add the actual mode
+hook. This lets us wait until a python file is loaded to load elpy.
+
 #+begin_src emacs-lisp
   (use-package elpy
-      :config
-      (elpy-enable)
-      (elpy-use-cpython "python2")
-      (setq elpy-rpc-backend "jedi"))
+    :mode ("\\.py$" . elpy-mode)
+    :config
+    (elpy-modules-global-init)
+    (elpy-use-cpython "python2")
+    (setq elpy-rpc-backend "jedi"))
 #+end_src
 
 ** Org Mode
@@ -247,6 +259,26 @@ indenting and allow for shift select.
           org-log-done t
           org-log-done-with-time t
           org-support-shift-select t))
+#+end_src
+
+** IRC
+
+#+begin_src emacs-lisp
+    (use-package erc
+      :disabled t
+      :requires
+      tls
+      erc-menu
+      erc-hl-nicks
+      znc
+      :config
+      (setq erc-prompt ">"
+            znc-servers `(
+                          ("znc.coded.io" "6697" t
+                           ((
+                             freenode
+                             belak/freenode
+                             ,(password-store-get "irc/freenode.net")))))))
 #+end_src
 
 ** Leftovers
