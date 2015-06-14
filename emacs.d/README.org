@@ -58,7 +58,9 @@ specific settings.
   (diminish-major-mode 'lisp-mode "λ")
 
   (setq column-number-mode t
-        line-number-mode t)
+        line-number-mode t
+        tooltip-use-echo-area t
+        tooltip-delay 0)
 
   ;; Better mode-line
   (use-package smart-mode-line
@@ -85,6 +87,9 @@ environment vars (like HOME and GOPATH) are copied into the emacs env.
         mouse-wheel-follow-mouse 't
         vc-follow-symlinks 't
         scroll-step 1)
+
+  (when (fboundp 'windmove-default-keybindings)
+    (windmove-default-keybindings))
 
   ;; Grab some useful env vars from the shell
   (use-package exec-path-from-shell
@@ -164,7 +169,9 @@ Helm is a slightly fancier replacement for ido
                ("C-z"   . helm-select-action))
     (helm-mode 1)
     (helm-autoresize-mode 1)
-    (setq helm-ff-file-name-history-use-recentf t))
+    (setq helm-ff-file-name-history-use-recentf t
+          helm-buffers-fuzzy-matching t
+          helm-M-x-fuzzy-match t))
 #+end_src
 
 Project based navigation.
@@ -208,6 +215,22 @@ highlight comments with TODO and similar things in them.
     ;(use-package company-go)
     (setq company-idle-delay 0)
     (add-hook 'after-init-hook 'global-company-mode))
+#+end_src
+
+*** Evil Mode
+
+#+begin_src emacs-lisp
+  (defun zenburn-color (name)
+    (cdr (assoc name zenburn-colors-alist)))
+
+  (use-package evil
+    :config
+    (zenburn-with-color-variables
+      (setq evil-normal-state-cursor `(,(zenburn-color "zenburn-green") box))
+      (setq evil-visual-state-cursor `(,(zenburn-color "zenburn-orange") box))
+      (setq evil-insert-state-cursor `(,(zenburn-color "zenburn-green") bar))
+      (setq evil-replace-state-cursor `(,(zenburn-color "zenburn-red") bar))
+      (setq evil-operator-state-cursor `(,(zenburn-color "zenburn-red") hollow))))
 #+end_src
 
 *** Go
@@ -258,7 +281,13 @@ indenting and allow for shift select.
           org-startup-indented t
           org-log-done t
           org-log-done-with-time t
-          org-support-shift-select t))
+          org-support-shift-select t)
+
+    ;; Make windmove work in org-mode:
+    (add-hook 'org-shiftup-final-hook 'windmove-up)
+    (add-hook 'org-shiftleft-final-hook 'windmove-left)
+    (add-hook 'org-shiftdown-final-hook 'windmove-down)
+    (add-hook 'org-shiftright-final-hook 'windmove-right))
 #+end_src
 
 ** IRC
