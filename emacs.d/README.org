@@ -2,16 +2,33 @@
 
 This config has been cobbled together from quite a few places.
 
-** Package setup
+Most notably, [[https://smf.io/dotfiles][Sean Farley's dotfiles]], [[https://github.com/syl20bnr/spacemacs][Spacemacs]], and various other
+sources.
 
-use-package is used to organize imports in a better manner.
-package-ensure-installed is defined in init.el
+** Tasks
 
-Note that we have to explicitly load them because use-package can't
-handle that yet and we disabled autoloading everything in init.el
+This section is all about stuff I'd like to get into my emacs init but
+haven't found the time yet.
+
+*** TODO Decide which git-gutter is better
+*** TODO Learn yasnippets
+*** TODO Setup for golang
+*** TODO Finish reogranizing
+*** TODO Cleanup [[Leftovers]] section
+** Setup
+
+The first thing which needs to be loaded is [[https://github.com/jwiegley/use-package][use-package]] so we can
+organize everything a little bit better. =use-package= also includes
+some useful tools for lazy-loading things when we need them to speed
+up the startup time.
+
+Note that we have to explicitly load them because =use-package= can't
+handle that yet and we disabled autoloading everything in
+=init.el=. =package-ensure-installed= is a convenience method which is
+defined in =init.el=.
 
 #+begin_src emacs-lisp
-  (package-ensure-installed 'use-package)
+ (package-ensure-installed 'use-package)
 
   (eval-and-compile
     (defvar use-package-verbose t)
@@ -23,8 +40,11 @@ handle that yet and we disabled autoloading everything in init.el
   (setq use-package-always-ensure t)
 #+end_src
 
-While we're in the area, we also install paradox, a better package
-interface and set up a few config options.
+** Utilities
+
+Paradox is a replacement for =package-list-packages= offering a few
+extra features. Note that we only load it on those commands because
+it's something that only really matters when we manually start it up.
 
 #+begin_src emacs-lisp
   (use-package paradox
@@ -35,7 +55,18 @@ interface and set up a few config options.
     (setq paradox-automatically-star t))
 #+end_src
 
-** Appearance settings
+Magit is an amazing git wrapper which lets us do a whole ton of
+different things.
+
+#+begin_src emacs-lisp
+  (use-package magit
+    :init
+    (setq magit-last-seen-setup-instructions "1.4.0")
+    :config
+    (magit-auto-revert-mode -1))
+#+end_src
+
+** Appearance
 
 Settings such as a default font, color scheme and modeline changes.
 Note that the font should be overridden later, such as in platform
@@ -47,7 +78,17 @@ specific settings.
     :config
     (load-theme 'zenburn t))
 
-  ;; https://github.com/sandhu/emacs.d/blob/master/lisp/teppoudo-diminish.el
+  (setq-default indicate-buffer-boundaries 'left)
+  (setq column-number-mode t
+        line-number-mode t
+        tooltip-use-echo-area t
+        tooltip-delay 0)
+#+end_src
+
+=diminish-major-mode= is based off of a snippet from [[https://github.com/sandhu/emacs.d/blob/master/lisp/teppoudo-diminish.el][Achint Sandhu's
+dotfiles]]. 
+
+#+begin_src emacs-lisp
   (defmacro diminish-major-mode (mode new-name)
     `(add-hook (intern (concat (symbol-name ,mode) "-hook"))
                '(lambda () (setq mode-name ,new-name))))
@@ -56,18 +97,34 @@ specific settings.
   (diminish-major-mode 'lisp-interaction-mode "λ»")
   (diminish-major-mode 'emacs-lisp-mode "Eλ")
   (diminish-major-mode 'lisp-mode "λ")
+#+end_src
 
-  (setq column-number-mode t
-        line-number-mode t
-        tooltip-use-echo-area t
-        tooltip-delay 0)
+=smart-mode-line= is a much cleaner modeline with a few extra features.
 
-  ;; Better mode-line
+#+begin_src emacs-lisp
   (use-package smart-mode-line
     :config
     (setq sml/no-confirm-load-theme t)
     (sml/apply-theme 'respectful)
     (sml/setup))
+#+end_src
+
+#+begin_src emacs-lisp
+  (use-package git-gutter
+    :disabled t
+    :diminish git-gutter-mode
+    :config
+    (global-git-gutter-mode 1)
+    (git-gutter:linum-setup))
+#+end_src
+
+Make sure the git gutter is loaded
+
+#+begin_src emacs-lisp
+  (use-package git-gutter-fringe
+    :disabled t
+    :config
+    (global-git-gutter-mode +1))
 #+end_src
 
 ** Basic setup
@@ -252,15 +309,10 @@ Enable elpy and force jedi to be used as the rpc backend so we can
 have both rope and jedi installed. Elpy defaults to using the system
 'python' binary so we force it to use python2.
 
-Elpy is pretty slow starting up, so we replace elpy-enable with what
-it actually does: run elpy-modules-global-init and add the actual mode
-hook. This lets us wait until a python file is loaded to load elpy.
-
 #+begin_src emacs-lisp
   (use-package elpy
-    :mode ("\\.py$" . elpy-mode)
     :config
-    (elpy-modules-global-init)
+    (elpy-enable)
     (elpy-use-cpython "python2")
     (setq elpy-rpc-backend "jedi"))
 #+end_src
@@ -313,13 +365,6 @@ indenting and allow for shift select.
 ** Leftovers
 
 #+begin_src emacs-lisp
-  ;; Random utils
-  (use-package magit
-    :init
-    (setq magit-last-seen-setup-instructions "1.4.0")
-    :config
-    (magit-auto-revert-mode -1))
-
   ;; Rainbow-mode
   (use-package rainbow-mode
     :commands rainbow-mode)
@@ -336,11 +381,6 @@ indenting and allow for shift select.
   ;; Snippets
   ;(require-package 'yasnippet)
 
-  (use-package git-gutter
-    :diminish git-gutter-mode
-    :config
-    (global-git-gutter-mode 1)
-    (git-gutter:linum-setup))
 #+end_src
 
 ** Custom
