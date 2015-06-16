@@ -10,9 +10,13 @@ sources.
 This section is all about stuff I'd like to get into my emacs init but
 haven't found the time yet.
 
-*** TODO Decide which git-gutter is better
+*** DONE Decide which git-gutter is better
+CLOSED: [2015-06-16 Tue 10:55]
+*** TODO Make git-gutter-fringe not run in terminal mode
+We can also fall back to the regular git-gutter in this instance
 *** TODO Learn yasnippets
-*** TODO Setup for golang
+*** DONE Setup for golang
+CLOSED: [2015-06-16 Tue 10:56]
 *** TODO Finish reogranizing
 *** TODO Cleanup [[Leftovers]] section
 ** Setup
@@ -95,7 +99,7 @@ specific settings.
 #+end_src
 
 =diminish-major-mode= is based off of a snippet from [[https://github.com/sandhu/emacs.d/blob/master/lisp/teppoudo-diminish.el][Achint Sandhu's
-dotfiles]]. 
+dotfiles]].
 
 #+begin_src emacs-lisp
   (defmacro diminish-major-mode (mode new-name)
@@ -322,7 +326,7 @@ for python.
     (load "$GOPATH/src/golang.org/x/tools/cmd/oracle/oracle.el")
     (add-hook 'go-mode-hook 'go-oracle-mode)
     (add-hook 'before-save-hook 'gofmt-before-save)
-    
+
     (use-package company-go
       :requires company
       :config
@@ -352,6 +356,13 @@ have both rope and jedi installed. Elpy defaults to using the system
     (setq elpy-rpc-backend "jedi"))
 #+end_src
 
+*** Web Templates
+
+#+begin_src emacs-lisp
+  (use-package web-mode
+    :mode "\\.jinja$")
+#+end_src
+
 ** Org Mode
 
 Make sure org mode is set up in a manner that doesn't suck. Meaning,
@@ -360,12 +371,11 @@ indenting and allow for shift select.
 
 #+begin_src emacs-lisp
   (use-package org
-    :diminish org-indent-mode
+    ;;:diminish org-indent-mode
     :mode ("\\.org$" . org-mode)
     :config
     (setq org-src-fontify-natively t
           org-src-tab-acts-natively t
-          org-indent-mode t
           org-startup-indented t
           org-log-done t
           org-log-done-with-time t
