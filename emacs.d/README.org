@@ -66,6 +66,15 @@ different things.
     (magit-auto-revert-mode -1))
 #+end_src
 
+Make sure undo-tree is enabled.
+
+#+begin_src emacs-lisp
+  (use-package undo-tree
+    :diminish undo-tree-mode
+    :config
+    (global-undo-tree-mode 1))
+#+end_src
+
 ** Appearance
 
 Settings such as a default font, color scheme and modeline changes.
@@ -109,6 +118,8 @@ dotfiles]].
     (sml/setup))
 #+end_src
 
+Make sure the git gutter is loaded
+
 #+begin_src emacs-lisp
   (use-package git-gutter
     :disabled t
@@ -118,11 +129,9 @@ dotfiles]].
     (git-gutter:linum-setup))
 #+end_src
 
-Make sure the git gutter is loaded
-
 #+begin_src emacs-lisp
   (use-package git-gutter-fringe
-    :disabled t
+    :diminish git-gutter-mode
     :config
     (global-git-gutter-mode +1))
 #+end_src
@@ -200,7 +209,7 @@ Make sure to use ido everywhere
       (flx-ido-mode 1)))
 #+end_src
 
-Make sure we store recent files
+Make sure we store recent files. This lets helm do fancy things.
 
 #+begin_src emacs-lisp
   (require 'recentf)
@@ -231,7 +240,7 @@ Helm is a slightly fancier replacement for ido
           helm-M-x-fuzzy-match t))
 #+end_src
 
-Project based navigation.
+Project based navigation. I would be completely lost without this
 
 #+begin_src emacs-lisp
   (use-package projectile
@@ -274,6 +283,20 @@ highlight comments with TODO and similar things in them.
     (add-hook 'after-init-hook 'global-company-mode))
 #+end_src
 
+*** Syntax
+
+Turn on syntax checking using flycheck. Because it has so many built
+in, in most instances we won't even need to install a plugin.
+
+Note that elpy doesn't have support for flycheck, so we use flymake
+for python.
+
+#+begin_src emacs-lisp
+  (use-package flycheck
+    :config
+    (global-flycheck-mode))
+#+end_src
+
 *** Evil Mode
 
 #+begin_src emacs-lisp
@@ -293,7 +316,19 @@ highlight comments with TODO and similar things in them.
 *** Go
 
 #+begin_src emacs-lisp
-
+  (use-package go-mode
+    :mode "\\.go$"
+    :config
+    (load "$GOPATH/src/golang.org/x/tools/cmd/oracle/oracle.el")
+    (add-hook 'go-mode-hook 'go-oracle-mode)
+    (add-hook 'before-save-hook 'gofmt-before-save)
+    
+    (use-package company-go
+      :requires company
+      :config
+      (add-hook 'go-mode-hook (lambda ()
+                                (set (make-local-variable 'company-backends) '(company-go))
+                                (company-mode)))))
 #+end_src
 
 *** Lua
@@ -325,6 +360,7 @@ indenting and allow for shift select.
 
 #+begin_src emacs-lisp
   (use-package org
+    :diminish org-indent-mode
     :mode ("\\.org$" . org-mode)
     :config
     (setq org-src-fontify-natively t
