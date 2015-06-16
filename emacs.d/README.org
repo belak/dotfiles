@@ -87,7 +87,7 @@ specific settings.
     :config
     (load-theme 'zenburn t))
 
-  (setq-default indicate-buffer-boundaries 'left)
+  ;;(setq-default indicate-buffer-boundaries 'left)
   (setq column-number-mode t
         line-number-mode t
         tooltip-use-echo-area t
