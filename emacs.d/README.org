@@ -268,9 +268,9 @@ highlight comments with TODO and similar things in them.
   (setq indicate-empty-lines t)
 
   (use-package fic-mode
-        :diminish fic-mode
-        :config
-        (progn (add-hook 'prog-mode-hook 'turn-on-fic-mode)))
+    :diminish fic-mode
+    :config
+    (progn (add-hook 'prog-mode-hook 'turn-on-fic-mode)))
 #+end_src
 
 *** Completion
@@ -430,5 +430,5 @@ the init.el, which we have version controlled.
 
 #+begin_src emacs-lisp
   (setq custom-file (expand-file-name "custom.el" user-emacs-directory))
-  (load custom-file)
+  (load custom-file t)
 #+end_src
