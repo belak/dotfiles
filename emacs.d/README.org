@@ -32,9 +32,9 @@ handle that yet and we disabled autoloading everything in
 defined in =init.el=.
 
 #+begin_src emacs-lisp
- (package-ensure-installed 'use-package)
+  (package-ensure-installed 'use-package)
 
-  (eval-and-compile
+  (eval-when-compile
     (defvar use-package-verbose t)
     (require 'use-package))
 
@@ -77,6 +77,12 @@ Make sure undo-tree is enabled.
     :diminish undo-tree-mode
     :config
     (global-undo-tree-mode 1))
+#+end_src
+
+Load up zx2c4's [[http://www.passwordstore.org/][pass]] utility so we can grab data out of it later.
+
+#+begin_src emacs-lisp
+  (use-package password-store)
 #+end_src
 
 ** Appearance
@@ -145,18 +151,48 @@ Make sure the git gutter is loaded
 Set up some smarter defaults, and make sure that some useful
 environment vars (like HOME and GOPATH) are copied into the emacs env.
 
-#+begin_src emacs-lisp
-  (use-package better-defaults)
+This section was originally based off of [[https://github.com/technomancy/better-defaults/blob/d62a5813fa60d4c9425a795d85f956f0b8a663f8/better-defaults.el][better defaults]] but it has
+since grown to be a bit more than that.
 
-  (setq initial-buffer-choice 't
-        inhibit-startup-screen 't
-        show-trailing-whitespace 't
+#+begin_src emacs-lisp
+  (menu-bar-mode -1)
+  (when (fboundp 'tool-bar-mode)
+    (tool-bar-mode -1))
+  (when (fboundp 'scroll-bar-mode)
+    (scroll-bar-mode -1))
+
+  (autoload 'zap-up-to-char "misc"
+    "Kill up to, but not including ARGth occurrence of CHAR." t)
+
+  (require 'uniquify)
+  (setq uniquify-buffer-name-style 'forward)
+
+  (require 'saveplace)
+  (setq-default save-place t)
+
+  (show-paren-mode 1)
+  (setq-default indent-tabs-mode nil)
+  (setq x-select-enable-clipboard t
+        x-select-enable-primary t
+        save-interprogram-paste-before-kill t
+        apropos-do-all t
+        mouse-yank-at-point t
+        require-final-newline t
+        initial-buffer-choice t
+        inhibit-startup-screen t
+        show-trailing-whitespace t
         ring-bell-function 'ignore
         mouse-wheel-scroll-amount '(1 ((shift) . 1))
         ;mouse-wheel-progressive-speed nil
-        mouse-wheel-follow-mouse 't
-        vc-follow-symlinks 't
-        scroll-step 1)
+        mouse-wheel-follow-mouse t
+        vc-follow-symlinks t
+        scroll-step 1
+        load-prefer-newer t
+        ediff-window-setup-function 'ediff-setup-windows-plain
+        save-place-file (concat user-emacs-directory "places")
+        backup-directory-alist `(("." . ,(concat user-emacs-directory
+                                                 "backups"))))
+
 
   (when (fboundp 'windmove-default-keybindings)
     (windmove-default-keybindings))
@@ -166,8 +202,6 @@ environment vars (like HOME and GOPATH) are copied into the emacs env.
     :config
     (add-to-list 'exec-path-from-shell-variables "GOPATH")
     (exec-path-from-shell-initialize))
-
-  (use-package password-store)
 #+end_src
 
 ** Platform specifics
@@ -202,6 +236,7 @@ Make sure to use ido everywhere
     :config
     (ido-mode 1)
     (ido-everywhere 1)
+    (setq ido-enable-flex-matching t)
     (use-package ido-ubiquitous
       :config
       (ido-ubiquitous-mode 1))
@@ -285,6 +320,14 @@ highlight comments with TODO and similar things in them.
     ;(use-package company-go)
     (setq company-idle-delay 0)
     (add-hook 'after-init-hook 'global-company-mode))
+#+end_src
+
+*** Snippets
+
+#+begin_src emacs-lisp
+  (use-package yasnippet
+    :config
+    (yas-global-mode 1))
 #+end_src
 
 *** Syntax
@@ -418,15 +461,8 @@ indenting and allow for shift select.
   ;; Better less support
   ;(require-package 'less-css-mode)
 
-  ;; Golang
-  ;(require-package 'go-mode)
-
   ;; Syntax checking
   ;(require-package 'flycheck)
-
-  ;; Snippets
-  ;(require-package 'yasnippet)
-
 #+end_src
 
 ** Custom
