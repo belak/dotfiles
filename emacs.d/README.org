@@ -128,22 +128,22 @@ dotfiles]].
     (sml/setup))
 #+end_src
 
-Make sure the git gutter is loaded
+Make sure the git gutter is loaded. Note that git-gutter-fringe
+doesn't work in the terminal, so we define a fallback for that case.
 
 #+begin_src emacs-lisp
+  (use-package git-gutter-fringe
+    :if window-system
+    :diminish git-gutter-mode
+    :config
+    (global-git-gutter-mode +1))
+
   (use-package git-gutter
-    :disabled t
+    :if (not window-system)
     :diminish git-gutter-mode
     :config
     (global-git-gutter-mode 1)
     (git-gutter:linum-setup))
-#+end_src
-
-#+begin_src emacs-lisp
-  (use-package git-gutter-fringe
-    :diminish git-gutter-mode
-    :config
-    (global-git-gutter-mode +1))
 #+end_src
 
 ** Basic setup
