@@ -21,8 +21,11 @@ We can also fall back to the regular git-gutter in this instance
 CLOSED: [2015-06-16 Tue 10:56]
 *** DONE Cleanup [[Leftovers]] section
     CLOSED: [2015-06-20 Sat 12:18]
-*** TODO Finish reogranizing
+*** DONE Finish reogranizing
+    CLOSED: [2015-06-20 Sat 12:42]
+*** TODO Finish documenting
 *** TODO Make org-mode work well with yasnippets
+*** TODO Make org-mode work well with windmove
 *** TODO Fix org-indent-mode
 ** Setup
 
@@ -89,6 +92,8 @@ Load up zx2c4's [[http://www.passwordstore.org/][pass]] utility so we can grab d
 #+begin_src emacs-lisp
   (use-package password-store)
 #+end_src
+
+=guide-key= provides a nice interface for showing prefix commands.
 
 #+begin_src emacs-lisp
   (use-package guide-key
@@ -176,10 +181,13 @@ since grown to be a bit more than that.
   (tool-bar-mode -1)
   (scroll-bar-mode -1)
 
+  ;; Winner mode lets us undo silly window mistakes
   (winner-mode 1)
 
+  ;; Load zap-up-to-char and replace the zap-to-char bind
   (autoload 'zap-up-to-char "misc"
     "Kill up to, but not including ARGth occurrence of CHAR." t)
+  (global-set-key [remap zap-to-char] 'zap-up-to-char))
 
   (require 'uniquify)
   (setq uniquify-buffer-name-style 'forward)
@@ -226,8 +234,7 @@ since grown to be a bit more than that.
         vc-follow-symlinks t
         load-prefer-newer t)
 
-  (when (fboundp 'windmove-default-keybindings)
-    (windmove-default-keybindings))
+  (windmove-default-keybindings)
 
   ;; Grab some useful env vars from the shell
   (use-package exec-path-from-shell
