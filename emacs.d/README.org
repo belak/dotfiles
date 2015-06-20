@@ -12,9 +12,11 @@ haven't found the time yet.
 
 *** DONE Decide which git-gutter is better
 CLOSED: [2015-06-16 Tue 10:55]
-*** TODO Make git-gutter-fringe not run in terminal mode
+*** DONE Make git-gutter-fringe not run in terminal mode
+    CLOSED: [2015-06-20 Sat 11:37]
 We can also fall back to the regular git-gutter in this instance
-*** TODO Learn yasnippets
+*** DONE Learn yasnippets
+    CLOSED: [2015-06-20 Sat 11:37]
 *** DONE Setup for golang
 CLOSED: [2015-06-16 Tue 10:56]
 *** TODO Finish reogranizing
@@ -85,6 +87,16 @@ Load up zx2c4's [[http://www.passwordstore.org/][pass]] utility so we can grab d
   (use-package password-store)
 #+end_src
 
+#+begin_src emacs-lisp
+  (use-package guide-key
+    :diminish guide-key-mode
+    :config
+    (guide-key-mode 1)
+    (setq guide-key/guide-key-sequence '("C-c")
+          guide-key/idle-delay 0.0
+          guide-key/recursive-key-sequence-flag t))
+#+end_src
+
 ** Appearance
 
 Settings such as a default font, color scheme and modeline changes.
@@ -102,6 +114,8 @@ specific settings.
         line-number-mode t
         tooltip-use-echo-area t
         tooltip-delay 0)
+
+  (blink-cursor-mode 0)
 #+end_src
 
 =diminish-major-mode= is based off of a snippet from [[https://github.com/sandhu/emacs.d/blob/master/lisp/teppoudo-diminish.el][Achint Sandhu's
@@ -156,10 +170,10 @@ since grown to be a bit more than that.
 
 #+begin_src emacs-lisp
   (menu-bar-mode -1)
-  (when (fboundp 'tool-bar-mode)
-    (tool-bar-mode -1))
-  (when (fboundp 'scroll-bar-mode)
-    (scroll-bar-mode -1))
+  (tool-bar-mode -1)
+  (scroll-bar-mode -1)
+
+  (winner-mode 1)
 
   (autoload 'zap-up-to-char "misc"
     "Kill up to, but not including ARGth occurrence of CHAR." t)
@@ -310,6 +324,10 @@ highlight comments with TODO and similar things in them.
     :diminish fic-mode
     :config
     (progn (add-hook 'prog-mode-hook 'turn-on-fic-mode)))
+
+  ;; Rainbow-mode
+  (use-package rainbow-mode
+    :commands rainbow-mode)
 #+end_src
 
 *** Completion
@@ -399,11 +417,14 @@ have both rope and jedi installed. Elpy defaults to using the system
     (setq elpy-rpc-backend "jedi"))
 #+end_src
 
-*** Web Templates
+*** Web Dev
 
 #+begin_src emacs-lisp
   (use-package web-mode
     :mode "\\.jinja$")
+
+  (use-package less-css-mode
+    :mode "\\.less$")
 #+end_src
 
 ** Org Mode
@@ -414,17 +435,14 @@ indenting and allow for shift select.
 
 #+begin_src emacs-lisp
   (use-package org
-    ;;:diminish org-indent-mode
     :mode ("\\.org$" . org-mode)
-    :config
+    :init
     (setq org-src-fontify-natively t
           org-src-tab-acts-natively t
-          org-startup-indented t
           org-log-done t
           org-log-done-with-time t
           org-support-shift-select t)
-
-    ;; Make windmove work in org-mode:
+    :config
     (add-hook 'org-shiftup-final-hook 'windmove-up)
     (add-hook 'org-shiftleft-final-hook 'windmove-left)
     (add-hook 'org-shiftdown-final-hook 'windmove-down)
@@ -449,20 +467,6 @@ indenting and allow for shift select.
                              freenode
                              belak/freenode
                              ,(password-store-get "irc/freenode.net")))))))
-#+end_src
-
-** Leftovers
-
-#+begin_src emacs-lisp
-  ;; Rainbow-mode
-  (use-package rainbow-mode
-    :commands rainbow-mode)
-
-  ;; Better less support
-  ;(require-package 'less-css-mode)
-
-  ;; Syntax checking
-  ;(require-package 'flycheck)
 #+end_src
 
 ** Custom
