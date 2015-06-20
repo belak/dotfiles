@@ -165,7 +165,7 @@ since grown to be a bit more than that.
   ;; Load zap-up-to-char and replace the zap-to-char bind
   (autoload 'zap-up-to-char "misc"
     "Kill up to, but not including ARGth occurrence of CHAR." t)
-  (global-set-key [remap zap-to-char] 'zap-up-to-char))
+  (global-set-key [remap zap-to-char] 'zap-up-to-char)
 
   (require 'uniquify)
   (setq uniquify-buffer-name-style 'forward)
