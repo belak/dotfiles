@@ -300,15 +300,24 @@ Helm is a slightly fancier replacement for ido
     ("C-c o"   . helm-occur)
     ("M-/"     . helm-dabbrev)
     :config
-    ; Reverse tab and C-z
+    ;; Reverse tab and C-z
     (bind-keys :map helm-map
                ("<tab>" . helm-execute-persistent-action)
                ("C-z"   . helm-select-action))
     (helm-mode 1)
     (helm-autoresize-mode 1)
-    (setq helm-ff-file-name-history-use-recentf t
+
+    ;; Turn on fuzzy matching for everything we can
+    (setq helm-recentf-fuzzy-match t
           helm-buffers-fuzzy-matching t
-          helm-M-x-fuzzy-match t))
+          helm-locate-fuzzy-match t
+          helm-M-x-fuzzy-match t
+          helm-semantic-fuzzy-match t
+          helm-imenu-fuzzy-match t
+          helm-apropos-fuzzy-match t
+          helm-lisp-fuzzy-completion t)
+
+    (setq helm-ff-file-name-history-use-recentf t))
 #+end_src
 
 Project based navigation. I would be completely lost without this
