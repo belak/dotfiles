@@ -5,28 +5,6 @@ This config has been cobbled together from quite a few places.
 Most notably, [[https://smf.io/dotfiles][Sean Farley's dotfiles]], [[https://github.com/syl20bnr/spacemacs][Spacemacs]], and various other
 sources.
 
-** Tasks
-
-This section is all about stuff I'd like to get into my emacs init but
-haven't found the time yet.
-
-*** DONE Decide which git-gutter is better
-CLOSED: [2015-06-16 Tue 10:55]
-*** DONE Make git-gutter-fringe not run in terminal mode
-    CLOSED: [2015-06-20 Sat 11:37]
-We can also fall back to the regular git-gutter in this instance
-*** DONE Learn yasnippets
-    CLOSED: [2015-06-20 Sat 11:37]
-*** DONE Setup for golang
-CLOSED: [2015-06-16 Tue 10:56]
-*** DONE Cleanup [[Leftovers]] section
-    CLOSED: [2015-06-20 Sat 12:18]
-*** DONE Finish reogranizing
-    CLOSED: [2015-06-20 Sat 12:42]
-*** TODO Finish documenting
-*** TODO Make org-mode work well with yasnippets
-*** TODO Make org-mode work well with windmove
-*** TODO Fix org-indent-mode
 ** Setup
 
 The first thing which needs to be loaded is [[https://github.com/jwiegley/use-package][use-package]] so we can
@@ -516,3 +494,25 @@ the init.el, which we have version controlled.
   (setq custom-file (expand-file-name "custom.el" user-emacs-directory))
   (load custom-file t)
 #+end_src
+** Tasks
+
+This section is all about stuff I'd like to get into my emacs init but
+haven't found the time yet.
+
+*** DONE Decide which git-gutter is better
+CLOSED: [2015-06-16 Tue 10:55]
+*** DONE Make git-gutter-fringe not run in terminal mode
+    CLOSED: [2015-06-20 Sat 11:37]
+We can also fall back to the regular git-gutter in this instance
+*** DONE Learn yasnippets
+    CLOSED: [2015-06-20 Sat 11:37]
+*** DONE Setup for golang
+CLOSED: [2015-06-16 Tue 10:56]
+*** DONE Cleanup [[Leftovers]] section
+    CLOSED: [2015-06-20 Sat 12:18]
+*** DONE Finish reogranizing
+    CLOSED: [2015-06-20 Sat 12:42]
+*** TODO Finish documenting
+*** TODO Make org-mode work well with yasnippets
+*** TODO Make org-mode work well with windmove
+*** TODO Fix org-indent-mode
