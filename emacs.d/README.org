@@ -71,7 +71,8 @@ Load up zx2c4's [[http://www.passwordstore.org/][pass]] utility so we can grab d
   (use-package password-store)
 #+end_src
 
-=guide-key= provides a nice interface for showing prefix commands.
+=guide-key= provides a nice interface for showing prefix commands. We
+make it show up for all C-c commands.
 
 #+begin_src emacs-lisp
   (use-package guide-key
@@ -204,7 +205,6 @@ since grown to be a bit more than that.
         backup-directory-alist `(("." . ,(concat user-emacs-directory
                                                  "backups"))))
 
-  ;; TODO: Make sure these work
   (setq show-trailing-whitespace t)
 
   ;; File related settings
@@ -245,7 +245,8 @@ because we want to be in full screen more often than not.
 
 ** File Navigation
 
-Make sure to use ido everywhere
+Make sure to use ido everywhere. Because we're currently using helm,
+this is disabled.
 
 #+begin_src emacs-lisp
   (use-package smex
@@ -272,7 +273,12 @@ Make sure we store recent files. This lets helm do fancy things.
   (recentf-mode 1)
 #+end_src
 
-Helm is a slightly fancier replacement for ido
+Helm is a much fancier replacement for ido. There are a few settings
+we override (such as reversing C-z and tab, but for the most part the
+defaults are fine.
+
+=helm-mini= is used in place of any buffer related helm functions as
+we can make it use recentf.
 
 #+begin_src emacs-lisp
   (use-package helm
@@ -305,7 +311,7 @@ Helm is a slightly fancier replacement for ido
     (setq helm-ff-file-name-history-use-recentf t))
 #+end_src
 
-Project based navigation. I would be completely lost without this
+Project based navigation. I would be completely lost without this.
 
 #+begin_src emacs-lisp
   (use-package projectile
@@ -327,6 +333,9 @@ completion, general config and separate sections for each language.
 Turn on line numbers everywhere aside from a few major modes and
 highlight comments with TODO and similar things in them.
 
+=fic-mode= makes sure I actually notice comments with TODO, FIXME and
+XXX.
+
 #+begin_src emacs-lisp
   (add-hook 'prog-mode-hook 'linum-mode)
 
@@ -336,13 +345,14 @@ highlight comments with TODO and similar things in them.
     :diminish fic-mode
     :config
     (progn (add-hook 'prog-mode-hook 'turn-on-fic-mode)))
-
-  ;; Rainbow-mode
-  (use-package rainbow-mode
-    :commands rainbow-mode)
 #+end_src
 
 *** Completion
+
+There are two main completion packages. =auto-complete= is older and a
+bit rougher around the edges. =company= is newer and not everything
+works with it yet, but at least for me it has a tendency to be more
+stable.
 
 #+begin_src emacs-lisp
   (use-package company
@@ -353,6 +363,8 @@ highlight comments with TODO and similar things in them.
 #+end_src
 
 *** Snippets
+
+Not much to say here. We turn snippets on everywhere.
 
 #+begin_src emacs-lisp
   (use-package yasnippet
@@ -376,6 +388,10 @@ for python.
 
 *** Evil Mode
 
+Every once in a while, I miss vim, so this is here. =zenburn-color= is
+a convenience function which we currently only use here in setting the
+cursor color.
+
 #+begin_src emacs-lisp
   (defun zenburn-color (name)
     (cdr (assoc name zenburn-colors-alist)))
@@ -391,6 +407,10 @@ for python.
 #+end_src
 
 *** Go
+
+This enables most of the fairly standard things available in other go
+setups. Simple completion and gofmt are the most important of those
+features, at least to me.
 
 #+begin_src emacs-lisp
   (use-package go-mode
@@ -409,6 +429,9 @@ for python.
 #+end_src
 
 *** Lua
+
+Another section where we don't need to say much. We make sure lua-mode
+is installed and we turn it on for lua files.
 
 #+begin_src emacs-lisp
   (use-package lua-mode
@@ -431,7 +454,15 @@ have both rope and jedi installed. Elpy defaults to using the system
 
 *** Web Dev
 
+These are any packages useful for web dev.
+
+Most of this section is just supporting additional formats, however
+=rainbow-mode= is here so we can preview the actual colors in css.
+
 #+begin_src emacs-lisp
+  (use-package rainbow-mode
+    :commands rainbow-mode)
+
   (use-package web-mode
     :mode "\\.jinja$")
 
@@ -445,12 +476,21 @@ Make sure org mode is set up in a manner that doesn't suck. Meaning,
 make code blocks act more like their native counterparts, enable fancy
 indenting and allow for shift select.
 
+If the extra require looks hacky, that's because it is. The =:demand=
+makes sure the config runs because the package is already loaded to
+run this config file. The =:diminish= keyword fails because
+org-indent-mode does not exist by the time diminish is called.
+
 #+begin_src emacs-lisp
   (use-package org
+    :demand
     :mode ("\\.org$" . org-mode)
+    :diminish org-indent-mode
     :init
+    (require 'org-indent)
     (setq org-src-fontify-natively t
           org-src-tab-acts-natively t
+          org-startup-indented t
           org-log-done t
           org-log-done-with-time t
           org-support-shift-select t)
@@ -462,6 +502,11 @@ indenting and allow for shift select.
 #+end_src
 
 ** IRC
+
+This sets up the connection to my IRC bouncer. There are a few
+additional packages that would be useful here, such as znc, but I
+still prefer to keep my IRC in weechat, so this remains disabled for
+now.
 
 #+begin_src emacs-lisp
     (use-package erc
@@ -494,6 +539,7 @@ the init.el, which we have version controlled.
   (setq custom-file (expand-file-name "custom.el" user-emacs-directory))
   (load custom-file t)
 #+end_src
+
 ** Tasks
 
 This section is all about stuff I'd like to get into my emacs init but
@@ -512,7 +558,17 @@ CLOSED: [2015-06-16 Tue 10:56]
     CLOSED: [2015-06-20 Sat 12:18]
 *** DONE Finish reogranizing
     CLOSED: [2015-06-20 Sat 12:42]
-*** TODO Finish documenting
-*** TODO Make org-mode work well with yasnippets
-*** TODO Make org-mode work well with windmove
-*** TODO Fix org-indent-mode
+*** DONE Fix org-indent-mode
+CLOSED: [2015-06-22 Mon 01:29]
+*** DONE Finish documenting
+CLOSED: [2015-06-22 Mon 02:22]
+*** DONE Make org-mode work well with yasnippets
+CLOSED: [2015-06-22 Mon 01:31]
+There was nothing to be done for this - tab already works. However,
+tab inside code blocks does not currently work. I'm letting this go
+for now.
+*** DONE Make org-mode work well with windmove
+CLOSED: [2015-06-22 Mon 01:35]
+Looks like this was done a while back. Guess it's done now.
+*** TODO Figure out why show-trailing-whitespace doesn't work
+*** TODO Split up larger blocks, such as [[Basic setup]]
