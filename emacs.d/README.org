@@ -5,20 +5,6 @@ This config has been cobbled together from quite a few places.
 Most notably, [[https://smf.io/dotfiles][Sean Farley's dotfiles]], [[https://github.com/syl20bnr/spacemacs][Spacemacs]], and various other
 sources.
 
-** Tasks
-
-This section is all about stuff I'd like to get into my emacs init but
-haven't found the time yet.
-
-*** DONE Decide which git-gutter is better
-CLOSED: [2015-06-16 Tue 10:55]
-*** TODO Make git-gutter-fringe not run in terminal mode
-We can also fall back to the regular git-gutter in this instance
-*** TODO Learn yasnippets
-*** DONE Setup for golang
-CLOSED: [2015-06-16 Tue 10:56]
-*** TODO Finish reogranizing
-*** TODO Cleanup [[Leftovers]] section
 ** Setup
 
 The first thing which needs to be loaded is [[https://github.com/jwiegley/use-package][use-package]] so we can
@@ -85,6 +71,19 @@ Load up zx2c4's [[http://www.passwordstore.org/][pass]] utility so we can grab d
   (use-package password-store)
 #+end_src
 
+=guide-key= provides a nice interface for showing prefix commands. We
+make it show up for all C-c commands.
+
+#+begin_src emacs-lisp
+  (use-package guide-key
+    :diminish guide-key-mode
+    :config
+    (guide-key-mode 1)
+    (setq guide-key/guide-key-sequence '("C-c")
+          guide-key/idle-delay 0.0
+          guide-key/recursive-key-sequence-flag t))
+#+end_src
+
 ** Appearance
 
 Settings such as a default font, color scheme and modeline changes.
@@ -102,6 +101,8 @@ specific settings.
         line-number-mode t
         tooltip-use-echo-area t
         tooltip-delay 0)
+
+  (blink-cursor-mode 0)
 #+end_src
 
 =diminish-major-mode= is based off of a snippet from [[https://github.com/sandhu/emacs.d/blob/master/lisp/teppoudo-diminish.el][Achint Sandhu's
@@ -156,13 +157,16 @@ since grown to be a bit more than that.
 
 #+begin_src emacs-lisp
   (menu-bar-mode -1)
-  (when (fboundp 'tool-bar-mode)
-    (tool-bar-mode -1))
-  (when (fboundp 'scroll-bar-mode)
-    (scroll-bar-mode -1))
+  (tool-bar-mode -1)
+  (scroll-bar-mode -1)
 
+  ;; Winner mode lets us undo silly window mistakes
+  (winner-mode 1)
+
+  ;; Load zap-up-to-char and replace the zap-to-char bind
   (autoload 'zap-up-to-char "misc"
     "Kill up to, but not including ARGth occurrence of CHAR." t)
+  (global-set-key [remap zap-to-char] 'zap-up-to-char)
 
   (require 'uniquify)
   (setq uniquify-buffer-name-style 'forward)
@@ -172,30 +176,43 @@ since grown to be a bit more than that.
 
   (show-paren-mode 1)
   (setq-default indent-tabs-mode nil)
+
+  ;; Clipboard settings
   (setq x-select-enable-clipboard t
         x-select-enable-primary t
-        save-interprogram-paste-before-kill t
-        apropos-do-all t
-        mouse-yank-at-point t
-        require-final-newline t
-        initial-buffer-choice t
-        inhibit-startup-screen t
-        show-trailing-whitespace t
-        ring-bell-function 'ignore
-        mouse-wheel-scroll-amount '(1 ((shift) . 1))
-        ;mouse-wheel-progressive-speed nil
+        save-interprogram-paste-before-kill t)
+
+  ;; Make mouse scrolling and scrolling in general a bit saner
+  (setq mouse-wheel-scroll-amount '(1 ((shift) . 1))
         mouse-wheel-follow-mouse t
-        vc-follow-symlinks t
-        scroll-step 1
-        load-prefer-newer t
-        ediff-window-setup-function 'ediff-setup-windows-plain
-        save-place-file (concat user-emacs-directory "places")
+        scroll-step 1)
+
+  ;; Startup buffer
+  (setq initial-buffer-choice t
+        inhibit-startup-screen t)
+
+  ;; Make sure files already open in the existing emacs frame
+  (setq ediff-window-setup-function 'ediff-setup-windows-plain)
+
+  ;; Other settings
+  (setq apropos-do-all t                ; Make non-interactive functions show up when searching
+        mouse-yank-at-point t           ; Mouse should yank on point, not click
+        ring-bell-function 'ignore      ; Make sure there is no bell
+        lazy-highlight-initial-delay 0) ; Remove the isearch highlight delay
+
+  ;; Important files and directories
+  (setq save-place-file (concat user-emacs-directory "places")
         backup-directory-alist `(("." . ,(concat user-emacs-directory
                                                  "backups"))))
 
+  (setq show-trailing-whitespace t)
 
-  (when (fboundp 'windmove-default-keybindings)
-    (windmove-default-keybindings))
+  ;; File related settings
+  (setq require-final-newline t
+        vc-follow-symlinks t
+        load-prefer-newer t)
+
+  (windmove-default-keybindings)
 
   ;; Grab some useful env vars from the shell
   (use-package exec-path-from-shell
@@ -228,7 +245,8 @@ because we want to be in full screen more often than not.
 
 ** File Navigation
 
-Make sure to use ido everywhere
+Make sure to use ido everywhere. Because we're currently using helm,
+this is disabled.
 
 #+begin_src emacs-lisp
   (use-package smex
@@ -255,7 +273,12 @@ Make sure we store recent files. This lets helm do fancy things.
   (recentf-mode 1)
 #+end_src
 
-Helm is a slightly fancier replacement for ido
+Helm is a much fancier replacement for ido. There are a few settings
+we override (such as reversing C-z and tab, but for the most part the
+defaults are fine.
+
+=helm-mini= is used in place of any buffer related helm functions as
+we can make it use recentf.
 
 #+begin_src emacs-lisp
   (use-package helm
@@ -268,18 +291,27 @@ Helm is a slightly fancier replacement for ido
     ("C-c o"   . helm-occur)
     ("M-/"     . helm-dabbrev)
     :config
-    ; Reverse tab and C-z
+    ;; Reverse tab and C-z
     (bind-keys :map helm-map
                ("<tab>" . helm-execute-persistent-action)
                ("C-z"   . helm-select-action))
     (helm-mode 1)
     (helm-autoresize-mode 1)
-    (setq helm-ff-file-name-history-use-recentf t
+
+    ;; Turn on fuzzy matching for everything we can
+    (setq helm-recentf-fuzzy-match t
           helm-buffers-fuzzy-matching t
-          helm-M-x-fuzzy-match t))
+          helm-locate-fuzzy-match t
+          helm-M-x-fuzzy-match t
+          helm-semantic-fuzzy-match t
+          helm-imenu-fuzzy-match t
+          helm-apropos-fuzzy-match t
+          helm-lisp-fuzzy-completion t)
+
+    (setq helm-ff-file-name-history-use-recentf t))
 #+end_src
 
-Project based navigation. I would be completely lost without this
+Project based navigation. I would be completely lost without this.
 
 #+begin_src emacs-lisp
   (use-package projectile
@@ -301,6 +333,9 @@ completion, general config and separate sections for each language.
 Turn on line numbers everywhere aside from a few major modes and
 highlight comments with TODO and similar things in them.
 
+=fic-mode= makes sure I actually notice comments with TODO, FIXME and
+XXX.
+
 #+begin_src emacs-lisp
   (add-hook 'prog-mode-hook 'linum-mode)
 
@@ -314,6 +349,11 @@ highlight comments with TODO and similar things in them.
 
 *** Completion
 
+There are two main completion packages. =auto-complete= is older and a
+bit rougher around the edges. =company= is newer and not everything
+works with it yet, but at least for me it has a tendency to be more
+stable.
+
 #+begin_src emacs-lisp
   (use-package company
     :config
@@ -323,6 +363,8 @@ highlight comments with TODO and similar things in them.
 #+end_src
 
 *** Snippets
+
+Not much to say here. We turn snippets on everywhere.
 
 #+begin_src emacs-lisp
   (use-package yasnippet
@@ -346,6 +388,10 @@ for python.
 
 *** Evil Mode
 
+Every once in a while, I miss vim, so this is here. =zenburn-color= is
+a convenience function which we currently only use here in setting the
+cursor color.
+
 #+begin_src emacs-lisp
   (defun zenburn-color (name)
     (cdr (assoc name zenburn-colors-alist)))
@@ -361,6 +407,10 @@ for python.
 #+end_src
 
 *** Go
+
+This enables most of the fairly standard things available in other go
+setups. Simple completion and gofmt are the most important of those
+features, at least to me.
 
 #+begin_src emacs-lisp
   (use-package go-mode
@@ -379,6 +429,9 @@ for python.
 #+end_src
 
 *** Lua
+
+Another section where we don't need to say much. We make sure lua-mode
+is installed and we turn it on for lua files.
 
 #+begin_src emacs-lisp
   (use-package lua-mode
@@ -399,11 +452,22 @@ have both rope and jedi installed. Elpy defaults to using the system
     (setq elpy-rpc-backend "jedi"))
 #+end_src
 
-*** Web Templates
+*** Web Dev
+
+These are any packages useful for web dev.
+
+Most of this section is just supporting additional formats, however
+=rainbow-mode= is here so we can preview the actual colors in css.
 
 #+begin_src emacs-lisp
+  (use-package rainbow-mode
+    :commands rainbow-mode)
+
   (use-package web-mode
     :mode "\\.jinja$")
+
+  (use-package less-css-mode
+    :mode "\\.less$")
 #+end_src
 
 ** Org Mode
@@ -412,19 +476,25 @@ Make sure org mode is set up in a manner that doesn't suck. Meaning,
 make code blocks act more like their native counterparts, enable fancy
 indenting and allow for shift select.
 
+If the extra require looks hacky, that's because it is. The =:demand=
+makes sure the config runs because the package is already loaded to
+run this config file. The =:diminish= keyword fails because
+org-indent-mode does not exist by the time diminish is called.
+
 #+begin_src emacs-lisp
   (use-package org
-    ;;:diminish org-indent-mode
+    :demand
     :mode ("\\.org$" . org-mode)
-    :config
+    :diminish org-indent-mode
+    :init
+    (require 'org-indent)
     (setq org-src-fontify-natively t
           org-src-tab-acts-natively t
           org-startup-indented t
           org-log-done t
           org-log-done-with-time t
           org-support-shift-select t)
-
-    ;; Make windmove work in org-mode:
+    :config
     (add-hook 'org-shiftup-final-hook 'windmove-up)
     (add-hook 'org-shiftleft-final-hook 'windmove-left)
     (add-hook 'org-shiftdown-final-hook 'windmove-down)
@@ -432,6 +502,11 @@ indenting and allow for shift select.
 #+end_src
 
 ** IRC
+
+This sets up the connection to my IRC bouncer. There are a few
+additional packages that would be useful here, such as znc, but I
+still prefer to keep my IRC in weechat, so this remains disabled for
+now.
 
 #+begin_src emacs-lisp
     (use-package erc
@@ -451,20 +526,6 @@ indenting and allow for shift select.
                              ,(password-store-get "irc/freenode.net")))))))
 #+end_src
 
-** Leftovers
-
-#+begin_src emacs-lisp
-  ;; Rainbow-mode
-  (use-package rainbow-mode
-    :commands rainbow-mode)
-
-  ;; Better less support
-  ;(require-package 'less-css-mode)
-
-  ;; Syntax checking
-  ;(require-package 'flycheck)
-#+end_src
-
 ** Custom
 
 We still want to be able to have non-public configs, such as for
@@ -478,3 +539,36 @@ the init.el, which we have version controlled.
   (setq custom-file (expand-file-name "custom.el" user-emacs-directory))
   (load custom-file t)
 #+end_src
+
+** Tasks
+
+This section is all about stuff I'd like to get into my emacs init but
+haven't found the time yet.
+
+*** DONE Decide which git-gutter is better
+CLOSED: [2015-06-16 Tue 10:55]
+*** DONE Make git-gutter-fringe not run in terminal mode
+    CLOSED: [2015-06-20 Sat 11:37]
+We can also fall back to the regular git-gutter in this instance
+*** DONE Learn yasnippets
+    CLOSED: [2015-06-20 Sat 11:37]
+*** DONE Setup for golang
+CLOSED: [2015-06-16 Tue 10:56]
+*** DONE Cleanup [[Leftovers]] section
+    CLOSED: [2015-06-20 Sat 12:18]
+*** DONE Finish reogranizing
+    CLOSED: [2015-06-20 Sat 12:42]
+*** DONE Fix org-indent-mode
+CLOSED: [2015-06-22 Mon 01:29]
+*** DONE Finish documenting
+CLOSED: [2015-06-22 Mon 02:22]
+*** DONE Make org-mode work well with yasnippets
+CLOSED: [2015-06-22 Mon 01:31]
+There was nothing to be done for this - tab already works. However,
+tab inside code blocks does not currently work. I'm letting this go
+for now.
+*** DONE Make org-mode work well with windmove
+CLOSED: [2015-06-22 Mon 01:35]
+Looks like this was done a while back. Guess it's done now.
+*** TODO Figure out why show-trailing-whitespace doesn't work
+*** TODO Split up larger blocks, such as [[Basic setup]]
