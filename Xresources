@@ -10,4 +10,4 @@ URxvt.url-launcher:		/usr/bin/google-chrome-stable
 URxvt.matcher.button:	1
 
 ! include the color scheme
-#include ".belak/xcolors/seoul256"
+#include ".belak/xcolors/zenburn"
