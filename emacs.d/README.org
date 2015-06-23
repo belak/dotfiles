@@ -452,6 +452,15 @@ have both rope and jedi installed. Elpy defaults to using the system
     (setq elpy-rpc-backend "jedi"))
 #+end_src
 
+*** Yaml
+
+Enable syntax highlighting for yaml.
+
+#+begin_src emacs-lisp
+  (use-package yaml-mode
+    :mode "\\.yml$")
+#+end_src
+
 *** Web Dev
 
 These are any packages useful for web dev.
