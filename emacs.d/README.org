@@ -99,14 +99,14 @@ specific settings.
   ;;(setq-default indicate-buffer-boundaries 'left)
   (setq column-number-mode t
         line-number-mode t
-        tooltip-use-echo-area t
-        tooltip-delay 0)
+        ;;tooltip-use-echo-area t
+        tooltip-delay 0
+        tooltip-short-delay 0)
 
   (blink-cursor-mode 0)
 #+end_src
 
-=diminish-major-mode= is based off of a snippet from [[https://github.com/sandhu/emacs.d/blob/master/lisp/teppoudo-diminish.el][Achint Sandhu's
-dotfiles]].
+=diminish-major-mode= is based off of a snippet from [[https://github.com/sandhu/emacs.d/blob/master/lisp/teppoudo-diminish.el][Achint Sandhu's dotfiles]].
 
 #+begin_src emacs-lisp
   (defmacro diminish-major-mode (mode new-name)
@@ -155,19 +155,53 @@ environment vars (like HOME and GOPATH) are copied into the emacs env.
 This section was originally based off of [[https://github.com/technomancy/better-defaults/blob/d62a5813fa60d4c9425a795d85f956f0b8a663f8/better-defaults.el][better defaults]] but it has
 since grown to be a bit more than that.
 
+First we clean up the interface a bit, removing menus, toolbars and the scrollbar.
+
 #+begin_src emacs-lisp
   (menu-bar-mode -1)
   (tool-bar-mode -1)
   (scroll-bar-mode -1)
+#+end_src
 
-  ;; Winner mode lets us undo silly window mistakes
+Because I often make silly window mistakes, we enable winner-mode so
+we can undo them. We also enable windmove which makes it easier to
+move between open windows.
+
+#+begin_src emacs-lisp
   (winner-mode 1)
 
-  ;; Load zap-up-to-char and replace the zap-to-char bind
+  (windmove-default-keybindings)
+#+end_src
+
+Because I want zap-to-char to not nuke the character we're zapping to,
+we simply replace it with zap-up-to-char.
+
+#+begin_src emacs-lisp
   (autoload 'zap-up-to-char "misc"
     "Kill up to, but not including ARGth occurrence of CHAR." t)
-  (global-set-key [remap zap-to-char] 'zap-up-to-char)
 
+  (global-set-key [remap zap-to-char] 'zap-up-to-char)
+#+end_src
+
+Make sure we actually use the clipboard we want because X is annoying
+and has something along the lines of 3 clipboard buffers.
+
+#+begin_src emacs-lisp
+  (setq x-select-enable-clipboard t
+        x-select-enable-primary t
+        save-interprogram-paste-before-kill t)
+#+end_src
+
+Disable startup screen and just display the scratch buffer.
+
+#+begin_src emacs-lisp
+  (setq initial-buffer-choice t
+        inhibit-startup-screen t)
+#+end_src
+
+Other things.
+
+#+begin_src emacs-lisp
   (require 'uniquify)
   (setq uniquify-buffer-name-style 'forward)
 
@@ -177,21 +211,12 @@ since grown to be a bit more than that.
   (show-paren-mode 1)
   (setq-default indent-tabs-mode nil)
 
-  ;; Clipboard settings
-  (setq x-select-enable-clipboard t
-        x-select-enable-primary t
-        save-interprogram-paste-before-kill t)
-
   ;; Make mouse scrolling and scrolling in general a bit saner
   (setq mouse-wheel-scroll-amount '(1 ((shift) . 1))
         mouse-wheel-follow-mouse t
         scroll-step 1)
 
-  ;; Startup buffer
-  (setq initial-buffer-choice t
-        inhibit-startup-screen t)
-
-  ;; Make sure files already open in the existing emacs frame
+  ;; Make sure files open in the existing emacs frame
   (setq ediff-window-setup-function 'ediff-setup-windows-plain)
 
   ;; Other settings
@@ -205,16 +230,16 @@ since grown to be a bit more than that.
         backup-directory-alist `(("." . ,(concat user-emacs-directory
                                                  "backups"))))
 
-  (setq show-trailing-whitespace t)
-
   ;; File related settings
   (setq require-final-newline t
         vc-follow-symlinks t
         load-prefer-newer t)
+#+end_src
 
-  (windmove-default-keybindings)
+Load some useful variables from the shell. By default, it grabs HOME,
+but we grab GOPATH as well for go.
 
-  ;; Grab some useful env vars from the shell
+#+begin_src emacs-lisp
   (use-package exec-path-from-shell
     :config
     (add-to-list 'exec-path-from-shell-variables "GOPATH")
@@ -330,17 +355,24 @@ completion, general config and separate sections for each language.
 
 *** General
 
-Turn on line numbers everywhere aside from a few major modes and
-highlight comments with TODO and similar things in them.
+Set a few things for prog-mode based major modes, such as line numbers
+and trailing whitespace.
+
+#+begin_src emacs-lisp
+    (defun my-prog-mode-hook ()
+      "Some simple programming settings"
+      (interactive)
+      (linum-mode)
+      (setq show-trailing-whitespace t
+            indicate-empty-lines t))
+
+    (add-hook 'prog-mode-hook 'my-prog-mode-hook)
+#+end_src
 
 =fic-mode= makes sure I actually notice comments with TODO, FIXME and
 XXX.
 
 #+begin_src emacs-lisp
-  (add-hook 'prog-mode-hook 'linum-mode)
-
-  (setq indicate-empty-lines t)
-
   (use-package fic-mode
     :diminish fic-mode
     :config
@@ -579,5 +611,8 @@ for now.
 *** DONE Make org-mode work well with windmove
 CLOSED: [2015-06-22 Mon 01:35]
 Looks like this was done a while back. Guess it's done now.
-*** TODO Figure out why show-trailing-whitespace doesn't work
+*** DONE Figure out why show-trailing-whitespace doesn't work
+CLOSED: [2015-06-23 Tue 10:45]
+Because it becomes buffer-local when set, we have to use setq-default,
+not setq.
 *** TODO Split up larger blocks, such as [[Basic setup]]
