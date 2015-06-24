@@ -71,15 +71,21 @@ Load up zx2c4's [[http://www.passwordstore.org/][pass]] utility so we can grab d
   (use-package password-store)
 #+end_src
 
-=guide-key= provides a nice interface for showing prefix commands. We
-make it show up for all C-c commands.
+=guide-key= provides a nice interface for showing prefix commands.
+
+The currently defined prefixes are listed below.
+
+| Prefix | Description                             |
+|--------+-----------------------------------------|
+| C-c    | Generic prefix for quite a few commands |
+| C-x x  | Switching of different window modes     |
 
 #+begin_src emacs-lisp
   (use-package guide-key
     :diminish guide-key-mode
     :config
     (guide-key-mode 1)
-    (setq guide-key/guide-key-sequence '("C-c")
+    (setq guide-key/guide-key-sequence '("C-c" "C-x x")
           guide-key/idle-delay 0.0
           guide-key/recursive-key-sequence-flag t))
 #+end_src
@@ -337,6 +343,14 @@ we can make it use recentf.
     (setq helm-ff-file-name-history-use-recentf t))
 #+end_src
 
+Perspective creates different views to switch between.
+
+#+begin_src emacs-lisp
+  (use-package perspective
+    :config
+    (persp-mode))
+#+end_src
+
 Project based navigation. I would be completely lost without this.
 
 #+begin_src emacs-lisp
@@ -535,7 +549,15 @@ org-indent-mode does not exist by the time diminish is called.
           org-startup-indented t
           org-log-done t
           org-log-done-with-time t
-          org-support-shift-select t)
+          org-log-refile t
+          org-refile-allow-creating-parent-nodes t
+          org-refile-use-outline-path t
+          org-support-shift-select t
+          org-todo-keywords '("TODO" "STARTED" "WAITING" "|" "DONE")
+          org-tag-alist '(("WORK" . ?w)
+                          ("HOME" . ?h))
+          org-agenda-files '("~/org/work.org"
+                             "~/org/home.org"))
     :config
     (add-hook 'org-shiftup-final-hook 'windmove-up)
     (add-hook 'org-shiftleft-final-hook 'windmove-left)
