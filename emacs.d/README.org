@@ -49,11 +49,7 @@ Magit is an amazing git wrapper which lets us do a whole ton of
 different things.
 
 #+begin_src emacs-lisp
-  (use-package magit
-    :init
-    (setq magit-last-seen-setup-instructions "1.4.0")
-    :config
-    (magit-auto-revert-mode -1))
+  (use-package magit)
 #+end_src
 
 Make sure undo-tree is enabled.
