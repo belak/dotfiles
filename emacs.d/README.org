@@ -131,22 +131,15 @@ specific settings.
     (sml/setup))
 #+end_src
 
-Make sure the git gutter is loaded. Note that git-gutter-fringe
-doesn't work in the terminal, so we define a fallback for that case.
+Make sure the git gutter is loaded. Note that the fringe doesn't work
+in console mode, so we fall back to using the margin.
 
 #+begin_src emacs-lisp
-  (use-package git-gutter-fringe
-    :if window-system
-    :diminish git-gutter-mode
+  (use-package diff-hl
     :config
-    (global-git-gutter-mode +1))
-
-  (use-package git-gutter
-    :if (not window-system)
-    :diminish git-gutter-mode
-    :config
-    (global-git-gutter-mode 1)
-    (git-gutter:linum-setup))
+    (if (window-system)
+        (global-diff-hl-mode 1)
+      (diff-hl-margin-mode 1)))
 #+end_src
 
 ** Basic setup
@@ -213,6 +206,9 @@ Other things.
   (show-paren-mode 1)
   (setq-default indent-tabs-mode nil)
 
+  ;; y or n
+  (fset 'yes-or-no-p 'y-or-n-p)
+
   ;; Make mouse scrolling and scrolling in general a bit saner
   (setq mouse-wheel-scroll-amount '(1 ((shift) . 1))
         mouse-wheel-follow-mouse t
@@ -261,10 +257,9 @@ because we want to be in full screen more often than not.
 
         ((eq system-type 'darwin)
          (setq ns-use-native-fullscreen t
-               mac-option-key-is-meta t
-               mac-command-key-is-meta nil
-               mac-command-modifier 'super
-               mac-option-modifier 'meta)
+               mac-command-modifier 'meta
+               mac-option-modifier 'super
+               mac-control-modifier 'control)
 
          (set-frame-font "Source Code Pro 10")
          (toggle-frame-fullscreen)))
@@ -374,8 +369,7 @@ and trailing whitespace.
       "Some simple programming settings"
       (interactive)
       (linum-mode)
-      (setq show-trailing-whitespace t
-            indicate-empty-lines t))
+      (setq show-trailing-whitespace t))
 
     (add-hook 'prog-mode-hook 'my-prog-mode-hook)
 #+end_src
@@ -400,7 +394,6 @@ stable.
 #+begin_src emacs-lisp
   (use-package company
     :config
-    ;(use-package company-go)
     (setq company-idle-delay 0)
     (add-hook 'after-init-hook 'global-company-mode))
 #+end_src
@@ -449,6 +442,39 @@ cursor color.
       (setq evil-operator-state-cursor `(,(zenburn-color "zenburn-red") hollow))))
 #+end_src
 
+*** C/C++
+
+#+begin_src emacs-lisp
+  (use-package irony
+    :config
+    (use-package company-irony
+      :config
+      (defun my-company-irony-mode-hook ()
+        (set (make-local-variable 'company-backends) '(company-irony))
+        (company-irony-setup-begin-commands))
+      (add-hook 'irony-mode-hook 'my-company-irony-mode-hook))
+    (use-package flycheck-irony
+      :config
+      (eval-after-load 'flycheck
+        '(add-hook 'flycheck-mode-hook #'flycheck-irony-setup)))
+
+    (add-hook 'c++-mode-hook 'irony-mode)
+    (add-hook 'c-mode-hook 'irony-mode)
+    (add-hook 'objc-mode-hook 'irony-mode)
+
+    ;; replace the `completion-at-point' and `complete-symbol' bindings
+    ;; in irony-mode's buffers by irony-mode's function and run the
+    ;; autosetup function
+    (defun my-irony-mode-hook ()
+      (define-key irony-mode-map [remap completion-at-point]
+        'irony-completion-at-point-async)
+      (define-key irony-mode-map [remap complete-symbol]
+        'irony-completion-at-point-async)
+      (irony-cdb-autosetup-compile-options))
+
+    (add-hook 'irony-mode-hook 'my-irony-mode-hook))
+#+end_src
+
 *** Go
 
 This enables most of the fairly standard things available in other go
@@ -466,19 +492,9 @@ features, at least to me.
     (use-package company-go
       :requires company
       :config
-      (add-hook 'go-mode-hook (lambda ()
-                                (set (make-local-variable 'company-backends) '(company-go))
-                                (company-mode)))))
-#+end_src
-
-*** Lua
-
-Another section where we don't need to say much. We make sure lua-mode
-is installed and we turn it on for lua files.
-
-#+begin_src emacs-lisp
-  (use-package lua-mode
-    :mode "\\.lua$")
+      (defun my-company-go-mode-hook ()
+        (set (make-local-variable 'company-backends) '(company-go)))
+      (add-hook 'go-mode-hook 'my-company-go-mode-hook)))
 #+end_src
 
 *** Python
@@ -493,15 +509,6 @@ have both rope and jedi installed. Elpy defaults to using the system
     (elpy-enable)
     (elpy-use-cpython "python2")
     (setq elpy-rpc-backend "jedi"))
-#+end_src
-
-*** Yaml
-
-Enable syntax highlighting for yaml.
-
-#+begin_src emacs-lisp
-  (use-package yaml-mode
-    :mode "\\.yml$")
 #+end_src
 
 *** Web Dev
@@ -520,6 +527,19 @@ Most of this section is just supporting additional formats, however
 
   (use-package less-css-mode
     :mode "\\.less$")
+#+end_src
+
+*** Misc
+
+#+begin_src emacs-lisp
+  (use-package cmake-mode
+    :mode "CMakeLists.txt")
+
+  (use-package lua-mode
+    :mode "\\.lua$")
+
+  (use-package yaml-mode
+    :mode "\\.yml$")
 #+end_src
 
 ** Org Mode
@@ -584,6 +604,25 @@ now.
                              freenode
                              belak/freenode
                              ,(password-store-get "irc/freenode.net")))))))
+#+end_src
+
+** Email
+
+#+begin_src emacs-lisp
+    (add-to-list 'load-path "/usr/local/share/emacs/site-lisp/mu4e")
+    (use-package mu4e
+      :ensure f
+      :config
+      (setq mu4e-maildir "~/.mail/coded"
+            mu4e-get-mail-command "mbsync -a"
+            mu4e-html2text-command "elinks -dump"
+            mu4e-use-fancy-chars t
+            mu4e-maildir-shortcuts '(("/inbox"   . ?i)
+                                     ("/drafts"  . ?d)
+                                     ("/sent"    . ?s)
+                                     ("/archive" . ?a)
+                                     ("/spam"    . ?z)
+                                     ("/trash"   . ?t))))
 #+end_src
 
 ** Custom
