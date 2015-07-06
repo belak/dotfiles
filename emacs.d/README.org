@@ -446,6 +446,7 @@ cursor color.
 
 #+begin_src emacs-lisp
   (use-package irony
+    :diminish irony-mode
     :config
     (use-package company-irony
       :config
@@ -533,7 +534,9 @@ Most of this section is just supporting additional formats, however
 
 #+begin_src emacs-lisp
   (use-package cmake-mode
-    :mode "CMakeLists.txt")
+    :mode
+    "CMakeLists.txt"
+    "\\.cmake$")
 
   (use-package lua-mode
     :mode "\\.lua$")
@@ -613,7 +616,7 @@ now.
     (use-package mu4e
       :ensure f
       :config
-      (setq mu4e-maildir "~/.mail/coded"
+      (setq mu4e-maildir "~/.mail/coded.io"
             mu4e-get-mail-command "mbsync -a"
             mu4e-html2text-command "elinks -dump"
             mu4e-use-fancy-chars t
