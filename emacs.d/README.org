@@ -442,6 +442,19 @@ cursor color.
       (setq evil-operator-state-cursor `(,(zenburn-color "zenburn-red") hollow))))
 #+end_src
 
+*** Lisp
+
+#+begin_src emacs-lisp
+  (use-package rainbow-delimiters
+    :config
+    (add-hook 'prog-mode-hook 'rainbow-delimiters-mode))
+
+  (use-package rainbow-blocks
+    :config
+    (add-hook 'emacs-lisp-mode-hook 'rainbow-blocks-mode)
+    (add-hook 'lisp-interaction-mode-hook 'rainbow-blocks-mode))
+#+end_src
+
 *** C/C++
 
 #+begin_src emacs-lisp
@@ -520,14 +533,21 @@ Most of this section is just supporting additional formats, however
 =rainbow-mode= is here so we can preview the actual colors in css.
 
 #+begin_src emacs-lisp
-  (use-package rainbow-mode
-    :commands rainbow-mode)
+    (use-package rainbow-mode
+      :commands rainbow-mode)
 
-  (use-package web-mode
-    :mode "\\.jinja$")
+    (use-package web-mode
+      :mode
+      "\\.jinja$"
+      "\\.html$"
+      "\\.js$"
+      :config
+      (setq web-mode-markup-indent-offset 2
+            web-mode-css-indent-offset 2
+            web-mode-code-indent-offset 2))
 
-  (use-package less-css-mode
-    :mode "\\.less$")
+    (use-package less-css-mode
+      :mode "\\.less$")
 #+end_src
 
 *** Misc
