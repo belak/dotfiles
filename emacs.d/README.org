@@ -195,7 +195,28 @@ Disable startup screen and just display the scratch buffer.
         inhibit-startup-screen t)
 #+end_src
 
-Other things.
+Make sure that things like backups make it into their own directory
+and not the current one.
+
+#+begin_src emacs-lisp
+  (setq save-place-file (concat user-emacs-directory "places")
+        backup-directory-alist `(("." . ,(concat user-emacs-directory
+                                                 "backups"))))
+#+end_src
+
+General annoyances.
+
+- Make sure the buffer name shows up with a directory if there are multiple with the same name
+- Save the place in the file
+- Show parens
+- Don't indent with tabs
+- Ask y or n, not yes or no
+- Make extra functions show up when searching
+- Change yanking locations
+- Turn off the damn bell
+- Require a final newline on files
+- Follow symlinks when we need to
+- Make sure to load newest versions of files, even if there are older compiled versions
 
 #+begin_src emacs-lisp
   (require 'uniquify)
@@ -205,34 +226,26 @@ Other things.
   (setq-default save-place t)
 
   (show-paren-mode 1)
+
   (setq-default indent-tabs-mode nil)
 
-  ;; y or n
   (fset 'yes-or-no-p 'y-or-n-p)
 
-  ;; Make mouse scrolling and scrolling in general a bit saner
+  (setq apropos-do-all t
+        mouse-yank-at-point t
+        ring-bell-function 'ignore
+        lazy-highlight-initial-delay 0
+        require-final-newline t
+        vc-follow-symlinks t
+        load-prefer-newer t)
+#+end_src
+
+Make mouse scrolling and scrolling in general a bit saner (in theory)
+
+#+begin_src emacs-lisp :tangle yes
   (setq mouse-wheel-scroll-amount '(1 ((shift) . 1))
         mouse-wheel-follow-mouse t
         scroll-step 1)
-
-  ;; Make sure files open in the existing emacs frame
-  (setq ediff-window-setup-function 'ediff-setup-windows-plain)
-
-  ;; Other settings
-  (setq apropos-do-all t                ; Make non-interactive functions show up when searching
-        mouse-yank-at-point t           ; Mouse should yank on point, not click
-        ring-bell-function 'ignore      ; Make sure there is no bell
-        lazy-highlight-initial-delay 0) ; Remove the isearch highlight delay
-
-  ;; Important files and directories
-  (setq save-place-file (concat user-emacs-directory "places")
-        backup-directory-alist `(("." . ,(concat user-emacs-directory
-                                                 "backups"))))
-
-  ;; File related settings
-  (setq require-final-newline t
-        vc-follow-symlinks t
-        load-prefer-newer t)
 #+end_src
 
 Load some useful variables from the shell. By default, it grabs HOME,
@@ -590,7 +603,6 @@ org-indent-mode does not exist by the time diminish is called.
     (require 'org-indent)
     (setq org-src-fontify-natively t
           org-src-tab-acts-natively t
-          org-startup-indented t
           org-log-done t
           org-log-done-with-time t
           org-log-refile t
@@ -717,5 +729,6 @@ not setq.
 CLOSED: [2015-07-07 Tue 14:29]
 *** DONE Split up larger blocks, such as [[Basic setup]]
 CLOSED: [2015-07-07 Tue 14:38]
-*** TODO Document "Other Things" in [[Basic Setup]]
+*** DONE Document "Other Things" in [[Basic setup]]
+    CLOSED: [2015-07-09 Thu 19:40]
 *** TODO Take a look at =electric-indent-mode=
