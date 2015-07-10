@@ -42,7 +42,8 @@ it's something that only really matters when we manually start it up.
     paradox-list-packages
     paradox-enable
     :config
-    (setq paradox-automatically-star t))
+    (setq paradox-automatically-star t)
+    (setq paradox-execute-asynchronously t))
 #+end_src
 
 Magit is an amazing git wrapper which lets us do a whole ton of
@@ -82,7 +83,7 @@ The currently defined prefixes are listed below.
     :config
     (guide-key-mode 1)
     (setq guide-key/guide-key-sequence '("C-c" "C-x x")
-          guide-key/idle-delay 0.0
+          guide-key/idle-delay 0.5
           guide-key/recursive-key-sequence-flag t))
 #+end_src
 
@@ -364,14 +365,19 @@ completion, general config and separate sections for each language.
 Set a few things for prog-mode based major modes, such as line numbers
 and trailing whitespace.
 
-#+begin_src emacs-lisp
-    (defun my-prog-mode-hook ()
-      "Some simple programming settings"
-      (interactive)
-      (linum-mode)
-      (setq show-trailing-whitespace t))
+Note that because =electric-pair-mode= is a global mode we don't
+bother putting it into the prog mode hook.
 
-    (add-hook 'prog-mode-hook 'my-prog-mode-hook)
+#+begin_src emacs-lisp
+  (electric-pair-mode 1)
+
+  (defun my-prog-mode-hook ()
+    "Some simple programming settings"
+    (interactive)
+    (linum-mode 1)
+    (setq show-trailing-whitespace t))
+
+  (add-hook 'prog-mode-hook 'my-prog-mode-hook)
 #+end_src
 
 =fic-mode= makes sure I actually notice comments with TODO, FIXME and
@@ -381,7 +387,16 @@ XXX.
   (use-package fic-mode
     :diminish fic-mode
     :config
-    (progn (add-hook 'prog-mode-hook 'turn-on-fic-mode)))
+    (add-hook 'prog-mode-hook 'turn-on-fic-mode))
+#+end_src
+
+=rainbow-delimiters= is for more than just parentheses. It works for
+brackets as well. This mode makes it easier to see nested delimiters.
+
+#+begin_src emacs-lisp
+  (use-package rainbow-delimiters
+    :config
+    (add-hook 'prog-mode-hook 'rainbow-delimiters-mode))
 #+end_src
 
 *** Completion
@@ -422,33 +437,11 @@ for python.
     (global-flycheck-mode))
 #+end_src
 
-*** Evil Mode
-
-Every once in a while, I miss vim, so this is here. =zenburn-color= is
-a convenience function which we currently only use here in setting the
-cursor color.
-
-#+begin_src emacs-lisp
-  (defun zenburn-color (name)
-    (cdr (assoc name zenburn-colors-alist)))
-
-  (use-package evil
-    :config
-    (zenburn-with-color-variables
-      (setq evil-normal-state-cursor `(,(zenburn-color "zenburn-green") box))
-      (setq evil-visual-state-cursor `(,(zenburn-color "zenburn-orange") box))
-      (setq evil-insert-state-cursor `(,(zenburn-color "zenburn-green") bar))
-      (setq evil-replace-state-cursor `(,(zenburn-color "zenburn-red") bar))
-      (setq evil-operator-state-cursor `(,(zenburn-color "zenburn-red") hollow))))
-#+end_src
-
 *** Lisp
 
-#+begin_src emacs-lisp
-  (use-package rainbow-delimiters
-    :config
-    (add-hook 'prog-mode-hook 'rainbow-delimiters-mode))
+Rainbow blocks highlights blocks instead of keywords.
 
+#+begin_src emacs-lisp
   (use-package rainbow-blocks
     :config
     (add-hook 'emacs-lisp-mode-hook 'rainbow-blocks-mode)
@@ -533,21 +526,33 @@ Most of this section is just supporting additional formats, however
 =rainbow-mode= is here so we can preview the actual colors in css.
 
 #+begin_src emacs-lisp
-    (use-package rainbow-mode
-      :commands rainbow-mode)
+  (use-package rainbow-mode
+    :commands rainbow-mode)
 
-    (use-package web-mode
-      :mode
-      "\\.jinja$"
-      "\\.html$"
-      "\\.js$"
-      :config
-      (setq web-mode-markup-indent-offset 2
-            web-mode-css-indent-offset 2
-            web-mode-code-indent-offset 2))
+  (use-package web-mode
+    :mode
+    "\\.jinja$"
+    "\\.html$"
+    :config
+    (setq web-mode-markup-indent-offset 2
+          web-mode-css-indent-offset 2
+          web-mode-code-indent-offset 2))
 
-    (use-package less-css-mode
-      :mode "\\.less$")
+  (use-package js2-mode
+    :mode
+    "\\.js$"
+    :config
+    (setq js2-basic-offset 2))
+
+    ;; (set-face-attribute 'js2-error
+    ;;                     :inherit 'flycheck-error-list-error
+    ;;                     :underline '(:color foreground-color :style wave))
+    ;; (set-face-attribute 'js2-warning
+    ;;                     :inherit 'flycheck-error-list-warning
+    ;;                     :underline '(:color foreground-color :style wave)))
+
+  (use-package less-css-mode
+    :mode "\\.less$")
 #+end_src
 
 *** Misc
@@ -648,6 +653,18 @@ now.
                                      ("/trash"   . ?t))))
 #+end_src
 
+** Scratch
+
+This enables persistent scratch buffers. This allows for saving
+scratch buffers along with the mode because I prefer to use org-mode.
+
+#+begin_src emacs-lisp
+  (use-package persistent-scratch
+    :config
+    (persistent-scratch-setup-default)
+    (persistent-scratch-autosave-mode 1))
+#+end_src
+
 ** Custom
 
 We still want to be able to have non-public configs, such as for
@@ -696,4 +713,9 @@ Looks like this was done a while back. Guess it's done now.
 CLOSED: [2015-06-23 Tue 10:45]
 Because it becomes buffer-local when set, we have to use setq-default,
 not setq.
-*** TODO Split up larger blocks, such as [[Basic setup]]
+*** DONE Take a look at =electric-pair-mode=
+CLOSED: [2015-07-07 Tue 14:29]
+*** DONE Split up larger blocks, such as [[Basic setup]]
+CLOSED: [2015-07-07 Tue 14:38]
+*** TODO Document "Other Things" in [[Basic Setup]]
+*** TODO Take a look at =electric-indent-mode=
