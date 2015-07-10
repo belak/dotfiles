@@ -30,6 +30,8 @@ defined in =init.el=.
   (setq use-package-always-ensure t)
 #+end_src
 
+** Quirks
+
 ** Utilities
 
 Paradox is a replacement for =package-list-packages= offering a few
@@ -126,6 +128,8 @@ specific settings.
 
 #+begin_src emacs-lisp
   (use-package smart-mode-line
+    :functions
+    sml/apply-theme
     :config
     (setq sml/no-confirm-load-theme t)
     (sml/apply-theme 'respectful)
@@ -199,6 +203,7 @@ Make sure that things like backups make it into their own directory
 and not the current one.
 
 #+begin_src emacs-lisp
+  (defvar save-place-file)
   (setq save-place-file (concat user-emacs-directory "places")
         backup-directory-alist `(("." . ,(concat user-emacs-directory
                                                  "backups"))))
@@ -231,6 +236,7 @@ General annoyances.
 
   (fset 'yes-or-no-p 'y-or-n-p)
 
+  (defvar apropos-do-all)
   (setq apropos-do-all t
         mouse-yank-at-point t
         ring-bell-function 'ignore
@@ -265,6 +271,11 @@ easier to use. Additionally, in OSX we want to toggle fullscreen
 because we want to be in full screen more often than not.
 
 #+begin_src emacs-lisp
+  (defvar ns-use-native-fullscreen)
+  (defvar mac-command-modifier)
+  (defvar mac-option-modifier)
+  (defvar mac-control-modifier)
+
   (cond ((eq system-type 'gnu/linux)
          (setq x-gtk-use-system-tooltips nil)
          (set-frame-font "Terminus 8"))
@@ -335,17 +346,16 @@ we can make it use recentf.
     (helm-autoresize-mode 1)
 
     ;; Turn on fuzzy matching for everything we can
-    (setq helm-recentf-fuzzy-match t
-          helm-completion-in-region-fuzzy-match t
-          helm-buffers-fuzzy-matching t
-          helm-locate-fuzzy-match t
-          helm-M-x-fuzzy-match t
-          helm-semantic-fuzzy-match t
-          helm-imenu-fuzzy-match t
-          helm-apropos-fuzzy-match t
-          helm-lisp-fuzzy-completion t)
-
-    (setq helm-ff-file-name-history-use-recentf t))
+    (custom-set-variables '(helm-recentf-fuzzy-match t)
+                          '(helm-completion-in-region-fuzzy-match t)
+                          '(helm-buffers-fuzzy-matching t)
+                          '(helm-locate-fuzzy-match t)
+                          '(helm-M-x-fuzzy-match t)
+                          '(helm-semantic-fuzzy-match t)
+                          '(helm-imenu-fuzzy-match t)
+                          '(helm-apropos-fuzzy-match t)
+                          '(helm-lisp-fuzzy-completion t)
+                          '(helm-ff-file-name-history-use-recentf t)))
 #+end_src
 
 Perspective creates different views to switch between.
