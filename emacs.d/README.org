@@ -242,7 +242,7 @@ General annoyances.
 
 Make mouse scrolling and scrolling in general a bit saner (in theory)
 
-#+begin_src emacs-lisp :tangle yes
+#+begin_src emacs-lisp
   (setq mouse-wheel-scroll-amount '(1 ((shift) . 1))
         mouse-wheel-follow-mouse t
         scroll-step 1)
