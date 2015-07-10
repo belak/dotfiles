@@ -136,7 +136,7 @@ vicious.register(memwidget, vicious.widgets.mem, "$1", 5)
 batwidget = awful.widget.progressbar()
 batwidget:set_width(5)
 batwidget:set_vertical(true)
-vicious.register(batwidget, vicious.widgets.bat, "$2", 10, "BAT0")
+vicious.register(batwidget, vicious.widgets.bat, "$2", 10, "BAT1")
 -- }}}
 
 for s = 1, screen.count() do
