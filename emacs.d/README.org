@@ -673,20 +673,26 @@ now.
 ** Email
 
 #+begin_src emacs-lisp
-    (add-to-list 'load-path "/usr/local/share/emacs/site-lisp/mu4e")
-    (use-package mu4e
-      :ensure f
-      :config
-      (setq mu4e-maildir "~/.mail/coded.io"
-            mu4e-get-mail-command "mbsync -a"
-            mu4e-html2text-command "elinks -dump"
-            mu4e-use-fancy-chars t
-            mu4e-maildir-shortcuts '(("/inbox"   . ?i)
-                                     ("/drafts"  . ?d)
-                                     ("/sent"    . ?s)
-                                     ("/archive" . ?a)
-                                     ("/spam"    . ?z)
-                                     ("/trash"   . ?t))))
+  (add-to-list 'load-path "/usr/local/share/emacs/site-lisp/mu4e")
+  (use-package mu4e
+    :defines
+    mu4e-maildir
+    mu4e-get-mail-command
+    mu4e-html2text-command
+    mu4e-use-fancy-chars
+    mu4e-maildir-shortcuts
+    :ensure f
+    :config
+    (setq mu4e-maildir "~/.mail/coded.io"
+          mu4e-get-mail-command "mbsync -a"
+          mu4e-html2text-command "elinks -dump"
+          mu4e-use-fancy-chars t
+          mu4e-maildir-shortcuts '(("/inbox"   . ?i)
+                                   ("/drafts"  . ?d)
+                                   ("/sent"    . ?s)
+                                   ("/archive" . ?a)
+                                   ("/spam"    . ?z)
+                                   ("/trash"   . ?t))))
 #+end_src
 
 ** Scratch
