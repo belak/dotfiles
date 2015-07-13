@@ -30,7 +30,12 @@ defined in =init.el=.
   (setq use-package-always-ensure t)
 #+end_src
 
-** Quirks
+Require a few extra libraries for if we decide to byte-compile this
+file.
+
+#+begin_src emacs-lisp
+  (require 'dash)
+#+end_src
 
 ** Utilities
 
@@ -74,10 +79,12 @@ Load up zx2c4's [[http://www.passwordstore.org/][pass]] utility so we can grab d
 
 The currently defined prefixes are listed below.
 
+|--------+-----------------------------------------|
 | Prefix | Description                             |
 |--------+-----------------------------------------|
 | C-c    | Generic prefix for quite a few commands |
 | C-x x  | Switching of different window modes     |
+|--------+-----------------------------------------|
 
 #+begin_src emacs-lisp
   (use-package guide-key
@@ -128,11 +135,13 @@ specific settings.
 
 #+begin_src emacs-lisp
   (use-package smart-mode-line
-    :functions
-    sml/apply-theme
+    :no-require t
+    :defines
+    sml/no-confirm-load-theme
+    sml/theme
     :config
-    (setq sml/no-confirm-load-theme t)
-    (sml/apply-theme 'respectful)
+    (setq sml/no-confirm-load-theme t
+          sml/theme 'respectful)
     (sml/setup))
 #+end_src
 
@@ -271,6 +280,7 @@ easier to use. Additionally, in OSX we want to toggle fullscreen
 because we want to be in full screen more often than not.
 
 #+begin_src emacs-lisp
+  (defvar x-gtk-use-system-tooltips)
   (defvar ns-use-native-fullscreen)
   (defvar mac-command-modifier)
   (defvar mac-option-modifier)
@@ -328,6 +338,8 @@ defaults are fine.
 we can make it use recentf.
 
 #+begin_src emacs-lisp
+  (require 'helm)
+  (require 'helm-config)
   (use-package helm
     :demand
     :diminish helm-mode
@@ -369,6 +381,7 @@ Perspective creates different views to switch between.
 Project based navigation. I would be completely lost without this.
 
 #+begin_src emacs-lisp
+  (require 'projectile)
   (use-package projectile
     :diminish projectile-mode
     :config
@@ -534,6 +547,7 @@ have both rope and jedi installed. Elpy defaults to using the system
 'python' binary so we force it to use python2.
 
 #+begin_src emacs-lisp
+  (require 'elpy)
   (use-package elpy
     :config
     (elpy-enable)
