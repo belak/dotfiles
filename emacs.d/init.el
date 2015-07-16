@@ -33,4 +33,4 @@
 (require 'ob-tangle)
 
 ;; Bootstrap into README.org
-(org-babel-load-file (expand-file-name "~/.emacs.d/README.org") t)
+(org-babel-load-file (expand-file-name "~/.emacs.d/README.org"))

@@ -21,7 +21,7 @@ defined in =init.el=.
   (package-ensure-installed 'use-package)
 
   (eval-when-compile
-    (defvar use-package-verbose t)
+    ;;(defvar use-package-verbose t)
     (require 'use-package))
 
   (require 'diminish)
@@ -103,10 +103,11 @@ Note that the font should be overridden later, such as in platform
 specific settings.
 
 #+begin_src emacs-lisp
-  (set-frame-font "Monospace 12")
   (use-package zenburn-theme
     :config
     (load-theme 'zenburn t))
+
+  (defvar my/default-frame-font "Monospace 12")
 
   ;;(setq-default indicate-buffer-boundaries 'left)
   (setq column-number-mode t
@@ -149,11 +150,25 @@ Make sure the git gutter is loaded. Note that the fringe doesn't work
 in console mode, so we fall back to using the margin.
 
 #+begin_src emacs-lisp
-  (use-package diff-hl
-    :config
-    (if (window-system)
-        (global-diff-hl-mode 1)
-      (diff-hl-margin-mode 1)))
+  (defun make-frame-diff-hl (&optional frame)
+    (use-package diff-hl
+      :config
+      (global-diff-hl-mode 0)
+      (diff-hl-margin-mode 0)
+      (if (display-graphic-p frame)
+          (global-diff-hl-mode 1)
+        (diff-hl-margin-mode 1))))
+#+end_src
+
+Now that we have a few hooks set up, we hook them up and make sure
+everything gets called correctly.
+
+#+begin_src emacs-lisp
+  (defun my-make-frame-functions (&optional frame)
+    (select-frame frame)
+    (make-frame-diff-hl frame)
+    (set-frame-font my/default-frame-font))
+  (add-hook 'after-make-frame-functions 'my-make-frame-functions)
 #+end_src
 
 ** Basic setup
@@ -287,8 +302,8 @@ because we want to be in full screen more often than not.
   (defvar mac-control-modifier)
 
   (cond ((eq system-type 'gnu/linux)
-         (setq x-gtk-use-system-tooltips nil)
-         (set-frame-font "Terminus 8"))
+         (setq x-gtk-use-system-tooltips nil
+               my/default-frame-font "Terminus 8"))
 
         ((eq system-type 'darwin)
          (setq ns-use-native-fullscreen t
@@ -296,7 +311,7 @@ because we want to be in full screen more often than not.
                mac-option-modifier 'super
                mac-control-modifier 'control)
 
-         (set-frame-font "Source Code Pro 10")
+
          (toggle-frame-fullscreen)))
 #+end_src
 
@@ -456,6 +471,7 @@ Not much to say here. We turn snippets on everywhere.
 #+begin_src emacs-lisp
   (use-package yasnippet
     :config
+    (setq yas-verbosity 0)
     (yas-global-mode 1))
 #+end_src
 
@@ -762,3 +778,5 @@ CLOSED: [2015-07-07 Tue 14:38]
 *** DONE Document "Other Things" in [[Basic setup]]
     CLOSED: [2015-07-09 Thu 19:40]
 *** TODO Take a look at =electric-indent-mode=
+*** TODO Improve diff-hl 
+*** TODO Improve handling of client-server emacs
