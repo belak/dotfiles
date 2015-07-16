@@ -67,7 +67,8 @@ if grep --color=auto -q "a" <<< "a" >/dev/null 2>&1; then
 fi
 
 # Set some important env vars
-export EDITOR=vim
+export ALTERNATE_EDITOR=""
+export EDITOR="emacsclient -c"
 export PAGER=less
 export PYTHONDONTWRITEBYTECODE=true
 
