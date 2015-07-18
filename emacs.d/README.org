@@ -30,13 +30,6 @@ defined in =init.el=.
   (setq use-package-always-ensure t)
 #+end_src
 
-Require a few extra libraries for if we decide to byte-compile this
-file.
-
-#+begin_src emacs-lisp
-  (require 'dash)
-#+end_src
-
 ** Utilities
 
 Paradox is a replacement for =package-list-packages= offering a few
@@ -136,10 +129,6 @@ specific settings.
 
 #+begin_src emacs-lisp
   (use-package smart-mode-line
-    :no-require t
-    :defines
-    sml/no-confirm-load-theme
-    sml/theme
     :config
     (setq sml/no-confirm-load-theme t
           sml/theme 'respectful)
@@ -353,8 +342,6 @@ defaults are fine.
 we can make it use recentf.
 
 #+begin_src emacs-lisp
-  (require 'helm)
-  (require 'helm-config)
   (use-package helm
     :demand
     :diminish helm-mode
@@ -382,7 +369,9 @@ we can make it use recentf.
                           '(helm-imenu-fuzzy-match t)
                           '(helm-apropos-fuzzy-match t)
                           '(helm-lisp-fuzzy-completion t)
-                          '(helm-ff-file-name-history-use-recentf t)))
+                          '(helm-ff-file-name-history-use-recentf t))
+
+    (use-package helm-ag))
 #+end_src
 
 Perspective creates different views to switch between.
@@ -396,7 +385,6 @@ Perspective creates different views to switch between.
 Project based navigation. I would be completely lost without this.
 
 #+begin_src emacs-lisp
-  (require 'projectile)
   (use-package projectile
     :diminish projectile-mode
     :config
@@ -563,7 +551,6 @@ have both rope and jedi installed. Elpy defaults to using the system
 'python' binary so we force it to use python2.
 
 #+begin_src emacs-lisp
-  (require 'elpy)
   (use-package elpy
     :config
     (elpy-enable)
