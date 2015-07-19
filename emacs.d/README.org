@@ -19,6 +19,9 @@ defined in =init.el=.
 
 #+begin_src emacs-lisp
   (package-ensure-installed 'use-package)
+  (package-ensure-installed 'req-package)
+
+  (require 'req-package)
 
   (eval-when-compile
     ;;(defvar use-package-verbose t)
@@ -37,7 +40,7 @@ extra features. Note that we only load it on those commands because
 it's something that only really matters when we manually start it up.
 
 #+begin_src emacs-lisp
-  (use-package paradox
+  (req-package paradox
     :commands
     paradox-list-packages
     paradox-enable
@@ -50,13 +53,13 @@ Magit is an amazing git wrapper which lets us do a whole ton of
 different things.
 
 #+begin_src emacs-lisp
-  (use-package magit)
+  (req-package magit)
 #+end_src
 
 Make sure undo-tree is enabled.
 
 #+begin_src emacs-lisp
-  (use-package undo-tree
+  (req-package undo-tree
     :diminish undo-tree-mode
     :config
     (global-undo-tree-mode 1))
@@ -65,7 +68,7 @@ Make sure undo-tree is enabled.
 Load up zx2c4's [[http://www.passwordstore.org/][pass]] utility so we can grab data out of it later.
 
 #+begin_src emacs-lisp
-  (use-package password-store)
+  (req-package password-store)
 #+end_src
 
 =guide-key= provides a nice interface for showing prefix commands.
@@ -80,7 +83,7 @@ The currently defined prefixes are listed below.
 |--------+-----------------------------------------|
 
 #+begin_src emacs-lisp
-  (use-package guide-key
+  (req-package guide-key
     :diminish guide-key-mode
     :config
     (guide-key-mode 1)
@@ -96,7 +99,7 @@ Note that the font should be overridden later, such as in platform
 specific settings.
 
 #+begin_src emacs-lisp
-  (use-package zenburn-theme
+  (req-package zenburn-theme
     :config
     (load-theme 'zenburn t))
 
@@ -128,7 +131,7 @@ specific settings.
 =smart-mode-line= is a much cleaner modeline with a few extra features.
 
 #+begin_src emacs-lisp
-  (use-package smart-mode-line
+  (req-package smart-mode-line
     :config
     (setq sml/no-confirm-load-theme t
           sml/theme 'respectful)
@@ -139,21 +142,20 @@ Make sure the git gutter is loaded. Note that the fringe doesn't work
 in console mode, so we fall back to using the margin.
 
 #+begin_src emacs-lisp
-  (defun make-frame-diff-hl (&optional frame)
-    (use-package diff-hl
-      :config
-      (global-diff-hl-mode 0)
-      (diff-hl-margin-mode 0)
-      (if (display-graphic-p frame)
-          (global-diff-hl-mode 1)
-        (diff-hl-margin-mode 1))))
+  (req-package diff-hl)
+  (defun make-frame-diff-hl (frame)
+    (global-diff-hl-mode 0)
+    (diff-hl-margin-mode 0)
+    (if (display-graphic-p frame)
+        (global-diff-hl-mode 1)
+      (diff-hl-margin-mode 1)))
 #+end_src
 
 Now that we have a few hooks set up, we hook them up and make sure
 everything gets called correctly.
 
 #+begin_src emacs-lisp
-  (defun my-make-frame-functions (&optional frame)
+  (defun my-make-frame-functions (frame)
     (select-frame frame)
     (make-frame-diff-hl frame)
     (set-frame-font my/default-frame-font))
@@ -229,6 +231,7 @@ General annoyances.
 - Show parens
 - Don't indent with tabs
 - Ask y or n, not yes or no
+- When matching parens, highlight the region
 - Make extra functions show up when searching
 - Change yanking locations
 - Turn off the damn bell
@@ -249,8 +252,8 @@ General annoyances.
 
   (fset 'yes-or-no-p 'y-or-n-p)
 
-  (defvar apropos-do-all)
-  (setq apropos-do-all t
+  (setq show-paren-style 'expression
+        apropos-do-all t
         mouse-yank-at-point t
         ring-bell-function 'ignore
         lazy-highlight-initial-delay 0
@@ -271,7 +274,7 @@ Load some useful variables from the shell. By default, it grabs HOME,
 but we grab GOPATH as well for go.
 
 #+begin_src emacs-lisp
-  (use-package exec-path-from-shell
+  (req-package exec-path-from-shell
     :config
     (add-to-list 'exec-path-from-shell-variables "GOPATH")
     (exec-path-from-shell-initialize))
@@ -310,21 +313,27 @@ Make sure to use ido everywhere. Because we're currently using helm,
 this is disabled.
 
 #+begin_src emacs-lisp
-  (use-package smex
+  (req-package smex
     :disabled t
     :config
     (ido-mode 1)
     (ido-everywhere 1)
-    (setq ido-enable-flex-matching t)
-    (use-package ido-ubiquitous
-      :config
-      (ido-ubiquitous-mode 1))
-    (use-package ido-vertical-mode
-      :config
-      (ido-vertical-mode 1))
-    (use-package flx-ido
-      :config
-      (flx-ido-mode 1)))
+    (setq ido-enable-flex-matching t))
+
+  (req-package ido-ubiquitous
+    :disabled t
+    :config
+    (ido-ubiquitous-mode 1))
+
+  (req-package ido-vertical-mode
+    :disabled t
+    :config
+    (ido-vertical-mode 1))
+
+  (req-package flx-ido
+    :disabled t
+    :config
+    (flx-ido-mode 1))
 #+end_src
 
 Make sure we store recent files. This lets helm do fancy things.
@@ -342,7 +351,7 @@ defaults are fine.
 we can make it use recentf.
 
 #+begin_src emacs-lisp
-  (use-package helm
+  (req-package helm
     :demand
     :diminish helm-mode
     :bind
@@ -369,15 +378,16 @@ we can make it use recentf.
                           '(helm-imenu-fuzzy-match t)
                           '(helm-apropos-fuzzy-match t)
                           '(helm-lisp-fuzzy-completion t)
-                          '(helm-ff-file-name-history-use-recentf t))
+                          '(helm-ff-file-name-history-use-recentf t)))
 
-    (use-package helm-ag))
+  (req-package helm-ag
+    :require helm)
 #+end_src
 
 Perspective creates different views to switch between.
 
 #+begin_src emacs-lisp
-  (use-package perspective
+  (req-package perspective
     :config
     (persp-mode))
 #+end_src
@@ -385,13 +395,15 @@ Perspective creates different views to switch between.
 Project based navigation. I would be completely lost without this.
 
 #+begin_src emacs-lisp
-  (use-package projectile
+  (req-package projectile
     :diminish projectile-mode
     :config
-    (projectile-global-mode)
-    (use-package helm-projectile
-      :config
-      (helm-projectile-on)))
+    (projectile-global-mode))
+
+  (req-package helm-projectile
+    :require (helm projectile)
+    :config
+    (helm-projectile-on))
 #+end_src
 
 ** Programming
@@ -417,13 +429,16 @@ bother putting it into the prog mode hook.
     (setq show-trailing-whitespace t))
 
   (add-hook 'prog-mode-hook 'my-prog-mode-hook)
+
+  (require 'eldoc)
+  (diminish 'eldoc-mode)
 #+end_src
 
 =fic-mode= makes sure I actually notice comments with TODO, FIXME and
 XXX.
 
 #+begin_src emacs-lisp
-  (use-package fic-mode
+  (req-package fic-mode
     :diminish fic-mode
     :config
     (add-hook 'prog-mode-hook 'turn-on-fic-mode))
@@ -433,7 +448,7 @@ XXX.
 brackets as well. This mode makes it easier to see nested delimiters.
 
 #+begin_src emacs-lisp
-  (use-package rainbow-delimiters
+  (req-package rainbow-delimiters
     :config
     (add-hook 'prog-mode-hook 'rainbow-delimiters-mode))
 #+end_src
@@ -446,7 +461,8 @@ works with it yet, but at least for me it has a tendency to be more
 stable.
 
 #+begin_src emacs-lisp
-  (use-package company
+  (req-package company
+    :diminish company-mode
     :config
     (setq company-idle-delay 0)
     (add-hook 'after-init-hook 'global-company-mode))
@@ -457,7 +473,7 @@ stable.
 Not much to say here. We turn snippets on everywhere.
 
 #+begin_src emacs-lisp
-  (use-package yasnippet
+  (req-package yasnippet
     :config
     (setq yas-verbosity 0)
     (yas-global-mode 1))
@@ -468,11 +484,8 @@ Not much to say here. We turn snippets on everywhere.
 Turn on syntax checking using flycheck. Because it has so many built
 in, in most instances we won't even need to install a plugin.
 
-Note that elpy doesn't have support for flycheck, so we use flymake
-for python.
-
 #+begin_src emacs-lisp
-  (use-package flycheck
+  (req-package flycheck
     :config
     (global-flycheck-mode))
 #+end_src
@@ -482,7 +495,7 @@ for python.
 Rainbow blocks highlights blocks instead of keywords.
 
 #+begin_src emacs-lisp
-  (use-package rainbow-blocks
+  (req-package rainbow-blocks
     :config
     (add-hook 'emacs-lisp-mode-hook 'rainbow-blocks-mode)
     (add-hook 'lisp-interaction-mode-hook 'rainbow-blocks-mode))
@@ -491,20 +504,9 @@ Rainbow blocks highlights blocks instead of keywords.
 *** C/C++
 
 #+begin_src emacs-lisp
-  (use-package irony
+  (req-package irony
     :diminish irony-mode
     :config
-    (use-package company-irony
-      :config
-      (defun my-company-irony-mode-hook ()
-        (set (make-local-variable 'company-backends) '(company-irony))
-        (company-irony-setup-begin-commands))
-      (add-hook 'irony-mode-hook 'my-company-irony-mode-hook))
-    (use-package flycheck-irony
-      :config
-      (eval-after-load 'flycheck
-        '(add-hook 'flycheck-mode-hook #'flycheck-irony-setup)))
-
     (add-hook 'c++-mode-hook 'irony-mode)
     (add-hook 'c-mode-hook 'irony-mode)
     (add-hook 'objc-mode-hook 'irony-mode)
@@ -520,6 +522,20 @@ Rainbow blocks highlights blocks instead of keywords.
       (irony-cdb-autosetup-compile-options))
 
     (add-hook 'irony-mode-hook 'my-irony-mode-hook))
+
+  (req-package company-irony
+    :require (irony company)
+    :config
+    (defun my-company-irony-mode-hook ()
+      (set (make-local-variable 'company-backends) '(company-irony))
+      (company-irony-setup-begin-commands))
+    (add-hook 'irony-mode-hook 'my-company-irony-mode-hook))
+
+  (req-package flycheck-irony
+    :require (irony flycheck)
+    :config
+    (eval-after-load 'flycheck
+      '(add-hook 'flycheck-mode-hook #'flycheck-irony-setup)))
 #+end_src
 
 *** Go
@@ -529,33 +545,41 @@ setups. Simple completion and gofmt are the most important of those
 features, at least to me.
 
 #+begin_src emacs-lisp
-  (use-package go-mode
+  (req-package go-mode
     :mode "\\.go$"
     :config
     (load "$GOPATH/src/golang.org/x/tools/cmd/oracle/oracle.el")
     (add-hook 'go-mode-hook 'go-oracle-mode)
-    (add-hook 'before-save-hook 'gofmt-before-save)
+    (add-hook 'before-save-hook 'gofmt-before-save))
 
-    (use-package company-go
-      :requires company
-      :config
-      (defun my-company-go-mode-hook ()
-        (set (make-local-variable 'company-backends) '(company-go)))
-      (add-hook 'go-mode-hook 'my-company-go-mode-hook)))
+  (req-package company-go
+    :require (company go-mode)
+    :config
+    (defun my-company-go-mode-hook ()
+      (set (make-local-variable 'company-backends) '(company-go)))
+    (add-hook 'go-mode-hook 'my-company-go-mode-hook))
 #+end_src
 
 *** Python
 
-Enable elpy and force jedi to be used as the rpc backend so we can
-have both rope and jedi installed. Elpy defaults to using the system
-'python' binary so we force it to use python2.
+Anaconda mode does navigation, docs and auto-completion. Because
+that's pretty much all I need, I use this in place of elpy.
 
 #+begin_src emacs-lisp
-  (use-package elpy
+  (req-package anaconda-mode
+    :diminish anaconda-mode
     :config
-    (elpy-enable)
-    (elpy-use-cpython "python2")
-    (setq elpy-rpc-backend "jedi"))
+    (add-hook 'python-mode-hook 'anaconda-mode)
+    (add-hook 'python-mode-hook 'eldoc-mode))
+
+  (req-package company-anaconda
+    :requires (anaconda-mode company)
+    :config
+    (add-to-list 'company-backends 'company-anaconda))
+
+  (req-package virtualenvwrapper
+    :config
+    (setq virtualenv-location (expand-file-name "~/.virtualenvs/")))
 #+end_src
 
 *** Web Dev
@@ -566,10 +590,10 @@ Most of this section is just supporting additional formats, however
 =rainbow-mode= is here so we can preview the actual colors in css.
 
 #+begin_src emacs-lisp
-  (use-package rainbow-mode
+  (req-package rainbow-mode
     :commands rainbow-mode)
 
-  (use-package web-mode
+  (req-package web-mode
     :mode
     "\\.jinja$"
     "\\.html$"
@@ -578,7 +602,7 @@ Most of this section is just supporting additional formats, however
           web-mode-css-indent-offset 2
           web-mode-code-indent-offset 2))
 
-  (use-package js2-mode
+  (req-package js2-mode
     :mode
     "\\.js$"
     :config
@@ -591,22 +615,22 @@ Most of this section is just supporting additional formats, however
     ;;                     :inherit 'flycheck-error-list-warning
     ;;                     :underline '(:color foreground-color :style wave)))
 
-  (use-package less-css-mode
+  (req-package less-css-mode
     :mode "\\.less$")
 #+end_src
 
 *** Misc
 
 #+begin_src emacs-lisp
-  (use-package cmake-mode
+  (req-package cmake-mode
     :mode
     "CMakeLists.txt"
     "\\.cmake$")
 
-  (use-package lua-mode
+  (req-package lua-mode
     :mode "\\.lua$")
 
-  (use-package yaml-mode
+  (req-package yaml-mode
     :mode "\\.yml$")
 #+end_src
 
@@ -622,7 +646,7 @@ run this config file. The =:diminish= keyword fails because
 org-indent-mode does not exist by the time diminish is called.
 
 #+begin_src emacs-lisp
-  (use-package org
+  (req-package org
     :demand
     :mode ("\\.org$" . org-mode)
     :diminish org-indent-mode
@@ -656,13 +680,8 @@ still prefer to keep my IRC in weechat, so this remains disabled for
 now.
 
 #+begin_src emacs-lisp
-    (use-package erc
+    (req-package erc
       :disabled t
-      :requires
-      tls
-      erc-menu
-      erc-hl-nicks
-      znc
       :config
       (setq erc-prompt ">"
             znc-servers `(
@@ -677,7 +696,7 @@ now.
 
 #+begin_src emacs-lisp
   (add-to-list 'load-path "/usr/local/share/emacs/site-lisp/mu4e")
-  (use-package mu4e
+  (req-package mu4e
     :defines
     mu4e-maildir
     mu4e-get-mail-command
@@ -704,10 +723,25 @@ This enables persistent scratch buffers. This allows for saving
 scratch buffers along with the mode because I prefer to use org-mode.
 
 #+begin_src emacs-lisp
-  (use-package persistent-scratch
+  (req-package persistent-scratch
     :config
     (persistent-scratch-setup-default)
     (persistent-scratch-autosave-mode 1))
+#+end_src
+
+** Finalization
+
+- Actually load all the packages
+- Select which diff util be used for this frame
+- Set the frame font to whatever was selected
+
+Note that req-package-finish needs to be done first so we can actually
+use make-frame-diff-hl
+
+#+begin_src emacs-lisp
+  (req-package-finish)
+  (make-frame-diff-hl (selected-frame))
+  (set-frame-font my/default-frame-font)
 #+end_src
 
 ** Custom
@@ -764,6 +798,8 @@ CLOSED: [2015-07-07 Tue 14:29]
 CLOSED: [2015-07-07 Tue 14:38]
 *** DONE Document "Other Things" in [[Basic setup]]
     CLOSED: [2015-07-09 Thu 19:40]
+*** DONE Improve handling of client-server emacs
+    CLOSED: [2015-07-18 Sat 03:04]
 *** TODO Take a look at =electric-indent-mode=
 *** TODO Improve diff-hl 
-*** TODO Improve handling of client-server emacs
+*** TODO Find workaround for [[Finalization]] section
