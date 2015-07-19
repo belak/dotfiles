@@ -579,7 +579,27 @@ that's pretty much all I need, I use this in place of elpy.
 
   (req-package virtualenvwrapper
     :config
-    (setq virtualenv-location (expand-file-name "~/.virtualenvs/")))
+    (setq virtualenv-location (expand-file-name "~/.virtualenvs/"))
+
+    (defvar my-venv-current-name)
+    (put 'my-venv-current-name 'risky-local-variable t)
+
+    (defun my-update-venv-modestring ()
+      (setq my-venv-current-name
+            (list "["
+                  (propertize
+                   (if venv-current-name venv-current-name "")
+                   'face 'persp-selected-face)
+                  "]"))
+
+      (setq global-mode-string (or global-mode-string '("")))
+      (setq global-mode-string (delq 'my-venv-current-name global-mode-string))
+      (setq global-mode-string (append global-mode-string '(my-venv-current-name))))
+
+    (add-hook 'venv-postactivate-hook 'my-update-venv-modestring)
+    (add-hook 'venv-predeactivate-hook 'my-update-venv-modestring)
+
+    (my-update-venv-modestring))
 #+end_src
 
 *** Web Dev
