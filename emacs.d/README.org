@@ -662,6 +662,9 @@ Most of this section is just supporting additional formats, however
   (req-package lua-mode
     :mode "\\.lua$")
 
+  (req-package markdown-mode
+    :mode ("\\.md$" . gfm-mode))
+
   (req-package yaml-mode
     :mode "\\.yml$")
 #+end_src
