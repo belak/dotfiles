@@ -21,11 +21,11 @@ defined in =init.el=.
   (package-ensure-installed 'use-package)
   (package-ensure-installed 'req-package)
 
-  (require 'req-package)
-
   (eval-when-compile
-    ;;(defvar use-package-verbose t)
+    (defvar use-package-verbose t)
     (require 'use-package))
+
+  (require 'req-package)
 
   (require 'diminish)
   (require 'bind-key)
@@ -192,8 +192,7 @@ Because I want zap-to-char to not nuke the character we're zapping to,
 we simply replace it with zap-up-to-char.
 
 #+begin_src emacs-lisp
-  (autoload 'zap-up-to-char "misc"
-    "Kill up to, but not including ARGth occurrence of CHAR." t)
+  (autoload 'zap-up-to-char "misc")
 
   (global-set-key [remap zap-to-char] 'zap-up-to-char)
 #+end_src
@@ -238,6 +237,7 @@ General annoyances.
 - Require a final newline on files
 - Follow symlinks when we need to
 - Make sure to load newest versions of files, even if there are older compiled versions
+- Ensure tabs show up as 4 spaces
 
 #+begin_src emacs-lisp
   (require 'uniquify)
@@ -259,7 +259,8 @@ General annoyances.
         lazy-highlight-initial-delay 0
         require-final-newline t
         vc-follow-symlinks t
-        load-prefer-newer t)
+        load-prefer-newer t
+        tab-width 4)
 #+end_src
 
 Make mouse scrolling and scrolling in general a bit saner (in theory)
@@ -315,10 +316,19 @@ this is disabled.
 #+begin_src emacs-lisp
   (req-package smex
     :disabled t
+    :bind
+    ("M-x" . smex)
+    ("M-X" . smex-major-mode-commands))
+
+  (req-package ido
+    :disabled t
     :config
     (ido-mode 1)
     (ido-everywhere 1)
-    (setq ido-enable-flex-matching t))
+    (setq resize-mini-windows t
+          ido-use-virtual-buffers t
+          ido-enable-flex-matching t
+          ido-vertical-show-count t))
 
   (req-package ido-ubiquitous
     :disabled t
@@ -328,12 +338,14 @@ this is disabled.
   (req-package ido-vertical-mode
     :disabled t
     :config
-    (ido-vertical-mode 1))
+    (ido-vertical-mode 1)
+    (setq ido-vertical-define-keys 'C-n-C-p-up-and-down))
 
   (req-package flx-ido
     :disabled t
     :config
-    (flx-ido-mode 1))
+    (flx-ido-mode 1)
+    (setq ido-use-faces nil))
 #+end_src
 
 Make sure we store recent files. This lets helm do fancy things.
@@ -717,24 +729,44 @@ now.
 #+begin_src emacs-lisp
   (add-to-list 'load-path "/usr/local/share/emacs/site-lisp/mu4e")
   (req-package mu4e
-    :defines
-    mu4e-maildir
-    mu4e-get-mail-command
-    mu4e-html2text-command
-    mu4e-use-fancy-chars
-    mu4e-maildir-shortcuts
     :ensure f
     :config
     (setq mu4e-maildir "~/.mail/coded.io"
           mu4e-get-mail-command "mbsync -a"
           mu4e-html2text-command "elinks -dump"
           mu4e-use-fancy-chars t
+          mu4e-confirm-quit nil
           mu4e-maildir-shortcuts '(("/inbox"   . ?i)
                                    ("/drafts"  . ?d)
                                    ("/sent"    . ?s)
                                    ("/archive" . ?a)
                                    ("/spam"    . ?z)
-                                   ("/trash"   . ?t))))
+                                   ("/trash"   . ?t)))
+
+    (setq send-mail-function 'smtpmail-send-it
+          message-send-mail-function 'smtpmail-send-it
+          smtpmail-stream-type 'starttls
+          smtpmail-smtp-service 25)
+
+    (defvar belak/mu4e-send-map '()
+      "Simple mapping of the 'To' header to the outgoing address.")
+    (defvar belak/mu4e-default-email ""
+      "Email to use when the send-map does not contain a matching address.")
+
+    (defun belak/mu4e-compose-hook ()
+      (let ((msg mu4e-compose-parent-message))
+        (setq user-mail-address
+              (if (not msg)
+                  belak/mu4e-default-email
+                (labels ((f (l)
+                            (if (not l)
+                                belak/mu4e-default-email
+                              (if (mu4e-message-contact-field-matches msg :to (car (car l)))
+                                  (cdr (car l))
+                                (f (car l))))))
+                  (f belak/mu4e-send-map))))))
+
+    (add-hook 'mu4e-compose-pre-hook 'belak/mu4e-compose-hook))
 #+end_src
 
 ** Scratch
