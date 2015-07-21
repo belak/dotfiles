@@ -90,6 +90,7 @@ seconds of idle time to load this.
 
 #+begin_src emacs-lisp
   (req-package guide-key
+    :disabled t
     :diminish guide-key-mode
     :defer 5
     :config
@@ -97,6 +98,20 @@ seconds of idle time to load this.
     (setq guide-key/guide-key-sequence '("C-c" "C-x x")
           guide-key/idle-delay 0.5
           guide-key/recursive-key-sequence-flag t))
+#+end_src
+
+=which-key= is a fancier replacement for guide-key. It also makes it
+very easy to fix the missing prefix commands, which was something that
+really bugged me about guide-key.
+
+#+begin_src emacs-lisp
+  (req-package which-key
+    :diminish which-key-mode
+    :config
+    (which-key-mode 1)
+    (setq which-key-idle-delay 0.5
+          which-key-popup-type 'side-window
+          which-key-side-window-location 'right))
 #+end_src
 
 ** Appearance
@@ -186,14 +201,19 @@ First we clean up the interface a bit, removing menus, toolbars and the scrollba
 #+end_src
 
 Because I often make silly window mistakes, we enable winner-mode so
-we can undo them. We also enable windmove which makes it easier to
-move between open windows.
+we can undo them.
 
 #+begin_src emacs-lisp
   (winner-mode 1)
-
-  (windmove-default-keybindings)
 #+end_src
+
+=ace-window= is a simpler way to jump around windows.
+
+#+begin_src emacs-lisp
+  (req-package ace-window
+    :bind ("M-p" . ace-window))
+#+end_src
+
 
 Because I want zap-to-char to not nuke the character we're zapping to,
 we simply replace it with zap-up-to-char.
@@ -309,13 +329,14 @@ because we want to be in full screen more often than not.
          (setq ns-use-native-fullscreen t
                mac-command-modifier 'meta
                mac-option-modifier 'super
-               mac-control-modifier 'control)
+               mac-control-modifier 'control
+               insert-directory-program "/usr/local/bin/gls")
 
 
          (toggle-frame-fullscreen)))
 #+end_src
 
-** File Navigation
+** Navigation
 
 Make sure to use ido everywhere. Because we're currently using helm,
 this is disabled.
@@ -406,6 +427,11 @@ we can make it use recentf.
     helm-ag
     helm-ag-project-root
     :require helm)
+
+  (req-package helm-swoop
+    :bind ("C-s" . helm-swoop)
+    :config
+    (setq helm-swoop-speed-or-color t))
 #+end_src
 
 Perspective creates different views to switch between. This needs to
@@ -429,6 +455,46 @@ Project based navigation. I would be completely lost without this.
     :require (helm projectile)
     :config
     (helm-projectile-on))
+#+end_src
+
+** Dired
+
+Make a few improvements to dired.
+
+#+begin_src emacs-lisp
+  (req-package dired+)
+#+end_src
+
+Do our best to make sure that we don't litter the buffer list with
+dired buffers.
+
+#+begin_src emacs-lisp
+  (req-package dired-single
+    :requires (dired+)
+    :config
+    (defun belak/dired-up ()
+      (interactive)
+      (dired-single-buffer ".."))
+
+    (defun belak/dired-select ()
+      (interactive)
+      (let ((prev-buffer (current-buffer)))
+        (dired-single-buffer)
+        (if (eq 'dired-mode (with-current-buffer prev-buffer major-mode))
+            (kill-buffer prev-buffer))))
+
+    (bind-keys :map dired-mode-map
+               ("<return>"  . belak/dired-select)
+               ("^"         . belak/dired-up)
+               ("q"         . kill-this-buffer)))
+#+end_src
+
+Make dired navigation much prettier.
+
+#+begin_src emacs-lisp
+  (req-package stripe-buffer
+    :config
+    (add-hook 'dired-mode-hook 'stripe-listify-buffer))
 #+end_src
 
 ** Programming
@@ -511,8 +577,10 @@ in, in most instances we won't even need to install a plugin.
 
 #+begin_src emacs-lisp
   (req-package flycheck
+    :requires (which-key)
     :config
-    (global-flycheck-mode))
+    (global-flycheck-mode)
+    (which-key-add-key-based-replacements "C-c !" "Flycheck"))
 #+end_src
 
 *** Lisp
@@ -720,12 +788,7 @@ org-indent-mode does not exist by the time diminish is called.
           org-tag-alist '(("WORK" . ?w)
                           ("HOME" . ?h))
           org-agenda-files '("~/org/work.org"
-                             "~/org/home.org"))
-    :config
-    (add-hook 'org-shiftup-final-hook 'windmove-up)
-    (add-hook 'org-shiftleft-final-hook 'windmove-left)
-    (add-hook 'org-shiftdown-final-hook 'windmove-down)
-    (add-hook 'org-shiftright-final-hook 'windmove-right))
+                             "~/org/home.org")))
 #+end_src
 
 ** IRC
