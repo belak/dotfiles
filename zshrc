@@ -26,7 +26,7 @@ fi
 
 # Aliases
 alias json="python -mjson.tool"
-alias ud="./scripts/update-deps"
+alias ud="workon bb && ./scripts/update-deps"
 
 # Disable ^s and ^q
 stty -ixon
@@ -57,12 +57,12 @@ set nobeep
 # Try to get color for ls and grep
 typeset -ga ls_options
 typeset -ga grep_options
-if ls --color=auto / >/dev/null 2>&1; then
+if islinux; then
     ls_options=(--color=auto)
-elif ls -G / >/dev/null 2>&1; then
+elif isdarwin; then
     ls_options=(-G)
 fi
-if grep --color=auto -q "a" <<< "a" >/dev/null 2>&1; then
+if islinux; then
     grep_options=(--color=auto)
 fi
 
@@ -73,7 +73,7 @@ export PAGER=less
 export PYTHONDONTWRITEBYTECODE=true
 
 # Set up dircolors
-dircolors &>/dev/null && eval $(dircolors -b)
+which dircolors &>/dev/null && eval $(dircolors -b)
 
 # Stuff for osx
 isdarwin && export CLICOLOR=1
@@ -101,7 +101,7 @@ if which ruby >/dev/null && which gem >/dev/null; then
 fi
 
 # Load rbenv is we have it
-if which rbenv &>/dev/null; then
+if [[ -f ~/.rbenv ]]; then
 	eval "$(rbenv init -)"
 fi
 
