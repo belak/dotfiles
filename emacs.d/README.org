@@ -53,7 +53,9 @@ Magit is an amazing git wrapper which lets us do a whole ton of
 different things.
 
 #+begin_src emacs-lisp
-  (req-package magit)
+  (req-package magit
+    :commands
+    magit-status)
 #+end_src
 
 Make sure undo-tree is enabled.
@@ -68,7 +70,8 @@ Make sure undo-tree is enabled.
 Load up zx2c4's [[http://www.passwordstore.org/][pass]] utility so we can grab data out of it later.
 
 #+begin_src emacs-lisp
-  (req-package password-store)
+  (req-package password-store
+    :commands password-store-get)
 #+end_src
 
 =guide-key= provides a nice interface for showing prefix commands.
@@ -82,9 +85,13 @@ The currently defined prefixes are listed below.
 | C-x x  | Switching of different window modes     |
 |--------+-----------------------------------------|
 
+Note that because we don't need this right away, we wait for a few
+seconds of idle time to load this.
+
 #+begin_src emacs-lisp
   (req-package guide-key
     :diminish guide-key-mode
+    :defer 5
     :config
     (guide-key-mode 1)
     (setq guide-key/guide-key-sequence '("C-c" "C-x x")
@@ -364,7 +371,6 @@ we can make it use recentf.
 
 #+begin_src emacs-lisp
   (req-package helm
-    :demand
     :diminish helm-mode
     :bind
     ("M-x"     . helm-M-x)
@@ -377,7 +383,10 @@ we can make it use recentf.
     (bind-keys :map helm-map
                ("<tab>" . helm-execute-persistent-action)
                ("C-z"   . helm-select-action))
+
     (helm-mode 1)
+
+    ;; Resize based on the number of results
     (helm-autoresize-mode 1)
 
     ;; Turn on fuzzy matching for everything we can
@@ -393,10 +402,14 @@ we can make it use recentf.
                           '(helm-ff-file-name-history-use-recentf t)))
 
   (req-package helm-ag
+    :commands
+    helm-ag
+    helm-ag-project-root
     :require helm)
 #+end_src
 
-Perspective creates different views to switch between.
+Perspective creates different views to switch between. This needs to
+be loaded on startup so the modeline is set up.
 
 #+begin_src emacs-lisp
   (req-package perspective
@@ -577,6 +590,9 @@ features, at least to me.
 Anaconda mode does navigation, docs and auto-completion. Because
 that's pretty much all I need, I use this in place of elpy.
 
+We set python-mode to load on .py files as a hack to get anaconda-mode
+to load in the background.
+
 #+begin_src emacs-lisp
   (req-package anaconda-mode
     :diminish anaconda-mode
@@ -588,7 +604,12 @@ that's pretty much all I need, I use this in place of elpy.
     :requires (anaconda-mode company)
     :config
     (add-to-list 'company-backends 'company-anaconda))
+#+end_src
 
+This is a reimplementation of virtualenvwrapper in emacs. We need to
+load it right away to make sure the modeline is updated.
+
+#+begin_src emacs-lisp
   (req-package virtualenvwrapper
     :config
     (setq virtualenv-location (expand-file-name "~/.virtualenvs/"))
@@ -733,6 +754,8 @@ now.
   (add-to-list 'load-path "/usr/local/share/emacs/site-lisp/mu4e")
   (req-package mu4e
     :ensure f
+    :commands
+    mu4e
     :config
     (setq mu4e-maildir "~/.mail/coded.io"
           mu4e-get-mail-command "mbsync -a"
@@ -757,19 +780,16 @@ now.
       "Email to use when the send-map does not contain a matching address.")
 
     (defun belak/mu4e-compose-hook ()
-      (let ((msg mu4e-compose-parent-message))
-        (setq user-mail-address
-              (if (not msg)
-                  belak/mu4e-default-email
-                (labels ((f (l)
-                            (if (not l)
-                                belak/mu4e-default-email
-                              (if (mu4e-message-contact-field-matches msg :to (car (car l)))
-                                  (cdr (car l))
-                                (f (car l))))))
-                  (f belak/mu4e-send-map))))))
+      (setq user-mail-address
+            (labels ((f (l)
+                        (cond ((not msg) belak/mu4e-default-email)
+                              ((not l) belak/mu4e-default-email)
+                              ((mu4e-message-contact-field-matches msg :to (car (car l)))
+                               (cdr (car l)))
+                              (t (f (car l))))))
+              (f belak/mu4e-send-map)))
 
-    (add-hook 'mu4e-compose-pre-hook 'belak/mu4e-compose-hook))
+    (add-hook 'mu4e-compose-pre-hook 'belak/mu4e-compose-hook)))
 #+end_src
 
 ** Scratch
@@ -855,6 +875,7 @@ CLOSED: [2015-07-07 Tue 14:38]
     CLOSED: [2015-07-09 Thu 19:40]
 *** DONE Improve handling of client-server emacs
     CLOSED: [2015-07-18 Sat 03:04]
+*** DONE Improve diff-hl 
+    CLOSED: [2015-07-20 Mon 11:55]
 *** TODO Take a look at =electric-indent-mode=
-*** TODO Improve diff-hl 
 *** TODO Find workaround for [[Finalization]] section
