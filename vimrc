@@ -1,48 +1,8 @@
 " Stuff for vundle
 set nocompatible
 
-if filereadable(expand($HOME . "/.bundle.vim"))
-	source $HOME/.bundle.vim
-endif
-
-" Remove some gui stuff
-if has("gui_running")
-	set guifont=Menlo\ 12
-	set guioptions-=l
-	set guioptions-=L
-	set guioptions-=m
-	set guioptions-=M
-	set guioptions-=r
-	set guioptions-=R
-	set guioptions-=T
-endif
-
-" Airline settings
-let g:airline_left_sep=''
-let g:airline_right_sep=''
-let g:airline_theme='base16'
-
-" Bufferline
-let g:bufferline_echo = 0
-
 " Incsearch
 set incsearch
-let g:oblique#incsearch_highlight_all = 1
-
-" Use silver searcher for ack
-if executable('ag')
-	let g:ackprg = 'ag --nogroup --nocolor --column'
-	let grepprg = 'ag --nogroup --nocolor --column'
-
-	" Faster unite
-	let g:unite_source_rec_async_command= 'ag --follow --nocolor --nogroup --hidden -g ""'
-	let g:unite_source_grep_command = 'ag'
-	let g:unite_source_grep_default_opts = '--column --nogroup --nogroup'
-	let g:unite_source_grep_recursive_opt = ''
-endif
-
-" Completion
-autocmd FileType python setlocal omnifunc=pythoncomplete#Complete
 
 " Convenience remappings
 set clipboard^=unnamed
@@ -58,19 +18,19 @@ set backspace=indent,eol,start " Allow backspacing over everything in insert mod
 set hlsearch                   " Hilight what we're searching for
 set showcmd                    " Always show the currently entered command
 set writebackup                " Make a backup before overwriting a file
-set laststatus=2               " Always show the status line
-"set ttyfast                    " Make vim more responsive
+set ttyfast                    " Make vim more responsive
 set lazyredraw                 " Don't show intermediate macro steps
 set smartcase                  " Ignore case if search pattern is all lower case
 set autowrite                  " Write when switching buffers
-"set colorcolumn=80             " PEP-8 usefulness
+set colorcolumn=80             " PEP-8 usefulness
 set autoread                   " Auto re-read files when changed outside vim
 set virtualedit=block          " Make moving in visual mode make more sense
 set synmaxcol=800              " Don't try to highlight lines longer than 800 chars
 set textwidth=80               " Auto wrap comments at 80 chars
 set fillchars=vert:\│          " Unicode line for separators
+set ruler                      " Column and line num display
 
-" Splits
+" Split and select the right window
 set splitbelow
 set splitright
 
@@ -78,66 +38,34 @@ set splitright
 set ttimeout
 set ttimeoutlen=0
 
+" Turn on mouse support and make it work past the normal xterm limit
 set mouse=a
 if has('mouse_sgr')
 	set ttymouse=sgr
 endif
 
 " Line numbers
-" This is required for numbers.vim
 set number
-set rnu
+set relativenumber
 
+" Make sure the annoying backup files, swap files, and undo files stay out of
+" the code directories.
 set backupdir=~/.vim/backup
 set directory=~/.vim/swap
 set undodir=~/.vim/undo
 set wildignore+=*/vendor/**
 
-" Syntax stuff
+" Syntax highlighting
 set background=dark
-colorscheme seoul256
-
-" This was taken from vim-gitgutter
-function! GetBackgroundColors(group)
-	redir => highlight
-	silent execute 'silent highlight ' . a:group
-	redir END
-
-	let link_matches = matchlist(highlight, 'links to \(\S\+\)')
-	if len(link_matches) > 0 " follow the link
-		return GetBackgroundColors(link_matches[1])
-	endif
-
-	let ctermbg = MatchHighlight(highlight, 'ctermbg=\([0-9A-Za-z]\+\)')
-	let guibg   = MatchHighlight(highlight, 'guibg=\([#0-9A-Za-z]\+\)')
-	return [guibg, ctermbg]
-endfunction
-
-" So was this
-function! MatchHighlight(highlight, pattern)
-	let matches = matchlist(a:highlight, a:pattern)
-	if len(matches) == 0
-		return 'NONE'
-	endif
-	return matches[1]
-endfunction
-
-let [guibg, ctermbg] = GetBackgroundColors('SignColumn')
-
-let g:signify_sign_change = '~'
-let g:signify_cursorhold_insert = 1
-let g:signify_cursorhold_normal = 1
-execute "highlight SignifySignAdd    ctermbg=" . ctermbg . " ctermfg=2 cterm=bold"
-execute "highlight SignifySignDelete ctermbg=" . ctermbg . " ctermfg=1 cterm=bold"
-execute "highlight SignifySignChange ctermbg=" . ctermbg . " ctermfg=3"
-
-" Remove search results
-command! C let @/=""
+colorscheme pablo
+syntax on
+filetype plugin indent on
 
 " Easier split stuff
 nmap vs :vsplit<cr>
 nmap sp :split<cr>
 
+" Easier movement between panes
 nmap <C-h> <C-w>h
 nmap <C-j> <C-w>j
 nmap <C-k> <C-w>k
@@ -145,51 +73,15 @@ nmap <C-l> <C-w>l
 
 " Show whitespace
 set listchars=tab:▸\ ,eol:¬
-nmap <silent> <leader>l :set list!<CR>
+nmap <silent> <leader>w :set list!<CR>
 
-" Random bindings
-"nmap <leader>a :A<CR>
-nmap <silent> <leader>a :Ack<space>
-nmap <C-b> :NERDTreeToggle<cr>
-nmap <F8> :TagbarToggle<CR>
-nnoremap <Space> za
-
-" Auto change directory to match current file ,cd
-nnoremap <leader>cd :cd %:p:h<CR>:pwd<CR>
-
-" Brief crosshairs on the cursor
-function! CursorPing()
-	set cursorline cursorcolumn
-	redraw
-	sleep 500m
-	set nocursorline nocursorcolumn
-endfunction
-nmap <silent> <leader>p :call CursorPing()<CR>
+" Clear search results
+nmap <leader>c :let @/=""<CR>
 
 " Highlight VCS conflict markers
 match ErrorMsg '^\(<\|=\|>\)\{7\}\([^=].\+\)\?$'
 
-" Unite.vim
-let g:unite_enable_start_insert = 1
-let g:unite_split_rule = "botright"
-let g:unite_force_overwrite_statusline = 1
-let g:unite_winheight = 10
-let g:unite_source_rec_max_cache_files = 99999
-
-call unite#filters#matcher_default#use(['matcher_fuzzy'])
-call unite#filters#sorter_default#use(['sorter_rank'])
-nnoremap <C-P> :<C-u>Unite -buffer-name=files -start-insert buffer file_rec/async:!<cr>
-autocmd FileType unite call s:unite_settings()
-function! s:unite_settings()
-	let b:SuperTabDisabled=1
-	imap <buffer> <C-j> <Plug>(unite_select_next_line)
-	imap <buffer> <C-k> <Plug>(unite_select_previous_line)
-	imap <silent><buffer><expr> <C-x> unite#do_action('split')
-	imap <silent><buffer><expr> <C-v> unite#do_action('vsplit')
-	imap <silent><buffer><expr> <C-t> unite#do_action('tabopen')
-	nmap <buffer> <ESC> <Plug>(unite_exit)
-endfunction
-
+" Change the cursor shape in insert mode for iTerm2, even inside tmux
 if exists('$TMUX')
 	let &t_SI = "\<Esc>Ptmux;\<Esc>\<Esc>]50;CursorShape=1\x7\<Esc>\\"
 	let &t_EI = "\<Esc>Ptmux;\<Esc>\<Esc>]50;CursorShape=0\x7\<Esc>\\"
@@ -198,29 +90,6 @@ else
 	let &t_EI = "\<Esc>]50;CursorShape=0\x7"
 endif
 
-" fzf
-nnoremap <silent> <leader>f :FZF -m<CR>
-
-" List of buffers
-function! s:buflist()
-	redir => ls
-	silent ls
-	redir END
-	return split(ls, '\n')
-endfunction
-
-function! s:bufopen(e)
-	execute 'buffer' matchstr(a:e, '^[ 0-9]*')
-endfunction
-
-" fzf buffer list
-nnoremap <silent> <leader>d :call fzf#run({
-\   'source':  reverse(<sid>buflist()),
-\   'sink':    function('<sid>bufopen'),
-\   'options': '+m',
-\   'down':    len(<sid>buflist()) + 2
-\ })<CR>
-
 " Filetype specific stuff
 au BufRead,BufNewFile *.md setlocal filetype=markdown
-au BufRead,BufNewFile *.py setlocal ts=8 et sw=4 ts=4
+au BufRead,BufNewFile *.py setlocal expandtab shiftwidth=4 tabstop=4
