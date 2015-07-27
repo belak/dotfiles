@@ -695,14 +695,19 @@ Make common symbols prettier.
   (req-package irony
     :diminish irony-mode
     :config
-    (add-hook 'c++-mode-hook 'irony-mode)
-    (add-hook 'c-mode-hook 'irony-mode)
-    (add-hook 'objc-mode-hook 'irony-mode)
+    (defun my-c-hook ()
+      (when (member major-mode irony-supported-major-modes)
+        (irony-mode 1)))
+
+    (add-hook 'c++-mode-hook  'my-c-hook)
+    (add-hook 'c-mode-hook    'my-c-hook)
+    (add-hook 'objc-mode-hook 'my-c-hook)
 
     ;; replace the `completion-at-point' and `complete-symbol' bindings
     ;; in irony-mode's buffers by irony-mode's function and run the
     ;; autosetup function
     (defun my-irony-mode-hook ()
+      (subword-mode 1)
       (define-key irony-mode-map [remap completion-at-point]
         'irony-completion-at-point-async)
       (define-key irony-mode-map [remap complete-symbol]
