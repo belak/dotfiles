@@ -812,15 +812,16 @@ match flycheck and make sure tern is enabled.
 
 #+begin_src emacs-lisp
   (req-package js2-mode
+    ;; We only need flycheck for the faces we need to inherit from
+    :require flycheck
     :mode
     "\\.js$"
     :config
     (setq js2-basic-offset 2)
-
-    (set-face-attribute 'js2-error
+    (set-face-attribute 'js2-error nil
                         :inherit 'flycheck-error-list-error
                         :underline '(:color foreground-color :style wave))
-    (set-face-attribute 'js2-warning
+    (set-face-attribute 'js2-warning nil
                         :inherit 'flycheck-error-list-warning
                         :underline '(:color foreground-color :style wave)))
 
