@@ -896,7 +896,6 @@ org-indent-mode does not exist by the time diminish is called.
           org-refile-allow-creating-parent-nodes t
           org-refile-use-outline-path t
           org-support-shift-select t
-          org-todo-keywords '("TODO" "STARTED" "WAITING" "|" "DONE")
           org-tag-alist '(("WORK" . ?w)
                           ("HOME" . ?h))
           org-agenda-files '("~/org/work.org"
@@ -1068,10 +1067,14 @@ CLOSED: [2015-07-07 Tue 14:38]
     CLOSED: [2015-07-20 Mon 11:55]
 *** DONE Find workaround for [[Finalization]] section
     CLOSED: [2015-07-26 Sun 20:39]
+*** DONE Set up =tern= for javascript
+    CLOSED: [2015-07-26 Sun 23:57]
+*** DONE Perhaps try paren-face
+    Well, I tried it.
+    CLOSED: [2015-07-26 Sun 23:59]
 *** TODO Take a look at =electric-indent-mode=
 *** TODO Change bind for =helm-swoop=
 *** TODO Learn =paredit=
-*** TODO Set up =tern= for javascript
 *** TODO Learn =eshell=
 *** TODO Add a bind for the helm-org headings navigation
 *** TODO Look into avy
@@ -1082,4 +1085,4 @@ CLOSED: [2015-07-07 Tue 14:38]
 *** TODO More helm stuffs from https://github.com/dakrone/dakrone-dotfiles/blob/master/.emacs.d/settings.org#helm
 *** TODO Look into using C-n and C-p in more places, such as company and helm
 *** TODO Everyone seems to like popwin, so we should probably at least try to figure out why
-*** TODO Perhaps try paren-face
+*** TODO Make req-package update the package lists for the first package it needs to install
