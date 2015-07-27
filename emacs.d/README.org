@@ -746,7 +746,8 @@ features, at least to me.
       (go-oracle-mode 1)
       (subword-mode 1))
     (add-hook 'go-mode-hook 'my-go-mode-hook)
-    (add-hook 'before-save-hook 'gofmt-before-save))
+    (add-hook 'before-save-hook 'gofmt-before-save)
+    (setq gofmt-command "goimports"))
 
   (req-package company-go
     :require (company go-mode)
