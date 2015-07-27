@@ -461,12 +461,14 @@ we can make it use recentf.
     ("C-x C-f" . helm-find-files)
     ("C-c o"   . helm-occur)
     ("M-/"     . helm-dabbrev)
-    ("C-c h"   . helm-org-in-buffer-headings)
     :config
     ;; Reverse tab and C-z
     (bind-keys :map helm-map
                ("<tab>" . helm-execute-persistent-action)
                ("C-z"   . helm-select-action))
+
+    (bind-keys :map org-mode-map
+               ("C-c h" . helm-org-in-buffer-headings))
 
     (helm-mode 1)
 
