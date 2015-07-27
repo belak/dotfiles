@@ -86,6 +86,7 @@ different things.
 
   (req-package magit-filenotify
     :require magit
+    :if (not (eq system-type 'darwin))
     :config
     (add-hook 'magit-status-mode-hook 'magit-filenotify-mode))
 #+end_src
