@@ -380,7 +380,8 @@ because we want to be in full screen more often than not.
                mac-command-modifier 'meta
                mac-option-modifier 'super
                mac-control-modifier 'control
-               insert-directory-program "/usr/local/bin/gls")
+               insert-directory-program "/usr/local/bin/gls"
+               my/default-frame-font "Source Code Pro Light 10")
 
 
          (toggle-frame-fullscreen)))
