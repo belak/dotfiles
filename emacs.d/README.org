@@ -295,6 +295,7 @@ General annoyances.
 - Ensure tabs show up as 4 spaces
 - Hide pointer when we start typing
 - Ensure we get unified diffs
+- Enable focus follows mouse
 
 #+begin_src emacs-lisp
   (require 'uniquify)
@@ -320,7 +321,8 @@ General annoyances.
         load-prefer-newer t
         tab-width 4
         make-pointer-invisible t
-        diff-switches "-u")
+        diff-switches "-u"
+        mouse-autoselect-window t)
 #+end_src
 
 Make mouse scrolling and scrolling in general a bit saner (in theory)
