@@ -5,9 +5,18 @@ URxvt.termName:  rxvt-256color
 URxvt.scrollBar: false
 
 ! urxvt link matching
-URxvt.perl-ext-common:	default,matcher
-URxvt.url-launcher:		/usr/bin/google-chrome-stable
-URxvt.matcher.button:	1
+URxvt.perl-ext-common: default,matcher
+URxvt.url-launcher:    /usr/bin/google-chrome-stable
+URxvt.matcher.button:  1
+
+! rofi stuffs
+rofi.font:     Terminus 8
+rofi.location: 2
+rofi.fuzzy:    true
+rofi.fg:       #dcdccc
+rofi.bg:       #3f3f3f
+rofi.hlfg:     #f0dfaf
+rofi.hlbg:     #1e2320
 
 ! include the color scheme
 #include ".belak/xcolors/zenburn"
