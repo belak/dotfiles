@@ -2,20 +2,45 @@
 
 This config has been cobbled together from quite a few places.
 
-Most notably, [[https://smf.io/dotfiles][Sean Farley's dotfiles]], [[https://github.com/syl20bnr/spacemacs][Spacemacs]], and various other
+Most notably, [[https://smf.io/dotfiles][smf's dotfiles]], [[https://github.com/dakrone/dakrone-dotfiles/blob/master/.emacs.d/settings.org][dakrone's dotfiles]], [[https://github.com/syl20bnr/spacemacs][Spacemacs]], and various other
 sources.
 
 ** Setup
 
-The first thing which needs to be loaded is [[https://github.com/jwiegley/use-package][use-package]] so we can
-organize everything a little bit better. =use-package= also includes
-some useful tools for lazy-loading things when we need them to speed
-up the startup time.
+Just in case I mess something up, we enable debugging. It gets turned
+off in [[Finalization]].
 
-Note that we have to explicitly load them because =use-package= can't
-handle that yet and we disabled autoloading everything in
-=init.el=. =package-ensure-installed= is a convenience method which is
-defined in =init.el=.
+#+begin_src emacs-lisp
+  (setq debug-on-error t)
+  (setq debug-on-quit t)
+#+end_src
+
+The first thing we need to do is bootstrap the package system.
+
+#+begin_src emacs-lisp
+  (require 'package)
+  (setq package-enable-at-startup nil)
+  (setq package-archives
+        '(("gnu" . "http://elpa.gnu.org/packages/")
+          ("marmalade" . "https://marmalade-repo.org/packages/")
+          ("melpa"     . "http://melpa.org/packages/")
+          ("elpy"      . "http://jorgenschaefer.github.io/packages/")))
+
+  ;; Make sure we load everything
+  (package-initialize)
+  (when (not package-archive-contents)
+    (package-refresh-contents))
+
+  ;; Small macro to install a missing package
+  (defun package-ensure-installed (package)
+    (unless (package-installed-p package)
+      (package-install package)))
+#+end_src
+
+Next we need to load [[https://github.com/jwiegley/use-package][use-package]] and =req-package= so we can organize
+everything a little bit better. =use-package= also includes some
+useful tools for lazy-loading things when we need them to speed up the
+startup time.
 
 #+begin_src emacs-lisp
   (package-ensure-installed 'use-package)
@@ -54,6 +79,8 @@ different things.
 
 #+begin_src emacs-lisp
   (req-package magit
+    :bind
+    ("M-g M-g" . magit-status)
     :commands
     magit-status)
 #+end_src
@@ -163,25 +190,16 @@ specific settings.
 Make sure the git gutter is loaded. Note that the fringe doesn't work
 in console mode, so we fall back to using the margin.
 
+Note that this is actually called in the [[Finalization]] section
+
 #+begin_src emacs-lisp
   (req-package diff-hl)
-  (defun make-frame-diff-hl (frame)
+  (defun make-frame-diff-hl ()
     (global-diff-hl-mode 0)
     (diff-hl-margin-mode 0)
-    (if (display-graphic-p frame)
+    (if (display-graphic-p)
         (global-diff-hl-mode 1)
       (diff-hl-margin-mode 1)))
-#+end_src
-
-Now that we have a few hooks set up, we hook them up and make sure
-everything gets called correctly.
-
-#+begin_src emacs-lisp
-  (defun my-make-frame-functions (frame)
-    (select-frame frame)
-    (make-frame-diff-hl frame)
-    (set-frame-font my/default-frame-font))
-  (add-hook 'after-make-frame-functions 'my-make-frame-functions)
 #+end_src
 
 ** Basic setup
@@ -230,6 +248,7 @@ and has something along the lines of 3 clipboard buffers.
 #+begin_src emacs-lisp
   (setq x-select-enable-clipboard t
         x-select-enable-primary t
+        x-select-request-type '(UTF8_STRING COMPOUND_TEXT TEXT STRING)
         save-interprogram-paste-before-kill t)
 #+end_src
 
@@ -250,11 +269,20 @@ and not the current one.
                                                  "backups"))))
 #+end_src
 
+Change search functions to use regexp searches by default.
+
+#+begin_src emacs-lisp
+  (global-set-key (kbd "C-s") 'isearch-forward-regexp)
+  (global-set-key (kbd "C-r") 'isearch-backward-regexp)
+  (global-set-key (kbd "M-%") 'query-replace-regexp)
+#+end_src
+
 General annoyances.
 
 - Make sure the buffer name shows up with a directory if there are multiple with the same name
 - Save the place in the file
 - Show parens
+- Show parens as quickly as possible
 - Don't indent with tabs
 - Ask y or n, not yes or no
 - When matching parens, highlight the region
@@ -265,6 +293,8 @@ General annoyances.
 - Follow symlinks when we need to
 - Make sure to load newest versions of files, even if there are older compiled versions
 - Ensure tabs show up as 4 spaces
+- Hide pointer when we start typing
+- Ensure we get unified diffs
 
 #+begin_src emacs-lisp
   (require 'uniquify)
@@ -280,6 +310,7 @@ General annoyances.
   (fset 'yes-or-no-p 'y-or-n-p)
 
   (setq show-paren-style 'expression
+        show-paren-delay 0
         apropos-do-all t
         mouse-yank-at-point t
         ring-bell-function 'ignore
@@ -287,7 +318,9 @@ General annoyances.
         require-final-newline t
         vc-follow-symlinks t
         load-prefer-newer t
-        tab-width 4)
+        tab-width 4
+        make-pointer-invisible t
+        diff-switches "-u")
 #+end_src
 
 Make mouse scrolling and scrolling in general a bit saner (in theory)
@@ -337,6 +370,19 @@ because we want to be in full screen more often than not.
 #+end_src
 
 ** Navigation
+
+Smooth scroll makes sure there's a buffer between the top of the
+window and the cursor.
+
+#+begin_src emacs-lisp
+  (req-package smooth-scrolling
+    :config
+    (setq smooth-scroll-margin 5
+          scroll-conservatively 101
+          scroll-preserve-screen-position t
+          auto-window-vscroll nil
+          scroll-margin 5))
+#+end_src
 
 Make sure to use ido everywhere. Because we're currently using helm,
 this is disabled.
@@ -429,7 +475,7 @@ we can make it use recentf.
     :require helm)
 
   (req-package helm-swoop
-    :bind ("C-s" . helm-swoop)
+    ;;:bind ("C-s" . helm-swoop)
     :config
     (setq helm-swoop-speed-or-color t))
 #+end_src
@@ -523,6 +569,8 @@ bother putting it into the prog mode hook.
 
   (require 'eldoc)
   (diminish 'eldoc-mode)
+
+  (global-prettify-symbols-mode +1)
 #+end_src
 
 =fic-mode= makes sure I actually notice comments with TODO, FIXME and
@@ -544,6 +592,20 @@ brackets as well. This mode makes it easier to see nested delimiters.
     (add-hook 'prog-mode-hook 'rainbow-delimiters-mode))
 #+end_src
 
+Disable most of the vc backends.
+
+#+begin_src emacs-lisp
+  (setq vc-handled-backends '(Git Hg))
+#+end_src
+
+With vc related stuffs, it's nice to revert buffers automatically if
+they've changed on disk.
+
+#+begin_src emacs-lisp
+  (global-auto-revert-mode 1)
+  (setq auto-revert-verbose nil)
+#+end_src
+
 *** Completion
 
 There are two main completion packages. =auto-complete= is older and a
@@ -556,7 +618,7 @@ stable.
     :diminish company-mode
     :config
     (setq company-idle-delay 0)
-    (add-hook 'after-init-hook 'global-company-mode))
+    (global-company-mode))
 #+end_src
 
 *** Snippets
@@ -592,6 +654,17 @@ Rainbow blocks highlights blocks instead of keywords.
     :config
     (add-hook 'emacs-lisp-mode-hook 'rainbow-blocks-mode)
     (add-hook 'lisp-interaction-mode-hook 'rainbow-blocks-mode))
+#+end_src
+
+Make common symbols prettier.
+
+#+begin_src emacs-lisp
+  (add-hook 'emacs-lisp-mode-hook
+            (lambda ()
+              (push '("lambda" . ?λ) prettify-symbols-alist)))
+  (add-hook 'clojure-mode-hook
+            (lambda ()
+              (push '("fn" . ?ƒ) prettify-symbols-alist)))
 #+end_src
 
 *** C/C++
@@ -723,21 +796,55 @@ Most of this section is just supporting additional formats, however
           web-mode-css-indent-offset 2
           web-mode-code-indent-offset 2))
 
+  (req-package less-css-mode
+    :mode "\\.less$")
+#+end_src
+
+There's quite a bit of js stuff. We update the js2-error faces to
+match flycheck and make sure tern is enabled.
+
+#+begin_src emacs-lisp
   (req-package js2-mode
     :mode
     "\\.js$"
     :config
-    (setq js2-basic-offset 2))
+    (setq js2-basic-offset 2)
 
-    ;; (set-face-attribute 'js2-error
-    ;;                     :inherit 'flycheck-error-list-error
-    ;;                     :underline '(:color foreground-color :style wave))
-    ;; (set-face-attribute 'js2-warning
-    ;;                     :inherit 'flycheck-error-list-warning
-    ;;                     :underline '(:color foreground-color :style wave)))
+    (set-face-attribute 'js2-error
+                        :inherit 'flycheck-error-list-error
+                        :underline '(:color foreground-color :style wave))
+    (set-face-attribute 'js2-warning
+                        :inherit 'flycheck-error-list-warning
+                        :underline '(:color foreground-color :style wave)))
 
-  (req-package less-css-mode
-    :mode "\\.less$")
+  (req-package tern
+    :config
+    ;; We don't need to depend on js2-mode because this will work
+    ;; without it if it doesn't load for whatever reason.
+    (add-hook 'js-mode-hook (lambda () (tern-mode t))))
+
+  (req-package company-tern
+    :require (company tern)
+    :config
+    (add-to-list 'company-backends 'company-tern))
+#+end_src
+
+*** Markup
+
+Most markup modes are derived from text-mode, so we can turn on
+auto-fill for all of them.
+
+#+begin_src emacs-lisp
+  (add-hook 'text-mode-hook 'turn-on-auto-fill)
+  (diminish 'auto-fill-function)
+#+end_src
+
+Make markdown-mode use gfm-markdown because it has most of the
+extensions I care about.
+
+#+begin_src emacs-lisp
+  (req-package markdown-mode
+    :mode ("\\.md$" . gfm-mode))
 #+end_src
 
 *** Misc
@@ -750,9 +857,6 @@ Most of this section is just supporting additional formats, however
 
   (req-package lua-mode
     :mode "\\.lua$")
-
-  (req-package markdown-mode
-    :mode ("\\.md$" . gfm-mode))
 
   (req-package yaml-mode
     :mode "\\.yml$")
@@ -867,21 +971,6 @@ scratch buffers along with the mode because I prefer to use org-mode.
     (persistent-scratch-autosave-mode 1))
 #+end_src
 
-** Finalization
-
-- Actually load all the packages
-- Select which diff util be used for this frame
-- Set the frame font to whatever was selected
-
-Note that req-package-finish needs to be done first so we can actually
-use make-frame-diff-hl
-
-#+begin_src emacs-lisp
-  (req-package-finish)
-  (make-frame-diff-hl (selected-frame))
-  (set-frame-font my/default-frame-font)
-#+end_src
-
 ** Custom
 
 We still want to be able to have non-public configs, such as for
@@ -894,6 +983,35 @@ the init.el, which we have version controlled.
 #+begin_src emacs-lisp
   (setq custom-file (expand-file-name "custom.el" user-emacs-directory))
   (load custom-file t)
+#+end_src
+
+** Finalization
+
+Actually load all the packages
+
+#+begin_src emacs-lisp
+  (req-package-finish)
+#+end_src
+
+Make sure everything is set up correctly depending on if we're daemonized or not.
+
+#+begin_src emacs-lisp
+  (defun my-make-frame-functions (&optional frame)
+    (if frame
+      (select-frame frame))
+    (make-frame-diff-hl)
+    (set-frame-font my/default-frame-font))
+
+  (if (daemonp)
+      (add-hook 'after-make-frame-functions 'my-make-frame-functions)
+    (my-make-frame-functions))
+#+end_src
+
+Now that we're done, we can turn off error handling.
+
+#+begin_src emacs-lisp
+  (setq debug-on-error nil)
+  (setq debug-on-quit nil)
 #+end_src
 
 ** Tasks
@@ -940,5 +1058,20 @@ CLOSED: [2015-07-07 Tue 14:38]
     CLOSED: [2015-07-18 Sat 03:04]
 *** DONE Improve diff-hl 
     CLOSED: [2015-07-20 Mon 11:55]
+*** DONE Find workaround for [[Finalization]] section
+    CLOSED: [2015-07-26 Sun 20:39]
 *** TODO Take a look at =electric-indent-mode=
-*** TODO Find workaround for [[Finalization]] section
+*** TODO Change bind for =helm-swoop=
+*** TODO Learn =paredit=
+*** TODO Set up =tern= for javascript
+*** TODO Learn =eshell=
+*** TODO Add a bind for the helm-org headings navigation
+*** TODO Look into avy
+*** TODO Look into slime for elisp
+*** TODO Set up ediff like https://github.com/dakrone/dakrone-dotfiles/blob/master/.emacs.d/settings.org#ediff
+*** TODO Set up smartparens like https://github.com/dakrone/dakrone-dotfiles/blob/master/.emacs.d/settings.org#smartparens
+*** TODO Set up anzu like https://github.com/dakrone/dakrone-dotfiles/blob/master/.emacs.d/settings.org#anzu
+*** TODO More helm stuffs from https://github.com/dakrone/dakrone-dotfiles/blob/master/.emacs.d/settings.org#helm
+*** TODO Look into using C-n and C-p in more places, such as company and helm
+*** TODO Everyone seems to like popwin, so we should probably at least try to figure out why
+*** TODO Perhaps try paren-face
