@@ -83,6 +83,11 @@ different things.
     ("M-g M-g" . magit-status)
     :commands
     magit-status)
+
+  (req-package magit-filenotify
+    :require magit
+    :config
+    (add-hook 'magit-status-mode-hook 'magit-filenotify-mode))
 #+end_src
 
 Make sure undo-tree is enabled.
