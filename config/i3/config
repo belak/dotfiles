@@ -64,8 +64,8 @@ bindsym XF86AudioStop         exec --no-startup-id mpc -q stop
 bindsym XF86AudioNext         exec --no-startup-id mpc -q next
 bindsym XF86AudioPrev         exec --no-startup-id mpc -q prev
 bindsym XF86Sleep             exec --no-startup-id ~/scripts/lock-screen.sh
-bindsym XF86KbdBrightnessUp   exec --no-startup-id ~/scripts/kbd-backlight.sh +
-bindsym XF86KbdBrightnessDown exec --no-startup-id ~/scripts/kbd-backlight.sh -
+bindsym XF86MonBrightnessUp   exec --no-startup-id xbacklight -inc 5
+bindsym XF86MonBrightnessDown exec --no-startup-id xbacklight -dec 5
 # }}}
 
 # {{{ Resize mode
