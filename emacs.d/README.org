@@ -498,7 +498,8 @@ we can make it use recentf.
   (req-package helm-swoop
     ;;:bind ("C-s" . helm-swoop)
     :config
-    (setq helm-swoop-speed-or-color t))
+    (setq helm-swoop-speed-or-color t
+          helm-swoop-pre-input-function (lambda () "")))
 #+end_src
 
 Perspective creates different views to switch between. This needs to
@@ -638,7 +639,8 @@ stable.
   (req-package company
     :diminish company-mode
     :config
-    (setq company-idle-delay 0)
+    (setq company-idle-delay 0
+          company-echo-delay 0)
     (global-company-mode))
 #+end_src
 
