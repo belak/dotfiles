@@ -22,7 +22,7 @@ client.urgent           #dc322f #dc322f #cc9393 #cc9393
 
 # {{{ Keybindings
 bindsym $mod+Return           exec urxvtc
-bindsym $mod+d                exec rofi -show run -lines 5 -font '$font'
+bindsym $mod+d                exec --no-startup-id rofi -show run -lines 5
 bindsym $mod+Shift+q          kill
 bindsym $mod+Shift+c          reload
 bindsym $mod+Shift+r          restart
@@ -66,6 +66,7 @@ bindsym XF86AudioPrev         exec --no-startup-id mpc -q prev
 bindsym XF86Sleep             exec --no-startup-id ~/scripts/lock-screen.sh
 bindsym XF86MonBrightnessUp   exec --no-startup-id xbacklight -inc 5
 bindsym XF86MonBrightnessDown exec --no-startup-id xbacklight -dec 5
+bindsym $mod+p                exec --no-startup-id rofi-pass
 # }}}
 
 # {{{ Resize mode
