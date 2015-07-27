@@ -753,6 +753,19 @@ features, at least to me.
     (add-hook 'go-mode-hook 'my-company-go-mode-hook))
 #+end_src
 
+*** PHP
+
+Enable PHP mode
+
+#+begin_src emacs-lisp
+  (req-package php-mode
+    :mode "\\.php$"
+    :config
+    (defun my-php-mode-hook ()
+      (subword-mode 1))
+    (add-hook 'php-mode-hook 'my-php-mode-hook))
+#+end_src
+
 *** Python
 
 Anaconda mode does navigation, docs and auto-completion. Because
@@ -883,6 +896,9 @@ extensions I care about.
     :mode
     "CMakeLists.txt"
     "\\.cmake$")
+
+  (req-package json-mode
+    :mode "\\.json$")
 
   (req-package lua-mode
     :mode "\\.lua$")
