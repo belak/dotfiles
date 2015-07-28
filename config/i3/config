@@ -9,10 +9,11 @@ floating_modifier $mod
 # }}}
 
 # {{{ Theme
-set $font Terminus 8
+set $font Terminus, FontAwesome 8
 font pango:$font
 new_window pixel 1
 gaps inner 5
+smart_gaps on
 
                         #border backgr. text    indicator
 client.focused          #6f6f6f #6f6f6f #f0dfaf #cc9393
