@@ -85,7 +85,7 @@ mode "resize" {
 # {{{ Bar
 bar {
     position top
-    status_command i3status
+    status_command ~/.virtualenvs/i3/bin/python ~/.belak/i3/status.py
 
     colors {
         background #3f3f3f
@@ -96,8 +96,6 @@ bar {
         focused_workspace  #1e2320 #1e2320 #f0dfaf
         inactive_workspace #3f3f3f #3f3f3f #dcdccc
         urgent_workspace   #3f3f3f #3f3f3f #cc9393
-
-        # TODO: Figure out what this is for
         active_workspace   #323232 #5f676a #ebdbb2
     }
 }
