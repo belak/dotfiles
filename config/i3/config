@@ -1,5 +1,6 @@
 # {{{ Keys
 set $mod Mod4
+set $ctrl Control
 set $up k
 set $down j
 set $left h
@@ -23,9 +24,10 @@ client.urgent           #dc322f #dc322f #cc9393 #cc9393
 # {{{ Keybindings
 bindsym $mod+Return           exec urxvtc
 bindsym $mod+d                exec --no-startup-id rofi -show run -lines 5
-bindsym $mod+Shift+q          kill
-bindsym $mod+Shift+c          reload
-bindsym $mod+Shift+r          restart
+bindsym $mod+Shift+q          exit
+bindsym $mod+Shift+c          kill
+bindsym $mod+Shift+r          reload
+bindsym $mod+$ctrl+Shift+r    restart
 bindsym $mod+$left            focus left
 bindsym $mod+$down            focus down
 bindsym $mod+$up              focus up
@@ -44,8 +46,6 @@ bindsym $mod+Shift+space      floating toggle
 bindsym $mod+space            focus mode_toggle
 bindsym $mod+a                focus parent
 bindsym $mod+Shift+a          focus child
-bindsym $mod+Shift+question   move scratchpad
-bindsym $mod+ssharp           scratchpad show
 bindsym $mod+1                workspace 1 tty
 bindsym $mod+2                workspace 2 www
 bindsym $mod+3                workspace 3 dev
@@ -54,8 +54,8 @@ bindsym $mod+Shift+1          move container to workspace 1 tty
 bindsym $mod+Shift+2          move container to workspace 2 www
 bindsym $mod+Shift+3          move container to workspace 3 dev
 bindsym $mod+Shift+4          move container to workspace 4 opt
-bindsym $mod+Left             workspace prev
-bindsym $mod+Right            workspace next
+#bindsym $mod+Left             workspace prev
+#bindsym $mod+Right            workspace next
 bindsym XF86AudioRaiseVolume  exec --no-startup-id "amixer -q set Master 2%+ unmute && killall -USR1 i3status"
 bindsym XF86AudioLowerVolume  exec --no-startup-id "amixer -q set Master 2%- && killall -USR1 i3status"
 bindsym XF86AudioMute         exec --no-startup-id "amixer -q set Master toggle && killall -USR1 i3status"
