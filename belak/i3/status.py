@@ -11,13 +11,14 @@ status.register("network",
                 format_down="  none")
 
 status.register("battery",
-                format="{status} {percentage:.0f} {remaining}",
+                format="{status} {percentage:.0f}% {remaining}",
                 status={
-                    'DPL': '',
-                    'FULL': 'FULL',
-                    'CHR': 'CHR',
-                    'DIS': ''
-                })
+                    'DPL':  '',
+                    'FULL': '',
+                    'CHR':  '',
+                    'DIS':  ''
+                },
+                no_text_full=True)
 
 status.register("alsa",
                 format="  {volume}",
