@@ -1081,68 +1081,50 @@ Now that we're done, we can turn off error handling.
   (setq debug-on-quit nil)
 #+end_src
 
-** Tasks
+** TODO Tasks [20/33]
 
 This section is all about stuff I'd like to get into my emacs init but
 haven't found the time yet.
 
-*** DONE Decide which git-gutter is better
-CLOSED: [2015-06-16 Tue 10:55]
-*** DONE Make git-gutter-fringe not run in terminal mode
-    CLOSED: [2015-06-20 Sat 11:37]
-We can also fall back to the regular git-gutter in this instance
-*** DONE Learn yasnippets
-    CLOSED: [2015-06-20 Sat 11:37]
-*** DONE Setup for golang
-CLOSED: [2015-06-16 Tue 10:56]
-*** DONE Cleanup [[Leftovers]] section
-    CLOSED: [2015-06-20 Sat 12:18]
-*** DONE Finish reogranizing
-    CLOSED: [2015-06-20 Sat 12:42]
-*** DONE Fix org-indent-mode
-CLOSED: [2015-06-22 Mon 01:29]
-*** DONE Finish documenting
-CLOSED: [2015-06-22 Mon 02:22]
-*** DONE Make org-mode work well with yasnippets
-CLOSED: [2015-06-22 Mon 01:31]
-There was nothing to be done for this - tab already works. However,
-tab inside code blocks does not currently work. I'm letting this go
-for now.
-*** DONE Make org-mode work well with windmove
-CLOSED: [2015-06-22 Mon 01:35]
-Looks like this was done a while back. Guess it's done now.
-*** DONE Figure out why show-trailing-whitespace doesn't work
-CLOSED: [2015-06-23 Tue 10:45]
-Because it becomes buffer-local when set, we have to use setq-default,
-not setq.
-*** DONE Take a look at =electric-pair-mode=
-CLOSED: [2015-07-07 Tue 14:29]
-*** DONE Split up larger blocks, such as [[Basic setup]]
-CLOSED: [2015-07-07 Tue 14:38]
-*** DONE Document "Other Things" in [[Basic setup]]
-    CLOSED: [2015-07-09 Thu 19:40]
-*** DONE Improve handling of client-server emacs
-    CLOSED: [2015-07-18 Sat 03:04]
-*** DONE Improve diff-hl 
-    CLOSED: [2015-07-20 Mon 11:55]
-*** DONE Find workaround for [[Finalization]] section
-    CLOSED: [2015-07-26 Sun 20:39]
-*** DONE Set up =tern= for javascript
-    CLOSED: [2015-07-26 Sun 23:57]
-*** DONE Perhaps try paren-face
+- [X] Decide which git-gutter is better
+- [X] Make git-gutter-fringe not run in terminal mode
+- [X] Learn yasnippets
+- [X] Setup for golang
+- [X] Cleanup [[Leftovers]] section
+- [X] Finish reogranizing
+- [X] Fix org-indent-mode
+- [X] Finish documenting
+- [X] Make org-mode work well with yasnippets
+    There was nothing to be done for this - tab already works. However,
+    tab inside code blocks does not currently work. I'm letting this go
+    for now.
+- [X] Make org-mode work well with windmove
+    Looks like this was done a while back. Guess it's done now.
+- [X] Figure out why show-trailing-whitespace doesn't work
+    Because it becomes buffer-local when set, we have to use setq-default,
+    not setq.
+- [X] Take a look at =electric-pair-mode=
+- [X] Split up larger blocks, such as [[Basic setup]]
+- [X] Document "Other Things" in [[Basic setup]]
+- [X] Improve handling of client-server emacs
+- [X] Improve diff-hl 
+- [X] Find workaround for [[Finalization]] section
+- [X] Set up =tern= for javascript
+- [X] Perhaps try paren-face
     Well, I tried it.
-    CLOSED: [2015-07-26 Sun 23:59]
-*** TODO Take a look at =electric-indent-mode=
-*** TODO Change bind for =helm-swoop=
-*** TODO Learn =paredit=
-*** TODO Learn =eshell=
-*** TODO Add a bind for the helm-org headings navigation
-*** TODO Look into avy
-*** TODO Look into slime for elisp
-*** TODO Set up ediff like https://github.com/dakrone/dakrone-dotfiles/blob/master/.emacs.d/settings.org#ediff
-*** TODO Set up smartparens like https://github.com/dakrone/dakrone-dotfiles/blob/master/.emacs.d/settings.org#smartparens
-*** TODO Set up anzu like https://github.com/dakrone/dakrone-dotfiles/blob/master/.emacs.d/settings.org#anzu
-*** TODO More helm stuffs from https://github.com/dakrone/dakrone-dotfiles/blob/master/.emacs.d/settings.org#helm
-*** TODO Look into using C-n and C-p in more places, such as company and helm
-*** TODO Everyone seems to like popwin, so we should probably at least try to figure out why
-*** TODO Make req-package update the package lists for the first package it needs to install
+- [X] Learn =eshell=
+    I've played with it now. It'e pretty nice, but I don't think it'll
+    ever replace my zsh setup.
+- [ ] Take a look at =electric-indent-mode=
+- [ ] Change bind for =helm-swoop=
+- [ ] Learn =paredit=
+- [ ] Add a bind for the helm-org headings navigation
+- [ ] Look into avy
+- [ ] Look into slime for elisp
+- [ ] Set up ediff like https://github.com/dakrone/dakrone-dotfiles/blob/master/.emacs.d/settings.org#ediff
+- [ ] Set up smartparens like https://github.com/dakrone/dakrone-dotfiles/blob/master/.emacs.d/settings.org#smartparens
+- [ ] Set up anzu like https://github.com/dakrone/dakrone-dotfiles/blob/master/.emacs.d/settings.org#anzu
+- [ ] More helm stuffs from https://github.com/dakrone/dakrone-dotfiles/blob/master/.emacs.d/settings.org#helm
+- [ ] Look into using C-n and C-p in more places, such as company and helm
+- [ ] Everyone seems to like popwin, so we should probably at least try to figure out why
+- [ ] Make req-package update the package lists for the first package it needs to install
