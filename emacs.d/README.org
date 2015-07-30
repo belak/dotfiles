@@ -215,12 +215,16 @@ environment vars (like HOME and GOPATH) are copied into the emacs env.
 This section was originally based off of [[https://github.com/technomancy/better-defaults/blob/d62a5813fa60d4c9425a795d85f956f0b8a663f8/better-defaults.el][better defaults]] but it has
 since grown to be a bit more than that.
 
-First we clean up the interface a bit, removing menus, toolbars and the scrollbar.
+First we clean up the interface a bit, removing menus, toolbars and
+the scrollbar. Then we make sure we never get dialog boxes.
 
 #+begin_src emacs-lisp
   (menu-bar-mode -1)
   (tool-bar-mode -1)
   (scroll-bar-mode -1)
+
+  (setq use-dialog-box nil
+        use-file-dialog nil)
 #+end_src
 
 Because I often make silly window mistakes, we enable winner-mode so
@@ -364,12 +368,6 @@ easier to use. Additionally, in OSX we want to toggle fullscreen
 because we want to be in full screen more often than not.
 
 #+begin_src emacs-lisp
-  (defvar x-gtk-use-system-tooltips)
-  (defvar ns-use-native-fullscreen)
-  (defvar mac-command-modifier)
-  (defvar mac-option-modifier)
-  (defvar mac-control-modifier)
-
   (cond ((eq system-type 'gnu/linux)
          (setq x-gtk-use-system-tooltips nil
                my/default-frame-font "Terminus 8"))
@@ -381,7 +379,6 @@ because we want to be in full screen more often than not.
                mac-control-modifier 'control
                insert-directory-program "/usr/local/bin/gls"
                my/default-frame-font "Source Code Pro Light 10")
-
 
          (toggle-frame-fullscreen)))
 #+end_src
@@ -418,7 +415,6 @@ this is disabled.
     (ido-everywhere 1)
     (setq resize-mini-windows t
           ido-use-virtual-buffers t
-          ido-enable-flex-matching t
           ido-vertical-show-count t))
 
   (req-package ido-ubiquitous
@@ -436,7 +432,9 @@ this is disabled.
     :disabled t
     :config
     (flx-ido-mode 1)
-    (setq ido-use-faces nil))
+    (setq ido-use-faces nil
+          ido-enable-flex-matching t
+          flx-ido-threshold 1000))
 #+end_src
 
 Make sure we store recent files. This lets helm do fancy things.
@@ -477,16 +475,8 @@ we can make it use recentf.
     (helm-autoresize-mode 1)
 
     ;; Turn on fuzzy matching for everything we can
-    (custom-set-variables '(helm-recentf-fuzzy-match t)
-                          '(helm-completion-in-region-fuzzy-match t)
-                          '(helm-buffers-fuzzy-matching t)
-                          '(helm-locate-fuzzy-match t)
-                          '(helm-M-x-fuzzy-match t)
-                          '(helm-semantic-fuzzy-match t)
-                          '(helm-imenu-fuzzy-match t)
-                          '(helm-apropos-fuzzy-match t)
-                          '(helm-lisp-fuzzy-completion t)
-                          '(helm-ff-file-name-history-use-recentf t)))
+    (custom-set-variables '(helm-mode-fuzzy-match t)
+                          '(helm-completion-in-region-fuzz-match t)))
 
   (req-package helm-ag
     :commands
@@ -506,6 +496,7 @@ be loaded on startup so the modeline is set up.
 
 #+begin_src emacs-lisp
   (req-package perspective
+    :disabled t
     :config
     (persp-mode))
 #+end_src
@@ -744,7 +735,6 @@ features, at least to me.
     :config
     (load "$GOPATH/src/golang.org/x/tools/cmd/oracle/oracle.el")
     (defun my-go-mode-hook ()
-      (go-oracle-mode 1)
       (subword-mode 1))
     (add-hook 'go-mode-hook 'my-go-mode-hook)
     (add-hook 'before-save-hook 'gofmt-before-save)
@@ -954,7 +944,9 @@ now.
 #+begin_src emacs-lisp
   (req-package erc
     :config
-    (setq erc-prompt ">"))
+    (setq erc-prompt ">"
+          erc-join-buffer 'bury)
+          erc-track-exclude-types '("JOIN" "PART" "QUIT" "NICK" "MODE"))
 #+end_src
 
 We add in ZNC support so we can detatch from buffers when we leave the
@@ -968,6 +960,7 @@ connect.
 #+begin_src emacs-lisp
   (req-package znc
     :commands
+    znc-erc
     znc-all
     :require (erc)
     :config
