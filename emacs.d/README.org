@@ -952,16 +952,30 @@ still prefer to keep my IRC in weechat, so this remains disabled for
 now.
 
 #+begin_src emacs-lisp
-    (req-package erc
-      :disabled t
-      :config
-      (setq erc-prompt ">"
-            znc-servers `(
-                          ("znc.coded.io" "6697" t
-                           ((
-                             freenode
-                             belak/freenode
-                             ,(password-store-get "irc/freenode.net")))))))
+  (req-package erc
+    :config
+    (setq erc-prompt ">"))
+#+end_src
+
+We add in ZNC support so we can detatch from buffers when we leave the
+channel. This is used along with autojoin so when something happens in
+a buffer, it pops up again.
+
+Additionally, there's an added advantage that this is lazy-loaded
+because it doesn't require the password prompt until we want to
+connect.
+
+#+begin_src emacs-lisp
+  (req-package znc
+    :commands
+    znc-all
+    :require (erc)
+    :config
+    (setq znc-detatch-on-kill t
+          znc-servers `(("znc.coded.io" "6697" t
+                         ((freenode
+                           belak/freenode
+                           ,(password-store-get "irc/freenode.net")))))))
 #+end_src
 
 ** Email
