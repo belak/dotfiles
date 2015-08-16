@@ -186,10 +186,72 @@ specific settings.
 
 #+begin_src emacs-lisp
   (req-package smart-mode-line
+    :disabled t
     :config
     (setq sml/no-confirm-load-theme t
           sml/theme 'respectful)
     (sml/setup))
+#+end_src
+
+#+begin_src emacs-lisp
+  (req-package powerline
+    :config
+    (defun belak/powerline-theme ()
+      "Set up my own powerline theme. This was initially lifted from the powerline package."
+      (interactive)
+      (setq-default mode-line-format
+                    '("%e"
+                      (:eval
+                       (let* ((active (powerline-selected-window-active))
+                              (mode-line (if active 'mode-line 'mode-line-inactive))
+                              (face1 (if active 'powerline-active1 'powerline-inactive1))
+                              (face2 (if active 'powerline-active2 'powerline-inactive2))
+                              (separator-left (intern (format "powerline-%s-%s"
+                                                              (powerline-current-separator)
+                                                              (car powerline-default-separator-dir))))
+                              (separator-right (intern (format "powerline-%s-%s"
+                                                               (powerline-current-separator)
+                                                               (cdr powerline-default-separator-dir))))
+                              (lhs (list (powerline-raw "%*" nil 'l)
+                                         (when powerline-display-buffer-size
+                                           (powerline-buffer-size nil 'l))
+                                         (when powerline-display-mule-info
+                                           (powerline-raw mode-line-mule-info nil 'l))
+                                         (powerline-buffer-id nil 'l)
+                                         (when (and (boundp 'which-func-mode) which-func-mode)
+                                           (powerline-raw which-func-format nil 'l))
+                                         (powerline-raw " ")
+                                         (funcall separator-left mode-line face1)
+                                         (when (boundp 'erc-modified-channels-object)
+                                           (powerline-raw erc-modified-channels-object face1 'l))
+                                         (powerline-major-mode face1 'l)
+                                         (powerline-process face1)
+                                         (powerline-minor-modes face1 'l)
+                                         (powerline-narrow face1 'l)
+                                         (powerline-raw " " face1)
+                                         (funcall separator-left face1 face2)
+                                         (powerline-vc face2 'r)
+                                         (when (bound-and-true-p nyan-mode)
+                                           (powerline-raw (list (nyan-create)) face2 'l))))
+                              (rhs (list (powerline-raw global-mode-string face2 'r)
+                                         (when (bound-and-true-p venv-current-name)
+                                           (powerline-raw venv-current-name face2 'r))
+
+                                         (funcall separator-right face2 face1)
+                                         (unless window-system
+                                           (powerline-raw (char-to-string #xe0a1) face1 'l))
+                                         (powerline-raw "%4l" face1 'l)
+                                         (powerline-raw ":" face1 'l)
+                                         (powerline-raw "%3c" face1 'r)
+                                         (funcall separator-right face1 mode-line)
+                                         (powerline-raw " ")
+                                         (powerline-raw "%6p" nil 'r)
+                                         (when powerline-display-hud
+                                           (powerline-hud face2 face1)))))
+                         (concat (powerline-render lhs)
+                                 (powerline-fill face2 (powerline-width rhs))
+                                 (powerline-render rhs)))))))
+    (belak/powerline-theme))
 #+end_src
 
 Make sure the git gutter is loaded. Note that the fringe doesn't work
@@ -533,7 +595,7 @@ dired buffers.
 
 #+begin_src emacs-lisp
   (req-package dired-single
-    :requires (dired+)
+    :require (dired+)
     :config
     (defun belak/dired-up ()
       (interactive)
@@ -645,6 +707,7 @@ Not much to say here. We turn snippets on everywhere.
 
 #+begin_src emacs-lisp
   (req-package yasnippet
+    :diminish yas-minor-mode
     :config
     (setq yas-verbosity 0)
     (yas-global-mode 1))
@@ -657,7 +720,8 @@ in, in most instances we won't even need to install a plugin.
 
 #+begin_src emacs-lisp
   (req-package flycheck
-    :requires (which-key)
+    :require (which-key)
+    :diminish flycheck-mode
     :config
     (global-flycheck-mode)
     (which-key-add-key-based-replacements "C-c !" "Flycheck"))
@@ -782,7 +846,7 @@ to load in the background.
     (add-hook 'python-mode-hook 'eldoc-mode))
 
   (req-package company-anaconda
-    :requires (anaconda-mode company)
+    :require (anaconda-mode company)
     :config
     (add-to-list 'company-backends 'company-anaconda))
 #+end_src
@@ -793,27 +857,7 @@ load it right away to make sure the modeline is updated.
 #+begin_src emacs-lisp
   (req-package virtualenvwrapper
     :config
-    (setq virtualenv-location (expand-file-name "~/.virtualenvs/"))
-
-    (defvar my-venv-current-name)
-    (put 'my-venv-current-name 'risky-local-variable t)
-
-    (defun my-update-venv-modestring ()
-      (setq my-venv-current-name
-            (list "["
-                  (propertize
-                   (if venv-current-name venv-current-name "")
-                   'face 'persp-selected-face)
-                  "]"))
-
-      (setq global-mode-string (or global-mode-string '("")))
-      (setq global-mode-string (delq 'my-venv-current-name global-mode-string))
-      (setq global-mode-string (append global-mode-string '(my-venv-current-name))))
-
-    (add-hook 'venv-postactivate-hook 'my-update-venv-modestring)
-    (add-hook 'venv-predeactivate-hook 'my-update-venv-modestring)
-
-    (my-update-venv-modestring))
+    (setq virtualenv-location (expand-file-name "~/.virtualenvs/")))
 #+end_src
 
 *** Web Dev
