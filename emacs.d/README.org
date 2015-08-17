@@ -444,7 +444,7 @@ because we want to be in full screen more often than not.
 #+begin_src emacs-lisp
   (cond ((eq system-type 'gnu/linux)
          (setq x-gtk-use-system-tooltips nil
-               my/default-frame-font "Terminus 8"
+               my/default-frame-font "Terminus 9"
                browse-url-browser-function 'browse-url-generic
                browse-url-generic-program "xdg-open"))
 
@@ -646,6 +646,7 @@ bother putting it into the prog mode hook.
 
 #+begin_src emacs-lisp
   (electric-pair-mode 1)
+  (which-function-mode 1)
 
   (defun my-prog-mode-hook ()
     "Some simple programming settings"
@@ -657,6 +658,9 @@ bother putting it into the prog mode hook.
 
   (require 'eldoc)
   (diminish 'eldoc-mode)
+
+  (require 'subword)
+  (diminish 'subword-mode)
 
   (global-prettify-symbols-mode +1)
 #+end_src
