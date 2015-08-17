@@ -193,6 +193,11 @@ specific settings.
     (sml/setup))
 #+end_src
 
+Because Source Code Pro works well with powerline, we define our own
+theme based on the default with just the virtualenv stuff added. I use
+the same settings and leave it the same as the default so it'll be
+easy to update later.
+
 #+begin_src emacs-lisp
   (req-package powerline
     :config
@@ -251,7 +256,11 @@ specific settings.
                          (concat (powerline-render lhs)
                                  (powerline-fill face2 (powerline-width rhs))
                                  (powerline-render rhs)))))))
-    (belak/powerline-theme))
+    (belak/powerline-theme)
+
+    (setq powerline-display-mule-info nil
+          powerline-display-buffer-size nil
+          powerline-display-hud nil))
 #+end_src
 
 Make sure the git gutter is loaded. Note that the fringe doesn't work
