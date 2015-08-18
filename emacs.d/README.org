@@ -57,46 +57,8 @@ lazy-loading things when we need them to speed up the startup time.
   (setq use-package-always-ensure t)
 #+end_src
 
-** Utilities
-
-Paradox is a replacement for =package-list-packages= offering a few
-extra features. Note that we only load it on those commands because
-it's something that only really matters when we manually start it up.
-
-#+begin_src emacs-lisp
-  (use-package paradox
-    :commands
-    paradox-list-packages
-    paradox-enable
-    :config
-    (setq paradox-automatically-star t)
-    (setq paradox-execute-asynchronously t))
-#+end_src
-
-Magit is an amazing git wrapper which lets us do a whole ton of
-different things.
-
-#+begin_src emacs-lisp
-  (use-package magit
-    :bind
-    ("M-g M-g" . magit-status)
-    :commands
-    magit-status
-    :init
-    (use-package magit-filenotify
-      :if (eq system-type 'gnu/linux)
-      :config
-      (add-hook 'magit-status-mode-hook 'magit-filenotify-mode)))
-#+end_src
-
-Make sure undo-tree is enabled.
-
-#+begin_src emacs-lisp
-  (use-package undo-tree
-    :diminish undo-tree-mode
-    :config
-    (global-undo-tree-mode 1))
-#+end_src
+** Core
+*** Libraries
 
 Load up zx2c4's [[http://www.passwordstore.org/][pass]] utility so we can grab data out of it later.
 
@@ -105,47 +67,19 @@ Load up zx2c4's [[http://www.passwordstore.org/][pass]] utility so we can grab d
     :commands password-store-get)
 #+end_src
 
-=guide-key= provides a nice interface for showing prefix commands.
+*** Functions
 
-The currently defined prefixes are listed below.
-
-|--------+-----------------------------------------|
-| Prefix | Description                             |
-|--------+-----------------------------------------|
-| C-c    | Generic prefix for quite a few commands |
-| C-x x  | Switching of different window modes     |
-|--------+-----------------------------------------|
-
-Note that because we don't need this right away, we wait for a few
-seconds of idle time to load this.
+Utility functions so I don't need to remember this.
 
 #+begin_src emacs-lisp
-  (use-package guide-key
-    :disabled t
-    :diminish guide-key-mode
-    :defer 5
-    :config
-    (guide-key-mode 1)
-    (setq guide-key/guide-key-sequence '("C-c" "C-x x")
-          guide-key/idle-delay 0.5
-          guide-key/recursive-key-sequence-flag t))
+  (defun osx-p ()
+    (eq system-type 'darwin))
+
+  (defun gnu-linux-p ()
+    (eq system-type 'gnu/linux))
 #+end_src
 
-=which-key= is a fancier replacement for guide-key. It also makes it
-very easy to fix the missing prefix commands, which was something that
-really bugged me about guide-key.
-
-#+begin_src emacs-lisp
-  (use-package which-key
-    :diminish which-key-mode
-    :config
-    (which-key-mode 1)
-    (setq which-key-idle-delay 0.5
-          which-key-popup-type 'side-window
-          which-key-side-window-location 'right))
-#+end_src
-
-** Appearance
+*** Appearance
 
 Settings such as a default font, color scheme and modeline changes.
 Note that the font should be overridden later, such as in platform
@@ -262,22 +196,7 @@ easy to update later.
           powerline-display-hud nil))
 #+end_src
 
-Make sure the git gutter is loaded. Note that the fringe doesn't work
-in console mode, so we fall back to using the margin.
-
-Note that this is actually called in the [[Finalization]] section
-
-#+begin_src emacs-lisp
-  (use-package diff-hl)
-  (defun make-frame-diff-hl ()
-    (global-diff-hl-mode 0)
-    (diff-hl-margin-mode 0)
-    (if (display-graphic-p)
-        (global-diff-hl-mode 1)
-      (diff-hl-margin-mode 1)))
-#+end_src
-
-** Basic setup
+*** Basic setup
 
 Set up some smarter defaults, and make sure that some useful
 environment vars (like HOME and GOPATH) are copied into the emacs env.
@@ -434,31 +353,7 @@ but we grab GOPATH as well for go.
     (exec-path-from-shell-initialize))
 #+end_src
 
-** Platform specifics
-
-Font overrides as well as a few mac specific key binds to make emacs
-easier to use. Additionally, in OSX we want to toggle fullscreen
-because we want to be in full screen more often than not.
-
-#+begin_src emacs-lisp
-  (cond ((eq system-type 'gnu/linux)
-         (setq x-gtk-use-system-tooltips nil
-               my/default-frame-font "Terminus 9"
-               browse-url-browser-function 'browse-url-generic
-               browse-url-generic-program "xdg-open"))
-
-        ((eq system-type 'darwin)
-         (setq ns-use-native-fullscreen t
-               mac-command-modifier 'meta
-               mac-option-modifier 'super
-               mac-control-modifier 'control
-               insert-directory-program "/usr/local/bin/gls"
-               my/default-frame-font "Source Code Pro Light 10")
-
-         (toggle-frame-fullscreen)))
-#+end_src
-
-** Navigation
+*** Navigation
 
 Smooth scroll makes sure there's a buffer between the top of the
 window and the cursor.
@@ -589,48 +484,31 @@ Project based navigation. I would be completely lost without this.
     (projectile-global-mode))
 #+end_src
 
-** Dired
+*** Platform specifics
 
-Make a few improvements to dired.
-
-Additionally, do our best to make sure that we don't litter the buffer list with
-dired buffers.
-
-#+begin_src emacs-lisp
-  (use-package dired+
-    :config
-    (use-package dired-single
-      :config
-      (defun belak/dired-up ()
-        (interactive)
-        (dired-single-buffer ".."))
-
-      (defun belak/dired-select ()
-        (interactive)
-        (let ((prev-buffer (current-buffer)))
-          (dired-single-buffer)
-          (if (eq 'dired-mode (with-current-buffer prev-buffer major-mode))
-              (kill-buffer prev-buffer))))
-
-      (bind-keys :map dired-mode-map
-                 ("<return>"  . belak/dired-select)
-                 ("^"         . belak/dired-up)
-                 ("q"         . kill-this-buffer))))
-#+end_src
-
-Make dired navigation much prettier.
+Font overrides as well as a few mac specific key binds to make emacs
+easier to use. Additionally, in OSX we want to toggle fullscreen
+because we want to be in full screen more often than not.
 
 #+begin_src emacs-lisp
-  (use-package stripe-buffer
-    :config
-    (add-hook 'dired-mode-hook 'stripe-listify-buffer))
+  (cond ((gnu-linux-p)
+         (setq x-gtk-use-system-tooltips nil
+               my/default-frame-font "Terminus 9"
+               browse-url-browser-function 'browse-url-generic
+               browse-url-generic-program "xdg-open"))
+
+        ((osx-p)
+         (setq ns-use-native-fullscreen t
+               mac-command-modifier 'meta
+               mac-option-modifier 'super
+               mac-control-modifier 'control
+               insert-directory-program "/usr/local/bin/gls"
+               my/default-frame-font "Source Code Pro Light 10")
+
+         (toggle-frame-fullscreen)))
 #+end_src
 
 ** Programming
-
-Anything programming related goes in here. There are sections for
-completion, general config and separate sections for each language.
-
 *** General
 
 Set a few things for prog-mode based major modes, such as line numbers
@@ -679,6 +557,41 @@ brackets as well. This mode makes it easier to see nested delimiters.
     (add-hook 'prog-mode-hook 'rainbow-delimiters-mode))
 #+end_src
 
+*** Version Control
+
+Magit is an amazing git wrapper which lets us do a whole ton of
+different things.
+
+The filenotify package will automatically update the status buffer
+when files change, but this only appears to work on linux.
+
+#+begin_src emacs-lisp
+  (use-package magit
+    :bind
+    ("M-g M-g" . magit-status)
+    :init
+    (use-package magit-filenotify
+      :if (gnu-linux-p)
+      :config
+      (add-hook 'magit-status-mode-hook 'magit-filenotify-mode)))
+#+end_src
+
+Make sure the git gutter is loaded. Note that the fringe doesn't work
+in console mode, so we fall back to using the margin.
+
+Note that this is actually called in the [[Finalization]] section
+
+#+begin_src emacs-lisp
+  (use-package diff-hl
+    :config
+    (defun make-frame-diff-hl ()
+      (global-diff-hl-mode 0)
+      (diff-hl-margin-mode 0)
+      (if (display-graphic-p)
+          (global-diff-hl-mode 1)
+        (diff-hl-margin-mode 1))))
+#+end_src
+
 Disable most of the vc backends.
 
 #+begin_src emacs-lisp
@@ -721,7 +634,7 @@ Not much to say here. We turn snippets on everywhere.
     (yas-global-mode 1))
 #+end_src
 
-*** Syntax
+*** Syntax Checking
 
 Turn on syntax checking using flycheck. Because it has so many built
 in, in most instances we won't even need to install a plugin.
@@ -735,7 +648,8 @@ in, in most instances we won't even need to install a plugin.
     (which-key-add-key-based-replacements "C-c !" "Flycheck"))
 #+end_src
 
-*** Lisp
+*** Languages
+**** Lisp
 
 Rainbow blocks highlights blocks instead of keywords.
 
@@ -758,7 +672,7 @@ Make common symbols prettier.
               (push '("fn" . ?ƒ) prettify-symbols-alist)))
 #+end_src
 
-*** C/C++
+**** C/C++
 
 #+begin_src emacs-lisp
   (use-package irony
@@ -798,7 +712,7 @@ Make common symbols prettier.
     (add-hook 'irony-mode-hook 'my-irony-mode-hook))
 #+end_src
 
-*** Go
+**** Go
 
 This enables most of the fairly standard things available in other go
 setups. Simple completion and gofmt are the most important of those
@@ -814,7 +728,6 @@ features, at least to me.
         (set (make-local-variable 'company-backends) '(company-go)))
       (add-hook 'go-mode-hook 'my-company-go-mode-hook))
 
-    ;; TODO: Find a way to bootstrap this
     (load "$GOPATH/src/golang.org/x/tools/cmd/oracle/oracle.el")
     
     (defun my-go-mode-hook ()
@@ -824,7 +737,7 @@ features, at least to me.
     (setq gofmt-command "goimports"))
 #+end_src
 
-*** PHP
+**** PHP
 
 Enable PHP mode
 
@@ -837,7 +750,7 @@ Enable PHP mode
     (add-hook 'php-mode-hook 'my-php-mode-hook))
 #+end_src
 
-*** Python
+**** Python
 
 Anaconda mode does navigation, docs and auto-completion. Because
 that's pretty much all I need, I use this in place of elpy.
@@ -865,7 +778,7 @@ load it right away to make sure the modeline is updated.
     (setq virtualenv-location (expand-file-name "~/.virtualenvs/")))
 #+end_src
 
-*** Web Dev
+**** Web Dev
 
 These are any packages useful for web dev.
 
@@ -918,7 +831,7 @@ match flycheck and make sure tern is enabled.
     (add-hook 'js-mode-hook (lambda () (tern-mode t))))
 #+end_src
 
-*** Markup
+**** Markup
 
 Most markup modes are derived from text-mode, so we can turn on
 auto-fill for all of them.
@@ -936,7 +849,7 @@ extensions I care about.
     :mode ("\\.md\\'" . gfm-mode))
 #+end_src
 
-*** Misc
+**** Misc
 
 #+begin_src emacs-lisp
   (use-package cmake-mode
@@ -954,38 +867,79 @@ extensions I care about.
     :mode "\\.yml\\'")
 #+end_src
 
-** Org Mode
+** Utilities
 
-Make sure org mode is set up in a manner that doesn't suck. Meaning,
-make code blocks act more like their native counterparts, enable fancy
-indenting and allow for shift select.
+This section is mostly about replacing or improving built-in
+functionality such as the package list or dired. There are also a few
+packages which work well as stand-alone units in here such as
+undo-tree and which-key.
 
-If the extra require looks hacky, that's because it is. The =:demand=
-makes sure the config runs because the package is already loaded to
-run this config file. The =:diminish= keyword fails because
-org-indent-mode does not exist by the time diminish is called.
+*** Package list
+
+Paradox is a replacement for =package-list-packages= offering a few
+extra features. Note that we only load it on those commands because
+it's something that only really matters when we manually start it up.
 
 #+begin_src emacs-lisp
-  (use-package org
-    :demand
-    :mode ("\\.org\\'" . org-mode)
-    :diminish org-indent-mode
-    :init
-    (require 'org-indent)
-    (setq org-src-fontify-natively t
-          org-src-tab-acts-natively t
-          org-log-done t
-          org-log-done-with-time t
-          org-log-refile t
-          org-refile-allow-creating-parent-nodes t
-          org-refile-use-outline-path t
-          org-support-shift-select t
-          org-tag-alist '(("WORK" . ?w)
-                          ("HOME" . ?h))
-          org-agenda-files '("~/org/")))
+  (use-package paradox
+    :commands
+    paradox-list-packages
+    paradox-enable
+    :config
+    (setq paradox-automatically-star t)
+    (setq paradox-execute-asynchronously t))
 #+end_src
 
-** IRC
+*** Dired
+
+Make a few improvements to dired.
+
+Additionally, do our best to make sure that we don't litter the buffer list with
+dired buffers.
+
+#+begin_src emacs-lisp
+  (use-package dired+
+    :config
+    (use-package dired-single
+      :config
+      (defun belak/dired-up ()
+        (interactive)
+        (dired-single-buffer ".."))
+
+      (defun belak/dired-select ()
+        (interactive)
+        (let ((prev-buffer (current-buffer)))
+          (dired-single-buffer)
+          (if (eq 'dired-mode (with-current-buffer prev-buffer major-mode))
+              (kill-buffer prev-buffer))))
+
+      (bind-keys :map dired-mode-map
+                 ("<return>"  . belak/dired-select)
+                 ("^"         . belak/dired-up)
+                 ("q"         . kill-this-buffer))))
+#+end_src
+
+Make dired navigation much prettier.
+
+#+begin_src emacs-lisp
+  (use-package stripe-buffer
+    :config
+    (add-hook 'dired-mode-hook 'stripe-listify-buffer))
+#+end_src
+
+*** Scratch
+
+This enables persistent scratch buffers. This allows for saving
+scratch buffers along with the mode because I prefer to use org-mode.
+
+#+begin_src emacs-lisp
+  (use-package persistent-scratch
+    :config
+    (persistent-scratch-setup-default)
+    (persistent-scratch-autosave-mode 1))
+#+end_src
+
+*** IRC
 
 This sets up the connection to my IRC bouncer. There are a few
 additional packages that would be useful here, such as znc, but I
@@ -1021,7 +975,7 @@ connect.
                            ,(password-store-get "irc/freenode.net")))))))
 #+end_src
 
-** Email
+*** Email
 
 Email is a complicated beast. This is currently designed around a
 custom mail server, something I didn't want to deal with maintaining,
@@ -1079,16 +1033,61 @@ so this section isn't that useful right now.
     (add-hook 'mu4e-compose-pre-hook 'belak/mu4e-compose-hook)))
 #+end_src
 
-** Scratch
+*** Misc
 
-This enables persistent scratch buffers. This allows for saving
-scratch buffers along with the mode because I prefer to use org-mode.
+Make sure undo-tree is enabled.
 
 #+begin_src emacs-lisp
-  (use-package persistent-scratch
+  (use-package undo-tree
+    :diminish undo-tree-mode
     :config
-    (persistent-scratch-setup-default)
-    (persistent-scratch-autosave-mode 1))
+    (global-undo-tree-mode 1))
+#+end_src
+
+=which-key= is a fancier replacement for guide-key. It also makes it
+very easy to fix the missing prefix commands, which was something that
+really bugged me about guide-key.
+
+#+begin_src emacs-lisp
+  (use-package which-key
+    :diminish which-key-mode
+    :config
+    (which-key-mode 1)
+    (setq which-key-idle-delay 0.5
+          which-key-popup-type 'side-window
+          which-key-side-window-location 'right))
+#+end_src
+
+** Org Mode
+
+Make sure org mode is set up in a manner that doesn't suck. Meaning,
+make code blocks act more like their native counterparts, enable fancy
+indenting and allow for shift select.
+
+If the extra require looks hacky, that's because it is. The =:demand=
+makes sure the config runs because the package is already loaded to
+run this config file. The =:diminish= keyword fails because
+org-indent-mode does not exist by the time diminish is called.
+
+#+begin_src emacs-lisp
+  (use-package org
+    :demand
+    :mode ("\\.org\\'" . org-mode)
+    :diminish org-indent-mode
+    :init
+    (require 'org-indent)
+    :config
+    (setq org-src-fontify-natively t
+          org-src-tab-acts-natively t
+          org-log-done t
+          org-log-done-with-time t
+          org-log-refile t
+          org-refile-allow-creating-parent-nodes t
+          org-refile-use-outline-path t
+          org-support-shift-select t
+          org-tag-alist '(("WORK" . ?w)
+                          ("HOME" . ?h))
+          org-agenda-files '("~/org/")))
 #+end_src
 
 ** Custom
@@ -1107,7 +1106,9 @@ the init.el, which we have version controlled.
 
 ** Finalization
 
-Make sure everything is set up correctly depending on if we're daemonized or not.
+Make sure everything is set up correctly depending on if we're
+daemonized or not. Unfortunately =after-make-frame-functions= fires
+before the config is loaded when emacs is not daemonized.
 
 #+begin_src emacs-lisp
   (defun my-make-frame-functions (&optional frame)
@@ -1129,40 +1130,12 @@ Now that we're done, we can turn off error handling.
   (setq debug-on-quit nil)
 #+end_src
 
-** TODO Tasks [20/33]
+** TODO Tasks [1/15]
 
 This section is all about stuff I'd like to get into my emacs init but
 haven't found the time yet.
 
-- [X] Decide which git-gutter is better
-- [X] Make git-gutter-fringe not run in terminal mode
-- [X] Learn yasnippets
-- [X] Setup for golang
-- [X] Cleanup [[Leftovers]] section
-- [X] Finish reogranizing
-- [X] Fix org-indent-mode
-- [X] Finish documenting
-- [X] Make org-mode work well with yasnippets
-    There was nothing to be done for this - tab already works. However,
-    tab inside code blocks does not currently work. I'm letting this go
-    for now.
-- [X] Make org-mode work well with windmove
-    Looks like this was done a while back. Guess it's done now.
-- [X] Figure out why show-trailing-whitespace doesn't work
-    Because it becomes buffer-local when set, we have to use setq-default,
-    not setq.
-- [X] Take a look at =electric-pair-mode=
-- [X] Split up larger blocks, such as [[Basic setup]]
-- [X] Document "Other Things" in [[Basic setup]]
-- [X] Improve handling of client-server emacs
-- [X] Improve diff-hl 
-- [X] Find workaround for [[Finalization]] section
-- [X] Set up =tern= for javascript
-- [X] Perhaps try paren-face
-    Well, I tried it.
-- [X] Learn =eshell=
-    I've played with it now. It'e pretty nice, but I don't think it'll
-    ever replace my zsh setup.
+- [X] Reorganize based on http://doc.rix.si/org/fsem.html
 - [ ] Take a look at =electric-indent-mode=
 - [ ] Change bind for =helm-swoop=
 - [ ] Learn =paredit=
@@ -1175,3 +1148,5 @@ haven't found the time yet.
 - [ ] More helm stuffs from https://github.com/dakrone/dakrone-dotfiles/blob/master/.emacs.d/settings.org#helm
 - [ ] Look into using C-n and C-p in more places, such as company and helm
 - [ ] Everyone seems to like popwin, so we should probably at least try to figure out why
+- [ ] Make =subword-mode= diminish work correctly
+- [ ] Find a way to bootstrap go-oracle
