@@ -672,6 +672,15 @@ Make common symbols prettier.
               (push '("fn" . ?ƒ) prettify-symbols-alist)))
 #+end_src
 
+Install a few packages for playing around with clojure dev.
+
+#+begin_src emacs-lisp
+  (use-package clojure-mode
+    :mode "\\.clj\\'")
+
+  (use-package cider)
+#+end_src
+
 **** C/C++
 
 #+begin_src emacs-lisp
