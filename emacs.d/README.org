@@ -21,9 +21,10 @@ The first thing we need to do is bootstrap the package system.
   (require 'package)
   (setq package-enable-at-startup nil)
   (setq package-archives
-        '(("gnu" . "http://elpa.gnu.org/packages/")
-          ("marmalade" . "https://marmalade-repo.org/packages/")
-          ("melpa"     . "http://melpa.org/packages/")))
+        '(("melpa"        . "http://melpa.org/packages/")
+          ("melpa-stable" . "http://stable.melpa.org/packages/")
+          ("marmalade"    . "https://marmalade-repo.org/packages/")
+          ("gnu"          . "http://elpa.gnu.org/packages/")))
 
   ;; Make sure we load everything
   (package-initialize)
@@ -484,6 +485,20 @@ Project based navigation. I would be completely lost without this.
     (projectile-global-mode))
 #+end_src
 
+=which-key= is a fancier replacement for guide-key. It also makes it
+very easy to fix the missing prefix commands, which was something that
+really bugged me about guide-key.
+
+#+begin_src emacs-lisp
+  (use-package which-key
+    :diminish which-key-mode
+    :config
+    (which-key-mode 1)
+    (setq which-key-idle-delay 0.5
+          which-key-popup-type 'side-window
+          which-key-side-window-location 'right))
+#+end_src
+
 *** Platform specifics
 
 Font overrides as well as a few mac specific key binds to make emacs
@@ -675,6 +690,8 @@ Make common symbols prettier.
 Install a few packages for playing around with clojure dev.
 
 #+begin_src emacs-lisp
+  (add-to-list 'package-pinned-packages '(cider . "melpa-stable") t)
+
   (use-package clojure-mode
     :mode "\\.clj\\'")
 
@@ -1051,20 +1068,6 @@ Make sure undo-tree is enabled.
     :diminish undo-tree-mode
     :config
     (global-undo-tree-mode 1))
-#+end_src
-
-=which-key= is a fancier replacement for guide-key. It also makes it
-very easy to fix the missing prefix commands, which was something that
-really bugged me about guide-key.
-
-#+begin_src emacs-lisp
-  (use-package which-key
-    :diminish which-key-mode
-    :config
-    (which-key-mode 1)
-    (setq which-key-idle-delay 0.5
-          which-key-popup-type 'side-window
-          which-key-side-window-location 'right))
 #+end_src
 
 ** Org Mode
