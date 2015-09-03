@@ -508,7 +508,7 @@ because we want to be in full screen more often than not.
 #+begin_src emacs-lisp
   (cond ((gnu-linux-p)
          (setq x-gtk-use-system-tooltips nil
-               my/default-frame-font "Terminus 9"
+               my/default-frame-font "Terminus 8"
                browse-url-browser-function 'browse-url-generic
                browse-url-generic-program "xdg-open"))
 
@@ -804,6 +804,21 @@ load it right away to make sure the modeline is updated.
     (setq virtualenv-location (expand-file-name "~/.virtualenvs/")))
 #+end_src
 
+**** Rust
+
+Add support for rust files. =rust-mode= adds syntax support while
+racer adds completion and eldoc. Note that racer requires an external
+utility to be installed, similar to how gocode works.
+
+#+begin_src emacs-lisp
+  (use-package rust-mode
+    :config
+    (use-package racer
+      :config
+      (add-hook 'rust-mode-hook #'racer-mode)
+      (add-hook 'racer-mode-hook #'eldoc-mode)))
+#+end_src
+
 **** Web Dev
 
 These are any packages useful for web dev.
@@ -1010,7 +1025,6 @@ so this section isn't that useful right now.
 #+begin_src emacs-lisp
   (add-to-list 'load-path "/usr/local/share/emacs/site-lisp/mu4e")
   (use-package mu4e
-    :disabled t
     :ensure f
     :commands
     mu4e
@@ -1035,9 +1049,9 @@ so this section isn't that useful right now.
 
     (setq send-mail-function 'smtpmail-send-it
           message-send-mail-function 'smtpmail-send-it
-          smtpmail-default-smtp-server "mail.coded.io"
-          smtpmail-smtp-server "mail.coded.io"
-          smtpmail-stream-type 'starttls
+          smtpmail-default-smtp-server "mail.messagingengine.com"
+          smtpmail-smtp-server "mail.messagingengine.com"
+          smtpmail-stream-type 'ssl
           smtpmail-smtp-service 587)
 
     (defvar belak/mu4e-send-map '()
