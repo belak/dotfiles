@@ -30,6 +30,14 @@ set textwidth=80               " Auto wrap comments at 80 chars
 set fillchars=vert:\│          " Unicode line for separators
 set ruler                      " Column and line num display
 
+" Small things for gvim
+if has('gui_running')
+	set guioptions-=T
+	set guioptions-=L
+	set guioptions-=m
+	set guioptions-=r
+endif
+
 " Split and select the right window
 set splitbelow
 set splitright
