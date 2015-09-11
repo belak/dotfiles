@@ -93,7 +93,6 @@ specific settings.
 
   (defvar my/default-frame-font "Monospace 12")
 
-  ;;(setq-default indicate-buffer-boundaries 'left)
   (setq column-number-mode t
         line-number-mode t
         ;;tooltip-use-echo-area t
@@ -103,7 +102,7 @@ specific settings.
   (blink-cursor-mode 0)
 #+end_src
 
-=diminish-major-mode= is based off of a snippet from [[https://github.com/sandhu/emacs.d/blob/master/lisp/teppoudo-diminish.el][Achint Sandhu's dotfiles]].
+=diminish-major-mode= is a snippet from [[https://github.com/sandhu/emacs.d/blob/master/lisp/teppoudo-diminish.el][Achint Sandhu's dotfiles]].
 
 #+begin_src emacs-lisp
   (defmacro diminish-major-mode (mode new-name)
@@ -664,6 +663,13 @@ in, in most instances we won't even need to install a plugin.
 #+end_src
 
 *** Languages
+**** Docker
+
+#+begin_src emacs-lisp
+  (use-package dockerfile-mode
+    :mode "Dockerfile\(-.*\)?")
+#+end_src
+
 **** Lisp
 
 Rainbow blocks highlights blocks instead of keywords.

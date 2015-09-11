@@ -100,4 +100,5 @@ endif
 
 " Filetype specific stuff
 au BufRead,BufNewFile *.md setlocal filetype=markdown
+au BufRead,BufNewFile *.sp setlocal filetype=cpp
 au BufRead,BufNewFile *.py setlocal expandtab shiftwidth=4 tabstop=4
