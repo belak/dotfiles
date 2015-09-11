@@ -23,7 +23,7 @@ client.urgent           #dc322f #dc322f #cc9393 #cc9393
 # }}}
 
 # {{{ Keybindings
-bindsym $mod+Return           exec urxvtc
+bindsym $mod+Return           exec urxvt
 bindsym $mod+d                exec --no-startup-id rofi -show run -lines 5
 bindsym $mod+Shift+q          exit
 bindsym $mod+Shift+c          kill
@@ -47,16 +47,18 @@ bindsym $mod+Shift+space      floating toggle
 bindsym $mod+space            focus mode_toggle
 bindsym $mod+a                focus parent
 bindsym $mod+Shift+a          focus child
-bindsym $mod+1                workspace 1 tty
-bindsym $mod+2                workspace 2 www
-bindsym $mod+3                workspace 3 dev
-bindsym $mod+4                workspace 4 opt
-bindsym $mod+Shift+1          move container to workspace 1 tty
-bindsym $mod+Shift+2          move container to workspace 2 www
-bindsym $mod+Shift+3          move container to workspace 3 dev
-bindsym $mod+Shift+4          move container to workspace 4 opt
-#bindsym $mod+Left             workspace prev
-#bindsym $mod+Right            workspace next
+bindsym $mod+1                workspace 1:tty
+bindsym $mod+2                workspace 2:www
+bindsym $mod+3                workspace 3:dev
+bindsym $mod+4                workspace 4:opt
+bindsym $mod+Shift+1          move container to workspace 1:tty
+bindsym $mod+Shift+2          move container to workspace 2:www
+bindsym $mod+Shift+3          move container to workspace 3:dev
+bindsym $mod+Shift+4          move container to workspace 4:opt
+bindsym button4               workspace prev
+bindsym button7               workspace next
+bindsym $mod+Left             workspace prev
+bindsym $mod+Right            workspace next
 bindsym XF86AudioRaiseVolume  exec --no-startup-id "amixer -q set Master 2%+ unmute && killall -USR1 i3status"
 bindsym XF86AudioLowerVolume  exec --no-startup-id "amixer -q set Master 2%- && killall -USR1 i3status"
 bindsym XF86AudioMute         exec --no-startup-id "amixer -q set Master toggle && killall -USR1 i3status"
@@ -68,6 +70,7 @@ bindsym XF86Sleep             exec --no-startup-id ~/scripts/lock-screen.sh
 bindsym XF86MonBrightnessUp   exec --no-startup-id xbacklight -inc 5
 bindsym XF86MonBrightnessDown exec --no-startup-id xbacklight -dec 5
 bindsym $mod+p                exec --no-startup-id rofi-pass
+bindsym $ctrl+Shift+l                exec --no-startup-id xscreensaver-command -lock
 # }}}
 
 # {{{ Resize mode
@@ -87,6 +90,7 @@ mode "resize" {
 bar {
     position top
     status_command ~/.virtualenvs/i3/bin/python ~/.belak/i3/status.py
+    strip_workspace_numbers yes
 
     colors {
         background #3f3f3f
