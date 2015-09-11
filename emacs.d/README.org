@@ -663,13 +663,6 @@ in, in most instances we won't even need to install a plugin.
 #+end_src
 
 *** Languages
-**** Docker
-
-#+begin_src emacs-lisp
-  (use-package dockerfile-mode
-    :mode "Dockerfile\(-.*\)?")
-#+end_src
-
 **** Lisp
 
 Rainbow blocks highlights blocks instead of keywords.
@@ -903,6 +896,9 @@ extensions I care about.
     :mode
     "CMakeLists\\.txt\\'"
     "\\.cmake\\'")
+
+  (use-package dockerfile-mode
+    :mode "Dockerfile\(-.*\)?")
 
   (use-package json-mode
     :mode "\\.json\\'")
@@ -1145,9 +1141,9 @@ before the config is loaded when emacs is not daemonized.
 #+begin_src emacs-lisp
   (defun my-make-frame-functions (&optional frame)
     (if frame
-      (select-frame frame))
-    (if (bound-and-true-p make-frame-diff-hl)
-      (make-frame-diff-hl))
+        (select-frame frame))
+    (if (fboundp 'make-frame-diff-hl)
+        (make-frame-diff-hl))
     (set-frame-font my/default-frame-font))
 
   (if (daemonp)
