@@ -1058,7 +1058,7 @@ so this section isn't that useful right now.
           smtpmail-default-smtp-server "mail.messagingengine.com"
           smtpmail-smtp-server "mail.messagingengine.com"
           smtpmail-stream-type 'ssl
-          smtpmail-smtp-service 587)
+          smtpmail-smtp-service 465)
 
     (defvar belak/mu4e-send-map '()
       "Simple mapping of the 'To' header to the outgoing address.")
