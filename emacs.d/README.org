@@ -368,8 +368,7 @@ window and the cursor.
           scroll-margin 5))
 #+end_src
 
-Make sure to use ido everywhere. Because we're currently using helm,
-this is disabled.
+Make sure to use ido everywhere.
 
 #+begin_src emacs-lisp
   (use-package smex
@@ -402,67 +401,15 @@ this is disabled.
   (use-package flx-ido
     :config
     (flx-ido-mode 1)
-    (setq ido-use-faces nil
-          ido-enable-flex-matching t
+    (setq ido-enable-flex-matching t
           flx-ido-threshold 1000))
 #+end_src
 
-Make sure we store recent files. This lets helm do fancy things.
+Make sure we store recent files. This lets ido do fancy things.
 
 #+begin_src emacs-lisp
   (require 'recentf)
   (recentf-mode 1)
-#+end_src
-
-Helm is a much fancier replacement for ido. There are a few settings
-we override (such as reversing C-z and tab, but for the most part the
-defaults are fine.
-
-=helm-mini= is used in place of any buffer related helm functions as
-we can make it use recentf.
-
-#+begin_src emacs-lisp
-  (use-package helm
-    :disabled t
-    :diminish helm-mode
-    :bind
-    ("M-x"     . helm-M-x)
-    ("C-x b"   . helm-mini)
-    ("C-x C-f" . helm-find-files)
-    :config
-    (use-package helm-ag
-      :commands
-      helm-ag
-      helm-ag-project-root)
-    ;; Reverse tab and C-z
-    (bind-keys :map helm-map
-               ("<tab>" . helm-execute-persistent-action)
-               ("C-z"   . helm-select-action))
-
-    (bind-keys :map org-mode-map
-               ("C-c h" . helm-org-in-buffer-headings))
-
-    (helm-mode 1)
-
-    ;; Resize based on the number of results
-    (helm-autoresize-mode 1)
-
-    ;; Turn on fuzzy matching for everything we can
-    (custom-set-variables '(helm-mode-fuzzy-match t)
-                          '(helm-completion-in-region-fuzz-match t))
-
-    ;; Set leader binds for all the stuff above
-    (evil-leader/set-key
-      "x"  'helm-M-x
-      "hb" 'helm-mini
-      "hf" 'helm-find-files))
-
-  (use-package helm-swoop
-    :disabled t
-    ;;:bind ("C-s" . helm-swoop)
-    :config
-    (setq helm-swoop-speed-or-color t
-          helm-swoop-pre-input-function (lambda () "")))
 #+end_src
 
 Perspective creates different views to switch between. This needs to
@@ -481,14 +428,6 @@ Project based navigation. I would be completely lost without this.
   (use-package projectile
     :diminish projectile-mode
     :config
-    (use-package helm-projectile
-      :disabled t
-      :config
-      (setq projectile-completion-system 'helm)
-      (helm-projectile-on)
-      (evil-leader/set-key
-        "pp" 'helm-projectile-switch-project
-        "pf" 'helm-projectile-find-file))
     (projectile-global-mode)
     (evil-leader/set-key
       "pp" 'projectile-switch-project
@@ -1215,23 +1154,19 @@ Now that we're done, we can turn off error handling.
   (setq debug-on-quit nil)
 #+end_src
 
-** TODO Tasks [1/15]
+** TODO Tasks [1/11]
 
 This section is all about stuff I'd like to get into my emacs init but
 haven't found the time yet.
 
 - [X] Reorganize based on http://doc.rix.si/org/fsem.html
 - [ ] Take a look at =electric-indent-mode=
-- [ ] Change bind for =helm-swoop=
 - [ ] Learn =paredit=
-- [ ] Add a bind for the helm-org headings navigation
 - [ ] Look into avy
 - [ ] Look into slime for elisp
 - [ ] Set up ediff like https://github.com/dakrone/dakrone-dotfiles/blob/master/.emacs.d/settings.org#ediff
 - [ ] Set up smartparens like https://github.com/dakrone/dakrone-dotfiles/blob/master/.emacs.d/settings.org#smartparens
 - [ ] Set up anzu like https://github.com/dakrone/dakrone-dotfiles/blob/master/.emacs.d/settings.org#anzu
-- [ ] More helm stuffs from https://github.com/dakrone/dakrone-dotfiles/blob/master/.emacs.d/settings.org#helm
-- [ ] Look into using C-n and C-p in more places, such as company and helm
 - [ ] Everyone seems to like popwin, so we should probably at least try to figure out why
 - [ ] Make =subword-mode= diminish work correctly
 - [ ] Find a way to bootstrap go-oracle
