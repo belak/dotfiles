@@ -373,33 +373,33 @@ this is disabled.
 
 #+begin_src emacs-lisp
   (use-package smex
-    :disabled t
     :bind
     ("M-x" . smex)
-    ("M-X" . smex-major-mode-commands))
+    ("M-X" . smex-major-mode-commands)
+    :config
+    (evil-leader/set-key "x" 'smex))
 
   (use-package ido
-    :disabled t
     :config
     (ido-mode 1)
     (ido-everywhere 1)
     (setq resize-mini-windows t
           ido-use-virtual-buffers t
-          ido-vertical-show-count t))
+          ido-vertical-show-count t)
+    (evil-leader/set-key
+      "b" 'ido-switch-buffer
+      "f" 'ido-find-file))
 
   (use-package ido-ubiquitous
-    :disabled t
     :config
     (ido-ubiquitous-mode 1))
 
   (use-package ido-vertical-mode
-    :disabled t
     :config
     (ido-vertical-mode 1)
     (setq ido-vertical-define-keys 'C-n-C-p-up-and-down))
 
   (use-package flx-ido
-    :disabled t
     :config
     (flx-ido-mode 1)
     (setq ido-use-faces nil
@@ -423,19 +423,17 @@ we can make it use recentf.
 
 #+begin_src emacs-lisp
   (use-package helm
+    :disabled t
     :diminish helm-mode
     :bind
     ("M-x"     . helm-M-x)
     ("C-x b"   . helm-mini)
     ("C-x C-f" . helm-find-files)
-    ("C-c o"   . helm-occur)
-    ("M-/"     . helm-dabbrev)
-    :init
+    :config
     (use-package helm-ag
       :commands
       helm-ag
       helm-ag-project-root)
-    :config
     ;; Reverse tab and C-z
     (bind-keys :map helm-map
                ("<tab>" . helm-execute-persistent-action)
@@ -451,7 +449,13 @@ we can make it use recentf.
 
     ;; Turn on fuzzy matching for everything we can
     (custom-set-variables '(helm-mode-fuzzy-match t)
-                          '(helm-completion-in-region-fuzz-match t)))
+                          '(helm-completion-in-region-fuzz-match t))
+
+    ;; Set leader binds for all the stuff above
+    (evil-leader/set-key
+      "x"  'helm-M-x
+      "hb" 'helm-mini
+      "hf" 'helm-find-files))
 
   (use-package helm-swoop
     :disabled t
@@ -478,10 +482,17 @@ Project based navigation. I would be completely lost without this.
     :diminish projectile-mode
     :config
     (use-package helm-projectile
+      :disabled t
       :config
       (setq projectile-completion-system 'helm)
-      (helm-projectile-on))
-    (projectile-global-mode))
+      (helm-projectile-on)
+      (evil-leader/set-key
+        "pp" 'helm-projectile-switch-project
+        "pf" 'helm-projectile-find-file))
+    (projectile-global-mode)
+    (evil-leader/set-key
+      "pp" 'projectile-switch-project
+      "pf" 'projectile-find-file))
 #+end_src
 
 =which-key= is a fancier replacement for guide-key. It also makes it
@@ -496,6 +507,50 @@ really bugged me about guide-key.
     (setq which-key-idle-delay 0.5
           which-key-popup-type 'side-window
           which-key-side-window-location 'right))
+#+end_src
+
+*** Evil Mode
+    
+Turn on evil mode everywhere. There are some articles that say "don't
+do this" and others which will say it's a good idea. I personally like
+having evil everywhere, even if there aren't bindings for some things.
+
+#+begin_src emacs-lisp
+  (use-package evil
+    :config
+    ;; There is a note saying that evil-leader should be enabled before
+    ;; evil-mode so it will work in buffers like *scratch* and friends.
+    (use-package evil-leader
+      :config
+      (global-evil-leader-mode)
+      (setq evil-leader/leader ","))
+    (evil-mode 1)
+    (setq evil-vsplit-window-right t
+          evil-split-window-below t))
+#+end_src
+
+As a former vim user, I like escape to actually quit everywhere. This
+was taken from https://github.com/davvil/.emacs.d/blob/master/init.el
+
+#+begin_src emacs-lisp
+  (defun minibuffer-keyboard-quit ()
+    "Abort recursive edit.
+    In Delete Selection mode, if the mark is active, just deactivate it;
+    then it takes a second \\[keyboard-quit] to abort the minibuffer."
+    (interactive)
+    (if (and delete-selection-mode transient-mark-mode mark-active)
+        (setq deactivate-mark  t)
+      (when (get-buffer "*Completions*") (delete-windows-on "*Completions*"))
+      (abort-recursive-edit)))
+
+  (define-key evil-normal-state-map [escape] 'keyboard-quit)
+  (define-key evil-visual-state-map [escape] 'keyboard-quit)
+  (define-key minibuffer-local-map [escape] 'minibuffer-keyboard-quit)
+  (define-key minibuffer-local-ns-map [escape] 'minibuffer-keyboard-quit)
+  (define-key minibuffer-local-completion-map [escape] 'minibuffer-keyboard-quit)
+  (define-key minibuffer-local-must-match-map [escape] 'minibuffer-keyboard-quit)
+  (define-key minibuffer-local-isearch-map [escape] 'minibuffer-keyboard-quit)
+  (global-set-key [escape] 'evil-exit-emacs-state)
 #+end_src
 
 *** Platform specifics
@@ -587,7 +642,9 @@ when files change, but this only appears to work on linux.
     (use-package magit-filenotify
       :if (gnu-linux-p)
       :config
-      (add-hook 'magit-status-mode-hook 'magit-filenotify-mode)))
+      (add-hook 'magit-status-mode-hook 'magit-filenotify-mode))
+    :config
+    (evil-leader/set-key "gg" 'magit-status))
 #+end_src
 
 Make sure the git gutter is loaded. Note that the fringe doesn't work
