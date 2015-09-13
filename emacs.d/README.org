@@ -136,10 +136,13 @@ easy to update later.
 #+begin_src emacs-lisp
   (use-package powerline-evil
     :config
-    (set-face-background 'powerline-evil-normal-face (belak/zenburn-color "green"))
-    (set-face-background 'powerline-evil-insert-face (belak/zenburn-color "red"))
-    (set-face-background 'powerline-evil-visual-face (belak/zenburn-color "orange"))
-    (set-face-background 'powerline-evil-operator-face (belak/zenburn-color "cyan")))
+    (set-face-background 'powerline-evil-emacs-face    (belak/zenburn-color "red"))
+    (set-face-background 'powerline-evil-insert-face   (belak/zenburn-color "red"))
+    (set-face-background 'powerline-evil-motion-face   (belak/zenburn-color "magenta"))
+    (set-face-background 'powerline-evil-normal-face   (belak/zenburn-color "green"))
+    (set-face-background 'powerline-evil-operator-face (belak/zenburn-color "cyan"))
+    (set-face-background 'powerline-evil-replace-face  (belak/zenburn-color "red"))
+    (set-face-background 'powerline-evil-visual-face   (belak/zenburn-color "orange")))
 
   (use-package powerline
     :config
@@ -404,9 +407,9 @@ Make sure to use ido everywhere.
 
   (use-package ido-vertical-mode
     :config
-    (ido-vertical-mode 1)
-    (setq ido-vertical-define-keys 'C-n-C-p-up-and-down-only
-          ido-vertical-show-count t))
+    (setq ido-vertical-define-keys 'C-n-C-p-up-down-left-right
+          ido-vertical-show-count t)
+    (ido-vertical-mode 1))
 
   (use-package flx-ido
     :config
@@ -480,12 +483,16 @@ having evil everywhere, even if there aren't bindings for some things.
           evil-split-window-below t)
 
     ;; Set the cursor color based on the evil state
-    (setq evil-emacs-state-cursor    (list (belak/zenburn-color "red")    'box)
-          evil-normal-state-cursor   (list (belak/zenburn-color "green")  'box)
-          evil-visual-state-cursor   (list (belak/zenburn-color "orange") 'box)
-          evil-insert-state-cursor   (list (belak/zenburn-color "red")    'bar)
-          evil-replace-state-cursor  (list (belak/zenburn-color "red")    'bar)
-          evil-operator-state-cursor (list (belak/zenburn-color "cyan")    'evil-half-cursor))
+    (setq evil-emacs-state-cursor    (list (belak/zenburn-color "red")     'box)
+          evil-insert-state-cursor   (list (belak/zenburn-color "red")     'bar)
+          evil-motion-state-cursor   (list (belak/zenburn-color "magenta") 'box)
+          evil-normal-state-cursor   (list (belak/zenburn-color "green")   'box)
+          evil-replace-state-cursor  (list (belak/zenburn-color "red")     'bar)
+          evil-visual-state-cursor   (list (belak/zenburn-color "orange")  'box))
+
+    ;; For the operator state, the only thing we want to change is the
+    ;; size. We can keep the same color.
+    (setq evil-operator-state-cursor 'evil-half-cursor)
 
     ;; Make C-a and C-e work closer to how emacs uses them by default
     (bind-keys :map evil-insert-state-map
@@ -1199,7 +1206,7 @@ Now that we're done, we can turn off error handling.
   (setq debug-on-quit nil)
 #+end_src
 
-** TODO Tasks [1/11]
+** TODO Tasks [1/12]
 
 This section is all about stuff I'd like to get into my emacs init but
 haven't found the time yet.
@@ -1215,3 +1222,4 @@ haven't found the time yet.
 - [ ] Everyone seems to like popwin, so we should probably at least try to figure out why
 - [ ] Make =subword-mode= diminish work correctly
 - [ ] Find a way to bootstrap go-oracle
+- [ ] Move away from org-mode config
