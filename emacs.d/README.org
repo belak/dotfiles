@@ -625,6 +625,7 @@ when files change, but this only appears to work on linux.
       :config
       (add-hook 'magit-status-mode-hook 'magit-filenotify-mode))
     :config
+    (setq magit-push-always-verify t)
     (evil-leader/set-key "gg" 'magit-status))
 #+end_src
 
