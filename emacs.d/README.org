@@ -49,7 +49,7 @@ lazy-loading things when we need them to speed up the startup time.
   (package-ensure-installed 'use-package)
 
   (eval-when-compile
-    ;;(defvar use-package-verbose t)
+    (defvar use-package-verbose t)
     (require 'use-package))
 
   (require 'diminish)
@@ -89,6 +89,8 @@ specific settings.
 #+begin_src emacs-lisp
   (use-package zenburn-theme
     :config
+    (defun belak/zenburn-color (color)
+      (cdr (assoc (concat "zenburn-" color) zenburn-colors-alist)))
     (load-theme 'zenburn t))
 
   (defvar my/default-frame-font "Monospace 12")
@@ -132,6 +134,13 @@ the same settings and leave it the same as the default so it'll be
 easy to update later.
 
 #+begin_src emacs-lisp
+  (use-package powerline-evil
+    :config
+    (set-face-background 'powerline-evil-normal-face (belak/zenburn-color "green"))
+    (set-face-background 'powerline-evil-insert-face (belak/zenburn-color "red"))
+    (set-face-background 'powerline-evil-visual-face (belak/zenburn-color "orange"))
+    (set-face-background 'powerline-evil-operator-face (belak/zenburn-color "cyan")))
+
   (use-package powerline
     :config
     (defun belak/powerline-theme ()
@@ -150,7 +159,8 @@ easy to update later.
                               (separator-right (intern (format "powerline-%s-%s"
                                                                (powerline-current-separator)
                                                                (cdr powerline-default-separator-dir))))
-                              (lhs (list (powerline-raw "%*" nil 'l)
+                              (lhs (list (powerline-raw "%* " nil 'l)
+                                         (powerline-raw (powerline-evil-tag) (powerline-evil-face))
                                          (when powerline-display-buffer-size
                                            (powerline-buffer-size nil 'l))
                                          (when powerline-display-mule-info
@@ -383,8 +393,7 @@ Make sure to use ido everywhere.
     (ido-mode 1)
     (ido-everywhere 1)
     (setq resize-mini-windows t
-          ido-use-virtual-buffers t
-          ido-vertical-show-count t)
+          ido-use-virtual-buffers t)
     (evil-leader/set-key
       "b" 'ido-switch-buffer
       "f" 'ido-find-file))
@@ -396,7 +405,8 @@ Make sure to use ido everywhere.
   (use-package ido-vertical-mode
     :config
     (ido-vertical-mode 1)
-    (setq ido-vertical-define-keys 'C-n-C-p-up-and-down))
+    (setq ido-vertical-define-keys 'C-n-C-p-up-and-down-only
+          ido-vertical-show-count t))
 
   (use-package flx-ido
     :config
@@ -463,9 +473,39 @@ having evil everywhere, even if there aren't bindings for some things.
       :config
       (global-evil-leader-mode)
       (setq evil-leader/leader ","))
+
     (evil-mode 1)
-    (setq evil-vsplit-window-right t
-          evil-split-window-below t))
+    (setq evil-echo-state nil
+          evil-vsplit-window-right t
+          evil-split-window-below t)
+
+    ;; Set the cursor color based on the evil state
+    (setq evil-emacs-state-cursor    (list (belak/zenburn-color "red")    'box)
+          evil-normal-state-cursor   (list (belak/zenburn-color "green")  'box)
+          evil-visual-state-cursor   (list (belak/zenburn-color "orange") 'box)
+          evil-insert-state-cursor   (list (belak/zenburn-color "red")    'bar)
+          evil-replace-state-cursor  (list (belak/zenburn-color "red")    'bar)
+          evil-operator-state-cursor (list (belak/zenburn-color "cyan")    'evil-half-cursor))
+
+    ;; Make C-a and C-e work closer to how emacs uses them by default
+    (bind-keys :map evil-insert-state-map
+               ("C-e" . evil-append-line)
+               ("C-a" . evil-insert-line))
+    (bind-keys :map evil-normal-state-map
+               ("C-e" . evil-append-line)
+               ("C-a" . evil-insert-line))
+    (bind-keys :map evil-motion-state-map
+               ("C-e" . evil-append-line)
+               ("C-a" . evil-insert-line))
+    (bind-keys :map evil-visual-state-map
+               ("C-e" . evil-end-of-line)
+               ("C-a" . evil-beginning-of-line)))
+
+  (use-package evil-org
+    :diminish evil-org-mode
+    :config
+    (evil-define-key 'insert evil-org-mode-map
+      "RET" 'clever-insert-item))
 #+end_src
 
 As a former vim user, I like escape to actually quit everywhere. This
@@ -534,6 +574,8 @@ bother putting it into the prog mode hook.
     (interactive)
     (linum-mode 1)
     (setq show-trailing-whitespace t))
+
+  (use-package linum-relative)
 
   (add-hook 'prog-mode-hook 'my-prog-mode-hook)
 
@@ -987,6 +1029,7 @@ now.
 
 #+begin_src emacs-lisp
   (use-package erc
+    :disabled t
     :config
     (setq erc-prompt ">"
           erc-join-buffer 'bury)
@@ -1003,6 +1046,7 @@ connect.
 
 #+begin_src emacs-lisp
   (use-package znc
+    :disabled t
     :commands
     znc-erc
     znc-all
