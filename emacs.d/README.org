@@ -134,16 +134,6 @@ the same settings and leave it the same as the default so it'll be
 easy to update later.
 
 #+begin_src emacs-lisp
-  (use-package powerline-evil
-    :config
-    (set-face-background 'powerline-evil-emacs-face    (belak/zenburn-color "red"))
-    (set-face-background 'powerline-evil-insert-face   (belak/zenburn-color "red"))
-    (set-face-background 'powerline-evil-motion-face   (belak/zenburn-color "magenta"))
-    (set-face-background 'powerline-evil-normal-face   (belak/zenburn-color "green"))
-    (set-face-background 'powerline-evil-operator-face (belak/zenburn-color "cyan"))
-    (set-face-background 'powerline-evil-replace-face  (belak/zenburn-color "red"))
-    (set-face-background 'powerline-evil-visual-face   (belak/zenburn-color "orange")))
-
   (use-package powerline
     :config
     (defun belak/powerline-theme ()
@@ -470,6 +460,17 @@ having evil everywhere, even if there aren't bindings for some things.
 #+begin_src emacs-lisp
   (use-package evil
     :config
+    ;; Set the powerline colors to mostly line up with the cursor state
+    (use-package powerline-evil
+      :config
+      (set-face-background 'powerline-evil-emacs-face    (belak/zenburn-color "red"))
+      (set-face-background 'powerline-evil-insert-face   (belak/zenburn-color "red"))
+      (set-face-background 'powerline-evil-motion-face   (belak/zenburn-color "magenta"))
+      (set-face-background 'powerline-evil-normal-face   (belak/zenburn-color "green"))
+      (set-face-background 'powerline-evil-operator-face (belak/zenburn-color "cyan"))
+      (set-face-background 'powerline-evil-replace-face  (belak/zenburn-color "red"))
+      (set-face-background 'powerline-evil-visual-face   (belak/zenburn-color "orange")))
+
     ;; There is a note saying that evil-leader should be enabled before
     ;; evil-mode so it will work in buffers like *scratch* and friends.
     (use-package evil-leader
@@ -933,6 +934,19 @@ extensions I care about.
 #+begin_src emacs-lisp
   (use-package markdown-mode
     :mode ("\\.md\\'" . gfm-mode))
+#+end_src
+
+**** Source Pawn
+
+This isn't perfect, but we need a way to add a mode which won't be
+used by irony but is still a close approximation of the SourcePawn
+source, so we define a major mode derived from =c++-mode=.
+
+#+begin_src emacs-lisp
+  (define-derived-mode sourcepawn-mode c++-mode "SourcePawn")
+  (use-package sourcepawn-mode
+    :ensure f
+    :mode "\\.sp\\'")
 #+end_src
 
 **** Misc
