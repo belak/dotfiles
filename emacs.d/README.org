@@ -395,6 +395,10 @@ having evil everywhere, even if there aren't bindings for some things.
           evil-vsplit-window-right t
           evil-split-window-below t)
 
+    ;; Paradox is much more useful in emacs mode than evil mode because
+    ;; it rebinds so many things.
+    (add-to-list 'evil-emacs-state-modes 'paradox-menu-mode)
+
     ;; Set the cursor color based on the evil state
     (setq evil-emacs-state-cursor    (list (belak/zenburn-color "red")     'box)
           evil-insert-state-cursor   (list (belak/zenburn-color "red")     'bar)
@@ -538,8 +542,9 @@ Helm is a much fancier replacement for ido.
     (helm-autoresize-mode 1)
 
     ;; Turn on fuzzy matching for everything we can
-    (custom-set-variables '(helm-mode-fuzzy-match t)
-                          '(helm-completion-in-region-fuzzy-match t))
+    (setq helm-M-x-fuzzy-match t
+          helm-mode-fuzzy-match t
+          helm-completion-in-region-fuzzy-match)
 
     ;; Set leader binds for all the stuff above
     (evil-leader/set-key

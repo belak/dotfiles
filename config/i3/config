@@ -14,6 +14,7 @@ font pango:$font
 new_window pixel 1
 gaps inner 5
 smart_gaps on
+hide_edge_borders both
 
                         #border backgr. text    indicator
 client.focused          #6f6f6f #6f6f6f #f0dfaf #cc9393
@@ -66,11 +67,11 @@ bindsym XF86AudioPlay         exec --no-startup-id mpc -q toggle
 bindsym XF86AudioStop         exec --no-startup-id mpc -q stop
 bindsym XF86AudioNext         exec --no-startup-id mpc -q next
 bindsym XF86AudioPrev         exec --no-startup-id mpc -q prev
-bindsym XF86Sleep             exec --no-startup-id ~/scripts/lock-screen.sh
+bindsym XF86Sleep             exec --no-startup-id xautolock -locknow
 bindsym XF86MonBrightnessUp   exec --no-startup-id xbacklight -inc 5
 bindsym XF86MonBrightnessDown exec --no-startup-id xbacklight -dec 5
 bindsym $mod+p                exec --no-startup-id rofi-pass
-bindsym $ctrl+Shift+l                exec --no-startup-id xscreensaver-command -lock
+bindsym $ctrl+Shift+l         exec --no-startup-id xautolock -locknow
 # }}}
 
 # {{{ Resize mode
@@ -111,6 +112,7 @@ exec_always --no-startup-id "xrdb -I$HOME ~/.Xresources"
 exec        --no-startup-id "nitrogen --restore"
 exec        --no-startup-id "redshift-gtk"
 exec        --no-startup-id "compton --backend glx"
-exec        --no-startup-id "urxvtd -q -o -f"
-exec        --no-startup-id "dunst"
+exec        --no-startup-id "dunst -fn 'Terminus 8'"
+exec        --no-startup-id "xautolock -time 1 -locker '~/bin/fuzzy-lock'"
+exec        --no-startup-id "pasystray"
 # }}}
