@@ -65,6 +65,7 @@ Load up zx2c4's [[http://www.passwordstore.org/][pass]] utility so we can grab d
 
 #+begin_src emacs-lisp
   (use-package password-store
+    :defer 5
     :commands password-store-get)
 #+end_src
 
@@ -382,6 +383,7 @@ Make sure to use ido everywhere.
     (evil-leader/set-key "x" 'smex))
 
   (use-package ido
+    :disabled t
     :config
     (ido-mode 1)
     (ido-everywhere 1)
@@ -392,27 +394,76 @@ Make sure to use ido everywhere.
       "f" 'ido-find-file))
 
   (use-package ido-ubiquitous
+    :disabled t
     :config
     (ido-ubiquitous-mode 1))
 
   (use-package ido-vertical-mode
+    :disabled t
     :config
     (setq ido-vertical-define-keys 'C-n-C-p-up-down-left-right
           ido-vertical-show-count t)
     (ido-vertical-mode 1))
 
   (use-package flx-ido
+    :disabled t
     :config
     (flx-ido-mode 1)
     (setq ido-enable-flex-matching t
           flx-ido-threshold 1000))
 #+end_src
 
-Make sure we store recent files. This lets ido do fancy things.
+Make sure we store recent files. This lets helm do fancy things.
 
 #+begin_src emacs-lisp
   (require 'recentf)
   (recentf-mode 1)
+#+end_src
+
+Helm is a much fancier replacement for ido.
+
+#+begin_src emacs-lisp
+  (use-package helm
+    :diminish helm-mode
+    :bind
+    ("M-x"     . helm-M-x)
+    ("C-x b"   . helm-mini)
+    ("C-x C-f" . helm-find-files)
+    :config
+    (use-package helm-ag
+      :commands
+      helm-ag
+      helm-ag-project-root)
+
+    ;; Reverse tab and C-z
+    (bind-keys :map helm-map
+               ("<tab>" . helm-execute-persistent-action)
+               ("C-z"   . helm-select-action))
+
+    (bind-keys :map org-mode-map
+               ("C-c h" . helm-org-in-buffer-headings))
+
+    (helm-mode 1)
+
+    ;; Resize based on the number of results
+    (helm-autoresize-mode 1)
+
+    ;; Turn on fuzzy matching for everything we can
+    (custom-set-variables '(helm-mode-fuzzy-match t)
+                          '(helm-completion-in-region-fuzz-match t))
+
+    ;; Set leader binds for all the stuff above
+    (evil-leader/set-key
+      "x"  'helm-M-x
+      "hb" 'helm-mini
+      "hf" 'helm-find-files))
+
+  (use-package helm-swoop
+    :disabled t
+    ;;:bind ("C-s" . helm-swoop)
+    :config
+    (setq helm-swoop-speed-or-color t
+          helm-swoop-pre-input-function (lambda () "")))
 #+end_src
 
 Perspective creates different views to switch between. This needs to
@@ -508,12 +559,6 @@ having evil everywhere, even if there aren't bindings for some things.
     (bind-keys :map evil-visual-state-map
                ("C-e" . evil-end-of-line)
                ("C-a" . evil-beginning-of-line)))
-
-  (use-package evil-org
-    :diminish evil-org-mode
-    :config
-    (evil-define-key 'insert evil-org-mode-map
-      "RET" 'clever-insert-item))
 #+end_src
 
 As a former vim user, I like escape to actually quit everywhere. This
