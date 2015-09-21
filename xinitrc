@@ -10,7 +10,7 @@ fi
 
 xrdb -I"$HOME" "$HOME/.Xresources"
 xsetroot -cursor_name left_ptr &
-unclutter -grab -root &
+unclutter &
 
 #nitrogen --set-auto "$(find $HOME/pics/Wallpapers | sort -R | head -1)"
 
