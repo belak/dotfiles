@@ -459,8 +459,7 @@ Helm is a much fancier replacement for ido.
       "hf" 'helm-find-files))
 
   (use-package helm-swoop
-    :disabled t
-    ;;:bind ("C-s" . helm-swoop)
+    :bind ("C-S-s" . helm-swoop)
     :config
     (setq helm-swoop-speed-or-color t
           helm-swoop-pre-input-function (lambda () "")))
@@ -482,10 +481,18 @@ Project based navigation. I would be completely lost without this.
   (use-package projectile
     :diminish projectile-mode
     :config
+    (use-package helm-projectile
+      :config
+      (setq projectile-completion-system 'helm)
+      (helm-projectile-on)
+      (evil-leader/set-key
+        "pp" 'helm-projectile-switch-project
+        "pf" 'helm-projectile-find-file))
     (projectile-global-mode)
     (evil-leader/set-key
       "pp" 'projectile-switch-project
       "pf" 'projectile-find-file))
+
 #+end_src
 
 =which-key= is a fancier replacement for guide-key. It also makes it
