@@ -153,8 +153,8 @@ easy to update later.
                               (separator-right (intern (format "powerline-%s-%s"
                                                                (powerline-current-separator)
                                                                (cdr powerline-default-separator-dir))))
-                              (lhs (list (powerline-raw "%* " nil 'l)
-                                         (powerline-raw (powerline-evil-tag) (powerline-evil-face))
+                              (lhs (list (powerline-raw (powerline-evil-tag) (powerline-evil-face))
+                                         (powerline-raw "%*" nil 'l)
                                          (when powerline-display-buffer-size
                                            (powerline-buffer-size nil 'l))
                                          (when powerline-display-mule-info
@@ -357,6 +357,95 @@ but we grab GOPATH as well for go.
     (exec-path-from-shell-initialize))
 #+end_src
 
+*** Evil Mode
+
+Turn on evil mode everywhere. There are some articles that say "don't
+do this" and others which will say it's a good idea. I personally like
+having evil everywhere, even if there aren't bindings for some things.
+
+#+begin_src emacs-lisp
+  (use-package evil
+    :config
+    ;; Set the powerline colors to mostly line up with the cursor state
+    (use-package powerline-evil
+      :config
+      (set-face-background 'powerline-evil-emacs-face    (belak/zenburn-color "red"))
+      (set-face-background 'powerline-evil-insert-face   (belak/zenburn-color "red"))
+      (set-face-background 'powerline-evil-motion-face   (belak/zenburn-color "magenta"))
+      (set-face-background 'powerline-evil-normal-face   (belak/zenburn-color "green"))
+      (set-face-background 'powerline-evil-operator-face (belak/zenburn-color "cyan"))
+      (set-face-background 'powerline-evil-replace-face  (belak/zenburn-color "red"))
+      (set-face-background 'powerline-evil-visual-face   (belak/zenburn-color "orange")))
+
+    ;; There is a note saying that evil-leader should be enabled before
+    ;; evil-mode so it will work in buffers like *scratch* and friends.
+    (use-package evil-leader
+      :config
+      (global-evil-leader-mode)
+      (setq evil-leader/leader ","))
+
+    ;; This is a port of tpope's vim-surround which adds text objects
+    ;; for surrounding characters.
+    (use-package evil-surround
+      :config
+      (global-evil-surround-mode 1))
+
+    (evil-mode 1)
+    (setq evil-echo-state nil
+          evil-vsplit-window-right t
+          evil-split-window-below t)
+
+    ;; Set the cursor color based on the evil state
+    (setq evil-emacs-state-cursor    (list (belak/zenburn-color "red")     'box)
+          evil-insert-state-cursor   (list (belak/zenburn-color "red")     'bar)
+          evil-motion-state-cursor   (list (belak/zenburn-color "magenta") 'box)
+          evil-normal-state-cursor   (list (belak/zenburn-color "green")   'box)
+          evil-replace-state-cursor  (list (belak/zenburn-color "red")     'bar)
+          evil-visual-state-cursor   (list (belak/zenburn-color "orange")  'box))
+
+    ;; For the operator state, the only thing we want to change is the
+    ;; size. We can keep the same color.
+    (setq evil-operator-state-cursor 'evil-half-cursor)
+
+    ;; Make C-a and C-e work closer to how emacs uses them by default
+    (bind-keys :map evil-insert-state-map
+               ("C-e" . evil-append-line)
+               ("C-a" . evil-insert-line))
+    (bind-keys :map evil-normal-state-map
+               ("C-e" . evil-append-line)
+               ("C-a" . evil-insert-line))
+    (bind-keys :map evil-motion-state-map
+               ("C-e" . evil-append-line)
+               ("C-a" . evil-insert-line))
+    (bind-keys :map evil-visual-state-map
+               ("C-e" . evil-end-of-line)
+               ("C-a" . evil-beginning-of-line)))
+#+end_src
+
+As a former vim user, I like escape to actually quit everywhere. This
+was taken from https://github.com/davvil/.emacs.d/blob/master/init.el
+
+#+begin_src emacs-lisp
+  (defun minibuffer-keyboard-quit ()
+    "Abort recursive edit.
+    In Delete Selection mode, if the mark is active, just deactivate it;
+    then it takes a second \\[keyboard-quit] to abort the minibuffer."
+    (interactive)
+    (if (and delete-selection-mode transient-mark-mode mark-active)
+        (setq deactivate-mark  t)
+      (when (get-buffer "*Completions*") (delete-windows-on "*Completions*"))
+      (abort-recursive-edit)))
+
+  (define-key evil-normal-state-map [escape] 'keyboard-quit)
+  (define-key evil-visual-state-map [escape] 'keyboard-quit)
+  (define-key minibuffer-local-map [escape] 'minibuffer-keyboard-quit)
+  (define-key minibuffer-local-ns-map [escape] 'minibuffer-keyboard-quit)
+  (define-key minibuffer-local-completion-map [escape] 'minibuffer-keyboard-quit)
+  (define-key minibuffer-local-must-match-map [escape] 'minibuffer-keyboard-quit)
+  (define-key minibuffer-local-isearch-map [escape] 'minibuffer-keyboard-quit)
+  (global-set-key [escape] 'evil-exit-emacs-state)
+#+end_src
+
 *** Navigation
 
 Smooth scroll makes sure there's a buffer between the top of the
@@ -450,7 +539,7 @@ Helm is a much fancier replacement for ido.
 
     ;; Turn on fuzzy matching for everything we can
     (custom-set-variables '(helm-mode-fuzzy-match t)
-                          '(helm-completion-in-region-fuzz-match t))
+                          '(helm-completion-in-region-fuzzy-match t))
 
     ;; Set leader binds for all the stuff above
     (evil-leader/set-key
@@ -507,89 +596,6 @@ really bugged me about guide-key.
     (setq which-key-idle-delay 0.5
           which-key-popup-type 'side-window
           which-key-side-window-location 'right))
-#+end_src
-
-*** Evil Mode
-    
-Turn on evil mode everywhere. There are some articles that say "don't
-do this" and others which will say it's a good idea. I personally like
-having evil everywhere, even if there aren't bindings for some things.
-
-#+begin_src emacs-lisp
-  (use-package evil
-    :config
-    ;; Set the powerline colors to mostly line up with the cursor state
-    (use-package powerline-evil
-      :config
-      (set-face-background 'powerline-evil-emacs-face    (belak/zenburn-color "red"))
-      (set-face-background 'powerline-evil-insert-face   (belak/zenburn-color "red"))
-      (set-face-background 'powerline-evil-motion-face   (belak/zenburn-color "magenta"))
-      (set-face-background 'powerline-evil-normal-face   (belak/zenburn-color "green"))
-      (set-face-background 'powerline-evil-operator-face (belak/zenburn-color "cyan"))
-      (set-face-background 'powerline-evil-replace-face  (belak/zenburn-color "red"))
-      (set-face-background 'powerline-evil-visual-face   (belak/zenburn-color "orange")))
-
-    ;; There is a note saying that evil-leader should be enabled before
-    ;; evil-mode so it will work in buffers like *scratch* and friends.
-    (use-package evil-leader
-      :config
-      (global-evil-leader-mode)
-      (setq evil-leader/leader ","))
-
-    (evil-mode 1)
-    (setq evil-echo-state nil
-          evil-vsplit-window-right t
-          evil-split-window-below t)
-
-    ;; Set the cursor color based on the evil state
-    (setq evil-emacs-state-cursor    (list (belak/zenburn-color "red")     'box)
-          evil-insert-state-cursor   (list (belak/zenburn-color "red")     'bar)
-          evil-motion-state-cursor   (list (belak/zenburn-color "magenta") 'box)
-          evil-normal-state-cursor   (list (belak/zenburn-color "green")   'box)
-          evil-replace-state-cursor  (list (belak/zenburn-color "red")     'bar)
-          evil-visual-state-cursor   (list (belak/zenburn-color "orange")  'box))
-
-    ;; For the operator state, the only thing we want to change is the
-    ;; size. We can keep the same color.
-    (setq evil-operator-state-cursor 'evil-half-cursor)
-
-    ;; Make C-a and C-e work closer to how emacs uses them by default
-    (bind-keys :map evil-insert-state-map
-               ("C-e" . evil-append-line)
-               ("C-a" . evil-insert-line))
-    (bind-keys :map evil-normal-state-map
-               ("C-e" . evil-append-line)
-               ("C-a" . evil-insert-line))
-    (bind-keys :map evil-motion-state-map
-               ("C-e" . evil-append-line)
-               ("C-a" . evil-insert-line))
-    (bind-keys :map evil-visual-state-map
-               ("C-e" . evil-end-of-line)
-               ("C-a" . evil-beginning-of-line)))
-#+end_src
-
-As a former vim user, I like escape to actually quit everywhere. This
-was taken from https://github.com/davvil/.emacs.d/blob/master/init.el
-
-#+begin_src emacs-lisp
-  (defun minibuffer-keyboard-quit ()
-    "Abort recursive edit.
-    In Delete Selection mode, if the mark is active, just deactivate it;
-    then it takes a second \\[keyboard-quit] to abort the minibuffer."
-    (interactive)
-    (if (and delete-selection-mode transient-mark-mode mark-active)
-        (setq deactivate-mark  t)
-      (when (get-buffer "*Completions*") (delete-windows-on "*Completions*"))
-      (abort-recursive-edit)))
-
-  (define-key evil-normal-state-map [escape] 'keyboard-quit)
-  (define-key evil-visual-state-map [escape] 'keyboard-quit)
-  (define-key minibuffer-local-map [escape] 'minibuffer-keyboard-quit)
-  (define-key minibuffer-local-ns-map [escape] 'minibuffer-keyboard-quit)
-  (define-key minibuffer-local-completion-map [escape] 'minibuffer-keyboard-quit)
-  (define-key minibuffer-local-must-match-map [escape] 'minibuffer-keyboard-quit)
-  (define-key minibuffer-local-isearch-map [escape] 'minibuffer-keyboard-quit)
-  (global-set-key [escape] 'evil-exit-emacs-state)
 #+end_src
 
 *** Platform specifics
@@ -853,6 +859,7 @@ features, at least to me.
       (add-hook 'go-mode-hook 'my-company-go-mode-hook))
 
     (load "$GOPATH/src/golang.org/x/tools/cmd/oracle/oracle.el")
+    (load "$GOPATH/src/github.com/golang/lint/misc/emacs/golint.el")
     
     (defun my-go-mode-hook ()
       (subword-mode 1))
@@ -1170,6 +1177,21 @@ so this section isn't that useful right now.
           smtpmail-stream-type 'ssl
           smtpmail-smtp-service 465)
 
+    ;; custom move to trash
+    ;; https://groups.google.com/forum/#!topic/mu-discuss/m4ORymDlf0E
+    (defun my/mu4e-headers-mode-trash ()
+      (interactive)
+      (mu4e-mark-set 'move mu4e-trash-folder)
+      (mu4e-headers-next))
+
+    (defun my/mu4e-view-mode-trash ()
+      (interactive)
+      (mu4e~view-in-headers-context
+       (my/mu4e-headers-mode-trash)))
+
+    (define-key mu4e-headers-mode-map (kbd "d") 'my/mu4e-headers-mode-trash)
+    (define-key mu4e-view-mode-map (kbd "d") 'my/mu4e-view-mode-trash)
+
     (defvar belak/mu4e-send-map '()
       "Simple mapping of the 'To' header to the outgoing address.")
     (defvar belak/mu4e-default-email ""
@@ -1179,14 +1201,14 @@ so this section isn't that useful right now.
       (setq user-mail-address
             (let ((msg mu4e-compose-parent-message))
               (cl-labels ((f (l)
-                          (cond ((not msg) belak/mu4e-default-email)
-                                ((not l) belak/mu4e-default-email)
-                                ((mu4e-message-contact-field-matches msg :to (car (car l)))
-                                 (cdr (car l)))
-                                (t (f (car l))))))
+                             (cond ((not msg) belak/mu4e-default-email)
+                                   ((not l) belak/mu4e-default-email)
+                                   ((mu4e-message-contact-field-matches msg :to (car (car l)))
+                                    (cdr (car l)))
+                                   (t (f (car l))))))
                 (f belak/mu4e-send-map))))
 
-    (add-hook 'mu4e-compose-pre-hook 'belak/mu4e-compose-hook)))
+      (add-hook 'mu4e-compose-pre-hook 'belak/mu4e-compose-hook)))
 #+end_src
 
 *** Misc
