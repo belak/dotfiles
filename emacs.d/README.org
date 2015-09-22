@@ -770,6 +770,11 @@ in, in most instances we won't even need to install a plugin.
     (defalias 'flycheck-show-error-at-point-soon 'flycheck-show-error-at-point)
     (global-flycheck-mode)
     (which-key-add-key-based-replacements "C-c !" "Flycheck"))
+
+  (use-package flyspell
+    :diminish flyspell-mode
+    :config
+    (add-hook 'text-mode-hook (lambda () (flyspell-mode 1))))
 #+end_src
 
 *** Languages
@@ -888,6 +893,15 @@ Enable PHP mode
 
 **** Python
 
+Elpy does *all* the things, so we just use that.
+
+#+begin_src emacs-lisp
+  (use-package elpy
+    :config
+    (setq elpy-modules (remove 'elpy-module-flymake elpy-modules))
+    (elpy-enable))
+#+end_src
+
 Anaconda mode does navigation, docs and auto-completion. Because
 that's pretty much all I need, I use this in place of elpy.
 
@@ -896,6 +910,7 @@ to load in the background.
 
 #+begin_src emacs-lisp
   (use-package anaconda-mode
+    :disabled t
     :diminish anaconda-mode
     :config
     (use-package company-anaconda
@@ -910,6 +925,7 @@ load it right away to make sure the modeline is updated.
 
 #+begin_src emacs-lisp
   (use-package virtualenvwrapper
+    :disabled t
     :config
     (setq virtualenv-location (expand-file-name "~/.virtualenvs/")))
 #+end_src
