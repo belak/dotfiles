@@ -176,8 +176,8 @@ easy to update later.
                                          (when (bound-and-true-p nyan-mode)
                                            (powerline-raw (list (nyan-create)) face2 'l))))
                               (rhs (list (powerline-raw global-mode-string face2 'r)
-                                         (when (bound-and-true-p venv-current-name)
-                                           (powerline-raw venv-current-name face2 'r))
+                                         (when (bound-and-true-p pyvenv-virtual-env-name)
+                                           (powerline-raw pyvenv-virtual-env-name face2 'r))
 
                                          (funcall separator-right face2 face1)
                                          (unless window-system
