@@ -6,6 +6,27 @@ Most notably, [[https://smf.io/dotfiles][smf's dotfiles]], [[https://github.com/
 sources.
 
 ** Setup
+*** Functions
+
+Utility functions so I don't need to remember this.
+
+#+begin_src emacs-lisp
+  (defun osx-p ()
+    (eq system-type 'darwin))
+
+  (defun gnu-linux-p ()
+    (eq system-type 'gnu/linux))
+
+  ;; Small macro to install a missing package
+  (defun package-ensure-installed (package)
+    (unless (package-installed-p package)
+      (unless belak/did-refresh
+        (package-refresh-contents)
+        (setq belak/did-refresh t))
+      (package-install package)))
+#+end_src
+
+*** package.el
 
 Just in case I mess something up, we enable debugging. It gets turned
 off in [[Finalization]].
@@ -31,15 +52,9 @@ The first thing we need to do is bootstrap the package system.
 
   ;; We want to track if we've run a refresh this time
   (setq belak/did-refresh nil)
-
-  ;; Small macro to install a missing package
-  (defun package-ensure-installed (package)
-    (unless (package-installed-p package)
-      (unless belak/did-refresh
-        (package-refresh-contents)
-        (setq belak/did-refresh t))
-      (package-install package)))
 #+end_src
+
+*** use-package
 
 Next we need to load [[https://github.com/jwiegley/use-package][use-package]] so we can organize everything a
 little bit better. =use-package= also includes some useful tools for
@@ -67,18 +82,6 @@ Load up zx2c4's [[http://www.passwordstore.org/][pass]] utility so we can grab d
   (use-package password-store
     :defer 5
     :commands password-store-get)
-#+end_src
-
-*** Functions
-
-Utility functions so I don't need to remember this.
-
-#+begin_src emacs-lisp
-  (defun osx-p ()
-    (eq system-type 'darwin))
-
-  (defun gnu-linux-p ()
-    (eq system-type 'gnu/linux))
 #+end_src
 
 *** Appearance
@@ -117,6 +120,8 @@ specific settings.
   (diminish-major-mode 'emacs-lisp-mode "Eλ")
   (diminish-major-mode 'lisp-mode "λ")
 #+end_src
+
+*** Modeline
 
 =smart-mode-line= is a much cleaner modeline with a few extra features.
 
@@ -1315,13 +1320,13 @@ Now that we're done, we can turn off error handling.
   (setq debug-on-quit nil)
 #+end_src
 
-** TODO Tasks [1/12]
+** TODO Tasks [2/12]
 
 This section is all about stuff I'd like to get into my emacs init but
 haven't found the time yet.
 
 - [X] Reorganize based on http://doc.rix.si/org/fsem.html
-- [ ] Take a look at =electric-indent-mode=
+- [X] Make =subword-mode= diminish work correctly
 - [ ] Learn =paredit=
 - [ ] Look into avy
 - [ ] Look into slime for elisp
@@ -1329,6 +1334,5 @@ haven't found the time yet.
 - [ ] Set up smartparens like https://github.com/dakrone/dakrone-dotfiles/blob/master/.emacs.d/settings.org#smartparens
 - [ ] Set up anzu like https://github.com/dakrone/dakrone-dotfiles/blob/master/.emacs.d/settings.org#anzu
 - [ ] Everyone seems to like popwin, so we should probably at least try to figure out why
-- [ ] Make =subword-mode= diminish work correctly
 - [ ] Find a way to bootstrap go-oracle
 - [ ] Move away from org-mode config
