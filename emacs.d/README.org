@@ -293,6 +293,13 @@ Anzu will show how many seach results we got.
     (global-anzu-mode +1))
 #+end_src
 
+Popwin makes completion windows open in a sane location.
+
+#+begin_src emacs-lisp
+  (use-package popwin
+    :config (popwin-mode 1))
+#+end_src
+
 General annoyances.
 
 - Make sure the buffer name shows up with a directory if there are multiple with the same name
