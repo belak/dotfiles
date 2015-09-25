@@ -480,16 +480,31 @@ window and the cursor.
 Make sure to use ido everywhere.
 
 #+begin_src emacs-lisp
-  (use-package smex
-    :bind
-    ("M-x" . smex)
-    ("M-X" . smex-major-mode-commands)
-    :config
-    (evil-leader/set-key "x" 'smex))
-
   (use-package ido
-    :disabled t
     :config
+    (use-package smex
+      :bind
+      ("M-x" . smex)
+      ("M-X" . smex-major-mode-commands)
+      :config
+      (evil-leader/set-key "x" 'smex))
+
+    (use-package ido-ubiquitous
+      :config
+      (ido-ubiquitous-mode 1))
+
+    (use-package ido-vertical-mode
+      :config
+      (setq ido-vertical-define-keys 'C-n-C-p-up-down-left-right
+            ido-vertical-show-count t)
+      (ido-vertical-mode 1))
+
+    (use-package flx-ido
+      :config
+      (flx-ido-mode 1)
+      (setq ido-enable-flex-matching t
+            flx-ido-threshold 1000))
+
     (ido-mode 1)
     (ido-everywhere 1)
     (setq resize-mini-windows t
@@ -497,25 +512,6 @@ Make sure to use ido everywhere.
     (evil-leader/set-key
       "b" 'ido-switch-buffer
       "f" 'ido-find-file))
-
-  (use-package ido-ubiquitous
-    :disabled t
-    :config
-    (ido-ubiquitous-mode 1))
-
-  (use-package ido-vertical-mode
-    :disabled t
-    :config
-    (setq ido-vertical-define-keys 'C-n-C-p-up-down-left-right
-          ido-vertical-show-count t)
-    (ido-vertical-mode 1))
-
-  (use-package flx-ido
-    :disabled t
-    :config
-    (flx-ido-mode 1)
-    (setq ido-enable-flex-matching t
-          flx-ido-threshold 1000))
 #+end_src
 
 Make sure we store recent files. This lets helm do fancy things.
@@ -529,6 +525,7 @@ Helm is a much fancier replacement for ido.
 
 #+begin_src emacs-lisp
   (use-package helm
+    :disabled t
     :diminish helm-mode
     :bind
     ("M-x"     . helm-M-x)
@@ -539,6 +536,12 @@ Helm is a much fancier replacement for ido.
       :commands
       helm-ag
       helm-ag-project-root)
+
+    (use-package helm-swoop
+      :bind ("C-S-s" . helm-swoop)
+      :config
+      (setq helm-swoop-speed-or-color t
+            helm-swoop-pre-input-function (lambda () "")))
 
     ;; Reverse tab and C-z
     (bind-keys :map helm-map
@@ -564,11 +567,6 @@ Helm is a much fancier replacement for ido.
       "hb" 'helm-mini
       "hf" 'helm-find-files))
 
-  (use-package helm-swoop
-    :bind ("C-S-s" . helm-swoop)
-    :config
-    (setq helm-swoop-speed-or-color t
-          helm-swoop-pre-input-function (lambda () "")))
 #+end_src
 
 Perspective creates different views to switch between. This needs to
