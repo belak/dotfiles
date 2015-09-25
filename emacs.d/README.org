@@ -108,6 +108,23 @@ specific settings.
   (blink-cursor-mode 0)
 #+end_src
 
+Display a line as opposed to ^L. This is early in the config file so
+most bootstrapped package logs will take advantage of this.
+
+#+begin_src emacs-lisp
+  (use-package page-break-lines
+    :diminish page-break-lines-mode
+    :config (global-page-break-lines-mode 1))
+#+end_src
+
+Display the fill column.
+
+#+begin_src emacs-lisp
+  (use-package fill-column-indicator
+    :disabled t
+    :config (fci-mode 1))
+#+end_src
+
 =diminish-major-mode= is a snippet from [[https://github.com/sandhu/emacs.d/blob/master/lisp/teppoudo-diminish.el][Achint Sandhu's dotfiles]].
 
 #+begin_src emacs-lisp
@@ -344,8 +361,8 @@ General annoyances.
         load-prefer-newer t
         tab-width 4
         make-pointer-invisible t
-        diff-switches "-u"
-        mouse-autoselect-window t)
+        diff-switches "-u")
+        ;;mouse-autoselect-window t
 #+end_src
 
 Make mouse scrolling and scrolling in general a bit saner (in theory)
@@ -499,6 +516,10 @@ Make sure to use ido everywhere.
             ido-vertical-show-count t)
       (ido-vertical-mode 1))
 
+    (use-package ido-describe-bindings
+      :bind
+      ("C-c h k" . ido-describe-bindings))
+
     (use-package flx-ido
       :config
       (flx-ido-mode 1)
@@ -637,6 +658,14 @@ because we want to be in full screen more often than not.
          (toggle-frame-fullscreen)))
 
   (set-frame-font my/default-frame-font)
+#+end_src
+
+*** Search
+
+Add some simple search functions.
+
+#+begin_src emacs-lisp
+  (use-package ag)
 #+end_src
 
 ** Programming
@@ -880,8 +909,11 @@ features, at least to me.
         (set (make-local-variable 'company-backends) '(company-go)))
       (add-hook 'go-mode-hook 'my-company-go-mode-hook))
 
+    (use-package golint)
+
+    ;; Unfortunately, go oracle isn't in any of the package archives
     (load "$GOPATH/src/golang.org/x/tools/cmd/oracle/oracle.el")
-    (load "$GOPATH/src/github.com/golang/lint/misc/emacs/golint.el")
+    ;;(load "$GOPATH/src/github.com/golang/lint/misc/emacs/golint.el")
     
     (defun my-go-mode-hook ()
       (subword-mode 1))
@@ -1058,6 +1090,9 @@ source, so we define a major mode derived from =c++-mode=.
   (use-package lua-mode
     :mode "\\.lua\\'")
 
+  (use-package toml-mode
+    :mode "\\.toml\\'")
+
   (use-package yaml-mode
     :mode "\\.yml\\'")
 #+end_src
@@ -1083,6 +1118,18 @@ it's something that only really matters when we manually start it up.
     :config
     (setq paradox-automatically-star t)
     (setq paradox-execute-asynchronously t))
+#+end_src
+
+*** HTTP docs
+
+Add some useful HTTP docs.
+
+#+begin_src emacs-lisp
+  (use-package know-your-http-well
+    :commands (http-header
+               http-method
+               http-relation
+               http-status-code))
 #+end_src
 
 *** Dired
@@ -1334,6 +1381,9 @@ haven't found the time yet.
 
 - [X] Reorganize based on http://doc.rix.si/org/fsem.html
 - [X] Make =subword-mode= diminish work correctly
+- [ ] Add some ag bindings
+- [ ] Fix fci mode so it works with company mode
+- [ ] Look into ranger and improving my dired setup
 - [ ] Learn =paredit=
 - [ ] Look into avy
 - [ ] Look into slime for elisp
