@@ -637,6 +637,8 @@ because we want to be in full screen more often than not.
                my/default-frame-font "Source Code Pro Light 10")
 
          (toggle-frame-fullscreen)))
+
+  (set-frame-font my/default-frame-font)
 #+end_src
 
 ** Programming
