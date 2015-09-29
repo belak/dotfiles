@@ -606,6 +606,7 @@ Project based navigation. I would be completely lost without this.
     :diminish projectile-mode
     :config
     (use-package helm-projectile
+      :disabled t
       :config
       (setq projectile-completion-system 'helm)
       (helm-projectile-on)
