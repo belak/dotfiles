@@ -198,9 +198,8 @@ easy to update later.
                                          (when (bound-and-true-p nyan-mode)
                                            (powerline-raw (list (nyan-create)) face2 'l))))
                               (rhs (list (powerline-raw global-mode-string face2 'r)
-                                         (when (bound-and-true-p pyvenv-virtual-env-name)
-                                           (powerline-raw pyvenv-virtual-env-name face2 'r))
-
+                                         (when (bound-and-true-p venv-current-name)
+                                           (powerline-raw venv-current-name face2 'r))
                                          (funcall separator-right face2 face1)
                                          (unless window-system
                                            (powerline-raw (char-to-string #xe0a1) face1 'l))
@@ -738,7 +737,9 @@ when files change, but this only appears to work on linux.
       (add-hook 'magit-status-mode-hook 'magit-filenotify-mode))
     :config
     (setq magit-push-always-verify t)
-    (evil-leader/set-key "gg" 'magit-status))
+    (evil-leader/set-key
+      "gg" 'magit-status
+      "gb" 'magit-blame-mode))
 #+end_src
 
 Make sure the git gutter is loaded. Note that the fringe doesn't work
@@ -783,7 +784,8 @@ stable.
     :diminish company-mode
     :config
     (setq company-idle-delay 0
-          company-echo-delay 0)
+          company-echo-delay 0
+          company-minimum-prefix-length 1)
     (global-company-mode))
 #+end_src
 
@@ -905,15 +907,14 @@ features, at least to me.
     :config
     (use-package company-go
       :config
-      (defun my-company-go-mode-hook ()
-        (set (make-local-variable 'company-backends) '(company-go)))
-      (add-hook 'go-mode-hook 'my-company-go-mode-hook))
-
-    (use-package golint)
+      (add-to-list 'company-backends 'company-go))
+      ;;(defun my-company-go-mode-hook ()
+      ;;  (set (make-local-variable 'company-backends) '(company-go)))
+      ;;(add-hook 'go-mode-hook 'my-company-go-mode-hook)
 
     ;; Unfortunately, go oracle isn't in any of the package archives
     (load "$GOPATH/src/golang.org/x/tools/cmd/oracle/oracle.el")
-    ;;(load "$GOPATH/src/github.com/golang/lint/misc/emacs/golint.el")
+    (load "$GOPATH/src/github.com/golang/lint/misc/emacs/golint.el")
     
     (defun my-go-mode-hook ()
       (subword-mode 1))
@@ -941,6 +942,7 @@ Elpy does *all* the things, so we just use that.
 
 #+begin_src emacs-lisp
   (use-package elpy
+    :disabled t
     :config
     (setq elpy-modules (remove 'elpy-module-flymake elpy-modules))
     (elpy-enable))
@@ -954,7 +956,6 @@ to load in the background.
 
 #+begin_src emacs-lisp
   (use-package anaconda-mode
-    :disabled t
     :diminish anaconda-mode
     :config
     (use-package company-anaconda
@@ -969,7 +970,6 @@ load it right away to make sure the modeline is updated.
 
 #+begin_src emacs-lisp
   (use-package virtualenvwrapper
-    :disabled t
     :config
     (setq virtualenv-location (expand-file-name "~/.virtualenvs/")))
 #+end_src
@@ -1112,6 +1112,7 @@ it's something that only really matters when we manually start it up.
 
 #+begin_src emacs-lisp
   (use-package paradox
+    :disabled t
     :commands
     paradox-list-packages
     paradox-enable
