@@ -255,7 +255,6 @@ we can undo them.
     :bind ("M-p" . ace-window))
 #+end_src
 
-
 Because I want zap-to-char to not nuke the character we're zapping to,
 we simply replace it with zap-up-to-char.
 
@@ -1085,11 +1084,28 @@ source, so we define a major mode derived from =c++-mode=.
   (use-package dockerfile-mode
     :mode "Dockerfile\(-.*\)?")
 
+  (use-package elixir-mode
+    :disabled t
+    :mode "\\.exs?\\'"
+    :config
+    (use-package alchemist))
+
+  (use-package erlang
+    :disabled t
+    :mode ("\\.erl\\'" . erlang-mode))
+
   (use-package json-mode
     :mode "\\.json\\'")
 
+  (use-package julia-mode
+    :mode "\\.jl\\'")
+
   (use-package lua-mode
     :mode "\\.lua\\'")
+
+  (use-package todotxt-mode
+    :disabled t
+    :mode "todo.txt")
 
   (use-package toml-mode
     :mode "\\.toml\\'")
