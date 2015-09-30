@@ -495,6 +495,13 @@ was taken from https://github.com/davvil/.emacs.d/blob/master/init.el
   (global-set-key [escape] 'evil-exit-emacs-state)
 #+end_src
 
+*** Other Movements
+
+#+begin_src emacs-lisp
+  (use-package expand-region
+    :config (global-set-key (kbd "C-=") 'er/expand-region))
+#+end_src
+
 *** Navigation
 
 Smooth scroll makes sure there's a buffer between the top of the
@@ -1104,7 +1111,6 @@ source, so we define a major mode derived from =c++-mode=.
     :mode "Dockerfile\(-.*\)?")
 
   (use-package elixir-mode
-    :disabled t
     :mode "\\.exs?\\'"
     :config
     (use-package alchemist))
@@ -1121,6 +1127,9 @@ source, so we define a major mode derived from =c++-mode=.
 
   (use-package lua-mode
     :mode "\\.lua\\'")
+
+  (use-package racket-mode
+    :mode "\\.rkt\\'")
 
   (use-package todotxt-mode
     :disabled t
@@ -1156,6 +1165,14 @@ it's something that only really matters when we manually start it up.
     (setq paradox-automatically-star t)
     (setq paradox-execute-asynchronously t))
 #+end_src
+
+*** Emacs major mode discovery
+
+#+begin_src emacs-lisp
+  (use-package discover-my-major
+    :config
+    (global-set-key (kbd "C-h C-m") #'discover-my-major))
+#+end_src 
 
 *** HTTP docs
 
