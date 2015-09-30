@@ -122,6 +122,7 @@ Display the fill column.
 #+begin_src emacs-lisp
   (use-package fill-column-indicator
     :config
+    (define-globalized-minor-mode global-fci-mode fci-mode (lambda () (fci-mode 1)))
     (global-fci-mode 1)
 
     ;; The rest of this is a workaround for how company mode popups
