@@ -309,23 +309,6 @@ and not the current one.
                                                  "backups"))))
 #+end_src
 
-Change search functions to use regexp searches by default.
-
-#+begin_src emacs-lisp
-  (global-set-key (kbd "C-s") 'isearch-forward-regexp)
-  (global-set-key (kbd "C-r") 'isearch-backward-regexp)
-  (global-set-key (kbd "M-%") 'query-replace-regexp)
-#+end_src
-
-Anzu will show how many seach results we got.
-
-#+begin_src emacs-lisp
-  (use-package anzu
-    :diminish anzu-mode
-    :config
-    (global-anzu-mode +1))
-#+end_src
-
 Popwin makes completion windows open in a sane location.
 
 #+begin_src emacs-lisp
@@ -427,7 +410,7 @@ having evil everywhere, even if there aren't bindings for some things.
     (use-package evil-leader
       :config
       (global-evil-leader-mode)
-      (setq evil-leader/leader ","))
+      (setq evil-leader/leader "<SPC>"))
 
     ;; This is a port of tpope's vim-surround which adds text objects
     ;; for surrounding characters.
@@ -690,6 +673,29 @@ Add some simple search functions.
 
 #+begin_src emacs-lisp
   (use-package ag)
+#+end_src
+
+Anzu will show how many seach results we got.
+
+#+begin_src emacs-lisp
+  (use-package anzu
+    :disabled t
+    :diminish anzu-mode
+    :config
+    (global-anzu-mode +1))
+#+end_src
+
+Add multiple cursors and phi-search (which uses multiple cursors) to
+make multi-line editing work a bit better.
+
+#+begin_src emacs-lisp
+  (use-package multiple-cursors
+    :config
+    (use-package phi-search
+      :bind
+      ("C-s" . phi-search)
+      ("C-r" . phi-search-backward)
+      ("M-%" . phi-replace-query)))
 #+end_src
 
 ** Programming
