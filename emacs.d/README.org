@@ -1111,12 +1111,9 @@ source, so we define a major mode derived from =c++-mode=.
     :mode "Dockerfile\(-.*\)?")
 
   (use-package elixir-mode
-    :mode "\\.exs?\\'"
-    :config
-    (use-package alchemist))
+    :mode "\\.exs?\\'")
 
   (use-package erlang
-    :disabled t
     :mode ("\\.erl\\'" . erlang-mode))
 
   (use-package json-mode
