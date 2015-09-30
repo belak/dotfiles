@@ -1369,7 +1369,8 @@ org-indent-mode does not exist by the time diminish is called.
           org-support-shift-select t
           org-tag-alist '(("WORK" . ?w)
                           ("HOME" . ?h))
-          org-agenda-files '("~/org/")))
+          org-agenda-files '("~/org/"))
+    (add-hook 'org-mode-hook 'auto-fill-mode))
 #+end_src
 
 ** Custom
