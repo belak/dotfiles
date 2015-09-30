@@ -121,8 +121,25 @@ Display the fill column.
 
 #+begin_src emacs-lisp
   (use-package fill-column-indicator
-    :disabled t
-    :config (fci-mode 1))
+    :config
+    (global-fci-mode 1)
+
+    ;; The rest of this is a workaround for how company mode popups
+    ;; interact with fci-mode.  It can be removed when
+    ;; https://github.com/company-mode/company-mode/issues/180 is fixed.
+    (defvar-local company-fci-mode-on-p nil)
+
+    (defun company-turn-off-fci (&rest ignore)
+      (when (boundp 'fci-mode)
+        (setq company-fci-mode-on-p fci-mode)
+        (when fci-mode (fci-mode -1))))
+
+    (defun company-maybe-turn-on-fci (&rest ignore)
+      (when company-fci-mode-on-p (fci-mode 1)))
+
+    (add-hook 'company-completion-started-hook 'company-turn-off-fci)
+    (add-hook 'company-completion-finished-hook 'company-maybe-turn-on-fci)
+    (add-hook 'company-completion-cancelled-hook 'company-maybe-turn-on-fci))
 #+end_src
 
 =diminish-major-mode= is a snippet from [[https://github.com/sandhu/emacs.d/blob/master/lisp/teppoudo-diminish.el][Achint Sandhu's dotfiles]].
@@ -1394,15 +1411,16 @@ Now that we're done, we can turn off error handling.
   (setq debug-on-quit nil)
 #+end_src
 
-** TODO Tasks [2/12]
+** TODO Tasks [4/14]
 
 This section is all about stuff I'd like to get into my emacs init but
 haven't found the time yet.
 
 - [X] Reorganize based on http://doc.rix.si/org/fsem.html
 - [X] Make =subword-mode= diminish work correctly
+- [X] Fix fci mode so it works with company mode
+- [X] Everyone seems to like popwin, so we should probably at least try to figure out why
 - [ ] Add some ag bindings
-- [ ] Fix fci mode so it works with company mode
 - [ ] Look into ranger and improving my dired setup
 - [ ] Learn =paredit=
 - [ ] Look into avy
@@ -1410,6 +1428,5 @@ haven't found the time yet.
 - [ ] Set up ediff like https://github.com/dakrone/dakrone-dotfiles/blob/master/.emacs.d/settings.org#ediff
 - [ ] Set up smartparens like https://github.com/dakrone/dakrone-dotfiles/blob/master/.emacs.d/settings.org#smartparens
 - [ ] Set up anzu like https://github.com/dakrone/dakrone-dotfiles/blob/master/.emacs.d/settings.org#anzu
-- [ ] Everyone seems to like popwin, so we should probably at least try to figure out why
 - [ ] Find a way to bootstrap go-oracle
 - [ ] Move away from org-mode config
