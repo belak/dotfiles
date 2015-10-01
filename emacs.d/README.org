@@ -955,19 +955,6 @@ features, at least to me.
     (setq gofmt-command "goimports"))
 #+end_src
 
-**** PHP
-
-Enable PHP mode
-
-#+begin_src emacs-lisp
-  (use-package php-mode
-    :mode "\\.php\\'"
-    :config
-    (defun my-php-mode-hook ()
-      (subword-mode 1))
-    (add-hook 'php-mode-hook 'my-php-mode-hook))
-#+end_src
-
 **** Python
 
 Elpy does *all* the things, so we just use that.
@@ -1084,14 +1071,6 @@ auto-fill for all of them.
   (diminish 'auto-fill-function)
 #+end_src
 
-Make markdown-mode use gfm-markdown because it has most of the
-extensions I care about.
-
-#+begin_src emacs-lisp
-  (use-package markdown-mode
-    :mode ("\\.md\\'" . gfm-mode))
-#+end_src
-
 **** Source Pawn
 
 This isn't perfect, but we need a way to add a mode which won't be
@@ -1130,6 +1109,12 @@ source, so we define a major mode derived from =c++-mode=.
 
   (use-package lua-mode
     :mode "\\.lua\\'")
+
+  (use-package markdown-mode
+    :mode ("\\.md\\'" . gfm-mode))
+
+  (use-package php-mode
+    :mode "\\.php\\'")
 
   (use-package racket-mode
     :mode "\\.rkt\\'")
