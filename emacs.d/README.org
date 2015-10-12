@@ -156,6 +156,63 @@ Display the fill column.
   (diminish-major-mode 'lisp-mode "λ")
 #+end_src
 
+*** Modeline functions
+
+These are mostly ported from [[https://github.com/milkypostman/powerline/][powerline]], with a few small tweaks to
+remove powerline specific face stuff. They are in a separate section
+because I usually don't want to look at these while actually working
+on my modeline.
+
+#+begin_src emacs-lisp
+  (defun belak/mode-fill (reserve)
+    "Return empty space leaving RESERVE space on the right."
+    (unless reserve
+      (setq reserve 20))
+    (when (and window-system (eq 'right (get-scroll-bar-mode)))
+      (setq reserve (- reserve 3)))
+    (propertize " "
+                'display `((space :align-to (- (+ right right-fringe right-margin) ,reserve)))))
+
+  (defun belak/temp-render (item)
+    "Render a modeline ITEM."
+    (cond
+     ((and (listp item) (eq 'image (car item)))
+      (propertize " " 'display item
+                  'face (plist-get (cdr item) :face)))
+     (item item)))
+
+  (defun belak/mode-render (values)
+    "Render a list of modeline VALUES."
+    (mapconcat 'belak/temp-render values ""))
+
+  (defun belak/mode-width (values)
+    "Get the length of VALUES."
+    (if values
+        (let ((val (car values)))
+          (+ (cond
+              ((stringp val) (length (format-mode-line val)))
+              ((and (listp val) (eq 'image (car val)))
+               (car (image-size val)))
+              (t 0))
+             (belak/mode-width (cdr values))))
+      0))
+
+  (defsubst belak/mode-trim (s)
+    "Remove whitespace at the beginning and the end of string S."
+    (replace-regexp-in-string
+     "\\`[ \t\n\r]+" ""
+     (replace-regexp-in-string "[ \t\n\r]+\\'" "" s)))
+
+  (defun belak/mode-format (f &optional rest &args)
+    ;; TODO: Make this not ugly
+    (if rest
+        (let* ((rendered (belak/mode-trim (format-mode-line rest)))
+               (empty    (eq (belak/mode-width (list rendered)) 0)))
+          (if (not empty)
+            (concat " " f rendered)))
+      (concat " " f)))
+#+end_src
+
 *** Modeline
 
 =smart-mode-line= is a much cleaner modeline with a few extra features.
@@ -169,74 +226,28 @@ Display the fill column.
     (sml/setup))
 #+end_src
 
-Because Source Code Pro works well with powerline, we define our own
-theme based on the default with just the virtualenv stuff added. I use
-the same settings and leave it the same as the default so it'll be
-easy to update later.
+The modeline format is very stripped down. More stuff will probably be
+added later.
 
 #+begin_src emacs-lisp
-  (use-package powerline
-    :config
-    (defun belak/powerline-theme ()
-      "Set up my own powerline theme. This was initially lifted from the powerline package."
-      (interactive)
-      (setq-default mode-line-format
-                    '("%e"
-                      (:eval
-                       (let* ((active (powerline-selected-window-active))
-                              (mode-line (if active 'mode-line 'mode-line-inactive))
-                              (face1 (if active 'powerline-active1 'powerline-inactive1))
-                              (face2 (if active 'powerline-active2 'powerline-inactive2))
-                              (separator-left (intern (format "powerline-%s-%s"
-                                                              (powerline-current-separator)
-                                                              (car powerline-default-separator-dir))))
-                              (separator-right (intern (format "powerline-%s-%s"
-                                                               (powerline-current-separator)
-                                                               (cdr powerline-default-separator-dir))))
-                              (lhs (list (powerline-raw (powerline-evil-tag) (powerline-evil-face))
-                                         (powerline-raw "%*" nil 'l)
-                                         (when powerline-display-buffer-size
-                                           (powerline-buffer-size nil 'l))
-                                         (when powerline-display-mule-info
-                                           (powerline-raw mode-line-mule-info nil 'l))
-                                         (powerline-buffer-id nil 'l)
-                                         (when (and (boundp 'which-func-mode) which-func-mode)
-                                           (powerline-raw which-func-format nil 'l))
-                                         (powerline-raw " ")
-                                         (funcall separator-left mode-line face1)
-                                         (when (boundp 'erc-modified-channels-object)
-                                           (powerline-raw erc-modified-channels-object face1 'l))
-                                         (powerline-major-mode face1 'l)
-                                         (powerline-process face1)
-                                         (powerline-minor-modes face1 'l)
-                                         (powerline-narrow face1 'l)
-                                         (powerline-raw " " face1)
-                                         (funcall separator-left face1 face2)
-                                         (powerline-vc face2 'r)
-                                         (when (bound-and-true-p nyan-mode)
-                                           (powerline-raw (list (nyan-create)) face2 'l))))
-                              (rhs (list (powerline-raw global-mode-string face2 'r)
-                                         (when (bound-and-true-p venv-current-name)
-                                           (powerline-raw venv-current-name face2 'r))
-                                         (funcall separator-right face2 face1)
-                                         (unless window-system
-                                           (powerline-raw (char-to-string #xe0a1) face1 'l))
-                                         (powerline-raw "%4l" face1 'l)
-                                         (powerline-raw ":" face1 'l)
-                                         (powerline-raw "%3c" face1 'r)
-                                         (funcall separator-right face1 mode-line)
-                                         (powerline-raw " ")
-                                         (powerline-raw "%6p" nil 'r)
-                                         (when powerline-display-hud
-                                           (powerline-hud face2 face1)))))
-                         (concat (powerline-render lhs)
-                                 (powerline-fill face2 (powerline-width rhs))
-                                 (powerline-render rhs)))))))
-    (belak/powerline-theme)
+  (setq-default mode-line-format
+                `("%e"
+                  (:eval
+                   (let* ((lhs (list (propertize (powerline-evil-tag) 'face (powerline-evil-face))
+                                     (belak/mode-format "%*")
+                                     (belak/mode-format "" (propertize "%b" 'face 'mode-line-buffer-id))
+                                     (belak/mode-format "" mode-line-modes)
+                                     (belak/mode-format "" minor-mode-alist)
+                                     (when (bound-and-true-p which-func-format)
+                                       (format-mode-line which-func-format))
+                                     (belak/mode-format "" '(vc-mode vc-mode))))
+                          (rhs (list (when (bound-and-true-p venv-current-name)
+                                       (format "[%s]" venv-current-name))
+                                     "(%l:%3c) %6p ")))
 
-    (setq powerline-display-mule-info nil
-          powerline-display-buffer-size nil
-          powerline-display-hud nil))
+                     (concat (belak/mode-render lhs)
+                             (belak/mode-fill (belak/mode-width rhs))
+                             (belak/mode-render rhs))))))
 #+end_src
 
 *** Basic setup
@@ -679,7 +690,6 @@ Anzu will show how many seach results we got.
 
 #+begin_src emacs-lisp
   (use-package anzu
-    :disabled t
     :diminish anzu-mode
     :config
     (global-anzu-mode +1))
@@ -690,6 +700,7 @@ make multi-line editing work a bit better.
 
 #+begin_src emacs-lisp
   (use-package multiple-cursors
+    :disabled t
     :config
     (use-package phi-search
       :bind
@@ -854,16 +865,6 @@ in, in most instances we won't even need to install a plugin.
 
 *** Languages
 **** Lisp
-
-Rainbow blocks highlights blocks instead of keywords.
-
-#+begin_src emacs-lisp
-  (use-package rainbow-blocks
-    :disabled t
-    :config
-    (add-hook 'emacs-lisp-mode-hook 'rainbow-blocks-mode)
-    (add-hook 'lisp-interaction-mode-hook 'rainbow-blocks-mode))
-#+end_src
 
 Make common symbols prettier.
 
@@ -1100,6 +1101,11 @@ source, so we define a major mode derived from =c++-mode=.
 
   (use-package erlang
     :mode ("\\.erl\\'" . erlang-mode))
+
+  (use-package haskell-mode
+    :mode "\\.hs\\'"
+    :config
+    (add-hook 'haskell-mode-hook 'haskell-indentation-mode))
 
   (use-package json-mode
     :mode "\\.json\\'")
