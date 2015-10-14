@@ -673,6 +673,9 @@ because we want to be in full screen more often than not.
                insert-directory-program "/usr/local/bin/gls"
                my/default-frame-font "Source Code Pro Light 10")
 
+         (let ((default-directory "/usr/local/share/emacs/site-lisp/"))
+           (normal-top-level-add-subdirs-to-load-path))
+
          (toggle-frame-fullscreen)))
 
   (set-frame-font my/default-frame-font)
@@ -1274,7 +1277,6 @@ custom mail server, something I didn't want to deal with maintaining,
 so this section isn't that useful right now.
 
 #+begin_src emacs-lisp
-  (add-to-list 'load-path "/usr/local/share/emacs/site-lisp/mu4e")
   (use-package mu4e
     :ensure f
     :commands
