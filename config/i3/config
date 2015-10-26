@@ -109,7 +109,7 @@ bar {
 
 # {{{ Autostart
 exec_always --no-startup-id "xrdb -I$HOME ~/.Xresources"
-exec        --no-startup-id "nitrogen --restore"
+exec_always --no-startup-id "nitrogen --restore"
 exec        --no-startup-id "redshift-gtk"
 exec        --no-startup-id "compton --backend glx"
 exec        --no-startup-id "dunst -fn 'Terminus 8'"
