@@ -14,4 +14,6 @@ unclutter &
 
 #nitrogen --set-auto "$(find $HOME/pics/Wallpapers | sort -R | head -1)"
 
+[[ -f "$HOME/.xinitrc-local" ]] && . "$HOME/.xinitrc-local"
+
 exec i3
