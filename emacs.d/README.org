@@ -988,6 +988,15 @@ to load in the background.
     (add-hook 'python-mode-hook 'eldoc-mode))
 #+end_src
 
+This is a simple mode to handle requirements files.
+
+#+begin_src emacs-lisp
+  (use-package pip-requirements
+    :mode
+    "requirements.txt"
+    "requirements/\\.txt\\'")
+#+end_src
+
 This is a reimplementation of virtualenvwrapper in emacs. We need to
 load it right away to make sure the modeline is updated.
 
@@ -1278,6 +1287,7 @@ so this section isn't that useful right now.
 
 #+begin_src emacs-lisp
   (use-package mu4e
+    :disabled t
     :ensure f
     :commands
     mu4e

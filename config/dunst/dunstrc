@@ -131,7 +131,7 @@
 
 [frame]
     width = 1
-    color = "#aaaaaa"
+    color = "#6f6f6f"
 
 [shortcuts]
     # shortcuts are specified as [modifier+][modifier+]...key
@@ -165,6 +165,6 @@
     timeout = 10
 
 [urgency_critical]
-    background = "#900000"
-    foreground = "#ffffff"
+    background = "#dc322f"
+    foreground = "#dc322f"
     timeout = 0
