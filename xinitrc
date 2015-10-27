@@ -12,4 +12,6 @@ xrdb -I"$HOME" "$HOME/.Xresources"
 xsetroot -cursor_name left_ptr &
 unclutter &
 
+[[ -f "$HOME/.xinitrc-local" ]] && . "$HOME/.xinitrc-local"
+
 exec i3
