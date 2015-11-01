@@ -115,4 +115,5 @@ exec        --no-startup-id "compton --backend glx"
 exec        --no-startup-id "dunst -fn 'Terminus 8'"
 exec        --no-startup-id "xautolock -time 1 -locker '~/bin/fuzzy-lock'"
 exec        --no-startup-id "pasystray"
+exec        --no-startup-id "syndaemon -t"
 # }}}
