@@ -47,6 +47,9 @@ The first thing we need to do is bootstrap the package system.
           ("marmalade"    . "https://marmalade-repo.org/packages/")
           ("gnu"          . "http://elpa.gnu.org/packages/")))
 
+  ;; Ignore byte compliation warnings
+  (defvar byte-compile-warnings nil)
+
   ;; Make sure we load everything
   (package-initialize)
 
@@ -120,6 +123,8 @@ most bootstrapped package logs will take advantage of this.
 Display the fill column.
 
 #+begin_src emacs-lisp
+  (setq-default fill-column 79)
+
   (use-package fill-column-indicator
     :config
     (define-globalized-minor-mode global-fci-mode fci-mode (lambda () (fci-mode 1)))
@@ -988,6 +993,15 @@ to load in the background.
     (add-hook 'python-mode-hook 'eldoc-mode))
 #+end_src
 
+This is a simple mode to handle requirements files.
+
+#+begin_src emacs-lisp
+  (use-package pip-requirements
+    :mode
+    "requirements.txt"
+    "requirements/\\.txt\\'")
+#+end_src
+
 This is a reimplementation of virtualenvwrapper in emacs. We need to
 load it right away to make sure the modeline is updated.
 
@@ -1278,6 +1292,7 @@ so this section isn't that useful right now.
 
 #+begin_src emacs-lisp
   (use-package mu4e
+    :disabled t
     :ensure f
     :commands
     mu4e
