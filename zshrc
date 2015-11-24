@@ -87,19 +87,6 @@ export LESS_TERMCAP_so=$'\E[01;44;33m'
 export LESS_TERMCAP_ue=$'\E[0m'
 export LESS_TERMCAP_us=$'\E[01;32m'
 
-# Automatically remove duplicates from these arrays
-typeset -U path cdpath fpath manpath
-
-# Golang stuff
-export GOPATH=$HOME/go
-
-# Add our custom stuff
-fpath=("$HOME/.belak/zsh" $fpath)
-path=("$HOME/bin" "$GOPATH/bin" "$HOME/.rbenv/bin" "$HOME/.local/bin" $path)
-if which ruby >/dev/null && which gem >/dev/null; then
-	path=("$(ruby -rubygems -e 'puts Gem.user_dir')/bin" $path)
-fi
-
 # Load rbenv is we have it
 if [[ -f ~/.rbenv ]]; then
 	eval "$(rbenv init -)"
