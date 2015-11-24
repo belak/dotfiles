@@ -1019,6 +1019,7 @@ utility to be installed, similar to how gocode works.
 
 #+begin_src emacs-lisp
   (use-package rust-mode
+    :mode "\\.rs\\'"
     :config
     (use-package racer
       :config
@@ -1141,6 +1142,9 @@ source, so we define a major mode derived from =c++-mode=.
 
   (use-package racket-mode
     :mode "\\.rkt\\'")
+
+  (use-package systemd
+    :mode ("\\.service\'" . systemd-mode))
 
   (use-package todotxt-mode
     :disabled t
