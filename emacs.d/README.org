@@ -747,6 +747,14 @@ bother putting it into the prog mode hook.
   (diminish 'subword-mode)
 
   (global-prettify-symbols-mode +1)
+
+  (setq-default tab-width 4
+                indent-tabs-mode t)
+
+  (defun belak/indent-2-spaces ()
+    "Set the tab settings for 2-space indenting"
+    (setq tab-width 2
+          indent-tabs-mode f))
 #+end_src
 
 =fic-mode= makes sure I actually notice comments with TODO, FIXME and
@@ -949,9 +957,9 @@ features, at least to me.
     (use-package company-go
       :config
       (add-to-list 'company-backends 'company-go))
-      ;;(defun my-company-go-mode-hook ()
-      ;;  (set (make-local-variable 'company-backends) '(company-go)))
-      ;;(add-hook 'go-mode-hook 'my-company-go-mode-hook)
+    ;;(defun my-company-go-mode-hook ()
+    ;;  (set (make-local-variable 'company-backends) '(company-go)))
+    ;;(add-hook 'go-mode-hook 'my-company-go-mode-hook)
 
     ;; Unfortunately, go oracle isn't in any of the package archives
     (load "$GOPATH/src/golang.org/x/tools/cmd/oracle/oracle.el")
@@ -959,6 +967,7 @@ features, at least to me.
     
     (defun my-go-mode-hook ()
       (subword-mode 1))
+
     (add-hook 'go-mode-hook 'my-go-mode-hook)
     (add-hook 'before-save-hook 'gofmt-before-save)
     (setq gofmt-command "goimports"))
@@ -1140,8 +1149,20 @@ source, so we define a major mode derived from =c++-mode=.
   (use-package php-mode
     :mode "\\.php\\'")
 
+  (use-package puppet-mode
+    :mode "\\.pp\\'"
+    :config
+    (add-hook 'puppet-mode 'belak/indent-2-spaces))
+
   (use-package racket-mode
     :mode "\\.rkt\\'")
+
+  (use-package ruby-mode
+    :mode
+    "Rakefile"
+    "\\.rb\\'"
+    :config
+    (add-hook 'ruby-mode 'belak/indent-2-spaces))
 
   (use-package systemd
     :mode ("\\.service\'" . systemd-mode))
