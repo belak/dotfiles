@@ -907,6 +907,10 @@ Install a few packages for playing around with clojure dev.
 **** C/C++
 
 #+begin_src emacs-lisp
+  (setq-default c-default-style "k&r"
+                c-basic-offset 4
+                c-indent-tabs-mode t)
+
   (use-package irony
     :diminish irony-mode
     :config
