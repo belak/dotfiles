@@ -9,6 +9,10 @@
 ;; Define the start time so we can measure how long loading took later.
 (defconst emacs-start-time (current-time))
 
+;; Set the gc-cons-threshold as early as possible so we have some extra memory
+;; to work with. This increases it to 20M.
+(setq gc-cons-threshold 20000000)
+
 ;; Load the org-mode file. This has everything aside from the timing.
 (require 'org)
 (org-babel-load-file
