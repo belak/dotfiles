@@ -37,6 +37,10 @@ if ! zgen saved; then
 	zgen save
 fi
 
+# Extra theme settings. This just changes the dirty indicator with a non-unicode
+# character because it looks bad in terminus.
+ZSH_THEME_GIT_PROMPT_DIRTY="%{$fg[blue]%})%{$fg[red]%}*%{$reset_color%}"
+
 # Disable ^s and ^q
 stty -ixon
 
