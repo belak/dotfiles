@@ -51,6 +51,7 @@ stty -ixon
 
 # Aliases
 alias json="python -mjson.tool"
+alias j="z"
 
 # Env vars
 export ALTERNATE_EDITOR=""
