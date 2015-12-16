@@ -1,3 +1,3 @@
 COPY_ALWAYS="hgrc gitconfig config/systemd/user/emacs.service"
 EXCLUDES="old README.md *.sh base16-shell tools"
-SYMLINK_DIRS="vim emacs.d"
+SYMLINK_DIRS="vim emacs.d zgen"
