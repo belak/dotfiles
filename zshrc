@@ -1,6 +1,10 @@
 # Path settings need to be done as soon as possible for the startx magic
 export GOPATH="$HOME/go"
+
+typeset -U path
 path=("$HOME/bin" "$GOPATH/bin" "$HOME/.rbenv/shims" "$HOME/.rbenv/bin" "$HOME/.local/bin" $path)
+
+export WORKON_HOME="$HOME/.virtualenvs"
 
 # Run startx if we're on tty1
 if [[ `tty` == "/dev/tty1" ]]; then
