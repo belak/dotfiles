@@ -12,6 +12,7 @@ if [[ `tty` == "/dev/tty1" ]]; then
 fi
 
 # Load zgen and z
+[[ ! -f "$HOME/.zgen" ]] && git clone https://github.com/tarjoilija/zgen "$HOME/.zgen"
 source "$HOME/.zgen/zgen.zsh"
 
 # Bootstrap zgen
