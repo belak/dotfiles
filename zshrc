@@ -23,8 +23,8 @@ if ! zgen saved; then
 
 	# Load some better language support
 	zgen oh-my-zsh plugins/golang
-	zgen oh-my-zsh plugins/rbenv
 	zgen oh-my-zsh plugins/virtualenvwrapper
+	zgen load postmodern/chruby share/chruby/chruby.sh
 
 	# Various dev tools
 	zgen oh-my-zsh plugins/emacs
@@ -35,6 +35,7 @@ if ! zgen saved; then
 	zgen oh-my-zsh themes/wezm
 
 	# Additional plugins
+	zgen oh-my-zsh plugins/pass
 	zgen oh-my-zsh plugins/sudo
 	zgen load zsh-users/zsh-syntax-highlighting
 
