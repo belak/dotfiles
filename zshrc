@@ -11,6 +11,9 @@ if [[ `tty` == "/dev/tty1" ]]; then
 	exec startx
 fi
 
+# Disable oh-my-zsh auto-update prompt
+DISABLE_AUTO_UPDATE=true
+
 # Load zgen
 [[ ! -d "$HOME/.zgen" ]] && git clone https://github.com/tarjoilija/zgen "$HOME/.zgen"
 source "$HOME/.zgen/zgen.zsh"
