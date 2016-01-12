@@ -35,7 +35,7 @@ if ! zgen saved; then
 	zgen oh-my-zsh plugins/z
 
 	# Load the theme
-	zgen oh-my-zsh themes/wezm
+	zgen oh-my-zsh themes/gallois
 
 	# Additional plugins
 	zgen oh-my-zsh plugins/pass
