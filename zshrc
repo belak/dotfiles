@@ -58,8 +58,11 @@ stty -ixon
 alias json="python -mjson.tool"
 alias j="z"
 
-# Env vars
+# Magic incantations
 export ALTERNATE_EDITOR=""
 export EDITOR="emacsclient -c"
 export PAGER=less
 export PYTHONDONTWRITEBYTECODE=true
+export NVIM_TUI_ENABLE_CURSOR_SHAPE=1
+
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
