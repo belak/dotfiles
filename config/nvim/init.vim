@@ -1,4 +1,6 @@
 call plug#begin()
+Plug 'tpope/vim-fugitive'
+Plug 'tpope/vim-rsi'
 Plug 'bling/vim-bufferline'
 Plug 'vim-airline/vim-airline'
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
