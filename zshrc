@@ -58,6 +58,11 @@ stty -ixon
 alias json="python -mjson.tool"
 alias j="z"
 
+# Alias vim to nvim if neovim is installed
+if which nvim &>/dev/null; then
+	alias vim=nvim
+fi
+
 # Magic incantations
 export ALTERNATE_EDITOR=""
 export EDITOR="emacsclient -c"
