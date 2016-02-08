@@ -1002,6 +1002,13 @@ to load in the background.
     (use-package company-anaconda
       :config
       (add-to-list 'company-backends 'company-anaconda))
+
+    (defun my-virtualenv-magic (&rest arg-list)
+      (if (and (projectile-project-p) (venv-is-valid (projectile-project-name)))
+        (venv-workon (projectile-project-name))))
+
+    (advice-add 'switch-to-buffer :after #'my-virtualenv-magic)
+
     (add-hook 'python-mode-hook 'anaconda-mode)
     (add-hook 'python-mode-hook 'eldoc-mode))
 #+end_src
