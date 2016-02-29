@@ -55,7 +55,13 @@ set noshowmode        " No point since we use airline
 set fillchars=vert:\│ " Unicode line for separators
 set lazyredraw        " Redraw less when running macros
 
+" Golang specific settings
 let g:go_fmt_command = "goimports"
+
+" Make python indentation saner
+let g:pyindent_open_paren = '&sw'
+let g:pyindent_nested_paren = '&sw'
+let g:pyindent_continue = '&sw'
 
 " Highlight VCS conflict markers
 match ErrorMsg '^\(<\|=\|>\)\{7\}\([^=].\+\)\?$'
