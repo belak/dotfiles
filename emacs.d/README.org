@@ -1290,11 +1290,24 @@ now.
 
 #+begin_src emacs-lisp
   (use-package erc
-    :disabled t
     :config
     (setq erc-prompt ">"
-          erc-join-buffer 'bury)
-          erc-track-exclude-types '("JOIN" "PART" "QUIT" "NICK" "MODE"))
+          erc-rename-buffers t
+          erc-join-buffer 'bury
+          erc-kill-buffer-on-part t
+          erc-kill-queries-on-quit t
+          erc-kill-server-buffer-on-quit t
+          erc-query-display 'buffer)
+
+    ;; Enable tracking and make it a little less annoying
+    (erc-track-mode t)
+    (setq erc-track-exclude-server-buffer t
+          erc-track-exclude-types '("JOIN" "PART" "QUIT" "NICK" "MODE"
+                                    "324" "329" "332" "333" "353" "477"))
+    (use-package erc-track-score
+      :config
+      (erc-track-score-mode 1)
+      (setq erc-track-showcount t)))
 #+end_src
 
 We add in ZNC support so we can detatch from buffers when we leave the
@@ -1307,16 +1320,19 @@ connect.
 
 #+begin_src emacs-lisp
   (use-package znc
-    :disabled t
     :commands
     znc-erc
     znc-all
     :config
     (setq znc-detatch-on-kill t
-          znc-servers `(("znc.coded.io" "6697" t
+          znc-servers `(("znc-freenode.coded.io" "6697" t
                          ((freenode
                            belak/freenode
-                           ,(password-store-get "irc/freenode.net")))))))
+                           ,(password-store-get "irc/freenode.net"))))
+                        ("znc-psg.coded.io" "6697" t
+                         ((psg
+                           belak/psg
+                           ,(password-store-get "irc/irc.hackedserver.net")))))))
 #+end_src
 
 *** Email
