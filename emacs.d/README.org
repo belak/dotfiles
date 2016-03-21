@@ -409,6 +409,19 @@ having evil everywhere, even if there aren't bindings for some things.
 
 #+begin_src emacs-lisp
   (use-package evil
+    :demand
+    :bind (:map evil-insert-state-map
+           ("C-e" . evil-append-line)
+           ("C-a" . evil-insert-line)
+           :map evil-normal-state-map
+           ("C-e" . evil-append-line)
+           ("C-a" . evil-insert-line)
+           :map evil-motion-state-map
+           ("C-e" . evil-append-line)
+           ("C-a" . evil-insert-line)
+           :map evil-visual-state-map
+           ("C-e" . evil-end-of-line)
+           ("C-a" . evil-beginning-of-line))
     :config
     ;; Set the powerline colors to mostly line up with the cursor state
     (use-package powerline-evil
@@ -453,21 +466,7 @@ having evil everywhere, even if there aren't bindings for some things.
 
     ;; For the operator state, the only thing we want to change is the
     ;; size. We can keep the same color.
-    (setq evil-operator-state-cursor 'evil-half-cursor)
-
-    ;; Make C-a and C-e work closer to how emacs uses them by default
-    (bind-keys :map evil-insert-state-map
-               ("C-e" . evil-append-line)
-               ("C-a" . evil-insert-line))
-    (bind-keys :map evil-normal-state-map
-               ("C-e" . evil-append-line)
-               ("C-a" . evil-insert-line))
-    (bind-keys :map evil-motion-state-map
-               ("C-e" . evil-append-line)
-               ("C-a" . evil-insert-line))
-    (bind-keys :map evil-visual-state-map
-               ("C-e" . evil-end-of-line)
-               ("C-a" . evil-beginning-of-line)))
+    (setq evil-operator-state-cursor 'evil-half-cursor))
 #+end_src
 
 As a former vim user, I like escape to actually quit everywhere. This
