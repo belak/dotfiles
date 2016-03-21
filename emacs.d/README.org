@@ -550,7 +550,8 @@ Make sure to use ido everywhere.
     (ido-mode 1)
     (ido-everywhere 1)
     (setq resize-mini-windows t
-          ido-use-virtual-buffers t)
+          ido-use-virtual-buffers t
+          ido-auto-merge-work-directories-length -1)
     (evil-leader/set-key
       "b" 'ido-switch-buffer
       "f" 'ido-find-file))
