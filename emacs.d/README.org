@@ -763,7 +763,7 @@ XXX.
   (use-package fic-mode
     :diminish fic-mode
     :config
-    (add-hook 'prog-mode-hook 'turn-on-fic-mode))
+    (add-hook 'prog-mode-hook 'fic-mode))
 #+end_src
 
 =rainbow-delimiters= is for more than just parentheses. It works for
