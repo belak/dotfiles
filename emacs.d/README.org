@@ -512,7 +512,8 @@ window and the cursor.
           scroll-conservatively 101
           scroll-preserve-screen-position t
           auto-window-vscroll nil
-          scroll-margin 5))
+          scroll-margin 5)
+    (smooth-scrolling-mode 1))
 #+end_src
 
 Make sure to use ido everywhere.
