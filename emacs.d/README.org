@@ -1243,6 +1243,10 @@ dired buffers.
   (use-package dired+
     :config
     (use-package dired-single
+      :bind (:map dired-mode-map
+             ("<return>"  . belak/dired-select)
+             ("^"         . belak/dired-up)
+             ("q"         . kill-this-buffer))
       :config
       (defun belak/dired-up ()
         (interactive)
@@ -1253,12 +1257,8 @@ dired buffers.
         (let ((prev-buffer (current-buffer)))
           (dired-single-buffer)
           (if (eq 'dired-mode (with-current-buffer prev-buffer major-mode))
-              (kill-buffer prev-buffer))))
+              (kill-buffer prev-buffer))))))
 
-      (bind-keys :map dired-mode-map
-                 ("<return>"  . belak/dired-select)
-                 ("^"         . belak/dired-up)
-                 ("q"         . kill-this-buffer))))
 #+end_src
 
 Make dired navigation much prettier.
