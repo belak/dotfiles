@@ -439,7 +439,7 @@ having evil everywhere, even if there aren't bindings for some things.
     (use-package evil-leader
       :config
       (global-evil-leader-mode)
-      (setq evil-leader/leader "<SPC>"))
+      (setq evil-leader/leader ","))
 
     ;; This is a port of tpope's vim-surround which adds text objects
     ;; for surrounding characters.
