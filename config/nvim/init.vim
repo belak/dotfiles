@@ -1,4 +1,5 @@
 call plug#begin()
+
 " Simple tweaks
 Plug 'tpope/vim-rsi'
 Plug 'tpope/vim-surround'
@@ -12,6 +13,7 @@ Plug 'tpope/vim-fugitive'
 " Appearance
 Plug 'bling/vim-bufferline'
 Plug 'vim-airline/vim-airline'
+Plug 'vim-airline/vim-airline-themes'
 Plug 'w0ng/vim-hybrid'
 
 " Language support
@@ -29,7 +31,7 @@ filetype plugin indent on
 " better.
 let g:airline_left_sep=''
 let g:airline_right_sep=''
-let g:airline_theme='hybrid'
+let g:airline_theme='hybridline'
 
 " Make splitting more intuitive
 set splitbelow
