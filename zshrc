@@ -1,8 +1,9 @@
 # Path settings need to be done as soon as possible for the startx magic
 export GOPATH="$HOME/go"
 
-typeset -U path
+typeset -U path fpath
 path=("$HOME/bin" "$GOPATH/bin" "$HOME/.rbenv/shims" "$HOME/.rbenv/bin" "$HOME/.local/bin" $path)
+fpath=("$HOME/.belak/zsh" $fpath)
 
 export WORKON_HOME="$HOME/.virtualenvs"
 
