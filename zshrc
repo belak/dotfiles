@@ -11,8 +11,13 @@ if [[ `tty` == "/dev/tty1" ]]; then
 	exec startx
 fi
 
-# Disable oh-my-zsh auto-update prompt
-DISABLE_AUTO_UPDATE=true
+# Any zprezto settings need to come before zgen is loaded. Most of these come
+# from the default zpreztorc.
+zstyle ':prezto:*:*' color 'yes'
+zstyle ':prezto:module:editor' key-bindings 'emacs'
+zstyle ':prezto:module:prompt' theme 'sorin'
+zstyle ':prezto:module:ruby:chruby' auto-switch 'yes'
+zstyle ':prezto:module:terminal' auto-title 'yes'
 
 # Load zgen
 [[ ! -d "$HOME/.zgen" ]] && git clone https://github.com/tarjoilija/zgen "$HOME/.zgen"
@@ -20,32 +25,29 @@ source "$HOME/.zgen/zgen.zsh"
 
 # Bootstrap zgen
 if ! zgen saved; then
-	# oh-my-zsh is pretty nice, but it tends to do too much. By using zgen to
-	# load it, we get a much more minimal base to work from.
-	zgen oh-my-zsh
+    # We use prezto in place of oh-my-zsh because it's quite a bit simpler and
+    # makes some decisions with the default config which I prefer.
+	zgen prezto
 
 	# Load some better language support
-	zgen oh-my-zsh plugins/golang
-	zgen oh-my-zsh plugins/virtualenvwrapper
+    zgen prezto python
+    zgen prezto ruby
 	zgen load postmodern/chruby share/chruby/chruby.sh
-
-	# Various dev tools
-	zgen oh-my-zsh plugins/emacs
-	zgen load rupa/z z.sh
-	zgen oh-my-zsh plugins/z
-
-	# Load the theme
-	zgen oh-my-zsh plugins/git
-	zgen oh-my-zsh themes/gallois
+	zgen load postmodern/chruby share/chruby/auto.sh
 
 	# Additional plugins
-	zgen oh-my-zsh plugins/pass
-	zgen oh-my-zsh plugins/sudo
-	zgen load zsh-users/zsh-syntax-highlighting
+    zgen prezto git
+    zgen prezto syntax-highlighting
+	zgen load rupa/z z.sh
 
-	# Load a prompt
+	# Save everything we've loaded so far
 	zgen save
 fi
+
+# If a default ruby is set, switch to it. If chruby was installed globally, the
+# ruby module would trigger this automatically, but because we bootstrap it with
+# zgen, that isn't an option.
+chruby_auto
 
 # Disable ^s and ^q
 stty -ixon
@@ -66,4 +68,4 @@ export PAGER=less
 export PYTHONDONTWRITEBYTECODE=true
 export NVIM_TUI_ENABLE_CURSOR_SHAPE=1
 
-[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+[[ -f ~/.fzf.zsh ]] && source ~/.fzf.zsh
