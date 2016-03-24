@@ -18,6 +18,8 @@ Plug 'w0ng/vim-hybrid'
 
 " Language support
 Plug 'fatih/vim-go'
+Plug 'pearofducks/ansible-vim'
+
 call plug#end()
 
 let g:hybrid_custom_term_colors = 1
