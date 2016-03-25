@@ -16,7 +16,7 @@ fi
 # from the default zpreztorc.
 zstyle ':prezto:*:*' color 'yes'
 zstyle ':prezto:module:editor' key-bindings 'emacs'
-zstyle ':prezto:module:prompt' theme 'sorin'
+zstyle ':prezto:module:prompt' theme 'belak'
 zstyle ':prezto:module:ruby:chruby' auto-switch 'yes'
 zstyle ':prezto:module:terminal' auto-title 'yes'
 
