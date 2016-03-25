@@ -1,6 +1,6 @@
 #
 # A simple theme that displays relevant, contextual information, based on the
-# sorin theme from prezto.
+# sorin theme from prezto with as much unicode removed as possible.
 #
 # Authors:
 #   Sorin Ionescu <sorin.ionescu@gmail.com>
@@ -110,21 +110,34 @@ function prompt_belak_setup {
 
   # Set git-info parameters.
   zstyle ':prezto:module:git:info' verbose 'yes'
-  zstyle ':prezto:module:git:info:action' format '%F{7}:%f%%B%F{9}%s%f%%b'
-  zstyle ':prezto:module:git:info:added' format ' %%B%F{2}✚%f%%b'
-  zstyle ':prezto:module:git:info:ahead' format ' %%B%F{13}⬆%f%%b'
-  zstyle ':prezto:module:git:info:behind' format ' %%B%F{13}⬇%f%%b'
-  zstyle ':prezto:module:git:info:branch' format ' %%B%F{2}%b%f%%b'
-  zstyle ':prezto:module:git:info:commit' format ' %%B%F{3}%.7c%f%%b'
-  zstyle ':prezto:module:git:info:deleted' format ' %%B%F{1}✖%f%%b'
-  zstyle ':prezto:module:git:info:modified' format ' %%B%F{4}✱%f%%b'
-  zstyle ':prezto:module:git:info:position' format ' %%B%F{13}%p%f%%b'
-  zstyle ':prezto:module:git:info:renamed' format ' %%B%F{5}➜%f%%b'
-  zstyle ':prezto:module:git:info:stashed' format ' %%B%F{6}✭%f%%b'
-  zstyle ':prezto:module:git:info:unmerged' format ' %%B%F{3}═%f%%b'
-  zstyle ':prezto:module:git:info:untracked' format ' %%B%F{7}◼%f%%b'
+
+  #zstyle ':prezto:module:git:info:stashed' format '%%B%F{6}x%f%%b'
+  zstyle ':prezto:module:git:info:added' format '%%B%F{2}*%f%%b'
+  zstyle ':prezto:module:git:info:modified' format '%%B%F{3}x%f%%b'
+
+  # Deleted, renamed, created
+  zstyle ':prezto:module:git:info:deleted' format '%%B%F{1}x%f%%b'
+  #zstyle ':prezto:module:git:info:renamed' format '%%B%F{5}*%f%%b'
+  zstyle ':prezto:module:git:info:untracked' format '%%B%F{7}x%f%%b'
+
+  zstyle ':prezto:module:git:info:unmerged' format '%%B%F{3}unmerged%f%%b'
+
+  # State modifier
+  #zstyle ':prezto:module:git:info:action' format '%F{7}:%f%%B%F{9}%s%f%%b'
+  zstyle ':prezto:module:git:info:action' format '%%B%F{9}%s%f%%b%F{7}:%f'
+
+  # This is the name of what we're looking at.
+  zstyle ':prezto:module:git:info:branch' format '%%B%F{2}%b%f%%b'
+  zstyle ':prezto:module:git:info:commit' format '%%B%F{3}%.7c%f%%b'
+  zstyle ':prezto:module:git:info:position' format '%%B%F{13}%p%f%%b'
+
+  # How far ahead or behind we are
+  zstyle ':prezto:module:git:info:ahead' format '%%B%F{13}+%A%f%%b'
+  zstyle ':prezto:module:git:info:behind' format '%%B%F{3}-%B%f%%b'
+
+  # This is overall display
   zstyle ':prezto:module:git:info:keys' format \
-    'status' '$(coalesce "%b" "%p" "%c")%s%A%B%S%a%d%m%r%U%u'
+    'status' ' %S%a%m%r%d%u%U [%s$(coalesce "%b" "%p" "%c")%A%B]'
   #'status' '$(coalesce "%b" "%p" "%c")%s%A%B%S%a%d%m%r%U%u'
 
   # Define prompts.
