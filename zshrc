@@ -5,8 +5,6 @@ typeset -U path fpath
 path=("$HOME/bin" "$GOPATH/bin" "$HOME/.rbenv/shims" "$HOME/.rbenv/bin" "$HOME/.local/bin" $path)
 fpath=("$HOME/.belak/zsh" $fpath)
 
-export WORKON_HOME="$HOME/.virtualenvs"
-
 # Run startx if we're on tty1
 if [[ `tty` == "/dev/tty1" ]]; then
 	exec startx
@@ -68,5 +66,7 @@ export EDITOR="emacsclient -c"
 export PAGER=less
 export PYTHONDONTWRITEBYTECODE=true
 export NVIM_TUI_ENABLE_CURSOR_SHAPE=1
+export WORKON_HOME="$HOME/.virtualenvs"
+
 
 [[ -f ~/.fzf.zsh ]] && source ~/.fzf.zsh
