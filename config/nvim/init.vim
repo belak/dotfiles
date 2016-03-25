@@ -12,6 +12,7 @@ Plug 'tpope/vim-fugitive'
 
 " Appearance
 Plug 'bling/vim-bufferline'
+Plug 'ntpeters/vim-airline-colornum'
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
 Plug 'w0ng/vim-hybrid'
@@ -31,7 +32,12 @@ set background=dark
 colorscheme hybrid
 filetype plugin indent on
 
+" Clear some stuff for vim-airline-colornum
+set cursorline
+hi clear CursorLine
+
 " Deoplete settings
+
 let g:deoplete#sources#go#align_class = 1
 let g:deoplete#enable_at_startup = 1
 
