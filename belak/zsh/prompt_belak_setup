@@ -141,7 +141,7 @@ function prompt_belak_setup {
   #'status' '$(coalesce "%b" "%p" "%c")%s%A%B%S%a%d%m%r%U%u'
 
   # Define prompts.
-  PROMPT='${SSH_TTY:+"%F{9}%n%f%F{7}@%f%F{3}%m%f "}%F{10}${_prompt_belak_pwd}%(!. %B%F{1}#%f%b.) %(?:%F{12}:%F{9})%#%f '
+  PROMPT='${SSH_TTY:+"%F{10}%n@%m%f "}%F{10}${_prompt_belak_pwd}%(!. %B%F{1}#%f%b.) %(?:%F{12}:%F{9})%#%f '
   RPROMPT=''
   SPROMPT='zsh: correct %F{1}%R%f to %F{2}%r%f [nyae]? '
 }
