@@ -79,7 +79,7 @@ function prompt_belak_precmd {
   prompt_belak_pwd
 
   # Define prompts.
-  RPROMPT='${editor_info[overwrite]}%(?:: %F{1}⏎%f)${VIM:+" %B%F{6}V%f%b"}'
+  RPROMPT='${editor_info[overwrite]}${VIM:+" %B%F{6}V%f%b"}'
 
   # Kill the old process of slow commands if it is still running.
   if (( _prompt_belak_precmd_async_pid > 0 )); then
@@ -141,7 +141,7 @@ function prompt_belak_setup {
   #'status' '$(coalesce "%b" "%p" "%c")%s%A%B%S%a%d%m%r%U%u'
 
   # Define prompts.
-  PROMPT='${SSH_TTY:+"%F{9}%n%f%F{7}@%f%F{3}%m%f "}%F{10}${_prompt_belak_pwd}%(!. %B%F{1}#%f%b.) %F{12}%#%f '
+  PROMPT='${SSH_TTY:+"%F{9}%n%f%F{7}@%f%F{3}%m%f "}%F{10}${_prompt_belak_pwd}%(!. %B%F{1}#%f%b.) %(?:%F{12}:%F{9})%#%f '
   RPROMPT=''
   SPROMPT='zsh: correct %F{1}%R%f to %F{2}%r%f [nyae]? '
 }
