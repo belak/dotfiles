@@ -16,6 +16,10 @@ Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
 Plug 'w0ng/vim-hybrid'
 
+" Completion
+Plug 'Shougo/deoplete.nvim'
+Plug 'zchee/deoplete-go', { 'do': 'make'}
+
 " Language support
 Plug 'fatih/vim-go'
 Plug 'pearofducks/ansible-vim'
@@ -26,6 +30,10 @@ let g:hybrid_custom_term_colors = 1
 set background=dark
 colorscheme hybrid
 filetype plugin indent on
+
+" Deoplete settings
+let g:deoplete#sources#go#align_class = 1
+let g:deoplete#enable_at_startup = 1
 
 " Airline settings
 "
