@@ -42,6 +42,13 @@ function prompt_belak_pwd {
   fi
 }
 
+function prompt_belak_venv {
+  _prompt_belak_venv=""
+  if [[ -n $VIRTUAL_ENV ]]; then
+    _prompt_belak_venv=" [${VIRTUAL_ENV##*/}]"
+  fi
+}
+
 function prompt_belak_git_info {
   if (( _prompt_belak_precmd_async_pid > 0 )); then
     # Append Git status.
@@ -77,6 +84,9 @@ function prompt_belak_precmd {
 
   # Format PWD.
   prompt_belak_pwd
+
+  # Format Virtual Env
+  prompt_belak_venv
 
   # Define prompts.
   RPROMPT='${editor_info[overwrite]}${VIM:+" %B%F{6}V%f%b"}'
@@ -141,7 +151,7 @@ function prompt_belak_setup {
   #'status' '$(coalesce "%b" "%p" "%c")%s%A%B%S%a%d%m%r%U%u'
 
   # Define prompts.
-  PROMPT='${SSH_TTY:+"%F{10}%n@%m%f "}%F{10}${_prompt_belak_pwd}%(!. %B%F{1}#%f%b.) %(?:%F{12}:%F{9})%#%f '
+  PROMPT='${SSH_TTY:+"%F{10}%n@%m%f "}%F{10}${_prompt_belak_pwd}%f${_prompt_belak_venv}%(!. %B%F{1}#%f%b.) %(?:%F{12}:%F{9})%#%f '
   RPROMPT=''
   SPROMPT='zsh: correct %F{1}%R%f to %F{2}%r%f [nyae]? '
 }
