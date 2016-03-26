@@ -1,5 +1,5 @@
 [options]
-font = Terminus 8
+font = Source Code Pro 10
 allow_bold = false
 clickable_url = true
 mouse_autohide = true
