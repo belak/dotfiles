@@ -666,7 +666,7 @@ because we want to be in full screen more often than not.
 #+begin_src emacs-lisp
   (cond ((gnu-linux-p)
          (setq x-gtk-use-system-tooltips nil
-               my/default-frame-font "Terminus 8"
+               my/default-frame-font "Source Code Pro 10"
                browse-url-browser-function 'browse-url-generic
                browse-url-generic-program "xdg-open"))
 
