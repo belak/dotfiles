@@ -68,5 +68,5 @@ export PYTHONDONTWRITEBYTECODE=true
 export NVIM_TUI_ENABLE_CURSOR_SHAPE=1
 export WORKON_HOME="$HOME/.virtualenvs"
 
-
 [[ -f ~/.fzf.zsh ]] && source ~/.fzf.zsh
+[[ -f ~/.zshrc.local ]] && source ~/.zshrc.local
