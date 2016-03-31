@@ -246,8 +246,10 @@ added later.
                                      (when (bound-and-true-p which-func-format)
                                        (format-mode-line which-func-format))
                                      (belak/mode-format "" '(vc-mode vc-mode))))
-                          (rhs (list (when (bound-and-true-p venv-current-name)
-                                       (format "[%s]" venv-current-name))
+                          (rhs (list (when (bound-and-true-p belak-persp-modestring)
+                                       (format "[%s] " belak-persp-modestring))
+                                     (when (bound-and-true-p venv-current-name)
+                                       (format "[%s] " venv-current-name))
                                      "(%l:%3c) %6p ")))
 
                      (concat (belak/mode-render lhs)
@@ -617,8 +619,18 @@ be loaded on startup so the modeline is set up.
 
 #+begin_src emacs-lisp
   (use-package perspective
-    :disabled t
     :config
+    (setq persp-show-modestring nil)
+    (defun belak-format-persp-name (name)
+      (let ((string-name (format "%s" name)))
+        (if (equal name (persp-name persp-curr))
+            (propertize string-name 'face 'persp-selected-face)
+          string-name)))
+
+    (defun my-persp-hook ()
+      (setq belak-persp-modestring (mapconcat 'belak-format-persp-name (persp-names) "|")))
+
+    (add-hook 'persp-activated-hook 'my-persp-hook)
     (persp-mode))
 #+end_src
 
