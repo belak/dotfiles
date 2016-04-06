@@ -30,7 +30,6 @@ call plug#end()
 let g:hybrid_custom_term_colors = 1
 set background=dark
 colorscheme hybrid
-filetype plugin indent on
 
 " Clear some stuff for vim-airline-colornum
 set cursorline
