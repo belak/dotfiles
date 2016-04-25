@@ -98,7 +98,8 @@ specific settings.
     :config
     (defun belak/zenburn-color (color)
       (cdr (assoc (concat "zenburn-" color) zenburn-colors-alist)))
-    (load-theme 'zenburn t))
+    ;;(load-theme 'zenburn t))
+  )
 
   (defvar my/default-frame-font "Monospace 12")
 
@@ -617,8 +618,11 @@ Helm is a much fancier replacement for ido.
 Perspective creates different views to switch between. This needs to
 be loaded on startup so the modeline is set up.
 
+This is disabled because it seems to work poorly with rcirc and erc.
+
 #+begin_src emacs-lisp
   (use-package perspective
+    :disabled t
     :config
     (setq persp-show-modestring nil)
     (defun belak-format-persp-name (name)
@@ -766,16 +770,16 @@ bother putting it into the prog mode hook.
   (defun belak/indent-2-spaces ()
     "Set the tab settings for 2-space indenting"
     (setq tab-width 2
-          indent-tabs-mode f))
+          indent-tabs-mode nil))
 #+end_src
 
-=fic-mode= makes sure I actually notice comments with TODO, FIXME and
-XXX.
+=fic-mode= makes sure I actually notice comments with TODO, FIXME and XXX.
 
 #+begin_src emacs-lisp
   (use-package fic-mode
     :diminish fic-mode
     :config
+    (add-to-list 'fic-highlighted-words "XXX")
     (add-hook 'prog-mode-hook 'fic-mode))
 #+end_src
 
@@ -980,7 +984,7 @@ features, at least to me.
     ;; Unfortunately, go oracle isn't in any of the package archives
     (load "$GOPATH/src/golang.org/x/tools/cmd/oracle/oracle.el")
     (load "$GOPATH/src/github.com/golang/lint/misc/emacs/golint.el")
-    
+
     (defun my-go-mode-hook ()
       (subword-mode 1))
 
@@ -1198,7 +1202,11 @@ source, so we define a major mode derived from =c++-mode=.
     :mode "\\.toml\\'")
 
   (use-package yaml-mode
-    :mode "\\.yml\\'")
+    :mode
+    "\\.yml\\'"
+    "\\.sls\\'"
+    :config
+    (add-hook 'yaml-mode 'belak/indent-2-spaces))
 #+end_src
 
 ** Utilities
@@ -1230,7 +1238,7 @@ it's something that only really matters when we manually start it up.
   (use-package discover-my-major
     :config
     (global-set-key (kbd "C-h C-m") #'discover-my-major))
-#+end_src 
+#+end_src
 
 *** HTTP docs
 
@@ -1336,12 +1344,11 @@ connect.
     znc-erc
     znc-all
     :config
-    (setq znc-detatch-on-kill t
-          znc-servers `(("znc-freenode.coded.io" "6697" t
+    (setq znc-servers `(("freenode" "6697" t
                          ((freenode
                            belak/freenode
                            ,(password-store-get "irc/freenode.net"))))
-                        ("znc-psg.coded.io" "6697" t
+                        ("psg" "6697" t
                          ((psg
                            belak/psg
                            ,(password-store-get "irc/irc.hackedserver.net")))))))
