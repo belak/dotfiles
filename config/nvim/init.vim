@@ -20,6 +20,10 @@ Plug 'w0ng/vim-hybrid'
 " Completion
 Plug 'Shougo/deoplete.nvim'
 Plug 'zchee/deoplete-go', { 'do': 'make'}
+Plug 'zchee/deoplete-jedi'
+
+" Linting and compiling
+Plug 'benekastah/neomake'
 
 " Language support
 Plug 'fatih/vim-go'
@@ -79,6 +83,9 @@ let g:go_fmt_command = "goimports"
 let g:pyindent_open_paren = '&sw'
 let g:pyindent_nested_paren = '&sw'
 let g:pyindent_continue = '&sw'
+
+" Enable linting on file open and save
+autocmd! BufWritePost,BufEnter * Neomake
 
 " Highlight VCS conflict markers
 match ErrorMsg '^\(<\|=\|>\)\{7\}\([^=].\+\)\?$'
