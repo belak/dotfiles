@@ -43,6 +43,9 @@ if ! zgen saved; then
 	zgen save
 fi
 
+# Disable SHARE_HISTORY
+unsetopt SHARE_HISTORY
+
 # If a default ruby is set, switch to it. If chruby was installed globally, the
 # ruby module would trigger this automatically, but because we bootstrap it with
 # zgen, that isn't an option.
