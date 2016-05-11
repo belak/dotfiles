@@ -95,6 +95,13 @@ let g:pyindent_continue = '&sw'
 " Enable linting on file open and save
 autocmd! BufWritePost,BufEnter * Neomake
 
+" Make sure we don't auto-wrap all text, unless we're in a markdown file.
+set formatoptions-=t
+autocmd! FileType markdown setlocal formatoptions+=t
+
+" Highlight the end of long lines in red
+au BufWinEnter * let w:m2=matchadd('ErrorMsg', '\%>80v.\+', -1)
+
 " Highlight VCS conflict markers
 match ErrorMsg '^\(<\|=\|>\)\{7\}\([^=].\+\)\?$'
 
