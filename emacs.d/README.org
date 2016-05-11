@@ -1240,18 +1240,6 @@ it's something that only really matters when we manually start it up.
     (global-set-key (kbd "C-h C-m") #'discover-my-major))
 #+end_src
 
-*** HTTP docs
-
-Add some useful HTTP docs.
-
-#+begin_src emacs-lisp
-  (use-package know-your-http-well
-    :commands (http-header
-               http-method
-               http-relation
-               http-status-code))
-#+end_src
-
 *** Dired
 
 Make a few improvements to dired.
@@ -1299,59 +1287,6 @@ scratch buffers along with the mode because I prefer to use org-mode.
     :config
     (persistent-scratch-setup-default)
     (persistent-scratch-autosave-mode 1))
-#+end_src
-
-*** IRC
-
-This sets up the connection to my IRC bouncer. There are a few
-additional packages that would be useful here, such as znc, but I
-still prefer to keep my IRC in weechat, so this remains disabled for
-now.
-
-#+begin_src emacs-lisp
-  (use-package erc
-    :config
-    (setq erc-prompt ">"
-          erc-rename-buffers t
-          erc-join-buffer 'bury
-          erc-kill-buffer-on-part t
-          erc-kill-queries-on-quit t
-          erc-kill-server-buffer-on-quit t
-          erc-query-display 'buffer)
-
-    ;; Enable tracking and make it a little less annoying
-    (erc-track-mode t)
-    (setq erc-track-exclude-server-buffer t
-          erc-track-exclude-types '("JOIN" "PART" "QUIT" "NICK" "MODE"
-                                    "324" "329" "332" "333" "353" "477"))
-    (use-package erc-track-score
-      :config
-      (erc-track-score-mode 1)
-      (setq erc-track-showcount t)))
-#+end_src
-
-We add in ZNC support so we can detatch from buffers when we leave the
-channel. This is used along with autojoin so when something happens in
-a buffer, it pops up again.
-
-Additionally, there's an added advantage that this is lazy-loaded
-because it doesn't require the password prompt until we want to
-connect.
-
-#+begin_src emacs-lisp
-  (use-package znc
-    :commands
-    znc-erc
-    znc-all
-    :config
-    (setq znc-servers `(("freenode" "6697" t
-                         ((freenode
-                           belak/freenode
-                           ,(password-store-get "irc/freenode.net"))))
-                        ("psg" "6697" t
-                         ((psg
-                           belak/psg
-                           ,(password-store-get "irc/irc.hackedserver.net")))))))
 #+end_src
 
 *** Email
