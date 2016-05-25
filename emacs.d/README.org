@@ -70,6 +70,19 @@ lazy-loading things when we need them to speed up the startup time.
     (defvar use-package-verbose t)
     (require 'use-package))
 
+  (setq belak-refreshed nil)
+  (advice-add 'use-package-ensure-elpa
+              :around
+              (lambda (orig-fun package &optional no-refresh)
+                (if (package-installed-p package)
+                    t
+                  (progn 
+                    (when (not belak-refreshed)
+                      (message "Refreshing contents from use-package-ensure-elpa")
+                      (package-refresh-contents)
+                      (setq belak-refreshed t))
+                    (apply orig-fun package no-refresh)))))
+
   (require 'diminish)
   (require 'bind-key)
 
