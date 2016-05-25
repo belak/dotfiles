@@ -4,6 +4,7 @@ call plug#begin()
 Plug 'tpope/vim-rsi'
 Plug 'tpope/vim-surround'
 Plug 'airblade/vim-gitgutter'
+Plug 'editorconfig/editorconfig-vim'
 Plug 'myusuf3/numbers.vim'
 
 " Extra utilities
