@@ -792,6 +792,18 @@ brackets as well. This mode makes it easier to see nested delimiters.
     (add-hook 'prog-mode-hook 'rainbow-delimiters-mode))
 #+end_src
 
+*** Indentation
+
+=editorconfig= provides a simple way to share indentation settings between
+different editors without having to put settings in each file or any number of
+other awful solutions.
+
+#+begin_src emacs-lisp
+  (use-package editorconfig
+    :config
+    (editorconfig-mode 1))
+#+end_src
+
 *** Version Control
 
 Magit is an amazing git wrapper which lets us do a whole ton of
