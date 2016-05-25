@@ -77,13 +77,15 @@ set noshowmode        " No point since we use airline
 set fillchars=vert:\│ " Unicode line for separators
 set lazyredraw        " Redraw less when running macros
 
+" Set the leader key
+let mapleader=","
 
 " neomake mappings
-nmap <Leader><Space>o :lopen<CR>      " open location window
-nmap <Leader><Space>c :lclose<CR>     " close location window
-nmap <Leader><Space>, :ll<CR>         " go to current error/warning
-nmap <Leader><Space>n :lnext<CR>      " next error/warning
-nmap <Leader><Space>p :lprev<CR>      " previous error/warning
+nmap <leader><Space>o :lopen<CR>      " open location window
+nmap <leader><Space>c :lclose<CR>     " close location window
+nmap <leader><Space>, :ll<CR>         " go to current error/warning
+nmap <leader><Space>n :lnext<CR>      " next error/warning
+nmap <leader><Space>p :lprev<CR>      " previous error/warning
 
 " Golang specific settings
 let g:go_fmt_command = "goimports"
