@@ -152,26 +152,6 @@
 ;; Now that all the important packages have been loaded, we load
 ;; everything else in alphabetical order.
 
-;; anaconda mode provides code navigation and docs. Additionally, if
-;; company-mode is enabled, company-anaconda will also be
-;; enabled. TODO: Right now this mode is sort of hard to remember. Maybe it
-;; would make sense to bundle a bunch of python things under
-;; python-mode.
-(use-package anaconda-mode
-  :diminish anaconda-mode
-  :config
-  (use-package company-anaconda
-    :if (fboundp 'company-mode)
-    :config (add-to-list 'company-backends 'company-anaconda))
-
-  (when (fboundp 'projectile-mode)
-    (defun belak/virtualenv-magic (&rest arg-list)
-      (if (and (projectile-project-p) (venv-is-valid (projectile-project-name)))
-	  (venv-workon (projectile-project-name))))
-    (advice-add 'switch-to-buffer :after #'belak/virtualenv-magic))
-
-  (add-hook 'python-mode-hook 'anaconda-mode))
-
 ;; anzu shows how many matches in isearch.
 (use-package anzu
   :diminish anzu-mode
@@ -265,19 +245,38 @@
   (ido-mode 1)
   (ido-everywhere 1))
 
-;; js2-mode is a wrapper around js-mode which cleans it up and adds a
-;; bunch of features.
-(use-package js2-mode
-  :mode "\\.js\\'"
+;; js-mode isn't used as a separate mode, but we use it as a container
+;; here since it's a nice place to drop all our javascript-related
+;; packages.
+(use-package js-mode
+  :ensure nil
   :config
-  (setq js2-basic-offset 2)
-  (when (fboundp 'flycheck-mode)
-    (set-face-attributes 'js2-error nil
-			 :inherit 'flycheck-error-list-error
-			 :underline '(:color foreground-color :style wave))
-    (set-face-attributes 'js2-warning nil
-			 :inherit 'flycheck-error-list-warning
-			 :underline '(:color foreground-color :style wave))))
+  ;; js2-mode is a wrapper around js-mode which cleans it up and adds a
+  ;; bunch of features.
+  (use-package js2-mode
+    :mode "\\.js\\'"
+    :config
+    (setq js2-basic-offset 2)
+    (when (fboundp 'flycheck-mode)
+      (set-face-attributes 'js2-error nil
+			   :inherit 'flycheck-error-list-error
+			   :underline '(:color foreground-color :style wave))
+      (set-face-attributes 'js2-warning nil
+			   :inherit 'flycheck-error-list-warning
+			   :underline '(:color foreground-color :style wave))))
+
+  ;; tern is a js navigation package which extends js-mode. TODO: Note that
+  ;; this is fairly hard to find, so it may be better to move this under
+  ;; a js-mode block.
+  (use-package tern
+    :config
+    (use-package company-tern
+      :if (fboundp 'company-mode)
+      :config
+      (add-to-list 'company-backends 'company-tern)
+      (setq company-tern-property-marker ""))
+
+    (add-hook 'js-mode-hook (lambda () (tern-mode t)))))
 
 (use-package less-css-mode
   :mode "\\.less\\'")
@@ -294,10 +293,36 @@
   (setq magit-push-always-verify t
 	magit-completing-read-function 'magit-ido-completing-read))
 
-(use-package pip-requirements
-  :mode
-  "requirements.txt"
-  "requirements/\\.txt\\'")
+;; python-mode isn't used as a separate mode, but we use it as a
+;; container here since it's a nice place to drop all our
+;; python-related packages.
+(use-package python-mode
+  :ensure nil
+  :config
+  ;; anaconda mode provides code navigation and docs. Additionally, if
+  ;; company-mode is enabled, company-anaconda will also be
+  ;; enabled.
+  (use-package anaconda-mode
+    :diminish anaconda-mode
+    :config
+    (use-package company-anaconda
+      :if (fboundp 'company-mode)
+      :config (add-to-list 'company-backends 'company-anaconda))
+
+    (when (fboundp 'projectile-mode)
+      (defun belak/virtualenv-magic (&rest arg-list)
+	(if (and (projectile-project-p) (venv-is-valid (projectile-project-name)))
+	    (venv-workon (projectile-project-name))))
+      (advice-add 'switch-to-buffer :after #'belak/virtualenv-magic))
+
+    (add-hook 'python-mode-hook 'anaconda-mode))
+
+  (use-package pip-requirements
+    :mode
+    "requirements.txt"
+    "requirements/\\.txt\\'")
+
+  (use-package virtualenvwrapper))
 
 (use-package rainbow-mode
   :commands rainbow-mode)
@@ -337,26 +362,11 @@
 	scroll-margin 5)
   (smooth-scrolling-mode 1))
 
-;; tern is a js navigation package which extends js-mode. TODO: Note that
-;; this is fairly hard to find, so it may be better to move this under
-;; a js-mode block.
-(use-package tern
-  :config
-  (use-package company-tern
-    :if (fboundp 'company-mode)
-    :config
-    (add-to-list 'company-backends 'company-tern)
-    (setq company-tern-property-marker ""))
-
-  (add-hook 'js-mode-hook (lambda () (tern-mode t))))
-
 ;; Ensure we're using sane buffer naming
 (use-package uniquify
   :ensure nil
   :config
   (setq uniquify-buffer-name-style 'forward))
-
-(use-package virtualenvwrapper)
 
 (use-package web-mode
   :mode
