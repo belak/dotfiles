@@ -310,10 +310,11 @@
       :config (add-to-list 'company-backends 'company-anaconda))
 
     (when (fboundp 'projectile-mode)
-      (defun belak/virtualenv-magic (&rest arg-list)
-	(if (and (projectile-project-p) (venv-is-valid (projectile-project-name)))
-	    (venv-workon (projectile-project-name))))
-      (advice-add 'switch-to-buffer :after #'belak/virtualenv-magic))
+      (advice-add 'switch-to-buffer :after
+		  (lambda (&rest arg-list)
+		    (if (and (projectile-project-p)
+			     (venv-is-valid (projectile-project-name)))
+			(venv-workon (projectile-project-name))))))
 
     (add-hook 'python-mode-hook 'anaconda-mode))
 
