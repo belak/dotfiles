@@ -107,6 +107,7 @@
 (require 'diminish)
 (require 'bind-key)
 
+;; Always attempt to install packages unless we specify otherwise.
 (setq use-package-always-ensure t)
 
 ;;;; Early Loading
@@ -248,7 +249,7 @@
 ;; js-mode isn't used as a separate mode, but we use it as a container
 ;; here since it's a nice place to drop all our javascript-related
 ;; packages.
-(use-package js-mode
+(use-package js
   :ensure nil
   :config
   ;; js2-mode is a wrapper around js-mode which cleans it up and adds a
@@ -258,17 +259,18 @@
     :config
     (setq js2-basic-offset 2)
     (when (fboundp 'flycheck-mode)
-      (set-face-attributes 'js2-error nil
-			   :inherit 'flycheck-error-list-error
-			   :underline '(:color foreground-color :style wave))
-      (set-face-attributes 'js2-warning nil
-			   :inherit 'flycheck-error-list-warning
-			   :underline '(:color foreground-color :style wave))))
+      (set-face-attribute 'js2-error nil
+			  :inherit 'flycheck-error-list-error
+			  :underline '(:color foreground-color :style wave))
+      (set-face-attribute 'js2-warning nil
+			  :inherit 'flycheck-error-list-warning
+			  :underline '(:color foreground-color :style wave))))
 
   ;; tern is a js navigation package which extends js-mode. TODO: Note that
   ;; this is fairly hard to find, so it may be better to move this under
   ;; a js-mode block.
   (use-package tern
+    :diminish tern-mode
     :config
     (use-package company-tern
       :if (fboundp 'company-mode)
@@ -428,10 +430,14 @@
 ;; because that takes too many keystrokes.
 (fset 'yes-or-no-p 'y-or-n-p)
 
-(show-paren-mode 1)
-(setq show-paren-style 'expression
-      show-paren-delay 0
-      lazy-highlight-initial-delay 0
+(use-package paren
+  :ensure nil
+  :config
+  (show-paren-mode 1)
+  (setq show-paren-style 'expression
+	show-paren-delay 0))
+
+(setq lazy-highlight-initial-delay 0
       make-pointer-invisible t
       vc-follow-symlinks t
       require-final-newline t
