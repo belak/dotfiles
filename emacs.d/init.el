@@ -293,7 +293,23 @@
     (add-hook 'magit-status-mode-hook 'magit-filenotify-mode))
   :config
   (setq magit-push-always-verify t
-	magit-completing-read-function 'magit-ido-completing-read))
+		magit-completing-read-function 'magit-ido-completing-read))
+
+;; org-mode can be used for tasks, notes, and a variety of other
+;; things.
+(use-package org
+  :mode ("\\.org\'" . org-mode)
+  :config
+  (setq org-completion-use-ido t
+        org-support-shift-select t
+        org-agenda-files '("~/org/")))
+
+;; persistent-scratch makes it possible to use the scratch buffer
+;; without worrying about losing it.
+(use-package persistent-scratch
+  :config
+  (persistent-scratch-setup-default)
+  (persistent-scratch-autosave-mode 1))
 
 ;; python-mode isn't used as a separate mode, but we use it as a
 ;; container here since it's a nice place to drop all our
@@ -365,6 +381,12 @@
 	scroll-margin 5)
   (smooth-scrolling-mode 1))
 
+;; undo-tree makes the undo features a bit more bearable.
+(use-package undo-tree
+  :diminish undo-tree-mode
+  :config
+  (global-undo-tree-mode 1))
+
 ;; Ensure we're using sane buffer naming
 (use-package uniquify
   :ensure nil
@@ -417,6 +439,8 @@
       line-number-mode t
       tooltip-delay 0
       tooltip-short-delay 0)
+
+(setq-default tab-width 4)
 
 ;; I find that when I want to use zap, I almost never want to include
 ;; the next character, so we replace zap-to-chat with zap-up-to-char.
@@ -487,6 +511,15 @@ abort the minibuffer."
 (global-auto-revert-mode 1)
 (setq auto-revert-verbose nil)
 (diminish 'auto-revert-mode)
+
+;;;; Custom
+;; We still want to be able to have non-public configs, such as for
+;; passwords and what not, so we put them in a separate file and load
+;; it, but ignore errors, for instance if it doesn't exist. This has
+;; the added advantage of making it so customizations will go to this
+;; file and not to init.el, which is version controlled.
+(setq custom-file (expand-file-name "custom.el" user-emacs-directory))
+(load custom-file t)
 
 ;;;; Cleanup
 
