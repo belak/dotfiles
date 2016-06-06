@@ -35,17 +35,17 @@
 
 (cond ((linux-p)
        (setq browse-url-browser-function 'browse-url-generic
-	     browse-url-generic-program "xdg-open"))
+             browse-url-generic-program "xdg-open"))
 
       ((osx-p)
        (setq ns-use-native-fullscreen t
-	     mac-command-modifier 'meta
-	     mac-option-modifier 'super
-	     mac-control-modifier 'control
-	     insert-directory-program "/usr/local/bin/gls")
+             mac-command-modifier 'meta
+             mac-option-modifier 'super
+             mac-control-modifier 'control
+             insert-directory-program "/usr/local/bin/gls")
 
        (let ((default-directory "/usr/local/share/emacs/site-lisp/"))
-	 (normal-top-level-add-subdirs-to-load-path))
+         (normal-top-level-add-subdirs-to-load-path))
 
        (toggle-frame-fullscreen)))
 
@@ -57,9 +57,9 @@
 ;; Set up the package repos
 (setq package-enable-at-startup nil
       package-archives '(("melpa"        . "https://melpa.org/packages/")
-			 ("melpa-stable" . "https://stable.melpa.org/packages/")
-			 ("marmalade"    . "https://marmalade-repo.org/packages/")
-			 ("gnu"          . "https://elpa.gnu.org/packages/")))
+                         ("melpa-stable" . "https://stable.melpa.org/packages/")
+                         ("marmalade"    . "https://marmalade-repo.org/packages/")
+                         ("gnu"          . "https://elpa.gnu.org/packages/")))
 
 ;; Disable as many warnings as we can for package installs.
 (setq byte-compile-warnings nil)
@@ -87,12 +87,12 @@
 ;; fixes issues when the package list is out of date and we start up
 ;; with a new version of the dotfiles which needs a new package.
 (advice-add 'package-install
-	    :before
-	    (lambda (&args)
-	      (when (not belak/refreshed-package-list)
-		(message "Refreshing contents from package-install")
-		(package-refresh-contents)
-		(setq belak/refreshed-package-list t))))
+            :before
+            (lambda (&args)
+              (when (not belak/refreshed-package-list)
+                (message "Refreshing contents from package-install")
+                (package-refresh-contents)
+                (setq belak/refreshed-package-list t))))
 
 ;;; use-package
 
@@ -126,8 +126,8 @@
   :diminish company-mode
   :config
   (setq company-idle-delay 0
-	company-echo-delay 0
-	company-minimum-prefix-length 1)
+        company-echo-delay 0
+        company-minimum-prefix-length 1)
   (global-company-mode))
 
 ;; flycheck-mode is used for linters and catching compilation
@@ -163,13 +163,13 @@
 (use-package diff-hl
   :config
   (add-hook 'after-make-console-frame-hooks
-	    (lambda ()
-	      (global-diff-hl-mode 0)
-	      (diff-hl-margin-mode 1)))
+            (lambda ()
+              (global-diff-hl-mode 0)
+              (diff-hl-margin-mode 1)))
   (add-hook 'after-make-window-system-frame-hooks
-	    (lambda ()
-	      (global-diff-hl-mode 1)
-	      (diff-hl-margin-mode 0))))
+            (lambda ()
+              (global-diff-hl-mode 1)
+              (diff-hl-margin-mode 0))))
 
 ;; editorconfig is a simple way to share indentation settings between
 ;; editors. Because I sometimes dabble in neovim and sublime, it's
@@ -229,7 +229,7 @@
   (use-package ido-vertical-mode
     :config
     (setq ido-vertical-define-keys 'C-n-C-p-up-down-left-right
-	  ido-vertical-show-count t)
+          ido-vertical-show-count t)
     (ido-vertical-mode 1))
 
   ;; flx-ido changes the matching algorithm to improve the flex
@@ -237,11 +237,11 @@
   (use-package flx-ido
     :config
     (setq ido-enable-flex-matching t
-	  flx-ido-threshold 1000))
+          flx-ido-threshold 1000))
 
   (setq resize-mini-windows t
-	ido-use-virtual-buffers t
-	ido-auto-merge-work-directories-length -1)
+        ido-use-virtual-buffers t
+        ido-auto-merge-work-directories-length -1)
 
   (ido-mode 1)
   (ido-everywhere 1))
@@ -260,11 +260,11 @@
     (setq js2-basic-offset 2)
     (when (fboundp 'flycheck-mode)
       (set-face-attribute 'js2-error nil
-			  :inherit 'flycheck-error-list-error
-			  :underline '(:color foreground-color :style wave))
+                          :inherit 'flycheck-error-list-error
+                          :underline '(:color foreground-color :style wave))
       (set-face-attribute 'js2-warning nil
-			  :inherit 'flycheck-error-list-warning
-			  :underline '(:color foreground-color :style wave))))
+                          :inherit 'flycheck-error-list-warning
+                          :underline '(:color foreground-color :style wave))))
 
   ;; tern is a js navigation package which extends js-mode. TODO: Note that
   ;; this is fairly hard to find, so it may be better to move this under
@@ -293,7 +293,7 @@
     (add-hook 'magit-status-mode-hook 'magit-filenotify-mode))
   :config
   (setq magit-push-always-verify t
-		magit-completing-read-function 'magit-ido-completing-read))
+        magit-completing-read-function 'magit-ido-completing-read))
 
 ;; org-mode can be used for tasks, notes, and a variety of other
 ;; things.
@@ -329,10 +329,10 @@
 
     (when (fboundp 'projectile-mode)
       (advice-add 'switch-to-buffer :after
-		  (lambda (&rest arg-list)
-		    (if (and (projectile-project-p)
-			     (venv-is-valid (projectile-project-name)))
-			(venv-workon (projectile-project-name))))))
+                  (lambda (&rest arg-list)
+                    (if (and (projectile-project-p)
+                             (venv-is-valid (projectile-project-name)))
+                        (venv-workon (projectile-project-name))))))
 
     (add-hook 'python-mode-hook 'anaconda-mode))
 
@@ -366,8 +366,8 @@
 (use-package smart-mode-line
   :config
   (setq sml/no-confirm-load-theme t
-	sml/shorten-directory t
-	sml/theme 'respectful)
+        sml/shorten-directory t
+        sml/theme 'respectful)
   (sml/setup))
 
 ;; In spite of the name, I use this to make sure that when I scroll,
@@ -375,10 +375,10 @@
 (use-package smooth-scrolling
   :config
   (setq smooth-scroll-margin 5
-	scroll-conservatively 101
-	scroll-preserve-screen-position t
-	auto-window-vscroll nil
-	scroll-margin 5)
+        scroll-conservatively 101
+        scroll-preserve-screen-position t
+        auto-window-vscroll nil
+        scroll-margin 5)
   (smooth-scrolling-mode 1))
 
 ;; undo-tree makes the undo features a bit more bearable.
@@ -399,8 +399,8 @@
   "\\.html\\'"
   :config
   (setq web-mode-markup-indent-offset 2
-	web-mode-css-indent-offset 2
-	web-mode-code-indent-offset 2))
+        web-mode-css-indent-offset 2
+        web-mode-code-indent-offset 2))
 
 ;; yasnippet adds some useful tools to make reusable code snippets.
 (use-package yasnippet
@@ -417,14 +417,14 @@
 (defvar belak/frame-font "Monospace 12")
 (cond ((linux-p)
        (setq belak/frame-font "Source Code Pro 10"
-	     x-gtk-use-system-tooltips nil))
+             x-gtk-use-system-tooltips nil))
       ((osx-p)
        (setq belak/frame-font "Source Code Pro Light 10")))
 
 ;; We want to ensure the font is set after the window frame is
 ;; created.
 (add-hook 'after-make-window-system-frame-hooks
-	  (lambda () (set-frame-font belak/frame-font)))
+          (lambda () (set-frame-font belak/frame-font)))
 
 ;; Remove most gui features because I rarely use any of them.
 (menu-bar-mode -1)
@@ -459,7 +459,7 @@
   :config
   (show-paren-mode 1)
   (setq show-paren-style 'expression
-	show-paren-delay 0))
+        show-paren-delay 0))
 
 (setq lazy-highlight-initial-delay 0
       make-pointer-invisible t
@@ -473,9 +473,9 @@
 ;; https://github.com/davvil/.emacs.d/blob/master/init.el
 (defun minibuffer-keyboard-quit ()
   "Abort recursive edit.
-In Delete Selection mode, if the mark is active, just
-deactivate it; then it takes a second \\[keyboard-quit] to
-abort the minibuffer."
+  In Delete Selection mode, if the mark is active, just
+  deactivate it; then it takes a second \\[keyboard-quit] to
+  abort the minibuffer."
   (interactive)
   (if (and delete-selection-mode transient-mark-mode mark-active)
       (setq deactivate-mark  t)
@@ -503,9 +503,9 @@ abort the minibuffer."
 ;; This is a common hook for all modes that are based on the generally
 ;; programming mode.
 (add-hook 'prog-mode-hook
-	  (lambda ()
-	    (linum-mode 1)
-	    (setq show-trailing-whitespace t)))
+          (lambda ()
+            (linum-mode 1)
+            (setq show-trailing-whitespace t)))
 
 ;; Revert buffers automatically if they've changed on diskx
 (global-auto-revert-mode 1)
