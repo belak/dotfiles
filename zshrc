@@ -7,7 +7,7 @@ fpath=("$HOME/.belak/zsh" $fpath)
 
 # Run startx if we're on tty1
 if [[ `tty` == "/dev/tty1" ]]; then
-	exec startx
+    exec startx
 fi
 
 # Any zprezto settings need to come before zgen is loaded. Most of these come
@@ -26,21 +26,21 @@ source "$HOME/.zgen/zgen.zsh"
 if ! zgen saved; then
     # We use prezto in place of oh-my-zsh because it's quite a bit simpler and
     # makes some decisions with the default config which I prefer.
-	zgen prezto
+    zgen prezto
 
-	# Load some better language support
+    # Load some better language support
     zgen prezto python
     zgen prezto ruby
-	zgen load postmodern/chruby share/chruby/chruby.sh
-	zgen load postmodern/chruby share/chruby/auto.sh
+    zgen load postmodern/chruby share/chruby/chruby.sh
+    zgen load postmodern/chruby share/chruby/auto.sh
 
-	# Additional plugins
+    # Additional plugins
     zgen prezto git
     zgen prezto syntax-highlighting
-	zgen load rupa/z z.sh
+    zgen load rupa/z z.sh
 
-	# Save everything we've loaded so far
-	zgen save
+    # Save everything we've loaded so far
+    zgen save
 fi
 
 # Disable SHARE_HISTORY
@@ -60,7 +60,7 @@ alias j="z"
 
 # Alias vim to nvim if neovim is installed
 if which nvim &>/dev/null; then
-	alias vim=nvim
+    alias vim=nvim
 fi
 
 # Magic incantations
