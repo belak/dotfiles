@@ -145,7 +145,15 @@
   :config
   (projectile-global-mode))
 
+;; Set our theme early so we don't have to look at the default theme
+;; for very long
+(use-package quasi-monochrome-theme
+  :config
+  (load-theme 'quasi-monochrome t))
+
+;; TODO: Remove this if I'm not going to use it any more
 (use-package zenburn-theme
+  :disabled t
   :config
   (load-theme 'zenburn t))
 
@@ -314,7 +322,7 @@
 ;; python-mode isn't used as a separate mode, but we use it as a
 ;; container here since it's a nice place to drop all our
 ;; python-related packages.
-(use-package python-mode
+(use-package python
   :ensure nil
   :config
   ;; anaconda mode provides code navigation and docs. Additionally, if
@@ -416,7 +424,7 @@
 ;; We pick a super generic fallback so it should work everywhere.
 (defvar belak/frame-font "Monospace 12")
 (cond ((linux-p)
-       (setq belak/frame-font "Source Code Pro 10"
+       (setq belak/frame-font "Terminus 12"
              x-gtk-use-system-tooltips nil))
       ((osx-p)
        (setq belak/frame-font "Source Code Pro Light 10")))
