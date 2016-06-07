@@ -6,7 +6,6 @@ end_of_line = lf
 indent_style = space
 insert_final_newline = true
 trim_trailing_whitespace = true
-indent_size = 4
 
 ;; Because gofmt requires tabs, we make sure our editor will respect that
 [*.go]
