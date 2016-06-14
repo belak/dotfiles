@@ -20,9 +20,6 @@
 (setq debug-on-error t
       debug-on-quit t)
 
-;; Load in our extra stuff
-;;(add-to-list 'load-path (expand-file-name "~/.emacs.d/lisp/"))
-
 ;;;; Platform-Specific
 
 (defun osx-p ()
@@ -55,11 +52,7 @@
 (require 'package)
 
 ;; Set up the package repos
-(setq package-enable-at-startup nil
-      package-archives '(("melpa"        . "https://melpa.org/packages/")
-                         ("melpa-stable" . "https://stable.melpa.org/packages/")
-                         ("marmalade"    . "https://marmalade-repo.org/packages/")
-                         ("gnu"          . "https://elpa.gnu.org/packages/")))
+(setq package-enable-at-startup nil)
 
 ;; Disable as many warnings as we can for package installs.
 (setq byte-compile-warnings nil)
@@ -94,6 +87,19 @@
                 (package-refresh-contents)
                 (setq belak/refreshed-package-list t))))
 
+;; quelpa
+(unless (require 'quelpa nil t)
+  (with-temp-buffer
+    (url-insert-file-contents "https://raw.github.com/quelpa/quelpa/master/bootstrap.el")
+    (eval-buffer)))
+
+;; quelpa-use-package
+(quelpa
+ '(quelpa-use-package
+   :fetcher github
+   :repo "quelpa/quelpa-use-package"))
+(require 'quelpa-use-package)
+
 ;;; use-package
 
 ;; Ensure that use-package is installed and loaded when it needs to
@@ -108,7 +114,7 @@
 (require 'bind-key)
 
 ;; Always attempt to install packages unless we specify otherwise.
-(setq use-package-always-ensure t)
+;;(setq use-package-always-ensure t)
 
 ;;;; Early Loading
 ;; Portions of my init.el depend on other components. The most
@@ -123,6 +129,7 @@
 ;; you can use :if (fboundp 'company-mode) to only enable a block if
 ;; company-mode is active.
 (use-package company
+  :quelpa
   :diminish company-mode
   :config
   (setq company-idle-delay 0
@@ -134,6 +141,7 @@
 ;; errors. In use-package blocks, you can use :if (fboundp
 ;; 'flycheck-mode) to only enable a block if flycheck-mode is enabled.
 (use-package flycheck
+  :quelpa
   :diminish flycheck-mode
   :config
   (defalias 'flycheck-show-error-at-point-soon 'flycheck-show-error-at-point)
@@ -141,11 +149,13 @@
 
 ;; Project based navigation is pretty much the best thing ever.
 (use-package projectile
+  :quelpa
   :diminish projectile-mode
   :config
   (projectile-global-mode))
 
 (use-package base16-theme
+  :quelpa
   :init
   (load-theme 'base16-default-dark t))
 
@@ -155,12 +165,14 @@
 
 ;; anzu shows how many matches in isearch.
 (use-package anzu
+  :quelpa
   :diminish anzu-mode
   :config (global-anzu-mode))
 
 ;; diff-hl uses the emacs vcs integration to display
 ;; added/modified/removed lines.
 (use-package diff-hl
+  :quelpa
   :config
   (add-hook 'after-make-console-frame-hooks
             (lambda ()
@@ -176,12 +188,14 @@
 ;; nice to not have to re-do these settings at a project level between
 ;; editors.
 (use-package editorconfig
+  :quelpa
   :config
   (editorconfig-mode 1))
 
 ;; Grab important environment variables from the shell. The important
 ;; ones are PATH and GOPATH.
 (use-package exec-path-from-shell
+  :quelpa
   :config
   (add-to-list 'exec-path-from-shell-variables "GOPATH")
   (exec-path-from-shell-initialize))
@@ -189,6 +203,7 @@
 ;; fic-mode simply gives an annoying highlight to FIXME, TODO, XXX,
 ;; and other similar keywords so they're easy to spot.
 (use-package fic-mode
+  :quelpa
   :diminish fic-mode
   :config
   (add-to-list 'fic-highlighted-words "XXX")
@@ -196,13 +211,16 @@
 
 ;; flyspell does what it says on the tin. It's a spell-checker similar to flycheck.
 (use-package flyspell
+  :quelpa
   :diminish flyspell-mode
   :config (add-hook 'text-mode-hook (lambda () (flyspell-mode 1))))
 
 (use-package go-mode
+  :quelpa
   :mode "\\.go\\'"
   :config
   (use-package company-go
+	:quelpa
     :if (fboundp 'company-mode)
     :config
     (add-to-list 'company-backends 'company-go))
@@ -212,21 +230,25 @@
 
 ;; ido (interactively-do) is a better interface for selecting things.
 (use-package ido
+  :quelpa
   :config
   ;; smex is a better replacement for M-x built around ido.
   (use-package smex
+	:quelpa
     :bind
     ("M-x" . smex)
     ("M-X" . smex-major-mode-commands))
 
   ;; Use ido everywhere possible.
   (use-package ido-ubiquitous
-    :config
+	:quelpa
+	:config
     (ido-ubiquitous-mode 1))
 
   ;; ido is much more readable when all the options are displayed
   ;; vertically.
   (use-package ido-vertical-mode
+	:quelpa
     :config
     (setq ido-vertical-define-keys 'C-n-C-p-up-down-left-right
           ido-vertical-show-count t)
@@ -235,6 +257,7 @@
   ;; flx-ido changes the matching algorithm to improve the flex
   ;; matching support.
   (use-package flx-ido
+	:quelpa
     :config
     (setq ido-enable-flex-matching t
           flx-ido-threshold 1000))
@@ -255,6 +278,7 @@
   ;; js2-mode is a wrapper around js-mode which cleans it up and adds a
   ;; bunch of features.
   (use-package js2-mode
+	:quelpa
     :mode "\\.js\\'"
     :config
     (setq js2-basic-offset 2)
@@ -270,6 +294,7 @@
   ;; this is fairly hard to find, so it may be better to move this under
   ;; a js-mode block.
   (use-package tern
+	:quelpa
     :diminish tern-mode
     :config
     (use-package company-tern
@@ -281,13 +306,16 @@
     (add-hook 'js-mode-hook (lambda () (tern-mode t)))))
 
 (use-package less-css-mode
+  :quelpa
   :mode "\\.less\\'")
 
 ;; magit is an amazing tool for working with git inside emacs.
 (use-package magit
+  :quelpa
   :bind ("M-g M-g" . magit-status)
   :init
   (use-package magit-filenotify
+	:quelpa
     :if (linux-p)
     :config
     (add-hook 'magit-status-mode-hook 'magit-filenotify-mode))
@@ -298,6 +326,7 @@
 ;; org-mode can be used for tasks, notes, and a variety of other
 ;; things.
 (use-package org
+  :quelpa
   :mode ("\\.org\'" . org-mode)
   :config
   (setq org-completion-use-ido t
@@ -307,6 +336,7 @@
 ;; persistent-scratch makes it possible to use the scratch buffer
 ;; without worrying about losing it.
 (use-package persistent-scratch
+  :quelpa
   :config
   (persistent-scratch-setup-default)
   (persistent-scratch-autosave-mode 1))
@@ -321,29 +351,35 @@
   ;; company-mode is enabled, company-anaconda will also be
   ;; enabled.
   (use-package anaconda-mode
+    :quelpa
     :diminish anaconda-mode
     :config
     (use-package company-anaconda
+      :quelpa
+      :requires virtualenvwrapper
       :if (fboundp 'company-mode)
-      :config (add-to-list 'company-backends 'company-anaconda))
+      :config (add-to-list 'company-backends 'company-anaconda)))
 
+    (add-hook 'python-mode-hook 'anaconda-mode))
+
+  (use-package pip-requirements
+    :quelpa
+    :mode
+    "requirements.txt"
+    "requirements/\\.txt\\'")
+
+  (use-package virtualenvwrapper
+    :quelpa
+    :config
     (when (fboundp 'projectile-mode)
       (advice-add 'switch-to-buffer :after
                   (lambda (&rest arg-list)
                     (if (and (projectile-project-p)
                              (venv-is-valid (projectile-project-name)))
-                        (venv-workon (projectile-project-name))))))
-
-    (add-hook 'python-mode-hook 'anaconda-mode))
-
-  (use-package pip-requirements
-    :mode
-    "requirements.txt"
-    "requirements/\\.txt\\'")
-
-  (use-package virtualenvwrapper))
+                        (venv-workon (projectile-project-name)))))))
 
 (use-package rainbow-mode
+  :quelpa
   :commands rainbow-mode)
 
 ;; recentf adds some useful functionality to ido which remembers
@@ -364,6 +400,7 @@
 ;; (and making my own small framework) and it just involved too much
 ;; work to maintain a small feature.
 (use-package smart-mode-line
+  :quelpa
   :config
   (setq sml/no-confirm-load-theme t
         sml/shorten-directory t
@@ -373,6 +410,7 @@
 ;; In spite of the name, I use this to make sure that when I scroll,
 ;; there are still lines between the cursor and the top of the file.
 (use-package smooth-scrolling
+  :quelpa
   :config
   (setq smooth-scroll-margin 5
         scroll-conservatively 101
@@ -383,6 +421,7 @@
 
 ;; undo-tree makes the undo features a bit more bearable.
 (use-package undo-tree
+  :quelpa
   :diminish undo-tree-mode
   :config
   (global-undo-tree-mode 1))
@@ -394,6 +433,7 @@
   (setq uniquify-buffer-name-style 'forward))
 
 (use-package web-mode
+  :quelpa
   :mode
   "\\.jinja\\'"
   "\\.html\\'"
@@ -403,10 +443,12 @@
         web-mode-code-indent-offset 2))
 
 (use-package yaml-mode
+  :quelpa
   :mode "\\.yml\\'")
 
 ;; yasnippet adds some useful tools to make reusable code snippets.
 (use-package yasnippet
+  :quelpa
   :diminish yas-minor-mode
   :config
   (setq yas-verbosity 0)
