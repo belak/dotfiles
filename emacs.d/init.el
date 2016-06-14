@@ -364,6 +364,7 @@
 ;; (and making my own small framework) and it just involved too much
 ;; work to maintain a small feature.
 (use-package smart-mode-line
+  :disabled t
   :config
   (setq sml/no-confirm-load-theme t
         sml/shorten-directory t
@@ -380,6 +381,12 @@
         auto-window-vscroll nil
         scroll-margin 5)
   (smooth-scrolling-mode 1))
+
+(use-package spaceline
+  :config
+  (require 'spaceline-config)
+  (setq powerline-default-separator 'bar)
+  (spaceline-emacs-theme))
 
 ;; undo-tree makes the undo features a bit more bearable.
 (use-package undo-tree
