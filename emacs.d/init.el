@@ -146,8 +146,13 @@
   (projectile-global-mode))
 
 (use-package base16-theme
+  :disabled t
   :init
   (load-theme 'base16-default-dark t))
+
+(use-package spacemacs-theme
+  :init
+  (load-theme 'spacemacs-dark t))
 
 ;;;; Packages
 ;; Now that all the important packages have been loaded, we load
