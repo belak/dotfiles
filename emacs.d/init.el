@@ -145,17 +145,9 @@
   :config
   (projectile-global-mode))
 
-;; Set our theme early so we don't have to look at the default theme
-;; for very long
-(use-package quasi-monochrome-theme
-  :config
-  (load-theme 'quasi-monochrome t))
-
-;; TODO: Remove this if I'm not going to use it any more
-(use-package zenburn-theme
-  :disabled t
-  :config
-  (load-theme 'zenburn t))
+(use-package base16-theme
+  :init
+  (load-theme 'base16-default-dark t))
 
 ;;;; Packages
 ;; Now that all the important packages have been loaded, we load
@@ -409,6 +401,9 @@
   (setq web-mode-markup-indent-offset 2
         web-mode-css-indent-offset 2
         web-mode-code-indent-offset 2))
+
+(use-package yaml-mode
+  :mode "\\.yml\\'")
 
 ;; yasnippet adds some useful tools to make reusable code snippets.
 (use-package yasnippet
