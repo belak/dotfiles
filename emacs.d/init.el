@@ -327,13 +327,6 @@
       :if (fboundp 'company-mode)
       :config (add-to-list 'company-backends 'company-anaconda))
 
-    (when (fboundp 'projectile-mode)
-      (advice-add 'switch-to-buffer :after
-                  (lambda (&rest arg-list)
-                    (if (and (projectile-project-p)
-                             (venv-is-valid (projectile-project-name)))
-                        (venv-workon (projectile-project-name))))))
-
     (add-hook 'python-mode-hook 'anaconda-mode))
 
   (use-package pip-requirements
@@ -341,7 +334,14 @@
     "requirements.txt"
     "requirements/\\.txt\\'")
 
-  (use-package virtualenvwrapper))
+  (use-package virtualenvwrapper
+    :config
+    (when (fboundp 'projectile-mode)
+      (advice-add 'switch-to-buffer :after
+                  (lambda (&rest arg-list)
+                    (if (and (projectile-project-p)
+                             (venv-is-valid (projectile-project-name)))
+                        (venv-workon (projectile-project-name))))))))
 
 (use-package rainbow-mode
   :commands rainbow-mode)
