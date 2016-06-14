@@ -152,6 +152,7 @@
 
 (use-package spacemacs-theme
   :init
+  (setq spacemacs-theme-org-height nil)
   (load-theme 'spacemacs-dark t))
 
 ;;;; Packages
@@ -299,6 +300,9 @@
   :config
   (setq magit-push-always-verify t
         magit-completing-read-function 'magit-ido-completing-read))
+
+(use-package markdown-mode
+  :mode ("\\.md\\'" . gfm-mode))
 
 ;; org-mode can be used for tasks, notes, and a variety of other
 ;; things.
@@ -469,6 +473,8 @@
 ;; because that takes too many keystrokes.
 (fset 'yes-or-no-p 'y-or-n-p)
 
+(global-hl-line-mode)
+
 (use-package paren
   :ensure nil
   :config
@@ -522,7 +528,7 @@ abort the minibuffer."
             (linum-mode 1)
             (setq show-trailing-whitespace t)))
 
-;; Revert buffers automatically if they've changed on diskx
+;; Revert buffers automatically if they've changed on disk
 (global-auto-revert-mode 1)
 (setq auto-revert-verbose nil)
 (diminish 'auto-revert-mode)
