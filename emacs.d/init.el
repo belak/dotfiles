@@ -252,7 +252,7 @@
   (ido-mode 1)
   (ido-everywhere 1))
 
-(use-package hlinum-mode
+(use-package hlinum
   :config
   (hlinum-activate))
 
