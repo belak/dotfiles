@@ -252,6 +252,10 @@
   (ido-mode 1)
   (ido-everywhere 1))
 
+(use-package hlinum-mode
+  :config
+  (hlinum-activate))
+
 ;; js-mode isn't used as a separate mode, but we use it as a container
 ;; here since it's a nice place to drop all our javascript-related
 ;; packages.
@@ -272,9 +276,9 @@
                           :inherit 'flycheck-error-list-warning
                           :underline '(:color foreground-color :style wave))))
 
-  ;; tern is a js navigation package which extends js-mode. TODO: Note that
-  ;; this is fairly hard to find, so it may be better to move this under
-  ;; a js-mode block.
+  ;; tern is a js navigation package which extends js-mode. TODO: Note
+  ;; that this is fairly hard to find, so it may be better to move
+  ;; this under a js-mode block.
   (use-package tern
     :diminish tern-mode
     :config
@@ -388,7 +392,7 @@
         scroll-conservatively 101
         scroll-preserve-screen-position t
         auto-window-vscroll nil
-        scroll-margin 5)
+        scroll-margin 1)
   (smooth-scrolling-mode 1))
 
 (use-package spaceline
@@ -435,7 +439,7 @@
 ;; We pick a super generic fallback so it should work everywhere.
 (defvar belak/frame-font "Monospace 12")
 (cond ((linux-p)
-       (setq belak/frame-font "Terminus 12"
+       (setq belak/frame-font "Source Code Pro 11"
              x-gtk-use-system-tooltips nil))
       ((osx-p)
        (setq belak/frame-font "Source Code Pro Light 10")))
