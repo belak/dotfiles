@@ -24,23 +24,23 @@
 (defun theme-hex (hsl)
   (apply 'color-rgb-to-hex (apply 'color-hsl-to-rgb hsl)))
 
-(let* ((syntax-uno (/ 240.0 360.0))
-       (syntax-duo (/  20.0 360.0))
+(let* ((syntax-uno (/ 250.0 360.0))
+       (syntax-duo (/  30.0 360.0))
 
        ;; Uno hue
-       (uno1 (list syntax-uno 0.99 0.96))
-       (uno2 (list syntax-uno 0.66 0.80))
-       (uno3 (list syntax-uno 0.22 0.60))
-       (uno4 (list syntax-uno 0.10 0.44))
+       (uno1 (list syntax-uno 1.00 0.96))
+       (uno2 (list syntax-uno 0.98 0.86))
+       (uno3 (list syntax-uno 0.96 0.78))
+       (uno4 (list syntax-uno 0.12 0.46))
 
        ;; Duo hue
-       (duo1 (list syntax-duo 0.99 0.77))
-       (duo2 (list syntax-duo 0.60 0.62))
-       (duo3 (list syntax-duo 0.10 0.36))
+       (duo1 (list syntax-duo 1.00 0.80))
+       (duo2 (list syntax-duo 0.72 0.62))
+       (duo3 (list syntax-duo 0.06 0.46))
 
        ;; Base colors
        (syntax-fg               uno2)
-       (syntax-bg               (list syntax-uno 0.12 0.18))
+       (syntax-bg               (list syntax-uno 0.14 0.18))
        (syntax-accent           (list syntax-duo 1.00 0.66))
        (syntax-guide            (theme-lighten syntax-bg 0.10))
        (syntax-selection        (theme-lighten syntax-bg 0.12))
@@ -52,7 +52,7 @@
        (syntax-color-removed  (list (/ 0.0 360.0)   1.0 0.6))
 
        ;; TODO: Alpha isn't a thing so this needs to be fixed.
-       (syntax-result-marker-color (theme-fade syntax-accent 0.16))
+       (syntax-result-marker-color (theme-darken syntax-accent 0.09))
 
        ;; This doesn't quite match, but since alpha isn't a thing in
        ;; emacs, we need to fudge it a bit.
@@ -185,7 +185,7 @@
      `(whitespace-trailing ((t (:background ,syntax-guide))))
 
      ;; Parenthesis matching (built-in)
-     ;;`(show-paren-match ((t (:background ,base04 :foreground ,base00))))
+     `(show-paren-match ((t (:foreground ,syntax-accent))))
      ;;`(show-paren-mismatch ((t (:background ,base09 :foreground ,base03))))
 
      ;;`(link ((t (:foreground nil :underline t))))
