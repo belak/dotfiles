@@ -483,7 +483,7 @@
   :ensure nil
   :config
   (show-paren-mode 1)
-  (setq show-paren-style 'expression
+  (setq show-paren-style 'parenthesis
         show-paren-delay 0))
 
 (setq lazy-highlight-initial-delay 0
