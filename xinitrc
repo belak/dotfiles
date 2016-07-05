@@ -8,10 +8,8 @@ if which vmware-user-suid-wrapper &>/dev/null; then
 	vmware-user-suid-wrapper
 fi
 
-xrdb -I"$HOME" "$HOME/.Xresources"
-xsetroot -cursor_name left_ptr &
-unclutter &
+#xrdb -I"$HOME" "$HOME/.Xresources"
+#xsetroot -cursor_name left_ptr &
+#unclutter &
 
 [[ -f "$HOME/.xinitrc-local" ]] && . "$HOME/.xinitrc-local"
-
-exec i3

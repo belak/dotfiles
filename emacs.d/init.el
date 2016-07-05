@@ -22,6 +22,7 @@
 
 ;; Load in our extra stuff
 ;;(add-to-list 'load-path (expand-file-name "~/.emacs.d/lisp/"))
+(add-to-list 'custom-theme-load-path (expand-file-name "~/.emacs.d/lisp/"))
 
 ;;;; Platform-Specific
 
@@ -150,10 +151,12 @@
   :init
   (load-theme 'base16-default-dark t))
 
-(use-package spacemacs-theme
-  :init
-  (setq spacemacs-theme-org-height nil)
-  (load-theme 'spacemacs-dark t))
+(load-theme 'base16-default-dark t)
+
+(use-package zenburn-theme
+  :disabled t
+  :config
+  (load-theme 'zenburn t))
 
 ;;;; Packages
 ;; Now that all the important packages have been loaded, we load
@@ -163,6 +166,11 @@
 (use-package anzu
   :diminish anzu-mode
   :config (global-anzu-mode))
+
+(use-package cmake-mode
+  :mode
+  "CMakeLists.txt"
+  "\\.cmake\\'")
 
 ;; diff-hl uses the emacs vcs integration to display
 ;; added/modified/removed lines.
@@ -256,6 +264,23 @@
   :config
   (hlinum-activate))
 
+(use-package irony
+  :config
+  (use-package company-irony
+    :if (fboundp 'company-mode)
+    :config
+    (add-to-list 'company-backends 'company-irony))
+
+  (use-package flycheck-irony
+    :if (fboundp 'flycheck-mode)
+    :config
+    (eval-after-load 'flycheck
+      '(add-hook 'flycheck-mode-hook #'flycheck-irony-setup)))
+
+  (add-hook 'c++-mode-hook 'irony-mode)
+  (add-hook 'c-mode-hook 'irony-mode)
+  (add-hook 'objc-mode-hook 'irony-mode))
+
 ;; js-mode isn't used as a separate mode, but we use it as a container
 ;; here since it's a nice place to drop all our javascript-related
 ;; packages.
@@ -316,6 +341,10 @@
   (setq org-completion-use-ido t
         org-support-shift-select t
         org-agenda-files '("~/org/")))
+
+(use-package paradox
+  :commands
+  paradox-list-packages)
 
 ;; persistent-scratch makes it possible to use the scratch buffer
 ;; without worrying about losing it.
@@ -392,7 +421,11 @@
         scroll-conservatively 101
         scroll-preserve-screen-position t
         auto-window-vscroll nil
-        scroll-margin 1)
+        scroll-margin 1
+        scroll-step 1
+        mouse-wheel-scroll-amount '(1 ((shift) . 1))
+        mouse-wheel-progressive-speed t
+        mouse-wheel-follow-mouse t)
   (smooth-scrolling-mode 1))
 
 (use-package spaceline
@@ -439,7 +472,9 @@
 ;; We pick a super generic fallback so it should work everywhere.
 (defvar belak/frame-font "Monospace 12")
 (cond ((linux-p)
-       (setq belak/frame-font "Source Code Pro 11"
+       ;; On linux, we just fall back to the default "monospace" font
+       ;; because we can set it the same everywhere.
+       (setq belak/frame-font nil
              x-gtk-use-system-tooltips nil))
       ((osx-p)
        (setq belak/frame-font "Source Code Pro Light 10")))
@@ -447,7 +482,7 @@
 ;; We want to ensure the font is set after the window frame is
 ;; created.
 (add-hook 'after-make-window-system-frame-hooks
-          (lambda () (set-frame-font belak/frame-font)))
+          (lambda () (when belak/frame-font (set-frame-font belak/frame-font))))
 
 ;; Remove most gui features because I rarely use any of them.
 (menu-bar-mode -1)
