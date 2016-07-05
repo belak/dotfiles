@@ -140,31 +140,6 @@
      ;;`(isearch-lazy-highlight-face ((t (:foreground ,base0C :background ,base01 :inverse-video t))))
      ;;`(isearch-fail ((t (:background ,base01 :inherit font-lock-warning-face :inverse-video t))))
 
-     ;; Popups
-     ;;`(popup-face ((t (:foreground ,base05 :background ,base02))))
-     ;;`(popup-isearch-match ((t (:foreground ,base00 :background ,base0B))))
-     ;;`(popup-scroll-bar-background-face ((t (:background ,base03))))
-     ;;`(popup-scroll-bar-foreground-face ((t (:background ,base05))))
-     ;;`(popup-summary-face ((t (:foreground ,base04))))
-     ;;`(popup-tip-face ((t (:foreground ,base00 :background ,base0A))))
-     ;;`(popup-menu-mouse-face ((t (:foreground ,base00 :background ,base0D))))
-     ;;`(popup-menu-selection-face ((t (:foreground ,base00 :background ,base0C))))
-
-     ;; Flymake
-     ;;`(flymake-warnline ((t (:underline ,base09 :background ,base01))))
-     ;;`(flymake-errline ((t (:underline ,base08 :background ,base01))))
-
-     ;; rainbow-delimiters
-     ;;`(rainbow-delimiters-depth-1-face ((t (:foreground ,base0E))))
-     ;;`(rainbow-delimiters-depth-2-face ((t (:foreground ,base0D))))
-     ;;`(rainbow-delimiters-depth-3-face ((t (:foreground ,base0C))))
-     ;;`(rainbow-delimiters-depth-4-face ((t (:foreground ,base0B))))
-     ;;`(rainbow-delimiters-depth-5-face ((t (:foreground ,base0A))))
-     ;;`(rainbow-delimiters-depth-6-face ((t (:foreground ,base09))))
-     ;;`(rainbow-delimiters-depth-7-face ((t (:foreground ,base08))))
-     ;;`(rainbow-delimiters-depth-8-face ((t (:foreground ,base03))))
-     ;;`(rainbow-delimiters-depth-9-face ((t (:foreground ,base05))))
-
      ;; IDO
      ;;`(ido-subdir ((t (:foreground ,base04))))
      ;;`(ido-first-match ((t (:foreground ,base09 :weight bold))))
@@ -191,6 +166,14 @@
      ;;`(link ((t (:foreground nil :underline t))))
      ;;`(widget-button ((t (:underline t))))
      ;;`(widget-field ((t (:background ,base03 :box (:line-width 1 :color ,base06)))))
+
+     `(diff-changed ((t (:foreground ,syntax-color-modified))))
+     `(diff-added ((t (:foreground ,syntax-color-added))))
+     `(diff-removed ((t (:foreground ,syntax-color-removed))))
+
+     `(diff-hl-change ((t (:foreground ,syntax-color-modified))))
+     `(diff-hl-insert ((t (:foreground ,syntax-color-added))))
+     `(diff-hl-delete ((t (:foreground ,syntax-color-removed))))
 
      ;;`(custom-variable-tag ((t (:foreground ,base0D))))
      ;;`(custom-group-tag ((t (:foreground ,base0D))))
