@@ -151,7 +151,12 @@
   :init
   (load-theme 'base16-default-dark t))
 
-(load-theme 'base16-default-dark t)
+;;(load-theme 'base16-default-dark t)
+
+(use-package spacemacs-theme
+  :defer t
+  :init
+  (load-theme 'spacemacs-dark t))
 
 (use-package zenburn-theme
   :disabled t
@@ -220,6 +225,8 @@
     :if (fboundp 'company-mode)
     :config
     (add-to-list 'company-backends 'company-go))
+
+  (load "$GOPATH/src/golang.org/x/tools/cmd/guru/go-guru.el")
 
   (add-hook 'before-save-hook 'gofmt-before-save)
   (setq gofmt-command "goimports"))
@@ -448,8 +455,9 @@
 
 (use-package web-mode
   :mode
-  "\\.jinja\\'"
   "\\.html\\'"
+  "\\.jinja\\'"
+  "\\.mustache\\'"
   :config
   (setq web-mode-markup-indent-offset 2
         web-mode-css-indent-offset 2
