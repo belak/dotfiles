@@ -220,13 +220,17 @@
 
 (use-package go-mode
   :mode "\\.go\\'"
+  :bind
+  (:map go-mode-map
+        ("M-." . go-guru-definition)
+        ("C-c o" . go-guru-map))
+  :init
+  (load "$GOPATH/src/golang.org/x/tools/cmd/guru/go-guru.el")
   :config
   (use-package company-go
     :if (fboundp 'company-mode)
     :config
     (add-to-list 'company-backends 'company-go))
-
-  (load "$GOPATH/src/golang.org/x/tools/cmd/guru/go-guru.el")
 
   (add-hook 'before-save-hook 'gofmt-before-save)
   (setq gofmt-command "goimports"))
