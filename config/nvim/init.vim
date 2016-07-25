@@ -19,7 +19,10 @@ Plug 'vim-airline/vim-airline-themes'
 Plug 'w0ng/vim-hybrid'
 
 " Completion
-Plug 'Shougo/deoplete.nvim'
+function! DoRemote(arg)
+  UpdateRemotePlugins
+endfunction
+Plug 'Shougo/deoplete.nvim', { 'do': function('DoRemote') }
 Plug 'zchee/deoplete-go', { 'do': 'make'}
 Plug 'zchee/deoplete-jedi'
 
@@ -76,6 +79,7 @@ set autoindent        " Turn on autoindent
 set noshowmode        " No point since we use airline
 set fillchars=vert:\│ " Unicode line for separators
 set lazyredraw        " Redraw less when running macros
+set scrolloff=5       " Ensure we have a buffer of 5 lines at the top and bottom
 
 " Set the leader key
 let mapleader=","
