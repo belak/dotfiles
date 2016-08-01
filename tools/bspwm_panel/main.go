@@ -116,6 +116,10 @@ func main() {
 			percent, err := strconv.Atoi(fields[1])
 			panicIfErr(err)
 
+			if percent > 100 {
+				percent = 100
+			}
+
 			var icon, color string
 			if fields[0] != "Discharging" {
 				icon = batteryChargingIcon
