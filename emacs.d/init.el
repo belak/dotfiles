@@ -190,6 +190,9 @@
               (global-diff-hl-mode 1)
               (diff-hl-margin-mode 0))))
 
+(use-package dockerfile-mode
+  :mode "Dockerfile\(-.*\)?")
+
 ;; editorconfig is a simple way to share indentation settings between
 ;; editors. Because I sometimes dabble in neovim and sublime, it's
 ;; nice to not have to re-do these settings at a project level between
