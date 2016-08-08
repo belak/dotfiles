@@ -152,11 +152,11 @@
   (projectile-global-mode))
 
 (use-package base16-theme
-  :quelpa (base16-theme
-           :fetcher github
-           :repo "belak/base16-emacs"
-           :files ("*.el" "build/*.el"))
+  :ensure nil
+  :load-path "site-lisp/base16-theme"
   :config
+  (add-to-list 'load-path "~/.emacs.d/site-lisp/base16-theme/build")
+  (add-to-list 'custom-theme-load-path "~/.emacs.d/site-lisp/base16-theme/build")
   (load-theme 'base16-default-dark t))
 
 ;;;; Packages
