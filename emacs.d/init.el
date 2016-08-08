@@ -152,21 +152,12 @@
   (projectile-global-mode))
 
 (use-package base16-theme
-  :disabled t
-  :init
-  (load-theme 'base16-default-dark t))
-
-;;(load-theme 'base16-default-dark t)
-
-(use-package spacemacs-theme
-  :defer t
-  :init
-  (load-theme 'spacemacs-dark t))
-
-(use-package zenburn-theme
-  :disabled t
+  :quelpa (base16-theme
+           :fetcher github
+           :repo "belak/base16-emacs"
+           :files ("*.el" "build/*.el"))
   :config
-  (load-theme 'zenburn t))
+  (load-theme 'base16-default-dark t))
 
 ;;;; Packages
 ;; Now that all the important packages have been loaded, we load
