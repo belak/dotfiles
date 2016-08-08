@@ -108,6 +108,11 @@
 (require 'diminish)
 (require 'bind-key)
 
+;; Install quelpa and quelpa-use-package
+(package-ensure-installed 'quelpa)
+(package-ensure-installed 'quelpa-use-package)
+(require 'quelpa-use-package)
+
 ;; Always attempt to install packages unless we specify otherwise.
 (setq use-package-always-ensure t)
 
