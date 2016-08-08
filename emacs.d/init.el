@@ -287,6 +287,22 @@
     (eval-after-load 'flycheck
       '(add-hook 'flycheck-mode-hook #'flycheck-irony-setup)))
 
+  ;; function decides whether .h file is C or C++ header, sets C++ by
+  ;; default because there's more chance of there being a .h without a
+  ;; .cc than a .h without a .c (ie. for C++ template files)
+  ;;
+  ;; This comes from
+  ;; http://stackoverflow.com/questions/3312114/how-to-tell-emacs-to-open-h-file-in-c-mode
+  (defun c-c++-header ()
+    "sets either c-mode or c++-mode, whichever is appropriate for
+header"
+    (interactive)
+    (let ((c-file (concat (substring (buffer-file-name) 0 -1) "c")))
+      (if (file-exists-p c-file)
+          (c-mode)
+        (c++-mode))))
+  (add-to-list 'auto-mode-alist '("\\.h\\'" . c-c++-header))
+
   (add-hook 'c++-mode-hook 'irony-mode)
   (add-hook 'c-mode-hook 'irony-mode)
   (add-hook 'objc-mode-hook 'irony-mode))
