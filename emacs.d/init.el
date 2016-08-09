@@ -37,14 +37,12 @@
 (cond ((linux-p)
        (setq browse-url-browser-function 'browse-url-generic
              browse-url-generic-program "xdg-open"))
-
       ((osx-p)
        (setq ns-use-native-fullscreen t
              mac-command-modifier 'meta
              mac-option-modifier 'super
              mac-control-modifier 'control
              insert-directory-program "/usr/local/bin/gls")
-
        (let ((default-directory "/usr/local/share/emacs/site-lisp/"))
          (normal-top-level-add-subdirs-to-load-path))
 
