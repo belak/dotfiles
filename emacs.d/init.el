@@ -163,8 +163,10 @@
 ;; Now that all the important packages have been loaded, we load
 ;; everything else in alphabetical order.
 
-;; anzu shows how many matches in isearch.
+;; anzu shows how many matches in isearch. It's currently disabled
+;; because I'm using ivy.
 (use-package anzu
+  :disabled t
   :diminish anzu-mode
   :config (global-anzu-mode))
 
@@ -236,6 +238,7 @@
 
 ;; ido (interactively-do) is a better interface for selecting things.
 (use-package ido
+  :disabled t
   :config
   ;; smex is a better replacement for M-x built around ido.
   (use-package smex
@@ -269,6 +272,34 @@
 
   (ido-mode 1)
   (ido-everywhere 1))
+
+;; ivy is an alternative to ido which comes with a number of fancy
+;; features, but it's disabled because I haven't found the time to fix
+;; my config just yet.
+(use-package ivy
+  :demand t
+  :diminish ivy-mode
+  :bind
+  ("C-c C-r" . ivy-resume)
+  :config
+  ;; swiper is a replacement for isearch which uses ivy.
+  (use-package swiper
+    :bind
+    ("C-s" . swiper))
+
+  ;; counsel is a bunch of functions which replace builtins so they'll
+  ;; work much better with ivy.
+  (use-package counsel
+    :bind
+    ("M-x" . counsel-M-x)
+    ("C-x C-f" . counsel-find-file))
+
+  (setq projectile-completion-system 'ivy
+        ivy-use-virtual-buffers t)
+
+  ;;(setq ivy-re-builders-alist '((t . ivy--regex-fuzzy)))
+
+  (ivy-mode 1))
 
 (use-package hlinum
   :config
