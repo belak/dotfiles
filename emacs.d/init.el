@@ -442,6 +442,9 @@ header"
                              (venv-is-valid (projectile-project-name)))
                         (venv-workon (projectile-project-name))))))))
 
+(use-package rainbow-delimiters
+  :commands rainbow-delimiters-mode)
+
 (use-package rainbow-mode
   :commands rainbow-mode)
 
