@@ -236,7 +236,6 @@
 
 ;; ido (interactively-do) is a better interface for selecting things.
 (use-package ido
-  :disabled t
   :config
   ;; smex is a better replacement for M-x built around ido.
   (use-package smex
@@ -275,6 +274,7 @@
 ;; features, but it's disabled because I haven't found the time to fix
 ;; my config just yet.
 (use-package ivy
+  :disabled t
   :demand t
   :diminish ivy-mode
   :bind
@@ -293,6 +293,7 @@
     ("C-x C-f" . counsel-find-file))
 
   (setq projectile-completion-system 'ivy
+        magit-completing-read-function 'ivy-completing-read
         ivy-use-virtual-buffers t)
 
   ;;(setq ivy-re-builders-alist '((t . ivy--regex-fuzzy)))
