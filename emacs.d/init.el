@@ -460,6 +460,10 @@ header"
   :config
   (setq-default save-place t))
 
+(use-package simple-mpc
+  :bind
+  ("C-c m" . simple-mpc))
+
 ;; smart-mode-line is a package which aims to provide a better
 ;; mode-line with little configuration. I've tried to use powerline
 ;; (and making my own small framework) and it just involved too much
@@ -619,6 +623,12 @@ abort the minibuffer."
 
 ;; Delete text if we start typing
 (delete-selection-mode)
+
+;; Disable cursor blinking
+(blink-cursor-mode -1)
+
+;; Show modifier combinations almost immediately.
+(setq echo-keystrokes 0.1)
 
 ;; This is a common hook for all modes that are based on the generally
 ;; programming mode.
