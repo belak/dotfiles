@@ -145,7 +145,8 @@
 (use-package company
   :diminish company-mode
   :config
-  (setq company-idle-delay 0
+  (setq company-tooltip-limit 20
+        company-idle-delay 0
         company-echo-delay 0
         company-minimum-prefix-length 1)
   (global-company-mode))
@@ -236,6 +237,7 @@
   (use-package company-go
     :if (fboundp 'company-mode)
     :config
+    (setq company-go-show-annotation t)
     (add-to-list 'company-backends 'company-go))
 
   (add-hook 'before-save-hook 'gofmt-before-save)
