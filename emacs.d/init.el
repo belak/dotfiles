@@ -170,10 +170,8 @@
 ;; Now that all the important packages have been loaded, we load
 ;; everything else in alphabetical order.
 
-;; anzu shows how many matches in isearch. It's currently disabled
-;; because I'm using ivy.
+;; anzu shows how many matches in isearch.
 (use-package anzu
-  :disabled t
   :diminish anzu-mode
   :config (global-anzu-mode))
 
