@@ -124,13 +124,13 @@
 
 ;; We load the theme as early as humanly possible so we're not waiting
 ;; for other packages to load before fixing the colors.
+(defvar belak/base16-colors nil)
 (use-package base16-theme
   :ensure nil
   :load-path "site-lisp/base16-theme"
   :config
-  (add-to-list 'load-path "~/.emacs.d/site-lisp/base16-theme/build")
-  (add-to-list 'custom-theme-load-path "~/.emacs.d/site-lisp/base16-theme/build")
-  (load-theme 'base16-default-dark t))
+  (load-theme 'base16-default-dark t)
+  (setq belak/base16-colors base16-default-dark-colors))
 
 ;; Load all important custom libraries
 (use-package init-frame-hooks
