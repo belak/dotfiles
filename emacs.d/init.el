@@ -93,6 +93,12 @@
                 (package-refresh-contents)
                 (setq belak/refreshed-package-list t))))
 
+;; Increasing the minimum prime bits size to something larger than the
+;; default settings stops all the GnuTLS warnings from showing
+;; up. This might not be the right place, but it needs to happen
+;; before we install packages.
+(setq gnutls-min-prime-bits 4096)
+
 ;;; use-package
 
 ;; Ensure that use-package is installed and loaded when it needs to
