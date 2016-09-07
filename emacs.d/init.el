@@ -169,11 +169,21 @@
 ;; Now that all the important packages have been loaded, we load
 ;; everything else in alphabetical order.
 
-;; anzu shows how many matches in isearch.
+;; anzu shows how many matches in isearch. This is placed up here
+;; because it needs to be loaded before spaceline.
 (use-package anzu
   :diminish anzu-mode
   :config (global-anzu-mode))
 
+;; spaceline is a better modeline with simple config. It's up here
+;; because it needs to be loaded before persistent-scratch.
+(use-package spaceline
+  :demand
+  :config
+  (require 'spaceline-config)
+  (setq powerline-default-separator 'bar
+        spaceline-highlight-face-func 'spaceline-highlight-face-evil-state)
+  (spaceline-spacemacs-theme))
 (use-package cmake-mode
   :mode
   "CMakeLists.txt"
@@ -502,12 +512,6 @@ header"
         mouse-wheel-progressive-speed t
         mouse-wheel-follow-mouse t)
   (smooth-scrolling-mode 1))
-
-(use-package spaceline
-  :config
-  (require 'spaceline-config)
-  (setq powerline-default-separator 'bar)
-  (spaceline-emacs-theme))
 
 ;; undo-tree makes the undo features a bit more bearable.
 (use-package undo-tree
