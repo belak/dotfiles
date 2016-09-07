@@ -250,7 +250,9 @@
   (use-package smex
     :bind
     ("M-x" . smex)
-    ("M-X" . smex-major-mode-commands))
+    ("M-X" . smex-major-mode-commands)
+    :config
+    (setq smex-history-length 50))
 
   ;; Use ido everywhere possible.
   (use-package ido-ubiquitous
