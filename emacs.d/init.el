@@ -461,6 +461,7 @@ header"
 (use-package recentf
   :ensure nil
   :config
+  (setq recentf-max-saved-items 50)
   (recentf-mode 1))
 
 ;; Save the last location when you leave a file.
@@ -520,6 +521,7 @@ header"
 
 (use-package web-mode
   :mode
+  "\\.erb\\'"
   "\\.html\\'"
   "\\.jinja\\'"
   "\\.mustache\\'"
@@ -580,6 +582,7 @@ header"
 
 (defvar save-place-file (concat user-emacs-directory "places"))
 (setq backup-directory-alist `(("." . ,(concat user-emacs-directory "backups"))))
+(setq auto-save-file-name-transforms `((".*" ,temporary-file-directory t)))
 
 ;; Make sure we only have to type 'y' or 'n', not the full word
 ;; because that takes too many keystrokes.
@@ -600,6 +603,12 @@ header"
       require-final-newline t
       load-prefer-newer t
       inhibit-splash-screen t)
+
+(setq history-length 50)
+
+;; Middle clicking should paste, but not adjust point and paste at the
+;; then adjusted point.
+(setq mouse-yank-at-point t)
 
 ;; As a former vim user, I like escape to actually quit
 ;; everywhere. This was taken from
