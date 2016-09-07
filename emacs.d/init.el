@@ -164,10 +164,54 @@
   :config
   (projectile-global-mode))
 
+;;;; evil-mode
+;; Getting vim bindings early is sort of important because of how many
+;; packages actually use it.
+(use-package evil
+  :demand
+  :bind (:map evil-insert-state-map
+         ("C-e" . evil-append-line)
+         ("C-a" . evil-insert-line)
+         :map evil-normal-state-map
+         ("C-e" . evil-append-line)
+         ("C-a" . evil-insert-line)
+         :map evil-motion-state-map
+         ("C-e" . evil-append-line)
+         ("C-a" . evil-insert-line)
+         :map evil-visual-state-map
+         ("C-e" . evil-end-of-line)
+         ("C-a" . evil-beginning-of-line))
+  :config
+  ;; There is a note saying that evil-leader should be enabled before
+  ;; evil-mode so it will work in buffers like *scratch* and friends.
+  (use-package evil-leader
+    :config
+    (global-evil-leader-mode)
+    (setq evil-leader/leader ","))
 
-;;;; Packages
-;; Now that all the important packages have been loaded, we load
-;; everything else in alphabetical order.
+  ;; This is a port of tpope's vim-surround which adds text objects
+  ;; for surrounding characters.
+  (use-package evil-surround
+    :disabled t
+    :config
+    (global-evil-surround-mode 1))
+
+  (evil-mode 1)
+  (setq evil-echo-state nil
+        evil-vsplit-window-right t
+        evil-split-window-below t)
+
+  ;; Set the cursor color based on the evil state
+  (setq evil-emacs-state-cursor   `(,(plist-get belak/base16-colors :base0D) box)
+        evil-insert-state-cursor  `(,(plist-get belak/base16-colors :base0D) bar)
+        evil-motion-state-cursor  `(,(plist-get belak/base16-colors :base0E) box)
+        evil-normal-state-cursor  `(,(plist-get belak/base16-colors :base0B) box)
+        evil-replace-state-cursor `(,(plist-get belak/base16-colors :base08) bar)
+        evil-visual-state-cursor  `(,(plist-get belak/base16-colors :base09) box))
+
+  ;; For the operator state, the only thing we want to change is the
+  ;; size. We can keep the same color.
+  (setq evil-operator-state-cursor 'evil-half-cursor))
 
 ;; anzu shows how many matches in isearch. This is placed up here
 ;; because it needs to be loaded before spaceline.
@@ -184,6 +228,11 @@
   (setq powerline-default-separator 'bar
         spaceline-highlight-face-func 'spaceline-highlight-face-evil-state)
   (spaceline-spacemacs-theme))
+
+;;;; Packages
+;; Now that all the important packages have been loaded, we load
+;; everything else in alphabetical order.
+
 (use-package cmake-mode
   :mode
   "CMakeLists.txt"
@@ -421,7 +470,11 @@ header"
 
 (use-package paradox
   :commands
-  paradox-list-packages)
+  paradox-list-packages
+  :config
+  ;; Paradox is much more useful in emacs mode than evil mode because
+  ;; it rebinds so many things.
+  (add-to-list 'evil-emacs-state-modes 'paradox-menu-mode))
 
 ;; persistent-scratch makes it possible to use the scratch buffer
 ;; without worrying about losing it.
