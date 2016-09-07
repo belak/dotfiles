@@ -118,6 +118,16 @@
 ;; Portions of my init.el depend on other components. The most
 ;; important of which are loaded here.
 
+;; We load the theme as early as humanly possible so we're not waiting
+;; for other packages to load before fixing the colors.
+(use-package base16-theme
+  :ensure nil
+  :load-path "site-lisp/base16-theme"
+  :config
+  (add-to-list 'load-path "~/.emacs.d/site-lisp/base16-theme/build")
+  (add-to-list 'custom-theme-load-path "~/.emacs.d/site-lisp/base16-theme/build")
+  (load-theme 'base16-default-dark t))
+
 ;; Load all important custom libraries
 (use-package init-frame-hooks
   :ensure nil
@@ -149,13 +159,6 @@
   :config
   (projectile-global-mode))
 
-(use-package base16-theme
-  :ensure nil
-  :load-path "site-lisp/base16-theme"
-  :config
-  (add-to-list 'load-path "~/.emacs.d/site-lisp/base16-theme/build")
-  (add-to-list 'custom-theme-load-path "~/.emacs.d/site-lisp/base16-theme/build")
-  (load-theme 'base16-default-dark t))
 
 ;;;; Packages
 ;; Now that all the important packages have been loaded, we load
