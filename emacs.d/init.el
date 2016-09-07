@@ -383,6 +383,10 @@ header"
 (use-package less-css-mode
   :mode "\\.less\\'")
 
+(use-package macrostep
+  :bind (:map emacs-lisp-mode-map
+         ("C-x e" . macrostep-expand)))
+
 ;; magit is an amazing tool for working with git inside emacs.
 (use-package magit
   :bind ("M-g M-g" . magit-status)
