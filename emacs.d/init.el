@@ -55,8 +55,6 @@
 
 ;; Set up the package repos
 (setq package-archives '(("melpa"        . "https://melpa.org/packages/")
-                         ("melpa-stable" . "https://stable.melpa.org/packages/")
-                         ("marmalade"    . "https://marmalade-repo.org/packages/")
                          ("gnu"          . "https://elpa.gnu.org/packages/")))
 
 ;; Disable as many warnings as we can for package installs.
