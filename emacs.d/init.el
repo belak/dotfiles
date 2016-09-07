@@ -368,9 +368,7 @@ header"
                           :inherit 'flycheck-error-list-warning
                           :underline '(:color foreground-color :style wave))))
 
-  ;; tern is a js navigation package which extends js-mode. TODO: Note
-  ;; that this is fairly hard to find, so it may be better to move
-  ;; this under a js-mode block.
+  ;; tern is a js navigation package which extends js-mode.
   (use-package tern
     :diminish tern-mode
     :config
@@ -398,7 +396,7 @@ header"
     :config
     (add-hook 'magit-status-mode-hook 'magit-filenotify-mode))
   :config
-  (setq magit-push-always-verify t
+  (setq magit-push-current-set-remote-if-missing t
         magit-completing-read-function 'magit-ido-completing-read))
 
 (use-package markdown-mode
