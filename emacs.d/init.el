@@ -54,8 +54,7 @@
 (require 'package)
 
 ;; Set up the package repos
-(setq package-enable-at-startup nil
-      package-archives '(("melpa"        . "https://melpa.org/packages/")
+(setq package-archives '(("melpa"        . "https://melpa.org/packages/")
                          ("melpa-stable" . "https://stable.melpa.org/packages/")
                          ("marmalade"    . "https://marmalade-repo.org/packages/")
                          ("gnu"          . "https://elpa.gnu.org/packages/")))
@@ -63,8 +62,9 @@
 ;; Disable as many warnings as we can for package installs.
 (setq byte-compile-warnings nil)
 
-;; Make sure we load everything
-(package-initialize)
+;; Make sure we load what we need.
+(setq package-enable-at-startup nil)
+(package-initialize nil)
 
 ;; Set the initial state to non-refreshed. This can also be set back
 ;; to nil if we want to run a refresh on the next install.
