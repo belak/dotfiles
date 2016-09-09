@@ -171,6 +171,8 @@
   (projectile-global-mode))
 
 ;;;; evil-mode
+(defvar belak/evil-leader "," "Leader key for most vim bindings.")
+
 ;; Getting vim bindings early is sort of important because of how many
 ;; packages actually use it.
 (use-package evil
@@ -448,8 +450,9 @@ header"
 ;; magit is an amazing tool for working with git inside emacs.
 (use-package magit
   :general
-  ("M-g M-g"         'magit-status)
-  (general-nmap ",g" 'magit-status)
+  ("M-g M-g" 'magit-status)
+  (general-nmap :prefix belak/evil-leader
+                "g" 'magit-status)
   :init
   (use-package magit-filenotify
     :if (linux-p)
