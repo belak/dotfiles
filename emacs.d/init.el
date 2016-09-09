@@ -178,6 +178,7 @@
 (use-package evil
   :demand
   :general
+  ("C-'" 'evil-toggle-key)
   (:keymaps 'evil-insert-state-map
    "C-e" 'evil-append-line
    "C-a" 'evil-insert-line)
