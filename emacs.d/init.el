@@ -459,6 +459,9 @@ header"
     :config
     (add-hook 'magit-status-mode-hook 'magit-filenotify-mode))
   :config
+  (when (fboundp 'evil-mode)
+    (add-hook 'git-commit-mode-hook 'evil-insert-state))
+
   (setq magit-push-current-set-remote-if-missing t
         magit-completing-read-function 'magit-ido-completing-read))
 
@@ -543,7 +546,12 @@ header"
 
 (use-package simple-mpc
   :general
-  ("C-c m" 'simple-mpc))
+  ("C-c m" 'simple-mpc)
+  (general-nmap :prefix belak/evil-leader
+                "m" 'simple-mpc)
+  :config
+  (when (fboundp 'evil-mode)
+    (add-hook 'simple-mpc-mode-hook 'evil-emacs-state)))
 
 
 ;; smart-mode-line is a package which aims to provide a better
