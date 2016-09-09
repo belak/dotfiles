@@ -211,6 +211,9 @@
         evil-replace-state-cursor `(,(plist-get belak/base16-colors :base08) bar)
         evil-visual-state-cursor  `(,(plist-get belak/base16-colors :base09) box))
 
+  ;; Evil selection shouldn't update the clipboard
+  (fset 'evil-visual-update-x-selection 'ignore)
+
   ;; For the operator state, the only thing we want to change is the
   ;; size. We can keep the same color.
   (setq evil-operator-state-cursor 'evil-half-cursor))
