@@ -137,6 +137,10 @@
   :ensure nil
   :load-path "lisp/")
 
+;; Install general for easier key-binds. This needs to be done early
+;; so other use-package blocks can use it.
+(use-package general)
+
 ;; company-mode is used as a completion system. In use-package blocks,
 ;; you can use :if (fboundp 'company-mode) to only enable a block if
 ;; company-mode is active.
@@ -169,26 +173,20 @@
 ;; packages actually use it.
 (use-package evil
   :demand
-  :bind (:map evil-insert-state-map
-         ("C-e" . evil-append-line)
-         ("C-a" . evil-insert-line)
-         :map evil-normal-state-map
-         ("C-e" . evil-append-line)
-         ("C-a" . evil-insert-line)
-         :map evil-motion-state-map
-         ("C-e" . evil-append-line)
-         ("C-a" . evil-insert-line)
-         :map evil-visual-state-map
-         ("C-e" . evil-end-of-line)
-         ("C-a" . evil-beginning-of-line))
+  :general
+  (:keymaps 'evil-insert-state-map
+   "C-e" 'evil-append-line
+   "C-a" 'evil-insert-line)
+  (:keymaps 'evil-normal-state-map
+   "C-e" 'evil-append-line
+   "C-a" 'evil-insert-line)
+  (:keymaps 'evil-motion-state-map
+   "C-e" 'evil-append-line
+   "C-a" 'evil-insert-line)
+  (:keymaps 'evil-visual-state-map
+   "C-e" 'evil-end-of-line
+   "C-a" 'evil-beginning-of-line)
   :config
-  ;; There is a note saying that evil-leader should be enabled before
-  ;; evil-mode so it will work in buffers like *scratch* and friends.
-  (use-package evil-leader
-    :config
-    (global-evil-leader-mode)
-    (setq evil-leader/leader ","))
-
   ;; This is a port of tpope's vim-surround which adds text objects
   ;; for surrounding characters.
   (use-package evil-surround
@@ -284,10 +282,10 @@
 
 (use-package go-mode
   :mode "\\.go\\'"
-  :bind
-  (:map go-mode-map
-        ("M-." . go-guru-definition)
-        ("C-c o" . go-guru-map))
+  :general
+  (:keymaps 'go-mode-map
+   "M-."   'go-guru-definition
+   "C-c o" 'go-guru-map)
   :init
   (load "$GOPATH/src/golang.org/x/tools/cmd/guru/go-guru.el")
   :config
@@ -305,9 +303,9 @@
   :config
   ;; smex is a better replacement for M-x built around ido.
   (use-package smex
-    :bind
-    ("M-x" . smex)
-    ("M-X" . smex-major-mode-commands)
+    :general
+    ("M-x" 'smex)
+    ("M-X" 'smex-major-mode-commands)
     :config
     (setq smex-history-length 50))
 
@@ -345,20 +343,20 @@
   :disabled t
   :demand t
   :diminish ivy-mode
-  :bind
-  ("C-c C-r" . ivy-resume)
+  :general
+  ("C-c C-r" 'ivy-resume)
   :config
   ;; swiper is a replacement for isearch which uses ivy.
   (use-package swiper
-    :bind
-    ("C-s" . swiper))
+    :general
+    ("C-s" 'swiper))
 
   ;; counsel is a bunch of functions which replace builtins so they'll
   ;; work much better with ivy.
   (use-package counsel
-    :bind
-    ("M-x" . counsel-M-x)
-    ("C-x C-f" . counsel-find-file))
+    :general
+    ("M-x"     'counsel-M-x)
+    ("C-x C-f" 'counsel-find-file))
 
   (setq projectile-completion-system 'ivy
         magit-completing-read-function 'ivy-completing-read
@@ -441,12 +439,14 @@ header"
   :mode "\\.less\\'")
 
 (use-package macrostep
-  :bind (:map emacs-lisp-mode-map
-         ("C-x e" . macrostep-expand)))
+  :general
+  (:keymaps 'emacs-lisp-mode-map
+   "C-x e" 'macrostep-expand))
 
 ;; magit is an amazing tool for working with git inside emacs.
 (use-package magit
-  :bind ("M-g M-g" . magit-status)
+  :general
+  ("M-g M-g" 'magit-status)
   :init
   (use-package magit-filenotify
     :if (linux-p)
@@ -536,8 +536,9 @@ header"
   (setq-default save-place t))
 
 (use-package simple-mpc
-  :bind
-  ("C-c m" . simple-mpc))
+  :general
+  ("C-c m" 'simple-mpc))
+
 
 ;; smart-mode-line is a package which aims to provide a better
 ;; mode-line with little configuration. I've tried to use powerline
