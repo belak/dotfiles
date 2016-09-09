@@ -139,7 +139,9 @@
 
 ;; Install general for easier key-binds. This needs to be done early
 ;; so other use-package blocks can use it.
-(use-package general)
+(use-package general
+  :config
+  (general-evil-setup))
 
 ;; company-mode is used as a completion system. In use-package blocks,
 ;; you can use :if (fboundp 'company-mode) to only enable a block if
@@ -446,7 +448,8 @@ header"
 ;; magit is an amazing tool for working with git inside emacs.
 (use-package magit
   :general
-  ("M-g M-g" 'magit-status)
+  ("M-g M-g"         'magit-status)
+  (general-nmap ",g" 'magit-status)
   :init
   (use-package magit-filenotify
     :if (linux-p)
