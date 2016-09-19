@@ -178,6 +178,7 @@
 (use-package evil
   :demand
   :general
+  ("C-'" 'evil-toggle-key)
   (:keymaps 'evil-insert-state-map
    "C-e" 'evil-append-line
    "C-a" 'evil-insert-line)
@@ -210,6 +211,9 @@
         evil-normal-state-cursor  `(,(plist-get belak/base16-colors :base0B) box)
         evil-replace-state-cursor `(,(plist-get belak/base16-colors :base08) bar)
         evil-visual-state-cursor  `(,(plist-get belak/base16-colors :base09) box))
+
+  ;; Evil selection shouldn't update the clipboard
+  (fset 'evil-visual-update-x-selection 'ignore)
 
   ;; For the operator state, the only thing we want to change is the
   ;; size. We can keep the same color.
@@ -298,6 +302,36 @@
     :config
     (setq company-go-show-annotation t)
     (add-to-list 'company-backends 'company-go))
+
+  (defun go-instrument-returns ()
+    "Add print statements before each return call.
+
+Originally taken from https://github.com/dominikh/dotfiles/blob/master/emacs.d/go.el"
+    (interactive)
+    (save-excursion
+      (save-restriction
+        (let ((cnt 0))
+          (narrow-to-defun)
+          (beginning-of-defun)
+          (while (re-search-forward "^[[:space:]]+return")
+            (setq cnt (1+ cnt))
+            (beginning-of-line)
+            (open-line 1)
+            (funcall indent-line-function)
+            (insert (format "log.Println(\"return statement %d\") /* RETURN INSTRUMENT */" cnt))
+            (forward-line 2))))))
+
+  (defun go-deinstrument-returns ()
+    "Remove print statements added by `go-instrument-returns'.
+
+Originally taken from https://github.com/dominikh/dotfiles/blob/master/emacs.d/go.el"
+    (interactive)
+    (save-excursion
+      (save-restriction
+        (narrow-to-defun)
+        (beginning-of-defun)
+        (while (re-search-forward "^.+/\\* RETURN INSTRUMENT \\*/\n" nil t)
+          (replace-match "" nil nil)))))
 
   (add-hook 'before-save-hook 'gofmt-before-save)
   (setq gofmt-command "goimports"))
