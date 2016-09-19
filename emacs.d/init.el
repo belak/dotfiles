@@ -85,7 +85,7 @@
 ;; with a new version of the dotfiles which needs a new package.
 (advice-add 'package-install
             :before
-            (lambda (&args)
+            (lambda (&rest args)
               (when (not belak/refreshed-package-list)
                 (message "Refreshing contents from package-install")
                 (package-refresh-contents)
