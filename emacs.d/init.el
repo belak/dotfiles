@@ -149,10 +149,15 @@
 (use-package company
   :diminish company-mode
   :config
+  (defmacro belak/register-company-backend (hook backend)
+    `(add-hook ,hook (lambda ()
+                      (set (make-local-variable 'company-backends) (list ,backend)))))
+
   (setq company-tooltip-limit 20
         company-idle-delay 0
         company-echo-delay 0
         company-minimum-prefix-length 1)
+
   (global-company-mode))
 
 ;; flycheck-mode is used for linters and catching compilation
@@ -301,7 +306,7 @@
     :if (fboundp 'company-mode)
     :config
     (setq company-go-show-annotation t)
-    (add-to-list 'company-backends 'company-go))
+    (belak/register-company-backend 'go-mode-hook 'company-go))
 
   (defun go-instrument-returns ()
     "Add print statements before each return call.
@@ -333,8 +338,14 @@ Originally taken from https://github.com/dominikh/dotfiles/blob/master/emacs.d/g
         (while (re-search-forward "^.+/\\* RETURN INSTRUMENT \\*/\n" nil t)
           (replace-match "" nil nil)))))
 
-  (add-hook 'before-save-hook 'gofmt-before-save)
-  (setq gofmt-command "goimports"))
+  (setq gofmt-command "goimports")
+
+  (defun my-go-mode-hook ()
+    (add-hook 'before-save-hook 'gofmt-before-save nil t)
+    (go-guru-hl-identifier-mode)
+    (subword-mode 1))
+
+  (add-hook 'go-mode-hook 'my-go-mode-hook))
 
 ;; ido (interactively-do) is a better interface for selecting things.
 (use-package ido
