@@ -429,8 +429,7 @@ Originally taken from https://github.com/dominikh/dotfiles/blob/master/emacs.d/g
   (use-package flycheck-irony
     :if (fboundp 'flycheck-mode)
     :config
-    (eval-after-load 'flycheck
-      '(add-hook 'flycheck-mode-hook #'flycheck-irony-setup)))
+    (add-hook 'flycheck-mode-hook #'flycheck-irony-setup))
 
   ;; function decides whether .h file is C or C++ header, sets C++ by
   ;; default because there's more chance of there being a .h without a
