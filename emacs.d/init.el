@@ -20,10 +20,6 @@
 (setq debug-on-error t
       debug-on-quit t)
 
-;; Load in our extra stuff
-;;(add-to-list 'load-path (expand-file-name "~/.emacs.d/lisp/"))
-(add-to-list 'custom-theme-load-path (expand-file-name "~/.emacs.d/lisp/"))
-
 ;;;; Platform-Specific
 
 (defun osx-p ()
@@ -135,6 +131,8 @@
 (use-package base16-theme
   :ensure nil
   :load-path "site-lisp/base16-theme"
+  :init
+  (add-to-list 'custom-theme-load-path "~/.emacs.d/site-lisp/base16-theme/build")
   :config
   (load-theme 'base16-default-dark t)
   (setq belak/base16-colors base16-default-dark-colors))
