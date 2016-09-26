@@ -478,6 +478,11 @@ header"
 
     (add-hook 'js-mode-hook (lambda () (tern-mode t)))))
 
+(use-package json-mode
+  :mode "\\.json\\'"
+  :config
+  (setq json-reformat:indent-width 2))
+
 (use-package less-css-mode
   :mode "\\.less\\'")
 
