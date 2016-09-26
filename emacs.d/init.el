@@ -38,15 +38,22 @@
        (setq browse-url-browser-function 'browse-url-generic
              browse-url-generic-program "xdg-open"))
       ((osx-p)
-       (setq ns-use-native-fullscreen t
-             mac-command-modifier 'meta
+       (setq mac-command-modifier 'meta
              mac-option-modifier 'super
              mac-control-modifier 'control
              insert-directory-program "/usr/local/bin/gls")
        (let ((default-directory "/usr/local/share/emacs/site-lisp/"))
          (normal-top-level-add-subdirs-to-load-path))
 
-       (toggle-frame-fullscreen)))
+       ;; XXX: There's a strange interaction of my init.el with
+       ;; emacs-mac which causes the maximize button to revert to the
+       ;; old "vertical" maximize. For whatever reason, calling
+       ;; toggle-frame-fullscreen after the frame is created fixes
+       ;; that, so we enter then exit fullscreen to fix the state.
+       (add-hook 'after-make-window-system-frame-hooks
+                 (lambda ()
+                   (toggle-frame-fullscreen)
+                   (toggle-frame-fullscreen)))))
 
 ;;;; Packages
 
