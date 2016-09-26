@@ -20,10 +20,6 @@
 (setq debug-on-error t
       debug-on-quit t)
 
-;; Load in our extra stuff
-;;(add-to-list 'load-path (expand-file-name "~/.emacs.d/lisp/"))
-(add-to-list 'custom-theme-load-path (expand-file-name "~/.emacs.d/lisp/"))
-
 ;;;; Platform-Specific
 
 (defun osx-p ()
@@ -38,15 +34,22 @@
        (setq browse-url-browser-function 'browse-url-generic
              browse-url-generic-program "xdg-open"))
       ((osx-p)
-       (setq ns-use-native-fullscreen t
-             mac-command-modifier 'meta
+       (setq mac-command-modifier 'meta
              mac-option-modifier 'super
              mac-control-modifier 'control
              insert-directory-program "/usr/local/bin/gls")
        (let ((default-directory "/usr/local/share/emacs/site-lisp/"))
          (normal-top-level-add-subdirs-to-load-path))
 
-       (toggle-frame-fullscreen)))
+       ;; XXX: There's a strange interaction of my init.el with
+       ;; emacs-mac which causes the maximize button to revert to the
+       ;; old "vertical" maximize. For whatever reason, calling
+       ;; toggle-frame-fullscreen after the frame is created fixes
+       ;; that, so we enter then exit fullscreen to fix the state.
+       (add-hook 'after-make-window-system-frame-hooks
+                 (lambda ()
+                   (toggle-frame-fullscreen)
+                   (toggle-frame-fullscreen)))))
 
 ;;;; Packages
 
@@ -85,7 +88,7 @@
 ;; with a new version of the dotfiles which needs a new package.
 (advice-add 'package-install
             :before
-            (lambda (&args)
+            (lambda (&rest args)
               (when (not belak/refreshed-package-list)
                 (message "Refreshing contents from package-install")
                 (package-refresh-contents)
@@ -128,6 +131,8 @@
 (use-package base16-theme
   :ensure nil
   :load-path "site-lisp/base16-theme"
+  :init
+  (add-to-list 'custom-theme-load-path "~/.emacs.d/site-lisp/base16-theme/build")
   :config
   (load-theme 'base16-default-dark t)
   (setq belak/base16-colors base16-default-dark-colors))
@@ -482,6 +487,11 @@ header"
       (setq company-tern-property-marker ""))
 
     (add-hook 'js-mode-hook (lambda () (tern-mode t)))))
+
+(use-package json-mode
+  :mode "\\.json\\'"
+  :config
+  (setq json-reformat:indent-width 2))
 
 (use-package less-css-mode
   :mode "\\.less\\'")
