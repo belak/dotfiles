@@ -146,7 +146,8 @@
 ;; so other use-package blocks can use it.
 (use-package general
   :config
-  (general-evil-setup))
+  (when (fboundp 'evil-mode)
+    (general-evil-setup)))
 
 ;; company-mode is used as a completion system. In use-package blocks,
 ;; you can use :if (fboundp 'company-mode) to only enable a block if
@@ -186,6 +187,7 @@
 ;; Getting vim bindings early is sort of important because of how many
 ;; packages actually use it.
 (use-package evil
+  :disabled t
   :demand
   :general
   ("C-'" 'evil-toggle-key)
@@ -206,6 +208,7 @@
   ;; for surrounding characters.
   (use-package evil-surround
     :disabled t
+    ;; TODO: I have no idea what's actually wrong with this.
     :config
     (global-evil-surround-mode 1))
 
@@ -513,8 +516,8 @@ header"
     :config
     (add-hook 'magit-status-mode-hook 'magit-filenotify-mode))
   :config
-  (when (fboundp 'evil-mode)
-    (add-hook 'git-commit-mode-hook 'evil-insert-state))
+  ;;(when (fboundp 'evil-mode)
+  ;;  (add-hook 'git-commit-mode-hook 'evil-insert-state))
 
   (setq magit-push-current-set-remote-if-missing t
         magit-completing-read-function 'magit-ido-completing-read))
@@ -537,7 +540,9 @@ header"
   :config
   ;; Paradox is much more useful in emacs mode than evil mode because
   ;; it rebinds so many things.
-  (add-to-list 'evil-emacs-state-modes 'paradox-menu-mode))
+  (when (fboundp 'evil-mode)
+    (add-to-list 'evil-emacs-state-modes 'paradox-menu-mode)))
+
 
 ;; persistent-scratch makes it possible to use the scratch buffer
 ;; without worrying about losing it.
