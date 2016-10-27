@@ -8,6 +8,9 @@
 
 ;;;; Init
 
+;;; TODO:
+;; company-anaconda vs company-jedi vs jedi
+
 ;; Define the start time so we can measure how long loading took
 ;; later.
 (defconst emacs-start-time (current-time))
@@ -145,6 +148,8 @@
 ;; Install general for easier key-binds. This needs to be done early
 ;; so other use-package blocks can use it.
 (use-package general
+  :quelpa
+  :demand
   :config
   (when (fboundp 'evil-mode)
     (general-evil-setup)))
@@ -153,6 +158,7 @@
 ;; you can use :if (fboundp 'company-mode) to only enable a block if
 ;; company-mode is active.
 (use-package company
+  :quelpa
   :diminish company-mode
   :config
   (defmacro belak/register-company-backend (hook backend)
@@ -170,6 +176,7 @@
 ;; errors. In use-package blocks, you can use :if (fboundp
 ;; 'flycheck-mode) to only enable a block if flycheck-mode is enabled.
 (use-package flycheck
+  :quelpa
   :diminish flycheck-mode
   :config
   (defalias 'flycheck-show-error-at-point-soon 'flycheck-show-error-at-point)
@@ -177,6 +184,7 @@
 
 ;; Project based navigation is pretty much the best thing ever.
 (use-package projectile
+  :quelpa
   :diminish projectile-mode
   :config
   (projectile-global-mode))
@@ -188,6 +196,7 @@
 ;; packages actually use it.
 (use-package evil
   :disabled t
+  :quelpa
   :demand
   :general
   ("C-'" 'evil-toggle-key)
@@ -207,6 +216,7 @@
   ;; This is a port of tpope's vim-surround which adds text objects
   ;; for surrounding characters.
   (use-package evil-surround
+    :quelpa
     :disabled t
     ;; TODO: I have no idea what's actually wrong with this.
     :config
@@ -235,12 +245,14 @@
 ;; anzu shows how many matches in isearch. This is placed up here
 ;; because it needs to be loaded before spaceline.
 (use-package anzu
+  :quelpa
   :diminish anzu-mode
   :config (global-anzu-mode))
 
 ;; spaceline is a better modeline with simple config. It's up here
 ;; because it needs to be loaded before persistent-scratch.
 (use-package spaceline
+  :quelpa
   :demand
   :config
   (require 'spaceline-config)
@@ -253,6 +265,7 @@
 ;; everything else in alphabetical order.
 
 (use-package cmake-mode
+  :quelpa
   :mode
   "CMakeLists.txt"
   "\\.cmake\\'")
@@ -260,6 +273,7 @@
 ;; diff-hl uses the emacs vcs integration to display
 ;; added/modified/removed lines.
 (use-package diff-hl
+  :quelpa
   :config
   (add-hook 'after-make-console-frame-hooks
             (lambda ()
@@ -271,6 +285,7 @@
               (diff-hl-margin-mode 0))))
 
 (use-package dockerfile-mode
+  :quelpa
   :mode "Dockerfile\(-.*\)?")
 
 ;; editorconfig is a simple way to share indentation settings between
@@ -278,12 +293,14 @@
 ;; nice to not have to re-do these settings at a project level between
 ;; editors.
 (use-package editorconfig
+  :quelpa
   :config
   (editorconfig-mode 1))
 
 ;; Grab important environment variables from the shell. The important
 ;; ones are PATH and GOPATH.
 (use-package exec-path-from-shell
+  :quelpa
   :config
   (add-to-list 'exec-path-from-shell-variables "GOPATH")
   (exec-path-from-shell-initialize))
@@ -291,6 +308,7 @@
 ;; fic-mode simply gives an annoying highlight to FIXME, TODO, XXX,
 ;; and other similar keywords so they're easy to spot.
 (use-package fic-mode
+  :quelpa
   :diminish fic-mode
   :config
   (add-to-list 'fic-highlighted-words "XXX")
@@ -298,10 +316,12 @@
 
 ;; flyspell does what it says on the tin. It's a spell-checker similar to flycheck.
 (use-package flyspell
+  :quelpa
   :diminish flyspell-mode
   :config (add-hook 'text-mode-hook (lambda () (flyspell-mode 1))))
 
 (use-package go-mode
+  :quelpa
   :mode "\\.go\\'"
   :general
   (:keymaps 'go-mode-map
@@ -311,6 +331,7 @@
   (load "$GOPATH/src/golang.org/x/tools/cmd/guru/go-guru.el")
   :config
   (use-package company-go
+    :quelpa
     :if (fboundp 'company-mode)
     :config
     (setq company-go-show-annotation t)
@@ -357,9 +378,11 @@ Originally taken from https://github.com/dominikh/dotfiles/blob/master/emacs.d/g
 
 ;; ido (interactively-do) is a better interface for selecting things.
 (use-package ido
+  :quelpa
   :config
   ;; smex is a better replacement for M-x built around ido.
   (use-package smex
+    :quelpa
     :general
     ("M-x" 'smex)
     ("M-X" 'smex-major-mode-commands)
@@ -368,12 +391,14 @@ Originally taken from https://github.com/dominikh/dotfiles/blob/master/emacs.d/g
 
   ;; Use ido everywhere possible.
   (use-package ido-ubiquitous
+    :quelpa
     :config
     (ido-ubiquitous-mode 1))
 
   ;; ido is much more readable when all the options are displayed
   ;; vertically.
   (use-package ido-vertical-mode
+    :quelpa
     :config
     (setq ido-vertical-define-keys 'C-n-C-p-up-down-left-right
           ido-vertical-show-count t)
@@ -382,6 +407,7 @@ Originally taken from https://github.com/dominikh/dotfiles/blob/master/emacs.d/g
   ;; flx-ido changes the matching algorithm to improve the flex
   ;; matching support.
   (use-package flx-ido
+    :quelpa
     :config
     (setq ido-enable-flex-matching t
           flx-ido-threshold 1000))
@@ -397,6 +423,7 @@ Originally taken from https://github.com/dominikh/dotfiles/blob/master/emacs.d/g
 ;; features, but it's disabled because I haven't found the time to fix
 ;; my config just yet.
 (use-package ivy
+  :quelpa
   :disabled t
   :demand t
   :diminish ivy-mode
@@ -405,12 +432,14 @@ Originally taken from https://github.com/dominikh/dotfiles/blob/master/emacs.d/g
   :config
   ;; swiper is a replacement for isearch which uses ivy.
   (use-package swiper
+    :quelpa
     :general
     ("C-s" 'swiper))
 
   ;; counsel is a bunch of functions which replace builtins so they'll
   ;; work much better with ivy.
   (use-package counsel
+    :quelpa
     :general
     ("M-x"     'counsel-M-x)
     ("C-x C-f" 'counsel-find-file))
@@ -424,17 +453,21 @@ Originally taken from https://github.com/dominikh/dotfiles/blob/master/emacs.d/g
   (ivy-mode 1))
 
 (use-package hlinum
+  :quelpa
   :config
   (hlinum-activate))
 
 (use-package irony
+  :quelpa
   :config
   (use-package company-irony
+    :quelpa
     :if (fboundp 'company-mode)
     :config
     (add-to-list 'company-backends 'company-irony))
 
   (use-package flycheck-irony
+    :quelpa
     :if (fboundp 'flycheck-mode)
     :config
     (add-hook 'flycheck-mode-hook #'flycheck-irony-setup))
@@ -468,6 +501,7 @@ header"
   ;; js2-mode is a wrapper around js-mode which cleans it up and adds a
   ;; bunch of features.
   (use-package js2-mode
+    :quelpa
     :mode "\\.js\\'"
     :config
     (setq js2-basic-offset 2)
@@ -481,6 +515,7 @@ header"
 
   ;; tern is a js navigation package which extends js-mode.
   (use-package tern
+    :quelpa
     :diminish tern-mode
     :config
     (use-package company-tern
@@ -492,24 +527,29 @@ header"
     (add-hook 'js-mode-hook (lambda () (tern-mode t)))))
 
 (use-package json-mode
+  :quelpa
   :mode "\\.json\\'"
   :config
   (setq json-reformat:indent-width 2))
 
 (use-package less-css-mode
+  :quelpa
   :mode "\\.less\\'")
 
 (use-package macrostep
+  :quelpa
   :general
   (:keymaps 'emacs-lisp-mode-map
    "C-x e" 'macrostep-expand))
 
 ;; magit is an amazing tool for working with git inside emacs.
 (use-package magit
+  :quelpa
   :general
   ("M-g M-g" 'magit-status)
-  (general-nmap :prefix belak/evil-leader
-                "g" 'magit-status)
+  (when (fboundp 'evil-mode)
+    (general-nmap :prefix belak/evil-leader
+                  "g" 'magit-status))
   :init
   (use-package magit-filenotify
     :if (linux-p)
@@ -523,11 +563,13 @@ header"
         magit-completing-read-function 'magit-ido-completing-read))
 
 (use-package markdown-mode
+  :quelpa
   :mode ("\\.md\\'" . gfm-mode))
 
 ;; org-mode can be used for tasks, notes, and a variety of other
 ;; things.
 (use-package org
+  :quelpa
   :mode ("\\.org\'" . org-mode)
   :config
   (setq org-completion-use-ido t
@@ -535,6 +577,7 @@ header"
         org-agenda-files '("~/org/")))
 
 (use-package paradox
+  :quelpa
   :commands
   paradox-list-packages
   :config
@@ -561,6 +604,7 @@ header"
   ;; company-mode is enabled, company-anaconda will also be
   ;; enabled.
   (use-package anaconda-mode
+    :quelpa
     :diminish anaconda-mode
     :config
     (use-package company-anaconda
@@ -570,11 +614,13 @@ header"
     (add-hook 'python-mode-hook 'anaconda-mode))
 
   (use-package pip-requirements
+    :quelpa
     :mode
     "requirements.txt"
     "requirements/\\.txt\\'")
 
   (use-package virtualenvwrapper
+    :quelpa
     :config
     (when (fboundp 'projectile-mode)
       (advice-add 'switch-to-buffer :after
@@ -584,9 +630,11 @@ header"
                         (venv-workon (projectile-project-name))))))))
 
 (use-package rainbow-delimiters
+  :quelpa
   :commands rainbow-delimiters-mode)
 
 (use-package rainbow-mode
+  :quelpa
   :commands rainbow-mode)
 
 ;; recentf adds some useful functionality to ido which remembers
@@ -604,20 +652,27 @@ header"
   (setq-default save-place t))
 
 (use-package simple-mpc
+  :quelpa
   :general
   ("C-c m" 'simple-mpc)
-  (general-nmap :prefix belak/evil-leader
-                "m" 'simple-mpc)
+  (when (fboundp 'evil-mode)
+    (general-nmap :prefix belak/evil-leader
+                  "m" 'simple-mpc))
   :config
   (when (fboundp 'evil-mode)
     (add-hook 'simple-mpc-mode-hook 'evil-emacs-state)))
 
+(use-package slime
+  :quelpa
+  :config
+  (setq slime-contribs '(fancy)))
 
 ;; smart-mode-line is a package which aims to provide a better
 ;; mode-line with little configuration. I've tried to use powerline
 ;; (and making my own small framework) and it just involved too much
 ;; work to maintain a small feature.
 (use-package smart-mode-line
+  :quelpa
   :disabled t
   :config
   (setq sml/no-confirm-load-theme t
@@ -628,6 +683,7 @@ header"
 ;; In spite of the name, I use this to make sure that when I scroll,
 ;; there are still lines between the cursor and the top of the file.
 (use-package smooth-scrolling
+  :quelpa
   :config
   (setq smooth-scroll-margin 5
         scroll-conservatively 101
@@ -642,6 +698,7 @@ header"
 
 ;; undo-tree makes the undo features a bit more bearable.
 (use-package undo-tree
+  :quelpa
   :diminish undo-tree-mode
   :config
   (global-undo-tree-mode 1))
@@ -653,6 +710,7 @@ header"
   (setq uniquify-buffer-name-style 'forward))
 
 (use-package web-mode
+  :quelpa
   :mode
   "\\.erb\\'"
   "\\.html\\'"
@@ -664,10 +722,12 @@ header"
         web-mode-code-indent-offset 2))
 
 (use-package yaml-mode
+  :quelpa
   :mode "\\.yml\\'")
 
 ;; yasnippet adds some useful tools to make reusable code snippets.
 (use-package yasnippet
+  :quelpa
   :diminish yas-minor-mode
   :config
   (setq yas-verbosity 0)
