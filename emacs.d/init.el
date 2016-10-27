@@ -586,6 +586,12 @@ header"
   (when (fboundp 'evil-mode)
     (add-to-list 'evil-emacs-state-modes 'paradox-menu-mode)))
 
+(use-package paren
+  :ensure nil
+  :config
+  (show-paren-mode 1)
+  (setq show-paren-style 'parenthesis
+        show-paren-delay 0))
 
 ;; persistent-scratch makes it possible to use the scratch buffer
 ;; without worrying about losing it.
@@ -782,13 +788,6 @@ header"
 (fset 'yes-or-no-p 'y-or-n-p)
 
 (global-hl-line-mode)
-
-(use-package paren
-  :ensure nil
-  :config
-  (show-paren-mode 1)
-  (setq show-paren-style 'parenthesis
-        show-paren-delay 0))
 
 (setq lazy-highlight-initial-delay 0
       make-pointer-invisible t
