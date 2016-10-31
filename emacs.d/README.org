@@ -1,0 +1,1034 @@
+* belak's Emacs Config
+
+** Platform Specific
+
+Define some small helper functions to check which OS we're
+running. There are a few settings and a few packages which are
+platform specific.
+
+#+begin_src emacs-lisp
+  (defun osx-p ()
+    "Check if a system is running OSX."
+    (eq system-type 'darwin))
+
+  (defun linux-p ()
+    "Check if a system is running Linux."
+    (eq system-type 'gnu/linux))
+#+end_src
+
+*** Linux Specific
+
+The only current Linux specific settings are relating to opening
+files. Because I assume xdg-open is configured properly, we can set
+the URL function to just call it so we always get the right browser.
+
+#+begin_src emacs-lisp
+  (when (linux-p)
+    (setq browse-url-browser-function 'browse-url-generic
+          browse-url-generic-program "xdg-open"))
+#+end_src
+
+*** OSX Specific
+
+#+begin_src emacs-lisp
+  (when (osx-p)
+    (setq mac-command-modifier 'meta
+          mac-option-modifier 'super
+          mac-control-modifier 'control
+          insert-directory-program "/usr/local/bin/gls")
+    (let ((default-directory "/usr/local/share/emacs/site-lisp/"))
+      (normal-top-level-add-subdirs-to-load-path)))
+#+end_src
+
+XXX: There's a strange interaction of my init.el with emacs-mac which
+causes the maximize button to revert to the old "vertical"
+maximize. For whatever reason, calling toggle-frame-fullscreen after
+the frame is created fixes that, so we enter then exit fullscreen to
+fix the state.
+
+#+begin_src emacs-lisp
+  (when (osx-p)
+    (add-hook 'after-make-window-system-frame-hooks
+              (lambda ()
+                (toggle-frame-fullscreen)
+                (toggle-frame-fullscreen))))
+#+end_src
+** Package Setup
+
+Load package.el and tell it to only load packages we ask for.
+
+#+begin_src emacs-lisp
+  ;; Have to make sure it's loaded before we do anything with it.
+  (require 'package)
+
+  ;; Set up the package repos
+  (setq package-archives '(("melpa"        . "https://melpa.org/packages/")
+                           ("gnu"          . "https://elpa.gnu.org/packages/")))
+
+  ;; Make sure we load what we need.
+  (setq package-enable-at-startup nil)
+  (package-initialize nil)
+#+end_src
+
+This block simply defines a few helpers. =belak/ensure-refreshed= will
+run a refresh if the package list hasn't been refreshed this
+session. =belak/package-ensure-installed= will ensure the package list
+has been refreshed and try to install the package if it hasn't been
+installed already.
+
+#+begin_src emacs-lisp
+  ;; Set the initial state to non-refreshed. This can also be set back
+  ;; to nil if we want to run a refresh on the next install.
+  (defvar belak/refreshed-package-list nil)
+
+  (defun belak/ensure-refreshed ()
+    "Ensure the package list has been refreshed this startup."
+    (unless belak/refreshed-package-list
+      (package-refresh-contents)
+      (setq belak/refreshed-package-list t)))
+
+  (defun belak/package-ensure-installed (package)
+    "Install a missing PACKAGE if it isn't already."
+    (unless (package-installed-p package)
+      (belak/ensure-refreshed)
+      (package-install package)))
+#+end_src
+
+Now that we have some helpers defined, we wrap package-install to make
+sure that the first install of each session will refresh the package
+list.
+
+#+begin_src emacs-lisp
+  (advice-add 'package-install
+              :before
+              (lambda (&rest args)
+                (belak/ensure-refreshed)))
+#+end_src
+
+Various package.el settings are here.
+
+Firstly, we disable as many warnings as we can while installing packages.
+
+Increasing the minimum prime bits size to something larger than the
+default settings stops all the GnuTLS warnings from showing up. This
+might not be the right place, but it needs to happen before we install
+packages.
+
+#+begin_src emacs-lisp
+  (setq byte-compile-warnings nil
+        gnutls-min-prime-bits 4096)
+#+end_src
+** Core Packages
+
+Portions of this config depend on other components, so we load the
+common components here, as early as possible. Generally speaking, if
+it's needed for other packages, load it here.
+
+*** =use-package= (and =general=)
+
+=use-package= is a wrapper around package loading which makes lots of
+common operations easier. We install it as early as possible so we can
+use it when installing everything else.
+
+#+begin_src emacs-lisp
+  (belak/package-ensure-installed 'use-package)
+  (eval-when-compile
+    (defvar use-package-verbose t)
+    (require 'use-package))
+
+  (require 'diminish)
+  (require 'bind-key)
+#+end_src
+
+Always attempt to install packages unless we specify otherwise.
+
+#+begin_src emacs-lisp
+  (setq use-package-always-ensure t)
+#+end_src
+
+We also load =general= here, as this integrates with =use-package= for
+better key bind settings.
+
+#+begin_src emacs-lisp
+(use-package general
+  :demand)
+#+end_src
+
+*** =base16-theme=
+
+Because I maintain this package, I usually have it checked out to a
+directory, rather than dealing with installing the package from
+melpa. Because of this we need to do a little bit of acrobatics to
+make sure all the proper directories are in the proper load paths.
+
+We load the theme as early as humanly possible so we're not waiting
+for other packages to load before fixing the colors.
+
+#+begin_src emacs-lisp
+  (defvar belak/base16-colors nil)
+  (use-package base16-theme
+    :ensure nil
+    :load-path "site-lisp/base16-theme"
+    :init
+    (add-to-list 'custom-theme-load-path "~/.emacs.d/site-lisp/base16-theme/build")
+    :config
+    (load-theme 'base16-default-dark t)
+    (setq belak/base16-colors base16-default-dark-colors))
+#+end_src
+*** =company=
+
+company-mode is used as a completion system. In =use-package= blocks,
+you can use =:if (fboundp 'company-mode)= to only enable a block if
+company-mode is active.
+
+#+begin_src emacs-lisp
+  (use-package company
+    :diminish company-mode
+    :config
+    (defmacro belak/register-company-backend (hook backend)
+      `(add-hook ,hook (lambda ()
+                        (set (make-local-variable 'company-backends) (list ,backend)))))
+
+    (setq company-tooltip-limit 20
+          company-idle-delay 0
+          company-echo-delay 0
+          company-minimum-prefix-length 1
+          company-tooltip-align-annotations t)
+
+    (global-company-mode))
+#+end_src
+
+*** =evil-mode= (disabled)
+
+=evil-mode= is a vim emulation layer for Emacs. It's currently
+disabled as I've switched back to Emacs keybinds.
+
+Note that it is important to load this early because of how many
+packages actually use it.
+
+#+begin_src emacs-lisp
+  (defvar belak/evil-leader "," "Leader key for most vim bindings.")
+
+  (use-package evil
+    :disabled t
+    :demand
+    :general
+    ("C-'" 'evil-toggle-key)
+    (:keymaps 'evil-insert-state-map
+     "C-e" 'evil-append-line
+     "C-a" 'evil-insert-line)
+    (:keymaps 'evil-normal-state-map
+     "C-e" 'evil-append-line
+     "C-a" 'evil-insert-line)
+    (:keymaps 'evil-motion-state-map
+     "C-e" 'evil-append-line
+     "C-a" 'evil-insert-line)
+    (:keymaps 'evil-visual-state-map
+     "C-e" 'evil-end-of-line
+     "C-a" 'evil-beginning-of-line)
+    :config
+    ;; If general has been loaded, we need to do the initial evil setup.
+    (when (fboundp 'general-evil-setup)
+      (general-evil-setup)
+
+    ;; This is a port of tpope's vim-surround which adds text objects
+    ;; for surrounding characters.
+    (use-package evil-surround
+      :disabled t
+      ;; TODO: I have no idea what's actually wrong with this.
+      :config
+      (global-evil-surround-mode 1))
+
+    (evil-mode 1)
+    (setq evil-echo-state nil
+          evil-vsplit-window-right t
+          evil-split-window-below t)
+
+    ;; Set the cursor color based on the evil state
+    (setq evil-emacs-state-cursor   `(,(plist-get belak/base16-colors :base0D) box)
+          evil-insert-state-cursor  `(,(plist-get belak/base16-colors :base0D) bar)
+          evil-motion-state-cursor  `(,(plist-get belak/base16-colors :base0E) box)
+          evil-normal-state-cursor  `(,(plist-get belak/base16-colors :base0B) box)
+          evil-replace-state-cursor `(,(plist-get belak/base16-colors :base08) bar)
+          evil-visual-state-cursor  `(,(plist-get belak/base16-colors :base09) box))
+
+    ;; Evil selection shouldn't update the clipboard
+    (fset 'evil-visual-update-x-selection 'ignore)
+
+    ;; For the operator state, the only thing we want to change is the
+    ;; size. We can keep the same color.
+    (setq evil-operator-state-cursor 'evil-half-cursor))
+
+#+end_src
+
+*** =flycheck=
+
+=flycheck-mode= is used for linters and catching compilation
+errors. In =use-package= blocks, you can use =:if (fboundp
+'flycheck-mode)= to only enable a block if =flycheck-mode= is enabled.
+
+#+begin_src emacs-lisp
+  (use-package flycheck
+    :diminish flycheck-mode
+    :config
+    (defalias 'flycheck-show-error-at-point-soon 'flycheck-show-error-at-point)
+    (global-flycheck-mode))
+#+end_src
+
+*** =projectile=
+
+Project based navigation is pretty much the best thing ever.
+
+#+begin_src emacs-lisp
+  (use-package projectile
+    :diminish projectile-mode
+    :config
+    (projectile-global-mode))
+#+end_src
+
+*** =anzu=
+
+anzu shows how many matches in isearch. This is placed up here because
+it needs to be loaded before spaceline.
+
+#+begin_src emacs-lisp
+  (use-package anzu
+    :diminish anzu-mode
+    :config (global-anzu-mode))
+#+end_src
+
+*** =spaceline=
+
+spaceline is a better modeline with simple config. It's up here
+because it needs to be loaded before persistent-scratch.
+
+#+begin_src emacs-lisp
+  (use-package spaceline
+    :demand
+    :config
+    (require 'spaceline-config)
+    (setq powerline-default-separator 'bar
+          spaceline-highlight-face-func 'spaceline-highlight-face-evil-state)
+    (spaceline-spacemacs-theme))
+#+end_src
+
+*** Other
+
+=init-frame-hooks= is a simple package which handles hooks for after
+the frame has been initialized and adds convenient hooks for after
+console init and GUI init.
+
+#+begin_src emacs-lisp
+  (use-package init-frame-hooks
+    :ensure nil
+    :load-path "lisp/")
+#+end_src
+
+** Development Packages
+
+*** =diff-hl=
+
+diff-hl uses the emacs vcs integration to display
+added/modified/removed lines.
+
+#+begin_src emacs-lisp
+  (use-package diff-hl
+    :config
+    (add-hook 'after-make-console-frame-hooks
+              (lambda ()
+                (global-diff-hl-mode 0)
+                (diff-hl-margin-mode 1)))
+    (add-hook 'after-make-window-system-frame-hooks
+              (lambda ()
+                (global-diff-hl-mode 1)
+                (diff-hl-margin-mode 0))))
+#+end_src
+
+*** =editorconfig=
+
+editorconfig is a simple way to share indentation settings between
+editors. Because I sometimes dabble in neovim and sublime, it's nice
+to not have to re-do these settings at a project level between
+editors.
+
+#+begin_src emacs-lisp
+  (use-package editorconfig
+    :config
+    (editorconfig-mode 1))
+#+end_src
+
+*** =magit=
+
+magit is an amazing tool for working with git inside emacs.
+
+#+begin_src emacs-lisp
+(use-package magit
+  :general
+  ("M-g M-g" 'magit-status)
+  (when (fboundp 'evil-mode)
+    (general-nmap :prefix belak/evil-leader
+                  "g" 'magit-status))
+  :init
+  (use-package magit-filenotify
+    :if (linux-p)
+    :config
+    (add-hook 'magit-status-mode-hook 'magit-filenotify-mode))
+  :config
+  ;;(when (fboundp 'evil-mode)
+  ;;  (add-hook 'git-commit-mode-hook 'evil-insert-state))
+
+  (setq magit-push-current-set-remote-if-missing t
+        magit-completing-read-function 'magit-ido-completing-read))
+#+end_src
+
+*** =yasnippet=
+
+yasnippet adds some useful tools to make reusable code snippets.
+
+#+begin_src emacs-lisp
+  (use-package yasnippet
+    :diminish yas-minor-mode
+    :config
+    (setq yas-verbosity 0)
+    (yas-global-mode 1))
+#+end_src
+** Language Packages
+
+This section is meant for non-web languages. TODO: I'd like to
+eventually make this my commonly used languages rather than non-web,
+but it's not a high priority.
+
+*** C/C++
+
+=irony-mode= is a pretty solid dev environment for C/C++/ObjC, but we
+also need to load up the additional company and flycheck modules.
+
+It's nice that =irony-mode= is a minor mode, because it lets us add
+hooks later which work without irony.
+
+#+begin_src emacs-lisp
+  (use-package irony
+    :config
+    (use-package company-irony
+      :if (fboundp 'company-mode)
+      :config
+      (add-to-list 'company-backends 'company-irony))
+
+    (use-package flycheck-irony
+      :if (fboundp 'flycheck-mode)
+      :config
+      (add-hook 'flycheck-mode-hook #'flycheck-irony-setup))
+
+    (add-hook 'c++-mode-hook 'irony-mode)
+    (add-hook 'c-mode-hook 'irony-mode)
+    (add-hook 'objc-mode-hook 'irony-mode))
+#+end_src
+
+This function decides whether .h file is C or C++ header, sets C++ by
+default because there's more chance of there being a .h without a .cc
+than a .h without a .c (ie. for C++ template files)
+
+This comes from
+http://stackoverflow.com/questions/3312114/how-to-tell-emacs-to-open-h-file-in-c-mode
+
+#+begin_src emacs-lisp
+  (defun c-c++-header ()
+    "sets either c-mode or c++-mode, whichever is appropriate for
+  header"
+    (interactive)
+    (let ((c-file (concat (substring (buffer-file-name) 0 -1) "c")))
+      (if (file-exists-p c-file)
+          (c-mode)
+        (c++-mode))))
+  (add-to-list 'auto-mode-alist '("\\.h\\'" . c-c++-header))
+#+end_src
+
+*** CMake
+
+#+begin_src emacs-lisp
+  (use-package cmake-mode
+    :mode
+    "CMakeLists.txt"
+    "\\.cmake\\'")
+#+end_src
+
+*** Docker
+
+#+begin_src emacs-lisp
+  (use-package dockerfile-mode
+    :mode "Dockerfile\(-.*\)?")
+#+end_src
+
+*** go
+
+#+begin_src emacs-lisp
+  (use-package go-mode
+    :mode "\\.go\\'"
+    :general
+    (:keymaps 'go-mode-map
+     "M-."   'go-guru-definition
+     "C-c o" 'go-guru-map)
+    :init
+    (load "$GOPATH/src/golang.org/x/tools/cmd/guru/go-guru.el")
+    :config
+    (use-package company-go
+      :if (fboundp 'company-mode)
+      :config
+      (setq company-go-show-annotation t)
+      (belak/register-company-backend 'go-mode-hook 'company-go))
+
+    (setq gofmt-command "goimports")
+
+    (defun my-go-mode-hook ()
+      (add-hook 'before-save-hook 'gofmt-before-save nil t)
+      (go-guru-hl-identifier-mode)
+      (subword-mode 1))
+
+    (add-hook 'go-mode-hook 'my-go-mode-hook))
+#+end_src
+
+These are helper functions, initially taken from dominikh's dotfiles.
+
+#+begin_src emacs-lisp
+    (defun go-instrument-returns ()
+      "Add print statements before each return call.
+
+  Originally taken from https://github.com/dominikh/dotfiles/blob/master/emacs.d/go.el"
+      (interactive)
+      (save-excursion
+        (save-restriction
+          (let ((cnt 0))
+            (narrow-to-defun)
+            (beginning-of-defun)
+            (while (re-search-forward "^[[:space:]]+return")
+              (setq cnt (1+ cnt))
+              (beginning-of-line)
+              (open-line 1)
+              (funcall indent-line-function)
+              (insert (format "log.Println(\"return statement %d\") /* RETURN INSTRUMENT */" cnt))
+              (forward-line 2))))))
+
+    (defun go-deinstrument-returns ()
+      "Remove print statements added by `go-instrument-returns'.
+
+  Originally taken from https://github.com/dominikh/dotfiles/blob/master/emacs.d/go.el"
+      (interactive)
+      (save-excursion
+        (save-restriction
+          (narrow-to-defun)
+          (beginning-of-defun)
+          (while (re-search-forward "^.+/\\* RETURN INSTRUMENT \\*/\n" nil t)
+            (replace-match "" nil nil)))))
+#+end_src
+
+*** Markdown
+
+#+begin_src emacs-lisp
+  (use-package markdown-mode
+    :mode ("\\.md\\'" . gfm-mode))
+#+end_src
+
+*** org
+
+=org-mode= can be used for tasks, notes, and a variety of other
+things.
+
+#+begin_src emacs-lisp
+  (use-package org
+    :mode ("\\.org\'" . org-mode)
+    :config
+    (setq org-completion-use-ido t
+          org-support-shift-select t
+          org-agenda-files '("~/org/")))
+#+end_src
+
+*** Python
+
+After doing python dev for a while, it's nice to be able to tweak my
+setup. After trying other major packages (elpy and jedi) I've settled
+on =anaconda-mode= and =virtualenvwrapper=. It provides a nice mix of
+tweakability and convenience.
+
+=anaconda-mode= provides code navigation and docs. Additionally, if
+=company-mode= is enabled, company-anaconda will also be enabled.
+
+#+begin_src emacs-lisp
+  (use-package anaconda-mode
+    :diminish anaconda-mode
+    :config
+    (use-package company-anaconda
+      :if (fboundp 'company-mode)
+      :config (add-to-list 'company-backends 'company-anaconda))
+
+    (add-hook 'python-mode-hook 'anaconda-mode))
+#+end_src
+
+This adds some basic features for requirements files, such as
+highlighting and auto-completion of names from PyPI.
+
+#+begin_src emacs-lisp
+  (use-package pip-requirements
+    :mode
+    "requirements.txt"
+    "requirements/\\.txt\\'")
+#+end_src
+
+=virtualenvwrapper= is a pretty awesome small package which aims to
+emulate python's virtualenvwrapper. It adds some functions to switch
+between virtualenvs and provides a consistent location to put them.
+
+If =projectile= is enabled, this will also add a hook which will load
+the virtualenv matching the basename of the project when switching
+buffers.
+
+#+begin_src emacs-lisp
+  (use-package virtualenvwrapper
+    :config
+    (when (fboundp 'projectile-mode)
+      (advice-add 'switch-to-buffer :after
+                  (lambda (&rest arg-list)
+                    (if (and (projectile-project-p)
+                             (venv-is-valid (projectile-project-name)))
+                        (venv-workon (projectile-project-name))))))))
+#+end_src
+
+*** Rust
+
+Rust is a fairly recent addition which I'd like to learn more about,
+which is why the settings here are fairly minimal.
+
+#+begin_src emacs-lisp
+  (use-package rust-mode
+    :mode
+    "\\.rs\\'"
+    :config
+    ;; TODO: flycheck-rust
+    (use-package racer
+      :config
+      (add-hook 'rust-mode-hook #'racer-mode)))
+#+end_src
+
+*** YAML
+
+#+begin_src emacs-lisp
+  (use-package yaml-mode
+    :mode "\\.yml\\'")
+#+end_src
+** Web Dev Language Packages
+
+Because frontend languages have a tendency to come and go when they
+please (and because I don't do frontend dev that often), I'm keeping
+these in a separate section.
+
+*** HTML (=web-mode=)
+
+=web-mode= is designed to handle HTML-ish templates.
+
+#+begin_src emacs-lisp
+  (use-package web-mode
+    :mode
+    "\\.erb\\'"
+    "\\.html\\'"
+    "\\.jinja\\'"
+    "\\.mustache\\'"
+    :config
+    (setq web-mode-markup-indent-offset 2
+          web-mode-css-indent-offset 2
+          web-mode-code-indent-offset 2)
+
+    (use-package emmet-mode
+      :config
+      (add-hook 'web-mode-hook 'emmet-mode)))
+#+end_src
+
+*** Javascript
+
+js2-mode is a wrapper around js-mode which cleans it up and adds a
+bunch of features.
+
+#+begin_src emacs-lisp
+  (use-package js2-mode
+    :mode "\\.js\\'"
+    :config
+    (setq js2-basic-offset 2)
+    (when (fboundp 'flycheck-mode)
+      (set-face-attribute 'js2-error nil
+                          :inherit 'flycheck-error-list-error
+                          :underline '(:color foreground-color :style wave))
+      (set-face-attribute 'js2-warning nil
+                          :inherit 'flycheck-error-list-warning
+                          :underline '(:color foreground-color :style wave))))
+#+end_src
+
+tern is a js navigation package which extends js-mode.
+
+#+begin_src emacs-lisp
+  (use-package tern
+    :diminish tern-mode
+    :config
+    (use-package company-tern
+      :if (fboundp 'company-mode)
+      :config
+      (add-to-list 'company-backends 'company-tern)
+      (setq company-tern-property-marker ""))
+
+    (add-hook 'js-mode-hook (lambda () (tern-mode t))))
+#+end_src
+
+*** JSON
+
+#+begin_src emacs-lisp
+  (use-package json-mode
+    :mode "\\.json\\'"
+    :config
+    (setq json-reformat:indent-width 2))
+#+end_src
+
+*** LESS
+
+#+begin_src emacs-lisp
+(use-package less-css-mode
+  :mode "\\.less\\'")
+#+end_src
+
+** Various Packages
+
+#+begin_src emacs-lisp
+  ;; Grab important environment variables from the shell. The important
+  ;; ones are PATH and GOPATH.
+  (use-package exec-path-from-shell
+    :config
+    (add-to-list 'exec-path-from-shell-variables "GOPATH")
+    (exec-path-from-shell-initialize))
+
+  ;; fic-mode simply gives an annoying highlight to FIXME, TODO, XXX,
+  ;; and other similar keywords so they're easy to spot.
+  (use-package fic-mode
+    :diminish fic-mode
+    :config
+    (add-to-list 'fic-highlighted-words "XXX")
+    (add-hook 'prog-mode-hook 'fic-mode))
+
+  ;; flyspell does what it says on the tin. It's a spell-checker similar to flycheck.
+  (use-package flyspell
+    :diminish flyspell-mode
+    :config (add-hook 'text-mode-hook (lambda () (flyspell-mode 1))))
+
+  ;; ido (interactively-do) is a better interface for selecting things.
+  (use-package ido
+    :config
+    ;; smex is a better replacement for M-x built around ido.
+    (use-package smex
+      :general
+      ("M-x" 'smex)
+      ("M-X" 'smex-major-mode-commands)
+      :config
+      (setq smex-history-length 50))
+
+    ;; Use ido everywhere possible.
+    (use-package ido-ubiquitous
+      :config
+      (ido-ubiquitous-mode 1))
+
+    ;; ido is much more readable when all the options are displayed
+    ;; vertically.
+    (use-package ido-vertical-mode
+      :config
+      (setq ido-vertical-define-keys 'C-n-C-p-up-down-left-right
+            ido-vertical-show-count t)
+      (ido-vertical-mode 1))
+
+    ;; flx-ido changes the matching algorithm to improve the flex
+    ;; matching support.
+    (use-package flx-ido
+      :config
+      (setq ido-enable-flex-matching t
+            flx-ido-threshold 1000))
+
+    (setq resize-mini-windows t
+          ido-use-virtual-buffers t
+          ido-auto-merge-work-directories-length -1)
+
+    (ido-mode 1)
+    (ido-everywhere 1))
+
+  ;; ivy is an alternative to ido which comes with a number of fancy
+  ;; features, but it's disabled because I haven't found the time to fix
+  ;; my config just yet.
+  (use-package ivy
+    :disabled t
+    :demand t
+    :diminish ivy-mode
+    :general
+    ("C-c C-r" 'ivy-resume)
+    :config
+    ;; swiper is a replacement for isearch which uses ivy.
+    (use-package swiper
+      :general
+      ("C-s" 'swiper))
+
+    ;; counsel is a bunch of functions which replace builtins so they'll
+    ;; work much better with ivy.
+    (use-package counsel
+      :general
+      ("M-x"     'counsel-M-x)
+      ("C-x C-f" 'counsel-find-file))
+
+    (setq projectile-completion-system 'ivy
+          magit-completing-read-function 'ivy-completing-read
+          ivy-use-virtual-buffers t)
+
+    ;;(setq ivy-re-builders-alist '((t . ivy--regex-fuzzy)))
+
+    (ivy-mode 1))
+
+  (use-package hlinum
+    :config
+    (hlinum-activate))
+
+  (use-package macrostep
+    :general
+    (:keymaps 'emacs-lisp-mode-map
+     "C-x e" 'macrostep-expand))
+
+
+
+  (use-package paradox
+    :commands
+    paradox-list-packages
+    :config
+    ;; Paradox is much more useful in emacs mode than evil mode because
+    ;; it rebinds so many things.
+    (when (fboundp 'evil-mode)
+      (add-to-list 'evil-emacs-state-modes 'paradox-menu-mode)))
+
+  (use-package paren
+    :ensure nil
+    :config
+    (show-paren-mode 1)
+    (setq show-paren-style 'parenthesis
+          show-paren-delay 0))
+
+  (use-package password-store
+    :commands password-store-get)
+
+  ;; persistent-scratch makes it possible to use the scratch buffer
+  ;; without worrying about losing it.
+  (use-package persistent-scratch
+    :config
+    (persistent-scratch-setup-default)
+    (persistent-scratch-autosave-mode 1))
+
+  (use-package project-explorer
+    :general
+    ("C-c e" 'project-explorer-toggle)
+    :config
+    (setq pe/omit-gitignore t))
+
+  (use-package rainbow-delimiters
+    :commands rainbow-delimiters-mode)
+
+  (use-package rainbow-mode
+    :commands rainbow-mode)
+
+  ;; recentf adds some useful functionality to ido which remembers
+  ;; previously opened files.
+  (use-package recentf
+    :ensure nil
+    :config
+    (setq recentf-max-saved-items 50)
+    (recentf-mode 1))
+
+  ;; Save the last location when you leave a file.
+  (use-package saveplace
+    :ensure nil
+    :config
+    (setq-default save-place t))
+
+  (use-package simple-mpc
+    :general
+    ("C-c m" 'simple-mpc)
+    (when (fboundp 'evil-mode)
+      (general-nmap :prefix belak/evil-leader
+                    "m" 'simple-mpc))
+    :config
+    (when (fboundp 'evil-mode)
+      (add-hook 'simple-mpc-mode-hook 'evil-emacs-state)))
+
+  (use-package slime
+    :config
+    (setq slime-contribs '(fancy)))
+
+  ;; smart-mode-line is a package which aims to provide a better
+  ;; mode-line with little configuration. I've tried to use powerline
+  ;; (and making my own small framework) and it just involved too much
+  ;; work to maintain a small feature.
+  (use-package smart-mode-line
+    :disabled t
+    :config
+    (setq sml/no-confirm-load-theme t
+          sml/shorten-directory t
+          sml/theme 'respectful)
+    (sml/setup))
+
+  ;; In spite of the name, I use this to make sure that when I scroll,
+  ;; there are still lines between the cursor and the top of the file.
+  (use-package smooth-scrolling
+    :config
+    (setq smooth-scroll-margin 5
+          scroll-conservatively 101
+          scroll-preserve-screen-position t
+          auto-window-vscroll nil
+          scroll-margin 1
+          scroll-step 1
+          mouse-wheel-scroll-amount '(1 ((shift) . 1))
+          mouse-wheel-progressive-speed t
+          mouse-wheel-follow-mouse t)
+    (smooth-scrolling-mode 1))
+
+  ;; undo-tree makes the undo features a bit more bearable.
+  (use-package undo-tree
+    :diminish undo-tree-mode
+    :config
+    (global-undo-tree-mode 1))
+
+  ;; Ensure we're using sane buffer naming
+  (use-package uniquify
+    :ensure nil
+    :config
+    (setq uniquify-buffer-name-style 'forward))
+#+end_src
+
+** Other Settings
+
+*** Legacy
+
+These are old settings this need to be reorganized.
+
+#+begin_src emacs-lisp
+  ;; TODO: This section is pretty much everything that didn't fit nicely
+  ;; into a use-package block. It would be nice to refactor this a bit.
+
+  ;; We pick a super generic fallback so it should work everywhere.
+  (defvar belak/frame-font "Monospace 12")
+  (cond ((linux-p)
+         ;; On linux, we just fall back to the default "monospace" font
+         ;; because we can set it the same everywhere.
+         (setq belak/frame-font nil
+               x-gtk-use-system-tooltips nil))
+        ((osx-p)
+         (setq belak/frame-font "Source Code Pro Light 10")))
+
+  ;; We want to ensure the font is set after the window frame is
+  ;; created.
+  (add-hook 'after-make-window-system-frame-hooks
+            (lambda () (when belak/frame-font (set-frame-font belak/frame-font))))
+
+  ;; Remove most gui features because I rarely use any of them.
+  (menu-bar-mode -1)
+  (tool-bar-mode -1)
+  (scroll-bar-mode -1)
+
+  (setq use-dialog-box nil
+        use-file-dialog nil)
+
+  ;; Various appearance settings
+  (setq column-number-mode t
+        line-number-mode t
+        tooltip-delay 0
+        tooltip-short-delay 0)
+
+  (setq-default tab-width 4)
+
+  ;; I find that when I want to use zap, I almost never want to include
+  ;; the next character, so we replace zap-to-chat with zap-up-to-char.
+  (autoload 'zap-up-to-char "misc")
+  (global-set-key [remap zap-to-char] 'zap-up-to-char)
+
+  (defvar save-place-file (concat user-emacs-directory "places"))
+  (setq backup-directory-alist `(("." . ,(concat user-emacs-directory "backups"))))
+  (setq auto-save-file-name-transforms `((".*" ,temporary-file-directory t)))
+
+  ;; Make sure we only have to type 'y' or 'n', not the full word
+  ;; because that takes too many keystrokes.
+  (fset 'yes-or-no-p 'y-or-n-p)
+
+  (global-hl-line-mode)
+
+  (setq lazy-highlight-initial-delay 0
+        make-pointer-invisible t
+        vc-follow-symlinks t
+        require-final-newline t
+        load-prefer-newer t
+        inhibit-splash-screen t)
+
+  (setq history-length 50)
+
+  ;; Middle clicking should paste, but not adjust point and paste at the
+  ;; then adjusted point.
+  (setq mouse-yank-at-point t)
+
+  ;; As a former vim user, I like escape to actually quit
+  ;; everywhere. This was taken from
+  ;; https://github.com/davvil/.emacs.d/blob/master/init.el
+  (defun minibuffer-keyboard-quit ()
+    "Abort recursive edit.
+  In Delete Selection mode, if the mark is active, just
+  deactivate it; then it takes a second \\[keyboard-quit] to
+  abort the minibuffer."
+    (interactive)
+    (if (and delete-selection-mode transient-mark-mode mark-active)
+        (setq deactivate-mark  t)
+      (when (get-buffer "*Completions*") (delete-windows-on "*Completions*"))
+      (abort-recursive-edit)))
+
+  (define-key minibuffer-local-map [escape] 'minibuffer-keyboard-quit)
+  (define-key minibuffer-local-ns-map [escape] 'minibuffer-keyboard-quit)
+  (define-key minibuffer-local-completion-map [escape] 'minibuffer-keyboard-quit)
+  (define-key minibuffer-local-must-match-map [escape] 'minibuffer-keyboard-quit)
+  (define-key minibuffer-local-isearch-map [escape] 'minibuffer-keyboard-quit)
+
+  ;; Ensure all trailing whitespace is removed
+  (add-hook 'before-save-hook 'delete-trailing-whitespace)
+
+  ;; Highlight between matching parens
+  (electric-pair-mode 1)
+
+  ;; Show which function we're in
+  ;;(which-function-mode 1)
+
+  ;; Delete text if we start typing
+  ;; TODO: This may be possible to do with a variable.
+  (delete-selection-mode)
+
+  ;; Disable cursor blinking
+  (blink-cursor-mode -1)
+
+  ;; Show modifier combinations almost immediately.
+  (setq echo-keystrokes 0.1)
+
+  ;; This is a common hook for all modes that are based on the generally
+  ;; programming mode.
+  (add-hook 'prog-mode-hook
+            (lambda ()
+              (linum-mode 1)
+              (setq show-trailing-whitespace t)))
+
+  ;; Revert buffers automatically if they've changed on disk
+  (global-auto-revert-mode 1)
+  (setq auto-revert-verbose nil)
+  (diminish 'auto-revert-mode)
+#+end_src
+
+** Custom
+
+We still want to be able to have non-public configs, such as for
+passwords and what not, so we put them in a separate file and load
+it, but ignore errors, for instance if it doesn't exist. This has
+the added advantage of making it so customizations will go to this
+file and not to init.el, which is version controlled.
+
+#+begin_src emacs-lisp
+  (setq custom-file (expand-file-name "custom.el" user-emacs-directory))
+  (load custom-file t)
+#+end_src
