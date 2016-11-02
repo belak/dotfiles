@@ -371,6 +371,7 @@ magit is an amazing tool for working with git inside emacs.
                   "g" 'magit-status))
   :init
   (use-package magit-filenotify
+    :disabled t
     :if (linux-p)
     :config
     (add-hook 'magit-status-mode-hook 'magit-filenotify-mode))
