@@ -604,7 +604,10 @@ which is why the settings here are fairly minimal.
     :mode
     "\\.rs\\'"
     :config
-    ;; TODO: flycheck-rust
+    (use-package flycheck-rust
+      :if (fboundp 'flycheck-mode)
+      :config
+      (add-hook 'flycheck-mode-hook #'flycheck-rust-setup))
     (use-package racer
       :config
       (add-hook 'rust-mode-hook #'racer-mode)))
