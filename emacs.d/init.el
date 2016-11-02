@@ -29,6 +29,18 @@
 (org-babel-load-file
  (expand-file-name "README.org" user-emacs-directory))
 
+;; Now that we're done loading everything, print how long it took.
+(when window-system
+  (let ((elapsed (float-time (time-subtract (current-time) emacs-start-time))))
+    (message "Loading %s...done (%.3fs)" load-file-name elapsed))
+
+  (add-hook 'after-init-hook
+            `(lambda ()
+               (let ((elapsed (float-time (time-subtract (current-time) emacs-start-time))))
+                 (message "Loading %s...done (%.3fs) [after-init]"
+                          ,load-file-name elapsed)))
+            t))
+
 ;; Set these variables back to normal
 (setq debug-on-error nil
       debug-on-quit nil)
