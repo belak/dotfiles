@@ -292,6 +292,7 @@ it needs to be loaded before spaceline.
 
 #+begin_src emacs-lisp
   (use-package anzu
+    :demand
     :diminish anzu-mode
     :config (global-anzu-mode))
 #+end_src
@@ -305,6 +306,8 @@ because it needs to be loaded before persistent-scratch.
   (use-package spaceline
     :demand
     :config
+    (when (fboundp 'anzu-mode)
+      (setq anzu-cons-mode-line-p nil))
     (require 'spaceline-config)
     (setq powerline-default-separator 'bar
           spaceline-highlight-face-func 'spaceline-highlight-face-evil-state)
