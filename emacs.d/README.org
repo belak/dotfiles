@@ -577,7 +577,7 @@ buffers.
                   (lambda (&rest arg-list)
                     (if (and (projectile-project-p)
                              (venv-is-valid (projectile-project-name)))
-                        (venv-workon (projectile-project-name))))))))
+                        (venv-workon (projectile-project-name)))))))
 #+end_src
 
 *** Rust
