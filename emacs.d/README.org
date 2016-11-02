@@ -285,29 +285,15 @@ Project based navigation is pretty much the best thing ever.
     (projectile-global-mode))
 #+end_src
 
-*** =anzu=
-
-anzu shows how many matches in isearch. This is placed up here because
-it needs to be loaded before spaceline.
-
-#+begin_src emacs-lisp
-  (use-package anzu
-    :demand
-    :diminish anzu-mode
-    :config (global-anzu-mode))
-#+end_src
-
 *** =spaceline=
 
 spaceline is a better modeline with simple config. It's up here
-because it needs to be loaded before persistent-scratch.
+because it needs to be loaded before persistent-scratch and anzu.
 
 #+begin_src emacs-lisp
   (use-package spaceline
     :demand
     :config
-    (when (fboundp 'anzu-mode)
-      (setq anzu-cons-mode-line-p nil))
     (require 'spaceline-config)
     (setq powerline-default-separator 'bar
           spaceline-highlight-face-func 'spaceline-highlight-face-evil-state)
@@ -695,14 +681,24 @@ tern is a js navigation package which extends js-mode.
 
 ** Various Packages
 
-#+begin_src emacs-lisp
-  ;; Grab important environment variables from the shell. The important
-  ;; ones are PATH and GOPATH.
-  (use-package exec-path-from-shell
-    :config
-    (add-to-list 'exec-path-from-shell-variables "GOPATH")
-    (exec-path-from-shell-initialize))
+*** =anzu=
 
+anzu shows how many matches in isearch. This should be loaded after
+spaceline.
+
+#+begin_src emacs-lisp
+  (use-package anzu
+    :demand
+    :diminish anzu-mode
+    :config
+    (when (fboundp 'spaceline-install)
+      (setq anzu-cons-mode-line-p nil))
+    (global-anzu-mode))
+#+end_src
+
+*** Other (unsorted)
+
+#+begin_src emacs-lisp
   ;; fic-mode simply gives an annoying highlight to FIXME, TODO, XXX,
   ;; and other similar keywords so they're easy to spot.
   (use-package fic-mode
