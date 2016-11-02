@@ -345,6 +345,19 @@ editors.
     (editorconfig-mode 1))
 #+end_src
 
+*** =exec-shell-from-path=
+
+Grab important environment variables from the shell. The important
+ones are PATH and GOPATH. This needs to happen before things like go
+are loaded because it uses envars to find certain packages.
+
+#+begin_src emacs-lisp
+  (use-package exec-path-from-shell
+    :config
+    (add-to-list 'exec-path-from-shell-variables "GOPATH")
+    (exec-path-from-shell-initialize))
+#+end_src
+
 *** =magit=
 
 magit is an amazing tool for working with git inside emacs.
