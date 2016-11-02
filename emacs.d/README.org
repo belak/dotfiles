@@ -257,8 +257,7 @@ packages actually use it.
 
     ;; For the operator state, the only thing we want to change is the
     ;; size. We can keep the same color.
-    (setq evil-operator-state-cursor 'evil-half-cursor))
-
+    (setq evil-operator-state-cursor 'evil-half-cursor)))
 #+end_src
 
 *** =flycheck=
