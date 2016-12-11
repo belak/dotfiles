@@ -341,6 +341,7 @@ editors.
 
 #+begin_src emacs-lisp
   (use-package editorconfig
+    :diminish editorconfig-mode
     :config
     (editorconfig-mode 1))
 #+end_src
@@ -470,8 +471,6 @@ http://stackoverflow.com/questions/3312114/how-to-tell-emacs-to-open-h-file-in-c
     (:keymaps 'go-mode-map
      "M-."   'go-guru-definition
      "C-c o" 'go-guru-map)
-    :init
-    (load "$GOPATH/src/golang.org/x/tools/cmd/guru/go-guru.el")
     :config
     (use-package company-go
       :if (fboundp 'company-mode)
@@ -483,7 +482,6 @@ http://stackoverflow.com/questions/3312114/how-to-tell-emacs-to-open-h-file-in-c
 
     (defun my-go-mode-hook ()
       (add-hook 'before-save-hook 'gofmt-before-save nil t)
-      (go-guru-hl-identifier-mode)
       (subword-mode 1))
 
     (add-hook 'go-mode-hook 'my-go-mode-hook))
