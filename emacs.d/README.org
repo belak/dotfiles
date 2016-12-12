@@ -598,6 +598,13 @@ buffers.
                         (venv-workon (projectile-project-name)))))))
 #+end_src
 
+Allow emacs to understand versioned python shebangs.
+
+#+begin_src emacs-lisp
+  (add-to-list 'interpreter-mode-alist '("python2" . python-mode))
+  (add-to-list 'interpreter-mode-alist '("python3" . python-mode))
+#+end_src
+
 *** Rust
 
 Rust is a fairly recent addition which I'd like to learn more about,
