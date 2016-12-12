@@ -24,8 +24,7 @@ the URL function to just call it so we always get the right browser.
 
 #+begin_src emacs-lisp
   (when (linux-p)
-    (setq browse-url-browser-function 'browse-url-generic
-          browse-url-generic-program "xdg-open"))
+    (setq browse-url-browser-function 'browse-url-xdg-open))
 #+end_src
 
 *** OSX Specific
