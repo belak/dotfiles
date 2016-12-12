@@ -90,7 +90,6 @@ installed already.
   (defun belak/package-ensure-installed (package)
     "Install a missing PACKAGE if it isn't already."
     (unless (package-installed-p package)
-      (belak/ensure-refreshed)
       (package-install package)))
 #+end_src
 
