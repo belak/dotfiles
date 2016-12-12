@@ -444,6 +444,14 @@ http://stackoverflow.com/questions/3312114/how-to-tell-emacs-to-open-h-file-in-c
   (add-to-list 'auto-mode-alist '("\\.h\\'" . c-c++-header))
 #+end_src
 
+I much prefer the linux C style to the GNU style.
+
+#+begin_src emacs-lisp
+  (setq c-default-style ((java-mode . "java")
+                         (awk-mode  . "awk")
+                         (other     . "linux")))
+#+end_src
+
 *** CMake
 
 #+begin_src emacs-lisp
