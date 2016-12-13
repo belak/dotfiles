@@ -726,17 +726,25 @@ spaceline.
     (global-anzu-mode))
 #+end_src
 
+*** =hl-todo=
+
+I originally used fic-mode, but it appears that hl-todo is a little
+better and is updated more frequently. This lets us highlight TODO,
+FIXME, XXX, and other similar keywords.
+
+#+begin_src emacs-lisp
+  (use-package hl-todo
+    :config
+    (setq hl-todo-keyword-faces '(("FIXME" . hl-todo)
+                                  ("TODO"  . hl-todo)
+                                  ("XXX"   . hl-todo)))
+    (hl-todo-set-regexp)
+    (global-hl-todo-mode))
+#+end_src
+
 *** Other (unsorted)
 
 #+begin_src emacs-lisp
-  ;; fic-mode simply gives an annoying highlight to FIXME, TODO, XXX,
-  ;; and other similar keywords so they're easy to spot.
-  (use-package fic-mode
-    :diminish fic-mode
-    :config
-    (add-to-list 'fic-highlighted-words "XXX")
-    (add-hook 'prog-mode-hook 'fic-mode))
-
   ;; flyspell does what it says on the tin. It's a spell-checker similar to flycheck.
   (use-package flyspell
     :diminish flyspell-mode
