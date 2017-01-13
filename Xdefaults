@@ -1,6 +1,6 @@
 ! urxvt font settings
-URxvt.font:      xft:Terminus:size=8
-URxvt.boldFont:  xft:Terminus:size=8
+URxvt.font:      xft:xos4 Terminus:size=10
+URxvt.boldFont:  xft:xos4 Terminus:size=10
 
 !URxvt.font:      xft:Noto Sans:size=8
 !URxvt.boldFont:  xft:Noto Sans:size=8
@@ -15,7 +15,7 @@ URxvt.matcher.button:  1
 URxvt.clipboard.autocopy: true
 
 ! rofi stuffs
-rofi.font:     Terminus 8
+rofi.font:     xos4 Terminus 10
 rofi.location: 2
 rofi.fuzzy:    true
 rofi.fg:       #dcdccc
