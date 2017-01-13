@@ -1,5 +1,58 @@
 [ui]
 username = Kaleb Elwert <belak@coded.io>
 
-[web]
-cacerts = /etc/ssl/certs/ca-certificates.crt
+[color]
+desc.here = inverse
+status.modified = cyan
+status.added = green
+status.removed = red
+status.deleted = yellow bold underline
+status.unknown = magenta bold underline
+status.ignored = yellow underline
+status.copied = green underline
+diff.diffline = none
+diff.extended = cyan
+diff.file_a = red
+diff.file_b = green
+diff.hunk = yellow bold
+diff.deleted = red
+diff.inserted = green
+diff.changed = white
+diff.trailingwhitespace = white_background
+qseries.applied = blue bold underline
+qseries.unapplied = cyan bold
+qseries.missing = red bold
+bookmarks.current = magenta bold
+tags.normal = green
+log.tag = green
+log.bookmark = magenta bold
+log.topic = magenta
+log.branch = blue bold
+log.date = green bold
+log.user = yellow
+log.manifest = green bold underline
+log.extra = yellow bold underline
+log.remotename = red
+log.remotebookmark = red
+log.remoteref = red
+log.remotebranch = cyan
+log.troubles = bold red inverse
+changeset.public = blue
+changeset.draft = green
+changeset.secret = red bold
+changeset.merge = dim
+changeset.obsolete = italic dim
+
+[extensions]
+color =
+evolve =
+histedit =
+pager =
+progress =
+rebase =
+
+[pager]
+pager = less
+
+[alias]
+pdiff = diff --pager=always --rev .^
