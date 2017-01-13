@@ -18,9 +18,10 @@ zstyle ':prezto:module:prompt' theme 'belak'
 zstyle ':prezto:module:ruby:chruby' auto-switch 'yes'
 zstyle ':prezto:module:terminal' auto-title 'yes'
 
-# Load zgen
+# Load needed repos
 [[ ! -d "$HOME/.zgen" ]] && git clone https://github.com/tarjoilija/zgen "$HOME/.zgen"
 source "$HOME/.zgen/zgen.zsh"
+[[ ! -d "$HOME/.nvm" ]] && git clone https://github.com/creationix/nvm "$HOME/.nvm"
 
 # Bootstrap zgen
 if ! zgen saved; then
@@ -29,6 +30,7 @@ if ! zgen saved; then
     zgen prezto
 
     # Load some better language support
+    zgen prezto node
     zgen prezto python
     zgen prezto ruby
     zgen load postmodern/chruby share/chruby/chruby.sh
@@ -70,6 +72,11 @@ export PAGER=less
 export PYTHONDONTWRITEBYTECODE=true
 export NVIM_TUI_ENABLE_CURSOR_SHAPE=1
 export WORKON_HOME="$HOME/.virtualenvs"
+
+# Set the default Less options.
+# Mouse-wheel scrolling has been disabled by -X (disable screen clearing).
+# Remove -X and -F (exit if the content fits on one screen) to enable it.
+export LESS='-F -g -i -M -R -S -w -X -z-4'
 
 [[ -f ~/.fzf.zsh ]] && source ~/.fzf.zsh
 [[ -f ~/.zshrc.local ]] && source ~/.zshrc.local
