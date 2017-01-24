@@ -529,6 +529,15 @@ These are helper functions, initially taken from dominikh's dotfiles.
           (replace-match "" nil nil)))))
 #+end_src
 
+*** Groovy
+
+I really don't want to, but I guess I have to for work.
+
+#+begin_src emacs-lisp
+  (use-package groovy-mode
+    :mode "\\.groovy\\'")
+#+end_src
+
 *** Markdown
 
 #+begin_src emacs-lisp
