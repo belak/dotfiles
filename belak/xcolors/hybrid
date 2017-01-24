@@ -1,9 +1,10 @@
 ! Hybrid Terminal Colours. Uses the palette from Tomorrow-Night:
 !
 ! vim: ft=xdefaults
- 
+
 *background: #1D1F21
 *foreground: #C5C8C6
+
 ! black
 *color0: #282A2E
 *color8: #373B41
