@@ -118,6 +118,11 @@ format-disconnected-underline = ${colors.red}
 [module/battery]
 type = internal/battery
 
+full-at = 98
+time-format = %H:%M
+battery = BAT0
+adapter = AC
+
 label-discharging = %percentage% (%time%)
 
 format-full-underline = ${colors.green}
