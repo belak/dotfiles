@@ -39,7 +39,7 @@ if ! zgen saved; then
     # Additional plugins
     zgen prezto git
     zgen prezto syntax-highlighting
-    zgen load rupa/z z.sh
+    #zgen load rupa/z z.sh
 
     # Save everything we've loaded so far
     zgen save
@@ -58,7 +58,7 @@ stty -ixon
 
 # Aliases
 alias json="python -mjson.tool"
-alias j="z"
+#alias j="z"
 
 # Alias vim to nvim if neovim is installed
 if which nvim &>/dev/null; then
@@ -79,4 +79,5 @@ export WORKON_HOME="$HOME/.virtualenvs"
 export LESS='-F -g -i -M -R -S -w -X -z-4'
 
 [[ -f ~/.fzf.zsh ]] && source ~/.fzf.zsh
+[[ -f /etc/profile.d/autojump.zsh ]] && source /etc/profile.d/autojump.zsh
 [[ -f ~/.zshrc.local ]] && source ~/.zshrc.local
