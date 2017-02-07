@@ -198,7 +198,7 @@ company-mode is active.
     (global-company-mode))
 #+end_src
 
-*** =evil-mode= (disabled)
+*** =evil-mode=
 
 =evil-mode= is a vim emulation layer for Emacs. It's currently
 disabled as I've switched back to Emacs keybinds.
@@ -210,7 +210,6 @@ packages actually use it.
   (defvar belak/evil-leader "," "Leader key for most vim bindings.")
 
   (use-package evil
-    :disabled t
     :demand
     :general
     ("C-'" 'evil-toggle-key)
@@ -367,9 +366,9 @@ magit is an amazing tool for working with git inside emacs.
 (use-package magit
   :general
   ("M-g M-g" 'magit-status)
-  (when (fboundp 'evil-mode)
-    (general-nmap :prefix belak/evil-leader
-                  "g" 'magit-status))
+  ;;(when (fboundp 'evil-mode)
+  ;;  (general-nmap :prefix belak/evil-leader
+  ;;                "g" 'magit-status))
   :init
   (use-package magit-filenotify
     :disabled t
@@ -893,9 +892,9 @@ FIXME, XXX, and other similar keywords.
   (use-package simple-mpc
     :general
     ("C-c m" 'simple-mpc)
-    (when (fboundp 'evil-mode)
-      (general-nmap :prefix belak/evil-leader
-                    "m" 'simple-mpc))
+    ;;(when (fboundp 'evil-mode)
+    ;;  (general-nmap :prefix belak/evil-leader
+    ;;                "m" 'simple-mpc))
     :config
     (when (fboundp 'evil-mode)
       (add-hook 'simple-mpc-mode-hook 'evil-emacs-state)))
