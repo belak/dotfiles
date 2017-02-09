@@ -20,7 +20,7 @@ Plug 'w0ng/vim-hybrid'
 
 " Completion
 function! DoRemote(arg)
-  UpdateRemotePlugins
+    UpdateRemotePlugins
 endfunction
 Plug 'Shougo/deoplete.nvim', { 'do': function('DoRemote') }
 Plug 'zchee/deoplete-go', { 'do': 'make'}
@@ -44,7 +44,6 @@ set cursorline
 hi clear CursorLine
 
 " Deoplete settings
-
 let g:deoplete#sources#go#align_class = 1
 let g:deoplete#enable_at_startup = 1
 
@@ -81,6 +80,25 @@ set fillchars=vert:\│ " Unicode line for separators
 set lazyredraw        " Redraw less when running macros
 set scrolloff=5       " Ensure we have a buffer of 5 lines at the top and bottom
 
+" Random settings and such
+set hidden                          " Allow buffer switching without saving
+set iskeyword-=.                    " '.' is an end of word designator
+set iskeyword-=#                    " '#' is an end of word designator
+set iskeyword-=-                    " '-' is an end of word designator
+
+set list
+set listchars=tab:›\ ,trail:•,extends:#,nbsp:. " Highlight problematic whitespace
+
+" If clipboard is available, do everything we can to yank to the system
+" clipboard rather than only the internal keyboard.
+if has('clipboard')
+    if has('unnamedplus')  " When possible use + register for copy-paste
+        set clipboard=unnamed,unnamedplus
+    else         " On mac and Windows, use * register for copy-paste
+        set clipboard=unnamed
+    endif
+endif
+
 " Set the leader key
 let mapleader=","
 
@@ -112,6 +130,10 @@ au BufWinEnter * let w:m2=matchadd('ErrorMsg', '\%>80v.\+', -1)
 " Highlight VCS conflict markers
 match ErrorMsg '^\(<\|=\|>\)\{7\}\([^=].\+\)\?$'
 
+" Allow using the repeat operator with a visual selection (!)
+" http://stackoverflow.com/a/8064607/127816
+vnoremap . :normal .<CR>
+
 " Make window switching easier
 nmap <C-h> <C-w>h
 nmap <C-j> <C-w>j
@@ -124,3 +146,20 @@ nmap <C-p> :FZF<CR>
 " Wrapped lines goes down/up to next row, rather than next line in file.
 noremap j gj
 noremap k gk
+
+" Adjust viewports to the same size
+map <Leader>= <C-w>=
+
+" Fugitive settings
+nnoremap <silent> <leader>gs :Gstatus<CR>
+nnoremap <silent> <leader>gd :Gdiff<CR>
+nnoremap <silent> <leader>gc :Gcommit<CR>
+nnoremap <silent> <leader>gb :Gblame<CR>
+nnoremap <silent> <leader>gl :Glog<CR>
+nnoremap <silent> <leader>gp :Git push<CR>
+nnoremap <silent> <leader>gr :Gread<CR>
+nnoremap <silent> <leader>gw :Gwrite<CR>
+nnoremap <silent> <leader>ge :Gedit<CR>
+" Mnemonic _i_nteractive
+nnoremap <silent> <leader>gi :Git add -p %<CR>
+nnoremap <silent> <leader>gg :SignifyToggle<CR>
