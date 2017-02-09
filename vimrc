@@ -79,6 +79,10 @@ nmap <C-j> <C-w>j
 nmap <C-k> <C-w>k
 nmap <C-l> <C-w>l
 
+" Wrapped lines goes down/up to next row, rather than next line in file.
+noremap j gj
+noremap k gk
+
 " Show whitespace
 set listchars=tab:▸\ ,eol:¬
 nmap <silent> <leader>w :set list!<CR>
