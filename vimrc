@@ -29,13 +29,30 @@ set synmaxcol=800              " Don't try to highlight lines longer than 800 ch
 set textwidth=80               " Auto wrap comments at 80 chars
 set fillchars=vert:\│          " Unicode line for separators
 set ruler                      " Column and line num display
+set hidden                     " Allow buffer switching without saving
+set iskeyword-=.               " '.' is an end of word designator
+set iskeyword-=#               " '#' is an end of word designator
+set iskeyword-=-               " '-' is an end of word designator
+
+set list
+set listchars=tab:›\ ,trail:•,extends:#,nbsp:. " Highlight problematic whitespace
+
+" If clipboard is available, do everything we can to yank to the system
+" clipboard rather than only the internal keyboard.
+if has('clipboard')
+    if has('unnamedplus')  " When possible use + register for copy-paste
+        set clipboard=unnamed,unnamedplus
+    else         " On mac and Windows, use * register for copy-paste
+        set clipboard=unnamed
+    endif
+endif
 
 " Small things for gvim
 if has('gui_running')
-	set guioptions-=T
-	set guioptions-=L
-	set guioptions-=m
-	set guioptions-=r
+    set guioptions-=T
+    set guioptions-=L
+    set guioptions-=m
+    set guioptions-=r
 endif
 
 " Split and select the right window
@@ -49,7 +66,7 @@ set ttimeoutlen=0
 " Turn on mouse support and make it work past the normal xterm limit
 set mouse=a
 if has('mouse_sgr')
-	set ttymouse=sgr
+    set ttymouse=sgr
 endif
 
 " Line numbers
@@ -73,6 +90,10 @@ filetype plugin indent on
 nmap vs :vsplit<cr>
 nmap sp :split<cr>
 
+" Allow using the repeat operator with a visual selection (!)
+" http://stackoverflow.com/a/8064607/127816
+vnoremap . :normal .<CR>
+
 " Easier movement between panes
 nmap <C-h> <C-w>h
 nmap <C-j> <C-w>j
@@ -90,19 +111,22 @@ nmap <silent> <leader>w :set list!<CR>
 " Clear search results
 nmap <leader>c :let @/=""<CR>
 
+" Adjust viewports to the same size
+map <Leader>= <C-w>=
+
 " Highlight VCS conflict markers
 match ErrorMsg '^\(<\|=\|>\)\{7\}\([^=].\+\)\?$'
 
 " Change the cursor shape in insert mode for iTerm2, even inside tmux
 if exists('$TMUX')
-	let &t_SI = "\<Esc>Ptmux;\<Esc>\<Esc>[6 q\<Esc>\\"
-	let &t_EI = "\<Esc>Ptmux;\<Esc>\<Esc>[2 q\<Esc>\\"
+    let &t_SI = "\<Esc>Ptmux;\<Esc>\<Esc>[6 q\<Esc>\\"
+    let &t_EI = "\<Esc>Ptmux;\<Esc>\<Esc>[2 q\<Esc>\\"
 elseif &term =~ "xterm\\|rxvt"
-	let &t_SI = "\<Esc>[6 q"
-	let &t_EI = "\<Esc>[2 q"
+    let &t_SI = "\<Esc>[6 q"
+    let &t_EI = "\<Esc>[2 q"
 else
-	let &t_SI = "\<Esc>]50;CursorShape=1\x7"
-	let &t_EI = "\<Esc>]50;CursorShape=0\x7"
+    let &t_SI = "\<Esc>]50;CursorShape=1\x7"
+    let &t_EI = "\<Esc>]50;CursorShape=0\x7"
 endif
 
 " Filetype specific stuff
