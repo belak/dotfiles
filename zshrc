@@ -78,6 +78,13 @@ export WORKON_HOME="$HOME/.virtualenvs"
 # Remove -X and -F (exit if the content fits on one screen) to enable it.
 export LESS='-F -g -i -M -R -S -w -X -z-4'
 
+# Load fzf. This will usually be installed when neovim plugins are installed.
 [[ -f ~/.fzf.zsh ]] && source ~/.fzf.zsh
+
+# Autojump will be in one of a few places depending on the system, so try to
+# load it from each of them.
 [[ -f /etc/profile.d/autojump.zsh ]] && source /etc/profile.d/autojump.zsh
+[[ -f /usr/local/etc/profile.d/autojump.sh ]] && source /usr/local/etc/profile.d/autojump.sh
+
+# Make it possible to add per-machine customizations.
 [[ -f ~/.zshrc.local ]] && source ~/.zshrc.local
