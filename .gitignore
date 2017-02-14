@@ -1,4 +1,7 @@
 host-*
+config/nvim/.netrwhist
+config/nvim/plugged
+config/vim/swap
 vim/.netrwhist
 vim/plugged
 vim/swap
