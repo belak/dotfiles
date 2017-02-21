@@ -208,6 +208,7 @@ packages actually use it.
   (defvar belak/evil-leader "," "Leader key for most vim bindings.")
 
   (use-package evil
+    :disabled t
     :demand
     :general
     ("C-'" 'evil-toggle-key)
