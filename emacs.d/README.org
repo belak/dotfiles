@@ -968,16 +968,16 @@ it's something that only really matters when we manually start it up.
 
 *** Other (unsorted)
 
-
-Highlights both the line and the column.
+Dim the font color of text in surrounding paragraphs.
 
 #+begin_src emacs-lisp
-  (use-package crosshairs
-    :ensure t
-    :bind (("C-|" . column-highlight-mode))
-    :init
-    (global-hl-line-mode)
-    (global-hl-line-highlight))
+  (use-package focus)
+#+end_src
+
+Highlight the current column
+
+#+begin_src emacs-lisp
+  (global-hl-line-mode)
 #+end_src
 
 Add multiple cursors and phi-search (which uses multiple cursors) to
