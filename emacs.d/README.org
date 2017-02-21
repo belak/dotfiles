@@ -601,16 +601,36 @@ I really don't want to, but I guess I have to for work.
 
 *** org
 
-=org-mode= can be used for tasks, notes, and a variety of other
-things.
+Make sure org mode is set up in a manner that doesn't suck. Meaning,
+make code blocks act more like their native counterparts, enable fancy
+indenting and allow for shift select.
+
+If the extra require looks hacky, that's because it is. The =:demand=
+makes sure the config runs because the package is already loaded to
+run this config file. The =:diminish= keyword fails because
+org-indent-mode does not exist by the time diminish is called.
 
 #+begin_src emacs-lisp
   (use-package org
-    :mode ("\\.org\'" . org-mode)
+    :demand
+    :mode ("\\.org\\'" . org-mode)
+    :diminish org-indent-mode
+    :init
+    (require 'org-indent)
     :config
     (setq org-completion-use-ido t
+          org-src-fontify-natively t
+          org-src-tab-acts-natively t
+          org-log-done t
+          org-log-done-with-time t
+          org-log-refile t
+          org-refile-allow-creating-parent-nodes t
+          org-refile-use-outline-path t
           org-support-shift-select t
-          org-agenda-files '("~/org/")))
+          org-tag-alist '(("WORK" . ?w)
+                          ("HOME" . ?h))
+          org-agenda-files '("~/org/"))
+    (add-hook 'org-mode-hook 'auto-fill-mode))
 #+end_src
 
 *** Python
