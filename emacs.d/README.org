@@ -683,6 +683,17 @@ buffers.
                         (venv-workon (projectile-project-name)))))))
 #+end_src
 
+Elpy does *all* the things, so we used to use that. Unfortunately, it
+proved to be relatively slow and buggy, so we've since moved on.
+
+#+begin_src emacs-lisp
+  (use-package elpy
+    :disabled t
+    :config
+    (setq elpy-modules (remove 'elpy-module-flymake elpy-modules))
+    (elpy-enable))
+#+end_src
+
 Allow emacs to understand versioned python shebangs.
 
 #+begin_src emacs-lisp
