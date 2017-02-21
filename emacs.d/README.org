@@ -1,5 +1,10 @@
 * belak's Emacs Config
 
+This config has been cobbled together from quite a few places.
+
+Most notably, [[https://smf.io/dotfiles][smf's dotfiles]], [[https://github.com/dakrone/dakrone-dotfiles/blob/master/.emacs.d/settings.org][dakrone's dotfiles]], [[https://github.com/syl20bnr/spacemacs][Spacemacs]], among other
+sources.
+
 ** Platform Specific
 
 Define some small helper functions to check which OS we're
