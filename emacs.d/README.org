@@ -189,6 +189,7 @@ for other packages to load before fixing the colors.
     (load-theme 'base16-tomorrow-night t)
     (setq belak/base16-colors base16-tomorrow-night-colors))
 #+end_src
+
 *** =company=
 
 company-mode is used as a completion system.
@@ -435,6 +436,7 @@ yasnippet adds some useful tools to make reusable code snippets.
     (setq yas-verbosity 0)
     (yas-global-mode 1))
 #+end_src
+
 ** Language Packages
 
 This section is meant for non-web languages. TODO: I'd like to
@@ -908,7 +910,6 @@ FIXME, XXX, and other similar keywords.
   ;; ido (interactively-do) is a better interface for selecting things.
   (use-package ido
     :config
-
     (setq resize-mini-windows t
           ido-use-virtual-buffers t
           ido-auto-merge-work-directories-length -1)
@@ -1130,12 +1131,27 @@ make multi-line editing work a bit better.
   (use-package uniquify
     :ensure nil
     :config
-    (setq uniquify-buffer-name-style 'forward))
+    (setq uniquify-buffer-name-style 'forward
+          uniquify-strip-common-suffix nil))
 #+end_src
 
 ** Other Settings
 
 *** Legacy
+
+Disable most of the vc backends.
+
+#+begin_src emacs-lisp
+  (setq vc-handled-backends '(Git Hg))
+#+end_src
+
+Most markup modes are derived from text-mode, so we can turn on
+auto-fill for all of them.
+
+#+begin_src emacs-lisp
+  (add-hook 'text-mode-hook 'turn-on-auto-fill)
+  (diminish 'auto-fill-function)
+#+end_src
 
 These are old settings this need to be reorganized.
 
@@ -1179,9 +1195,10 @@ These are old settings this need to be reorganized.
   (autoload 'zap-up-to-char "misc")
   (global-set-key [remap zap-to-char] 'zap-up-to-char)
 
-  (defvar save-place-file (concat user-emacs-directory "places"))
-  (setq backup-directory-alist `(("." . ,(concat user-emacs-directory "backups"))))
-  (setq auto-save-file-name-transforms `((".*" ,temporary-file-directory t)))
+  (defvar save-place-file)
+  (setq save-place-file (concat user-emacs-directory "places")
+        backup-directory-alist `(("." . ,(concat user-emacs-directory "backups")))
+        auto-save-file-name-transforms `((".*" ,temporary-file-directory t)))
 
   ;; Make sure we only have to type 'y' or 'n', not the full word
   ;; because that takes too many keystrokes.
