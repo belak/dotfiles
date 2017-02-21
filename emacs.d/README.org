@@ -71,7 +71,7 @@ Load package.el and tell it to only load packages we ask for.
 
   ;; Make sure we load what we need.
   (setq package-enable-at-startup nil)
-  (package-initialize nil)
+  (package-initialize)
 #+end_src
 
 This block simply defines a few helpers. =belak/ensure-refreshed= will
