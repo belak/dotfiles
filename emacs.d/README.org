@@ -454,7 +454,20 @@ hooks later which work without irony.
     :config
     (add-hook 'c++-mode-hook 'irony-mode)
     (add-hook 'c-mode-hook 'irony-mode)
-    (add-hook 'objc-mode-hook 'irony-mode))
+    (add-hook 'objc-mode-hook 'irony-mode)
+
+    ;; replace the `completion-at-point' and `complete-symbol' bindings
+    ;; in irony-mode's buffers by irony-mode's function and run the
+    ;; autosetup function
+    (defun my-irony-mode-hook ()
+      (subword-mode 1)
+      (define-key irony-mode-map [remap completion-at-point]
+        'irony-completion-at-point-async)
+      (define-key irony-mode-map [remap complete-symbol]
+        'irony-completion-at-point-async)
+      (irony-cdb-autosetup-compile-options))
+
+    (add-hook 'irony-mode-hook 'my-irony-mode-hook))
 
   (use-package company-irony
     :after (irony company-mode)
