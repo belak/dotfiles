@@ -903,6 +903,22 @@ FIXME, XXX, and other similar keywords.
           flx-ido-threshold 1000))
 #+end_src
 
+*** =paradox=
+
+Paradox is a replacement for =package-list-packages= offering a few
+extra features. Note that we only load it on those commands because
+it's something that only really matters when we manually start it up.
+
+#+begin_src emacs-lisp
+  (use-package paradox
+    :commands
+    paradox-list-packages
+    paradox-enable
+    :config
+    (setq paradox-automatically-star t)
+    (setq paradox-execute-asynchronously t))
+#+end_src
+
 *** Other (unsorted)
 
 #+begin_src emacs-lisp
