@@ -968,6 +968,18 @@ it's something that only really matters when we manually start it up.
 
 *** Other (unsorted)
 
+
+Highlights both the line and the column.
+
+#+begin_src emacs-lisp
+  (use-package crosshairs
+    :ensure t
+    :bind (("C-|" . column-highlight-mode))
+    :init
+    (global-hl-line-mode)
+    (global-hl-line-highlight))
+#+end_src
+
 Add multiple cursors and phi-search (which uses multiple cursors) to
 make multi-line editing work a bit better.
 
@@ -1202,8 +1214,6 @@ These are old settings this need to be reorganized.
   ;; Make sure we only have to type 'y' or 'n', not the full word
   ;; because that takes too many keystrokes.
   (fset 'yes-or-no-p 'y-or-n-p)
-
-  (global-hl-line-mode)
 
   (setq lazy-highlight-initial-delay 0
         make-pointer-invisible t
