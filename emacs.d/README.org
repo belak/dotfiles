@@ -157,6 +157,17 @@ better key bind settings.
   :demand)
 #+end_src
 
+*** =page-break-lines=
+
+Display a line as opposed to ^L. This is early in the config file so
+most bootstrapped package logs will take advantage of this.
+
+#+begin_src emacs-lisp
+  (use-package page-break-lines
+    :diminish page-break-lines-mode
+    :config (global-page-break-lines-mode 1))
+#+end_src
+
 *** =base16-theme=
 
 Because I maintain this package, I usually have it checked out to a
