@@ -1283,3 +1283,20 @@ file and not to init.el, which is version controlled.
   (setq custom-file (expand-file-name "custom.el" user-emacs-directory))
   (load custom-file t)
 #+end_src
+
+** TODO Tasks [0/10]
+
+This section is all about stuff I'd like to get into my emacs init but
+haven't found the time yet.
+
+- [ ] Fix the strange issue with js2-mode faces in base16
+- [ ] Add some ag bindings (really, add back ag-support)
+- [ ] Look into ranger and improving my dired setup
+- [ ] Learn =paredit=
+- [ ] Look into avy
+- [ ] Look into slime for elisp
+- [ ] Set up ediff like https://github.com/dakrone/dakrone-dotfiles/blob/master/.emacs.d/settings.org#ediff
+- [ ] Set up smartparens like https://github.com/dakrone/dakrone-dotfiles/blob/master/.emacs.d/settings.org#smartparens
+- [ ] Set up anzu like https://github.com/dakrone/dakrone-dotfiles/blob/master/.emacs.d/settings.org#anzu
+- [ ] Find a way to bootstrap go-oracle
+- [ ] Move away from org-mode config
