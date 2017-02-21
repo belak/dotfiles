@@ -967,6 +967,21 @@ it's something that only really matters when we manually start it up.
 
 *** Other (unsorted)
 
+Add multiple cursors and phi-search (which uses multiple cursors) to
+make multi-line editing work a bit better.
+
+#+begin_src emacs-lisp
+  (use-package multiple-cursors
+    :disabled t
+    :config
+    (use-package phi-search
+      ;; TODO: Move to :general
+      :bind
+      ("C-s" . phi-search)
+      ("C-r" . phi-search-backward)
+      ("M-%" . phi-replace-query)))
+#+end_src
+
 #+begin_src emacs-lisp
   ;; flyspell does what it says on the tin. It's a spell-checker similar to flycheck.
   (use-package flyspell
