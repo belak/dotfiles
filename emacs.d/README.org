@@ -336,12 +336,26 @@ console init and GUI init.
     :load-path "lisp/")
 #+end_src
 
+=diminish-major-mode= is a snippet from [[https://github.com/sandhu/emacs.d/blob/master/lisp/teppoudo-diminish.el][Achint Sandhu's dotfiles]].
+
+#+begin_src emacs-lisp
+  (defmacro diminish-major-mode (mode new-name)
+    `(add-hook (intern (concat (symbol-name ,mode) "-hook"))
+               '(lambda () (setq mode-name ,new-name))))
+
+  ;; Make the lisp modes a bit shorter
+  (diminish-major-mode 'lisp-interaction-mode "λ»")
+  (diminish-major-mode 'emacs-lisp-mode "Eλ")
+  (diminish-major-mode 'lisp-mode "λ")
+#+end_src
+
 ** Development Packages
 
 *** =diff-hl=
 
 diff-hl uses the emacs vcs integration to display
-added/modified/removed lines.
+added/modified/removed lines. This uses my own hooks which add some
+conveniences depending on if we're in a terminal or gui.
 
 #+begin_src emacs-lisp
   (use-package diff-hl
