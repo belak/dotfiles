@@ -414,9 +414,10 @@ magit is an amazing tool for working with git inside emacs.
 
     (setq magit-push-current-set-remote-if-missing t
           magit-completing-read-function 'magit-ido-completing-read))
+#+end_src
 
+#+begin_src emacs-lisp
   (use-package magit-filenotify
-    :disabled t
     :if (linux-p)
     :after magit
     :config
