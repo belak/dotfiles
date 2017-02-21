@@ -722,6 +722,20 @@ which is why the settings here are fairly minimal.
     (add-hook 'flycheck-mode-hook #'flycheck-rust-setup))
 #+end_src
 
+*** systemd
+
+#+begin_src emacs-lisp
+  (use-package systemd
+    :mode ("\\.service\'" . systemd-mode))
+#+end_src
+
+*** toml
+
+#+begin_src emacs-lisp
+  (use-package toml-mode
+    :mode "\\.toml\\'")
+#+end_src
+
 *** YAML
 
 #+begin_src emacs-lisp
