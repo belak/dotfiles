@@ -304,10 +304,11 @@ currently disabled.
 
 #+begin_src emacs-lisp
   (use-package helm-projectile
-    :after helm
+    :disabled t
+    :after (helm projectile)
     :config
     (setq projectile-completion-system 'helm)
-    (helm-projectile-on)
+    (helm-projectile-on))
 #+end_src
 
 *** =spaceline=
