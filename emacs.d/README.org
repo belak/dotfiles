@@ -865,7 +865,6 @@ Helm is a much fancier replacement for ido.
       helm-ag-project-root)
 
     (use-package helm-swoop
-      ;; TODO: Move to general
       :bind ("C-S-s" . helm-swoop)
       :config
       (setq helm-swoop-speed-or-color t
@@ -976,7 +975,6 @@ make multi-line editing work a bit better.
     :disabled t
     :config
     (use-package phi-search
-      ;; TODO: Move to :general
       :bind
       ("C-s" . phi-search)
       ("C-r" . phi-search-backward)
@@ -1284,12 +1282,14 @@ file and not to init.el, which is version controlled.
   (load custom-file t)
 #+end_src
 
-** TODO Tasks [0/10]
+** TODO Tasks [0/13]
 
 This section is all about stuff I'd like to get into my emacs init but
 haven't found the time yet.
 
 - [ ] Fix the strange issue with js2-mode faces in base16
+- [ ] Replace all :bind blocks with :general blocks
+- [ ] Clean up Legacy section
 - [ ] Add some ag bindings (really, add back ag-support)
 - [ ] Look into ranger and improving my dired setup
 - [ ] Learn =paredit=
