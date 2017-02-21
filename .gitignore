@@ -9,4 +9,4 @@ vim/swap
 private
 *.swp
 .DS_Store
-emacs.d-old/*
+emacs.d/*
