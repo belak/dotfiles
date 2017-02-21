@@ -528,17 +528,18 @@ I much prefer the linux C style to the GNU style.
 #+begin_src emacs-lisp
   (use-package go-mode
     :mode "\\.go\\'"
+    ;; TODO: Fix go-guru
     :general
-    (:keymaps 'go-mode-map
-     "M-."   'go-guru-definition
-     "C-c o" 'go-guru-map)
+    ;;(:keymaps 'go-mode-map
+    ;; "M-."   'go-guru-definition
+    ;; "C-c o" 'go-guru-map)
     :config
     (setq gofmt-command "goimports")
 
     (defun my-go-mode-hook ()
-      (add-hook 'before-save-hook 'gofmt-before-save nil t)
       (subword-mode 1))
 
+    (add-hook 'before-save-hook 'gofmt-before-save nil t)
     (add-hook 'go-mode-hook 'my-go-mode-hook))
 
   (use-package company-go
