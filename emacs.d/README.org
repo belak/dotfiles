@@ -473,7 +473,7 @@ hooks later which work without irony.
     (add-hook 'irony-mode-hook 'my-irony-mode-hook))
 
   (use-package company-irony
-    :after (irony company-mode)
+    :after (irony company)
     :config
     (add-to-list 'company-backends 'company-irony))
 
@@ -532,7 +532,7 @@ I much prefer the linux C style to the GNU style.
   (use-package go-mode
     :mode "\\.go\\'"
     ;; TODO: Fix go-guru
-    :general
+    ;;:general
     ;;(:keymaps 'go-mode-map
     ;; "M-."   'go-guru-definition
     ;; "C-c o" 'go-guru-map)
@@ -540,13 +540,13 @@ I much prefer the linux C style to the GNU style.
     (setq gofmt-command "goimports")
 
     (defun my-go-mode-hook ()
+      (add-hook 'before-save-hook 'gofmt-before-save nil t)
       (subword-mode 1))
 
-    (add-hook 'before-save-hook 'gofmt-before-save nil t)
     (add-hook 'go-mode-hook 'my-go-mode-hook))
 
   (use-package company-go
-    :after (go-mode company-mode)
+    :after (go-mode company)
     :config
     (setq company-go-show-annotation t)
     (belak/register-company-backend 'go-mode-hook 'company-go))
@@ -678,7 +678,7 @@ tweakability and convenience.
     (add-hook 'python-mode-hook 'anaconda-mode))
 
   (use-package company-anaconda
-    :after (anaconda-mode company-mode)
+    :after (anaconda-mode company)
     :config (add-to-list 'company-backends 'company-anaconda))
 #+end_src
 
@@ -840,7 +840,7 @@ tern is a js navigation package which extends js-mode.
     (add-hook 'js-mode-hook (lambda () (tern-mode t))))
 
   (use-package company-tern
-    :after (tern company-mode)
+    :after (tern company)
     :config
     (add-to-list 'company-backends 'company-tern)
     (setq company-tern-property-marker ""))
