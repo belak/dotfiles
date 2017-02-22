@@ -636,7 +636,32 @@ org-indent-mode does not exist by the time diminish is called.
     (add-hook 'org-mode-hook 'auto-fill-mode))
 #+end_src
 
+*** Puppet
+
+#+begin_src emacs-lisp
+  (use-package puppet-mode
+    :mode "\\.pp\\'")
+#+end_src
+
 *** Python
+
+#+begin_src emacs-lisp
+  (use-package python
+    :ensure nil
+    :mode ("\\.py\\'" . python-mode)
+    :config
+    (add-hook 'python-mode-hook #'subword-mode))
+#+end_src
+
+Cycle between apostrophes and quotes in python strings. Converts strings like
+'this' to strings like "this".
+
+#+begin_src emacs-lisp
+  (use-package python-switch-quotes
+    :after python
+    :bind (:map python-mode-map
+                ("C-c '" . python-switch-quotes)))
+#+end_src
 
 After doing python dev for a while, it's nice to be able to tweak my
 setup. After trying other major packages (elpy and jedi) I've settled
@@ -704,6 +729,15 @@ Allow emacs to understand versioned python shebangs.
   (add-to-list 'interpreter-mode-alist '("python3" . python-mode))
 #+end_src
 
+*** Ruby
+
+#+begin_src emacs-lisp
+  (use-package ruby-mode
+    :mode "\\.rb\\'"
+    :config
+    (add-hook 'ruby-mode-hook #'subword-mode))
+#+end_src
+
 *** Rust
 
 Rust is a fairly recent addition which I'd like to learn more about,
@@ -723,6 +757,11 @@ which is why the settings here are fairly minimal.
     :after (rust-mode flycheck-mode)
     :config
     (add-hook 'flycheck-mode-hook #'flycheck-rust-setup))
+
+  (use-package rustfmt
+    :disabled t
+    :after rust
+    :bind (("C-c C-f" . rustfmt-format-buffer)))
 #+end_src
 
 *** systemd
@@ -848,17 +887,17 @@ Helm is a much fancier replacement for ido.
   (use-package helm
     :disabled t
     :diminish helm-mode
-    ;;:bind (("M-x"     . helm-M-x)
-    ;;       ("C-x b"   . helm-mini)
-    ;;       ("C-x C-f" . helm-find-files)
-    ;;
-    ;;       ;; Reverse tab and C-z
-    ;;       :map helm-map
-    ;;       ("<tab>" . helm-execute-persistent-action)
-    ;;       ("C-z"   . helm-select-action)
-    ;;
-    ;;       :map org-mode-map
-    ;;       ("C-c h" . helm-org-in-buffer-headings))
+    :bind (("M-x"     . helm-M-x)
+           ("C-x b"   . helm-mini)
+           ("C-x C-f" . helm-find-files)
+
+           ;; Reverse tab and C-z
+           :map helm-map
+           ("<tab>" . helm-execute-persistent-action)
+           ("C-z"   . helm-select-action)
+
+           :map org-mode-map
+           ("C-c h" . helm-org-in-buffer-headings))
     :config
     (use-package helm-ag
       :commands
@@ -879,13 +918,7 @@ Helm is a much fancier replacement for ido.
     ;; Turn on fuzzy matching for everything we can
     (setq helm-M-x-fuzzy-match t
           helm-mode-fuzzy-match t
-          helm-completion-in-region-fuzzy-match)
-
-    ;; Set leader binds for all the stuff above
-    (evil-leader/set-key
-      "x"  'helm-M-x
-      "hb" 'helm-mini
-      "hf" 'helm-find-files))
+          helm-completion-in-region-fuzzy-match t))
 #+end_src
 
 *** =hl-todo=
@@ -910,7 +943,14 @@ FIXME, XXX, and other similar keywords.
   ;; ido (interactively-do) is a better interface for selecting things.
   (use-package ido
     :config
-    (setq resize-mini-windows t
+    (setq completion-ignored-extensions
+          '(".o" ".elc" "~" ".bin" ".bak" ".obj" ".map" ".a" ".ln" ".mod" ".gz"
+            ".aux" ".tdo" ".fmt" ".swp" ".pdfsync" ".pdf" ".vrb" ".idx" ".ind"
+            ".bbl" ".toc" ".blg" ".snm" ".ilg" ".log" ".out" ".pyc" ".DS_Store"
+            "-blx.bib" ".run.xml" ".hi" ".fls" ".fdb_latexmk" ".bcf" ".rel")
+
+          ido-use-filename-at-point nil
+          resize-mini-windows t
           ido-use-virtual-buffers t
           ido-auto-merge-work-directories-length -1)
 
@@ -1083,6 +1123,19 @@ make multi-line editing work a bit better.
     :ensure nil
     :config
     (setq recentf-max-saved-items 50)
+
+    ;;(add-to-list 'recentf-exclude "[/\\]\\.elpa/")
+    ;;(add-to-list 'recentf-exclude "[/\\]\\.ido\\.last\\'" )
+    ;;(add-to-list 'recentf-exclude "[/\\]\\.git/")
+    ;;(add-to-list 'recentf-exclude ".*\\.gz\\'")
+    ;;(add-to-list 'recentf-exclude ".*-autoloads\\.el\\'")
+    ;;(add-to-list 'recentf-exclude "[/\\]archive-contents\\'")
+    ;;(add-to-list 'recentf-exclude "[/\\]\\.loaddefs\\.el\\'")
+    ;;(add-to-list 'recentf-exclude "url/cookies")
+    ;;(add-to-list 'recentf-exclude ".*\\emacs.bmk\\'")
+    ;;(add-to-list 'recentf-exclude "README\\.el\\'")
+    ;;(add-to-list 'recentf-exclude "/custom\\.el\\'")
+
     (recentf-mode 1))
 
   ;; Save the last location when you leave a file.
@@ -1144,6 +1197,21 @@ make multi-line editing work a bit better.
     :config
     (setq uniquify-buffer-name-style 'forward
           uniquify-strip-common-suffix nil))
+
+  (use-package highlight-indentation
+    :diminish highlight-identation-mode
+    :config
+    (add-hook 'python-mode-hook 'highlight-indentation-mode))
+
+  (use-package whitespace
+    :ensure nil
+    :config
+    (setq whitespace-style '(trailing face tabs tab-mark lines-tail)
+          whitespace-display-mappings '((space-mark 32 [183] [46])
+                                        (newline-mark 10 [182 10])
+                                        (tab-mark 9 [9655 9] [92 9])))
+    (global-whitespace-mode t)
+    (setq whitespace-global-modes '(text-mode prog-mode org-mode)))
 #+end_src
 
 ** Other Settings
@@ -1162,6 +1230,27 @@ auto-fill for all of them.
 #+begin_src emacs-lisp
   (add-hook 'text-mode-hook 'turn-on-auto-fill)
   (diminish 'auto-fill-function)
+#+end_src
+
+popwin tries to make the behavior of compilation buffers, search
+buffers, etc, a bit more sane.
+
+#+begin_src emacs-lisp
+  (use-package popwin
+    :ensure t
+    :bind (("C-c P" . popwin:popup-last-buffer))
+    :config
+     ;; also add ag, flycheck, and occur to pop
+    (add-to-list 'popwin:special-display-config `"*ag search*")
+    (add-to-list 'popwin:special-display-config `"*ripgrep-search*")
+    (add-to-list 'popwin:special-display-config `"*Flycheck errors*")
+    (add-to-list 'popwin:special-display-config `"*Occur*")
+
+    ;; don't auto-select the compile process buffer as it's only for information
+    (add-to-list 'popwin:special-display-config `("*Compile-Log*" :noselect t))
+
+    ;; enable
+    (popwin-mode))
 #+end_src
 
 These are old settings this need to be reorganized.
@@ -1293,7 +1382,7 @@ file and not to init.el, which is version controlled.
   (load custom-file t)
 #+end_src
 
-** TODO Tasks [0/13]
+** TODO Tasks [0/18]
 
 This section is all about stuff I'd like to get into my emacs init but
 haven't found the time yet.
@@ -1302,12 +1391,19 @@ haven't found the time yet.
 - [ ] Replace all :bind blocks with :general blocks
 - [ ] Clean up Legacy section
 - [ ] Add some ag bindings (really, add back ag-support)
-- [ ] Look into ranger and improving my dired setup
+- [ ] Look into eldoc mode
 - [ ] Learn =paredit=
-- [ ] Look into avy
+- [ ] Look into avy/ivy (can probably grab from smf)
 - [ ] Look into slime for elisp
 - [ ] Set up ediff like https://github.com/dakrone/dakrone-dotfiles/blob/master/.emacs.d/settings.org#ediff
 - [ ] Set up smartparens like https://github.com/dakrone/dakrone-dotfiles/blob/master/.emacs.d/settings.org#smartparens
 - [ ] Set up anzu like https://github.com/dakrone/dakrone-dotfiles/blob/master/.emacs.d/settings.org#anzu
 - [ ] Find a way to bootstrap go-oracle
 - [ ] Move away from org-mode config
+- [ ] Grab goto-chr from smf
+- [ ] Look at ripgrep to maybe replace ag
+- [ ] Whole-line-or-region-mode?
+- [ ] dwim?
+- [ ] hungry-delete
+- [ ] dumb-jump
+- [ ] guide-key?
