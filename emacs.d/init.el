@@ -8,6 +8,10 @@
 
 ;; Define the start time so we can measure how long loading took
 ;; later.
+
+;; package.el adds this automatically, but we handle this in README.org
+;(package-initialize)
+
 (defconst emacs-start-time (current-time))
 
 ;; Set the gc-cons-threshold as early as possible so we have some
