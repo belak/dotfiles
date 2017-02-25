@@ -10,40 +10,33 @@ if [[ `tty` == "/dev/tty1" ]]; then
     exec startx
 fi
 
-# Any zprezto settings need to come before zgen is loaded. Most of these come
-# from the default zpreztorc.
-zstyle ':prezto:*:*' color 'yes'
-zstyle ':prezto:module:editor' key-bindings 'emacs'
-zstyle ':prezto:module:prompt' theme 'belak'
-zstyle ':prezto:module:ruby:chruby' auto-switch 'yes'
-zstyle ':prezto:module:terminal' auto-title 'yes'
-
 # Load needed repos
-[[ ! -d "$HOME/.zgen" ]] && git clone https://github.com/tarjoilija/zgen "$HOME/.zgen"
-source "$HOME/.zgen/zgen.zsh"
+[[ ! -d "$HOME/.antigen" ]] && git clone https://github.com/zsh-users/antigen.git "$HOME/.antigen"
+source "$HOME/.antigen/antigen.zsh"
 [[ ! -d "$HOME/.nvm" ]] && git clone https://github.com/creationix/nvm "$HOME/.nvm"
 
-# Bootstrap zgen
-if ! zgen saved; then
-    # We use prezto in place of oh-my-zsh because it's quite a bit simpler and
-    # makes some decisions with the default config which I prefer.
-    zgen prezto
+# Load the basic oh-my-zsh library
+antigen use oh-my-zsh
 
-    # Load some better language support
-    zgen prezto node
-    zgen prezto python
-    zgen prezto ruby
-    zgen load postmodern/chruby share/chruby/chruby.sh
-    zgen load postmodern/chruby share/chruby/auto.sh
+# Load any oh-my-zsh bundles we want
+antigen bundle chruby
+antigen bundle git
+antigen bundle golang
+antigen bundle nvm
+antigen bundle python
+antigen bundle ruby
+antigen bundle virtualenvwrapper
 
-    # Additional plugins
-    zgen prezto git
-    zgen prezto syntax-highlighting
-    #zgen load rupa/z z.sh
+# Load any external bundles we want
+antigen bundle zsh-users/zsh-syntax-highlighting
+antigen bundle postmodern/chruby share/chruby/chruby.sh
+antigen bundle postmodern/chruby share/chruby/auto.sh
+antigen bundle rupa/z z.sh
 
-    # Save everything we've loaded so far
-    zgen save
-fi
+# Pick a theme
+antigen theme gentoo
+
+antigen apply
 
 # Disable SHARE_HISTORY
 unsetopt SHARE_HISTORY
