@@ -34,7 +34,8 @@ antigen bundle postmodern/chruby share/chruby/auto.sh
 antigen bundle rupa/z z.sh
 
 # Pick a theme
-antigen theme gentoo
+export DEFAULT_USER=belak
+antigen theme agnoster
 
 antigen apply
 
