@@ -20,6 +20,7 @@ antigen use oh-my-zsh
 
 # Load any oh-my-zsh bundles we want
 antigen bundle chruby
+antigen bundle docker
 antigen bundle git
 antigen bundle golang
 antigen bundle nvm
