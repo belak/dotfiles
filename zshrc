@@ -26,6 +26,7 @@ antigen bundle nvm
 antigen bundle python
 antigen bundle ruby
 antigen bundle virtualenvwrapper
+antigen bundle shrink-path
 
 # Load any external bundles we want
 antigen bundle zsh-users/zsh-syntax-highlighting
@@ -52,7 +53,7 @@ stty -ixon
 
 # Aliases
 alias json="python -mjson.tool"
-#alias j="z"
+alias j="z"
 
 # Alias vim to nvim if neovim is installed
 if which nvim &>/dev/null; then
@@ -66,6 +67,8 @@ export PAGER=less
 export PYTHONDONTWRITEBYTECODE=true
 export NVIM_TUI_ENABLE_CURSOR_SHAPE=1
 export WORKON_HOME="$HOME/.virtualenvs"
+export VIRTUAL_ENV_DISABLE_PROMPT=true
+export DISABLE_AUTO_UPDATE=true
 
 # Set the default Less options.
 # Mouse-wheel scrolling has been disabled by -X (disable screen clearing).
@@ -74,11 +77,6 @@ export LESS='-F -g -i -M -R -S -w -X -z-4'
 
 # Load fzf. This will usually be installed when neovim plugins are installed.
 [[ -f ~/.fzf.zsh ]] && source ~/.fzf.zsh
-
-# Autojump will be in one of a few places depending on the system, so try to
-# load it from each of them.
-[[ -f /etc/profile.d/autojump.zsh ]] && source /etc/profile.d/autojump.zsh
-[[ -f /usr/local/etc/profile.d/autojump.sh ]] && source /usr/local/etc/profile.d/autojump.sh
 
 # Make it possible to add per-machine customizations.
 [[ -f ~/.zshrc.local ]] && source ~/.zshrc.local
