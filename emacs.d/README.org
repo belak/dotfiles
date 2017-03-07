@@ -879,6 +879,17 @@ spaceline.
     (global-anzu-mode))
 #+end_src
 
+*** =golden-ratio-mode=
+
+Auto-resize frames based on the golden ratio to hopefully make sure
+everything stays readable and the focused frame is the most important.
+
+#+begin_src emacs-lisp
+  (use-package golden-ratio
+    :config
+    (golden-ratio-mode 1))
+#+end_src
+
 *** =helm= (disabled)
 
 Helm is a much fancier replacement for ido.
