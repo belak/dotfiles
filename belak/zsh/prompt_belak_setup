@@ -32,14 +32,16 @@
 pmodload 'helper'
 
 function prompt_belak_pwd {
-  local pwd="${PWD/#$HOME/~}"
+  #local pwd="${PWD/#$HOME/~}"
 
-  if [[ "$pwd" == (#m)[/~] ]]; then
-    _prompt_belak_pwd="$MATCH"
-    unset MATCH
-  else
-    _prompt_belak_pwd="${${${${(@j:/:M)${(@s:/:)pwd}##.#?}:h}%/}//\%/%%}/${${pwd:t}//\%/%%}"
-  fi
+  #if [[ "$pwd" == (#m)[/~] ]]; then
+  #  _prompt_belak_pwd="$MATCH"
+  #  unset MATCH
+  #else
+  #  _prompt_belak_pwd="${${${${(@j:/:M)${(@s:/:)pwd}##.#?}:h}%/}//\%/%%}/${${pwd:t}//\%/%%}"
+  #fi
+
+  _prompt_belak_pwd="%~"
 }
 
 function prompt_belak_venv {

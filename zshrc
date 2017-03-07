@@ -10,34 +10,36 @@ if [[ `tty` == "/dev/tty1" ]]; then
     exec startx
 fi
 
+zstyle ':prezto:*:*' color 'yes'
+zstyle ':prezto:module:editor' key-bindings 'emacs'
+zstyle ':prezto:module:prompt' theme 'gentoo'
+zstyle ':prezto:module:ruby:chruby' auto-switch 'yes'
+zstyle ':prezto:module:terminal' auto-title 'yes'
+
 # Load needed repos
 [[ ! -d "$HOME/.antigen" ]] && git clone https://github.com/zsh-users/antigen.git "$HOME/.antigen"
 source "$HOME/.antigen/antigen.zsh"
 [[ ! -d "$HOME/.nvm" ]] && git clone https://github.com/creationix/nvm "$HOME/.nvm"
 
-# Load the basic oh-my-zsh library
-antigen use oh-my-zsh
+# Load the basic prezto library
+antigen use prezto
 
-# Load any oh-my-zsh bundles we want
-antigen bundle chruby
-antigen bundle docker
-antigen bundle git
-antigen bundle golang
-antigen bundle nvm
-antigen bundle python
-antigen bundle ruby
-antigen bundle virtualenvwrapper
-antigen bundle shrink-path
+# Load core modules
+antigen bundle zsh-users/prezto modules/helper
+antigen bundle zsh-users/prezto modules/editor
+antigen bundle zsh-users/prezto modules/git
+antigen bundle zsh-users/prezto modules/prompt
+
+# Load bundled language modules
+antigen bundle zsh-users/prezto modules/node
+antigen bundle zsh-users/prezto modules/python
+antigen bundle zsh-users/prezto modules/ruby
 
 # Load any external bundles we want
 antigen bundle zsh-users/zsh-syntax-highlighting
 antigen bundle postmodern/chruby share/chruby/chruby.sh
 antigen bundle postmodern/chruby share/chruby/auto.sh
 antigen bundle rupa/z z.sh
-
-# Pick a theme
-export DEFAULT_USER=belak
-antigen theme agnoster
 
 antigen apply
 
