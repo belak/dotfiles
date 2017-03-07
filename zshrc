@@ -20,6 +20,7 @@ antigen use oh-my-zsh
 
 # Load any oh-my-zsh bundles we want
 antigen bundle chruby
+antigen bundle docker
 antigen bundle git
 antigen bundle golang
 antigen bundle nvm
@@ -66,6 +67,7 @@ export PAGER=less
 export PYTHONDONTWRITEBYTECODE=true
 export NVIM_TUI_ENABLE_CURSOR_SHAPE=1
 export WORKON_HOME="$HOME/.virtualenvs"
+export VIRTUAL_ENV_DISABLE_PROMPT=true
 
 # Set the default Less options.
 # Mouse-wheel scrolling has been disabled by -X (disable screen clearing).
