@@ -886,6 +886,7 @@ everything stays readable and the focused frame is the most important.
 
 #+begin_src emacs-lisp
   (use-package golden-ratio
+    :diminish golden-ratio-mode
     :config
     (golden-ratio-mode 1))
 #+end_src
