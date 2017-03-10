@@ -12,9 +12,10 @@ fi
 
 zstyle ':prezto:*:*' color 'yes'
 zstyle ':prezto:module:editor' key-bindings 'emacs'
-zstyle ':prezto:module:prompt' theme 'belak'
+zstyle ':prezto:module:prompt' theme 'agnoster'
 zstyle ':prezto:module:ruby:chruby' auto-switch 'yes'
 zstyle ':prezto:module:terminal' auto-title 'yes'
+zstyle ':prezto:module:python' autovenv 'yes'
 
 # Load needed repos
 [[ ! -d "$HOME/.antigen" ]] && git clone https://github.com/zsh-users/antigen.git "$HOME/.antigen"
@@ -73,6 +74,8 @@ export NVIM_TUI_ENABLE_CURSOR_SHAPE=1
 export WORKON_HOME="$HOME/.virtualenvs"
 export VIRTUAL_ENV_DISABLE_PROMPT=true
 export DISABLE_AUTO_UPDATE=true
+
+export DEFAULT_USER=belak
 
 # Set the default Less options.
 # Mouse-wheel scrolling has been disabled by -X (disable screen clearing).
