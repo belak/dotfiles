@@ -59,6 +59,7 @@ stty -ixon
 # Aliases
 alias json="python -mjson.tool"
 alias j="z"
+alias prand='cat /usr/share/pokeshell/$(($RANDOM % 151 + 1)).pokemon'
 
 # Alias vim to nvim if neovim is installed
 if which nvim &>/dev/null; then
