@@ -28,6 +28,7 @@ antigen use prezto
 # Load core modules
 antigen bundle zsh-users/prezto modules/helper
 antigen bundle zsh-users/prezto modules/editor
+antigen bundle zsh-users/prezto modules/history
 antigen bundle zsh-users/prezto modules/git
 antigen bundle zsh-users/prezto modules/prompt
 antigen bundle zsh-users/prezto modules/utility
