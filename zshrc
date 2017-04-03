@@ -26,17 +26,17 @@ source "$HOME/.antigen/antigen.zsh"
 antigen use prezto
 
 # Load core modules
-antigen bundle zsh-users/prezto modules/helper
-antigen bundle zsh-users/prezto modules/editor
-antigen bundle zsh-users/prezto modules/history
-antigen bundle zsh-users/prezto modules/git
-antigen bundle zsh-users/prezto modules/prompt
-antigen bundle zsh-users/prezto modules/utility
+antigen bundle sorin-ionescu/prezto modules/helper
+antigen bundle sorin-ionescu/prezto modules/editor
+antigen bundle sorin-ionescu/prezto modules/history
+antigen bundle sorin-ionescu/prezto modules/git
+antigen bundle sorin-ionescu/prezto modules/prompt
+antigen bundle sorin-ionescu/prezto modules/utility
 
 # Load bundled language modules
-antigen bundle zsh-users/prezto modules/node
-antigen bundle zsh-users/prezto modules/python
-antigen bundle zsh-users/prezto modules/ruby
+antigen bundle sorin-ionescu/prezto modules/node
+antigen bundle sorin-ionescu/prezto modules/python
+antigen bundle sorin-ionescu/prezto modules/ruby
 
 # Load any external bundles we want
 antigen bundle zsh-users/zsh-syntax-highlighting
