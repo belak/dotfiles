@@ -7,9 +7,9 @@ sources.
 
 ** Platform Specific
 
-Define some small helper functions to check which OS we're
-running. There are a few settings and a few packages which are
-platform specific.
+Helper functions and OS-specific settings should go here.  Each OS is
+kept in a separate block even though it could easily be a case
+statement because it's easier to read.
 
 #+begin_src emacs-lisp
   (defun osx-p ()
@@ -57,21 +57,29 @@ fix the state.
                 (toggle-frame-fullscreen)
                 (toggle-frame-fullscreen))))
 #+end_src
+
 ** Package Setup
 
-Load package.el and tell it to only load packages we ask for.
+Load package.el and do our best to make sure we don't automatically
+load everything we have installed.
 
 #+begin_src emacs-lisp
-  ;; Have to make sure it's loaded before we do anything with it.
   (require 'package)
-
-  ;; Set up the package repos
   (setq package-archives '(("melpa"        . "https://melpa.org/packages/")
                            ("gnu"          . "https://elpa.gnu.org/packages/")))
-
-  ;; Make sure we load what we need.
   (setq package-enable-at-startup nil)
   (package-initialize)
+#+end_src
+
+Firstly, we disable as many warnings as we can while installing
+packages. Secondly, increasing the minimum prime bits size to
+something larger than the default settings stops all the GnuTLS
+warnings from showing up. This might not be the right place, but it
+needs to happen before we install packages.
+
+#+begin_src emacs-lisp
+  (setq byte-compile-warnings nil
+        gnutls-min-prime-bits 4096)
 #+end_src
 
 This block simply defines a few helpers. =belak/ensure-refreshed= will
@@ -81,9 +89,8 @@ has been refreshed and try to install the package if it hasn't been
 installed already.
 
 #+begin_src emacs-lisp
-  ;; Set the initial state to non-refreshed. This can also be set back
-  ;; to nil if we want to run a refresh on the next install.
-  (defvar belak/refreshed-package-list nil)
+  (defvar belak/refreshed-package-list nil
+    "This will be t if the package list has been refreshed.")
 
   (defun belak/ensure-refreshed ()
     "Ensure the package list has been refreshed this startup."
@@ -108,24 +115,12 @@ list.
                 (belak/ensure-refreshed)))
 #+end_src
 
-Various package.el settings are here.
-
-Firstly, we disable as many warnings as we can while installing packages.
-
-Increasing the minimum prime bits size to something larger than the
-default settings stops all the GnuTLS warnings from showing up. This
-might not be the right place, but it needs to happen before we install
-packages.
-
-#+begin_src emacs-lisp
-  (setq byte-compile-warnings nil
-        gnutls-min-prime-bits 4096)
-#+end_src
 ** Core Packages
 
 Portions of this config depend on other components, so we load the
-common components here, as early as possible. Generally speaking, if
-it's needed for other packages, load it here.
+common components here. The only things which should be here are
+packages which are needed for the organization of the rest of the file
+and stuff which needs to be loaded very early.
 
 *** =use-package= (and =general=)
 
@@ -153,8 +148,8 @@ We also load =general= here, as this integrates with =use-package= for
 better key bind settings.
 
 #+begin_src emacs-lisp
-(use-package general
-  :demand)
+  (belak/package-ensure-installed 'general)
+  (require 'general)
 #+end_src
 
 *** =page-break-lines=
@@ -242,9 +237,9 @@ packages actually use it.
      "C-e" 'evil-end-of-line
      "C-a" 'evil-beginning-of-line)
     :config
-    ;; If general has been loaded, we need to do the initial evil setup.
-    (when (fboundp 'general-evil-setup)
-      (general-evil-setup)
+    ;; We need to do the evil setup for general here, because I disable
+    ;; evil-mode fairly frequently.
+    (general-evil-setup)
 
     (evil-mode 1)
     (setq evil-echo-state nil
@@ -264,14 +259,15 @@ packages actually use it.
 
     ;; For the operator state, the only thing we want to change is the
     ;; size. We can keep the same color.
-    (setq evil-operator-state-cursor 'evil-half-cursor)))
+    (setq evil-operator-state-cursor 'evil-half-cursor))
+#+end_src
 
-  ;; This is a port of tpope's vim-surround which adds text objects
-  ;; for surrounding characters.
+This is a port of tpope's vim-surround which adds text objects for
+surrounding characters.
+
+#+begin_src emacs-lisp
   (use-package evil-surround
-    :disabled t
     :after evil-mode
-    ;; TODO: I have no idea what's actually wrong with this.
     :config
     (global-evil-surround-mode 1))
 #+end_src
@@ -299,18 +295,6 @@ Project based navigation is pretty much the best thing ever.
     (projectile-global-mode))
 #+end_src
 
-=helm-projectile= should only be loaded if helm is used. It's
-currently disabled.
-
-#+begin_src emacs-lisp
-  (use-package helm-projectile
-    :disabled t
-    :after (helm projectile)
-    :config
-    (setq projectile-completion-system 'helm)
-    (helm-projectile-on))
-#+end_src
-
 *** =spaceline=
 
 spaceline is a better modeline with simple config. It's up here
@@ -326,7 +310,7 @@ because it needs to be loaded before persistent-scratch and anzu.
     (spaceline-spacemacs-theme))
 #+end_src
 
-*** Other
+*** Utils
 
 =init-frame-hooks= is a simple package which handles hooks for after
 the frame has been initialized and adds convenient hooks for after
@@ -386,16 +370,15 @@ editors.
     (editorconfig-mode 1))
 #+end_src
 
-*** =exec-shell-from-path=
+*** =exec-shell-from-path= (disabled)
 
-Grab important environment variables from the shell. The important
-ones are PATH and GOPATH. This needs to happen before things like go
-are loaded because it uses envars to find certain packages.
+Grab important environment variables from the shell, the most
+important of which is PATH. We used to also grab GOPATH here, but
+newer releases of go (>= 1.8) it's set to what I use.
 
 #+begin_src emacs-lisp
   (use-package exec-path-from-shell
     :config
-    (add-to-list 'exec-path-from-shell-variables "GOPATH")
     (exec-path-from-shell-initialize))
 #+end_src
 
@@ -449,9 +432,6 @@ but it's not a high priority.
 =irony-mode= is a pretty solid dev environment for C/C++/ObjC, but we
 also need to load up the additional company and flycheck modules.
 
-It's nice that =irony-mode= is a minor mode, because it lets us add
-hooks later which work without irony.
-
 #+begin_src emacs-lisp
   (use-package irony
     :config
@@ -471,12 +451,16 @@ hooks later which work without irony.
       (irony-cdb-autosetup-compile-options))
 
     (add-hook 'irony-mode-hook 'my-irony-mode-hook))
+#+end_src
 
+#+begin_src emacs-lisp
   (use-package company-irony
     :after (irony company)
     :config
     (add-to-list 'company-backends 'company-irony))
+#+end_src
 
+#+begin_src emacs-lisp
   (use-package flycheck-irony
     :after (irony flycheck-mode)
     :config
@@ -932,6 +916,17 @@ Helm is a much fancier replacement for ido.
     (setq helm-M-x-fuzzy-match t
           helm-mode-fuzzy-match t
           helm-completion-in-region-fuzzy-match t))
+#+end_src
+
+=helm-projectile= should only be loaded if helm is used. It's
+currently disabled.
+
+#+begin_src emacs-lisp
+  (use-package helm-projectile
+    :after (helm projectile)
+    :config
+    (setq projectile-completion-system 'helm)
+    (helm-projectile-on))
 #+end_src
 
 *** =hl-todo=
