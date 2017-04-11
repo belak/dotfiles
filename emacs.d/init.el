@@ -6,6 +6,11 @@
 ;;
 ;;; Code:
 
+;;; Basic Setup:
+;;
+;; This sets up some initial settings which are only used in this
+;; file.  Specifically debugging and some profiling things.
+
 ;; Define the start time so we can measure how long loading took
 ;; later.
 
@@ -22,9 +27,15 @@
 (setq debug-on-error t
       debug-on-quit t)
 
+;;; Load Config
+;;
+;; The rest of the config is in README.org, so we load org-mode and
+;; bootstrap into README.org.
 (require 'org)
 (org-babel-load-file
  (expand-file-name "README.org" user-emacs-directory))
+
+;;; Cleanup
 
 ;; Now that we're done loading everything, print how long it took.
 (when window-system
