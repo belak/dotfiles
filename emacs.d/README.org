@@ -267,6 +267,7 @@ surrounding characters.
 
 #+begin_src emacs-lisp
   (use-package evil-surround
+    :disabled t
     :after evil-mode
     :config
     (global-evil-surround-mode 1))
@@ -923,6 +924,7 @@ currently disabled.
 
 #+begin_src emacs-lisp
   (use-package helm-projectile
+    :disabled t
     :after (helm projectile)
     :config
     (setq projectile-completion-system 'helm)
