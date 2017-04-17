@@ -511,6 +511,71 @@ I much prefer the linux C style to the GNU style.
     :mode "Dockerfile\(-.*\)?")
 #+end_src
 
+*** HTML (=web-mode=)
+
+=web-mode= is designed to handle HTML-ish templates.
+
+#+begin_src emacs-lisp
+  (use-package web-mode
+    :mode
+    "\\.erb\\'"
+    "\\.html\\'"
+    "\\.jinja\\'"
+    "\\.mustache\\'"
+    :config
+    (setq web-mode-markup-indent-offset 2
+          web-mode-css-indent-offset 2
+          web-mode-code-indent-offset 2))
+
+  (use-package emmet-mode
+    :after web-mode
+    :config
+    (add-hook 'web-mode-hook 'emmet-mode))
+#+end_src
+
+*** Javascript
+
+js2-mode is a wrapper around js-mode which cleans it up and adds a
+bunch of features.
+
+#+begin_src emacs-lisp
+  (use-package js2-mode
+    :mode "\\.js\\'"
+    :config
+    (setq js2-basic-offset 2)
+    (when (fboundp 'flycheck-mode)
+      (set-face-attribute 'js2-error nil
+                          :inherit 'flycheck-error-list-error
+                          :underline '(:color foreground-color :style wave))
+      (set-face-attribute 'js2-warning nil
+                          :inherit 'flycheck-error-list-warning
+                          :underline '(:color foreground-color :style wave))))
+#+end_src
+
+tern is a js navigation package which extends js-mode.
+
+#+begin_src emacs-lisp
+  (use-package tern
+    :diminish tern-mode
+    :config
+    (add-hook 'js-mode-hook (lambda () (tern-mode t))))
+
+  (use-package company-tern
+    :after (tern company)
+    :config
+    (add-to-list 'company-backends 'company-tern)
+    (setq company-tern-property-marker ""))
+#+end_src
+
+*** JSON
+
+#+begin_src emacs-lisp
+  (use-package json-mode
+    :mode "\\.json\\'"
+    :config
+    (setq json-reformat:indent-width 2))
+#+end_src
+
 *** go
 
 #+begin_src emacs-lisp
@@ -578,6 +643,13 @@ I really don't want to, but I guess I have to for work.
 #+begin_src emacs-lisp
   (use-package groovy-mode
     :mode "\\.groovy\\'")
+#+end_src
+
+*** LESS
+
+#+begin_src emacs-lisp
+(use-package less-css-mode
+  :mode "\\.less\\'")
 #+end_src
 
 *** Markdown
@@ -769,84 +841,6 @@ which is why the settings here are fairly minimal.
   (use-package yaml-mode
     :mode "\\.yml\\'")
 #+end_src
-** Web Dev Language Packages
-
-Because frontend languages have a tendency to come and go when they
-please (and because I don't do frontend dev that often), I'm keeping
-these in a separate section.
-
-*** HTML (=web-mode=)
-
-=web-mode= is designed to handle HTML-ish templates.
-
-#+begin_src emacs-lisp
-  (use-package web-mode
-    :mode
-    "\\.erb\\'"
-    "\\.html\\'"
-    "\\.jinja\\'"
-    "\\.mustache\\'"
-    :config
-    (setq web-mode-markup-indent-offset 2
-          web-mode-css-indent-offset 2
-          web-mode-code-indent-offset 2))
-
-  (use-package emmet-mode
-    :after web-mode
-    :config
-    (add-hook 'web-mode-hook 'emmet-mode))
-#+end_src
-
-*** Javascript
-
-js2-mode is a wrapper around js-mode which cleans it up and adds a
-bunch of features.
-
-#+begin_src emacs-lisp
-  (use-package js2-mode
-    :mode "\\.js\\'"
-    :config
-    (setq js2-basic-offset 2)
-    (when (fboundp 'flycheck-mode)
-      (set-face-attribute 'js2-error nil
-                          :inherit 'flycheck-error-list-error
-                          :underline '(:color foreground-color :style wave))
-      (set-face-attribute 'js2-warning nil
-                          :inherit 'flycheck-error-list-warning
-                          :underline '(:color foreground-color :style wave))))
-#+end_src
-
-tern is a js navigation package which extends js-mode.
-
-#+begin_src emacs-lisp
-  (use-package tern
-    :diminish tern-mode
-    :config
-    (add-hook 'js-mode-hook (lambda () (tern-mode t))))
-
-  (use-package company-tern
-    :after (tern company)
-    :config
-    (add-to-list 'company-backends 'company-tern)
-    (setq company-tern-property-marker ""))
-#+end_src
-
-*** JSON
-
-#+begin_src emacs-lisp
-  (use-package json-mode
-    :mode "\\.json\\'"
-    :config
-    (setq json-reformat:indent-width 2))
-#+end_src
-
-*** LESS
-
-#+begin_src emacs-lisp
-(use-package less-css-mode
-  :mode "\\.less\\'")
-#+end_src
-
 ** Various Packages
 
 *** =anzu=
