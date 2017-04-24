@@ -77,7 +77,11 @@ export WORKON_HOME="$HOME/.virtualenvs"
 export VIRTUAL_ENV_DISABLE_PROMPT=true
 export DISABLE_AUTO_UPDATE=true
 
-export DEFAULT_USER=belak
+if [[ $USER = "k.elwert" ]]; then
+    export DEFAULT_USER=k.elwert
+else
+    export DEFAULT_USER=belak
+fi
 
 # Set the default Less options.
 # Mouse-wheel scrolling has been disabled by -X (disable screen clearing).
