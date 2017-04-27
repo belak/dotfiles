@@ -36,8 +36,8 @@ the URL function to just call it so we always get the right browser.
 
 #+begin_src emacs-lisp
   (when (osx-p)
-    (setq mac-command-modifier 'meta
-          mac-option-modifier 'super
+    (setq mac-command-modifier 'super
+          mac-option-modifier 'meta
           mac-control-modifier 'control
           insert-directory-program "/usr/local/bin/gls")
     (let ((default-directory "/usr/local/share/emacs/site-lisp/"))
@@ -1271,7 +1271,7 @@ These are old settings this need to be reorganized.
          (setq belak/frame-font nil
                x-gtk-use-system-tooltips nil))
         ((osx-p)
-         (setq belak/frame-font "Source Code Pro Light 10")))
+         (setq belak/frame-font "Source Code Pro 12")))
 
   ;; We want to ensure the font is set after the window frame is
   ;; created.
