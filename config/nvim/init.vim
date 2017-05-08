@@ -55,6 +55,9 @@ let g:airline_left_sep=''
 let g:airline_right_sep=''
 let g:airline_theme='hybridline'
 
+" Enable mouse support
+set mouse=a
+
 " Make splitting more intuitive
 set splitbelow
 set splitright
