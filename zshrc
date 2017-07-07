@@ -12,10 +12,22 @@ fi
 
 zstyle ':prezto:*:*' color 'yes'
 zstyle ':prezto:module:editor' key-bindings 'emacs'
-zstyle ':prezto:module:prompt' theme 'agnoster'
+zstyle ':prezto:module:prompt' theme 'sorin'
 zstyle ':prezto:module:ruby:chruby' auto-switch 'yes'
 zstyle ':prezto:module:terminal' auto-title 'yes'
 zstyle ':prezto:module:python' autovenv 'yes'
+zstyle ':prezto:load' pmodule \
+    'helper' \
+    'editor' \
+    'history' \
+    'git' \
+    'prompt' \
+    'utility' \
+    'ssh' \
+    'python' \
+    'ruby' \
+    'completion' \
+    'syntax-highlighting'
 
 # Load needed repos
 [[ ! -d "$HOME/.antigen" ]] && git clone https://github.com/zsh-users/antigen.git "$HOME/.antigen"
@@ -25,24 +37,11 @@ source "$HOME/.antigen/antigen.zsh"
 # Load the basic prezto library
 antigen use prezto
 
-# Load core modules
-antigen bundle sorin-ionescu/prezto modules/helper
-antigen bundle sorin-ionescu/prezto modules/editor
-antigen bundle sorin-ionescu/prezto modules/history
-antigen bundle sorin-ionescu/prezto modules/git
-antigen bundle sorin-ionescu/prezto modules/prompt
-antigen bundle sorin-ionescu/prezto modules/utility
-
-# Load bundled language modules
-antigen bundle sorin-ionescu/prezto modules/node
-antigen bundle sorin-ionescu/prezto modules/python
-antigen bundle sorin-ionescu/prezto modules/ruby
-
 # Load any external bundles we want
-antigen bundle zsh-users/zsh-syntax-highlighting
 antigen bundle postmodern/chruby share/chruby/chruby.sh
 antigen bundle postmodern/chruby share/chruby/auto.sh
 antigen bundle rupa/z z.sh
+antigen bundle mafredri/zsh-async
 
 antigen apply
 
