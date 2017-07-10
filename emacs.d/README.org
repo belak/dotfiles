@@ -971,7 +971,7 @@ FIXME, XXX, and other similar keywords.
     (setq smex-history-length 50))
 
   ;; Use ido everywhere possible.
-  (use-package ido-ubiquitous
+  (use-package ido-completing-read+
     :after ido
     :config
     (ido-ubiquitous-mode 1))
