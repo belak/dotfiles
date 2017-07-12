@@ -30,8 +30,10 @@ Plug 'zchee/deoplete-jedi'
 Plug 'benekastah/neomake'
 
 " Language support
+Plug 'cespare/vim-toml'
 Plug 'fatih/vim-go'
 Plug 'pearofducks/ansible-vim'
+Plug 'rust-lang/rust.vim'
 
 call plug#end()
 
