@@ -1,7 +1,99 @@
-" Stuff for vundle
 set nocompatible
 
-" Incsearch
+" Plugins {{{
+call plug#begin()
+
+" Simple tweaks
+Plug 'airblade/vim-gitgutter'
+Plug 'editorconfig/editorconfig-vim'
+Plug 'tpope/vim-rsi'
+Plug 'tpope/vim-surround'
+
+" Extra utilities
+Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
+Plug 'tpope/vim-fugitive'
+
+" Appearance
+Plug 'bling/vim-bufferline'
+Plug 'myusuf3/numbers.vim'
+Plug 'ntpeters/vim-airline-colornum'
+Plug 'vim-airline/vim-airline'
+Plug 'vim-airline/vim-airline-themes'
+Plug 'w0ng/vim-hybrid'
+
+" Linting and compiling
+Plug 'benekastah/neomake'
+
+" Language support
+Plug 'cespare/vim-toml'
+Plug 'fatih/vim-go'
+Plug 'pearofducks/ansible-vim'
+Plug 'rust-lang/rust.vim'
+
+if has("nvim")
+  function! DoRemote(arg)
+    UpdateRemotePlugins
+  endfunction
+
+  " Completion
+  Plug 'Shougo/deoplete.nvim', { 'do': function('DoRemote') }
+  Plug 'zchee/deoplete-go', { 'do': 'make'}
+  Plug 'zchee/deoplete-jedi'
+  Plug 'sebastianmarkow/deoplete-rust'
+endif
+
+call plug#end()
+" }}}
+
+" Appearance {{{
+
+" Colorscheme and syntax settings
+let g:hybrid_custom_term_colors = 1
+set background=dark
+colorscheme hybrid
+syntax on
+filetype plugin indent on
+
+" Because I don't use powerline, removing the separators makes it look much
+" better.
+let g:airline_left_sep=''
+let g:airline_right_sep=''
+let g:airline_theme='hybridline'
+
+" Clear some stuff for vim-airline-colornum
+set cursorline
+hi clear CursorLine
+
+" Small tweaks to hide UI elements in gvim
+if has('gui_running')
+  set guioptions-=T
+  set guioptions-=L
+  set guioptions-=m
+  set guioptions-=r
+endif
+
+" Highlight VCS conflict markers
+match ErrorMsg '^\(<\|=\|>\)\{7\}\([^=].\+\)\?$'
+
+set list
+set listchars=tab:▸\ ,trail:•,extends:#,nbsp:.,eol:¬ " Highlight problematic whitespace
+
+" }}}
+
+" Various Settings {{{
+
+" Golang specific settings
+let g:go_fmt_command = "goimports"
+
+" Make python indentation saner
+let g:pyindent_open_paren = '&sw'
+let g:pyindent_nested_paren = '&sw'
+let g:pyindent_continue = '&sw'
+
+" Deoplete settings
+let g:deoplete#sources#go#align_class = 1
+let g:deoplete#enable_at_startup = 1
+
 set incsearch
 
 " Convenience remappings
@@ -33,26 +125,21 @@ set hidden                     " Allow buffer switching without saving
 set iskeyword-=.               " '.' is an end of word designator
 set iskeyword-=#               " '#' is an end of word designator
 set iskeyword-=-               " '-' is an end of word designator
+set iskeyword-=_               " '_' is an end of word designator
+set noshowmode                 " No point since we use airline
+set scrolloff=5                " Ensure we have a buffer of 5 lines at the top and bottom
 
-set list
-set listchars=tab:›\ ,trail:•,extends:#,nbsp:. " Highlight problematic whitespace
+set foldmethod=marker
+set foldlevel=0
 
 " If clipboard is available, do everything we can to yank to the system
 " clipboard rather than only the internal keyboard.
 if has('clipboard')
-    if has('unnamedplus')  " When possible use + register for copy-paste
-        set clipboard=unnamed,unnamedplus
-    else         " On mac and Windows, use * register for copy-paste
-        set clipboard=unnamed
-    endif
-endif
-
-" Small things for gvim
-if has('gui_running')
-    set guioptions-=T
-    set guioptions-=L
-    set guioptions-=m
-    set guioptions-=r
+  if has('unnamedplus')  " When possible use + register for copy-paste
+    set clipboard=unnamed,unnamedplus
+  else                   " On mac and Windows, use * register for copy-paste
+    set clipboard=unnamed
+  endif
 endif
 
 " Split and select the right window
@@ -66,7 +153,7 @@ set ttimeoutlen=0
 " Turn on mouse support and make it work past the normal xterm limit
 set mouse=a
 if has('mouse_sgr')
-    set ttymouse=sgr
+  set ttymouse=sgr
 endif
 
 " Line numbers
@@ -80,11 +167,45 @@ set directory=~/.vim/swap
 set undodir=~/.vim/undo
 set wildignore+=*/vendor/**
 
-" Syntax highlighting
-set background=dark
-colorscheme pablo
-syntax on
-filetype plugin indent on
+" Highlight the end of long lines in red
+"au BufWinEnter * let w:m2=matchadd('ErrorMsg', '\%>80v.\+', -1)
+
+" Change the cursor shape in insert mode for iTerm2, even inside tmux
+if exists('$TMUX')
+  let &t_SI = "\<Esc>Ptmux;\<Esc>\<Esc>[6 q\<Esc>\\"
+  let &t_EI = "\<Esc>Ptmux;\<Esc>\<Esc>[2 q\<Esc>\\"
+elseif &term =~ "xterm\\|rxvt"
+  let &t_SI = "\<Esc>[6 q"
+  let &t_EI = "\<Esc>[2 q"
+else
+  let &t_SI = "\<Esc>]50;CursorShape=1\x7"
+  let &t_EI = "\<Esc>]50;CursorShape=0\x7"
+endif
+
+" Filetype specific stuff
+au BufRead,BufNewFile *.md setlocal filetype=markdown
+au BufRead,BufNewFile *.sp setlocal filetype=cpp
+au BufRead,BufNewFile *.py setlocal expandtab shiftwidth=4 tabstop=4
+
+" Make sure we don't auto-wrap all text, unless we're in a markdown file.
+set formatoptions-=t
+autocmd! FileType markdown setlocal formatoptions+=t
+
+" Enable linting on file open and save
+autocmd! BufWritePost,BufEnter * Neomake
+
+" }}}
+
+" Keybinds {{{
+
+""" Key binds
+
+" neomake mappings
+nmap <leader><Space>o :lopen<CR>      " open location window
+nmap <leader><Space>c :lclose<CR>     " close location window
+nmap <leader><Space>, :ll<CR>         " go to current error/warning
+nmap <leader><Space>n :lnext<CR>      " next error/warning
+nmap <leader><Space>p :lprev<CR>      " previous error/warning
 
 " Easier split stuff
 nmap vs :vsplit<cr>
@@ -104,9 +225,8 @@ nmap <C-l> <C-w>l
 noremap j gj
 noremap k gk
 
-" Show whitespace
-set listchars=tab:▸\ ,eol:¬
-nmap <silent> <leader>w :set list!<CR>
+" Add a bind for fzf
+nmap <C-p> :FZF<CR>
 
 " Clear search results
 nmap <leader>c :let @/=""<CR>
@@ -114,22 +234,20 @@ nmap <leader>c :let @/=""<CR>
 " Adjust viewports to the same size
 map <Leader>= <C-w>=
 
-" Highlight VCS conflict markers
-match ErrorMsg '^\(<\|=\|>\)\{7\}\([^=].\+\)\?$'
+nmap <Tab> za
 
-" Change the cursor shape in insert mode for iTerm2, even inside tmux
-if exists('$TMUX')
-    let &t_SI = "\<Esc>Ptmux;\<Esc>\<Esc>[6 q\<Esc>\\"
-    let &t_EI = "\<Esc>Ptmux;\<Esc>\<Esc>[2 q\<Esc>\\"
-elseif &term =~ "xterm\\|rxvt"
-    let &t_SI = "\<Esc>[6 q"
-    let &t_EI = "\<Esc>[2 q"
-else
-    let &t_SI = "\<Esc>]50;CursorShape=1\x7"
-    let &t_EI = "\<Esc>]50;CursorShape=0\x7"
-endif
+" Fugitive settings
+nnoremap <silent> <leader>gs :Gstatus<CR>
+nnoremap <silent> <leader>gd :Gdiff<CR>
+nnoremap <silent> <leader>gc :Gcommit<CR>
+nnoremap <silent> <leader>gb :Gblame<CR>
+nnoremap <silent> <leader>gl :Glog<CR>
+nnoremap <silent> <leader>gp :Git push<CR>
+nnoremap <silent> <leader>gr :Gread<CR>
+nnoremap <silent> <leader>gw :Gwrite<CR>
+nnoremap <silent> <leader>ge :Gedit<CR>
+" Mnemonic _i_nteractive
+nnoremap <silent> <leader>gi :Git add -p %<CR>
+nnoremap <silent> <leader>gg :SignifyToggle<CR>
 
-" Filetype specific stuff
-au BufRead,BufNewFile *.md setlocal filetype=markdown
-au BufRead,BufNewFile *.sp setlocal filetype=cpp
-au BufRead,BufNewFile *.py setlocal expandtab shiftwidth=4 tabstop=4
+" }}}
