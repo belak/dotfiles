@@ -41,7 +41,7 @@ function prompt_belak_pwd {
   #  _prompt_belak_pwd="${${${${(@j:/:M)${(@s:/:)pwd}##.#?}:h}%/}//\%/%%}/${${pwd:t}//\%/%%}"
   #fi
 
-  _prompt_belak_pwd="%~"
+  _prompt_belak_pwd=$(promptpwd)
 }
 
 function prompt_belak_venv {
