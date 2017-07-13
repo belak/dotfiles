@@ -1424,7 +1424,16 @@ These are old settings this need to be reorganized.
   ;; programming mode.
   (add-hook 'prog-mode-hook
             (lambda ()
-              (linum-mode 1)
+              ;; Newer versions of emacs define line numbers natively so
+              ;; we use that if it's available and fall back to
+              ;; linum-mode if it's not.
+              (if (boundp 'display-line-numbers)
+                  (progn
+                    (message "Setting Numbers")
+                    (setq display-line-numbers t)
+                    (force-mode-line-update))
+                (linum-mode 1))
+
               (setq show-trailing-whitespace t)))
 
   ;; Revert buffers automatically if they've changed on disk
