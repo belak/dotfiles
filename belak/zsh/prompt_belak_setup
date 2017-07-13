@@ -1,47 +1,32 @@
 #
-# A simple theme that displays relevant, contextual information, based on the
-# sorin theme from prezto with as much unicode removed as possible.
+# A simple theme that displays relevant, contextual information,
+# originally based on the sorin theme from prezto with as much unicode
+# removed as possible.
 #
 # Authors:
 #   Sorin Ionescu <sorin.ionescu@gmail.com>
 #   Kaleb Elwert <belak@coded.io>
 #
 
-#
-# 16 Terminal Colors
-# -- ---------------
-#  0 black
-#  1 red
-#  2 green
-#  3 yellow
-#  4 blue
-#  5 magenta
-#  6 cyan
-#  7 white
-#  8 bright black
-#  9 bright red
-# 10 bright green
-# 11 bright yellow
-# 12 bright blue
-# 13 bright magenta
-# 14 bright cyan
-# 15 bright white
-#
-
 # Load dependencies.
 pmodload 'helper'
 
 function prompt_belak_pwd {
-  #local pwd="${PWD/#$HOME/~}"
+  if (( $+functions[promptpwd] )); then
+    _prompt_belak_pwd=$(promptpwd)
+    return
+  fi
 
-  #if [[ "$pwd" == (#m)[/~] ]]; then
-  #  _prompt_belak_pwd="$MATCH"
-  #  unset MATCH
-  #else
-  #  _prompt_belak_pwd="${${${${(@j:/:M)${(@s:/:)pwd}##.#?}:h}%/}//\%/%%}/${${pwd:t}//\%/%%}"
-  #fi
-
-  _prompt_belak_pwd=$(promptpwd)
+  # If promptpwd doesn't exist, we need to fall back to some sort of
+  # approximation. I'm not exactly sure where this magical monstrocity
+  # came from, but it would be nice to clean up eventually.
+  local pwd="${PWD/#$HOME/~}"
+  if [[ "$pwd" == (#m)[/~] ]]; then
+    _prompt_belak_pwd="$MATCH"
+    unset MATCH
+  else
+    _prompt_belak_pwd="${${${${(@j:/:M)${(@s:/:)pwd}##.#?}:h}%/}//\%/%%}/${${pwd:t}//\%/%%}"
+  fi
 }
 
 function prompt_belak_venv {
@@ -52,109 +37,131 @@ function prompt_belak_venv {
 }
 
 function prompt_belak_git_info {
-  if (( _prompt_belak_precmd_async_pid > 0 )); then
-    # Append Git status.
-    if [[ -s "$_prompt_belak_precmd_async_data" ]]; then
-      alias typeset='typeset -g'
-      source "$_prompt_belak_precmd_async_data"
-      RPROMPT+='${git_info:+${(e)git_info[status]}}'
-      unalias typeset
-    fi
+  # Extract all the git-info which is being passed to us
+  IFS='|' read \
+    _git_pre \
+    _git_action \
+    _git_ahead_behind \
+    _git_target <<<"$3"
 
-    # Reset PID.
-    _prompt_belak_precmd_async_pid=0
+  # Find the name of what we're looking at. If it's empty, we clear out the git
+  # portion of the prompt and return early. Really, if we didn't have to do
+  # this, we could just do all the formatting by defining it in the setup
+  # function and just passing $git_info back to this function.
+  _git_target=${(z)_git_target}
+  _git_target=$(coalesce ${_git_target[@]})
+  if [[ -z "$_git_target" ]]; then
+    _prompt_belak_git=''
 
     # Redisplay prompt.
     zle && zle reset-prompt
+
+    return
   fi
+
+  # The post_target section is what goes in the brackets after the branch
+  # name/commit hash.
+  _git_post_target=${_git_ahead_behind}
+  if [[ -n "$_git_post_target" ]]; then
+    _git_post_target=":${_git_post_target}"
+  fi
+
+  if [[ -n "$_git_action" ]]; then
+    _git_post_target=":${_git_action}"
+  fi
+
+  _prompt_belak_git="${_git_pre}[${_git_target}${_git_post_target}]"
+
+  # Redisplay prompt.
+  zle && zle reset-prompt
 }
 
 function prompt_belak_precmd_async {
+  # The target dir is passed in as an argument
+  cd -q "$1"
+
   # Get Git repository information.
   if (( $+functions[git-info] )); then
     git-info
-    typeset -p git_info >! "$_prompt_belak_precmd_async_data"
   fi
 
-  # Signal completion to parent process.
-  kill -WINCH $$
+  echo $git_info
 }
 
 function prompt_belak_precmd {
   setopt LOCAL_OPTIONS
   unsetopt XTRACE KSH_ARRAYS
 
-  # Format PWD.
+  # Update the data we need, most important first
   prompt_belak_pwd
-
-  # Format Virtual Env
   prompt_belak_venv
 
-  # Define prompts.
-  RPROMPT='${editor_info[overwrite]}${VIM:+" %B%F{6}V%f%b"}'
-
-  # Kill the old process of slow commands if it is still running.
-  if (( _prompt_belak_precmd_async_pid > 0 )); then
-    kill -KILL "$_prompt_belak_precmd_async_pid" &>/dev/null
+  # Handle updating git data. We also clear the git prompt data if we're in a
+  # different git root now.
+  async_flush_jobs async_belak_git
+  local new_git_root="$(git-dir 2>/dev/null)"
+  if [[ $new_git_root != $_belak_cur_git_root ]]; then
+    _prompt_belak_git=''
+    _belak_cur_git_root=$new_git_root
   fi
-
-  # Compute slow commands in the background.
-  trap prompt_belak_git_info WINCH
-  prompt_belak_precmd_async &!
-  _prompt_belak_precmd_async_pid=$!
+  async_job async_belak_git prompt_belak_precmd_async "$PWD"
 }
 
 function prompt_belak_setup {
   setopt LOCAL_OPTIONS
   unsetopt XTRACE KSH_ARRAYS
+
   prompt_opts=(cr percent subst)
-  _prompt_belak_precmd_async_pid=0
-  _prompt_belak_precmd_async_data="${TMPPREFIX}-prompt_belak_data"
-
-  # Load required functions.
-  autoload -Uz add-zsh-hook
-
-  # Add hook for calling git-info before each command.
-  add-zsh-hook precmd prompt_belak_precmd
 
   # Set editor-info parameters.
   zstyle ':prezto:module:editor:info:completing' format '%B%F{7}...%f%b'
 
-  # Set git-info parameters.
+  # Most of the formatting
   zstyle ':prezto:module:git:info' verbose 'yes'
 
-  #zstyle ':prezto:module:git:info:stashed' format '%%B%F{6}x%f%%b'
-  zstyle ':prezto:module:git:info:added' format '%%B%F{2}*%f%%b'
-  zstyle ':prezto:module:git:info:modified' format '%%B%F{3}x%f%%b'
+  zstyle ':prezto:module:git:info:added' format '%B%F{green}*%b%f'
+  zstyle ':prezto:module:git:info:deleted' format '%B%F{red}*%b%f'
+  zstyle ':prezto:module:git:info:modified' format '%B%F{yellow}*%b%f'
+  zstyle ':prezto:module:git:info:renamed' format '%B%F{blue}*%b%f'
+  zstyle ':prezto:module:git:info:untracked' format '%b%f*'
 
-  # Deleted, renamed, created
-  zstyle ':prezto:module:git:info:deleted' format '%%B%F{1}x%f%%b'
-  #zstyle ':prezto:module:git:info:renamed' format '%%B%F{5}*%f%%b'
-  zstyle ':prezto:module:git:info:untracked' format '%%B%F{7}x%f%%b'
-
-  zstyle ':prezto:module:git:info:unmerged' format '%%B%F{3}unmerged%f%%b'
+  zstyle ':prezto:module:git:info:unmerged' format 'unmerged'
 
   # State modifier
-  #zstyle ':prezto:module:git:info:action' format '%F{7}:%f%%B%F{9}%s%f%%b'
-  zstyle ':prezto:module:git:info:action' format '%%B%F{9}%s%f%%b%F{7}:%f'
+  zstyle ':prezto:module:git:info:action' format '%B%F{red}%s%b%f'
 
-  # This is the name of what we're looking at.
-  zstyle ':prezto:module:git:info:branch' format '%%B%F{2}%b%f%%b'
-  zstyle ':prezto:module:git:info:commit' format '%%B%F{3}%.7c%f%%b'
-  zstyle ':prezto:module:git:info:position' format '%%B%F{13}%p%f%%b'
+  zstyle ':prezto:module:git:info:branch' format '%B%F{green}%b%%b%f'
+  zstyle ':prezto:module:git:info:commit' format '%B%F{yellow}%.7c%b%f'
+  zstyle ':prezto:module:git:info:position' format '%B%F{magenta}%p%b%f'
 
-  # How far ahead or behind we are
-  zstyle ':prezto:module:git:info:ahead' format '%%B%F{13}+%A%f%%b'
-  zstyle ':prezto:module:git:info:behind' format '%%B%F{3}-%B%f%%b'
+  zstyle ':prezto:module:git:info:ahead' format '%B%F{green}+%A%b%f'
+  zstyle ':prezto:module:git:info:behind' format '%%B%F{red}-%B%b%f'
 
-  # This is overall display
+  # This is split into a number of sections:
+  # - pre-target
+  # - action
+  # - ahead/behind
+  # - branch/position/commit
   zstyle ':prezto:module:git:info:keys' format \
-    'status' ' %S%a%m%r%d%u%U [%s$(coalesce "%b" "%p" "%c")%A%B]'
-  #'status' '$(coalesce "%b" "%p" "%c")%s%A%B%S%a%d%m%r%U%u'
+    'status' '%a%d%m%r%u|%s|%A%B|%b %p %c'
+
+  # Load required functions.
+  autoload -Uz add-zsh-hook
+
+  # Add hook for updating data before each command
+  add-zsh-hook precmd prompt_belak_precmd
+
+  # Define zsh-async worker
+  async_start_worker async_belak_git -n
+  async_register_callback async_belak_git prompt_belak_git_info
+
+  _prompt_belak_pwd=''
+  _prompt_belak_venv=''
+  _prompt_belak_git=''
 
   # Define prompts.
   PROMPT='${SSH_TTY:+"%F{10}%n@%m%f "}%F{10}${_prompt_belak_pwd}%f${_prompt_belak_venv}%(!. %B%F{1}#%f%b.) %(?:%F{12}:%F{9})%#%f '
-  RPROMPT=''
+  RPROMPT='${_prompt_belak_git}${editor_info[overwrite]}${VIM:+" %B%F{6}V%f%b"}'
   SPROMPT='zsh: correct %F{1}%R%f to %F{2}%r%f [nyae]? '
 }
 
