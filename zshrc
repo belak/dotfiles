@@ -12,7 +12,9 @@ fi
 
 zstyle ':prezto:*:*' color 'yes'
 zstyle ':prezto:module:editor' key-bindings 'emacs'
+zstyle ':prezto:module:git:alias' skip 'yes'
 zstyle ':prezto:module:prompt' theme 'sorin'
+zstyle ':prezto:module:prompt' pwd-length 'short'
 zstyle ':prezto:module:ruby:chruby' auto-switch 'yes'
 zstyle ':prezto:module:terminal' auto-title 'yes'
 zstyle ':prezto:module:python' autovenv 'yes'
