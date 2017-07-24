@@ -13,7 +13,7 @@ pmodload 'helper'
 
 function prompt_belak_pwd {
   if (( $+functions[promptpwd] )); then
-    _prompt_belak_pwd=$(promptpwd)
+    _prompt_belak_pwd=$(prompt-pwd)
     return
   fi
 
@@ -147,6 +147,7 @@ function prompt_belak_setup {
 
   # Load required functions.
   autoload -Uz add-zsh-hook
+  autoload -Uz async && async
 
   # Add hook for updating data before each command
   add-zsh-hook precmd prompt_belak_precmd
