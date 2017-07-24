@@ -13,7 +13,7 @@ fi
 zstyle ':prezto:*:*' color 'yes'
 zstyle ':prezto:module:editor' key-bindings 'emacs'
 zstyle ':prezto:module:git:alias' skip 'yes'
-zstyle ':prezto:module:prompt' theme 'sorin'
+zstyle ':prezto:module:prompt' theme 'belak'
 zstyle ':prezto:module:prompt' pwd-length 'short'
 zstyle ':prezto:module:ruby:chruby' auto-switch 'yes'
 zstyle ':prezto:module:terminal' auto-title 'yes'
@@ -39,18 +39,12 @@ source "$HOME/.antigen/antigen.zsh"
 # Load the basic prezto library
 antigen use prezto
 
-# Load dep libraries
-# TODO: move this into prezto
-antigen bundle mafredri/zsh-async
-
 # Load any external bundles we want
 antigen bundle postmodern/chruby share/chruby/chruby.sh
 antigen bundle postmodern/chruby share/chruby/auto.sh
 antigen bundle rupa/z z.sh
 
 antigen apply
-
-prompt belak
 
 # Disable SHARE_HISTORY
 unsetopt SHARE_HISTORY
