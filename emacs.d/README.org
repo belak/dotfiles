@@ -372,7 +372,7 @@ editors.
     (editorconfig-mode 1))
 #+end_src
 
-*** =exec-shell-from-path= (disabled)
+*** =exec-shell-from-path=
 
 Grab important environment variables from the shell, the most
 important of which is PATH. We used to also grab GOPATH here, but
@@ -557,12 +557,13 @@ tern is a js navigation package which extends js-mode.
 
 #+begin_src emacs-lisp
   (use-package tern
+    :after js2-mode
     :diminish tern-mode
     :config
     (add-hook 'js-mode-hook (lambda () (tern-mode t))))
 
   (use-package company-tern
-    :after (tern company)
+    :after (js2-mode tern company)
     :config
     (add-to-list 'company-backends 'company-tern)
     (setq company-tern-property-marker ""))
@@ -575,6 +576,17 @@ tern is a js navigation package which extends js-mode.
     :mode "\\.json\\'"
     :config
     (setq json-reformat:indent-width 2))
+#+end_src
+
+*** Lisp
+
+macrostep is a really useful way to debug macros by expanding them.
+
+#+begin_src emacs-lisp
+  (use-package macrostep
+    :general
+    (:keymaps 'emacs-lisp-mode-map
+     "C-x e" 'macrostep-expand))
 #+end_src
 
 *** go
@@ -685,12 +697,8 @@ org-indent-mode does not exist by the time diminish is called.
           org-log-done t
           org-log-done-with-time t
           org-log-refile t
-          org-refile-allow-creating-parent-nodes t
-          org-refile-use-outline-path t
-          org-support-shift-select t
-          org-tag-alist '(("WORK" . ?w)
-                          ("HOME" . ?h))
-          org-agenda-files '("~/org/"))
+          org-support-shift-select t)
+
     (add-hook 'org-mode-hook 'auto-fill-mode))
 #+end_src
 
@@ -958,17 +966,6 @@ FIXME, XXX, and other similar keywords.
   (use-package hlinum
     :config
     (hlinum-activate))
-#+end_src
-
-*** =macrostep=
-
-macrostep is a really useful way to debug macros by expanding them.
-
-#+begin_src emacs-lisp
-  (use-package macrostep
-    :general
-    (:keymaps 'emacs-lisp-mode-map
-     "C-x e" 'macrostep-expand))
 #+end_src
 
 *** =ido=
