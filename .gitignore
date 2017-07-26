@@ -10,3 +10,4 @@ private
 *.swp
 .DS_Store
 emacs.d/*
+!emacs.d/lisp
