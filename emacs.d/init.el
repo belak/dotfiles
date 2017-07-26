@@ -19,23 +19,20 @@
 
 (defconst emacs-start-time (current-time))
 
-;; Set the gc-cons-threshold as early as possible so we have some
-;; extra memory to work with. This increases it to 20M.
-(setq gc-cons-threshold 20000000)
+;; Set the gc-cons-threshold for init so we have some extra memory to
+;; work with. This should be 25M. We also enable debug-on-error and
+;; debug-on-quit to make it easier to debug startup errors.
+(let ((gc-cons-threshold (* 25 1024 1024))
+      (debug-on-error t)
+      (debug-on-quit t))
 
-;; Make it easier to debug startup errors.
-(setq debug-on-error t
-      debug-on-quit t)
+  ;; The rest of the config is in README.org, so we load org-mode and
+  ;; bootstrap into README.org.
+  (require 'org)
+  (org-babel-load-file
+   (expand-file-name "README.org" user-emacs-directory))
 
-;;; Load Config
-;;
-;; The rest of the config is in README.org, so we load org-mode and
-;; bootstrap into README.org.
-(require 'org)
-(org-babel-load-file
- (expand-file-name "README.org" user-emacs-directory))
-
-;;; Cleanup
+  (garbage-collect))
 
 ;; Now that we're done loading everything, print how long it took.
 (when window-system
@@ -48,9 +45,5 @@
                  (message "Loading %s...done (%.3fs) [after-init]"
                           ,load-file-name elapsed)))
             t))
-
-;; Set these variables back to normal
-(setq debug-on-error nil
-      debug-on-quit nil)
 
 ;;; init.el ends here
