@@ -181,6 +181,7 @@ for other packages to load before fixing the colors.
     :init
     (add-to-list 'custom-theme-load-path "~/.emacs.d/site-lisp/base16-theme/build")
     :config
+    (setq base16-theme-256-color-source "colors")
     (load-theme 'base16-tomorrow-night t)
     (setq belak/base16-colors base16-tomorrow-night-colors))
 #+end_src
