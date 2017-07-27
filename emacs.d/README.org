@@ -211,6 +211,14 @@ company-mode is used as a completion system.
 
 *** =evil-mode=
 
+There's an =evil-mode= killswitch here because there are so many
+packages which we would have to manually add =:disabled t= to
+otherwise.
+
+#+begin_src emacs-lisp
+  (defvar belak/evil-enabled t "Set to nil to disable all evil related packages")
+#+end_src
+
 =evil-mode= is a vim emulation layer for Emacs. It's currently
 disabled as I've switched back to Emacs keybinds.
 
@@ -221,22 +229,10 @@ packages actually use it.
   (defvar belak/evil-leader "," "Leader key for most vim bindings.")
 
   (use-package evil
-    :disabled t
     :demand
+    :if belak/evil-enabled
     :general
     ("C-'" 'evil-toggle-key)
-    (:keymaps 'evil-insert-state-map
-     "C-e" 'evil-append-line
-     "C-a" 'evil-insert-line)
-    (:keymaps 'evil-normal-state-map
-     "C-e" 'evil-append-line
-     "C-a" 'evil-insert-line)
-    (:keymaps 'evil-motion-state-map
-     "C-e" 'evil-append-line
-     "C-a" 'evil-insert-line)
-    (:keymaps 'evil-visual-state-map
-     "C-e" 'evil-end-of-line
-     "C-a" 'evil-beginning-of-line)
     :config
     ;; We need to do the evil setup for general here, because I disable
     ;; evil-mode fairly frequently.
@@ -263,12 +259,22 @@ packages actually use it.
     (setq evil-operator-state-cursor 'evil-half-cursor))
 #+end_src
 
+I really like C-a and C-e for beginning and end of the line, so
+=evil-rsi= is included which tries to add back useful emacs bindings.
+
+#+begin_src emacs-lisp
+  (use-package evil-rsi
+    :if belak/evil-enabled
+    :after evil-mode
+    :config (evil-rsi-mode))
+#+end_src
+
 This is a port of tpope's vim-surround which adds text objects for
 surrounding characters.
 
 #+begin_src emacs-lisp
   (use-package evil-surround
-    :disabled t
+    :if belak/evil-enabled
     :after evil-mode
     :config
     (global-evil-surround-mode 1))
@@ -1427,8 +1433,8 @@ These are old settings this need to be reorganized.
               ;; linum-mode if it's not.
               (if (boundp 'display-line-numbers)
                   (progn
-                    (message "Setting Numbers")
-                    (setq display-line-numbers t)
+                    (setq display-line-numbers 'relative
+                          display-line-numbers-current-absolute t)
                     (force-mode-line-update))
                 (linum-mode 1))
 
