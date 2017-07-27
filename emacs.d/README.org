@@ -858,10 +858,17 @@ which is why the settings here are fairly minimal.
 #+end_src
 ** Various Packages
 
+*** =ag=
+
+#+begin_src emacs-lisp
+  (use-package ag)
+#+end_src
+
 *** =anzu=
 
 anzu shows how many matches in isearch. This should be loaded after
-spaceline.
+spaceline so we know to disable the additional things anzu puts into
+the modeline.
 
 #+begin_src emacs-lisp
   (use-package anzu
@@ -871,6 +878,12 @@ spaceline.
     (when (fboundp 'spaceline-install)
       (setq anzu-cons-mode-line-p nil))
     (global-anzu-mode))
+#+end_src
+
+*** =all-the-icons=
+
+#+begin_src emacs-lisp
+  (use-package all-the-icons)
 #+end_src
 
 *** =flyspell=
