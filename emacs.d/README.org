@@ -216,7 +216,7 @@ packages which we would have to manually add =:disabled t= to
 otherwise.
 
 #+begin_src emacs-lisp
-  (defvar belak/evil-enabled t "Set to nil to disable all evil related packages")
+  (defvar belak/evil-enabled nil "Set to nil to disable all evil related packages")
 #+end_src
 
 =evil-mode= is a vim emulation layer for Emacs. It's currently
