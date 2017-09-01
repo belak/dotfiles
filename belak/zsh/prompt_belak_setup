@@ -37,26 +37,26 @@ function prompt_belak_venv {
 }
 
 function prompt_belak_git_info {
-  # Extract all the git-info which is being passed to us
+  # Extract all the git-info which is being passed to us. We can safely split on
+  # ':' because it isn't allowed in ref names.
   IFS=':' read \
     _git_pre \
     _git_action \
     _git_ahead_behind \
-    _git_branch \
-    _git_commit \
-    _git_position <<<"$3"
+    _git_target <<<"$3"
 
-  # Find the name of what we're looking at. If it's empty, we clear out the git
-  # portion of the prompt and return early. Really, if we didn't have to do
-  # this, we could just do all the formatting by defining it in the setup
-  # function and just passing $git_info back to this function.
-  _git_target=${(z)_git_target}
-  _git_target=$(coalesce $_git_branch $_git_position $_git_commit)
+  # The target actually contains 3 space separated possibilities so we need to
+  # make sure we grab the first one.
+  _git_target=$(coalesce ${(@)${(z)_git_target}})
+
+  # Reset the prompt early if there's no git info
   if [[ -z "$_git_target" ]]; then
-    _prompt_belak_git=''
+    if [[ -n "$_prompt_belak_git" ]]; then
+      _prompt_belak_git=''
 
-    # Redisplay prompt.
-    zle && zle reset-prompt
+      # Redisplay prompt.
+      zle && zle reset-prompt
+    fi
 
     return
   fi
@@ -78,7 +78,7 @@ function prompt_belak_git_info {
   zle && zle reset-prompt
 }
 
-function prompt_belak_precmd_async {
+function prompt_belak_precmd_async_git {
   # The target dir is passed in as an argument
   cd -q "$1"
 
@@ -101,12 +101,14 @@ function prompt_belak_precmd {
   # Handle updating git data. We also clear the git prompt data if we're in a
   # different git root now.
   async_flush_jobs async_belak_git
-  local new_git_root="$(git-dir 2>/dev/null)"
-  if [[ $new_git_root != $_belak_cur_git_root ]]; then
-    _prompt_belak_git=''
-    _belak_cur_git_root=$new_git_root
+  if (( $+functions[git-dir] )); then
+    local new_git_root="$(git-dir 2>/dev/null)"
+    if [[ $new_git_root != $_belak_cur_git_root ]]; then
+      _prompt_belak_git=''
+      _belak_cur_git_root=$new_git_root
+    fi
   fi
-  async_job async_belak_git prompt_belak_precmd_async "$PWD"
+  async_job async_belak_git prompt_belak_precmd_async_git "$PWD"
 }
 
 function prompt_belak_setup {
@@ -143,11 +145,9 @@ function prompt_belak_setup {
   # - pre-target
   # - action
   # - ahead/behind
-  # - branch
-  # - commit
-  # - position
+  # - branch/position/commit
   zstyle ':prezto:module:git:info:keys' format \
-    'status' '%a%d%m%r%u:%s:%A%B:%b:%c:%p'
+    'status' '%a%d%m%r%u:%s:%A%B:%b %p %c'
 
   # Load required functions.
   autoload -Uz add-zsh-hook
