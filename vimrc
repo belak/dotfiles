@@ -27,6 +27,7 @@ Plug 'benekastah/neomake'
 " Language support
 Plug 'cespare/vim-toml'
 Plug 'fatih/vim-go'
+Plug 'igankevich/mesonic'
 Plug 'pearofducks/ansible-vim'
 Plug 'rust-lang/rust.vim'
 
