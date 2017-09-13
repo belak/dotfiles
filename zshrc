@@ -1,10 +1,3 @@
-# Path settings need to be done as soon as possible for the startx magic
-export GOPATH="$HOME/go"
-
-typeset -U path fpath
-path=("$HOME/bin" "$GOPATH/bin" "$HOME/.rbenv/shims" "$HOME/.rbenv/bin" "$HOME/.local/bin" $path)
-fpath=("$HOME/.belak/zsh" $fpath)
-
 # Run startx if we're on tty1
 if [[ `tty` == "/dev/tty1" ]]; then
     exec startx
@@ -66,16 +59,6 @@ alias prand='cat /usr/share/pokeshell/$(($RANDOM % 151 + 1)).pokemon'
 if which nvim &>/dev/null; then
     alias vim=nvim
 fi
-
-# Magic incantations
-export ALTERNATE_EDITOR=""
-export EDITOR="emacsclient -c"
-export PAGER=less
-export PYTHONDONTWRITEBYTECODE=true
-export NVIM_TUI_ENABLE_CURSOR_SHAPE=1
-export WORKON_HOME="$HOME/.virtualenvs"
-export VIRTUAL_ENV_DISABLE_PROMPT=true
-export DISABLE_AUTO_UPDATE=true
 
 if [[ $USER = "k.elwert" ]]; then
     export DEFAULT_USER=k.elwert
