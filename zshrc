@@ -12,10 +12,12 @@ zstyle ':prezto:module:ruby:chruby' auto-switch 'yes'
 zstyle ':prezto:module:terminal' auto-title 'yes'
 zstyle ':prezto:module:python' autovenv 'yes'
 zstyle ':prezto:load' pmodule \
+    'environment' \
     'helper' \
     'editor' \
     'history' \
     'git' \
+    'contrib-prompt' \
     'prompt' \
     'utility' \
     'ssh' \
