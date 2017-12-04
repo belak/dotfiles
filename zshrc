@@ -72,7 +72,7 @@ fi
 export LESS='-F -g -i -M -R -S -w -X -z-4'
 
 # Load fzf. This will usually be installed when neovim plugins are installed.
-[[ -f ~/.fzf.zsh ]] && source ~/.fzf.zsh
+if [[ -f ~/.fzf.zsh ]] source ~/.fzf.zsh
 
 # Make it possible to add per-machine customizations.
-[[ -f ~/.zshrc.local ]] && source ~/.zshrc.local
+if [[ -f ~/.zshrc.local ]] source ~/.zshrc.local
