@@ -15,10 +15,9 @@ Plug 'tpope/vim-fugitive'
 
 " Appearance
 Plug 'bling/vim-bufferline'
+Plug 'itchyny/lightline.vim'
 Plug 'myusuf3/numbers.vim'
-Plug 'ntpeters/vim-airline-colornum'
-Plug 'vim-airline/vim-airline'
-Plug 'vim-airline/vim-airline-themes'
+Plug 'romainl/flattened'
 Plug 'w0ng/vim-hybrid'
 
 " Linting and compiling
@@ -49,9 +48,7 @@ call plug#end()
 " Appearance {{{
 
 " Colorscheme and syntax settings
-let g:hybrid_custom_term_colors = 1
-set background=dark
-colorscheme hybrid
+colorscheme flattened_light
 syntax on
 filetype plugin indent on
 
@@ -78,6 +75,12 @@ match ErrorMsg '^\(<\|=\|>\)\{7\}\([^=].\+\)\?$'
 
 set list
 set listchars=tab:▸\ ,trail:•,extends:#,nbsp:.,eol:¬ " Highlight problematic whitespace
+
+" Lightline related config
+set laststatus=2
+let g:lightline = {
+      \ 'colorscheme': 'flattened_light',
+      \ }
 
 " }}}
 
@@ -129,9 +132,6 @@ set iskeyword-=-               " '-' is an end of word designator
 set iskeyword-=_               " '_' is an end of word designator
 set noshowmode                 " No point since we use airline
 set scrolloff=5                " Ensure we have a buffer of 5 lines at the top and bottom
-
-set foldmethod=marker
-set foldlevel=0
 
 " If clipboard is available, do everything we can to yank to the system
 " clipboard rather than only the internal keyboard.
