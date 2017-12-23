@@ -48,15 +48,9 @@ call plug#end()
 " Appearance {{{
 
 " Colorscheme and syntax settings
-colorscheme flattened_light
+colorscheme flattened_dark
 syntax on
 filetype plugin indent on
-
-" Because I don't use powerline, removing the separators makes it look much
-" better.
-let g:airline_left_sep=''
-let g:airline_right_sep=''
-let g:airline_theme='hybridline'
 
 " Clear some stuff for vim-airline-colornum
 set cursorline
@@ -79,7 +73,7 @@ set listchars=tab:▸\ ,trail:•,extends:#,nbsp:.,eol:¬ " Highlight problemati
 " Lightline related config
 set laststatus=2
 let g:lightline = {
-      \ 'colorscheme': 'flattened_light',
+      \ 'colorscheme': 'flattened_dark',
       \ }
 
 " }}}
