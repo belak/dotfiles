@@ -186,6 +186,17 @@ for other packages to load before fixing the colors.
     (setq belak/base16-colors base16-tomorrow-night-colors))
 #+end_src
 
+*** =grayscale-theme=
+
+#+begin_src emacs-lisp
+  (use-package grayscale-theme
+    :disabled t
+    :ensure nil
+    :load-path "site-lisp/grayscale-theme"
+    :config
+    (load-theme 'grayscale t))
+#+end_src
+
 *** =company=
 
 company-mode is used as a completion system.
@@ -216,7 +227,7 @@ packages which we would have to manually add =:disabled t= to
 otherwise.
 
 #+begin_src emacs-lisp
-  (defvar belak/evil-enabled nil "Set to nil to disable all evil related packages")
+  (defvar belak/evil-enabled t "Set to nil to disable all evil related packages")
 #+end_src
 
 =evil-mode= is a vim emulation layer for Emacs. It's currently
@@ -387,7 +398,9 @@ newer releases of go (>= 1.8) it's set to what I use.
 #+begin_src emacs-lisp
   (use-package exec-path-from-shell
     :config
-    (exec-path-from-shell-initialize))
+    (setq exec-path-from-shell-shell-name "zsh")
+    (exec-path-from-shell-initialize)
+    (exec-path-from-shell-copy-env "GOPATH"))
 #+end_src
 
 *** =magit=
