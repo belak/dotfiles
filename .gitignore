@@ -3,6 +3,7 @@ config/nvim/.netrwhist
 config/nvim/plugged
 config/vim/swap
 vim/.netrwhist
+vim/autoload/plug.vim.old
 vim/plugged
 vim/swap
 .arch-init
