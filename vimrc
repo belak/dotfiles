@@ -17,7 +17,7 @@ Plug 'tpope/vim-fugitive'
 Plug 'bling/vim-bufferline'
 Plug 'itchyny/lightline.vim'
 Plug 'myusuf3/numbers.vim'
-Plug 'romainl/flattened'
+"Plug 'romainl/flattened'
 Plug 'w0ng/vim-hybrid'
 
 " Linting and compiling
@@ -27,8 +27,12 @@ Plug 'benekastah/neomake'
 Plug 'cespare/vim-toml'
 Plug 'fatih/vim-go'
 Plug 'igankevich/mesonic'
+Plug 'mxw/vim-jsx'
+Plug 'pangloss/vim-javascript'
 Plug 'pearofducks/ansible-vim'
 Plug 'rust-lang/rust.vim'
+Plug 'posva/vim-vue'
+Plug 'uarun/vim-protobuf'
 
 if has("nvim")
   function! DoRemote(arg)
@@ -48,7 +52,9 @@ call plug#end()
 " Appearance {{{
 
 " Colorscheme and syntax settings
-colorscheme flattened_dark
+let g:hybrid_custom_term_colors = 1
+set background=dark
+colorscheme hybrid
 syntax on
 filetype plugin indent on
 
@@ -73,7 +79,7 @@ set listchars=tab:▸\ ,trail:•,extends:#,nbsp:.,eol:¬ " Highlight problemati
 " Lightline related config
 set laststatus=2
 let g:lightline = {
-      \ 'colorscheme': 'flattened_dark',
+      \ 'colorscheme': 'default',
       \ }
 
 " }}}
