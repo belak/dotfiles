@@ -197,6 +197,27 @@ for other packages to load before fixing the colors.
     (load-theme 'grayscale t))
 #+end_src
 
+*** =solarized-theme=
+
+#+begin_src emacs-lisp
+  (use-package solarized-theme
+    :disabled t
+    :config
+    (setq solarized-use-variable-pitch nil
+          solarized-distinct-fringe-background t
+          solarized-scale-org-headlines nil)
+    (load-theme 'solarized-light t))
+#+end_src
+
+*** =zenburn=
+
+#+begin_src emacs-lisp
+  (use-package zenburn-theme
+    :disabled t
+    :config
+    (load-theme 'zenburn t))
+#+end_src
+
 *** =company=
 
 company-mode is used as a completion system.
@@ -418,8 +439,8 @@ magit is an amazing tool for working with git inside emacs.
     ;;(when (fboundp 'evil-mode)
     ;;  (add-hook 'git-commit-mode-hook 'evil-insert-state))
 
-    (setq magit-push-current-set-remote-if-missing t
-          magit-completing-read-function 'magit-ido-completing-read))
+    (setq magit-push-current-set-remote-if-missing t))
+          ;;magit-completing-read-function 'magit-ido-completing-read))
 #+end_src
 
 #+begin_src emacs-lisp
@@ -929,6 +950,7 @@ Helm is a much fancier replacement for ido.
 #+begin_src emacs-lisp
   (defvar belak/enable-helm t)
   (use-package helm
+    :defer 2
     :diminish helm-mode
     :if belak/enable-helm
     :bind (("M-x"     . helm-M-x)
@@ -949,7 +971,10 @@ Helm is a much fancier replacement for ido.
     (helm-autoresize-mode 1)
 
     ;; Turn on fuzzy matching for everything we can
-    (setq helm-M-x-fuzzy-match t
+    (setq helm-autoresize-max-height 15
+          helm-autoresize-min-height 5
+          helm-candidate-number-limit 1000
+          helm-M-x-fuzzy-match t
           helm-mode-fuzzy-match t
           helm-completion-in-region-fuzzy-match t))
 #+end_src
