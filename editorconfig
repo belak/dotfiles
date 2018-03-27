@@ -21,3 +21,15 @@ tab_width = 4
 
 [Makefile]
 indent_style = tab
+
+[{*.json,*.js}]
+indent_size = 2
+tab_width = 2
+
+[*.html]
+indent_size = 2
+tab_width = 2
+
+[*.vue]
+indent_size = 2
+tab_width = 2
