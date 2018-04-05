@@ -1,48 +1,42 @@
-# Run startx if we're on tty1
-if [[ `tty` == "/dev/tty1" ]]; then
-    exec startx
-fi
-
-zstyle ':prezto:*:*' color 'yes'
-zstyle ':prezto:module:editor' key-bindings 'emacs'
-zstyle ':prezto:module:git:alias' skip 'yes'
-zstyle ':prezto:module:prompt' theme 'belak'
-zstyle ':prezto:module:prompt' pwd-length 'short'
-zstyle ':prezto:module:ruby:chruby' auto-switch 'yes'
-zstyle ':prezto:module:terminal' auto-title 'yes'
-zstyle ':prezto:module:python' autovenv 'yes'
 zstyle ':prezto:load' pmodule \
     'environment' \
     'helper' \
     'editor' \
-    'history' \
     'git' \
-    'contrib-prompt' \
-    'prompt' \
-    'utility' \
+    'gpg' \
     'ssh' \
     'python' \
-    'ruby' \
-    'completion' \
-    'syntax-highlighting'
+    'ssh'
+    #'ruby' \
 
 # Load needed repos
 [[ ! -d "$HOME/.antigen" ]] && git clone https://github.com/zsh-users/antigen.git "$HOME/.antigen"
 source "$HOME/.antigen/antigen.zsh"
 [[ ! -d "$HOME/.nvm" ]] && git clone https://github.com/creationix/nvm "$HOME/.nvm"
 
-# Load the basic prezto library
-antigen use prezto
+# Load my plugin library
+antigen use belak/zsh-utils
+
+# Load any completions we want before the completion module
+antigen bundle zsh-users/zsh-completions
+
+# Load any plugins we want. Note that order matters. Most plugins will complain
+# if they're missing dependencies.
+antigen bundle utility
+antigen bundle history
+antigen bundle prompt
+antigen bundle completion
 
 # Load any external bundles we want
 antigen bundle postmodern/chruby share/chruby/chruby.sh
 antigen bundle postmodern/chruby share/chruby/auto.sh
 antigen bundle rupa/z z.sh
+antigen bundle zsh-users/zsh-syntax-highlighting
 
 antigen apply
 
-# Disable SHARE_HISTORY
-unsetopt SHARE_HISTORY
+# Enable the prompt we want
+prompt belak
 
 # If a default ruby is set, switch to it. If chruby was installed globally, the
 # ruby module would trigger this automatically, but because we bootstrap it with
@@ -55,17 +49,10 @@ stty -ixon
 # Aliases
 alias json="python -mjson.tool"
 alias j="z"
-alias prand='cat /usr/share/pokeshell/$(($RANDOM % 151 + 1)).pokemon'
 
 # Alias vim to nvim if neovim is installed
 if which nvim &>/dev/null; then
-    alias vim=nvim
-fi
-
-if [[ $USER = "k.elwert" ]]; then
-    export DEFAULT_USER=k.elwert
-else
-    export DEFAULT_USER=belak
+  alias vim=nvim
 fi
 
 # Set the default Less options.
@@ -78,3 +65,6 @@ if [[ -f ~/.fzf.zsh ]] source ~/.fzf.zsh
 
 # Make it possible to add per-machine customizations.
 if [[ -f ~/.zshrc.local ]] source ~/.zshrc.local
+
+#test -e "${HOME}/.iterm2_shell_integration.zsh" && \
+#  source "${HOME}/.iterm2_shell_integration.zsh"
