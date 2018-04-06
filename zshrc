@@ -22,9 +22,10 @@ antigen bundle zsh-users/zsh-completions
 
 # Load any plugins we want. Note that order matters. Most plugins will complain
 # if they're missing dependencies.
-antigen bundle utility
+antigen bundle editor
 antigen bundle history
 antigen bundle prompt
+antigen bundle utility
 antigen bundle completion
 
 # Load any external bundles we want
@@ -35,8 +36,9 @@ antigen bundle zsh-users/zsh-syntax-highlighting
 
 antigen apply
 
-# Enable the prompt we want
+# Enable the prompt we want and ensure we're using emacs bindings.
 prompt belak
+bindkey -e
 
 # If a default ruby is set, switch to it. If chruby was installed globally, the
 # ruby module would trigger this automatically, but because we bootstrap it with
@@ -61,7 +63,7 @@ fi
 export LESS='-F -g -i -M -R -S -w -X -z-4'
 
 # Load fzf. This will usually be installed when neovim plugins are installed.
-if [[ -f ~/.fzf.zsh ]] source ~/.fzf.zsh
+#if [[ -f ~/.fzf.zsh ]] source ~/.fzf.zsh
 
 # Make it possible to add per-machine customizations.
 if [[ -f ~/.zshrc.local ]] source ~/.zshrc.local
