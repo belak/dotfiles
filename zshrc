@@ -40,6 +40,10 @@ antigen apply
 prompt belak
 bindkey -e
 
+if (( $+commands[virtualenvwrapper_lazy.sh] )); then
+  source "${commands[virtualenvwrapper_lazy.sh]}"
+fi
+
 # If a default ruby is set, switch to it. If chruby was installed globally, the
 # ruby module would trigger this automatically, but because we bootstrap it with
 # zgen, that isn't an option.
@@ -63,7 +67,7 @@ fi
 export LESS='-F -g -i -M -R -S -w -X -z-4'
 
 # Load fzf. This will usually be installed when neovim plugins are installed.
-#if [[ -f ~/.fzf.zsh ]] source ~/.fzf.zsh
+if [[ -f ~/.fzf.zsh ]] source ~/.fzf.zsh
 
 # Make it possible to add per-machine customizations.
 if [[ -f ~/.zshrc.local ]] source ~/.zshrc.local
