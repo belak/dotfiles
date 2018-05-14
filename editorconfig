@@ -33,3 +33,7 @@ tab_width = 2
 [*.vue]
 indent_size = 2
 tab_width = 2
+
+[{*.sh,*.zsh}]
+indent_size = 2
+tab_width = 2
