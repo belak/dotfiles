@@ -11,6 +11,7 @@ Plug 'tpope/vim-surround'
 
 " Extra utilities
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
+Plug 'junegunn/fzf.vim'
 Plug 'tpope/vim-fugitive'
 
 " Appearance
@@ -21,10 +22,12 @@ Plug 'myusuf3/numbers.vim'
 Plug 'w0ng/vim-hybrid'
 
 " Linting and compiling
-Plug 'benekastah/neomake'
+"Plug 'benekastah/neomake'
+Plug 'w0rp/ale'
 
 " Language support
 Plug 'cespare/vim-toml'
+Plug 'ekalinin/Dockerfile.vim'
 Plug 'fatih/vim-go'
 Plug 'igankevich/mesonic'
 Plug 'mxw/vim-jsx'
@@ -193,7 +196,9 @@ set formatoptions-=t
 autocmd! FileType markdown setlocal formatoptions+=t
 
 " Enable linting on file open and save
-autocmd! BufWritePost,BufEnter * Neomake
+if has("nvim")
+  autocmd! BufWritePost,BufEnter * Neomake
+endif
 
 " }}}
 
@@ -227,7 +232,7 @@ noremap j gj
 noremap k gk
 
 " Add a bind for fzf
-nmap <C-p> :FZF<CR>
+nmap <C-p> :GFiles<cr>
 
 " Clear search results
 nmap <leader>c :let @/=""<CR>
