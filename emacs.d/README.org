@@ -130,12 +130,11 @@ use it when installing everything else.
 
 #+begin_src emacs-lisp
   (belak/package-ensure-installed 'use-package)
+  (belak/package-ensure-installed 'diminish)
+
   (eval-when-compile
     (defvar use-package-verbose t)
     (require 'use-package))
-
-  (require 'diminish)
-  (require 'bind-key)
 #+end_src
 
 Always attempt to install packages unless we specify otherwise.
@@ -163,6 +162,15 @@ most bootstrapped package logs will take advantage of this.
     :config (global-page-break-lines-mode 1))
 #+end_src
 
+*** =falcon-theme=
+
+#+begin_src emacs-lisp
+  (use-package falcon-theme
+    :ensure nil
+    :load-path "site-lisp/falcon-theme"
+    :config (load-theme 'falcon t))
+#+end_src
+
 *** =base16-theme=
 
 Because I maintain this package, I usually have it checked out to a
@@ -176,6 +184,7 @@ for other packages to load before fixing the colors.
 #+begin_src emacs-lisp
   (defvar belak/base16-colors nil)
   (use-package base16-theme
+    :disabled t
     :ensure nil
     :load-path "site-lisp/base16-theme"
     :init
@@ -276,12 +285,13 @@ packages actually use it.
           evil-split-window-below t)
 
     ;; Set the cursor color based on the evil state
-    (setq evil-emacs-state-cursor   `(,(plist-get belak/base16-colors :base0D) box)
-          evil-insert-state-cursor  `(,(plist-get belak/base16-colors :base0D) bar)
-          evil-motion-state-cursor  `(,(plist-get belak/base16-colors :base0E) box)
-          evil-normal-state-cursor  `(,(plist-get belak/base16-colors :base0B) box)
-          evil-replace-state-cursor `(,(plist-get belak/base16-colors :base08) bar)
-          evil-visual-state-cursor  `(,(plist-get belak/base16-colors :base09) box))
+    (if belak/base16-colors
+        (setq evil-emacs-state-cursor   `(,(plist-get belak/base16-colors :base0D) box)
+              evil-insert-state-cursor  `(,(plist-get belak/base16-colors :base0D) bar)
+              evil-motion-state-cursor  `(,(plist-get belak/base16-colors :base0E) box)
+              evil-normal-state-cursor  `(,(plist-get belak/base16-colors :base0B) box)
+              evil-replace-state-cursor `(,(plist-get belak/base16-colors :base08) bar)
+              evil-visual-state-cursor  `(,(plist-get belak/base16-colors :base09) box)))
 
     ;; Evil selection shouldn't update the clipboard
     (fset 'evil-visual-update-x-selection 'ignore)
@@ -477,9 +487,13 @@ also need to load up the additional company and flycheck modules.
 #+begin_src emacs-lisp
   (use-package irony
     :config
-    (add-hook 'c++-mode-hook 'irony-mode)
-    (add-hook 'c-mode-hook 'irony-mode)
-    (add-hook 'objc-mode-hook 'irony-mode)
+    (defun my-irony-mode-on ()
+    ;; avoid enabling irony-mode in modes that inherits c-mode, e.g: php-mode
+    (when (member major-mode irony-supported-major-modes)
+        (irony-mode 1)))
+    (add-hook 'c++-mode-hook 'my-irony-mode-on)
+    (add-hook 'c-mode-hook 'my-irony-mode-on)
+    (add-hook 'objc-mode-hook 'my-irony-mode-on)
 
     ;; replace the `completion-at-point' and `complete-symbol' bindings
     ;; in irony-mode's buffers by irony-mode's function and run the
@@ -747,6 +761,13 @@ org-indent-mode does not exist by the time diminish is called.
 #+begin_src emacs-lisp
   (use-package puppet-mode
     :mode "\\.pp\\'")
+#+end_src
+
+*** PHP
+
+#+begin_src emacs-lisp
+  (use-package php-mode
+    :mode "\\.php\\'")
 #+end_src
 
 *** Python
