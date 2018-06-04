@@ -10,11 +10,10 @@ root:
   nocolor: false
   noconfirm: false
   notifications: true
-  path: gpgcli-gitcli-fs+file:///Users/belak/.password-store
   recipient_hash: {}
   safecontent: false
   usesymbols: false
   # Disable the pager
   nopager: true
 mounts: {}
-version: 1.7.0-git+HEAD
+version: 1.7.2-git+HEAD
