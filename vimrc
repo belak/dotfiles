@@ -44,10 +44,16 @@ if has("nvim")
 
   " Completion
   Plug 'Shougo/deoplete.nvim', { 'do': function('DoRemote') }
-  Plug 'zchee/deoplete-go', { 'do': 'make'}
-  Plug 'zchee/deoplete-jedi'
-  Plug 'sebastianmarkow/deoplete-rust'
+else
+  Plug 'Shougo/deoplete.nvim'
+  Plug 'roxma/nvim-yarp'
+  Plug 'roxma/vim-hug-neovim-rpc'
 endif
+
+let g:deoplete#enable_at_startup = 1
+Plug 'zchee/deoplete-go', { 'do': 'make'}
+Plug 'zchee/deoplete-jedi'
+Plug 'sebastianmarkow/deoplete-rust'
 
 call plug#end()
 " }}}
@@ -194,11 +200,6 @@ au BufRead,BufNewFile *.py setlocal expandtab shiftwidth=4 tabstop=4
 " Make sure we don't auto-wrap all text, unless we're in a markdown file.
 set formatoptions-=t
 autocmd! FileType markdown setlocal formatoptions+=t
-
-" Enable linting on file open and save
-if has("nvim")
-  autocmd! BufWritePost,BufEnter * Neomake
-endif
 
 " }}}
 
