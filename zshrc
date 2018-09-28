@@ -1,13 +1,27 @@
+zstyle ':prezto:*:*' color 'yes'
+zstyle ':prezto:module:editor' key-bindings 'emacs'
+zstyle ':prezto:module:git:alias' skip 'yes'
+zstyle ':prezto:module:prompt' theme 'belak'
+zstyle ':prezto:module:prompt' pwd-length 'short'
+zstyle ':prezto:module:ruby:chruby' auto-switch 'yes'
+zstyle ':prezto:module:terminal' auto-title 'yes'
+zstyle ':prezto:module:python' autovenv 'yes'
 zstyle ':prezto:load' pmodule \
     'environment' \
     'helper' \
     'editor' \
+    'history' \
     'git' \
+    'contrib-prompt' \
+    'prompt' \
+    'utility' \
     'gpg' \
     'ssh' \
     'python' \
+    'ruby' \
+    'completion' \
+    'syntax-highlighting' \
     'ssh'
-    #'ruby' \
 
 # Load needed repos
 [[ ! -d "$HOME/.antigen" ]] && git clone https://github.com/zsh-users/antigen.git "$HOME/.antigen"
@@ -15,18 +29,19 @@ source "$HOME/.antigen/antigen.zsh"
 [[ ! -d "$HOME/.nvm" ]] && git clone https://github.com/creationix/nvm "$HOME/.nvm"
 
 # Load my plugin library
-antigen use belak/zsh-utils
-
-# Load any completions we want before the completion module
-antigen bundle zsh-users/zsh-completions
+antigen use prezto
 
 # Load any plugins we want. Note that order matters. Most plugins will complain
 # if they're missing dependencies.
-antigen bundle editor
-antigen bundle history
-antigen bundle prompt
-antigen bundle utility
-antigen bundle completion
+#antigen use belak/zsh-utils
+#antigen bundle editor
+#antigen bundle history
+#antigen bundle prompt
+#antigen bundle utility
+#antigen bundle completion
+
+# Load any completions we want before the completion module
+antigen bundle zsh-users/zsh-completions
 
 # Load any external bundles we want
 antigen bundle postmodern/chruby share/chruby/chruby.sh
