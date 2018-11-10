@@ -29,16 +29,16 @@ source "$HOME/.antigen/antigen.zsh"
 [[ ! -d "$HOME/.nvm" ]] && git clone https://github.com/creationix/nvm "$HOME/.nvm"
 
 # Load my plugin library
-antigen use prezto
+#antigen use prezto
 
 # Load any plugins we want. Note that order matters. Most plugins will complain
 # if they're missing dependencies.
-#antigen use belak/zsh-utils
-#antigen bundle editor
-#antigen bundle history
-#antigen bundle prompt
-#antigen bundle utility
-#antigen bundle completion
+antigen use belak/zsh-utils
+antigen bundle editor
+antigen bundle history
+antigen bundle prompt
+antigen bundle utility
+antigen bundle completion
 
 # Load any completions we want before the completion module
 antigen bundle zsh-users/zsh-completions
