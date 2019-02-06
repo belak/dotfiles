@@ -81,9 +81,8 @@
 
 (use-package projectile
   :diminish projectile-mode
-  :config
-  (define-key projectile-mode-map (kbd "s-p") 'projectile-command-map)
-  (define-key projectile-mode-map (kbd "C-c p") 'projectile-command-map)
+  :bind-keymap
+  ("C-c p" . projectile-command-map)
   (projectile-mode +1))
 
 ;; spaceline is a better modeline with simple config. It's up here
