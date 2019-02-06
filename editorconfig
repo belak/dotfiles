@@ -10,6 +10,8 @@ trim_trailing_whitespace = true
 ;; Because gofmt requires tabs, we make sure our editor will respect that
 [*.go]
 indent_style = tab
+indent_size = 4
+tab_width = 4
 
 [{*.yaml,*.yml}]
 indent_size = 2
