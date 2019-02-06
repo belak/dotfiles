@@ -3,6 +3,8 @@ set nocompatible
 " Plugins {{{
 call plug#begin()
 
+Plug 'tpope/vim-sensible'
+
 " Simple tweaks
 Plug 'airblade/vim-gitgutter'
 Plug 'editorconfig/editorconfig-vim'
@@ -28,8 +30,8 @@ Plug 'w0rp/ale'
 " Language support
 Plug 'cespare/vim-toml'
 Plug 'ekalinin/Dockerfile.vim'
-Plug 'fatih/vim-go'
-Plug 'igankevich/mesonic'
+Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
+"Plug 'igankevich/mesonic'
 Plug 'mxw/vim-jsx'
 Plug 'pangloss/vim-javascript'
 Plug 'pearofducks/ansible-vim'
@@ -37,22 +39,17 @@ Plug 'rust-lang/rust.vim'
 Plug 'posva/vim-vue'
 Plug 'uarun/vim-protobuf'
 
-if has("nvim")
-  function! DoRemote(arg)
-    UpdateRemotePlugins
-  endfunction
-
-  " Completion
-  Plug 'Shougo/deoplete.nvim', { 'do': function('DoRemote') }
+if has('nvim')
+  Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
 else
   Plug 'Shougo/deoplete.nvim'
   Plug 'roxma/nvim-yarp'
   Plug 'roxma/vim-hug-neovim-rpc'
 endif
-
 let g:deoplete#enable_at_startup = 1
-Plug 'zchee/deoplete-go', { 'do': 'make'}
-Plug 'zchee/deoplete-jedi'
+
+Plug 'deoplete-plugins/deoplete-go', { 'do': 'make'}
+Plug 'deoplete-plugins/deoplete-jedi'
 Plug 'sebastianmarkow/deoplete-rust'
 
 call plug#end()
@@ -64,8 +61,6 @@ call plug#end()
 let g:hybrid_custom_term_colors = 1
 set background=dark
 colorscheme hybrid
-syntax on
-filetype plugin indent on
 
 " Clear some stuff for vim-airline-colornum
 set cursorline
@@ -83,10 +78,9 @@ endif
 match ErrorMsg '^\(<\|=\|>\)\{7\}\([^=].\+\)\?$'
 
 set list
-set listchars=tab:▸\ ,trail:•,extends:#,nbsp:.,eol:¬ " Highlight problematic whitespace
+"set listchars=tab:▸\ ,trail:•,extends:#,nbsp:.,eol:¬ " Highlight problematic whitespace
 
 " Lightline related config
-set laststatus=2
 let g:lightline = {
       \ 'colorscheme': 'default',
       \ }
@@ -119,7 +113,6 @@ set tabstop=4
 set shiftwidth=4
 
 " Random settings
-set backspace=indent,eol,start " Allow backspacing over everything in insert mode
 set hlsearch                   " Hilight what we're searching for
 set showcmd                    " Always show the currently entered command
 set writebackup                " Make a backup before overwriting a file
@@ -128,12 +121,10 @@ set lazyredraw                 " Don't show intermediate macro steps
 set smartcase                  " Ignore case if search pattern is all lower case
 set autowrite                  " Write when switching buffers
 set colorcolumn=80             " PEP-8 usefulness
-set autoread                   " Auto re-read files when changed outside vim
 set virtualedit=block          " Make moving in visual mode make more sense
 set synmaxcol=800              " Don't try to highlight lines longer than 800 chars
 set textwidth=80               " Auto wrap comments at 80 chars
 set fillchars=vert:\│          " Unicode line for separators
-set ruler                      " Column and line num display
 set hidden                     " Allow buffer switching without saving
 set iskeyword-=.               " '.' is an end of word designator
 set iskeyword-=#               " '#' is an end of word designator
@@ -155,10 +146,6 @@ endif
 " Split and select the right window
 set splitbelow
 set splitright
-
-" Quicker exit of insert mode
-set ttimeout
-set ttimeoutlen=0
 
 " Turn on mouse support and make it work past the normal xterm limit
 set mouse=a
