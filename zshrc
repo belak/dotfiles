@@ -20,7 +20,7 @@ antigen bundle completion
 antigen bundle postmodern/chruby share/chruby/chruby.sh
 antigen bundle postmodern/chruby share/chruby/auto.sh
 antigen bundle rupa/z z.sh
-#antigen bundle zsh-users/zsh-syntax-highlighting
+antigen bundle zsh-users/zsh-syntax-highlighting
 
 # Load everything
 antigen apply
