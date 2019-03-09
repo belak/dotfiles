@@ -1,7 +1,14 @@
-# Load needed repos
+#
+# Dependencies
+#
+
 [[ ! -d "$HOME/.antigen" ]] && git clone https://github.com/zsh-users/antigen.git "$HOME/.antigen"
 source "$HOME/.antigen/antigen.zsh"
 [[ ! -d "$HOME/.nvm" ]] && git clone https://github.com/creationix/nvm "$HOME/.nvm"
+
+#
+# Plugins
+#
 
 # Set the default plugin repo to be zsh-utils
 antigen use belak/zsh-utils
@@ -24,6 +31,10 @@ antigen bundle zsh-users/zsh-syntax-highlighting
 
 # Load everything
 antigen apply
+
+#
+# Settings
+#
 
 # Set any settings or overrides here - enable the prompt we want and ensure
 # we're using emacs bindings.
