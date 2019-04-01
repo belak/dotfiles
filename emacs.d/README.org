@@ -1,0 +1,57 @@
+* Belak's Emacs Config
+
+** Settings
+
+*** Directories
+
+- =belak-local-dir= Which directory will be used for temporary files.
+
+*** Features
+
+- =belak-evil-enabled= Whether or not =evil-mode= should be enabled.
+- =belak-completion-system= Which completion system to use (helm, ido,
+  ivy, or nil)
+
+** Core Modules
+
+Theses are listed in the order they are loaded by init.el. The load
+order is actually important in some instances, at least for core
+packages. Most of these are core modules which change how the editor
+works in some way.
+
+*** =belak-core=
+*** =belak-packages=
+*** =belak-ui=
+*** =belak-evil=
+*** =belak-dev=
+
+** Feature Modules
+
+*** =belak-org=
+
+** Completion Systems
+
+*** =belak-completion-ido=
+*** =belak-completion-helm=
+*** =belak-completion-ivy=
+
+** Language Modules
+
+*** =belak-lang-elixir=
+*** =belak-lang-go=
+*** =belak-lang-javascript=
+*** =belak-lang-python=
+*** =belak-lang-rust=
+*** =belak-lang-other=
+
+** Future Ideas
+
+- [ ] =org=
+- [ ] =org-agenda=
+- [ ] =org-capture=
+- [ ] =evil-org=
+- [ ] Configure circe, similar to how smf does it
+- [ ] Finish porting over my config from my dotfiles
+- [ ] Update my helm config, possibly from
+  https://github.com/compunaut/helm-ido-like-guide
+- [ ] Add some custom =evil-mode= bindings
