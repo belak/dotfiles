@@ -1,4 +1,10 @@
+# Generic
+.DS_Store
+private
+
 host-*
+
+# vim/nvim related
 config/nvim/.netrwhist
 config/nvim/plugged
 config/vim/swap
@@ -6,9 +12,11 @@ vim/.netrwhist
 vim/autoload/plug.vim.old
 vim/plugged
 vim/swap
-.arch-init
-private
 *.swp
-.DS_Store
-emacs.d/*
-!emacs.d/lisp
+
+# emacs related
+*.elc
+emacs.d/site-lisp
+emacs.d/.local
+emacs.d/elpa
+emacs.d/old
