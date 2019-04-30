@@ -46,6 +46,13 @@
   (add-to-list 'custom-theme-load-path "~/.emacs.d/site-lisp/base16-theme/build")
   :config (load-theme 'base16-default-dark t))
 
+(use-package grayscale-theme
+  :disabled t
+  :demand
+  :ensure nil
+  :load-path "site-lisp/grayscale-theme"
+  :config (load-theme 'grayscale t))
+
 (use-package monokai-pro-theme
   :demand
   :ensure nil

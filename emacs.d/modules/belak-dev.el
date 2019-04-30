@@ -28,6 +28,16 @@
 
   (global-company-mode))
 
+;; display-line-numbers is built-in to emacs 26.1 and above. It's
+;; similar to linum-mode, but it performs much better.
+(use-package display-line-numbers
+  :config
+  (setq display-line-numbers-type 'visual)
+  (global-display-line-numbers-mode 1)
+  (add-hook 'prog-mode-hook
+            (lambda ()
+              (display-line-numbers-mode 1))))
+
 ;; editorconfig is a simple way to share indentation settings between
 ;; editors. Because I sometimes dabble in vim, sublime etc, it's nice
 ;; to not have to re-do these settings at a project level between
