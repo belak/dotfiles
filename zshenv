@@ -1,7 +1,18 @@
 export GOPATH="$HOME/go"
 
 typeset -U path fpath
-path=("$HOME/bin" "$GOPATH/bin" "$HOME/.cargo/bin" "$HOME/.rbenv/shims" "$HOME/.rbenv/bin" "$HOME/.local/bin" /usr/local/opt/python/libexec/bin $path)
+path=(
+    "$HOME/bin"
+    "/Applications/Sublime Text.app/Contents/SharedSupport/bin"
+    "/Applications/Visual Studio Code.app/Contents/Resources/app/bin"
+    "$GOPATH/bin"
+    "$HOME/.cargo/bin"
+    "$HOME/.rbenv/shims"
+    "$HOME/.rbenv/bin"
+    "$HOME/.local/bin"
+    /usr/local/opt/python/libexec/bin
+    $path
+)
 fpath=("$HOME/.belak/zsh" $fpath)
 
 # Magic incantations
