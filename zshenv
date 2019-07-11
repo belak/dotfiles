@@ -3,6 +3,7 @@ export GOPATH="$HOME/go"
 typeset -U path fpath
 path=(
     "$HOME/bin"
+    "/Applications/Inkscape.app/Contents/Resources/bin"
     "/Applications/Sublime Text.app/Contents/SharedSupport/bin"
     "/Applications/Visual Studio Code.app/Contents/Resources/app/bin"
     "$GOPATH/bin"
