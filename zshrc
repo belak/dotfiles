@@ -10,24 +10,55 @@ source "$HOME/.antigen/antigen.zsh"
 # Plugins
 #
 
-# Set the default plugin repo to be zsh-utils
-antigen use belak/zsh-utils
+if [[ -f "$HOME/.use-prezto" ]]; then
+  source "$HOME/.antigen/bundles/sorin-ionescu/prezto/modules/prompt/external/powerlevel10k/config/p10k-lean.zsh"
+  zstyle ':prezto:*:*' color 'yes'
+  zstyle ':prezto:module:editor' key-bindings 'emacs'
+  zstyle ':prezto:module:git:alias' skip 'yes'
+  zstyle ':prezto:module:prompt' theme 'powerlevel10k'
+  zstyle ':prezto:module:prompt' pwd-length 'short'
+  zstyle ':prezto:module:ruby:chruby' auto-switch 'yes'
+  zstyle ':prezto:module:terminal' auto-title 'yes'
+  zstyle ':prezto:module:python' autovenv 'yes'
+  zstyle ':prezto:load' pmodule \
+      'environment' \
+      'helper' \
+      'editor' \
+      'history' \
+      'git' \
+      'contrib-prompt' \
+      'prompt' \
+      'utility' \
+      'gpg' \
+      'ssh' \
+      'python' \
+      'ruby' \
+      'completion' \
+      'syntax-highlighting' \
+      'ssh'
 
-# Specify completions we want before the completion module
-antigen bundle zsh-users/zsh-completions
+  antigen use prezto
+else
+  # Set the default plugin repo to be zsh-utils
+  antigen use belak/zsh-utils
 
-# Specify plugins we want
-antigen bundle editor
-antigen bundle history
-antigen bundle prompt
-antigen bundle utility
-antigen bundle completion
+  # Specify completions we want before the completion module
+  antigen bundle zsh-users/zsh-completions
+
+  # Specify plugins we want
+  antigen bundle editor
+  antigen bundle history
+  antigen bundle prompt
+  antigen bundle utility
+  antigen bundle completion
+fi
 
 # Specify additional external plugins we want
 antigen bundle postmodern/chruby share/chruby/chruby.sh
 antigen bundle postmodern/chruby share/chruby/auto.sh
 antigen bundle rupa/z z.sh
-antigen bundle zsh-users/zsh-syntax-highlighting
+#antigen bundle zsh-users/zsh-syntax-highlighting
+antigen bundle zdharma/fast-syntax-highlighting
 
 # Load everything
 antigen apply
