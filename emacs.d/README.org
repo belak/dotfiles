@@ -1,57 +1,583 @@
 * Belak's Emacs Config
 
-** Settings
+** Core
 
-*** Directories
+Set up some basic constants for use later.
 
-- =belak-local-dir= Which directory will be used for temporary files.
+#+begin_src emacs-lisp
+(defconst IS-MAC   (eq system-type 'darwin))
+(defconst IS-LINUX (eq system-type 'gnu/linux))
+(defconst IS-GUI   (memq window-system '(mac ns x)))
+#+end_src
 
-*** Features
+Add a basic hook so we can tell how long loading emacs took.
 
-- =belak-evil-enabled= Whether or not =evil-mode= should be enabled.
-- =belak-completion-system= Which completion system to use (helm, ido,
-  ivy, or nil)
+#+begin_src emacs-lisp
+(defun belak--display-benchmark ()
+  "Display a basic benchmark with how long Emacs took to load."
+  (message "Loaded in %.03fs"
+       (float-time (time-subtract (current-time) before-init-time))))
+(add-hook 'emacs-startup-hook 'belak--display-benchmark)
+#+end_src
 
-** Core Modules
+UTF-8 as the default encoding (Copied from doom-emacs).
 
-Theses are listed in the order they are loaded by init.el. The load
-order is actually important in some instances, at least for core
-packages. Most of these are core modules which change how the editor
-works in some way.
+#+begin_src emacs-lisp
+(when (fboundp 'set-charset-priority)
+  (set-charset-priority 'unicode))     ; pretty
+(prefer-coding-system        'utf-8)   ; pretty
+(set-terminal-coding-system  'utf-8)   ; pretty
+(set-keyboard-coding-system  'utf-8)   ; pretty
+(set-selection-coding-system 'utf-8)   ; perdy
+(setq locale-coding-system   'utf-8)   ; please
+(setq-default buffer-file-coding-system 'utf-8) ; with sugar on top
+#+end_src
 
-*** =belak-core=
-*** =belak-packages=
-*** =belak-ui=
-*** =belak-evil=
-*** =belak-dev=
+Set up a few file name variables for later use. The goal is to get as
+many extraneous files into directories, rather than dumping them into
+.emacs.d.
 
-** Feature Modules
+#+begin_src emacs-lisp
+(setq user-emacs-directory (file-name-directory load-file-name))
+(defvar belak-emacs-dir user-emacs-directory)
+(defvar belak-local-dir (concat belak-emacs-dir ".local/"))
+#+end_src
 
-*** =belak-org=
+We still want to be able to have non-public configs, such as for
+passwords and what not, so we put them in a separate file and load it,
+but ignore errors, for instance if it doesn't exist. This has the
+added advantage of making it so customizations will go to this file
+and not to init.el, which is version controlled.
 
-** Completion Systems
+#+begin_src emacs-lisp
+(setq custom-file (expand-file-name "custom.el" user-emacs-directory))
+(load custom-file t)
+#+end_src
 
-*** =belak-completion-ido=
-*** =belak-completion-helm=
-*** =belak-completion-ivy=
+Make M-z zap-up-to-char (doesn't include char) rather than zap-to-char
+and make M-Z zap in reverse.
 
-** Language Modules
+#+begin_src emacs-lisp
+(autoload 'zap-up-to-char "misc" "" 'interactive)
+(global-set-key "\M-z" 'zap-up-to-char)
 
-*** =belak-lang-elixir=
-*** =belak-lang-go=
-*** =belak-lang-javascript=
-*** =belak-lang-python=
-*** =belak-lang-rust=
-*** =belak-lang-other=
+(defun reverse-zap-up-to-char (char)
+  "Zap back to CHAR."
+  (interactive "Zap back to char: ")
+  (zap-up-to-char -1 char))
+(global-set-key "\M-Z" 'reverse-zap-up-to-char)
+#+end_src
 
-** Future Ideas
+** Packages
 
-- [ ] =org=
-- [ ] =org-agenda=
-- [ ] =org-capture=
-- [ ] =evil-org=
-- [ ] Configure circe, similar to how smf does it
-- [ ] Finish porting over my config from my dotfiles
-- [ ] Update my helm config, possibly from
-  https://github.com/compunaut/helm-ido-like-guide
-- [ ] Add some custom =evil-mode= bindings
+We made sure to load =straight.el= in =init.el= but we can bootstrap
+=use-package= and friends here.
+
+#+begin_src emacs-lisp
+(straight-use-package 'use-package)
+(straight-use-package 'delight)
+(straight-use-package 'general)
+
+(eval-when-compile
+  (require 'use-package))
+(require 'general)
+(require 'delight)
+#+end_src
+
+** UI
+
+*** Tweaks
+
+Remove most GUI features, as I rarely use any of them.
+
+#+begin_src emacs-lisp
+(menu-bar-mode -1)
+(tool-bar-mode -1)
+(scroll-bar-mode -1)
+(horizontal-scroll-bar-mode -1)
+(blink-cursor-mode -1)
+#+end_src
+
+Make things a little more responsive in general.
+
+#+begin_src emacs-lisp
+(setq echo-keystrokes 0.1
+      tooltip-delay 0
+      tooltip-short-delay 0)
+#+end_src
+
+Make things a bit more obvious.
+
+#+begin_src emacs-lisp
+;; Ensure the help window is selected when one is open. This makes it
+;; much easier to quit them when we're done.
+(setq help-window-select t)
+
+;; Disable scrolling past the end of the file.
+;; TODO: Figure out why this doesn't work
+;;(setq next-line-add-newlines nil)
+
+;; Only ask for y or n rather than yes or no.
+(defalias 'yes-or-no-p 'y-or-n-p)
+#+end_src
+
+Be as quiet as we can at startup. Most of the messaging isn't very
+useful. Maybe one day I'll build my own dashboard or make it
+persistent, this is good enough for now.
+
+#+begin_src emacs-lisp
+(setq-default
+ inhibit-startup-message t
+ inhibit-startup-echo-area-message user-login-name
+ initial-major-mode 'fundamental-mode
+ initial-scratch-message nil)
+#+end_src
+
+Highlight the current line to make the cursor easier to see.
+
+#+begin_src emacs-lisp
+(global-hl-line-mode)
+#+end_src
+
+Undo is pretty weird in emacs. Undo-tree is a step forward but still
+weird.
+
+#+begin_src emacs-lisp
+(use-package undo-tree
+  :delight undo-tree-mode)
+#+end_src
+
+helpful is a replacement for the built-in help pages which are much
+prettier and easier to read.
+
+#+begin_src emacs-lisp
+(use-package helpful
+  :general
+  ("C-h f" 'helpful-callable)
+  ("C-h v" 'helpful-variable)
+  ("C-h k" 'helpful-key)
+  ("C-h ." 'helpful-at-point))
+#+end_src
+
+Hide auto-fill-function
+
+#+begin_src emacs-lisp
+(delight 'auto-fill-function nil "simple")
+
+;; Make the lisp modes a bit shorter
+;; TODO: these don't seem to work
+(delight 'lisp-interaction-mode "λ»" :major)
+(delight 'emacs-lisp-mode "Eλ" :major)
+(delight 'lisp-mode "λ" :major)
+#+end_src
+
+*** Themes
+
+#+begin_src emacs-lisp
+(use-package monokai-pro-theme
+  :config (load-theme 'monokai-pro t))
+#+end_src
+
+*** IDO
+
+#+begin_src emacs-lisp
+(use-package ido
+  :straight nil
+  :config
+  (setq ido-save-directory-list-file (expand-file-name "ido.last" belak-local-dir)
+        ido-use-filename-at-point nil
+        resize-mini-windows t
+        ido-use-virtual-buffers t
+        ido-auto-merge-work-directories-length -1
+
+        completion-ignored-extensions
+        '(".o" ".elc" "~" ".bin" ".bak" ".obj" ".map" ".a" ".ln" ".mod" ".gz"
+          ".aux" ".tdo" ".fmt" ".swp" ".pdfsync" ".pdf" ".vrb" ".idx" ".ind"
+          ".bbl" ".toc" ".blg" ".snm" ".ilg" ".log" ".out" ".pyc" ".DS_Store"
+          "-blx.bib" ".run.xml" ".hi" ".fls" ".fdb_latexmk" ".bcf" ".rel"))
+
+  (ido-mode 1)
+  (ido-everywhere 1))
+#+end_src
+
+smex is a better replacement for M-x built around ido.
+
+#+begin_src emacs-lisp
+(use-package smex
+  :after ido
+  :general
+  ("M-x" 'smex)
+  ("M-X" 'smex-major-mode-commands)
+  :config
+  (setq smex-history-length 50
+        smex-save-file (expand-file-name "smex-items" belak-local-dir)))
+#+end_src
+
+Use ido everywhere possible.
+
+#+begin_src emacs-lisp
+(use-package ido-completing-read+
+  :after ido
+  :config
+  (ido-ubiquitous-mode 1))
+#+end_src
+
+ido is much more readable when all the options are displayed
+vertically.
+
+#+begin_src emacs-lisp
+(use-package ido-vertical-mode
+  :after ido
+  :config
+  (setq ido-vertical-define-keys 'C-n-C-p-up-down-left-right
+        ido-vertical-show-count t)
+  (ido-vertical-mode 1))
+#+end_src
+
+flx-ido changes the matching algorithm to improve the flex matching
+support.
+
+#+begin_src emacs-lisp
+(use-package flx-ido
+  :after ido
+  :config
+  (setq ido-enable-flex-matching t
+        flx-ido-threshold 10000))
+#+end_src
+
+*** Menubar
+
+Because spacebar is so close to what I want, we use that rather than
+customizing it completely. It takes way more code than you'd expect to
+directly configure the menubar.
+
+#+begin_src emacs-lisp
+(use-package spaceline-config
+  :straight spaceline
+  :config
+  (setq powerline-default-separator 'bar
+        spaceline-highlight-face-func 'spaceline-highlight-face-evil-state)
+  (spaceline-spacemacs-theme))
+#+end_src
+
+*** Key Binds
+
+#+begin_src emacs-lisp
+(use-package which-key
+  :defer 1
+  :delight which-key-mode
+  :config
+  (setq which-key-sort-order #'which-key-prefix-then-key-order
+        which-key-sort-uppercase-first nil
+        which-key-add-column-padding 1
+        which-key-max-display-columns nil
+        which-key-min-display-lines 6
+        which-key-side-window-slot -10)
+  (which-key-mode 1))
+#+end_src
+
+** Dev
+
+company-mode is used as a completion system.
+
+#+begin_src emacs-lisp
+(use-package company
+  :defer 2
+  :delight company-mode
+  :config
+  (defmacro belak--register-company-backend (hook backend)
+    `(add-hook ,hook (lambda ()
+                       (set (make-local-variable 'company-backends) (list ,backend)))))
+
+  (setq company-tooltip-limit 20
+        company-idle-delay 0
+        company-minimum-prefix-length 1
+        company-selection-wrap-around t
+        company-show-numbers t
+        company-tooltip-align-annotations t)
+
+  ;; Tab-N-Go seems to align better than the defaults with how I like
+  ;; tab completion to work. This allows tab to cycle through entries
+  ;; and makes the enter key work as the enter key.
+  (company-tng-configure-default)
+
+  (global-company-mode))
+#+end_src
+
+display-line-numbers is built-in to emacs 26.1 and above. It's similar
+to linum-mode, but it performs much better.
+
+#+begin_src emacs-lisp
+(use-package display-line-numbers
+  :straight nil
+  ;;:hook (prog-mode-hook . display-line-numbers-mode)
+  :config
+  (setq display-line-numbers-type 'visual)
+  (global-display-line-numbers-mode 1))
+#+end_src
+
+editorconfig is a simple way to share indentation settings between
+editors. Because I sometimes dabble in vim, sublime etc, it's nice to
+not have to re-do these settings at a project level between editors.
+
+#+begin_src emacs-lisp
+(use-package editorconfig
+  :delight editorconfig-mode
+  :config
+  (editorconfig-mode 1))
+#+end_src
+
+Eldoc is used to show relevant documentation in the echo
+area. However, this block is mostly so we can call delight to hide it
+in the modes display.
+
+#+begin_src emacs-lisp
+(use-package eldoc
+  :straight nil
+  :delight eldoc-mode)
+#+end_src
+
+Grab important variables from the shell. This is only needed in the
+GUI because the shell will already inherit the environment directly.
+
+#+begin_src emacs-lisp
+(use-package exec-path-from-shell
+  :if IS-GUI
+  :config
+  (exec-path-from-shell-initialize))
+#+end_src
+
+flycheck-mode is used for linters and catching compilation errors.
+
+#+begin_src emacs-lisp
+(use-package flycheck
+  :delight flycheck-mode
+  :config
+  (global-flycheck-mode))
+#+end_src
+
+hl-todo simply highlights TODO and other similar comments to make them
+easier to find.
+
+#+begin_src emacs-lisp
+(use-package hl-todo
+  :config
+  (global-hl-todo-mode))
+#+end_src
+
+magit is the best git interface in an editor I've used.
+
+#+begin_src emacs-lisp
+(use-package magit
+  :general
+  ("M-g M-g" 'magit-status)
+  :config
+  (setq magit-push-current-set-remote-if-missing t))
+#+end_src
+
+Project based navigation is pretty much the best thing ever.
+
+#+begin_src emacs-lisp
+(use-package projectile
+  :delight projectile-mode
+  :commands
+  projectile-project-p
+  :general
+  ("C-c p" '(:keymap projectile-command-map))
+  :config
+  (setq projectile-known-projects-file (concat belak-local-dir "projectile-bookmarks.eld"))
+  (projectile-mode +1))
+#+end_src
+
+rainbow-mode makes it easier to see colors, but I don't use it very
+often so I leave it disabled unless called.
+
+#+begin_src emacs-lisp
+(use-package rainbow-mode
+  :commands rainbow-mode)
+#+end_src
+
+** Languages
+
+*** Go
+
+#+begin_src emacs-lisp
+(use-package go-mode
+  :mode ("\\.go\\'" . go-mode)
+  :hook ((go-mode-hook . belak--go-mode-hook)
+	 (go-mode-hook . subword-mode))
+  :config
+  ;; goimports is generally preferred by the lazy as it will try and
+  ;; fix extra and missing imports.
+  (setq gofmt-command "goimports")
+
+  (defun belak--go-mode-hook ()
+    (add-hook 'before-save-hook 'gofmt-before-save nil t)))
+#+end_src
+
+#+begin_src emacs-lisp
+(use-package company-go
+  :after (go-mode company)
+  :config
+  (setq company-go-show-annotation t)
+  (add-to-list 'company-backends 'company-go))
+#+end_src
+
+#+begin_src emacs-lisp
+(use-package go-eldoc
+  :after (go-mode eldoc)
+  :hook (go-mode-hook . go-eldoc-setup))
+#+end_src
+
+*** Javascript
+
+After trying a number of js setups, I've settled on this one because
+it's simple and doesn't try to do too much. When the community moves
+as fast as the JS community does, you don't want to have to constantly
+update your config to keep working.
+
+#+begin_src emacs-lisp
+(use-package js2-mode
+  :mode ("\\.jsx?\\'" . js2-jsx-mode))
+#+end_src
+
+#+begin_src emacs-lisp
+(use-package typescript-mode
+  :mode ("\\.tsx?\\'" . typescript-mode))
+#+end_src
+
+*** Org
+
+#+begin_src emacs-lisp
+(add-hook 'org-mode-hook #'auto-fill-mode)
+
+(setq
+ ;; Allow using shift-select like in other buffers.
+ org-support-shift-select t
+
+ ;; Make tab in code blocks behave like they would in that language's
+ ;; major mode.
+ org-src-tab-acts-natively t
+
+ ;; Make sure org isn't "helpful" in trying to add spaces at the
+ ;; start of code blocks. This makes it much easier to work with
+ ;; when dealing with babeled files.
+ org-edit-src-content-indentation 0)
+#+end_src
+
+*** Python
+
+After doing python dev for a while, it's nice to be able to tweak my
+setup. After trying other major packages (elpy and jedi) I've settled
+on anaconda-mode and pyenv. It provides a nice mix of tweakability and
+convenience.
+
+#+begin_src emacs-lisp
+(use-package python
+  :straight nil
+  :mode ("\\.py\\'" . python-mode)
+  :interpreter (("python"  . python-mode)
+                ("python2" . python-mode)
+                ("python3" . python-mode))
+  :hook (python-mode . subword-mode))
+#+end_src
+
+anaconda-mode provides code navigation and docs. Additionally, if
+company-mode is enabled, company-anaconda will also be enabled.
+
+#+begin_src emacs-lisp
+(use-package anaconda-mode
+  :diminish anaconda-mode
+  :after python
+  :hook python-mode
+  :init
+  (setq anaconda-mode-installation-directory "~/.emacs.d/.local/anaconda-mode")
+  :hook (anaconda-mode-hook . anaconda-eldoc-mode))
+#+end_src
+
+#+begin_src emacs-lisp
+(use-package company-anaconda
+  :after (anaconda-mode company)
+  :config (add-to-list 'company-backends 'company-anaconda))
+#+end_src
+
+This allows for simple switching between pyenv environments and
+provides us with some basic building blocks to auto-switch to the
+proper pyenv if available.
+
+#+begin_src emacs-lisp
+(use-package pyenv-mode
+  :after (python projectifle)
+  :hook (projectile-after-switch-project-hook . belak--projectile-pyenv-mode-hook)
+  :config
+  (defun belak--projectile-pyenv-mode-hook ()
+    (let ((project (projectile-project-name)))
+      (if (member project (pyenv-mode-versions))
+          (pyenv-mode-set project)
+        (pyenv-mode-unset)))))
+#+end_src
+
+**** Additional Utils
+
+This adds some basic features for requirements files, such as
+highlighting and auto-completion of names from PyPI.
+
+#+begin_src emacs-lisp
+(use-package pip-requirements
+  :mode
+  "requirements.txt"
+  "requirements/\\.txt\\'")
+#+end_src
+
+Cycle between apostrophes and quotes in python strings. Converts
+strings like 'this' to strings like "this".
+
+#+begin_src emacs-lisp
+(use-package python-switch-quotes
+  :after python
+  :general
+  (:keymaps 'python-mode-map
+            "C-c '" 'python-switch-quotes))
+#+end_src
+
+*** Other
+
+#+begin_src emacs-lisp
+(use-package dockerfile-mode
+  :mode
+  "Dockerfile\(-.*\)?")
+#+end_src
+
+#+begin_src emacs-lisp
+(use-package emmet-mode
+  :after web-mode
+  :hook (web-mode-hook . emmet-mode))
+#+end_src
+
+#+begin_src emacs-lisp
+(use-package markdown-mode
+  :mode ("\\.md\\'" . gfm-mode))
+#+end_src
+
+#+begin_src emacs-lisp
+(use-package toml-mode
+  :mode "\\.toml\\'")
+#+end_src
+
+#+begin_src emacs-lisp
+(use-package web-mode
+  :mode
+  "\\.erb\\'"
+  "\\.html\\'"
+  "\\.jinja\\'"
+  "\\.mustache\\'"
+  :config
+  (setq web-mode-markup-indent-offset 2
+        web-mode-css-indent-offset 2
+        web-mode-code-indent-offset 2))
+#+end_src
+
+#+begin_src emacs-lisp
+(use-package yaml-mode
+  :mode "\\.yml\\'")
+#+end_src

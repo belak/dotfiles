@@ -4,49 +4,47 @@
 
 ;;; Code:
 
-(setq user-emacs-directory (file-name-directory load-file-name))
+;; Startup optimization. Normally this would go in README.org, but we
+;; want to have extra memory available for the actual babeling so we
+;; do it here... and might as well do it first.
 
-;; Add the modules directory to the load path and start loading
-;; everything.
-(add-to-list 'load-path (concat user-emacs-directory "modules"))
+(defvar belak--gc-cons-threshold (* 16 1024 1024))
+(defvar belak--gc-cons-upper-limit (* 256 1024 1024))
+
+(setq gc-cons-threshold belak--gc-cons-upper-limit)
+(add-hook 'emacs-startup-hook (lambda ()
+                                (run-with-idle-timer
+                                 3 nil (lambda () (setq-default gc-cons-threshold belak--gc-cons-threshold)))))
+
+;; We need to bootstrap the package manager enough to ensure org-mode
+;; is installed. Then we can use org-babel for the rest of the config.
+(defvar bootstrap-version)
+(let ((bootstrap-file
+       (expand-file-name "straight/repos/straight.el/bootstrap.el" user-emacs-directory))
+      (bootstrap-version 5))
+  (unless (file-exists-p bootstrap-file)
+    (with-current-buffer
+	(url-retrieve-synchronously
+	 "https://raw.githubusercontent.com/raxod502/straight.el/develop/install.el"
+	 'silent 'inhibit-cookies)
+      (goto-char (point-max))
+      (eval-print-last-sexp)))
+  (load bootstrap-file nil 'nomessage))
+
+;; Make it a little easier to use straight. We assume ssh urls so we
+;; can just edit and push our own packages. Also, we assume `:straight
+;; t' in use-package blocks by default.
+(setq straight-vc-git-default-protocol 'ssh
+      straight-use-package-by-default t)
+
+;; TODO: Actually install org-mode
 
 (let ((debug-on-error t)
       (debug-on-quit t))
-  ;; Load the core settings to make sure we have a solid base to start
-  ;; with.
-  (require 'belak-core)
 
-  ;; First thing to do is set up package management. For me, it's straight.el.
-  ;; We still call it packages because it's referring to the system, not
-  ;; package.el. Naming is hard, alright?
-  (require 'belak-packages)
+  ;; Now that we've bootstrapped what we can, load the actual config.
+  (org-babel-load-file "~/.emacs.d/README.org")
 
-  ;; Now that we've got a baseline to start with, we can start
-  ;; tweaking the UI.
-  (require 'belak-ui)
-
-  ;; We use an bizarre mix between evil and emacs. I try to use emacs
-  ;; for navigation, but emacs for almost everything else.
-  ;;(require 'belak-evil)
-
-  ;; It's nice to have a better interface for completing-read. ido is
-  ;; a nice balance between features and speed.
-  (require 'belak-ido)
-
-  ;; Load additional features
-  (require 'belak-org)
-
-  ;; Load dev packages. This includes everything from project-based
-  ;; navigation to autocomplete.
-  (require 'belak-dev)
-
-  ;; Load language bundles
-  ;;(require 'belak-lang-elixir)
-  (require 'belak-lang-go)
-  (require 'belak-lang-javascript)
-  (require 'belak-lang-python)
-  (require 'belak-lang-rust)
-  (require 'belak-lang-other)
-
-  ;; Load any miscellaneous packages
-  (require 'belak-misc))
+  ;; Now that everything has been loaded, force a GC to try and clean
+  ;; stuff up.
+  (garbage-collect))
