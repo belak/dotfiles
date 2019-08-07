@@ -1,4 +1,4 @@
-;;; belak-completion-ido.el --- ido related config
+;;; belak-ido.el --- ido related config
 
 ;;; Commentary:
 
@@ -6,12 +6,8 @@
 
 ;;; Code:
 
-(defun ido-enabled-p ()
-  (eq belak-completion-system 'ido))
-
 (use-package ido
-  :ensure nil
-  :if (ido-enabled-p)
+  :straight nil
   :config
   (setq ido-save-directory-list-file (expand-file-name "ido.last" belak-local-dir)
         completion-ignored-extensions
@@ -32,7 +28,6 @@
 
 (use-package smex
   :after ido
-  :if (ido-enabled-p)
   :general
   ("M-x" 'smex)
   ("M-X" 'smex-major-mode-commands)
@@ -44,7 +39,6 @@
 
 (use-package ido-completing-read+
   :after ido
-  :if (ido-enabled-p)
   :config
   (ido-ubiquitous-mode 1))
 
@@ -53,7 +47,6 @@
 
 (use-package ido-vertical-mode
   :after ido
-  :if (ido-enabled-p)
   :config
   (setq ido-vertical-define-keys 'C-n-C-p-up-down-left-right
         ido-vertical-show-count t)
@@ -64,11 +57,9 @@
 
 (use-package flx-ido
   :after ido
-  :if (ido-enabled-p)
   :config
   (setq ido-enable-flex-matching t
         flx-ido-threshold 10000))
 
-(provide 'belak-completion-ido)
-
-;;; belak-completion-ido.el ends here
+(provide 'belak-ido)
+;;; belak-ido.el ends here

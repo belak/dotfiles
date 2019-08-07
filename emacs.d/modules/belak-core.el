@@ -4,10 +4,6 @@
 
 ;;; Code:
 
-;; Settings
-
-(defvar belak-completion-system 'ido)
-
 ;; Constants
 
 (defconst IS-MAC   (eq system-type 'darwin))
@@ -17,26 +13,20 @@
 ;; Bootstrap helpers
 
 (defun belak--display-benchmark ()
+  "Display a basic benchmark with how long Emacs took to load."
   (message "Loaded in %.03fs"
        (float-time (time-subtract (current-time) before-init-time))))
 (add-hook 'emacs-startup-hook 'belak--display-benchmark)
 
-;; Internal startup optimization variables
+;; Startup optimization
 
 (defvar belak--gc-cons-threshold (* 16 1024 1024))
 (defvar belak--gc-cons-upper-limit (* 256 1024 1024))
-(defvar belak--file-name-handler-alist file-name-handler-alist)
-
-;; Startup optimization
-
-(defun belak--restore-startup-optimizations ()
-  (setq file-name-handler-alist belak--file-name-handler-alist)
-  (run-with-idle-timer
-   3 nil (lambda () (setq-default gc-cons-threshold belak--gc-cons-threshold))))
 
 (setq gc-cons-threshold belak--gc-cons-upper-limit)
-(setq file-name-handler-alist nil)
-(add-hook 'emacs-startup-hook 'belak--restore-startup-optimizations)
+(add-hook 'emacs-startup-hook (lambda ()
+                                (run-with-idle-timer
+                                 3 nil (lambda () (setq-default gc-cons-threshold belak--gc-cons-threshold)))))
 
 ;; Emacs core configuration
 
@@ -71,8 +61,9 @@
  auto-save-list-file-prefix (expand-file-name "auto-save-list/.saves-" belak-local-dir)
  recentf-save-file (expand-file-name "recentf" belak-local-dir)
 
- ;; Disable history and backup files. They really just get in the
- ;; way. TODO: change some of these to use directories instead.
+ ;; Disable history and backup files. They really just get in the way.
+ ;;
+ ;; TODO: change some of these to use directories instead.
  auto-save-default nil
  create-lockfiles nil
  make-backup-files nil
@@ -96,7 +87,7 @@
 ;; Make M-Z zap in reverse
 (defun reverse-zap-up-to-char (char)
   "Zap back to CHAR."
-  (interactive "cZap back to char: ")
+  (interactive "Zap back to char: ")
   (zap-up-to-char -1 char))
 (global-set-key "\M-Z" 'reverse-zap-up-to-char)
 

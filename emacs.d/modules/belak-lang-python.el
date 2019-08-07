@@ -5,13 +5,12 @@
 ;;; Code:
 
 (use-package python
-  :ensure nil
+  :straight nil
   :mode ("\\.py\\'" . python-mode)
   :interpreter (("python"  . python-mode)
                 ("python2" . python-mode)
                 ("python3" . python-mode))
-  :config
-  (add-hook 'python-mode-hook #'subword-mode))
+  :hook (python-mode . subword-mode))
 
 ;; Cycle between apostrophes and quotes in python strings. Converts
 ;; strings like 'this' to strings like "this".
@@ -36,8 +35,7 @@
   :hook python-mode
   :init
   (setq anaconda-mode-installation-directory "~/.emacs.d/.local/anaconda-mode")
-  :config
-  (add-hook 'anaconda-mode-hook 'anaconda-eldoc-mode))
+  :hook (anaconda-mode-hook . anaconda-eldoc-mode))
 
 (use-package company-anaconda
   :after (anaconda-mode company)
@@ -51,23 +49,17 @@
   "requirements.txt"
   "requirements/\\.txt\\'")
 
-;; virtualenvwrapper is a pretty awesome small package which aims to
-;; emulate python's virtualenvwrapper. It adds some functions to
-;; switch between virtualenvs and provides a consistent location to
-;; put them.
-;;
-;; If projectile is enabled, this will also add a hook which will load
-;; the virtualenv matching the basename of the project when switching
-;; buffers.
+;; This allows for simple switching between pyenv environments.
 
-(use-package virtualenvwrapper
+(use-package pyenv-mode
+  :after (python projectifle)
+  :hook (projectile-after-switch-project-hook . belak--projectile-pyenv-mode-hook)
   :config
-  (when (fboundp 'projectile-mode)
-    (advice-add 'switch-to-buffer :after
-                (lambda (&rest arg-list)
-                  (if (and (projectile-project-p)
-                           (venv-is-valid (projectile-project-name)))
-                      (venv-workon (projectile-project-name)))))))
+  (defun belak--projectile-pyenv-mode-hook ()
+    (let ((project (projectile-project-name)))
+      (if (member project (pyenv-mode-versions))
+          (pyenv-mode-set project)
+        (pyenv-mode-unset)))))
 
 (provide 'belak-lang-python)
 

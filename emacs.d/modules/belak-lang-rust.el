@@ -13,13 +13,11 @@
 
 (use-package racer
   :after rust-mode
-  :config
-  (add-hook 'rust-mode-hook #'racer-mode))
+  :hook (rust-mode-hook . racer-mode))
 
 (use-package flycheck-rust
   :after (rust-mode flycheck-mode)
-  :config
-  (add-hook 'flycheck-mode-hook #'flycheck-rust-setup))
+  :hook (flycheck-mode-hook . flycheck-rust-setup))
 
 (use-package rustfmt
   :disabled t

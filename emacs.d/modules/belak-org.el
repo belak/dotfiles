@@ -6,8 +6,9 @@
 
 (use-package org
   :pin org
-  :ensure org-plus-contrib
+  :straight org-plus-contrib
   :mode ("\\.org\\'" . org-mode)
+  :hook (org-mode-hook . auto-fill-mode)
   :general
   ("C-c a" 'org-agenda)
   ("C-c b" 'org-switchb)
@@ -17,9 +18,8 @@
         org-log-done-with-time t
         org-support-shift-select t)
 
-  (setq org-agenda-files '("~/Dropbox/org/"))
-
-  (add-hook 'org-mode-hook 'auto-fill-mode))
+  ;; TODO: Drop Dropbox
+  (setq org-agenda-files '("~/Dropbox/org/")))
 
 (use-package org-journal
   :after org
@@ -27,6 +27,7 @@
   ("C-c C-j" 'org-journal-new-entry)
   ("C-c C-s" 'org-journal-search)
   :config
+  ;; TODO: Drop Dropbox
   (setq org-journal-dir "~/Dropbox/journal"
         org-journal-file-format "%Y-%m-%d.org"
         org-journal-date-format "%d %b %Y (%A)"

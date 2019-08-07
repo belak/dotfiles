@@ -1,4 +1,4 @@
-;;; belak-lang-elixir -- Elixir related packages and settings
+;;; belak-lang-javascript -- Javascript related packages and settings
 
 ;;; Commentary:
 
