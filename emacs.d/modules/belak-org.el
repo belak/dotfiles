@@ -1,11 +1,4 @@
-;;; belak-org.el --- org-mode related config
-
-;;; Commentary:
-
-;;; Code:
-
 (use-package org
-  :pin org
   :straight org-plus-contrib
   :mode ("\\.org\\'" . org-mode)
   :hook (org-mode-hook . auto-fill-mode)
@@ -16,7 +9,9 @@
   :config
   (setq org-log-done t
         org-log-done-with-time t
-        org-support-shift-select t)
+        org-support-shift-select t
+	org-src-tab-acts-natively t
+	org-edit-src-content-indentation 0)
 
   ;; TODO: Drop Dropbox
   (setq org-agenda-files '("~/Dropbox/org/")))
@@ -33,7 +28,3 @@
         org-journal-date-format "%d %b %Y (%A)"
         org-journal-time-format "%I:%M %p"
         org-extend-today-until 4))
-
-(provide 'belak-org)
-
-;;; belak-org.el ends here

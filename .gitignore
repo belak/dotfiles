@@ -16,6 +16,7 @@ vim/swap
 
 # emacs related
 *.elc
+emacs.d/README.el
 emacs.d/site-lisp
 emacs.d/.local
 emacs.d/elpa
