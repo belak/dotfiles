@@ -6,14 +6,14 @@
 
 (use-package go-mode
   :mode ("\\.go\\'" . go-mode)
+  :hook (go-mode-hook . belak--go-mode-hook)
   :config
   (setq gofmt-command "goimports")
 
+  ;; TODO: move these to the :hook config
   (defun belak--go-mode-hook ()
     (add-hook 'before-save-hook 'gofmt-before-save nil t)
-    (subword-mode 1))
-
-  (add-hook 'go-mode-hook 'belak--go-mode-hook))
+    (subword-mode 1)))
 
 (use-package company-go
   :after (go-mode company)
@@ -23,8 +23,7 @@
 
 (use-package go-eldoc
   :after (go-mode eldoc)
-  :config
-  (add-hook 'go-mode-hook 'go-eldoc-setup))
+  :hook (go-mode-hook . go-eldoc-setup))
 
 (provide 'belak-lang-go)
 

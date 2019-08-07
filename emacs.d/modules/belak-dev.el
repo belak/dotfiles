@@ -31,12 +31,11 @@
 ;; display-line-numbers is built-in to emacs 26.1 and above. It's
 ;; similar to linum-mode, but it performs much better.
 (use-package display-line-numbers
+  :straight nil
+  :hook (prog-mode-hook . display-line-numbers-mode)
   :config
   (setq display-line-numbers-type 'visual)
-  (global-display-line-numbers-mode 1)
-  (add-hook 'prog-mode-hook
-            (lambda ()
-              (display-line-numbers-mode 1))))
+  (global-display-line-numbers-mode 1))
 
 ;; editorconfig is a simple way to share indentation settings between
 ;; editors. Because I sometimes dabble in vim, sublime etc, it's nice
@@ -51,7 +50,7 @@
 ;; Used to show relevant documentation in the echo area.
 
 (use-package eldoc
-  :ensure nil
+  :straight nil
   :diminish eldoc-mode)
 
 ;; Grab important variables from our shell.
@@ -93,5 +92,4 @@
   :commands rainbow-mode)
 
 (provide 'belak-dev)
-
 ;;; belak-dev.el ends here

@@ -21,8 +21,7 @@
 
 (use-package emmet-mode
   :after web-mode
-  :config
-  (add-hook 'web-mode-hook 'emmet-mode))
+  :hook (web-mode-hook . emmet-mode))
 
 (use-package markdown-mode
   :mode ("\\.md\\'" . gfm-mode))

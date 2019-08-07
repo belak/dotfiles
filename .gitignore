@@ -22,3 +22,4 @@ emacs.d/elpa
 emacs.d/old
 emacs.d/custom.el
 emacs.d/transient
+emacs.d/straight
