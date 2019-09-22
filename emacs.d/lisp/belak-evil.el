@@ -4,7 +4,7 @@
 
 ;;; Settings:
 
-(defvar belak-evil-enabled t)
+(defvar belak-evil-enabled nil)
 
 ;;; Code:
 
@@ -36,16 +36,18 @@
 
   ;; Wrap enable-theme and disable-theme to update the cursor colors
   ;; whenever the theme changes.
+  ;;
+  ;; TODO: This isn't actually handled if the theme is set up before
+  ;; evil-mode has been loaded.
   (advice-add 'enable-theme  :after 'belak--update-evil-state-cursor-colors)
   (advice-add 'disable-theme :after 'belak--update-evil-state-cursor-colors)
 
   (belak--update-evil-state-cursor-colors))
 
 ;; Add gc for commenting
-
 (use-package evil-commentary
   :after evil
-  :diminish evil-commentary-mode
+  :delight evil-commentary-mode
   :config
   (evil-commentary-mode 1))
 
@@ -58,6 +60,7 @@
 
 (use-package evil-goggles
   :after evil
+  :delight evil-goggles-mode
   :config
   (evil-goggles-mode)
 
@@ -65,7 +68,6 @@
   (evil-goggles-use-diff-faces))
 
 ;; Add % as a bind to jump between matching tags.
-
 (use-package evil-matchit
   :after evil
   :config
@@ -73,15 +75,13 @@
 
 ;; I prefer using C-a and C-e because they work both inside and
 ;; outside normal mode.
-
 (use-package evil-rsi
   :after evil
-  :diminish evil-rsi-mode
+  :delight evil-rsi-mode
   :config
   (evil-rsi-mode 1))
 
 ;; Include community-maintained keybinds for additional packages.
-
 (use-package evil-collection
   :after evil
   :config
