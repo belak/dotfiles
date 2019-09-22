@@ -8,6 +8,7 @@ path=(
     "/Applications/Visual Studio Code.app/Contents/Resources/app/bin"
     "$GOPATH/bin"
     "$HOME/.cargo/bin"
+    "$HOME/.pyenv/shims"
     "$HOME/.rbenv/shims"
     "$HOME/.rbenv/bin"
     "$HOME/.local/bin"
