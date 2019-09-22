@@ -48,7 +48,8 @@
 ;; Delete selected text when typing.
 (delete-selection-mode 1)
 
-;; Hide auto-fill-function
+;; Clean up a few errant minor modes we don't want to see.
+(delight 'isearch-mode)                 ; TODO: figure out why this doesn't work
 (delight 'auto-fill-function nil "simple")
 
 (defmacro diminish-major-mode (mode name)
@@ -96,8 +97,6 @@ minibuffer."
 (define-key minibuffer-local-isearch-map [escape] 'minibuffer-keyboard-quit)
 
 ;;(use-package all-the-icons)
-
-;;(use-package anzu)
 
 (use-package focus
   :commands focus-mode)
@@ -178,7 +177,7 @@ minibuffer."
 ;; into the modeline.
 (use-package anzu
   :demand
-  :diminish anzu-mode
+  :delight anzu-mode
   :config
   (when (fboundp 'spaceline-install)
     (setq anzu-cons-mode-line-p nil))
