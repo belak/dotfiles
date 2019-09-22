@@ -41,7 +41,8 @@
 
    ;; org-agenda settings
    org-log-done t
-   org-log-done-with-time t))
+   org-log-done-with-time t
+   org-log-refile t))
 
 (provide 'belak-lang-org)
 
