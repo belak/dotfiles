@@ -5,24 +5,6 @@ This config has been cobbled together from quite a few places.
 Most notably, [[https://smf.io/dotfiles][smf's dotfiles]], [[https://github.com/dakrone/dakrone-dotfiles/blob/master/.emacs.d/settings.org][dakrone's dotfiles]], [[https://github.com/syl20bnr/spacemacs][Spacemacs]], among other
 sources.
 
-** Core Packages
-
-Portions of this config depend on other components, so we load the
-common components here. The only things which should be here are
-packages which are needed for the organization of the rest of the file
-and stuff which needs to be loaded very early.
-
-*** =page-break-lines=
-
-Display a line as opposed to ^L. This is early in the config file so
-most bootstrapped package logs will take advantage of this.
-
-#+begin_src emacs-lisp
-  (use-package page-break-lines
-    :diminish page-break-lines-mode
-    :config (global-page-break-lines-mode 1))
-#+end_src
-
 
 ** Various Packages
 
@@ -58,21 +40,6 @@ make multi-line editing work a bit better.
     (setq pe/omit-gitignore t))
 #+end_src
 
-smart-mode-line is a package which aims to provide a better mode-line
-with little configuration. I've tried to use powerline (and making my
-own small framework) and it just involved too much work to maintain a
-small feature.
-
-#+begin_src emacs-lisp
-  (use-package smart-mode-line
-    :disabled t
-    :config
-    (setq sml/no-confirm-load-theme t
-          sml/shorten-directory t
-          sml/theme 'respectful)
-    (sml/setup))
-#+end_src
-
 Dim the font color of text in surrounding paragraphs.
 
 #+begin_src emacs-lisp
@@ -82,7 +49,6 @@ Dim the font color of text in surrounding paragraphs.
 ** Other Settings
 
 *** Legacy
-
 
 popwin tries to make the behavior of compilation buffers, search
 buffers, etc, a bit more sane.
@@ -126,23 +92,8 @@ These are old settings this need to be reorganized.
   (add-hook 'after-make-window-system-frame-hooks
             (lambda () (when belak/frame-font (set-frame-font belak/frame-font))))
 
-  (setq-default tab-width 4)
-
   ;; Ensure all trailing whitespace is removed
   (add-hook 'before-save-hook 'delete-trailing-whitespace)
-#+end_src
-
-** Custom
-
-We still want to be able to have non-public configs, such as for
-passwords and what not, so we put them in a separate file and load
-it, but ignore errors, for instance if it doesn't exist. This has
-the added advantage of making it so customizations will go to this
-file and not to init.el, which is version controlled.
-
-#+begin_src emacs-lisp
-  (setq custom-file (expand-file-name "custom.el" user-emacs-directory))
-  (load custom-file t)
 #+end_src
 
 ** TODO Tasks [0/18]
