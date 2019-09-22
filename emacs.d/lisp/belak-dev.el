@@ -64,9 +64,9 @@
   :config
   (editorconfig-mode 1))
 
-;; Eldoc is used to show relevant documentation in the echo
-;; area. However, this block is mostly so we can call delight to hide
-;; it in the modes display.
+;; Eldoc is used to show relevant documentation in the echo area.
+;; However, this block is mostly so we can call delight to hide it in
+;; the modes display.
 (use-package eldoc
   :straight nil
   :delight eldoc-mode)
