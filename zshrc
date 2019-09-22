@@ -11,11 +11,12 @@ source "$HOME/.antigen/antigen.zsh"
 #
 
 if [[ -f "$HOME/.use-prezto" ]]; then
-  source "$HOME/.antigen/bundles/sorin-ionescu/prezto/modules/prompt/external/powerlevel10k/config/p10k-lean.zsh"
+  #source "$HOME/.antigen/bundles/sorin-ionescu/prezto/modules/prompt/external/powerlevel10k/config/p10k-lean.zsh"
   zstyle ':prezto:*:*' color 'yes'
   zstyle ':prezto:module:editor' key-bindings 'emacs'
   zstyle ':prezto:module:git:alias' skip 'yes'
-  zstyle ':prezto:module:prompt' theme 'powerlevel10k'
+  #zstyle ':prezto:module:prompt' theme 'powerlevel10k'
+  zstyle ':prezto:module:prompt' theme 'belak'
   zstyle ':prezto:module:prompt' pwd-length 'short'
   zstyle ':prezto:module:ruby:chruby' auto-switch 'yes'
   zstyle ':prezto:module:terminal' auto-title 'yes'
@@ -98,6 +99,14 @@ export LESS='-F -g -i -M -R -S -w -X -z-4'
 
 # Load fzf. This will usually be installed when neovim plugins are installed.
 if [[ -f ~/.fzf.zsh ]] source ~/.fzf.zsh
+
+if (( $+commands[pyenv] )); then
+  eval "$(pyenv init -)"
+fi
+
+if (( $+commands[pyenv-virtualenv-init] )); then
+  eval "$(pyenv virtualenv-init -)"
+fi
 
 # Load virtualenvwrapper if it exists on the system
 if (( $+commands[virtualenvwrapper_lazy.sh] )); then
