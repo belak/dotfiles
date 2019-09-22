@@ -4,16 +4,6 @@
 
 ;;; Code:
 
-;; Simple helpers for platform checking
-
-(defun osx-p ()
-  "Check if a system is running OSX."
-  (eq system-type 'darwin))
-
-(defun linux-p ()
-  "Check if a system is running Linux."
-  (eq system-type 'gnu/linux))
-
 (defmacro diminish-major-mode (mode name)
   "Use a different `NAME' when displaying a `MODE' in the modeline.
 

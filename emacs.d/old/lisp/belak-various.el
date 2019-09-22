@@ -22,13 +22,6 @@
   :diminish flyspell-mode
   :config (add-hook 'text-mode-hook (lambda () (flyspell-mode 1))))
 
-;; I originally used fic-mode, but it appears that hl-todo is a little
-;; better and is updated more frequently.
-
-(use-package hl-todo
-  :config
-  (global-hl-todo-mode))
-
 (use-package hlinum
   :config
   (hlinum-activate))
@@ -62,19 +55,6 @@
 (use-package rainbow-delimiters
   :commands rainbow-delimiters-mode)
 
-(use-package rainbow-mode
-  :commands rainbow-mode)
-
-(use-package simple-mpc
-  :general
-  ("C-c m" 'simple-mpc)
-  ;;(when (fboundp 'evil-mode)
-  ;;  (general-nmap :prefix belak/evil-leader
-  ;;                "m" 'simple-mpc))
-  :config
-  (when (fboundp 'evil-mode)
-    (add-hook 'simple-mpc-mode-hook 'evil-emacs-state)))
-
 (use-package slime
   :config
   (setq slime-contribs '(fancy)))
@@ -96,13 +76,6 @@
         ;; mouse-wheel-follow-mouse t
         )
   (smooth-scrolling-mode 1))
-
-;; undo-tree makes the undo features a bit more bearable.
-
-(use-package undo-tree
-  :diminish undo-tree-mode
-  :config
-  (global-undo-tree-mode 1))
 
 (use-package highlight-indentation
   :diminish highlight-identation-mode

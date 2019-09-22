@@ -19,35 +19,6 @@
               (global-diff-hl-mode 1)
               (diff-hl-margin-mode 0))))
 
-;; editorconfig is a simple way to share indentation settings between
-;; editors. Because I sometimes dabble in vim, sublime etc, it's nice
-;; to not have to re-do these settings at a project level between
-;; editors.
-
-(use-package editorconfig
-  :diminish editorconfig-mode
-  :config
-  (editorconfig-mode 1))
-
-;; The best git integration I've ever seen in an editor
-
-(use-package magit
-  :general
-  ("M-g M-g" 'magit-status)
-  ;;(when (fboundp 'evil-mode)
-  ;;  (general-nmap :prefix belak/evil-leader
-  ;;                "g" 'magit-status))
-  :config
-  ;;(when (fboundp 'evil-mode)
-  ;;  (add-hook 'git-commit-mode-hook 'evil-insert-state))
-  (setq magit-push-current-set-remote-if-missing t))
-
-(use-package magit-filenotify
-  :if (linux-p)
-  :after magit
-  :config
-  (add-hook 'magit-status-mode-hook 'magit-filenotify-mode))
-
 ;; Simple snippets package. It's mostly used to reduce repetition.
 
 (use-package yasnippet
@@ -76,16 +47,6 @@
               (linum-mode 1))
 
             (setq show-trailing-whitespace t)))
-
-;; Load all specific language packages
-(require 'belak-dev-c)
-(require 'belak-dev-go)
-(require 'belak-dev-js)
-(require 'belak-dev-lisp)
-(require 'belak-dev-org)
-(require 'belak-dev-python)
-(require 'belak-dev-rust)
-(require 'belak-dev-various)
 
 (provide 'belak-dev)
 ;;; belak-dev.el ends here

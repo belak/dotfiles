@@ -8,11 +8,6 @@
 
 (setq vc-handled-backends '(Git Hg))
 
-;; Remove most gui features because I rarely use any of them.
-(menu-bar-mode -1)
-(tool-bar-mode -1)
-(scroll-bar-mode -1)
-
 (setq use-dialog-box nil
       use-file-dialog nil)
 
@@ -53,11 +48,6 @@
 (setq save-place-file (concat user-emacs-directory "places")
       backup-directory-alist `(("." . ,(concat user-emacs-directory "backups")))
       auto-save-file-name-transforms `((".*" ,temporary-file-directory t)))
-
-;; Make sure we only have to type 'y' or 'n', not the full word
-;; because that takes too many keystrokes.
-
-(fset 'yes-or-no-p 'y-or-n-p)
 
 ;; Random settings
 
@@ -100,9 +90,6 @@ minibuffer."
 ;; TODO: This may be possible to do with a variable.
 (delete-selection-mode)
 
-;; Disable cursor blinking
-(blink-cursor-mode -1)
-
 ;; Show modifier combinations almost immediately.
 (setq echo-keystrokes 0.1)
 
@@ -135,15 +122,6 @@ minibuffer."
         insert-directory-program "/usr/local/bin/gls")
   (let ((default-directory "/usr/local/share/emacs/site-lisp/"))
     (normal-top-level-add-subdirs-to-load-path)))
-
-;; We still want to be able to have non-public configs, such as for
-;; passwords and what not, so we put them in a separate file and load
-;; it, but ignore errors, for instance if it doesn't exist. This has
-;; the added advantage of making it so customizations will go to this
-;; file and not to init.el, which is version controlled.
-
-(setq custom-file (expand-file-name "custom.el" user-emacs-directory))
-(load custom-file t)
 
 (provide 'belak-settings)
 
