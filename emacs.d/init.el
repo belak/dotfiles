@@ -34,7 +34,8 @@
 (add-hook 'emacs-startup-hook 'belak--display-benchmark)
 
 ;; Because we're loading from this `init.el' we can assume this is the
-;; emacs directory.
+;; emacs directory.  There are a few packages that do dumb string
+;; concatenation so we need to make sure there's a slash at the end.
 (setq user-emacs-directory
       (file-name-as-directory (file-name-directory load-file-name)))
 
@@ -53,9 +54,11 @@
   (require 'belak-ido)          ; ido settings
   (require 'belak-dev)          ; common development packages
 
+  (require 'belak-lang-c)        ; always a classic
   (require 'belak-lang-elixir)   ; better erlang
   (require 'belak-lang-go)       ; "Google Golang"
   (require 'belak-lang-js)       ; Javascript settings
+  (require 'belak-lang-org)      ; the best reason to use Emacs
   (require 'belak-lang-python)   ; not super sexy, but super stable
   (require 'belak-lang-rust)     ; memory safety at the cost of sanity
   (require 'belak-lang-other)    ; smaller language settings
