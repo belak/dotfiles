@@ -45,6 +45,9 @@
 (column-number-mode 1)
 (line-number-mode 1)
 
+;; Delete selected text when typing.
+(delete-selection-mode 1)
+
 ;; Hide auto-fill-function
 (delight 'auto-fill-function nil "simple")
 
@@ -64,6 +67,41 @@ seem to work right."
 (diminish-major-mode 'emacs-lisp-mode "Eλ")
 (diminish-major-mode 'lisp-mode "λ")
 
+;; Revert buffers automatically if they've changed on disk
+;;
+;; TODO: this should go in belak-core but it can't because it uses
+;; delight.
+(global-auto-revert-mode 1)
+(delight 'auto-revert-mode)
+
+;; As a former vim user, I like escape to actually quit everywhere.
+;; This was taken from
+;; https://github.com/davvil/.emacs.d/blob/master/init.el
+(defun minibuffer-keyboard-quit ()
+  "Abort recursive edit.
+
+In Delete Selection mode, if the mark is active, just deactivate
+it; then it takes a second \\[keyboard-quit] to abort the
+minibuffer."
+  (interactive)
+  (if (and delete-selection-mode transient-mark-mode mark-active)
+      (setq deactivate-mark  t)
+    (when (get-buffer "*Completions*") (delete-windows-on "*Completions*"))
+    (abort-recursive-edit)))
+
+(define-key minibuffer-local-map [escape] 'minibuffer-keyboard-quit)
+(define-key minibuffer-local-ns-map [escape] 'minibuffer-keyboard-quit)
+(define-key minibuffer-local-completion-map [escape] 'minibuffer-keyboard-quit)
+(define-key minibuffer-local-must-match-map [escape] 'minibuffer-keyboard-quit)
+(define-key minibuffer-local-isearch-map [escape] 'minibuffer-keyboard-quit)
+
+;;(use-package all-the-icons)
+
+;;(use-package anzu)
+
+(use-package focus
+  :commands focus-mode)
+
 ;; helpful is a replacement for the built-in help pages which are much
 ;; prettier and easier to read.
 (use-package helpful
@@ -79,6 +117,23 @@ seem to work right."
   (show-paren-mode 1)
   (setq show-paren-style 'parenthesis
         show-paren-delay 0))
+
+(use-package popwin
+  :defer 1
+  :general
+  ("C-c P" 'popwin:popup-last-buffer)
+  :config
+  ;; also add ag, flycheck, and occur to pop
+  (add-to-list 'popwin:special-display-config `"*ag search*")
+  (add-to-list 'popwin:special-display-config `"*ripgrep-search*")
+  (add-to-list 'popwin:special-display-config `"*Flycheck errors*")
+  (add-to-list 'popwin:special-display-config `"*Occur*")
+
+  ;; don't auto-select the compile process buffer as it's only for information
+  (add-to-list 'popwin:special-display-config `("*Compile-Log*" :noselect t))
+
+  ;; enable
+  (popwin-mode))
 
 ;; Because spacebar is so close to what I want, we use that rather than
 ;; customizing it completely. It takes way more code than you'd expect to
@@ -117,6 +172,17 @@ seem to work right."
                                       (tab-mark 9 [9655 9] [92 9])))
   (global-whitespace-mode t)
   (setq whitespace-global-modes '(text-mode prog-mode org-mode)))
+
+;; anzu shows how many matches in isearch. This should be loaded after
+;; spaceline so we know to disable the additional things anzu puts
+;; into the modeline.
+(use-package anzu
+  :demand
+  :diminish anzu-mode
+  :config
+  (when (fboundp 'spaceline-install)
+    (setq anzu-cons-mode-line-p nil))
+  (global-anzu-mode))
 
 (provide 'belak-ui)
 

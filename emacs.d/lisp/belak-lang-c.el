@@ -1,4 +1,4 @@
-;;; belak-dev-c.el --- C/C++ related dev packages and settings
+;;; belak-lang-c.el --- C/C++ related dev packages and settings
 
 ;;; Commentary:
 
@@ -6,29 +6,21 @@
 
 ;; irony-mode is a pretty solid dev environment for C/C++/ObjC, but we
 ;; also need to load up the additional company and flycheck modules.
-
 (use-package irony
+  :delight
+  :commands
+  belak--maybe-enable-irony-mode
+  :hook
+  (c-mode    . belak--maybe-enable-irony-mode)
+  (c++-mode  . belak--maybe-enable-irony-mode)
+  (objc-mode . belak--maybe-enable-irony-mode)
   :config
-  (defun my-irony-mode-on ()
-    ;; avoid enabling irony-mode in modes that inherits c-mode, e.g: php-mode
+  (defun belak--maybe-enable-irony-mode ()
+    ;; This works around an issue with modes derived from c-mode and
+    ;; friends by ensuring the major mode is one directly supported by
+    ;; irony-mode.  php-mode is one example of this.
     (when (member major-mode irony-supported-major-modes)
-      (irony-mode 1)))
-  (add-hook 'c++-mode-hook 'my-irony-mode-on)
-  (add-hook 'c-mode-hook 'my-irony-mode-on)
-  (add-hook 'objc-mode-hook 'my-irony-mode-on)
-
-  ;; replace the `completion-at-point' and `complete-symbol' bindings
-  ;; in irony-mode's buffers by irony-mode's function and run the
-  ;; autosetup function
-  (defun my-irony-mode-hook ()
-    (subword-mode 1)
-    (define-key irony-mode-map [remap completion-at-point]
-      'irony-completion-at-point-async)
-    (define-key irony-mode-map [remap complete-symbol]
-      'irony-completion-at-point-async)
-    (irony-cdb-autosetup-compile-options))
-
-  (add-hook 'irony-mode-hook 'my-irony-mode-hook))
+      (irony-mode 1))))
 
 (use-package company-irony
   :after (irony company)
@@ -62,6 +54,6 @@ http://stackoverflow.com/questions/3312114/how-to-tell-emacs-to-open-h-file-in-c
                         (awk-mode  . "awk")
                         (other     . "linux")))
 
-(provide 'belak-dev-c)
+(provide 'belak-lang-c)
 
-;;; belak-dev-c.el ends here
+;;; belak-lang-c.el ends here

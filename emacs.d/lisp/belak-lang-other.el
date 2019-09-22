@@ -4,6 +4,11 @@
 
 ;;; Code:
 
+(use-package cmake-mode
+  :mode
+  "CMakeLists.txt"
+  "\\.cmake\\'")
+
 (use-package dockerfile-mode
   :mode
   "Dockerfile\(-.*\)?")
@@ -12,8 +17,22 @@
   :after web-mode
   :hook (web-mode-hook . emmet-mode))
 
+(use-package json-mode
+  :mode "\\.json\\'"
+  :config
+  (setq json-reformat:indent-width 2))
+
 (use-package markdown-mode
   :mode ("\\.md\\'" . gfm-mode))
+
+(use-package php-mode
+  :mode "\\.php\\'")
+
+(use-package ruby-mode
+  :mode "\\.rb\\'"
+  :config
+  :hook
+  (ruby-mode . subword-mode))
 
 (use-package toml-mode
   :mode "\\.toml\\'")
