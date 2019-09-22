@@ -23,13 +23,13 @@
 ;; as many extraneous files into directories, rather than dumping them
 ;; into .emacs.d.
 ;; TODO: look into using transient - I'm not sure where that came from
-(setq user-emacs-directory (file-name-directory load-file-name))
 (defvar belak-emacs-dir user-emacs-directory)
-(defvar belak-local-dir (concat belak-emacs-dir ".local/"))
+(defvar belak-local-dir (file-name-as-directory (expand-file-name ".local" belak-emacs-dir)))
 
 ;; Do our absolute best to make files save into our local dir, rather than the
 ;; emacs dir.
-(setq recentf-save-file (expand-file-name "recentf" belak-local-dir))
+(setq  auto-save-list-file-prefix (expand-file-name "auto-save-list/.saves-" belak-local-dir)
+       recentf-save-file (expand-file-name "recentf" belak-local-dir))
 
 ;; Disable history and backup files. They really just get in the way.
 ;; TODO: figure out which of these are useful and make sure they use
@@ -60,6 +60,10 @@
 ;; Reverse command and option modifiers on macOS.
 (setq mac-command-modifier 'meta
       mac-option-modifier 'super)
+
+;; This used to be necessary to fix emacs https connections on
+;; Windows.  It's very possible it isn't needed any more.
+(setq gnutls-min-prime-bits 4096)
 
 (provide 'belak-core)
 

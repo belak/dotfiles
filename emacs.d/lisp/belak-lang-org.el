@@ -18,11 +18,14 @@
   ;; TODO: It would be nice to install the latest version of
   ;; `org-mode' from the repos rather than relying on the latest
   ;; bundled version.
-  :straight nil
+  :straight org-plus-contrib
   :mode ("\\.org\\'" . org-mode)
+  :hook (org-mode-hook . auto-fill-mode)
+  :general
+  ("C-c a" 'org-agenda)
+  ("C-c b" 'org-switchb)
+  ("C-c c" 'org-capture)
   :config
-  (add-hook 'org-mode-hook #'auto-fill-mode)
-
   (setq
    ;; Allow using shift-select like in other buffers.
    org-support-shift-select t
@@ -34,7 +37,11 @@
    ;; Make sure org isn't "helpful" in trying to add spaces at the
    ;; start of code blocks. This makes it much easier to work with
    ;; when dealing with babeled files.
-   org-edit-src-content-indentation 0))
+   org-edit-src-content-indentation 0
+
+   ;; org-agenda settings
+   org-log-done t
+   org-log-done-with-time t))
 
 (provide 'belak-lang-org)
 

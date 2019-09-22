@@ -9,11 +9,13 @@
 
 ;;; Code:
 
-;; TODO: Re-add base16-themes
+(use-package base16-theme
+  :disabled t
+  :config (load-theme 'base16-default-dark))
 
-;;(use-package grayscale-theme
-;;  :disabled t
-;;  :config (load-theme 'grayscale t))
+(use-package grayscale-theme
+ :disabled t
+ :config (load-theme 'grayscale t))
 
 (use-package monokai-pro-theme
   :config (load-theme 'monokai-pro t))

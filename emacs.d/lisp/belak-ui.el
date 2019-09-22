@@ -22,9 +22,8 @@
 ;; much easier to quit them when we're done.
 (setq help-window-select t)
 
-;; Disable scrolling past the end of the file.
-;; TODO: Figure out why this doesn't work
-;;(setq next-line-add-newlines nil)
+;; Automatically insert matching parens.
+;;(electric-pair-mode 1)
 
 ;; Make sure we only have to type 'y' or 'n', not the full word
 ;; because that takes too many keystrokes.
@@ -42,14 +41,28 @@
 ;; Highlight the current line to make the cursor easier to see.
 (global-hl-line-mode)
 
+;; Make sure the line and column numbers are in the modeline.
+(column-number-mode 1)
+(line-number-mode 1)
+
 ;; Hide auto-fill-function
 (delight 'auto-fill-function nil "simple")
 
+(defmacro diminish-major-mode (mode name)
+  "Use a different `NAME' when displaying a `MODE' in the modeline.
+
+This is a snippet originally from
+https://github.com/sandhu/emacs.d/blob/master/lisp/teppoudo-diminish.el.
+
+Note that this should be replacable with delight, but it doesn't
+seem to work right."
+  `(add-hook (intern (concat (symbol-name ,mode) "-hook"))
+             '(lambda () (setq mode-name ,name))))
+
 ;; Make the lisp modes a bit shorter
-;; TODO: these don't seem to work
-(delight 'lisp-interaction-mode "λ»" :major)
-(delight 'emacs-lisp-mode "Eλ" :major)
-(delight 'lisp-mode "λ" :major)
+(diminish-major-mode 'lisp-interaction-mode "λ»")
+(diminish-major-mode 'emacs-lisp-mode "Eλ")
+(diminish-major-mode 'lisp-mode "λ")
 
 ;; helpful is a replacement for the built-in help pages which are much
 ;; prettier and easier to read.
@@ -59,6 +72,13 @@
   ("C-h v" 'helpful-variable)
   ("C-h k" 'helpful-key)
   ("C-h ." 'helpful-at-point))
+
+(use-package paren
+  :straight nil
+  :config
+  (show-paren-mode 1)
+  (setq show-paren-style 'parenthesis
+        show-paren-delay 0))
 
 ;; Because spacebar is so close to what I want, we use that rather than
 ;; customizing it completely. It takes way more code than you'd expect to
@@ -86,6 +106,17 @@
         which-key-min-display-lines 6
         which-key-side-window-slot -10)
   (which-key-mode 1))
+
+(use-package whitespace
+  :straight nil
+  :delight global-whitespace-mode
+  :config
+  (setq whitespace-style '(trailing face tabs tab-mark lines-tail)
+        whitespace-display-mappings '((space-mark 32 [183] [46])
+                                      (newline-mark 10 [182 10])
+                                      (tab-mark 9 [9655 9] [92 9])))
+  (global-whitespace-mode t)
+  (setq whitespace-global-modes '(text-mode prog-mode org-mode)))
 
 (provide 'belak-ui)
 
