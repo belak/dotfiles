@@ -77,6 +77,7 @@
 (use-package exec-path-from-shell
   :if IS-GUI
   :config
+  (setq exec-path-from-shell-arguments '("-l"))
   (exec-path-from-shell-initialize))
 
 ;; flycheck-mode is used for linters and catching compilation errors.
