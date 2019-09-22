@@ -182,7 +182,6 @@ endif
 " Filetype specific stuff
 au BufRead,BufNewFile *.md setlocal filetype=markdown
 au BufRead,BufNewFile *.sp setlocal filetype=cpp
-au BufRead,BufNewFile *.py setlocal expandtab shiftwidth=4 tabstop=4
 
 " Make sure we don't auto-wrap all text, unless we're in a markdown file.
 set formatoptions-=t
