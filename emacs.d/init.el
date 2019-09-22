@@ -20,11 +20,21 @@
 (defvar belak--gc-cons-threshold (* 16 1024 1024))
 (defvar belak--gc-cons-upper-limit (* 256 1024 1024))
 
+;; A second optimization is removal of all file handlers until after
+;; init.
+(defvar belak--file-name-handler-alist file-name-handler-alist)
+
+;; And awaaaaaaayyyy we go.
 (setq gc-cons-threshold belak--gc-cons-upper-limit)
-(add-hook 'emacs-startup-hook
-          (lambda ()
-            (run-with-idle-timer
-             3 nil (lambda () (setq-default gc-cons-threshold belak--gc-cons-threshold)))))
+(setq file-name-handler-alist nil)
+
+(defun belak--restore-startup-optimizations ()
+  "Restore the startup optimizations we previously made."
+  (setq file-name-handler-alist belak--file-name-handler-alist)
+  (run-with-idle-timer
+   3 nil (lambda () (setq-default gc-cons-threshold belak--gc-cons-threshold))))
+
+(add-hook 'emacs-startup-hook 'belak--restore-startup-optimizations)
 
 ;; Add a basic hook so we can tell how long loading emacs took.
 (defun belak--display-benchmark ()
