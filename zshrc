@@ -52,6 +52,9 @@ else
   antigen bundle prompt
   antigen bundle utility
   antigen bundle completion
+
+  # Load gitstatus for our prompt
+  antigen bundle romkatv/gitstatus
 fi
 
 # Specify additional external plugins we want
