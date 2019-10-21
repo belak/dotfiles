@@ -58,8 +58,6 @@ else
 fi
 
 # Specify additional external plugins we want
-antigen bundle postmodern/chruby share/chruby/chruby.sh
-antigen bundle postmodern/chruby share/chruby/auto.sh
 antigen bundle rupa/z z.sh
 #antigen bundle zsh-users/zsh-syntax-highlighting
 antigen bundle zdharma/fast-syntax-highlighting
@@ -86,11 +84,6 @@ stty -ixon
 alias json="python -mjson.tool"
 alias j="z"
 
-# Alias vim to nvim if neovim is installed
-if which nvim &>/dev/null; then
-  alias vim=nvim
-fi
-
 # Set the default Less options.
 # Mouse-wheel scrolling has been disabled by -X (disable screen clearing).
 # Remove -X and -F (exit if the content fits on one screen) to enable it.
@@ -111,15 +104,9 @@ if (( $+commands[pyenv-virtualenv-init] )); then
   eval "$(pyenv virtualenv-init -)"
 fi
 
-# Load virtualenvwrapper if it exists on the system
-if (( $+commands[virtualenvwrapper_lazy.sh] )); then
-  source "${commands[virtualenvwrapper_lazy.sh]}"
+if (( $+commands[rbenv] )); then
+  eval "$(rbenv init -)"
 fi
-
-# If a default ruby is set, switch to it. If chruby was installed globally, the
-# ruby module would trigger this automatically, but because we bootstrap it with
-# antigen, that isn't an option.
-chruby_auto
 
 # Make it possible to add per-machine customizations.
 if [[ -f ~/.zshrc.local ]] source ~/.zshrc.local
