@@ -22,12 +22,22 @@
 ;; much easier to quit them when we're done.
 (setq help-window-select t)
 
+;; Make Emacs split windows in a more sane way.
+(setq window-combination-resize t)
+
+;; Disable graphical pop-ups. Nost libraries have alternatives for
+;; this.
+(setq use-dialog-box nil)
+
 ;; Automatically insert matching parens.
 ;;(electric-pair-mode 1)
 
 ;; Make sure we only have to type 'y' or 'n', not the full word
 ;; because that takes too many keystrokes.
 (defalias 'yes-or-no-p 'y-or-n-p)
+
+;; Make resizing the window much more plesant when using a gui.
+(setq frame-resize-pixelwise t)
 
 ;; Be as quiet as we can at startup. Most of the messaging isn't very
 ;; useful. Maybe one day I'll build my own dashboard or make it
@@ -68,6 +78,14 @@ seem to work right."
 (diminish-major-mode 'emacs-lisp-mode "Eλ")
 (diminish-major-mode 'lisp-mode "λ")
 
+;; Don't make sounds when I make mistakes.
+(setq ring-bell-function #'ignore)
+
+;; (setq-default indicate-buffer-boundaries
+;;               '((top . right)
+;;                 (bottom . right)
+;;                 (t . nil)))
+
 ;; Revert buffers automatically if they've changed on disk
 ;;
 ;; TODO: this should go in belak-core but it can't because it uses
@@ -96,6 +114,13 @@ minibuffer."
 (define-key minibuffer-local-must-match-map [escape] 'minibuffer-keyboard-quit)
 (define-key minibuffer-local-isearch-map [escape] 'minibuffer-keyboard-quit)
 
+;; Don't delay highlighting on isearch.
+(setq lazy-highlight-initial-delay 0)
+
+;; Don't make distinctions between ASCII and siblings (like a and a
+;; with an umlaut)
+(setq search-default-mode 'char-fold-to-regexp)
+
 ;;(use-package all-the-icons)
 
 (use-package focus
@@ -113,9 +138,10 @@ minibuffer."
 (use-package paren
   :straight nil
   :config
-  (show-paren-mode 1)
   (setq show-paren-style 'parenthesis
-        show-paren-delay 0))
+        show-paren-delay 0
+        show-paren-when-point-inside-paren t)
+  (show-paren-mode 1))
 
 (use-package popwin
   :defer 1

@@ -13,6 +13,7 @@
 
 ;; company-mode is used as a completion system.
 (use-package company
+  :disabled t
   :defer 2
   :delight company-mode
   :config
@@ -69,7 +70,9 @@
 ;; the modes display.
 (use-package eldoc
   :straight nil
-  :delight eldoc-mode)
+  :delight eldoc-mode
+  :config
+  (setq eldoc-idle-delay 0.1))
 
 ;; Grab important variables from the shell. This is only needed in the
 ;; GUI because the shell will already inherit the environment
@@ -79,6 +82,10 @@
   :config
   (setq exec-path-from-shell-arguments '("-l"))
   (exec-path-from-shell-initialize))
+
+(use-package expand-region
+  :functions (er/expand-region)
+  :bind ("C-=" . er/expand-region))
 
 ;; flycheck-mode is used for linters and catching compilation errors.
 (use-package flycheck
