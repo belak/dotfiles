@@ -38,6 +38,10 @@
       create-lockfiles nil
       make-backup-files nil)
 
+;; Double-spaces after the end of a sentence is a convention I don't
+;; find useful.
+(setq sentence-end-double-space nil)
+
 ;; (defvar save-place-file)
 ;; (setq save-place-file (concat user-emacs-directory "places")
 ;;       backup-directory-alist `(("." . ,(concat user-emacs-directory "backups")))

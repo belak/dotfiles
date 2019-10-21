@@ -11,7 +11,7 @@
 
 (use-package base16-theme
   :disabled t
-  :config (load-theme 'base16-default-dark))
+  :config (load-theme 'base16-default-dark t))
 
 (use-package grayscale-theme
  :disabled t
