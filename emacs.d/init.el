@@ -24,7 +24,6 @@
 ;; init.
 (defvar belak--file-name-handler-alist file-name-handler-alist)
 
-;; And awaaaaaaayyyy we go.
 (setq gc-cons-threshold belak--gc-cons-upper-limit)
 (setq file-name-handler-alist nil)
 
@@ -54,6 +53,7 @@
 ;; store in the lisp dir.
 (add-to-list 'load-path (expand-file-name "lisp" user-emacs-directory))
 
+;; And awaaaaaaayyyy we go.
 (let ((debug-on-error t)
       (debug-on-quit t))
   (require 'belak-core)         ; low level setup
