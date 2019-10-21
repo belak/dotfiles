@@ -24,14 +24,12 @@ Plug 'myusuf3/numbers.vim'
 Plug 'w0ng/vim-hybrid'
 
 " Linting and compiling
-"Plug 'benekastah/neomake'
-Plug 'w0rp/ale'
+Plug 'dense-analysis/ale'
 
 " Language support
 Plug 'cespare/vim-toml'
 Plug 'ekalinin/Dockerfile.vim'
 Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
-"Plug 'igankevich/mesonic'
 Plug 'leafgarland/typescript-vim'
 Plug 'mxw/vim-jsx'
 Plug 'pangloss/vim-javascript'
@@ -39,19 +37,6 @@ Plug 'pearofducks/ansible-vim'
 Plug 'rust-lang/rust.vim'
 Plug 'posva/vim-vue'
 Plug 'uarun/vim-protobuf'
-
-if has('nvim')
-  Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
-else
-  Plug 'Shougo/deoplete.nvim'
-  Plug 'roxma/nvim-yarp'
-  Plug 'roxma/vim-hug-neovim-rpc'
-endif
-let g:deoplete#enable_at_startup = 1
-
-Plug 'deoplete-plugins/deoplete-go', { 'do': 'make'}
-Plug 'deoplete-plugins/deoplete-jedi'
-Plug 'sebastianmarkow/deoplete-rust'
 
 call plug#end()
 " }}}
