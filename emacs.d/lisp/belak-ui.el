@@ -123,6 +123,17 @@ minibuffer."
 
 ;;(use-package all-the-icons)
 
+(use-package dashboard
+  :config
+  (setq dashboard-startup-banner 'logo
+        dashboard-set-footer nil
+        dashboard-items '((recents  . 5)
+                          (projects . 5)
+                          (agenda . 5)
+                          (bookmarks . 5)))
+  (dashboard-setup-startup-hook)
+  (setq initial-buffer-choice (lambda () (get-buffer "*dashboard*"))))
+
 (use-package focus
   :commands focus-mode)
 
