@@ -17,6 +17,10 @@ tab_width = 4
 indent_size = 2
 tab_width = 2
 
+[*.rb]
+indent_size = 2
+tab_width = 2
+
 [*.groovy]
 indent_size = 4
 tab_width = 4
@@ -24,7 +28,11 @@ tab_width = 4
 [Makefile]
 indent_style = tab
 
-[{*.json,*.js}]
+[{*.ts,*.tsx}]
+indent_size = 2
+tab_width = 2
+
+[{*.json,*.js,*.jsx}]
 indent_size = 2
 tab_width = 2
 
