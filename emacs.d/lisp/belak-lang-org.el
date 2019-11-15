@@ -15,9 +15,6 @@
 ;;; Code:
 
 (use-package org
-  ;; TODO: It would be nice to install the latest version of
-  ;; `org-mode' from the repos rather than relying on the latest
-  ;; bundled version.
   :straight org-plus-contrib
   :mode ("\\.org\\'" . org-mode)
   :hook (org-mode-hook . auto-fill-mode)
