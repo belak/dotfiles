@@ -90,6 +90,15 @@ alias j="z"
 export LESS='-F -g -i -M -R -S -w -X -z-4'
 
 #
+# Functions
+#
+
+gocover () {
+  t="/tmp/go-cover.$$.tmp"
+  go test -coverprofile=$t $@ && go tool cover -html=$t && unlink $t
+}
+
+#
 # Additional Bundles
 #
 
