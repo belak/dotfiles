@@ -121,6 +121,9 @@ minibuffer."
 ;; with an umlaut)
 (setq search-default-mode 'char-fold-to-regexp)
 
+;; Enable more standard copy-cut-paste keyboard shortcuts.
+(cua-mode 1)
+
 ;;(use-package all-the-icons)
 
 (use-package dashboard
