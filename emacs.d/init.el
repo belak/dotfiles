@@ -58,6 +58,7 @@
       (debug-on-quit t))
   (require 'belak-core)         ; low level setup
   (require 'belak-package)      ; package manager settings
+  (require 'belak-early)        ; misc things to load early
   (require 'belak-themes)       ; I may maintain too many themes
   (require 'belak-ui)           ; make things pretty... well, prettier
   (require 'belak-evil)         ; muahahahaha

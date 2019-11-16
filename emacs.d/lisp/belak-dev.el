@@ -112,12 +112,7 @@
   :general
   ("M-g M-g" 'magit-status)
   :config
-  (setq magit-push-current-set-remote-if-missing t)
-
-  ;; Make magit behave better
-  (setq transient-levels-file (expand-file-name "transient-levels.el" belak-local-dir)
-        transient-values-file (expand-file-name "transient-values.el" belak-local-dir)
-        transient-history-file (expand-file-name "transient-history.el" belak-local-dir)))
+  (setq magit-push-current-set-remote-if-missing t))
 
 ;; Project based navigation is pretty much the best thing ever.
 (use-package projectile
@@ -127,7 +122,6 @@
   :general
   ("C-c p" '(:keymap projectile-command-map))
   :config
-  (setq projectile-known-projects-file (expand-file-name "projectile-bookmarks.eld" belak-local-dir))
   (projectile-mode +1))
 
 (use-package rainbow-delimiters

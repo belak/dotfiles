@@ -26,11 +26,6 @@
 (defvar belak-emacs-dir user-emacs-directory)
 (defvar belak-local-dir (file-name-as-directory (expand-file-name ".local" belak-emacs-dir)))
 
-;; Do our absolute best to make files save into our local dir, rather than the
-;; emacs dir.
-(setq auto-save-list-file-prefix (expand-file-name "auto-save-list/.saves-" belak-local-dir)
-      recentf-save-file (expand-file-name "recentf" belak-local-dir))
-
 ;; Disable history and backup files. They really just get in the way.
 ;; TODO: figure out which of these are useful and make sure they use
 ;; directories rather than files.
