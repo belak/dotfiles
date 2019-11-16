@@ -7,8 +7,7 @@
 (use-package ido
   :straight nil
   :config
-  (setq ido-save-directory-list-file (expand-file-name "ido.last" belak-local-dir)
-        ido-use-filename-at-point nil
+  (setq ido-use-filename-at-point nil
         resize-mini-windows t
         ido-use-virtual-buffers t
         ido-auto-merge-work-directories-length -1
@@ -30,8 +29,7 @@
   ("M-x" 'smex)
   ("M-X" 'smex-major-mode-commands)
   :config
-  (setq smex-history-length 50
-        smex-save-file (expand-file-name "smex-items" belak-local-dir)))
+  (setq smex-history-length 50))
 
 ;; Use ido everywhere possible.
 
