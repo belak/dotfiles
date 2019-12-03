@@ -166,6 +166,7 @@ else
 endif
 
 " Filetype specific stuff
+au BufRead,BufNewFile *.tsx setlocal filetype=typescript.jsx
 au BufRead,BufNewFile *.md setlocal filetype=markdown
 au BufRead,BufNewFile *.sp setlocal filetype=cpp
 
