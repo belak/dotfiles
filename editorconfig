@@ -13,6 +13,10 @@ indent_style = tab
 indent_size = 4
 tab_width = 4
 
+[*.rs]
+indent_size = 4
+tab_width = 4
+
 [{*.yaml,*.yml}]
 indent_size = 2
 tab_width = 2
