@@ -23,12 +23,14 @@
       (irony-mode 1))))
 
 (use-package company-irony
-  :after (irony company)
+  :requires company
+  :after irony
   :config
   (add-to-list 'company-backends 'company-irony))
 
 (use-package flycheck-irony
-  :after (irony flycheck-mode)
+  :requires flycheck
+  :after irony
   :config
   (add-hook 'flycheck-mode-hook #'flycheck-irony-setup))
 

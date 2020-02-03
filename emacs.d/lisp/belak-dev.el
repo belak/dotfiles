@@ -39,7 +39,7 @@
 (use-package diff-hl
   :defer 2
   :hook
-  (magit-post-refresh-hook . diff-hl-magit-post-refresh)
+  (magit-post-refresh . diff-hl-magit-post-refresh)
   :config
   ;; We can't use the normal diff-hl mode in a terminal, but luckily a
   ;; fallback is provided.
@@ -51,10 +51,9 @@
 ;; similar to linum-mode, but it performs much better.
 (use-package display-line-numbers
   :straight nil
-  ;;:hook (prog-mode-hook . display-line-numbers-mode)
+  :hook (prog-mode . display-line-numbers-mode)
   :config
-  (setq display-line-numbers-type 'visual)
-  (global-display-line-numbers-mode 1))
+  (setq display-line-numbers-type 'visual))
 
 ;; editorconfig is a simple way to share indentation settings between
 ;; editors. Because I sometimes dabble in vim, sublime etc, it's nice
@@ -100,9 +99,9 @@
   :hook
   (text-mode . flyspell-mode))
 
-;; hl-todo simply highlights TODO and other similar comments to make them
-;; easier to find.  I originally used fic-mode, but it appears that hl-todo is
-;; a little better and is updated more frequently.
+;; hl-todo simply highlights TODO and other similar comments to make
+;; them easier to find. I originally used fic-mode, but it appears
+;; that hl-todo is a little better and is updated more frequently.
 (use-package hl-todo
   :config
   (global-hl-todo-mode))

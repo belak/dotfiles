@@ -13,18 +13,12 @@
 
 (use-package racer
   :after rust-mode
-  :hook (rust-mode-hook . racer-mode))
+  :hook (rust-mode . racer-mode))
 
 (use-package flycheck-rust
-  :after (rust-mode flycheck-mode)
-  :hook (flycheck-mode-hook . flycheck-rust-setup))
-
-(use-package rustfmt
-  :disabled t
-  :after rust
-  :general
-  (:keymaps 'rust-mode-map
-            "C-c C-f" 'rustfmt-format-buffer))
+  :requires flycheck
+  :after rust-mode
+  :hook (flycheck-mode . flycheck-rust-setup))
 
 (provide 'belak-lang-rust)
 

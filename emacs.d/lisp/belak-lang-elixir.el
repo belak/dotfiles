@@ -14,7 +14,8 @@
   :config (add-to-list 'company-backends 'alchemist-company))
 
 (use-package flycheck-credo
-  :after (flycheck alchemist)
+  :requires flycheck
+  :after alchemist
   :config (flycheck-credo-setup))
 
 (provide 'belak-lang-elixir)
