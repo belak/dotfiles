@@ -74,6 +74,8 @@
   (require 'belak-lang-rust)     ; memory safety at the cost of sanity
   (require 'belak-lang-other)    ; smaller language settings
 
+  (require 'belak-email)         ; email in emacs
+
   ;; Now that everything has been loaded, force a GC to try and clean
   ;; stuff up.
   (garbage-collect))
