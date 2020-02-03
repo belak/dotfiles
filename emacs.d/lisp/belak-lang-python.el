@@ -25,10 +25,11 @@
   :hook python-mode
   :init
   (setq anaconda-mode-installation-directory "~/.emacs.d/.local/anaconda-mode")
-  :hook (anaconda-mode-hook . anaconda-eldoc-mode))
+  :hook (anaconda-mode . anaconda-eldoc-mode))
 
 (use-package company-anaconda
-  :after (anaconda-mode company)
+  :requires company
+  :after anaconda-mode
   :config (add-to-list 'company-backends 'company-anaconda))
 
 ;; This allows for simple switching between pyenv environments and
@@ -37,21 +38,15 @@
 ;; but after homebrew upgrades I'd have to recreate all my python
 ;; environments.  Using pyenv lets me avoid that.
 (use-package pyenv-mode
-  :after (python projectifle)
-  :hook (projectile-after-switch-project-hook . belak--projectile-pyenv-mode-hook)
+  :requires projectile
+  :after python
+  :hook (projectile-after-switch-project . belak--projectile-pyenv-mode-hook)
   :config
   (defun belak--projectile-pyenv-mode-hook ()
     (let ((project (projectile-project-name)))
       (if (member project (pyenv-mode-versions))
           (pyenv-mode-set project)
         (pyenv-mode-unset)))))
-
-;; This adds some basic features for requirements files, such as
-;; highlighting and auto-completion of names from PyPI.
-(use-package pip-requirements
-  :mode
-  "requirements.txt"
-  "requirements/\\.txt\\'")
 
 ;; Cycle between apostrophes and quotes in python strings. Converts
 ;; strings like 'this' to strings like "this".
@@ -60,6 +55,13 @@
   :general
   (:keymaps 'python-mode-map
             "C-c '" 'python-switch-quotes))
+
+;; This adds some basic features for requirements files, such as
+;; highlighting and auto-completion of names from PyPI.
+(use-package pip-requirements
+  :mode
+  "requirements.txt"
+  "requirements/\\.txt\\'")
 
 (provide 'belak-lang-python)
 

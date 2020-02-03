@@ -6,8 +6,8 @@
 
 (use-package go-mode
   :mode ("\\.go\\'" . go-mode)
-  :hook ((go-mode-hook . belak--go-mode-hook)
-	 (go-mode-hook . subword-mode))
+  :hook ((go-mode . belak--go-mode-hook)
+	 (go-mode . subword-mode))
   :config
   ;; goimports is generally preferred by the lazy as it will try and
   ;; fix extra and missing imports.
@@ -18,7 +18,8 @@
     (add-hook 'before-save-hook 'gofmt-before-save nil t)))
 
 (use-package company-go
-  :after (go-mode company)
+  :requires company
+  :after go-mode
   :config
   (setq company-go-show-annotation t)
 
@@ -26,8 +27,9 @@
   (belak--register-company-backend 'go-mode-hook 'company-go))
 
 (use-package go-eldoc
-  :after (go-mode eldoc)
-  :hook (go-mode-hook . go-eldoc-setup))
+  :requires eldoc
+  :after go-mode
+  :hook (go-mode . go-eldoc-setup))
 
 (provide 'belak-lang-go)
 

@@ -15,7 +15,7 @@
 
 (use-package emmet-mode
   :after web-mode
-  :hook (web-mode-hook . emmet-mode))
+  :hook (web-mode . emmet-mode))
 
 (use-package json-mode
   :mode "\\.json\\'"

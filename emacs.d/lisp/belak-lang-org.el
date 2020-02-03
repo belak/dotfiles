@@ -17,7 +17,7 @@
 (use-package org
   :straight org-plus-contrib
   :mode ("\\.org\\'" . org-mode)
-  :hook (org-mode-hook . auto-fill-mode)
+  :hook (org-mode . auto-fill-mode)
   :general
   ("C-c a" 'org-agenda)
   ("C-c b" 'org-switchb)
