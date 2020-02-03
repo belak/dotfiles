@@ -19,17 +19,16 @@
    mu4e-change-filenames-when-moving t
    mu4e-attachments-dir "~/Downloads"
 
-   mu4e-maildir       "~/Maildir"   ;; top-level Maildir
+   mu4e-maildir       "~/.maildir"   ;; top-level Maildir
 
-   ;; note that these folders below must start with /
-   ;; the paths are relative to maildir root
+   ;; note that these folders below must start with / the paths are
+   ;; relative to maildir root
    mu4e-refile-folder "/Archive"
    mu4e-sent-folder   "/Sent"
    mu4e-drafts-folder "/Drafts"
    mu4e-trash-folder  "/Trash")
 
-  ;; this setting allows to re-sync and re-index mail
-  ;; by pressing U
+  ;; this setting allows to re-sync and re-index mail by pressing U
   (setq mu4e-get-mail-command  "mbsync -a")
 
   (fset 'my-move-to-trash "mTrash")
