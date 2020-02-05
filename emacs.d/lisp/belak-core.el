@@ -69,10 +69,6 @@
   (zap-up-to-char -1 char))
 (global-set-key "\M-Z" 'reverse-zap-up-to-char)
 
-;; Reverse command and option modifiers on macOS.
-(setq mac-command-modifier 'meta
-      mac-option-modifier 'super)
-
 ;; This used to be necessary to fix emacs https connections on
 ;; Windows.  It's very possible it isn't needed any more.
 (setq gnutls-min-prime-bits 4096)

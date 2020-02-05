@@ -25,7 +25,7 @@
 ;; Make Emacs split windows in a more sane way.
 (setq window-combination-resize t)
 
-;; Disable graphical pop-ups. Nost libraries have alternatives for
+;; Disable graphical pop-ups. Most libraries have alternatives for
 ;; this.
 (setq use-dialog-box nil)
 
@@ -148,6 +148,11 @@ minibuffer."
   ("C-h v" 'helpful-variable)
   ("C-h k" 'helpful-key)
   ("C-h ." 'helpful-at-point))
+
+(use-package ns-auto-titlebar
+  :if IS-MAC
+  :config
+  (ns-auto-titlebar-mode))
 
 (use-package paren
   :straight nil
