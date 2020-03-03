@@ -12,8 +12,10 @@ Plug 'tpope/vim-rsi'
 Plug 'tpope/vim-surround'
 
 " Extra utilities
+Plug 'airblade/vim-rooter'
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 Plug 'junegunn/fzf.vim'
+Plug 'tpope/vim-commentary'
 Plug 'tpope/vim-fugitive'
 
 " Appearance
