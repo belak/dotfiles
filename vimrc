@@ -83,10 +83,6 @@ let g:pyindent_open_paren = '&sw'
 let g:pyindent_nested_paren = '&sw'
 let g:pyindent_continue = '&sw'
 
-" Deoplete settings
-let g:deoplete#sources#go#align_class = 1
-let g:deoplete#enable_at_startup = 1
-
 set incsearch
 
 " Convenience remappings
@@ -229,6 +225,10 @@ nnoremap <silent> <leader>ge :Gedit<CR>
 " Mnemonic _i_nteractive
 nnoremap <silent> <leader>gi :Git add -p %<CR>
 nnoremap <silent> <leader>gg :SignifyToggle<CR>
+
+" Map the scroll wheel to go a single line at a time
+"map <ScrollWheelUp> <C-Y>
+"map <ScrollWheelDown> <C-E>
 
 " }}}
 
