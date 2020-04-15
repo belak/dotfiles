@@ -1,4 +1,4 @@
-;;; belak-email --- mu4e and friends
+;;; belak-email --- mu4e and friends -*- lexical-binding: t; -*-
 
 ;;; Commentary:
 

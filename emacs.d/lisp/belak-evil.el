@@ -1,4 +1,4 @@
-;;; belak-evil.el --- evil-mode related packages and settings
+;;; belak-evil.el --- evil-mode related packages and settings -*- lexical-binding: t; -*-
 
 ;;; Commentary:
 

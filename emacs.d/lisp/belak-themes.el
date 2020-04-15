@@ -1,4 +1,4 @@
-;;; belak-themes --- theme related settings
+;;; belak-themes --- theme related settings -*- lexical-binding: t; -*-
 
 ;;; Commentary:
 

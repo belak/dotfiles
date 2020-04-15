@@ -1,4 +1,4 @@
-;;; belak-lang-elixir -- Elixir related packages and settings
+;;; belak-lang-elixir -- Elixir related packages and settings -*- lexical-binding: t; -*-
 
 ;;; Commentary:
 

@@ -1,4 +1,4 @@
-;;; belak-lang-org --- org-mode related settings
+;;; belak-lang-org --- org-mode related settings -*- lexical-binding: t; -*-
 
 ;;; Commentary:
 

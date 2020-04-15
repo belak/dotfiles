@@ -1,4 +1,4 @@
-;;; belak-lang-rust.el --- rust related settings and packages
+;;; belak-lang-rust.el --- rust related settings and packages -*- lexical-binding: t; -*-
 
 ;;; Commentary:
 

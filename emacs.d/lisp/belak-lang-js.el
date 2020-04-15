@@ -1,4 +1,4 @@
-;;; belak-lang-js --- javascript ecosystem related settings
+;;; belak-lang-js --- javascript ecosystem related settings -*- lexical-binding: t; -*-
 
 ;;; Commentary:
 

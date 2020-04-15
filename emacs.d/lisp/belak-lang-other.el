@@ -1,4 +1,4 @@
-;;; belak-lang-other --- file types needing less configuration
+;;; belak-lang-other --- file types needing less configuration -*- lexical-binding: t; -*-
 
 ;;; Commentary:
 

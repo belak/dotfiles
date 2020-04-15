@@ -1,4 +1,4 @@
-;;; belak-dev --- development related settings
+;;; belak-dev --- development related settings -*- lexical-binding: t; -*-
 
 ;;; Commentary:
 
