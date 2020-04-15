@@ -1,4 +1,4 @@
-;;; belak-ui --- non-theme ui settings
+;;; belak-ui --- non-theme ui settings -*- lexical-binding: t; -*-
 
 ;;; Commentary:
 

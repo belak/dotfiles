@@ -1,4 +1,4 @@
-;;; belak-ido --- ido related settings
+;;; belak-ido --- ido related settings -*- lexical-binding: t; -*-
 
 ;;; Commentary:
 

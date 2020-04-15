@@ -1,4 +1,4 @@
-;;; belak-lang-go --- go related settings
+;;; belak-lang-go --- go related settings -*- lexical-binding: t; -*-
 
 ;;; Commentary:
 

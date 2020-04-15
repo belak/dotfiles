@@ -1,4 +1,4 @@
-;;; belak-early --- setup that needs to happen reasonably early
+;;; belak-early --- setup that needs to happen reasonably early -*- lexical-binding: t; -*-
 
 ;;; Commentary:
 

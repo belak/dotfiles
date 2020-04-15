@@ -1,4 +1,4 @@
-;;; belak-lang-python --- python related settings
+;;; belak-lang-python --- python related settings -*- lexical-binding: t; -*-
 
 ;;; Commentary:
 

@@ -1,4 +1,4 @@
-;;; belak-lang-c.el --- C/C++ related dev packages and settings
+;;; belak-lang-c.el --- C/C++ related dev packages and settings -*- lexical-binding: t; -*-
 
 ;;; Commentary:
 
