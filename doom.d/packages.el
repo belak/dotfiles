@@ -52,3 +52,6 @@
 
 (package! monokai-pro-theme)
 (package! ido-sort-mtime)
+
+;; Packages I'm playing with
+(package! modus-vivendi-theme)

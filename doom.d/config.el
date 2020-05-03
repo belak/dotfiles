@@ -6,9 +6,12 @@
       user-mail-address "belak@coded.io")
 
 ;; UI
-(setq doom-font (font-spec :family "Source Code Pro" :size 12)
-      doom-theme 'monokai-pro
+(setq doom-font (font-spec :family "Source Code Pro" :size 14)
+      ;;doom-theme 'monokai-pro
+      doom-theme 'modus-vivendi
       doom-modeline-icon nil)
+
+(setq modus-vivendi-theme-visible-fringe t)
 
 ;; If you use `org' and don't want your org files in the default location below,
 ;; change `org-directory'. It must be set before org loads!
