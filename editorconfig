@@ -40,7 +40,7 @@ tab_width = 2
 indent_size = 2
 tab_width = 2
 
-[*.html]
+[{*.html,*.xml}]
 indent_size = 2
 tab_width = 2
 
