@@ -34,3 +34,9 @@
   (interactive "Zap back to char: ")
   (zap-up-to-char -1 char))
 (global-set-key "\M-Z" 'reverse-zap-up-to-char)
+
+(after! ido
+  (setq ido-use-virtual-buffers t)
+
+  (map! "M-x" #'smex
+        "M-X" #'smex-major-mode-commands))
