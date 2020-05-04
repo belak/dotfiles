@@ -12,6 +12,7 @@ vim/.netrwhist
 vim/autoload/plug.vim.old
 vim/plugged
 vim/swap
+vim/view
 *.swp
 
 # emacs related
