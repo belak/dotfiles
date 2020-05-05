@@ -1,22 +1,69 @@
-;;; belak-ui --- non-theme ui settings -*- lexical-binding: t; -*-
+;;; belak-ui.el --- appearance settings -*- lexical-binding: t; -*-
 
-;;; Commentary:
+;;
+;;; Themes
 
-;; TODO: Show trailing whitespace
+;; I may or may not maintain and try out a lot of themes. All of their
+;; initialization is pretty much the same, so we throw that config in a macro to
+;; make it easier.
 
-;;; Code:
+(defmacro load-theme! (name &optional package)
+  (let ((package-name (if package package (intern (format "%s-theme" name)))))
+    `(use-package ,package-name
+       :config
+       (add-transient-hook! window-setup-hook (load-theme ',name t)))))
 
-;; Remove most GUI features, as I rarely use any of them.
-(menu-bar-mode -1)
-(tool-bar-mode -1)
-(scroll-bar-mode -1)
-(horizontal-scroll-bar-mode -1)
+;;(load-theme! grayscale)                 ; A simple mostly grayscale theme
+;;(load-theme! monokai-pro)               ; Based on the VSCode/Sublime themes
+(load-theme! modus-vivendi)             ; A very accessible theme
+;;(load-theme! nord)                      ; Trying this one out
+
+;;(load-theme!                            ; One set of themes I maintain, so I try
+;; base16-default-dark                    ; to keep this around even when I'm not
+;; base16-theme)                          ; using it.
+
+
+;;
+;;; Tweaks
+
+;; Cleanup clutter in the fringes
+(setq indicate-buffer-boundaries nil
+      indicate-empty-lines nil)
+(delq! 'continuation fringe-indicator-alist 'assq)
+
+;; Show current key-sequence in minibuffer, like vim does. Any feedback after
+;; typing is better UX than no feedback at all.
+(setq echo-keystrokes 0.02)
+
+;; Make tooltips show up faster.
+(setq tooltip-delay 0
+      tooltip-short-delay 0)
+
+;; Set the frame title to something more useful - we're pretty much always on
+;; the same host so that doesn't matter as much.
+(setq frame-title-format '("%b – Emacs")
+      icon-title-format frame-title-format)
+
+;; Because we use paren, this isn't as relevant and is actually more
+;; distracting.
+(setq blink-matching-paren nil)
+
+;; Don't blink the cursor
 (blink-cursor-mode -1)
 
-;; Make things a little more responsive in general.
-(setq echo-keystrokes 0.1
-      tooltip-delay 0
-      tooltip-short-delay 0)
+;; Disable graphical pop-ups. Most libraries have alternatives for
+;; this.
+;;
+;; TODO: do we stil want this?
+(setq use-dialog-box nil)
+
+;; The behavior here isn't very clear, so we disable it. The cursor is plenty
+;; clear in the terminal, so we don't need to have emacs make it more visible.
+(setq visible-cursor nil)
+
+;; no beeping or blinking please
+(setq ring-bell-function #'ignore
+      visible-bell nil)
 
 ;; Ensure the help window is selected when one is open. This makes it
 ;; much easier to quit them when we're done.
@@ -25,187 +72,109 @@
 ;; Make Emacs split windows in a more sane way.
 (setq window-combination-resize t)
 
-;; Disable graphical pop-ups. Most libraries have alternatives for
-;; this.
-(setq use-dialog-box nil)
-
-;; Automatically insert matching parens.
-;;(electric-pair-mode 1)
-
-;; Make sure we only have to type 'y' or 'n', not the full word
-;; because that takes too many keystrokes.
-(defalias 'yes-or-no-p 'y-or-n-p)
-
 ;; Make resizing the window much more plesant when using a gui.
 (setq frame-resize-pixelwise t)
 
-;; Be as quiet as we can at startup. Most of the messaging isn't very
-;; useful. Maybe one day I'll build my own dashboard or make it
-;; persistent, this is good enough for now.
-(setq-default
- inhibit-startup-message t
- inhibit-startup-echo-area-message user-login-name
- initial-major-mode 'fundamental-mode
- initial-scratch-message nil)
+;; Underline looks a bit better when drawn lower
+(setq x-underline-at-descent-line t)
 
-;; Highlight the current line to make the cursor easier to see.
-(global-hl-line-mode)
+;; Allow for minibuffer-ception. Sometimes we need another minibuffer command
+;; while we're in the minibuffer.
+(setq enable-recursive-minibuffers t)
 
-;; Make sure the line and column numbers are in the modeline.
-(column-number-mode 1)
-(line-number-mode 1)
 
-;; Delete selected text when typing.
-(delete-selection-mode 1)
+;; Expand the minibuffer to fit multi-line text displayed in the echo-area. This
+;; doesn't look too great with direnv, however...
+(setq resize-mini-windows 'grow-only
+      ;; But don't let the minibuffer grow beyond this size
+      max-mini-window-height 0.15)
 
-;; Clean up a few errant minor modes we don't want to see.
-(delight 'isearch-mode)                 ; TODO: figure out why this doesn't work
-(delight 'auto-fill-function nil "simple")
+;; Make buffers match the unix path style of forward slashes.
+(setq uniquify-buffer-name-style 'forward)
 
-(defmacro diminish-major-mode (mode name)
-  "Use a different `NAME' when displaying a `MODE' in the modeline.
 
-This is a snippet originally from
-https://github.com/sandhu/emacs.d/blob/master/lisp/teppoudo-diminish.el.
-
-Note that this should be replacable with delight, but it doesn't
-seem to work right."
-  `(add-hook (intern (concat (symbol-name ,mode) "-hook"))
-             '(lambda () (setq mode-name ,name))))
-
-;; Make the lisp modes a bit shorter
-(diminish-major-mode 'lisp-interaction-mode "λ»")
-(diminish-major-mode 'emacs-lisp-mode "Eλ")
-(diminish-major-mode 'lisp-mode "λ")
-
-;; Don't make sounds when I make mistakes.
-(setq ring-bell-function #'ignore)
-
-;; (setq-default indicate-buffer-boundaries
-;;               '((top . right)
-;;                 (bottom . right)
-;;                 (t . nil)))
-
-;; Revert buffers automatically if they've changed on disk
 ;;
-;; TODO: this should go in belak-core but it can't because it uses
-;; delight.
-(global-auto-revert-mode 1)
-(delight 'auto-revert-mode)
+;;; Scrolling
 
-;; As a former vim user, I like escape to actually quit everywhere.
-;; This was taken from
-;; https://github.com/davvil/.emacs.d/blob/master/init.el
-(defun minibuffer-keyboard-quit ()
-  "Abort recursive edit.
+(setq hscroll-margin 2
+      hscroll-step 1
+      ;; Emacs spends too much effort recentering the screen if you scroll the
+      ;; cursor more than N lines past window edges (where N is the settings of
+      ;; `scroll-conservatively'). This is especially slow in larger files
+      ;; during large-scale scrolling commands. If kept over 100, the window is
+      ;; never automatically recentered.
+      scroll-conservatively 101
+      scroll-margin 2
+      scroll-preserve-screen-position t
+      ;; Reduce cursor lag by a tiny bit by not auto-adjusting `window-vscroll'
+      ;; for tall lines.
+      auto-window-vscroll nil
+      ;; mouse
+      mouse-wheel-scroll-amount '(5 ((shift) . 2))
+      mouse-wheel-progressive-speed nil)  ; don't accelerate scrolling
 
-In Delete Selection mode, if the mark is active, just deactivate
-it; then it takes a second \\[keyboard-quit] to abort the
-minibuffer."
-  (interactive)
-  (if (and delete-selection-mode transient-mark-mode mark-active)
-      (setq deactivate-mark  t)
-    (when (get-buffer "*Completions*") (delete-windows-on "*Completions*"))
-    (abort-recursive-edit)))
 
-(define-key minibuffer-local-map [escape] 'minibuffer-keyboard-quit)
-(define-key minibuffer-local-ns-map [escape] 'minibuffer-keyboard-quit)
-(define-key minibuffer-local-completion-map [escape] 'minibuffer-keyboard-quit)
-(define-key minibuffer-local-must-match-map [escape] 'minibuffer-keyboard-quit)
-(define-key minibuffer-local-isearch-map [escape] 'minibuffer-keyboard-quit)
+;;
+;;; Packages
 
-;; Don't delay highlighting on isearch.
-(setq lazy-highlight-initial-delay 0)
-
-;; Don't make distinctions between ASCII and siblings (like a and a
-;; with an umlaut)
-(setq search-default-mode 'char-fold-to-regexp)
-
-;; Enable more standard copy-cut-paste keyboard shortcuts.
-(cua-mode 1)
-
-;;(use-package all-the-icons)
-
-(use-package dashboard
+(use-package hl-line
+  :straight nil
+  :hook ((prog-mode text-mode conf-mode) . hl-line-mode)
   :config
-  (setq dashboard-startup-banner 'logo
-        dashboard-set-footer nil
-        dashboard-items '((recents  . 5)
-                          (projects . 5)
-                          (agenda . 5)
-                          (bookmarks . 5)))
-  (dashboard-setup-startup-hook)
-  (setq initial-buffer-choice (lambda () (get-buffer "*dashboard*"))))
+  (setq hl-line-sticky-flag nil
+        global-hl-line-sticky-flag nil))
 
-(use-package focus
-  :commands focus-mode)
+(use-package display-line-numbers
+  :straight nil
+  :hook (prog-mode . display-line-numbers-mode)
+  :hook (text-mode . display-line-numbers-mode)
+  :hook (conf-mode . display-line-numbers-mode)
+  :config
+  (setq-default display-line-numbers-type 'visual
+                display-line-numbers-width 3
+                display-line-numbers-widen t))
 
-;; helpful is a replacement for the built-in help pages which are much
-;; prettier and easier to read.
-(use-package helpful
-  :general
-  ("C-h f" 'helpful-callable)
-  ("C-h v" 'helpful-variable)
-  ("C-h k" 'helpful-key)
-  ("C-h ." 'helpful-at-point))
+(use-package doom-modeline
+  :hook (after-init . doom-modeline-mode)
+  :config
+  ;; Make sure the line and column numbers are in the modeline.
+  (column-number-mode 1)
+  (line-number-mode 1)
+  (size-indication-mode 1)
 
+  ;; HACK: These two settings need to be set in order to remove what looks like
+  ;; padding from the modeline.
+  (setq doom-modeline-icon nil
+        doom-modeline-height 0))
+
+(use-package shackle
+  :config
+  (setq shackle-rules
+      '(("*Help*" :align t :select t)
+        (("\\`\\*magit-diff: .*?\\'") :regexp t :noselect t)
+        ((inferior-scheme-mode "*shell*" "*eshell*") :popup t))
+       shackle-default-rule '(:select t)
+       shackle-default-size 0.4
+       shackle-inhibit-window-quit-on-same-windows t))
+
+(use-package winner
+  ;; undo/redo changes to Emacs' window layout
+  ;;:after-call after-find-file doom-switch-window-hook
+  :preface (defvar winner-dont-bind-my-keys t) ; I'll bind keys myself
+  :config
+  (winner-mode +1)
+  (appendq! winner-boring-buffers
+            '("*Compile-Log*" "*inferior-lisp*" "*Fuzzy Completions*"
+              "*Apropos*" "*Help*" "*cvs*" "*Buffer List*" "*Ibuffer*"
+              "*esh command on file*")))
+
+;; Make the titlebar match the background color on macOS.
 (use-package ns-auto-titlebar
   :if IS-MAC
   :config
   (ns-auto-titlebar-mode))
 
-(use-package paren
-  :straight nil
-  :config
-  (setq show-paren-style 'parenthesis
-        show-paren-delay 0
-        show-paren-when-point-inside-paren t)
-  (show-paren-mode 1))
-
-(use-package popwin
-  :defer 1
-  :general
-  ("C-c P" 'popwin:popup-last-buffer)
-  :config
-  ;; also add ag, flycheck, and occur to pop
-  (add-to-list 'popwin:special-display-config `"*ag search*")
-  (add-to-list 'popwin:special-display-config `"*ripgrep-search*")
-  (add-to-list 'popwin:special-display-config `"*Flycheck errors*")
-  (add-to-list 'popwin:special-display-config `"*Occur*")
-
-  ;; don't auto-select the compile process buffer as it's only for information
-  (add-to-list 'popwin:special-display-config `("*Compile-Log*" :noselect t))
-
-  ;; enable
-  (popwin-mode))
-
-;; Because spacebar is so close to what I want, we use that rather than
-;; customizing it completely. It takes way more code than you'd expect to
-;; directly configure the menubar.
-(use-package spaceline-config
-  :straight spaceline
-  :config
-  (setq powerline-default-separator 'bar
-        spaceline-highlight-face-func 'spaceline-highlight-face-evil-state)
-  (spaceline-spacemacs-theme))
-
-;; Undo is pretty weird in emacs. Undo-tree is a step forward but still
-;; weird.
-(use-package undo-tree
-  :delight undo-tree-mode)
-
-(use-package which-key
-  :defer 1
-  :delight which-key-mode
-  :config
-  (setq which-key-sort-order #'which-key-prefix-then-key-order
-        which-key-sort-uppercase-first nil
-        which-key-add-column-padding 1
-        which-key-max-display-columns nil
-        which-key-min-display-lines 6
-        which-key-side-window-slot -10)
-  (which-key-mode 1))
-
+;; TODO: doom uses some hacks to approximate this, potentially faster.
 (use-package whitespace
   :straight nil
   :delight global-whitespace-mode
@@ -217,17 +186,30 @@ minibuffer."
   (global-whitespace-mode t)
   (setq whitespace-global-modes '(text-mode prog-mode org-mode)))
 
-;; anzu shows how many matches in isearch. This should be loaded after
-;; spaceline so we know to disable the additional things anzu puts
-;; into the modeline.
-(use-package anzu
-  :demand
-  :delight anzu-mode
+;; Ensure we show trailing whitespace in modes we care about.  This
+;; includes everything derived from prog-mode or text-mode.  We
+;; unfortunately can't just use setq-default because that includes
+;; buffers like ido.
+;;
+;; TODO: maybe move back into dev
+;; TODO: is this really needed?
+(add-hook 'prog-mode-hook (setq show-trailing-whitespace t))
+(add-hook 'text-mode-hook (setq show-trailing-whitespace t))
+
+(use-package which-key
+  :defer 1
+  :delight which-key-mode
   :config
-  (when (fboundp 'spaceline-install)
-    (setq anzu-cons-mode-line-p nil))
-  (global-anzu-mode))
+  (setq which-key-sort-order #'which-key-prefix-then-key-order
+        which-key-sort-uppercase-first nil
+        which-key-add-column-padding 1
+        which-key-max-display-columns nil
+        which-key-min-display-lines 6
+        which-key-side-window-slot -10)
+
+  (which-key-setup-side-window-bottom)
+
+  (which-key-mode 1))
 
 (provide 'belak-ui)
-
-;;; belak-ui.el ends here
+;;; belak-ui.el ends here.

@@ -1,8 +1,4 @@
-;;; belak-ido --- ido related settings -*- lexical-binding: t; -*-
-
-;;; Commentary:
-
-;;; Code:
+;;; belak-ido.el -*- lexical-binding: t; -*-
 
 (use-package ido
   :straight nil
@@ -22,7 +18,6 @@
   (ido-everywhere 1))
 
 ;; smex is a better replacement for M-x built around ido.
-
 (use-package smex
   :after ido
   :general
@@ -32,7 +27,6 @@
   (setq smex-history-length 50))
 
 ;; Use ido everywhere possible.
-
 (use-package ido-completing-read+
   :after ido
   :config
@@ -40,7 +34,6 @@
 
 ;; ido is much more readable when all the options are displayed
 ;; vertically.
-
 (use-package ido-vertical-mode
   :after ido
   :config
@@ -50,7 +43,6 @@
 
 ;; flx-ido changes the matching algorithm to improve the flex matching
 ;; support.
-
 (use-package flx-ido
   :after ido
   :config
@@ -58,5 +50,4 @@
         flx-ido-threshold 10000))
 
 (provide 'belak-ido)
-
 ;;; belak-ido.el ends here

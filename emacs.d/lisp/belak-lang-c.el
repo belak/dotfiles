@@ -1,11 +1,7 @@
-;;; belak-lang-c.el --- C/C++ related dev packages and settings -*- lexical-binding: t; -*-
+;;; belak-lang-c.el -*- lexical-binding: t; -*-
 
-;;; Commentary:
-
-;;; Code:
-
-;; irony-mode is a pretty solid dev environment for C/C++/ObjC, but we
-;; also need to load up the additional company and flycheck modules.
+;; irony-mode is a pretty solid dev environment for C/C++/ObjC, but we also need
+;; to load up the additional company and flycheck modules.
 (use-package irony
   :delight
   :commands
@@ -16,9 +12,9 @@
   (objc-mode . belak--maybe-enable-irony-mode)
   :config
   (defun belak--maybe-enable-irony-mode ()
-    ;; This works around an issue with modes derived from c-mode and
-    ;; friends by ensuring the major mode is one directly supported by
-    ;; irony-mode.  php-mode is one example of this.
+    ;; This works around an issue with modes derived from c-mode and friends by
+    ;; ensuring the major mode is one directly supported by irony-mode. php-mode
+    ;; is one example of this.
     (when (member major-mode irony-supported-major-modes)
       (irony-mode 1))))
 
@@ -57,5 +53,4 @@ http://stackoverflow.com/questions/3312114/how-to-tell-emacs-to-open-h-file-in-c
                         (other     . "linux")))
 
 (provide 'belak-lang-c)
-
 ;;; belak-lang-c.el ends here
