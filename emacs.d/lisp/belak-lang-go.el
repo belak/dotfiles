@@ -1,17 +1,13 @@
-;;; belak-lang-go --- go related settings -*- lexical-binding: t; -*-
+;;; belak-lang-go.el -*- lexical-binding: t; -*-
 
-;;; Commentary:
-
-;;; Code:
+(after! projectile
+  (add-to-list 'projectile-project-root-files "go.mod"))
 
 (use-package go-mode
   :mode ("\\.go\\'" . go-mode)
   :hook ((go-mode . belak--go-mode-hook)
-	 (go-mode . subword-mode))
+         (go-mode . subword-mode))
   :config
-  ;; goimports is generally preferred by the lazy as it will try and
-  ;; fix extra and missing imports.
-  ;; TODO: look into running both goimports and gofmt
   (setq gofmt-command "goimports")
 
   (defun belak--go-mode-hook ()
@@ -27,10 +23,8 @@
   (belak--register-company-backend 'go-mode-hook 'company-go))
 
 (use-package go-eldoc
-  :requires eldoc
   :after go-mode
   :hook (go-mode . go-eldoc-setup))
 
 (provide 'belak-lang-go)
-
 ;;; belak-lang-go.el ends here

@@ -1,8 +1,4 @@
-;;; belak-email --- mu4e and friends -*- lexical-binding: t; -*-
-
-;;; Commentary:
-
-;;; Code:
+;;; belak-tools-email -*- lexical-binding: t; -*-
 
 (use-package mu4e
   :straight nil
@@ -35,6 +31,5 @@
   (define-key mu4e-headers-mode-map (kbd "d") 'my-move-to-trash)
   (define-key mu4e-view-mode-map (kbd "d") 'my-move-to-trash))
 
-(provide 'belak-email)
-
-;;; belak-email.el ends here
+(provide 'belak-tools-email)
+;;; belak-tools-email.el ends here

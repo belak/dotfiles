@@ -1,13 +1,9 @@
-;;; belak-lang-python --- python related settings -*- lexical-binding: t; -*-
+;;; belak-lang-python.el -*- lexical-binding: t; -*-
 
-;;; Commentary:
-
-;; After doing python dev for a while, it's nice to be able to tweak
-;; my setup.  After trying other major packages (elpy and jedi) I've
-;; settled on anaconda-mode and pyenv.  It provides a nice mix of
-;; tweakability and convenience.
-
-;;; Code:
+;; After doing python dev for a while, it's nice to be able to tweak my setup.
+;; After trying other major packages (elpy and jedi) I've settled on
+;; anaconda-mode and pyenv. It provides a nice mix of tweakability and
+;; convenience.
 
 (use-package python
   :straight nil
@@ -32,11 +28,11 @@
   :after anaconda-mode
   :config (add-to-list 'company-backends 'company-anaconda))
 
-;; This allows for simple switching between pyenv environments and
-;; provides us with some basic building blocks to auto-switch to the
-;; proper pyenv if available.  In the past I used virtualenvwrapper,
-;; but after homebrew upgrades I'd have to recreate all my python
-;; environments.  Using pyenv lets me avoid that.
+;; This allows for simple switching between pyenv environments and provides us
+;; with some basic building blocks to auto-switch to the proper pyenv if
+;; available. In the past I used virtualenvwrapper, but after homebrew upgrades
+;; I'd have to recreate all my python environments. Using pyenv lets me avoid
+;; that.
 (use-package pyenv-mode
   :requires projectile
   :after python
@@ -48,21 +44,20 @@
           (pyenv-mode-set project)
         (pyenv-mode-unset)))))
 
-;; Cycle between apostrophes and quotes in python strings. Converts
-;; strings like 'this' to strings like "this".
+;; Cycle between apostrophes and quotes in python strings. Converts strings like
+;; 'this' to strings like "this".
 (use-package python-switch-quotes
   :after python
   :general
   (:keymaps 'python-mode-map
             "C-c '" 'python-switch-quotes))
 
-;; This adds some basic features for requirements files, such as
-;; highlighting and auto-completion of names from PyPI.
+;; This adds some basic features for requirements files, such as highlighting
+;; and auto-completion of names from PyPI.
 (use-package pip-requirements
   :mode
   "requirements.txt"
   "requirements/\\.txt\\'")
 
 (provide 'belak-lang-python)
-
 ;;; belak-lang-python.el ends here

@@ -1,12 +1,12 @@
-;;; belak-evil.el --- evil-mode related packages and settings -*- lexical-binding: t; -*-
+;;; belak-evil.el -*- lexical-binding: t; -*-
 
-;;; Commentary:
-
+;;
 ;;; Settings:
 
 (defvar belak-evil-enabled nil)
 
-;;; Code:
+;;
+;;; Packages
 
 (use-package evil
   :if belak-evil-enabled
@@ -88,5 +88,4 @@
   (evil-collection-init))
 
 (provide 'belak-evil)
-
 ;;; belak-evil.el ends here

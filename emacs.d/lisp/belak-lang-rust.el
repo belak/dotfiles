@@ -1,19 +1,12 @@
-;;; belak-lang-rust.el --- rust related settings and packages -*- lexical-binding: t; -*-
+;;; belak-lang-rust.el -*- lexical-binding: t; -*-
 
-;;; Commentary:
+;; TODO: look into rustic
 
-;; Rust is a fairly recent addition which I'd like to learn more
-;; about, which is why the settings here are fairly minimal.
-
-;;; Code:
+(after! projectile
+  (add-to-list 'projectile-project-root-files "Cargo.toml"))
 
 (use-package rust-mode
-  :mode
-  "\\.rs\\'")
-
-(use-package racer
-  :after rust-mode
-  :hook (rust-mode . racer-mode))
+  :mode "\\.rs\\'")
 
 (use-package flycheck-rust
   :requires flycheck
@@ -21,5 +14,4 @@
   :hook (flycheck-mode . flycheck-rust-setup))
 
 (provide 'belak-lang-rust)
-
 ;;; belak-lang-rust.el ends here

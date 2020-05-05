@@ -1,18 +1,13 @@
-;;; belak-lang-org --- org-mode related settings -*- lexical-binding: t; -*-
+;;; belak-org.el -*- lexical-binding: t; -*-
 
-;;; Commentary:
-
-;; In the past, it made sense to babel my config file using
-;; `org-mode'.  However, that method has a number of disadvantages:
-;; it's slower and harder to optimize, it's very hard to install the
-;; latest version of org, you don't get linting of files, and you end
-;; up tailoring your org-mode setup for your config file more than
-;; everyday usage.
+;; In the past, it made sense to babel my config file using `org-mode'. However,
+;; that method has a number of disadvantages: it's slower and harder to
+;; optimize, it's very hard to install the latest version of org, you don't get
+;; linting of files, and you end up tailoring your org-mode setup for your
+;; config file more than everyday usage.
 ;;
-;; May this serve as a warning for when I want to switch back to
-;; README.org again.
-
-;;; Code:
+;; May this serve as a warning for when I inevitably think about switching back
+;; to README.org again.
 
 (use-package org
   :straight org-plus-contrib
@@ -41,6 +36,5 @@
    org-log-done-with-time t
    org-log-refile t))
 
-(provide 'belak-lang-org)
-
-;;; belak-lang-org.el ends here
+(provide 'belak-org)
+;;; belak-org.el ends here
