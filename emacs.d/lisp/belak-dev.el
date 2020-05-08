@@ -8,6 +8,12 @@
   :config
   (setq eldoc-idle-delay 0.1))
 
+(use-package remember
+  :straight nil
+  :commands remember remember-notes
+  :config
+  (setq remember-notes-initial-major-mode 'gfm-mode))
+
 (use-package company
   :init
   (add-transient-hook! pre-command-hook (global-company-mode +1))
@@ -36,6 +42,7 @@
 (use-package hl-todo
   :hook (prog-mode . hl-todo-mode)
   :config
+  ;; TODO: tweak hl-todo-keyword-faces, maybe remove most of them
   (setq hl-todo-highlight-punctuation ":"))
 
 (use-package diff-hl
@@ -50,7 +57,11 @@
 ;; flycheck-mode is used for linters and catching compilation errors.
 (use-package flycheck
   :hook (prog-mode . flycheck-mode)
-  :delight flycheck-mode)
+  :delight flycheck-mode
+  :config
+  ;; The default flycheck settings are a bit too agressive - we really only want
+  ;; to check when the file is loaded or saved.
+  (setq flycheck-check-syntax-automatically '(mode-enabled save)))
 
 (use-package flyspell
   :straight nil

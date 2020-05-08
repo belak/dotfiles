@@ -14,13 +14,13 @@
 ;; And awaaaaaaayyyy we go.
 (let ((debug-on-error t)
       (debug-on-quit t))
-  (require 'belak-core)         ; low level setup  
+  (require 'belak-core)         ; low level setup
   (require 'belak-ui)           ; make things pretty... well, prettier
   (require 'belak-editor)       ; load the text editing portion of this OS
   (require 'belak-evil)         ; muahahahaha
   (require 'belak-ido)          ; improvements on completing-read
   (require 'belak-org)          ; the best reason to use emacs
-  
+
   (require 'belak-dev)          ; common development packages
 
   (require 'belak-lang-c)       ; always a classic
@@ -32,3 +32,12 @@
   (require 'belak-lang-web)     ; the tubes
   (require 'belak-lang-other)   ; smaller language settings
   (require 'belak-tools-email)) ; mu4e and friends
+
+;; TODO: look into ivy
+;; TODO: look into helm
+;; TODO: look into dired
+;; TODO: look into hydra
+;; TODO: look into enh-ruby-mode
+;; TODO: look into yasnippet and a way to have default empty file buffers
+;; TODO: look into macrostep
+;; TODO: look into visual-fill-column

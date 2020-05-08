@@ -32,6 +32,8 @@
 
 ;; TODO: look into drag stuff mode
 
+;; TODO: look into save-place
+
 
 ;;
 ;;; Packages
