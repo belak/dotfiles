@@ -61,7 +61,7 @@
   :config
   ;; The default flycheck settings are a bit too agressive - we really only want
   ;; to check when the file is loaded or saved.
-  (setq flycheck-check-syntax-automatically '(mode-enabled save)))
+  (setq flycheck-check-syntax-automatically '(mode-enabled save idle-buffer-switch)))
 
 (use-package flyspell
   :straight nil
