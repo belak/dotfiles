@@ -6,8 +6,9 @@
   "\\.cmake\\'")
 
 (use-package dockerfile-mode
-  :mode
-  "Dockerfile\(-.*\)?")
+  ;; It may seem slightly odd to match all files containing the name Dockerfile,
+  ;; but we also want to match filenames like Dockerfile-beta.
+  :mode "Dockerfile")
 
 (use-package markdown-mode
   :mode ("\\.md\\'" . gfm-mode))
