@@ -3,8 +3,7 @@
 (use-package eldoc
   :straight nil
   :delight eldoc-mode
-  :hook
-  (prog-mode . eldoc-mode)
+  :hook (prog-mode . eldoc-mode)
   :config
   (setq eldoc-idle-delay 0.1))
 
@@ -36,6 +35,20 @@
         company-dabbrev-ignore-case nil
         company-dabbrev-downcase nil))
 
+(use-package dired
+  :straight nil
+  :general
+  (:keymaps '(dired-mode-map)
+            "q" #'belak--dired-quit-all)
+  :config
+  (defun belak--dired-quit-all ()
+    (interactive)
+    (mapc #'kill-buffer (belak-buffers-in-mode 'dired-mode))
+    (message "Killed all dired buffers")))
+
+(use-package diredfl
+  :hook (dired-mode . diredfl-mode))
+
 ;; hl-todo simply highlights TODO and other similar comments to make
 ;; them easier to find. I originally used fic-mode, but it appears
 ;; that hl-todo is a little better and is updated more frequently.
@@ -46,8 +59,9 @@
   (setq hl-todo-highlight-punctuation ":"))
 
 (use-package diff-hl
-  :hook
-  (prog-mode . belak--diff-hl-mode)
+  :hook (dired-mode . diff-hl-dired-mode-unless-remote)
+  :hook (prog-mode  . belak--diff-hl-mode)
+  :hook (magit-post-refresh . diff-hl-magit-post-refresh)
   :config
   (defun belak--diff-hl-mode (&optional arg)
     (if IS-GUI
