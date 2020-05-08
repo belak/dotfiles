@@ -3,8 +3,20 @@
 ;;
 ;;; Functions
 
+(defun belak-enlist (exp)
+  "Return EXP wrapped in a list, or as-is if already a list."
+  (declare (pure t) (side-effect-free t))
+  (if (listp exp) exp (list exp)))
+
 (defun belak-visible-buffers ()
   (delete-dups (mapcar #'window-buffer (window-list))))
+
+(defun belak-buffers-in-mode (modes)
+  "Return a list of buffers whose `major-mode' is `eq' to MODE(S)."
+  (let ((modes (belak-enlist modes)))
+    (cl-remove-if-not (lambda (buf)
+                        (memq (buffer-local-value 'major-mode buf) modes))
+                      (buffer-list))))
 
 
 ;;
