@@ -12,7 +12,7 @@
   :if belak-evil-enabled
   :defer nil
   :diminish evil-mode
-  :init
+  :preface
   (setq evil-echo-state t
 	evil-want-C-w-in-emacs-state t
 	;; We want to let evil-collection set keybinds for any

@@ -1,6 +1,8 @@
 ;;; belak-lang-elisp.el -*- lexical-binding: t; -*-
 
 (after! flycheck
+  (setq flycheck-emacs-lisp-load-path 'inherit)
+
   ;; Reduce verbosity of flycheck when we're in either the emacs or dotfiles
   ;; directories.
   (defun belak--flycheck-emacs-config-h ()
