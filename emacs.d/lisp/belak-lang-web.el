@@ -18,10 +18,14 @@
 ;;
 ;;; HTML
 
+;; Automatically complete closing tags
+(setq nxml-slash-auto-complete-flag t)
+
+;; Add support for lots of dynamic template types.
 (use-package web-mode
   :mode
   "\\.erb\\'"
-  "\\.html\\'"
+  "\\.html?\\'"
   "\\.jinja\\'"
   "\\.mustache\\'"
   :config

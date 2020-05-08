@@ -11,6 +11,8 @@
   (c++-mode  . belak--maybe-enable-irony-mode)
   (objc-mode . belak--maybe-enable-irony-mode)
   :config
+  ;; TODO: look into c-default-style, maybe for java-mode as well.
+
   (defun belak--maybe-enable-irony-mode ()
     ;; This works around an issue with modes derived from c-mode and friends by
     ;; ensuring the major mode is one directly supported by irony-mode. php-mode

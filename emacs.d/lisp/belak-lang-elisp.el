@@ -17,5 +17,12 @@
 
   (add-hook 'flycheck-mode-hook #'belak--flycheck-emacs-config-h))
 
+;; TODO: bind this to something
+(defun belak--eval-region-or-buffer ()
+  (interactive)
+  (if (region-active-p)
+      (eval-region (region-beginning) (region-end))
+    (eval-buffer)))
+
 (provide 'belak-lang-elisp)
 ;;; belak-lang-elisp.el ends here

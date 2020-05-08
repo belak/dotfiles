@@ -53,8 +53,6 @@
 
 ;; Disable graphical pop-ups. Most libraries have alternatives for
 ;; this.
-;;
-;; TODO: do we stil want this?
 (setq use-dialog-box nil)
 
 ;; The behavior here isn't very clear, so we disable it. The cursor is plenty
@@ -92,6 +90,10 @@
 ;; Make buffers match the unix path style of forward slashes.
 (setq uniquify-buffer-name-style 'forward)
 
+;; TODO: look into windmove, possibly with windmove-wrap-around
+
+;; TODO: look into some method of jumping between windows
+
 
 ;;
 ;;; Scrolling
@@ -116,6 +118,8 @@
 
 ;;
 ;;; Packages
+
+;; TODO: look into eyebrowse
 
 (use-package hl-line
   :straight nil

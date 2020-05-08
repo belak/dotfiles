@@ -97,8 +97,11 @@
 (setq inhibit-startup-message t
       inhibit-startup-echo-area-message user-login-name
       inhibit-default-init t
-      initial-major-mode 'fundamental-mode
-      initial-scratch-message nil)
+
+      ;; Leave the scratch buffer blank and use emacs-lisp-mode rather than
+      ;; fundamental mode or anything too minimal.
+      initial-scratch-message nil
+      initial-major-mode 'emacs-lisp-mode)
 (fset #'display-startup-echo-area-message #'ignore)
 
 ;; It's alright if Emacs updates the UI a little less often than the
@@ -125,6 +128,9 @@
 ;; portion of the minibuffer.
 (setq minibuffer-prompt-properties '(read-only t intangible t cursor-intangible t face minibuffer-prompt))
 (add-hook 'minibuffer-setup-hook #'cursor-intangible-mode)
+
+;; TODO: get this working on macOS as well
+(setq browse-url-browser-function 'browse-url-xdg-open)
 
 
 ;;

@@ -31,6 +31,13 @@
    ;; when dealing with babeled files.
    org-edit-src-content-indentation 0
 
+   ;; Try to navigate to file links rather than open them.
+   org-link-frame-setup '((file . find-file))
+
+   ;; Don't allow closing todos that aren't really finished.
+   org-enforce-todo-dependencies t
+   org-enforce-todo-checkbox-dependencies t
+
    ;; org-agenda settings
    org-log-done t
    org-log-done-with-time t
