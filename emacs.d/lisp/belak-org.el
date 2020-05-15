@@ -17,6 +17,7 @@
   ("C-c a" 'org-agenda)
   ("C-c b" 'org-switchb)
   ("C-c c" 'org-capture)
+  ("C-c l" 'org-store-link)
   :config
   (setq
    ;; Allow using shift-select like in other buffers.
@@ -25,6 +26,10 @@
    ;; Make tab in code blocks behave like they would in that language's
    ;; major mode.
    org-src-tab-acts-natively t
+
+   ;; Tweak our task keywords.
+   ;;(org-todo-keywords
+   ;; '((sequence "TODO" "IN-PROGRESS" "REVIEW" "|" "DONE")))
 
    ;; Make sure org isn't "helpful" in trying to add spaces at the
    ;; start of code blocks. This makes it much easier to work with

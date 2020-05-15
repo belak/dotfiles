@@ -4,23 +4,26 @@
   (add-to-list 'projectile-project-root-files "go.mod"))
 
 (use-package go-mode
-  :mode ("\\.go\\'" . go-mode)
+  :mode "\\.go\\'"
   :hook ((go-mode . belak--go-mode-hook)
          (go-mode . subword-mode))
   :config
-  (setq gofmt-command "goimports")
+  ;; Ignore go test -c output files
+  (add-to-list 'completion-ignored-extensions ".test")
+
+  ;; Prefer goimports to gofmt if installed
+  (let ((goimports (executable-find "goimports")))
+    (when goimports
+      (setq gofmt-command goimports)))
 
   (defun belak--go-mode-hook ()
     (add-hook 'before-save-hook 'gofmt-before-save nil t)))
 
 (use-package company-go
-  :requires company
-  :after go-mode
+  :after (go-mode company)
   :config
   (setq company-go-show-annotation t)
-
-  ;; TODO: See if this can be done with :hook
-  (belak--register-company-backend 'go-mode-hook 'company-go))
+  (set-company-backend! go-mode-hook company-go))
 
 (use-package go-eldoc
   :after go-mode

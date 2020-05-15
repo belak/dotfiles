@@ -1,8 +1,10 @@
 ;;; belak-dev.el -*- lexical-binding: t; -*-
 
+(require 'belak-core)
+
 (use-package eldoc
+  :delight
   :straight nil
-  :delight eldoc-mode
   :hook (prog-mode . eldoc-mode)
   :config
   (setq eldoc-idle-delay 0.1))
@@ -14,21 +16,25 @@
   (setq remember-notes-initial-major-mode 'gfm-mode))
 
 (use-package company
+  :delight
   :init
   (add-transient-hook! pre-command-hook (global-company-mode +1))
   :commands global-company-mode
   :config
   ;; TODO: move this to lib?
-  (defmacro belak--register-company-backend (hook backend)
-    `(add-hook ,hook (lambda ()
-                       (set (make-local-variable 'company-backends) (list ,backend)))))
+  (defmacro set-company-backend! (hook backend)
+    `(add-hook ',hook (lambda ()
+                        ;;(message "Setting company backend for %s to %s" ',hook ',backend)
+                        (set (make-local-variable 'company-backends) (list ',backend)))))
 
   ;; TODO: look into tab-n-go.
 
   (setq company-idle-delay 0.25
+        company-show-numbers t
         company-tooltip-limit 14
         company-tooltip-align-annotations t
         company-require-match 'never
+        company-tooltip-flip-when-above t
 
         ;; Improve basic text matching
         company-dabbrev-other-buffers nil
@@ -41,6 +47,9 @@
   (:keymaps '(dired-mode-map)
             "q" #'belak--dired-quit-all)
   :config
+  ;; TODO: there's an alternate way used here which replaces the current buffer
+  ;; rather than killing all of them at the end:
+  ;; https://github.com/MatthewZMD/.emacs.d/blob/master/elisp/init-dired.el
   (defun belak--dired-quit-all ()
     (interactive)
     (mapc #'kill-buffer (belak-buffers-in-mode 'dired-mode))
@@ -70,34 +79,42 @@
 
 ;; flycheck-mode is used for linters and catching compilation errors.
 (use-package flycheck
+  :delight
   :hook (prog-mode . flycheck-mode)
-  :delight flycheck-mode
   :config
   ;; The default flycheck settings are a bit too agressive - we really only want
   ;; to check when the file is loaded or saved.
-  (setq flycheck-check-syntax-automatically '(mode-enabled save idle-buffer-switch)))
+  (setq flycheck-check-syntax-automatically '(mode-enabled save idle-buffer-switch))
+
+  ;; We change the double arrow to be a triangle because it looks cleaner.
+  (when (fboundp 'define-fringe-bitmap)
+    (define-fringe-bitmap 'flycheck-fringe-bitmap-double-arrow
+      [16 48 112 240 112 48 16] nil nil 'center))
+
+  ;; Because we have diff-hl in the left fringe, we want flycheck in the right
+  ;; fringe.
+  (setq flycheck-indication-mode 'right-fringe))
 
 (use-package flyspell
+  :delight
   :straight nil
-  :delight flyspell-mode
-  :general
-  ("C-c g" 'magit-status)
   :hook
-  (text-mode . flyspell-mode))
+  (text-mode . flyspell-mode)
+  (prog-mode . flyspell-prog-mode))
 
 (use-package magit
-  ;; TODO: set some keybinds for this?
+  :general
+  ("C-c g" 'magit-status)
   :config
-  (setq magit-push-current-set-remote-if-missing t))
+  (setq magit-auto-revert-mode nil))
 
 (use-package editorconfig
-  :delight editorconfig-mode
+  :delight
   :hook
   (prog-mode . editorconfig-mode)
   (text-mode . editorconfig-mode))
 
 (use-package projectile
-  :delight projectile-mode
   :commands projectile-project-p
   :general ("C-c p" '(:keymap projectile-command-map))
   :config (projectile-mode +1))

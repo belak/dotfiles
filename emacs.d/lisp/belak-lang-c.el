@@ -3,7 +3,6 @@
 ;; irony-mode is a pretty solid dev environment for C/C++/ObjC, but we also need
 ;; to load up the additional company and flycheck modules.
 (use-package irony
-  :delight
   :commands
   belak--maybe-enable-irony-mode
   :hook
@@ -21,14 +20,12 @@
       (irony-mode 1))))
 
 (use-package company-irony
-  :requires company
-  :after irony
+  :after (irony company)
   :config
-  (add-to-list 'company-backends 'company-irony))
+  (set-company-backend! irony-mode-hook company-irony))
 
 (use-package flycheck-irony
-  :requires flycheck
-  :after irony
+  :after (irony flycheck)
   :config
   (add-hook 'flycheck-mode-hook #'flycheck-irony-setup))
 
