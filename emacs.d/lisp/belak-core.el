@@ -59,7 +59,7 @@
 ;; emacs directory, so we install to a hidden dir in our emacs directory.
 
 (use-package no-littering
-  :init
+  :preface
   (setq no-littering-etc-directory
 	(expand-file-name ".local/etc/" user-emacs-directory))
   (setq no-littering-var-directory
@@ -169,7 +169,7 @@
       (with-current-buffer buf
         (belak--auto-revert-buffer-h)))))
 
-;; Remember files we were recently in. We also clean up recentf when Emacs
+;; Remember files we were recently in. We also clean up `recentf' when Emacs
 ;; quits, so it should be only for the existing session.
 (use-package recentf
   :straight nil
