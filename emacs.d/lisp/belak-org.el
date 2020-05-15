@@ -1,5 +1,7 @@
 ;;; belak-org.el -*- lexical-binding: t; -*-
 
+(require 'belak-core)
+
 ;; In the past, it made sense to babel my config file using `org-mode'. However,
 ;; that method has a number of disadvantages: it's slower and harder to
 ;; optimize, it's very hard to install the latest version of org, you don't get

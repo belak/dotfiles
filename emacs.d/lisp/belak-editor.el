@@ -1,5 +1,7 @@
 ;;; belak-editor.el --- text interaction settings -*- lexical-binding: t; -*-
 
+(require 'belak-core)
+
 ;;
 ;;; Tweaks
 
@@ -74,4 +76,4 @@
 
 
 (provide 'belak-editor)
-;;; belak-editor.el ends here
+;;; belak-editor.el ends here.

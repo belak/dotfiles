@@ -1,5 +1,7 @@
 ;;; belak-lang-c.el -*- lexical-binding: t; -*-
 
+(require 'belak-core)
+
 ;; irony-mode is a pretty solid dev environment for C/C++/ObjC, but we also need
 ;; to load up the additional company and flycheck modules.
 (use-package irony

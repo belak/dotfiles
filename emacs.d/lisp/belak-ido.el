@@ -1,5 +1,7 @@
 ;;; belak-ido.el -*- lexical-binding: t; -*-
 
+(require 'belak-core)
+
 (use-package ido
   :straight nil
   :config
@@ -51,4 +53,4 @@
         flx-ido-threshold 10000))
 
 (provide 'belak-ido)
-;;; belak-ido.el ends here
+;;; belak-ido.el ends here.

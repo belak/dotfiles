@@ -2,6 +2,7 @@
 
 ;; TODO: look into rustic
 
+(require 'belak-core)
 (require 'belak-dev)
 
 (after! projectile

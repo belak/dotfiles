@@ -1,5 +1,7 @@
 ;;; belak-lib.el -*- lexical-binding: t; -*-
 
+(require 'subr-x)
+
 ;;
 ;;; Functions
 
