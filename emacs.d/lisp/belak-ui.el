@@ -1,7 +1,6 @@
 ;;; belak-ui.el --- appearance settings -*- lexical-binding: t; -*-
 
-(eval-when-compile
-  (require 'belak-core))
+(require 'belak-core)
 
 ;;
 ;;; Themes
@@ -207,10 +206,9 @@
   (global-whitespace-mode t)
   (setq whitespace-global-modes '(text-mode prog-mode org-mode)))
 
-;; Ensure we show trailing whitespace in modes we care about.  This
-;; includes everything derived from prog-mode or text-mode.  We
-;; unfortunately can't just use setq-default because that includes
-;; buffers like ido.
+;; Ensure we show trailing whitespace in modes we care about. This includes
+;; everything derived from prog-mode or text-mode. We unfortunately can't just
+;; use setq-default because that includes buffers like ido.
 ;;
 ;; TODO: maybe move back into dev
 ;; TODO: is this really needed?
@@ -221,7 +219,7 @@
   :defer 1
   :delight
   :config
-  (setq which-key-sort-order #'which-key-prefix-then-key-order
+  (setq which-key-sort-order 'which-key-prefix-then-key-order
         which-key-sort-uppercase-first nil
         which-key-add-column-padding 1
         which-key-max-display-columns nil

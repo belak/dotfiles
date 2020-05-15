@@ -1,5 +1,7 @@
 ;;; belak-evil.el -*- lexical-binding: t; -*-
 
+(require 'belak-core)
+
 ;;
 ;;; Settings:
 
@@ -13,18 +15,6 @@
   :defer nil
   :diminish evil-mode
   :preface
-  (setq evil-echo-state t
-	evil-want-C-w-in-emacs-state t
-	;; We want to let evil-collection set keybinds for any
-	;; additional modes.
-	evil-want-integration t
-	evil-want-keybinding nil)
-  :config
-  ;; TODO: Not sure why this has to be called here.
-  ;;(general-evil-setup)
-  ;; Actually enable evil-mode.
-  (evil-mode 1)
-
   (defun belak--update-evil-state-cursor-colors ()
     ;; Pull evil-mode faces from the current theme
     (setq evil-emacs-state-cursor   `(,(face-background 'spaceline-evil-emacs   nil t) box)
@@ -33,6 +23,20 @@
           evil-normal-state-cursor  `(,(face-background 'spaceline-evil-normal  nil t) box)
           evil-replace-state-cursor `(,(face-background 'spaceline-evil-replace nil t) hbar)
           evil-visual-state-cursor  `(,(face-background 'spaceline-evil-visual  nil t) hbar)))
+
+  :init
+  (setq evil-echo-state t
+        evil-want-C-w-in-emacs-state t
+        ;; We want to let evil-collection set keybinds for any
+        ;; additional modes.
+        evil-want-integration t
+        evil-want-keybinding nil)
+
+  :config
+  ;; TODO: Not sure why this has to be called here.
+  ;;(general-evil-setup)
+  ;; Actually enable evil-mode.
+  (evil-mode 1)
 
   ;; Wrap enable-theme and disable-theme to update the cursor colors
   ;; whenever the theme changes.

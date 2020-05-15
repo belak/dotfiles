@@ -1,5 +1,7 @@
 ;;; belak-lang-other.el -*- lexical-binding: t; -*-
 
+(require 'belak-core)
+
 (use-package cmake-mode
   :mode
   "CMakeLists\\.txt"

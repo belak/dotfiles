@@ -1,5 +1,7 @@
 ;;; belak-macos.el --- macOS related tweaks -*- lexical-binding: t; -*-
 
+(require 'belak-core)
+
 ;; Properly support emoji using the default Apple emoji font.
 (when (fboundp 'set-fontset-font)
   (set-fontset-font t 'unicode "Apple Color Emoji" nil 'prepend))

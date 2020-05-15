@@ -1,5 +1,8 @@
 ;;; belak-lang-elixir -*- lexical-binding: t; -*-
 
+(require 'belak-core)
+(require 'belak-dev)
+
 (use-package elixir-mode
   :mode
   ("\\.ex\\'" . elixir-mode)
@@ -15,4 +18,4 @@
   :config (flycheck-credo-setup))
 
 (provide 'belak-lang-elixir)
-;;; belak-lang-elixir.el ends here
+;;; belak-lang-elixir.el ends here.

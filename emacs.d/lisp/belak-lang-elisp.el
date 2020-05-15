@@ -1,5 +1,8 @@
 ;;; belak-lang-elisp.el -*- lexical-binding: t; -*-
 
+(require 'belak-core)
+(require 'belak-dev)
+
 (after! flycheck
   (setq flycheck-emacs-lisp-load-path 'inherit)
 

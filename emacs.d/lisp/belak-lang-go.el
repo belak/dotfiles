@@ -1,5 +1,8 @@
 ;;; belak-lang-go.el -*- lexical-binding: t; -*-
 
+(require 'belak-core)
+(require 'belak-dev)
+
 (after! projectile
   (add-to-list 'projectile-project-root-files "go.mod"))
 

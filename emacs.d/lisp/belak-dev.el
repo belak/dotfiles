@@ -17,29 +17,34 @@
 
 (use-package company
   :delight
-  :init
-  (add-transient-hook! pre-command-hook (global-company-mode +1))
-  :commands global-company-mode
-  :config
-  ;; TODO: move this to lib?
+  :preface
   (defmacro set-company-backend! (hook backend)
     `(add-hook ',hook (lambda ()
                         ;;(message "Setting company backend for %s to %s" ',hook ',backend)
                         (set (make-local-variable 'company-backends) (list ',backend)))))
+  :init
+  (add-transient-hook! pre-command-hook (global-company-mode +1))
+  :commands global-company-mode
+  :config
+  (require 'company-dabbrev)
 
   ;; TODO: look into tab-n-go.
+
+  (use-package company-dabbrev
+    :straight nil
+    :config
+    ;; Improve basic text matching
+    (setq company-dabbrev-other-buffers nil
+          company-dabbrev-ignore-case nil
+          company-dabbrev-downcase nil))
 
   (setq company-idle-delay 0.25
         company-show-numbers t
         company-tooltip-limit 14
         company-tooltip-align-annotations t
         company-require-match 'never
-        company-tooltip-flip-when-above t
+        company-tooltip-flip-when-above t))
 
-        ;; Improve basic text matching
-        company-dabbrev-other-buffers nil
-        company-dabbrev-ignore-case nil
-        company-dabbrev-downcase nil))
 
 (use-package dired
   :straight nil
@@ -142,4 +147,4 @@
 (push '("\\.env\\'"  . sh-mode)   auto-mode-alist)
 
 (provide 'belak-dev)
-;;; belak-dev.el ends here
+;;; belak-dev.el ends here.

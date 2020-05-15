@@ -1,5 +1,8 @@
 ;;; belak-lang-web.el --- Javascript/HTML and friends -*- lexical-binding: t; -*-
 
+(require 'belak-core)
+(require 'belak-dev)
+
 ;;
 ;;; Javascript
 
@@ -29,11 +32,15 @@
 ;;
 ;;; HTML
 
-;; Automatically complete closing tags
-(setq nxml-slash-auto-complete-flag t)
+(use-package nxml-mode
+  :mode "\\.xml\\'"
+  :config
+  ;; Automatically complete closing tags
+  (setq nxml-slash-auto-complete-flag t))
 
 ;; Add support for lots of dynamic template types.
 (use-package web-mode
+  :after nxml-mode
   :mode
   "\\.erb\\'"
   "\\.hbs\\'"
