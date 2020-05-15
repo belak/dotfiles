@@ -1,5 +1,8 @@
 ;;; belak-ui.el --- appearance settings -*- lexical-binding: t; -*-
 
+(eval-when-compile
+  (require 'belak-core))
+
 ;;
 ;;; Themes
 
@@ -15,8 +18,9 @@
 
 ;;(load-theme! grayscale)                 ; A simple mostly grayscale theme
 ;;(load-theme! monokai-pro)               ; Based on the VSCode/Sublime themes
-(load-theme! modus-vivendi)             ; A very accessible theme
-;;(load-theme! nord)                      ; Trying this one out
+;;(load-theme! modus-vivendi)             ; A very accessible theme
+(load-theme! nord)                      ; Trying this one out
+;;(load-theme! zenburn)                   ; Oldie but a goodie
 
 ;;(load-theme!                            ; One set of themes I maintain, so I try
 ;; base16-default-dark                    ; to keep this around even when I'm not
@@ -87,8 +91,11 @@
       ;; But don't let the minibuffer grow beyond this size
       max-mini-window-height 0.15)
 
-;; Make buffers match the unix path style of forward slashes.
-(setq uniquify-buffer-name-style 'forward)
+;; Make buffers match the unix path style of forward slashes, properly refresh
+;; after a buffer has been killed, and ignore special buffers.
+(setq uniquify-buffer-name-style 'forward
+      uniquify-after-kill-buffer-p t
+      uniquify-ignore-buffers-re "^\\*")
 
 ;; TODO: look into windmove, possibly with windmove-wrap-around
 
@@ -107,19 +114,28 @@
       ;; never automatically recentered.
       scroll-conservatively 101
       scroll-margin 2
-      scroll-preserve-screen-position t
+
+      ;; NOTE: optimally, this would be set to true, but it seems to cause
+      ;; issues with performance and cursor jumping when scrolling.
+      scroll-preserve-screen-position nil
+
       ;; Reduce cursor lag by a tiny bit by not auto-adjusting `window-vscroll'
       ;; for tall lines.
       auto-window-vscroll nil
+
+      ;;scroll-up-aggressively 0.01
+      ;;scroll-down-aggressively 0.01
+
       ;; mouse
-      mouse-wheel-scroll-amount '(5 ((shift) . 2))
+      mouse-wheel-scroll-amount '(1 ((shift) . 1))
       mouse-wheel-progressive-speed nil)  ; don't accelerate scrolling
 
 
 ;;
 ;;; Packages
 
-;; TODO: look into eyebrowse
+(use-package ace-window
+  :bind ("C-x o" . ace-window))
 
 (use-package hl-line
   :straight nil
@@ -161,16 +177,16 @@
        shackle-default-size 0.4
        shackle-inhibit-window-quit-on-same-windows t))
 
+;; undo/redo changes to Emacs' window layout
 (use-package winner
-  ;; undo/redo changes to Emacs' window layout
   ;;:after-call after-find-file doom-switch-window-hook
   :preface (defvar winner-dont-bind-my-keys t) ; I'll bind keys myself
   :config
-  (winner-mode +1)
   (appendq! winner-boring-buffers
-            '("*Compile-Log*" "*inferior-lisp*" "*Fuzzy Completions*"
-              "*Apropos*" "*Help*" "*cvs*" "*Buffer List*" "*Ibuffer*"
-              "*esh command on file*")))
+            '("*Completions*" "*Compile-Log*" "*inferior-lisp*"
+              "*Fuzzy Completions*" "*Apropos*" "*Help*" "*cvs*"
+              "*Buffer List*" "*Ibuffer*" "*esh command on file*"))
+  (winner-mode +1))
 
 ;; Make the titlebar match the background color on macOS.
 (use-package ns-auto-titlebar
@@ -179,9 +195,10 @@
   (ns-auto-titlebar-mode))
 
 ;; TODO: doom uses some hacks to approximate this, potentially faster.
+;; TODO: prelude has a nice way of optionally enabling whitespace for certain modes
 (use-package whitespace
-  :straight nil
   :delight global-whitespace-mode
+  :straight nil
   :config
   (setq whitespace-style '(trailing face tabs tab-mark lines-tail)
         whitespace-display-mappings '((space-mark 32 [183] [46])
@@ -202,7 +219,7 @@
 
 (use-package which-key
   :defer 1
-  :delight which-key-mode
+  :delight
   :config
   (setq which-key-sort-order #'which-key-prefix-then-key-order
         which-key-sort-uppercase-first nil

@@ -3,6 +3,10 @@
 ;;
 ;;; Tweaks
 
+;; Make tab a tiny bit smarter - if the current line is already indented, then
+;; complete at point.
+(setq tab-always-indent 'complete)
+
 ;; Delete selected text when typing.
 (delete-selection-mode 1)
 
@@ -28,21 +32,21 @@
 ;; with an umlaut)
 (setq search-default-mode 'char-fold-to-regexp)
 
-;; TODO: add back (cua-mode) shortcuts on macos.
-
-;; TODO: look into drag stuff mode
-
-;; TODO: look into save-place
-
 
 ;;
 ;;; Packages
 
+(use-package crux
+  :general
+  ;;("C-k"     #'crux-smart-kill-line)  ; This doesn't work with C-u
+  ("C-c k"   #'crux-kill-other-buffers)
+  ("C-c f d" #'crux-delete-file-and-buffer)
+  ("C-c f r" #'crux-rename-buffer-and-file))
+
 (use-package expand-region
-  :functions er/expand-region
-  :bind
-  ("C-="   . er/expand-region)
-  ("C-S-=" . er/contract-region))
+  :general
+  ("C-="   'er/expand-region)
+  ("C-S-=" 'er/contract-region))
 
 ;; highlight matching delimiters
 (use-package paren
@@ -54,9 +58,19 @@
         show-paren-when-point-in-periphery t)
   (show-paren-mode +1))
 
+(use-package guru-mode
+  :delight
+  :hook (prog-mode . guru-mode)
+  :config
+  (setq guru-warn-only t))
 
-;; TODO: look into focus-mode
-;; TODO: look into undo-tree
+;; automatically clean up old buffers. This also provides a midnight-hook which
+;; makes it possible to define cleanup functions.
+(use-package midnight
+  :straight nil
+  :commands midnight-mode
+  :init
+  (add-transient-hook! pre-command-hook (midnight-mode 1)))
 
 
 (provide 'belak-editor)

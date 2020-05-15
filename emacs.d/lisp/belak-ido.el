@@ -7,6 +7,7 @@
         resize-mini-windows t
         ido-use-virtual-buffers t
         ido-auto-merge-work-directories-length -1
+        ido-default-file-method 'selected-window
 
         completion-ignored-extensions
         '(".o" ".elc" "~" ".bin" ".bak" ".obj" ".map" ".a" ".ln" ".mod" ".gz"

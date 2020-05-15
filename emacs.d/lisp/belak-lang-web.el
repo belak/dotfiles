@@ -9,11 +9,22 @@
 ;; config to keep working.
 
 (use-package js2-mode
-  :mode ("\\.jsx?\\'" . js2-jsx-mode))
+  :delight
+  (js2-mode "JS")
+  (js2-jsx-mode "JSX")
+  :mode
+  ("\\.js\\'" . js2-mode)
+  ("\\.jsx\\'" . js2-jsx-mode)
+  :interpreter ("node" . js2-mode))
 
 (use-package typescript-mode
   :mode ("\\.tsx?\\'" . typescript-mode))
 
+(use-package tide
+  :after (typescript-mode company flycheck)
+  :hook
+  (typescript-mode . tide-setup)
+  (typescript-mode . tide-hl-identifier-mode))
 
 ;;
 ;;; HTML
@@ -25,6 +36,7 @@
 (use-package web-mode
   :mode
   "\\.erb\\'"
+  "\\.hbs\\'"
   "\\.html?\\'"
   "\\.jinja\\'"
   "\\.mustache\\'"
@@ -41,11 +53,20 @@
 ;;
 ;;; Other
 
+(use-package rainbow-mode
+  :hook (css-mode . rainbow-mode))
+
 (use-package json-mode
   :mode "\\.json\\'"
   :config
   (setq json-reformat:indent-width 2))
 
+
+;;
+;;; Tweaks
+
+(after! projectile
+  (add-to-list 'projectile-globally-ignored-directories "node_modules"))
 
 (provide 'belak-lang-web)
 ;;; belak-lang-web.el ends here

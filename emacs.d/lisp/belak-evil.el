@@ -47,7 +47,6 @@
 ;; Add gc for commenting
 (use-package evil-commentary
   :after evil
-  :delight evil-commentary-mode
   :config
   (evil-commentary-mode 1))
 
@@ -60,7 +59,6 @@
 
 (use-package evil-goggles
   :after evil
-  :delight evil-goggles-mode
   :config
   (evil-goggles-mode)
 
@@ -77,7 +75,6 @@
 ;; outside normal mode.
 (use-package evil-rsi
   :after evil
-  :delight evil-rsi-mode
   :config
   (evil-rsi-mode 1))
 

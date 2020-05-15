@@ -8,9 +8,10 @@
 (use-package python
   :straight nil
   :mode ("\\.py\\'" . python-mode)
-  :interpreter (("python"  . python-mode)
-                ("python2" . python-mode)
-                ("python3" . python-mode))
+  :interpreter
+  ("python"  . python-mode)
+  ("python2" . python-mode)
+  ("python3" . python-mode)
   :hook (python-mode . subword-mode))
 
 ;; anaconda-mode provides code navigation and docs. Additionally, if
@@ -24,9 +25,8 @@
   :hook (anaconda-mode . anaconda-eldoc-mode))
 
 (use-package company-anaconda
-  :requires company
-  :after anaconda-mode
-  :config (add-to-list 'company-backends 'company-anaconda))
+  :after (anaconda-mode company)
+  :config (set-company-backend! python-mode-hook company-anaconda))
 
 ;; This allows for simple switching between pyenv environments and provides us
 ;; with some basic building blocks to auto-switch to the proper pyenv if
@@ -34,8 +34,7 @@
 ;; I'd have to recreate all my python environments. Using pyenv lets me avoid
 ;; that.
 (use-package pyenv-mode
-  :requires projectile
-  :after python
+  :after (python projectile)
   :hook (projectile-after-switch-project . belak--projectile-pyenv-mode-hook)
   :config
   (defun belak--projectile-pyenv-mode-hook ()
@@ -57,7 +56,7 @@
 (use-package pip-requirements
   :mode
   "requirements.txt"
-  "requirements/\\.txt\\'")
+  "requirements/.*\\.txt\\'")
 
 (provide 'belak-lang-python)
 ;;; belak-lang-python.el ends here

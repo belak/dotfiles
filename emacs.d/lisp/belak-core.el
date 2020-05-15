@@ -5,7 +5,7 @@
 
 (defconst IS-MAC   (eq system-type 'darwin))
 (defconst IS-LINUX (eq system-type 'gnu/linux))
-(defconst IS-GUI   (memq window-system '(mac ns x)))
+(defconst IS-GUI   (display-graphic-p))
 
 
 ;;
@@ -23,7 +23,7 @@
 
 ;; This is the official bootstrap code from the straight.el repo. In addition,
 ;; we use this to make sure `use-package', `delight' and `general' are installed
-;; so we can use them with the rest of our config.
+;; so we can use them with the rest of our configuration.
 
 (defvar bootstrap-version)
 (let ((bootstrap-file
@@ -38,6 +38,7 @@
       (eval-print-last-sexp)))
   (load bootstrap-file nil 'nomessage))
 
+(require 'straight)
 (setq straight-use-package-by-default t)
 
 ;; Install the core packages we'll need for the rest of the config.
@@ -151,7 +152,7 @@
         revert-without-query (list "."))
 
   ;; Instead of using `auto-revert-mode' or `global-auto-revert-mode', we employ
-  ;; lazy auto reverting on `focus-in-hook' and `doom-switch-buffer-hook'.
+  ;; lazy auto reverting on `focus-in-hook' and `belak-switch-buffer-hook'.
   ;;
   ;; This is because autorevert abuses the heck out of inotify handles which can
   ;; grind Emacs to a halt if you do expensive IO (outside of Emacs) on the
@@ -172,7 +173,7 @@
 ;; quits, so it should be only for the existing session.
 (use-package recentf
   :straight nil
-  :requires no-littering
+  :after no-littering
   :hook (kill-emacs . recentf-cleanup)
   :config
   (add-to-list 'recentf-exclude no-littering-var-directory)
@@ -206,6 +207,14 @@
   (setq gcmh-idle-delay 10
         gcmh-high-cons-threshold (* 16 1024 1024))) ; 16mb
 
+;; So Long mitigates slowness due to extremely long lines. Currently available
+;; in Emacs master branch only, so we fall back to the upstream.
+(unless (fboundp 'global-so-long-mode)
+  (use-package so-long
+    :commands global-so-long-mode
+    :straight (:repo "https://git.savannah.gnu.org/git/so-long.git")))
+(add-transient-hook! pre-command-hook (global-so-long-mode +1))
+
 ;; Disable bidirectional text rendering for a performance. This unfortunately
 ;; disables support for left-to-right languages, but for right-to-left, it's a
 ;; performance win.
@@ -233,4 +242,4 @@
 (setq highlight-nonselected-windows nil)
 
 (provide 'belak-core)
-;;; core.el ends here
+;;; core.el ends here.

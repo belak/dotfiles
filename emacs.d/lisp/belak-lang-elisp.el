@@ -27,4 +27,4 @@
     (eval-buffer)))
 
 (provide 'belak-lang-elisp)
-;;; belak-lang-elisp.el ends here
+;;; belak-lang-elisp.el ends here.
