@@ -17,8 +17,8 @@
 
 ;;(load-theme! grayscale)                 ; A simple mostly grayscale theme
 ;;(load-theme! monokai-pro)               ; Based on the VSCode/Sublime themes
-;;(load-theme! modus-vivendi)             ; A very accessible theme
-(load-theme! nord)                      ; Trying this one out
+(load-theme! modus-vivendi)             ; A very accessible theme
+;;(load-theme! nord)                      ; Trying this one out
 ;;(load-theme! zenburn)                   ; Oldie but a goodie
 
 ;;(load-theme!                            ; One set of themes I maintain, so I try

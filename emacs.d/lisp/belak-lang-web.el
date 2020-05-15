@@ -33,6 +33,7 @@
 ;;; HTML
 
 (use-package nxml-mode
+  :straight nil
   :mode "\\.xml\\'"
   :config
   ;; Automatically complete closing tags
