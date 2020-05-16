@@ -11,7 +11,7 @@
 ;;; Packages
 
 (use-package evil
-  :if belak-evil-enabled
+  :disabled (not belak-evil-enabled)
   :defer nil
   :diminish evil-mode
   :preface
@@ -23,19 +23,18 @@
           evil-normal-state-cursor  `(,(face-background 'spaceline-evil-normal  nil t) box)
           evil-replace-state-cursor `(,(face-background 'spaceline-evil-replace nil t) hbar)
           evil-visual-state-cursor  `(,(face-background 'spaceline-evil-visual  nil t) hbar)))
-
   :init
-  (setq evil-echo-state t
-        evil-want-C-w-in-emacs-state t
-        ;; We want to let evil-collection set keybinds for any
-        ;; additional modes.
-        evil-want-integration t
-        evil-want-keybinding nil)
-
+  ;; We want to let evil-collection set keybinds for any
+  ;; additional modes.
+  (setq evil-want-keybinding nil
+        evil-want-integration t)
   :config
   ;; TODO: Not sure why this has to be called here.
   ;;(general-evil-setup)
   ;; Actually enable evil-mode.
+  (setq evil-echo-state t
+        evil-want-C-w-in-emacs-state t)
+
   (evil-mode 1)
 
   ;; Wrap enable-theme and disable-theme to update the cursor colors
@@ -50,11 +49,13 @@
 
 ;; Add gc for commenting
 (use-package evil-commentary
+  :disabled (not belak-evil-enabled)
   :after evil
   :config
   (evil-commentary-mode 1))
 
 (use-package evil-easymotion
+  :disabled (not belak-evil-enabled)
   :after evil
   :config
   ;; TODO: Find a better prefix because we want to use space as our
@@ -62,6 +63,7 @@
   (evilem-default-keybindings "SPC"))
 
 (use-package evil-goggles
+  :disabled (not belak-evil-enabled)
   :after evil
   :config
   (evil-goggles-mode)
@@ -71,6 +73,7 @@
 
 ;; Add % as a bind to jump between matching tags.
 (use-package evil-matchit
+  :disabled (not belak-evil-enabled)
   :after evil
   :config
   (global-evil-matchit-mode 1))
@@ -78,15 +81,17 @@
 ;; I prefer using C-a and C-e because they work both inside and
 ;; outside normal mode.
 (use-package evil-rsi
+  :disabled (not belak-evil-enabled)
   :after evil
   :config
   (evil-rsi-mode 1))
 
 ;; Include community-maintained keybinds for additional packages.
 (use-package evil-collection
+  :disabled (not belak-evil-enabled)
   :after evil
   :config
   (evil-collection-init))
 
 (provide 'belak-evil)
-;;; belak-evil.el ends here
+;;; belak-evil.el ends here.
