@@ -62,11 +62,14 @@
         doom-modeline-height 0))
 
 (use-package shackle
+  :preface
+  (defun add-shackle-rule (rule)
+    (after! shackle
+      (appendq! shackle-rules (list rule))))
   :config
   (setq shackle-rules
       '(("*Help*" :align t :select t)
-        (("\\`\\*magit-diff: .*?\\'") :regexp t :noselect t)
-        ((inferior-scheme-mode "*shell*" "*eshell*") :popup t))
+        (("*shell*" "*eshell*") :popup t))
        shackle-default-rule '(:select t)
        shackle-default-size 0.4
        shackle-inhibit-window-quit-on-same-windows t)
