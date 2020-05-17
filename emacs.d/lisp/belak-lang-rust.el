@@ -5,8 +5,8 @@
 (require 'belak-core)
 (require 'belak-dev)
 
-(after! projectile
-  (add-to-list 'projectile-project-root-files "Cargo.toml"))
+;;
+;;; Packages
 
 (use-package rust-mode
   :mode "\\.rs\\'"
@@ -19,7 +19,11 @@
   :after (rust-mode flycheck)
   :hook (flycheck-mode . flycheck-rust-setup))
 
+;;
+;;; Tweaks
+
 (after! projectile
+  (add-to-list 'projectile-project-root-files "Cargo.toml")
   (add-to-list 'projectile-globally-ignored-directories "target"))
 
 (provide 'belak-lang-rust)

@@ -11,6 +11,9 @@
 ;; May this serve as a warning for when I inevitably think about switching back
 ;; to README.org again.
 
+;;
+;;; Packages
+
 (use-package org
   :straight org-plus-contrib
   :mode ("\\.org\\'" . org-mode)

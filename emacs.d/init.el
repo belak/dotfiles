@@ -64,3 +64,5 @@
 ;; TODO: look into dap-mode
 ;; TODO: look into popup-kill-ring
 ;; TODO: look into yasnippet
+;; TODO: look into windmove, possibly with windmove-wrap-around
+;; TODO: look into some method of jumping between windows

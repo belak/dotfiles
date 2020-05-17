@@ -3,6 +3,9 @@
 (require 'belak-core)
 (require 'belak-dev)
 
+;;
+;;; Packages
+
 ;; After doing python dev for a while, it's nice to be able to tweak my setup.
 ;; After trying other major packages (elpy and jedi) I've settled on
 ;; anaconda-mode and pyenv. It provides a nice mix of tweakability and

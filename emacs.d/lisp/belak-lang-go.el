@@ -3,8 +3,8 @@
 (require 'belak-core)
 (require 'belak-dev)
 
-(after! projectile
-  (add-to-list 'projectile-project-root-files "go.mod"))
+;;
+;;; Packages
 
 (use-package go-mode
   :mode "\\.go\\'"
@@ -31,6 +31,12 @@
 (use-package go-eldoc
   :after go-mode
   :hook (go-mode . go-eldoc-setup))
+
+;;
+;;; Tweaks
+
+(after! projectile
+  (add-to-list 'projectile-project-root-files "go.mod"))
 
 (provide 'belak-lang-go)
 ;;; belak-lang-go.el ends here

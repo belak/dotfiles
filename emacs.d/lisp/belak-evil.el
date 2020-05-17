@@ -39,13 +39,13 @@
 
   ;; Wrap enable-theme and disable-theme to update the cursor colors
   ;; whenever the theme changes.
-  ;;
-  ;; TODO: This isn't actually handled if the theme is set up before
-  ;; evil-mode has been loaded.
   (advice-add 'enable-theme  :after 'belak--update-evil-state-cursor-colors)
   (advice-add 'disable-theme :after 'belak--update-evil-state-cursor-colors)
 
-  (belak--update-evil-state-cursor-colors))
+  ;; We only need to force an update if there have been any themes loaded so
+  ;; far.
+  (when custom-enabled-themes
+    (belak--update-evil-state-cursor-colors)))
 
 ;; Add gc for commenting
 (use-package evil-commentary

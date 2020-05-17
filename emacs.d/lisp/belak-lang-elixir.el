@@ -3,6 +3,9 @@
 (require 'belak-core)
 (require 'belak-dev)
 
+;;
+;;; Packages
+
 (use-package elixir-mode
   :mode
   ("\\.ex\\'" . elixir-mode)

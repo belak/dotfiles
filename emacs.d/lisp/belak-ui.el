@@ -5,9 +5,8 @@
 ;;
 ;;; Themes
 
-;; I may or may not maintain and try out a lot of themes. All of their
-;; initialization is pretty much the same, so we throw that config in a macro to
-;; make it easier.
+;; I maintain and try out a lot of themes. The code to load them is pretty much
+;; the same, so we throw that config in a macro to make it easier.
 
 (defmacro load-theme! (name &optional package)
   (let ((package-name (if package package (intern (format "%s-theme" name)))))
@@ -24,6 +23,93 @@
 ;;(load-theme!                            ; One set of themes I maintain, so I try
 ;; base16-default-dark                    ; to keep this around even when I'm not
 ;; base16-theme)                          ; using it.
+
+
+;;
+;;; Packages
+
+(use-package ace-window
+  :bind ("C-x o" . ace-window))
+
+(use-package hl-line
+  :straight nil
+  :hook ((prog-mode text-mode conf-mode) . hl-line-mode)
+  :config
+  (setq hl-line-sticky-flag nil
+        global-hl-line-sticky-flag nil))
+
+(use-package display-line-numbers
+  :straight nil
+  :hook (prog-mode . display-line-numbers-mode)
+  :hook (text-mode . display-line-numbers-mode)
+  :hook (conf-mode . display-line-numbers-mode)
+  :config
+  (setq-default display-line-numbers-type 'visual
+                display-line-numbers-width 3
+                display-line-numbers-widen t))
+
+(use-package doom-modeline
+  :hook (after-init . doom-modeline-mode)
+  :config
+  ;; Make sure the line and column numbers are in the modeline.
+  (column-number-mode 1)
+  (line-number-mode 1)
+  (size-indication-mode 1)
+
+  ;; HACK: These two settings need to be set in order to remove what looks like
+  ;; padding from the modeline.
+  (setq doom-modeline-icon nil
+        doom-modeline-height 0))
+
+(use-package shackle
+  :config
+  (setq shackle-rules
+      '(("*Help*" :align t :select t)
+        (("\\`\\*magit-diff: .*?\\'") :regexp t :noselect t)
+        ((inferior-scheme-mode "*shell*" "*eshell*") :popup t))
+       shackle-default-rule '(:select t)
+       shackle-default-size 0.4
+       shackle-inhibit-window-quit-on-same-windows t))
+
+;; undo/redo changes to Emacs' window layout
+(use-package winner
+  ;;:after-call after-find-file doom-switch-window-hook
+  :preface (defvar winner-dont-bind-my-keys t) ; I'll bind keys myself
+  :config
+  (appendq! winner-boring-buffers
+            '("*Completions*" "*Compile-Log*" "*inferior-lisp*"
+              "*Fuzzy Completions*" "*Apropos*" "*Help*" "*cvs*"
+              "*Buffer List*" "*Ibuffer*" "*esh command on file*"))
+  (winner-mode +1))
+
+;; TODO: doom uses some hacks to approximate this, potentially faster.
+;; TODO: prelude has a nice way of optionally enabling `whitespace' for certain modes
+(use-package whitespace
+  :delight global-whitespace-mode
+  :straight nil
+  :config
+  (setq whitespace-style '(trailing face tabs tab-mark lines-tail)
+        whitespace-display-mappings '((space-mark 32 [183] [46])
+                                      (newline-mark 10 [182 10])
+                                      (tab-mark 9 [9655 9] [92 9])))
+  (global-whitespace-mode t)
+  (setq whitespace-global-modes '(text-mode prog-mode org-mode)))
+
+;; Improve usability by showing key binds when we stop typing for long enough.
+(use-package which-key
+  :defer 1
+  :delight
+  :config
+  (setq which-key-sort-order 'which-key-prefix-then-key-order
+        which-key-sort-uppercase-first nil
+        which-key-add-column-padding 1
+        which-key-max-display-columns nil
+        which-key-min-display-lines 6
+        which-key-side-window-slot -10)
+
+  (which-key-setup-side-window-bottom)
+
+  (which-key-mode 1))
 
 
 ;;
@@ -96,16 +182,19 @@
       uniquify-after-kill-buffer-p t
       uniquify-ignore-buffers-re "^\\*")
 
-;; TODO: look into windmove, possibly with windmove-wrap-around
-
-;; TODO: look into some method of jumping between windows
+;; Ensure we show trailing whitespace in modes we care about. This includes
+;; everything derived from `prog-mode' or `text-mode'. We unfortunately can't
+;; just use `setq-default' because that includes buffers like `ido'.
+(add-hook 'prog-mode-hook (setq show-trailing-whitespace t))
+(add-hook 'text-mode-hook (setq show-trailing-whitespace t))
 
 
 ;;
-;;; Scrolling
+;;; Scrolling Tweaks
 
 (setq hscroll-margin 2
       hscroll-step 1
+
       ;; Emacs spends too much effort recentering the screen if you scroll the
       ;; cursor more than N lines past window edges (where N is the settings of
       ;; `scroll-conservatively'). This is especially slow in larger files
@@ -128,107 +217,6 @@
       ;; mouse
       mouse-wheel-scroll-amount '(1 ((shift) . 1))
       mouse-wheel-progressive-speed nil)  ; don't accelerate scrolling
-
-
-;;
-;;; Packages
-
-(use-package ace-window
-  :bind ("C-x o" . ace-window))
-
-(use-package hl-line
-  :straight nil
-  :hook ((prog-mode text-mode conf-mode) . hl-line-mode)
-  :config
-  (setq hl-line-sticky-flag nil
-        global-hl-line-sticky-flag nil))
-
-(use-package display-line-numbers
-  :straight nil
-  :hook (prog-mode . display-line-numbers-mode)
-  :hook (text-mode . display-line-numbers-mode)
-  :hook (conf-mode . display-line-numbers-mode)
-  :config
-  (setq-default display-line-numbers-type 'visual
-                display-line-numbers-width 3
-                display-line-numbers-widen t))
-
-(use-package doom-modeline
-  :hook (after-init . doom-modeline-mode)
-  :config
-  ;; Make sure the line and column numbers are in the modeline.
-  (column-number-mode 1)
-  (line-number-mode 1)
-  (size-indication-mode 1)
-
-  ;; HACK: These two settings need to be set in order to remove what looks like
-  ;; padding from the modeline.
-  (setq doom-modeline-icon nil
-        doom-modeline-height 0))
-
-(use-package shackle
-  :config
-  (setq shackle-rules
-      '(("*Help*" :align t :select t)
-        (("\\`\\*magit-diff: .*?\\'") :regexp t :noselect t)
-        ((inferior-scheme-mode "*shell*" "*eshell*") :popup t))
-       shackle-default-rule '(:select t)
-       shackle-default-size 0.4
-       shackle-inhibit-window-quit-on-same-windows t))
-
-;; undo/redo changes to Emacs' window layout
-(use-package winner
-  ;;:after-call after-find-file doom-switch-window-hook
-  :preface (defvar winner-dont-bind-my-keys t) ; I'll bind keys myself
-  :config
-  (appendq! winner-boring-buffers
-            '("*Completions*" "*Compile-Log*" "*inferior-lisp*"
-              "*Fuzzy Completions*" "*Apropos*" "*Help*" "*cvs*"
-              "*Buffer List*" "*Ibuffer*" "*esh command on file*"))
-  (winner-mode +1))
-
-;; Make the titlebar match the background color on macOS.
-(use-package ns-auto-titlebar
-  :if IS-MAC
-  :config
-  (ns-auto-titlebar-mode))
-
-;; TODO: doom uses some hacks to approximate this, potentially faster.
-;; TODO: prelude has a nice way of optionally enabling whitespace for certain modes
-(use-package whitespace
-  :delight global-whitespace-mode
-  :straight nil
-  :config
-  (setq whitespace-style '(trailing face tabs tab-mark lines-tail)
-        whitespace-display-mappings '((space-mark 32 [183] [46])
-                                      (newline-mark 10 [182 10])
-                                      (tab-mark 9 [9655 9] [92 9])))
-  (global-whitespace-mode t)
-  (setq whitespace-global-modes '(text-mode prog-mode org-mode)))
-
-;; Ensure we show trailing whitespace in modes we care about. This includes
-;; everything derived from prog-mode or text-mode. We unfortunately can't just
-;; use setq-default because that includes buffers like ido.
-;;
-;; TODO: maybe move back into dev
-;; TODO: is this really needed?
-(add-hook 'prog-mode-hook (setq show-trailing-whitespace t))
-(add-hook 'text-mode-hook (setq show-trailing-whitespace t))
-
-(use-package which-key
-  :defer 1
-  :delight
-  :config
-  (setq which-key-sort-order 'which-key-prefix-then-key-order
-        which-key-sort-uppercase-first nil
-        which-key-add-column-padding 1
-        which-key-max-display-columns nil
-        which-key-min-display-lines 6
-        which-key-side-window-slot -10)
-
-  (which-key-setup-side-window-bottom)
-
-  (which-key-mode 1))
 
 (provide 'belak-ui)
 ;;; belak-ui.el ends here.

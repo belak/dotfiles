@@ -2,6 +2,9 @@
 
 (require 'belak-core)
 
+;;
+;;; Packages
+
 (use-package ido
   :straight nil
   :config
@@ -20,14 +23,13 @@
   (ido-mode 1)
   (ido-everywhere 1))
 
-;; smex is a better replacement for M-x built around ido.
-(use-package smex
+;; flx-ido changes the matching algorithm to improve the flex matching
+;; support.
+(use-package flx-ido
   :after ido
-  :general
-  ("M-x" 'smex)
-  ("M-X" 'smex-major-mode-commands)
   :config
-  (setq smex-history-length 50))
+  (setq ido-enable-flex-matching t
+        flx-ido-threshold 10000))
 
 ;; Use ido everywhere possible.
 (use-package ido-completing-read+
@@ -44,13 +46,14 @@
         ido-vertical-show-count t)
   (ido-vertical-mode 1))
 
-;; flx-ido changes the matching algorithm to improve the flex matching
-;; support.
-(use-package flx-ido
+;; smex is a better replacement for M-x built around ido.
+(use-package smex
   :after ido
+  :general
+  ("M-x" 'smex)
+  ("M-X" 'smex-major-mode-commands)
   :config
-  (setq ido-enable-flex-matching t
-        flx-ido-threshold 10000))
+  (setq smex-history-length 50))
 
 (provide 'belak-ido)
 ;;; belak-ido.el ends here.

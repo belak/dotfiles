@@ -2,8 +2,11 @@
 
 (require 'belak-core)
 
-;; irony-mode is a pretty solid dev environment for C/C++/ObjC, but we also need
-;; to load up the additional company and flycheck modules.
+;;
+;;; Packages
+
+;; `irony-mode' is a pretty solid dev environment for C/C++/ObjC, but we also
+;; need to load up the additional `company' and `flycheck' modules.
 (use-package irony
   :commands
   belak--maybe-enable-irony-mode
@@ -21,15 +24,20 @@
     (when (member major-mode irony-supported-major-modes)
       (irony-mode 1))))
 
+;; Add completion support
 (use-package company-irony
   :after (irony company)
   :config
   (set-company-backend! irony-mode-hook company-irony))
 
+;; Add linting support
 (use-package flycheck-irony
   :after (irony flycheck)
   :config
   (add-hook 'flycheck-mode-hook #'flycheck-irony-setup))
+
+;;
+;;; Functions
 
 (defun c-c++-header ()
   "Set either `c-mode' or `c++-mode', whichever is appropriate for header.
@@ -47,8 +55,10 @@ http://stackoverflow.com/questions/3312114/how-to-tell-emacs-to-open-h-file-in-c
       (c++-mode))))
 (add-to-list 'auto-mode-alist '("\\.h\\'" . c-c++-header))
 
-;; I much prefer the linux C style to the GNU style.
+;;
+;;; Tweaks
 
+;; I much prefer the linux C style to the GNU style.
 (setq c-default-style '((java-mode . "java")
                         (awk-mode  . "awk")
                         (other     . "linux")))
