@@ -111,9 +111,8 @@
 
   ;; When we use the error list, we want to make sure shackle puts it somewhere
   ;; better.
-  (after! shackle
-    (appendq! shackle-rules
-              '(((flycheck-error-list-mode) :noselect t :align 'below :size 7))))
+  (add-shackle-rule '(flycheck-error-list-mode :noselect t :align 'below :size 7))
+
   (after! winner
     (appendq! winner-boring-buffers "*Flycheck errors*")))
 
@@ -137,7 +136,9 @@
   :general
   ("C-c g" 'magit-status)
   :config
-  (setq magit-auto-revert-mode nil))
+  (setq magit-auto-revert-mode nil)
+
+  (add-shackle-rule '(magit-diff-mode :noselect t)))
 
 ;; Project based navigation is how I deal with code. This tracks projects to
 ;; make it easier to navigate between them.
