@@ -133,6 +133,7 @@
 (use-package exec-path-from-shell
   :if (and IS-GUI (or IS-MAC IS-LINUX))
   :config
+  (setq exec-path-from-shell-check-startup-files nil)
   (exec-path-from-shell-initialize))
 
 
