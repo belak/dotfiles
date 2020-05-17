@@ -81,7 +81,7 @@
 	(expand-file-name ".local/var/" user-emacs-directory))
   :config
   (setq auto-save-file-name-transforms
-	`((".*" ,(no-littering-expand-var-file-name "auto-save/") t))))
+        `((".*" ,(no-littering-expand-var-file-name "auto-save/") t))))
 
 
 ;;
