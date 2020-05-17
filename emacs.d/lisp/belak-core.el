@@ -53,6 +53,21 @@
 
 
 ;;
+;;; System Variables
+
+;; Because we use a number of programs that are installed at the user level in
+;; some instances (`rustup', `pyenv', `rbenv', etc) we need to make sure we load
+;; the path changes from the shell environment. We only need to do this when in
+;; a GUI on macOS and Linux because otherwise we should inherit the correct
+;; environment.
+
+(use-package exec-path-from-shell
+  :if (and IS-GUI (or IS-MAC IS-LINUX))
+  :config
+  (exec-path-from-shell-initialize))
+
+
+;;
 ;;; No-littering
 
 ;; We want to make sure we avoid dumping a bunch of additional files in our
