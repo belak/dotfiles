@@ -20,7 +20,6 @@
   :preface
   (defmacro set-company-backend! (hook backend)
     `(add-hook ',hook (lambda ()
-                        ;;(message "Setting company backend for %s to %s" ',hook ',backend)
                         (set (make-local-variable 'company-backends) (list ',backend)))))
   :init
   (add-transient-hook! pre-command-hook (global-company-mode +1))
@@ -60,27 +59,35 @@
     (mapc #'kill-buffer (belak-buffers-in-mode 'dired-mode))
     (message "Killed all dired buffers")))
 
+;; Add fancier colors to `dired-mode'.
 (use-package diredfl
   :hook (dired-mode . diredfl-mode))
 
-;; hl-todo simply highlights TODO and other similar comments to make
-;; them easier to find. I originally used fic-mode, but it appears
-;; that hl-todo is a little better and is updated more frequently.
+;; hl-todo simply highlights TODO and other similar comments to make them easier
+;; to find. I originally used fic-mode, but it appears that hl-todo is a little
+;; better and is updated more frequently.
 (use-package hl-todo
   :hook (prog-mode . hl-todo-mode)
   :config
   ;; TODO: tweak hl-todo-keyword-faces, maybe remove most of them
   (setq hl-todo-highlight-punctuation ":"))
 
+;; We use `diff-hl' rather than `git-gutter' because it seems to be better
+;; supported.
 (use-package diff-hl
-  :hook (dired-mode . diff-hl-dired-mode-unless-remote)
-  :hook (prog-mode  . belak--diff-hl-mode)
+  ;; Enable `diff-hl' for programming, text, and `dired-mode'.
+  :hook (prog-mode          . diff-hl-mode)
+  :hook (text-mode          . diff-hl-mode)
+  :hook (dired-mode         . diff-hl-mode)
+  ;; `diff-hl' provides some convenience hooks so we enable the ones we want to
+  ;; use.
+  :hook (dired-mode         . diff-hl-dired-mode)
   :hook (magit-post-refresh . diff-hl-magit-post-refresh)
   :config
-  (defun belak--diff-hl-mode (&optional arg)
-    (if IS-GUI
-        (diff-hl-mode arg)
-      (diff-hl-margin-mode arg))))
+  ;; When we're not in a GUI, we want to use `diff-hl-margin-mode' so it will
+  ;; still display.
+  (unless IS-GUI
+    (add-hook 'diff-hl-mode-hook #'diff-hl-margin-mode)))
 
 ;; flycheck-mode is used for linters and catching compilation errors.
 (use-package flycheck
@@ -120,7 +127,7 @@
   (text-mode . editorconfig-mode))
 
 (use-package projectile
-  :commands projectile-project-p
+  :commands (projectile-project-p projectile-mode)
   :general ("C-c p" '(:keymap projectile-command-map))
   :config (projectile-mode +1))
 

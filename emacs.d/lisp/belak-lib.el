@@ -58,15 +58,17 @@ If FETCHER is a function, ELT is used as the key in LIST (an alist)."
   `(let (file-name-handler-alist)
      (load (expand-file-name ,filename (dir!)) nil 'nomessage)))
 
+(defvar belak--transient-counter 0)
+
 (defmacro add-transient-hook! (hook &rest forms)
   "Attaches a self-removing function NAME to a given HOOK."
   (declare (indent 1))
-  (let ((fn (gensym "belak---transient-")))
+  (let ((fn (gensym "belak--transient-")))
     `(progn
        (defun ,fn (&rest _)
-	 ,@forms
-	 (remove-hook ',hook #',fn)
-	 (unintern ',fn nil))
+         ,@forms
+         (remove-hook ',hook #',fn)
+         (unintern ',fn nil))
        (put ',fn 'permanent-local-hook t)
        (add-hook ',hook #',fn))))
 
@@ -93,8 +95,8 @@ If FETCHER is a function, ELT is used as the key in LIST (an alist)."
 (defun run-belak-switch-buffer-hook ()
   (unless (eq (current-buffer)
               belak-switch-buffer-hook--last-buffer)
-    (let ((current (current-buffer))
-          (previous belak-switch-buffer-hook--last-buffer))
+    (let ((current (current-buffer)))
+      ;;(previous belak-switch-buffer-hook--last-buffer)
       (setq belak-switch-buffer-hook--last-buffer
             current)
       (run-hooks 'belak-switch-buffer-hook))))
