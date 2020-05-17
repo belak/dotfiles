@@ -1,6 +1,7 @@
 ;;; belak-dev.el -*- lexical-binding: t; -*-
 
 (require 'belak-core)
+(require 'belak-ui)
 
 ;;
 ;;; Packages
@@ -106,7 +107,15 @@
 
   ;; Because we have diff-hl in the left fringe, we want flycheck in the right
   ;; fringe.
-  (setq flycheck-indication-mode 'right-fringe))
+  (setq flycheck-indication-mode 'right-fringe)
+
+  ;; When we use the error list, we want to make sure shackle puts it somewhere
+  ;; better.
+  (after! shackle
+    (appendq! shackle-rules
+              '(((flycheck-error-list-mode) :noselect t :align 'below :size 7))))
+  (after! winner
+    (appendq! winner-boring-buffers "*Flycheck errors*")))
 
 (use-package flyspell
   :delight
