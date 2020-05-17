@@ -130,6 +130,7 @@
   ;; TODO: tweak hl-todo-keyword-faces, maybe remove most of them
   (setq hl-todo-highlight-punctuation ":"))
 
+;; `magit' is one of the best git interfaces I've ever used.
 (use-package magit
   :general
   ("C-c g" 'magit-status)
@@ -169,9 +170,10 @@
 (add-hook 'text-mode-hook #'auto-fill-mode)
 
 ;; Some extra files to support with basic modes
-(push '("LICENSE\\'" . text-mode) auto-mode-alist)
-(push '("\\.log\\'"  . text-mode) auto-mode-alist)
-(push '("\\.env\\'"  . sh-mode)   auto-mode-alist)
+(push '("LICENSE\\'"   . text-mode)      auto-mode-alist)
+(push '("\\.log\\'"    . text-mode)      auto-mode-alist)
+(push '("\\.env\\'"    . sh-mode)        auto-mode-alist)
+(push '("gitignore\\'" . conf-unix-mode) auto-mode-alist)
 
 (provide 'belak-dev)
 ;;; belak-dev.el ends here.
