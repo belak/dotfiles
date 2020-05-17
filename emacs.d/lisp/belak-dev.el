@@ -112,9 +112,7 @@
   ;; When we use the error list, we want to make sure shackle puts it somewhere
   ;; better.
   (add-shackle-rule '(flycheck-error-list-mode :noselect t :align 'below :size 7))
-
-  (after! winner
-    (appendq! winner-boring-buffers "*Flycheck errors*")))
+  (add-winner-boring-buffer "*Flycheck errors*"))
 
 (use-package flyspell
   :delight
