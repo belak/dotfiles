@@ -69,7 +69,9 @@
         ((inferior-scheme-mode "*shell*" "*eshell*") :popup t))
        shackle-default-rule '(:select t)
        shackle-default-size 0.4
-       shackle-inhibit-window-quit-on-same-windows t))
+       shackle-inhibit-window-quit-on-same-windows t)
+
+  (shackle-mode))
 
 ;; undo/redo changes to Emacs' window layout
 (use-package winner
