@@ -79,7 +79,12 @@
 ;; undo/redo changes to Emacs' window layout
 (use-package winner
   ;;:after-call after-find-file doom-switch-window-hook
-  :preface (defvar winner-dont-bind-my-keys t) ; I'll bind keys myself
+  :preface
+  (defun add-winner-boring-buffer (name)
+    (after! winner
+      (appendq! winner-boring-buffers name)))
+
+  (defvar winner-dont-bind-my-keys t) ; I'll bind keys myself
   :config
   (appendq! winner-boring-buffers
             '("*Completions*" "*Compile-Log*" "*inferior-lisp*"
