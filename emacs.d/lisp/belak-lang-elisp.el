@@ -3,6 +3,30 @@
 (require 'belak-core)
 (require 'belak-dev)
 
+;;
+;;; Packages
+
+(use-package macrostep
+  :general
+  (:keymaps '(emacs-lisp-mode-map)
+            "C-c e" #'macrostep-expand))
+
+
+;;
+;;; Functions
+
+(defun belak--eval-region-or-buffer ()
+  (interactive)
+  (if (region-active-p)
+      (eval-region (region-beginning) (region-end))
+    (eval-buffer)))
+
+
+;;
+;;; Tweaks
+
+(bind-key "C-c :" 'belak--eval-region-or-buffer)
+
 (after! flycheck
   (setq flycheck-emacs-lisp-load-path 'inherit)
 
@@ -22,12 +46,6 @@
 
   (add-hook 'flycheck-mode-hook #'belak--flycheck-emacs-config-h))
 
-;; TODO: bind this to something
-(defun belak--eval-region-or-buffer ()
-  (interactive)
-  (if (region-active-p)
-      (eval-region (region-beginning) (region-end))
-    (eval-buffer)))
 
 (provide 'belak-lang-elisp)
 ;;; belak-lang-elisp.el ends here.

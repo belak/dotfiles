@@ -4,7 +4,7 @@
 (require 'belak-dev)
 
 ;;
-;;; Javascript
+;;; JavaScript
 
 ;; After trying a number of js setups, I've settled on this one because it's
 ;; simple and doesn't try to do too much. When the community moves as fast as
@@ -28,6 +28,7 @@
   :hook
   (typescript-mode . tide-setup)
   (typescript-mode . tide-hl-identifier-mode))
+
 
 ;;
 ;;; HTML

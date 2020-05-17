@@ -2,22 +2,23 @@
 
 (require 'belak-core)
 
+;;
+;;; Packages
+
 (use-package mu4e
   :straight nil
   :load-path "/usr/local/share/emacs/site-lisp/mu/mu4e"
   :commands mu4e
   :config
   (setq
-   mue4e-headers-skip-duplicates  t
+   mu4e-headers-skip-duplicates  t
    mu4e-view-show-images t
    mu4e-view-show-addresses t
    mu4e-compose-format-flowed nil
-   mu4e-date-format "%y/%m/%d"
+   mu4e-date-format-long "%y/%m/%d"
    mu4e-headers-date-format "%Y/%m/%d"
    mu4e-change-filenames-when-moving t
-   mu4e-attachments-dir "~/Downloads"
-
-   mu4e-maildir       "~/.maildir"   ;; top-level Maildir
+   mu4e-attachment-dir "~/Downloads"
 
    ;; note that these folders below must start with / the paths are
    ;; relative to maildir root

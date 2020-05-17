@@ -2,18 +2,8 @@
 
 (require 'belak-core)
 
-(use-package eldoc
-  :delight
-  :straight nil
-  :hook (prog-mode . eldoc-mode)
-  :config
-  (setq eldoc-idle-delay 0.1))
-
-(use-package remember
-  :straight nil
-  :commands remember remember-notes
-  :config
-  (setq remember-notes-initial-major-mode 'gfm-mode))
+;;
+;;; Packages
 
 (use-package company
   :delight
@@ -44,7 +34,6 @@
         company-require-match 'never
         company-tooltip-flip-when-above t))
 
-
 (use-package dired
   :straight nil
   :general
@@ -63,15 +52,6 @@
 (use-package diredfl
   :hook (dired-mode . diredfl-mode))
 
-;; hl-todo simply highlights TODO and other similar comments to make them easier
-;; to find. I originally used fic-mode, but it appears that hl-todo is a little
-;; better and is updated more frequently.
-(use-package hl-todo
-  :hook (prog-mode . hl-todo-mode)
-  :config
-  ;; TODO: tweak hl-todo-keyword-faces, maybe remove most of them
-  (setq hl-todo-highlight-punctuation ":"))
-
 ;; We use `diff-hl' rather than `git-gutter' because it seems to be better
 ;; supported.
 (use-package diff-hl
@@ -88,6 +68,19 @@
   ;; still display.
   (unless IS-GUI
     (add-hook 'diff-hl-mode-hook #'diff-hl-margin-mode)))
+
+(use-package editorconfig
+  :delight
+  :hook
+  (prog-mode . editorconfig-mode)
+  (text-mode . editorconfig-mode))
+
+(use-package eldoc
+  :delight
+  :straight nil
+  :hook (prog-mode . eldoc-mode)
+  :config
+  (setq eldoc-idle-delay 0.1))
 
 ;; flycheck-mode is used for linters and catching compilation errors.
 (use-package flycheck
@@ -114,27 +107,38 @@
   (text-mode . flyspell-mode)
   (prog-mode . flyspell-prog-mode))
 
+;; hl-todo simply highlights TODO and other similar comments to make them easier
+;; to find. I originally used fic-mode, but it appears that hl-todo is a little
+;; better and is updated more frequently.
+(use-package hl-todo
+  :hook (prog-mode . hl-todo-mode)
+  :config
+  ;; TODO: tweak hl-todo-keyword-faces, maybe remove most of them
+  (setq hl-todo-highlight-punctuation ":"))
+
 (use-package magit
   :general
   ("C-c g" 'magit-status)
   :config
   (setq magit-auto-revert-mode nil))
 
-(use-package editorconfig
-  :delight
-  :hook
-  (prog-mode . editorconfig-mode)
-  (text-mode . editorconfig-mode))
-
+;; Project based navigation is how I deal with code. This tracks projects to
+;; make it easier to navigate between them.
 (use-package projectile
   :commands (projectile-project-p projectile-mode)
   :general ("C-c p" '(:keymap projectile-command-map))
   :config (projectile-mode +1))
 
-;; rainbow-mode makes it easier to see colors, but I don't use it very
-;; often so I leave it disabled unless called.
+;; rainbow-mode makes it easier to see colors, but I don't use it very often so
+;; I leave it disabled unless called.
 (use-package rainbow-mode
   :commands rainbow-mode)
+
+(use-package remember
+  :straight nil
+  :commands remember remember-notes
+  :config
+  (setq remember-notes-initial-major-mode 'gfm-mode))
 
 
 ;;

@@ -2,6 +2,9 @@
 
 (require 'belak-core)
 
+;;
+;;; Packages
+
 (use-package cmake-mode
   :mode
   "CMakeLists\\.txt"
