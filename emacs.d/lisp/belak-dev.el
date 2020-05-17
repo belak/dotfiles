@@ -82,7 +82,7 @@
   :config
   (setq eldoc-idle-delay 0.1))
 
-;; flycheck-mode is used for linters and catching compilation errors.
+;; `flycheck-mode' is used for linters and catching compilation errors.
 (use-package flycheck
   :delight
   :hook (prog-mode . flycheck-mode)
@@ -90,6 +90,14 @@
   ;; The default flycheck settings are a bit too agressive - we really only want
   ;; to check when the file is loaded or saved.
   (setq flycheck-check-syntax-automatically '(mode-enabled save idle-buffer-switch))
+
+  ;; Because we check much less often, we need to re-check buffers when a small
+  ;; change was made in another buffer, ignoring the delay. This allows fast
+  ;; changes to things like configuration files.
+  (setq flycheck-buffer-switch-check-intermediate-buffers t)
+
+  ;; Display errors a little quicker (default is 0.9s)
+  (setq flycheck-display-errors-delay 0.25)
 
   ;; We change the double arrow to be a triangle because it looks cleaner.
   (when (fboundp 'define-fringe-bitmap)
