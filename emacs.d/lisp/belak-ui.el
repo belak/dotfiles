@@ -180,7 +180,7 @@
 ;; Make Emacs split windows in a more sane way.
 (setq window-combination-resize t)
 
-;; Make resizing the window much more plesant when using a gui.
+;; Make resizing the window much more plesant when using a GUI.
 (setq frame-resize-pixelwise t)
 
 ;; Underline looks a bit better when drawn lower
