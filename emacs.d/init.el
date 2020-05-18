@@ -38,13 +38,10 @@
   (require 'belak-tools-email)) ; mu4e and friends
 
 ;; TODO: look into smartparens (see https://github.com/MatthewZMD/.emacs.d/blob/master/elisp/init-parens.el and Emacs Prelude for inspiration)
-;; TODO: look into ivy
-;; TODO: look into helm
 ;; TODO: look into dired
 ;; TODO: look into hydra
 ;; TODO: look into enh-ruby-mode
 ;; TODO: look into yasnippet and a way to have default empty file buffers
-;; TODO: look into macrostep
 ;; TODO: look into visual-fill-column
 ;; TODO: look into undo-tree
 ;; TODO: look into focus-mode
