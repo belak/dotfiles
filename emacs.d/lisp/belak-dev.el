@@ -53,8 +53,7 @@
 (use-package diredfl
   :hook (dired-mode . diredfl-mode))
 
-;; We use `diff-hl' rather than `git-gutter' because it seems to be better
-;; supported.
+;; Display changed/removed lines in the fringe.
 (use-package diff-hl
   ;; Enable `diff-hl' for programming, text, and `dired-mode'.
   :hook (prog-mode          . diff-hl-mode)

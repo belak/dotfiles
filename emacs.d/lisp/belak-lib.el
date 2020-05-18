@@ -34,7 +34,6 @@ If FETCHER is a function, ELT is used as the key in LIST (an alist)."
                   elt)
                ,list)))
 
-
 (defmacro appendq! (sym &rest lists)
   "Append LISTS to SYM in-place."
   `(setq ,sym (append ,sym ,@lists)))
