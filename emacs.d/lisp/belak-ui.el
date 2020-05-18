@@ -15,8 +15,8 @@
        (add-transient-hook! window-setup-hook (load-theme ',name t)))))
 
 ;;(load-theme! grayscale)                 ; A simple mostly grayscale theme
-;;(load-theme! monokai-pro)               ; Based on the VSCode/Sublime themes
-(load-theme! modus-vivendi)             ; A very accessible theme
+(load-theme! monokai-pro)               ; Based on the VSCode/Sublime themes
+;;(load-theme! modus-vivendi)             ; A very accessible theme
 ;;(load-theme! nord)                      ; Trying this one out
 ;;(load-theme! zenburn)                   ; Oldie but a goodie
 
