@@ -28,16 +28,11 @@
 ;;
 ;;; Packages
 
+;; Make it clearer which window you're switching to when using C-x o.
 (use-package ace-window
   :bind ("C-x o" . ace-window))
 
-(use-package hl-line
-  :straight nil
-  :hook ((prog-mode text-mode conf-mode) . hl-line-mode)
-  :config
-  (setq hl-line-sticky-flag nil
-        global-hl-line-sticky-flag nil))
-
+;; We want line numbers to make it easier when using prefix commands.
 (use-package display-line-numbers
   :straight nil
   :hook (prog-mode . display-line-numbers-mode)
@@ -48,6 +43,9 @@
                 display-line-numbers-width 3
                 display-line-numbers-widen t))
 
+;; The `doom-modeline' package seems to match exactly what I want out of a
+;; modeline. It's simple, doesn't display minor modes by default, and looks
+;; pretty good.
 (use-package doom-modeline
   :hook (after-init . doom-modeline-mode)
   :config
@@ -61,6 +59,19 @@
   (setq doom-modeline-icon nil
         doom-modeline-height 0))
 
+;; Highlight the current line to make the cursor easier to find.
+(use-package hl-line
+  :straight nil
+  :hook ((prog-mode text-mode conf-mode) . hl-line-mode)
+  :config
+  ;; Make it so it only displays a highlighted line in the currently selected
+  ;; buffer.
+  (setq hl-line-sticky-flag nil
+        global-hl-line-sticky-flag nil))
+
+;; We want to make it easier to tame random windows and popups that show up.
+;; Most of the configuration for this happens in other packages and will call
+;; `add-shackle-rule'.
 (use-package shackle
   :preface
   (defun add-shackle-rule (rule)
@@ -75,35 +86,6 @@
        shackle-inhibit-window-quit-on-same-windows t)
 
   (shackle-mode))
-
-;; undo/redo changes to Emacs' window layout
-(use-package winner
-  ;;:after-call after-find-file doom-switch-window-hook
-  :preface
-  (defun add-winner-boring-buffer (name)
-    (after! winner
-      (appendq! winner-boring-buffers name)))
-
-  (defvar winner-dont-bind-my-keys t) ; I'll bind keys myself
-  :config
-  (appendq! winner-boring-buffers
-            '("*Completions*" "*Compile-Log*" "*inferior-lisp*"
-              "*Fuzzy Completions*" "*Apropos*" "*Help*" "*cvs*"
-              "*Buffer List*" "*Ibuffer*" "*esh command on file*"))
-  (winner-mode +1))
-
-;; TODO: doom uses some hacks to approximate this, potentially faster.
-;; TODO: prelude has a nice way of optionally enabling `whitespace' for certain modes
-(use-package whitespace
-  :delight global-whitespace-mode
-  :straight nil
-  :config
-  (setq whitespace-style '(trailing face tabs tab-mark lines-tail)
-        whitespace-display-mappings '((space-mark 32 [183] [46])
-                                      (newline-mark 10 [182 10])
-                                      (tab-mark 9 [9655 9] [92 9])))
-  (global-whitespace-mode t)
-  (setq whitespace-global-modes '(text-mode prog-mode org-mode)))
 
 ;; Improve usability by showing key binds when we stop typing for long enough.
 (use-package which-key
@@ -120,6 +102,35 @@
   (which-key-setup-side-window-bottom)
 
   (which-key-mode 1))
+
+;; TODO: doom uses some hacks to approximate this, potentially faster.
+;; TODO: prelude has a nice way of optionally enabling `whitespace' for certain modes
+(use-package whitespace
+  :delight global-whitespace-mode
+  :straight nil
+  :config
+  (setq whitespace-style '(trailing face tabs tab-mark lines-tail)
+        whitespace-display-mappings '((space-mark 32 [183] [46])
+                                      (newline-mark 10 [182 10])
+                                      (tab-mark 9 [9655 9] [92 9])))
+  (global-whitespace-mode t)
+  (setq whitespace-global-modes '(text-mode prog-mode org-mode)))
+
+;; undo/redo changes to Emacs' window layout
+(use-package winner
+  ;;:after-call after-find-file doom-switch-window-hook
+  :preface
+  (defun add-winner-boring-buffer (name)
+    (after! winner
+      (appendq! winner-boring-buffers name)))
+
+  (defvar winner-dont-bind-my-keys t) ; I'll bind keys myself
+  :config
+  (appendq! winner-boring-buffers
+            '("*Completions*" "*Compile-Log*" "*inferior-lisp*"
+              "*Fuzzy Completions*" "*Apropos*" "*Help*" "*cvs*"
+              "*Buffer List*" "*Ibuffer*" "*esh command on file*"))
+  (winner-mode +1))
 
 
 ;;
