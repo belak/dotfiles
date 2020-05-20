@@ -12,12 +12,10 @@
 ;; config to keep working.
 
 (use-package js2-mode
-  :delight
-  (js2-mode "JS")
-  (js2-jsx-mode "JSX")
-  :mode
-  ("\\.js\\'" . js2-mode)
-  ("\\.jsx\\'" . js2-jsx-mode)
+  :blackout ((js2-mode     . "JS")
+             (js2-jsx-mode . "JSX"))
+  :mode (("\\.js\\'"  . js2-mode)
+         ("\\.jsx\\'" . js2-jsx-mode))
   :interpreter ("node" . js2-mode))
 
 (use-package typescript-mode
@@ -33,8 +31,7 @@
 ;;
 ;;; HTML
 
-(use-package nxml-mode
-  :straight nil
+(use-feature nxml-mode
   :mode "\\.xml\\'"
   :config
   ;; Automatically complete closing tags

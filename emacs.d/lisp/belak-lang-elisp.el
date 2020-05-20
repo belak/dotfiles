@@ -7,9 +7,8 @@
 ;;; Packages
 
 (use-package macrostep
-  :general
-  (:keymaps '(emacs-lisp-mode-map)
-            "C-c e" #'macrostep-expand))
+  :bind (:map emacs-lisp-mode-map
+              ("C-c e" . #'macrostep-expand)))
 
 
 ;;

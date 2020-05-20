@@ -23,12 +23,14 @@
     (add-hook 'before-save-hook 'gofmt-before-save nil t)))
 
 (use-package company-go
+  :demand t
   :after (go-mode company)
   :config
   (setq company-go-show-annotation t)
   (set-company-backend! go-mode-hook company-go))
 
 (use-package go-eldoc
+  :demand t
   :after go-mode
   :hook (go-mode . go-eldoc-setup))
 

@@ -12,11 +12,13 @@
   ("\\.exs\\'" . elixir-mode))
 
 (use-package alchemist
+  :demand t
   :after elixir-mode
   :hook (elixir-mode . alchemist-mode)
   :config (set-company-backend! elixir-mode-hook alchemist-company))
 
 (use-package flycheck-credo
+  :demand t
   :after (alchemist flycheck)
   :config (flycheck-credo-setup))
 

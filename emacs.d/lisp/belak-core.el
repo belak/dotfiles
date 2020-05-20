@@ -22,8 +22,8 @@
 ;;; Package Management
 
 ;; This is the official bootstrap code from the straight.el repo. In addition,
-;; we use this to make sure `use-package', `delight' and `general' are installed
-;; so we can use them with the rest of our configuration.
+;; we use this to make sure `use-package', and `blackout' are installed so we
+;; can use them with the rest of our configuration.
 
 (defvar bootstrap-version)
 (let ((bootstrap-file
@@ -39,18 +39,38 @@
   (load bootstrap-file nil 'nomessage))
 
 (require 'straight)
+
+;; By default, use straight to install a package of the same name. This can be
+;; overridden with `:straight nil'
 (setq straight-use-package-by-default t)
 
 ;; Install the core packages we'll need for the rest of the configuration.
 (straight-use-package 'use-package)
-(straight-use-package 'delight)
-(straight-use-package 'general)
+(straight-use-package 'bind-key)
+(straight-use-package 'blackout)
+
+;; TODO: migrate back to general
 
 (eval-when-compile
   (require 'use-package))
-(require 'general)
-(require 'delight)
+(require 'bind-key)
+(require 'blackout)
 
+(defmacro use-feature (name &rest args)
+  "Like `use-package', but disables straight integration.
+NAME and ARGS are as in `use-package'."
+  (declare (indent defun))
+  `(use-package ,name
+     :straight nil
+     ,@args))
+
+;; Tell `use-package' to always load features lazily unless told otherwise. It's
+;; nicer to have this kind of thing be deterministic: if `:demand' is present,
+;; the loading is eager; otherwise, the loading is lazy. This lets us use
+;; `use-feature' similar to how the `after!' macro works in Doom Emacs.
+;;
+;; See https://github.com/jwiegley/use-package#notes-about-lazy-loading.
+(setq use-package-always-defer t)
 
 ;;
 ;;; Optimizations
@@ -74,14 +94,14 @@
 ;; gcmh-mode after a command has been run in order to properly start the GC
 ;; again.
 (use-package gcmh
-  :delight
+  :blackout
   :commands gcmh-mode
   :hook (focus-out . gcmh-idle-garbage-collect)
   :init
   (add-transient-hook! pre-command-hook (gcmh-mode +1))
   :config
   (setq gcmh-idle-delay 10
-        gcmh-high-cons-threshold (* 16 1024 1024))) ; 16MB
+        gcmh-high-cons-threshold (* 100 1024 1024))) ; 100MB
 
 ;; So Long mitigates slowness due to extremely long lines. Currently available
 ;; in Emacs master branch only, so we fall back to the upstream.
@@ -96,18 +116,6 @@
 ;; performance win.
 (setq-default bidi-display-reordering  'left-to-right
               bidi-paragraph-direction 'left-to-right)
-
-;; Every require/load looks at this, so removing it gets us a small
-;; performance improvement. However we do want it set after loading everything,
-;; so we restore it after startup.
-(defvar belak--file-name-handler-alist file-name-handler-alist)
-(setq file-name-handler-alist nil)
-
-(defun belak--restore-file-name-handler-alist-h ()
-  "Restore the startup optimizations we previously made."
-  (setq file-name-handler-alist belak--file-name-handler-alist))
-
-(add-hook 'emacs-startup-hook #'belak--restore-file-name-handler-alist-h)
 
 ;; Faster scrolling over unfontified regions. This may provide
 ;; inaccurate fontification while scrolling.
@@ -131,6 +139,7 @@
 ;; here.
 
 (use-package exec-path-from-shell
+  :demand t
   :if (and IS-GUI (or IS-MAC IS-LINUX))
   :config
   (setq exec-path-from-shell-check-startup-files nil)
@@ -148,6 +157,7 @@
 ;; every package we load if possible.
 
 (use-package no-littering
+  :demand t
   :preface
   (setq no-littering-etc-directory
 	(expand-file-name ".local/etc/" user-emacs-directory))
@@ -196,6 +206,7 @@
 ;; Remember files we were recently in. We also clean up `recentf' when Emacs
 ;; quits, so it should be only for the existing session.
 (use-package recentf
+  :demand t
   :straight nil
   :after no-littering
   :hook (kill-emacs . recentf-cleanup)
