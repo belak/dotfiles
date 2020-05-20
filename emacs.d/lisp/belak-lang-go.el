@@ -37,7 +37,8 @@
 ;;
 ;;; Tweaks
 
-(after! projectile
+(use-feature projectile
+  :config
   (add-to-list 'projectile-project-root-files "go.mod"))
 
 (provide 'belak-lang-go)
