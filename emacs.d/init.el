@@ -13,12 +13,16 @@
 
 ;; And awaaaaaaayyyy we go.
 (let ((debug-on-error t)
-      (debug-on-quit t))
+      (debug-on-quit t)
+      ;; Every require/load looks at this, so removing it gets us a small
+      ;; performance improvement. However we do want it set after loading
+      ;; everything, so we use let so this will return to normal after this
+      ;; block.
+      (file-name-handler-alist nil))
   (require 'belak-core)         ; low level setup
   (require 'belak-ui)           ; make things pretty... well, prettier
   (require 'belak-editor)       ; load the text editing portion of this OS
-  (require 'belak-evil)         ; muahahahaha
-  (require 'belak-ido)          ; improvements on completing-read
+  (require 'belak-selectrum)    ; improvements on completing-read
   (require 'belak-org)          ; the best reason to use emacs
 
   ;; macOS specific tweaks

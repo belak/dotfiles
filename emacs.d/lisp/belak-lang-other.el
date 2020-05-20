@@ -40,8 +40,7 @@
   :hook
   (ruby-mode . subword-mode))
 
-(use-package sh-mode
-  :straight nil
+(use-feature sh-mode
   :mode
   "\\.zsh\\'"
   "\\.sh\\'"

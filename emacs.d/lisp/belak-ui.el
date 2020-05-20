@@ -11,6 +11,7 @@
 (defmacro load-theme! (name &optional package)
   (let ((package-name (if package package (intern (format "%s-theme" name)))))
     `(use-package ,package-name
+       :demand t
        :config
        (add-transient-hook! window-setup-hook (load-theme ',name t)))))
 
@@ -19,6 +20,7 @@
 ;;(load-theme! modus-vivendi)             ; A very accessible theme
 ;;(load-theme! nord)                      ; Trying this one out
 ;;(load-theme! zenburn)                   ; Oldie but a goodie
+;;(load-theme! zerodark)                  ; based on some old themes I liked
 
 ;;(load-theme!                            ; One set of themes I maintain, so I try
 ;; base16-default-dark                    ; to keep this around even when I'm not
@@ -33,8 +35,7 @@
   :bind ("C-x o" . ace-window))
 
 ;; We want line numbers to make it easier when using prefix commands.
-(use-package display-line-numbers
-  :straight nil
+(use-feature display-line-numbers
   :hook (prog-mode . display-line-numbers-mode)
   :hook (text-mode . display-line-numbers-mode)
   :hook (conf-mode . display-line-numbers-mode)
@@ -60,8 +61,7 @@
         doom-modeline-height 0))
 
 ;; Highlight the current line to make the cursor easier to find.
-(use-package hl-line
-  :straight nil
+(use-feature hl-line
   :hook ((prog-mode text-mode conf-mode) . hl-line-mode)
   :config
   ;; Make it so it only displays a highlighted line in the currently selected
@@ -69,10 +69,16 @@
   (setq hl-line-sticky-flag nil
         global-hl-line-sticky-flag nil))
 
+;; If we ever accidentally end up in a buffer list, this should make sure it
+;; looks decent.
+(use-feature ibuffer
+  :bind (([remap list-buffers] . #'ibuffer)))
+
 ;; We want to make it easier to tame random windows and popups that show up.
 ;; Most of the configuration for this happens in other packages and will call
 ;; `add-shackle-rule'.
 (use-package shackle
+  :hook (pre-command-hook . shackle-mode)
   :preface
   (defun add-shackle-rule (rule)
     (after! shackle
@@ -83,14 +89,14 @@
         (("*shell*" "*eshell*") :popup t))
        shackle-default-rule '(:select t)
        shackle-default-size 0.4
-       shackle-inhibit-window-quit-on-same-windows t)
-
-  (shackle-mode))
+       shackle-inhibit-window-quit-on-same-windows t))
 
 ;; Improve usability by showing key binds when we stop typing for long enough.
 (use-package which-key
-  :defer 1
-  :delight
+  :blackout
+  :demand t
+  ;; Unbind C-h C-h so our manual trigger will work properly.
+  :bind ("C-h C-h" . nil)
   :config
   (setq which-key-sort-order 'which-key-prefix-then-key-order
         which-key-sort-uppercase-first nil
@@ -99,15 +105,29 @@
         which-key-min-display-lines 6
         which-key-side-window-slot -10)
 
+  ;; Set up which-key to only display when C-h is pressed.
+  (setq which-key-show-early-on-C-h t
+        which-key-idle-delay most-positive-fixnum
+        which-key-idle-secondary-delay 1e-100)
+
   (which-key-setup-side-window-bottom)
 
   (which-key-mode 1))
 
+;; Provide shortcuts to move between windows with S-<arrow>.
+;;
+;; TODO: this conflicts with shift+arrows to select so it is currently disabled.
+(use-feature windmove
+  :disabled t
+  :demand t
+  :config
+  (windmove-default-keybindings))
+
 ;; TODO: doom uses some hacks to approximate this, potentially faster.
 ;; TODO: prelude has a nice way of optionally enabling `whitespace' for certain modes
-(use-package whitespace
-  :delight global-whitespace-mode
-  :straight nil
+(use-feature whitespace
+  :blackout global-whitespace-mode
+  :demand t
   :config
   (setq whitespace-style '(trailing face tabs tab-mark lines-tail)
         whitespace-display-mappings '((space-mark 32 [183] [46])
@@ -118,11 +138,11 @@
 
 ;; undo/redo changes to Emacs' window layout
 (use-package winner
-  ;;:after-call after-find-file doom-switch-window-hook
+  :demand t
   :preface
   (defun add-winner-boring-buffer (name)
     (after! winner
-      (appendq! winner-boring-buffers name)))
+      (appendq! winner-boring-buffers (list name))))
 
   (defvar winner-dont-bind-my-keys t) ; I'll bind keys myself
   :config

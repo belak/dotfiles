@@ -7,7 +7,7 @@
 ;;; Packages
 
 (use-package company
-  :delight
+  :blackout
   :preface
   (defmacro set-company-backend! (hook backend)
     `(add-hook ',hook (lambda ()
@@ -35,24 +35,6 @@
         company-require-match 'never
         company-tooltip-flip-when-above t))
 
-(use-package dired
-  :straight nil
-  :general
-  (:keymaps '(dired-mode-map)
-            "q" #'belak--dired-quit-all)
-  :config
-  ;; TODO: there's an alternate way used here which replaces the current buffer
-  ;; rather than killing all of them at the end:
-  ;; https://github.com/MatthewZMD/.emacs.d/blob/master/elisp/init-dired.el
-  (defun belak--dired-quit-all ()
-    (interactive)
-    (mapc #'kill-buffer (belak-buffers-in-mode 'dired-mode))
-    (message "Killed all dired buffers")))
-
-;; Add fancier colors to `dired-mode'.
-(use-package diredfl
-  :hook (dired-mode . diredfl-mode))
-
 ;; Display changed/removed lines in the fringe.
 (use-package diff-hl
   ;; Enable `diff-hl' for programming, text, and `dired-mode'.
@@ -69,22 +51,37 @@
   (unless IS-GUI
     (add-hook 'diff-hl-mode-hook #'diff-hl-margin-mode)))
 
+(use-feature dired
+  :bind (:map dired-mode-map
+              ("q" . #'belak--dired-quit-all))
+  :config
+  ;; TODO: there's an alternate way used here which replaces the current buffer
+  ;; rather than killing all of them at the end:
+  ;; https://github.com/MatthewZMD/.emacs.d/blob/master/elisp/init-dired.el
+  (defun belak--dired-quit-all ()
+    (interactive)
+    (mapc #'kill-buffer (belak-buffers-in-mode 'dired-mode))
+    (message "Killed all dired buffers")))
+
+;; Add fancier colors to `dired-mode'.
+(use-package diredfl
+  :hook (dired-mode . diredfl-mode))
+
 (use-package editorconfig
-  :delight
+  :blackout
   :hook
   (prog-mode . editorconfig-mode)
   (text-mode . editorconfig-mode))
 
-(use-package eldoc
-  :delight
-  :straight nil
+(use-feature eldoc
+  :blackout
   :hook (prog-mode . eldoc-mode)
   :config
   (setq eldoc-idle-delay 0.1))
 
 ;; `flycheck-mode' is used for linters and catching compilation errors.
 (use-package flycheck
-  :delight
+  :blackout
   :hook (prog-mode . flycheck-mode)
   :config
   ;; The default flycheck settings are a bit too agressive - we really only want
@@ -113,12 +110,17 @@
   (add-shackle-rule '(flycheck-error-list-mode :noselect t :align 'below :size 7))
   (add-winner-boring-buffer "*Flycheck errors*"))
 
-(use-package flyspell
-  :delight
-  :straight nil
+(use-feature flyspell
+  :blackout
   :hook
   (text-mode . flyspell-mode)
   (prog-mode . flyspell-prog-mode))
+
+(use-package git-link
+  :commands git-link
+  :config
+  ;; Use the commit hash rather than the branch name in the URL.
+  (setq git-link-use-commit t))
 
 ;; hl-todo simply highlights TODO and other similar comments to make them easier
 ;; to find. I originally used fic-mode, but it appears that hl-todo is a little
@@ -131,8 +133,8 @@
 
 ;; `magit' is one of the best git interfaces I've ever used.
 (use-package magit
-  :general
-  ("C-c g" 'magit-status)
+  :bind
+  ("C-c g" . #'magit-status)
   :config
   (setq magit-auto-revert-mode nil)
 
@@ -141,29 +143,49 @@
 ;; Project based navigation is how I deal with code. This tracks projects to
 ;; make it easier to navigate between them.
 (use-package projectile
+  :blackout
   :commands (projectile-project-p projectile-mode)
-  :general ("C-c p" '(:keymap projectile-command-map))
-  :config (projectile-mode +1))
+  :bind-keymap ("C-c p" . projectile-command-map)
+  :config
+  ;; Strangely the default for projectile is `ido', not `default' as the name
+  ;; would imply. We tame this so we can use it with whatever completing-read
+  ;; function we want.
+  (setq projectile-completion-system 'default)
+  (projectile-mode +1))
 
 ;; rainbow-mode makes it easier to see colors, but I don't use it very often so
 ;; I leave it disabled unless called.
 (use-package rainbow-mode
   :commands rainbow-mode)
 
-(use-package remember
-  :straight nil
+(use-feature remember
   :commands remember remember-notes
   :config
   (setq remember-notes-initial-major-mode 'gfm-mode))
+
+;; Feature `smerge-mode' provides an interactive mode for visualizing and
+;; resolving Git merge conflicts.
+(use-feature smerge-mode
+  :blackout)
+
+;; Because we use `magit' we really just want to disable the built-in Emacs VC
+;; support. This improves performance in a number of instances.
+(use-feature vc-hooks
+  :config
+
+  ;; Disable VC. This improves performance and disables some annoying
+  ;; warning messages and prompts, especially regarding symlinks. See
+  ;; https://stackoverflow.com/a/6190338/3538165.
+  (setq vc-handled-backends nil))
 
 
 ;;
 ;;; Mode Tweaks
 
 ;; Make the lisp mode names a bit shorter
-(delight 'lisp-interaction-mode "λ»")
-(delight 'emacs-lisp-mode "Eλ")
-(delight 'lisp-mode "λ")
+(blackout 'lisp-interaction-mode "λ»")
+(blackout 'emacs-lisp-mode "Eλ")
+(blackout 'lisp-mode "λ")
 
 ;; Auto wrap text in text-mode.
 (add-hook 'text-mode-hook #'auto-fill-mode)

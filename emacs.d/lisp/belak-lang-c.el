@@ -26,12 +26,14 @@
 
 ;; Add completion support
 (use-package company-irony
+  :demand t
   :after (irony company)
   :config
   (set-company-backend! irony-mode-hook company-irony))
 
 ;; Add linting support
 (use-package flycheck-irony
+  :demand t
   :after (irony flycheck)
   :config
   (add-hook 'flycheck-mode-hook #'flycheck-irony-setup))

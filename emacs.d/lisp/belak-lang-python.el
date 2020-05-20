@@ -11,8 +11,7 @@
 ;; anaconda-mode and pyenv. It provides a nice mix of tweakability and
 ;; convenience.
 
-(use-package python
-  :straight nil
+(use-feature python
   :mode ("\\.py\\'" . python-mode)
   :interpreter
   ("python"  . python-mode)
@@ -25,12 +24,13 @@
 (use-package anaconda-mode
   :diminish anaconda-mode
   :after python
-  :hook python-mode
+  :hook (python-mode . anaconda-mode)
   :init
   (setq anaconda-mode-installation-directory "~/.emacs.d/.local/anaconda-mode")
   :hook (anaconda-mode . anaconda-eldoc-mode))
 
 (use-package company-anaconda
+  :demand t
   :after (anaconda-mode company)
   :config (set-company-backend! python-mode-hook company-anaconda))
 
@@ -53,9 +53,8 @@
 ;; 'this' to strings like "this".
 (use-package python-switch-quotes
   :after python
-  :general
-  (:keymaps 'python-mode-map
-            "C-c '" 'python-switch-quotes))
+  :bind (:map python-mode-map
+              ("C-c '" . #'python-switch-quotes)))
 
 ;; This adds some basic features for requirements files, such as highlighting
 ;; and auto-completion of names from PyPI.
