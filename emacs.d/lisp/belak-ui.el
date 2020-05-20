@@ -58,7 +58,16 @@
   ;; HACK: These two settings need to be set in order to remove what looks like
   ;; padding from the modeline.
   (setq doom-modeline-icon nil
-        doom-modeline-height 0))
+        doom-modeline-height 0
+        doom-modeline-buffer-file-name-style 'relative-to-project
+        doom-modeline-buffer-encoding nil))
+
+;; Replace the default help buffers with helpful because it's much prettier.
+(use-package helpful
+  :bind
+  ("C-h f" . #'helpful-function)
+  ("C-h v" . #'helpful-variable)
+  ("C-h k" . #'helpful-key))
 
 ;; Highlight the current line to make the cursor easier to find.
 (use-feature hl-line
@@ -96,9 +105,9 @@
 ;; Improve usability by showing key binds when we stop typing for long enough.
 (use-package which-key
   :blackout
-  :demand t
   ;; Unbind C-h C-h so our manual trigger will work properly.
   :bind ("C-h C-h" . nil)
+  :hook (after-init . which-key-mode)
   :config
   (setq which-key-sort-order 'which-key-prefix-then-key-order
         which-key-sort-uppercase-first nil
@@ -112,9 +121,7 @@
         which-key-idle-delay most-positive-fixnum
         which-key-idle-secondary-delay 1e-100)
 
-  (which-key-setup-side-window-bottom)
-
-  (which-key-mode 1))
+  (which-key-setup-side-window-bottom))
 
 ;; Provide shortcuts to move between windows with S-<arrow>.
 ;;
@@ -146,8 +153,6 @@
     `(use-feature winner
        :config
        (appendq! winner-boring-buffers (list ,boring-buffer-name))))
-
-  (defvar winner-dont-bind-my-keys t) ; I'll bind keys myself
   :config
   (setq winner-boring-buffers
         '("*Completions*" "*Compile-Log*" "*inferior-lisp*"
@@ -231,6 +236,10 @@
 ;; just use `setq-default' because that includes buffers like `ido'.
 (add-hook 'prog-mode-hook (setq show-trailing-whitespace t))
 (add-hook 'text-mode-hook (setq show-trailing-whitespace t))
+
+;; Don't tell me about keybindings when I run a command with M-x. If I run a
+;; command enough, I'll look up or make a keybind.
+(setq suggest-key-bindings nil)
 
 
 ;;
