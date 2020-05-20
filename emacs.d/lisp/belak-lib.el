@@ -20,6 +20,47 @@
                         (memq (buffer-local-value 'major-mode buf) modes))
                       (buffer-list))))
 
+;; TODO: add a binding for this
+(defun belak-copy-buffer ()
+  "Copies the entire buffer to the kill-ring."
+  (interactive)
+  (copy-region-as-kill 1 (point-max)))
+
+
+;;
+;;; Sulami Utility Functions
+;;
+;; Originally
+;; https://github.com/sulami/dotfiles/blob/master/emacs/.emacs/README.org
+
+(defun belak-open-scratch-buffer ()
+  "Opens the scratch buffer."
+  (interactive)
+  (switch-to-buffer "*scratch*"))
+
+(defun belak-open-message-buffer ()
+  "Opens the message buffer."
+  (interactive)
+  (switch-to-buffer "*Messages*"))
+
+(defun belak-open-minibuffer ()
+  "Focusses the minibuffer, if active."
+  (interactive)
+  (when (active-minibuffer-window)
+    (select-window (minibuffer-window))))
+
+(defun belak-sort-words (beg end)
+  "Sorts words in region."
+  (interactive "r")
+  (sort-regexp-fields nil "\\w+" "\\&" beg end))
+
+(defun belak-what-face (pos)
+  (interactive "d")
+  (let ((face (or (get-char-property pos 'read-face-name)
+                  (get-char-property pos 'face))))
+    (if face
+        (message "Face: %s" face)
+      (message "No face at %d" pos))))
 
 ;;
 ;;; Macros
@@ -38,27 +79,6 @@ If FETCHER is a function, ELT is used as the key in LIST (an alist)."
   "Append LISTS to SYM in-place."
   `(setq ,sym (append ,sym ,@lists)))
 
-(defun file! ()
-  "Return the Emacs lisp file this macro is called from."
-  (cond ((bound-and-true-p byte-compile-current-file))
-	(load-file-name)
-	((stringp (car-safe current-load-list))
-	 (car current-load-list))
-	(buffer-file-name)
-	((error "Cannot get this file-path"))))
-
-(defun dir! ()
-  "Returns the directory of the Emacs lisp file this macro is called from."
-  (when-let (path (file!))
-	    (directory-file-name (file-name-directory path))))
-
-(defmacro load! (filename)
-  "Load a FILENAME relative to the current executing file."
-  `(let (file-name-handler-alist)
-     (load (expand-file-name ,filename (dir!)) nil 'nomessage)))
-
-(defvar belak--transient-counter 0)
-
 (defmacro add-transient-hook! (hook &rest forms)
   "Attaches a self-removing function NAME to a given HOOK."
   (declare (indent 1))
@@ -70,6 +90,14 @@ If FETCHER is a function, ELT is used as the key in LIST (an alist)."
          (unintern ',fn nil))
        (put ',fn 'permanent-local-hook t)
        (add-hook ',hook #',fn))))
+
+(defmacro use-feature (name &rest args)
+  "Like `use-package', but disables straight integration.
+NAME and ARGS are as in `use-package'."
+  (declare (indent defun))
+  `(use-package ,name
+     :straight nil
+     ,@args))
 
 
 ;;

@@ -39,10 +39,9 @@
   (require 'belak-lang-rust)    ; memory safety at the cost of sanity
   (require 'belak-lang-web)     ; the tubes
   (require 'belak-lang-other)   ; smaller language settings
-  (require 'belak-tools-email)) ; mu4e and friends
+  (require 'belak-tools))       ; utils too small for their own file
 
 ;; TODO: look into smartparens (see https://github.com/MatthewZMD/.emacs.d/blob/master/elisp/init-parens.el and Emacs Prelude for inspiration)
-;; TODO: look into dired
 ;; TODO: look into hydra
 ;; TODO: look into enh-ruby-mode
 ;; TODO: look into yasnippet and a way to have default empty file buffers
@@ -67,3 +66,7 @@
 ;; TODO: look into yasnippet
 ;; TODO: look into windmove, possibly with windmove-wrap-around
 ;; TODO: look into some method of jumping between windows
+;; TODO: look into winum
+;; TODO: look into fill-column-indicator
+;; TODO: look into verb or other http clients
+;; TODO: look into vterm

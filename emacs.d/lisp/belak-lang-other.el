@@ -23,7 +23,9 @@
   :mode "\\.lua\\'")
 
 (use-package markdown-mode
-  :mode ("\\.md\\'" . gfm-mode))
+  :mode ("\\.md\\'" . gfm-mode)
+  :config
+  (setq markdown-fontify-code-blocks-natively t))
 
 (use-package php-mode
   :mode "\\.php\\'")

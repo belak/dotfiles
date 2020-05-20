@@ -1,9 +1,9 @@
-;;; belak-tools-email -*- lexical-binding: t; -*-
+;;; belak-tools -*- lexical-binding: t; -*-
 
 (require 'belak-core)
 
 ;;
-;;; Packages
+;;; Email
 
 (use-feature mu4e
   :load-path "/usr/local/share/emacs/site-lisp/mu/mu4e"
@@ -33,5 +33,23 @@
   (define-key mu4e-headers-mode-map (kbd "d") 'my-move-to-trash)
   (define-key mu4e-view-mode-map (kbd "d") 'my-move-to-trash))
 
-(provide 'belak-tools-email)
-;;; belak-tools-email.el ends here
+
+;;
+;;; Various Tools
+
+(use-package esup
+  :commands esup)
+
+;; This provides functionality similar to soulver on macOS, but we can use it
+;; everywhere.
+(use-package literate-calc-mode
+  :mode ("\\.calc\\'" . literate-calc-mode))
+
+;; vterm is like all the built-in terminals, but even better because it uses
+;; libvterm which is pretty solid and handles most control sequences really
+;; well.
+(use-package vterm
+  :commands vterm)
+
+(provide 'belak-tools)
+;;; belak-tools.el ends here

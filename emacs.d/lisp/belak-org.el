@@ -47,6 +47,12 @@
    org-enforce-todo-dependencies t
    org-enforce-todo-checkbox-dependencies t
 
+   org-todo-keywords
+   '((sequence "TODO(t)" "WIP(p)" "WAITING(w)" "|" "DONE(d)" "CANCELLED(c)"))
+
+   ;; Open source blocks in the same window.
+   org-src-window-setup 'current-window
+
    ;; org-agenda settings
    org-log-done t
    org-log-done-with-time t

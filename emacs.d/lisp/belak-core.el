@@ -9,17 +9,14 @@
 
 
 ;;
-;;; Load lib
-
-;; This includes a number of utility functions, macros, and hooks which are
-;; helpful for the rest of the config. Including it as early as possible makes
-;; it easy for us to ensure it has been loaded.
-
-(require 'belak-lib)
-
-
-;;
 ;;; Package Management
+
+;; Make straight only check for modifications made inside Emacs - this greatly
+;; improves startup time at the expense of being able to edit package files
+;; outside Emacs. We also need to use custom-set-variables over `setq' because
+;; the variable may not have been loaded yet and this needs to be done before
+;; the bootstrap is called.
+(custom-set-variables '(straight-check-for-modifications '(check-on-save find-when-checking)))
 
 ;; This is the official bootstrap code from the straight.el repo. In addition,
 ;; we use this to make sure `use-package', and `blackout' are installed so we
@@ -41,28 +38,21 @@
 (require 'straight)
 
 ;; By default, use straight to install a package of the same name. This can be
-;; overridden with `:straight nil'
+;; overridden with `:straight nil'. We also provide a convenience macro called
+;; `use-feature' which works wraps `use-package' and disables straight.
 (setq straight-use-package-by-default t)
 
 ;; Install the core packages we'll need for the rest of the configuration.
 (straight-use-package 'use-package)
-(straight-use-package 'bind-key)
+(straight-use-package 'general)
 (straight-use-package 'blackout)
 
 ;; TODO: migrate back to general
 
 (eval-when-compile
   (require 'use-package))
-(require 'bind-key)
+(require 'general)
 (require 'blackout)
-
-(defmacro use-feature (name &rest args)
-  "Like `use-package', but disables straight integration.
-NAME and ARGS are as in `use-package'."
-  (declare (indent defun))
-  `(use-package ,name
-     :straight nil
-     ,@args))
 
 ;; Tell `use-package' to always load features lazily unless told otherwise. It's
 ;; nicer to have this kind of thing be deterministic: if `:demand' is present,
@@ -71,6 +61,18 @@ NAME and ARGS are as in `use-package'."
 ;;
 ;; See https://github.com/jwiegley/use-package#notes-about-lazy-loading.
 (setq use-package-always-defer t)
+
+
+;;
+;;; Load lib
+
+;; This includes a number of utility functions, macros, and hooks which are
+;; helpful for the rest of the config. Including it as early as possible makes
+;; it easy for us to ensure it has been loaded, but we do it after installing
+;; `use-package' because there are relevant utility functions there.
+
+(require 'belak-lib)
+
 
 ;;
 ;;; Optimizations
@@ -82,8 +84,9 @@ NAME and ARGS are as in `use-package'."
 ;; We'd like to know how long startup took. This isn't explicitly related to
 ;; optimization, but it is helpful for debugging startup times.
 (add-transient-hook! emacs-startup-hook
-  (message "Loaded in %.03fs"
-           (float-time (time-subtract (current-time) before-init-time))))
+  (let ((pkg-count (length (hash-table-keys straight--success-cache)))
+        (startup-time (float-time (time-subtract after-init-time before-init-time))))
+    (message "Loaded %d packages in %.03fs" pkg-count startup-time)))
 
 ;; This is a hack to make garbage collection happen when the user is idle.
 ;; There's a fairly high threshold when active and a fairly low threshold when
@@ -205,20 +208,20 @@ NAME and ARGS are as in `use-package'."
 
 ;; Remember files we were recently in. We also clean up `recentf' when Emacs
 ;; quits, so it should be only for the existing session.
-(use-package recentf
+(use-feature recentf
   :demand t
-  :straight nil
   :after no-littering
   :hook (kill-emacs . recentf-cleanup)
   :config
   (add-to-list 'recentf-exclude no-littering-var-directory)
-  (add-to-list 'recentf-exclude no-littering-etc-directory))
+  (add-to-list 'recentf-exclude no-littering-etc-directory)
+  (recentf-mode +1))
 
 
 ;;
 ;;; Tweaks
 
-;; This "fixes" any customizations we make so they don't polute the init.el. It
+;; This "fixes" any cus tomizations we make so they don't polute the init.el. It
 ;; allows usage of the customization interface if there's ever a need.
 (setq custom-file (expand-file-name "custom.el" user-emacs-directory))
 (when (file-exists-p custom-file)

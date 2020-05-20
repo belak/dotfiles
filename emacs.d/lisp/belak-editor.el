@@ -58,6 +58,14 @@
         show-paren-when-point-in-periphery t)
   (show-paren-mode +1))
 
+(use-package yasnippet
+  :blackout yas-minor-mode
+  :hook (prog-mode . yas-minor-mode))
+
+(use-package yasnippet-snippets
+  :demand t
+  :after yasnippet)
+
 ;;
 ;;; Tweaks
 
