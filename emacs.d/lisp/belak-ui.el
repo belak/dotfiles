@@ -81,15 +81,17 @@
   :hook (pre-command-hook . shackle-mode)
   :preface
   (defun add-shackle-rule (rule)
-    (after! shackle
+    (use-feature shackle
+      :config
       (appendq! shackle-rules (list rule))))
   :config
   (setq shackle-rules
-      '(("*Help*" :align t :select t)
-        (("*shell*" "*eshell*") :popup t))
-       shackle-default-rule '(:select t)
-       shackle-default-size 0.4
-       shackle-inhibit-window-quit-on-same-windows t))
+        '(("*Help*" :align t :select t)
+          ("*Warnings*" :popup t)
+          (("*shell*" "*eshell*") :popup t))
+        shackle-default-rule '(:select t)
+        shackle-default-size 0.4
+        shackle-inhibit-window-quit-on-same-windows t))
 
 ;; Improve usability by showing key binds when we stop typing for long enough.
 (use-package which-key
@@ -140,16 +142,17 @@
 (use-package winner
   :demand t
   :preface
-  (defun add-winner-boring-buffer (name)
-    (after! winner
-      (appendq! winner-boring-buffers (list name))))
+  (defmacro add-winner-boring-buffer (boring-buffer-name)
+    `(use-feature winner
+       :config
+       (appendq! winner-boring-buffers (list ,boring-buffer-name))))
 
   (defvar winner-dont-bind-my-keys t) ; I'll bind keys myself
   :config
-  (appendq! winner-boring-buffers
-            '("*Completions*" "*Compile-Log*" "*inferior-lisp*"
-              "*Fuzzy Completions*" "*Apropos*" "*Help*" "*cvs*"
-              "*Buffer List*" "*Ibuffer*" "*esh command on file*"))
+  (setq winner-boring-buffers
+        '("*Completions*" "*Compile-Log*" "*inferior-lisp*"
+          "*Fuzzy Completions*" "*Apropos*" "*Help*" "*cvs*"
+          "*Buffer List*" "*Ibuffer*" "*esh command on file*"))
   (winner-mode +1))
 
 

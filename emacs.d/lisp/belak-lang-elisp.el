@@ -26,7 +26,8 @@
 
 (bind-key "C-c :" 'belak--eval-region-or-buffer)
 
-(after! flycheck
+(use-feature flycheck
+  :config
   (setq flycheck-emacs-lisp-load-path 'inherit)
 
   ;; Reduce verbosity of flycheck when we're in either the emacs or dotfiles

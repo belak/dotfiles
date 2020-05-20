@@ -22,9 +22,10 @@
 ;;
 ;;; Tweaks
 
-(after! projectile
+(use-feature projectile
+  :config
   (add-to-list 'projectile-project-root-files "Cargo.toml")
   (add-to-list 'projectile-globally-ignored-directories "target"))
 
 (provide 'belak-lang-rust)
-;;; belak-lang-rust.el ends here
+;;; belak-lang-rust.el ends here.

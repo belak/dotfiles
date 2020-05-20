@@ -71,7 +71,8 @@
 ;;
 ;;; Tweaks
 
-(after! projectile
+(use-feature projectile
+  :config
   (add-to-list 'projectile-globally-ignored-directories "node_modules"))
 
 (provide 'belak-lang-web)
