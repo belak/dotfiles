@@ -246,6 +246,25 @@
 
 
 ;;
+;;; Disable certain error messages and behaviors.
+
+(defun belak-command-error-function (data context caller)
+  "Ignore the beginning-of-buffer and end-of-buffer signals.
+
+Pass the rest to the default handler."
+  (let ((sig (car data)))
+    (cond
+     ((eq sig 'beginning-of-buffer)
+      (beginning-of-buffer))
+     ((eq sig 'end-of-buffer)
+      (end-of-buffer))
+     (t
+      (command-error-default-function data context caller)))))
+
+(setq command-error-function #'belak-command-error-function)
+
+
+;;
 ;;; Scrolling Tweaks
 
 (setq hscroll-margin 2
