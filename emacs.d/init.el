@@ -63,10 +63,7 @@
 ;; TODO: look into lsp-mode and lsp-ui
 ;; TODO: look into dap-mode
 ;; TODO: look into popup-kill-ring
-;; TODO: look into yasnippet
 ;; TODO: look into windmove, possibly with windmove-wrap-around
-;; TODO: look into some method of jumping between windows
 ;; TODO: look into winum
 ;; TODO: look into fill-column-indicator
 ;; TODO: look into verb or other http clients
-;; TODO: look into vterm
