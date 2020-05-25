@@ -53,15 +53,21 @@
 ;; 'this' to strings like "this".
 (use-package python-switch-quotes
   :after python
-  :bind (:map python-mode-map
-              ("C-c '" . #'python-switch-quotes)))
+  :general
+  (:keymaps 'python-mode-map
+            ("C-c '" . #'python-switch-quotes)))
 
 ;; This adds some basic features for requirements files, such as highlighting
 ;; and auto-completion of names from PyPI.
 (use-package pip-requirements
   :mode
-  "requirements.txt"
-  "requirements/.*\\.txt\\'")
+  ("requirements\\.txt\\'"    . pip-requirements-mode)
+  ("requirements-.*\\.txt\\'" . pip-requirements-mode)
+  ("requirements/.*\\.txt\\'" . pip-requirements-mode)
+  ("requirements.in\\'"       . pip-requirements-mode)
+  ("requirements-.*\\.in\\'"  . pip-requirements-mode)
+  ("requirements/.*\\.in\\'"  . pip-requirements-mode))
+
 
 (provide 'belak-lang-python)
 ;;; belak-lang-python.el ends here
