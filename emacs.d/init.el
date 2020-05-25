@@ -67,3 +67,4 @@
 ;; TODO: look into winum
 ;; TODO: look into fill-column-indicator
 ;; TODO: look into verb or other http clients
+;; TODO: try evil-mode again

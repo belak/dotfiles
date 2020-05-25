@@ -112,7 +112,6 @@ NAME and ARGS are as in `use-package'."
   '(("(\\(use-feature\\)\\_>[ \t']*\\(\\(?:\\sw\\|\\s_\\)+\\)?"
      (1 font-lock-keyword-face)
      (2 font-lock-constant-face nil t))))
-
 (font-lock-add-keywords 'emacs-lisp-mode use-feature-font-lock-keywords)
 
 ;;
