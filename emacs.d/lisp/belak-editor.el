@@ -61,7 +61,14 @@
 
 (use-package yasnippet
   :blackout yas-minor-mode
-  :hook (prog-mode . yas-minor-mode))
+  :hook (prog-mode . yas-minor-mode)
+  :hook (text-mode . yas-minor-mode)
+  :config
+  ;; `no-littering' overrides the snippets dir and makes it harder to find, so
+  ;; we change it back.
+  (setq yas-snippet-dirs
+        (list (expand-file-name "snippets" user-emacs-directory)
+          'yasnippet-snippets-dir)))
 
 (use-package yasnippet-snippets
   :demand t
