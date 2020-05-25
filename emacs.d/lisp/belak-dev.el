@@ -52,8 +52,8 @@
     (add-hook 'diff-hl-mode-hook #'diff-hl-margin-mode)))
 
 (use-feature dired
-  :bind (:map dired-mode-map
-              ("q" . #'belak--dired-quit-all))
+  :general (:keymaps 'dired-mode-map
+                     "q" #'belak--dired-quit-all)
   :config
   ;; TODO: there's an alternate way used here which replaces the current buffer
   ;; rather than killing all of them at the end:
@@ -133,8 +133,8 @@
 
 ;; `magit' is one of the best git interfaces I've ever used.
 (use-package magit
-  :bind
-  ("C-c g" . #'magit-status)
+  :general
+  ("C-c g" #'magit-status)
   :config
   (setq magit-auto-revert-mode nil)
 
@@ -145,7 +145,7 @@
 (use-package projectile
   :blackout
   :commands (projectile-project-p projectile-mode)
-  :bind-keymap ("C-c p" . projectile-command-map)
+  :general ("C-c p" '(:keymap projectile-command-map))
   :config
   ;; Strangely the default for projectile is `ido', not `default' as the name
   ;; would imply. We tame this so we can use it with whatever completing-read
@@ -162,6 +162,8 @@
   :commands remember remember-notes
   :config
   (setq remember-notes-initial-major-mode 'gfm-mode))
+
+(use-package ripgrep)
 
 ;; Feature `smerge-mode' provides an interactive mode for visualizing and
 ;; resolving Git merge conflicts.

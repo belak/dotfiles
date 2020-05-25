@@ -47,8 +47,6 @@
 (straight-use-package 'general)
 (straight-use-package 'blackout)
 
-;; TODO: migrate back to general
-
 (eval-when-compile
   (require 'use-package))
 (require 'general)
@@ -177,6 +175,7 @@
 ;; Revert buffers to their state on disk when they change. Note that this is a
 ;; tweaked version of what ships with doom-emacs to simplify a number of things.
 (use-package autorevert
+  :blackout
   ;; revert buffers when their files/state have changed
   :hook (focus-in            . belak--auto-revert-buffers-h)
   :hook (after-save          . belak--auto-revert-buffers-h)

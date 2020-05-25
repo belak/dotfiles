@@ -3,12 +3,14 @@
 (require 'belak-core)
 (require 'belak-dev)
 
+
 ;;
 ;;; Packages
 
 (use-package macrostep
-  :bind (:map emacs-lisp-mode-map
-              ("C-c e" . #'macrostep-expand)))
+  :general
+  (:keymaps 'emacs-lisp-mode-map
+            "C-c e" #'macrostep-expand))
 
 
 ;;

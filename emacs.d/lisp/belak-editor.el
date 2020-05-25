@@ -9,17 +9,18 @@
 ;; There are a few key binds which are close to being what we want, but not
 ;; quite, so we use `crux' as a utility library to fill in a few gaps.
 (use-package crux
-  :bind
-  ;;("C-k"    .  #'crux-smart-kill-line)  ; This doesn't work with C-u
-  ("C-c k"   . #'crux-kill-other-buffers)
-  ("C-c f d" . #'crux-delete-file-and-buffer)
-  ("C-c f r" . #'crux-rename-buffer-and-file))
+  :general
+  ;;("C-k"     #'crux-smart-kill-line)  ; This doesn't work with C-u
+  ("C-c k"   #'crux-kill-other-buffers)
+  ("C-c f d" #'crux-delete-file-and-buffer)
+  ("C-c f r" #'crux-rename-buffer-and-file))
 
 (use-package ctrlf
-  :bind (([remap isearch-forward]         . #'ctrlf-forward-literal)
-         ([remap isearch-backward]        . #'ctrlf-backward-literal)
-         ([remap isearch-forward-regexp]  . #'ctrlf-forward-regexp)
-         ([remap isearch-backward-regexp] . #'ctrlf-backward-regexp))
+  :general
+  ([remap isearch-forward]         #'ctrlf-forward-literal)
+  ([remap isearch-backward]        #'ctrlf-backward-literal)
+  ([remap isearch-forward-regexp]  #'ctrlf-forward-regexp)
+  ([remap isearch-backward-regexp] #'ctrlf-backward-regexp)
   :config
   ;; Clear out the bindings because we've already defined them.
   (setq ctrlf-mode-bindings '())
@@ -28,9 +29,9 @@
 ;; Often times you just want to move a full block around. This makes it easy to
 ;; select what you need.
 (use-package expand-region
-  :bind
-  ("C-="   . 'er/expand-region)
-  ("C-S-=" . 'er/contract-region))
+  :general
+  ("C-="   #'er/expand-region)
+  ("C-S-=" #'er/contract-region))
 
 ;; It's more standard to use C-n/C-p in Emacs rather than Up and Down, so we
 ;; warn whenever we use a key bind which has a more Emacs-y alternative.
@@ -82,6 +83,8 @@
 
 ;; If a mode defines a comment, only autofill inside them.
 (setq comment-auto-fill-only-comments t)
+
+(blackout 'auto-fill-mode)
 
 ;; Make tab a tiny bit smarter - if the current line is already indented, then
 ;; complete at point.
