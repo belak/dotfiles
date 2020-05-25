@@ -55,7 +55,7 @@
   :after python
   :general
   (:keymaps 'python-mode-map
-            ("C-c '" . #'python-switch-quotes)))
+            "C-c '" #'python-switch-quotes))
 
 ;; This adds some basic features for requirements files, such as highlighting
 ;; and auto-completion of names from PyPI.
