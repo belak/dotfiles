@@ -87,12 +87,13 @@
 ;; Most of the configuration for this happens in other packages and will call
 ;; `add-shackle-rule'.
 (use-package shackle
-  :hook (pre-command-hook . shackle-mode)
+  :hook (pre-command . shackle-mode)
   :preface
-  (defun add-shackle-rule (rule)
-    (use-feature shackle
-      :config
-      (appendq! shackle-rules (list rule))))
+  (defmacro add-shackle-rule (rule)
+    ;; NOTE: this is much easier as a macro because otherwise, expanding `rule'
+    ;; to the inner scope isn't possible.
+    `(after! shackle
+       (appendq! shackle-rules (list ,rule))))
   :config
   (setq shackle-rules
         '(("*Help*" :align t :select t)
