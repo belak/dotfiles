@@ -91,6 +91,14 @@ If FETCHER is a function, ELT is used as the key in LIST (an alist)."
        (put ',fn 'permanent-local-hook t)
        (add-hook ',hook #',fn))))
 
+(defmacro after! (package &rest body)
+  "Evaluate BODY after PACKAGE have loaded."
+  (declare (indent defun))
+  (let ((body (macroexp-progn body)))
+    `(if (featurep ',package)
+         ,body
+       (eval-after-load ',package ',body))))
+
 (defmacro use-feature (name &rest args)
   "Like `use-package', but disables straight integration.
 NAME and ARGS are as in `use-package'."
