@@ -27,9 +27,10 @@
    ;; Allow using shift-select like in other buffers.
    org-support-shift-select t
 
-   ;; Make tab in code blocks behave like they would in that language's
-   ;; major mode.
+   ;; Make tab and indentation in code blocks behave like they would in that
+   ;; language's major mode.
    org-src-tab-acts-natively t
+   org-src-preserve-indentation t
 
    ;; Tweak our task keywords.
    ;;(org-todo-keywords
@@ -52,6 +53,10 @@
 
    ;; Open source blocks in the same window.
    org-src-window-setup 'current-window
+
+   ;; We don't want text inside headings to be indented. This requires us to use
+   ;; a non-bundled `org-mode' .
+   org-adapt-indentation 'headline-data
 
    ;; org-agenda settings
    org-log-done t
