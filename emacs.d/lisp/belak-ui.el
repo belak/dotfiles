@@ -255,9 +255,9 @@ Pass the rest to the default handler."
   (let ((sig (car data)))
     (cond
      ((eq sig 'beginning-of-buffer)
-      (beginning-of-buffer))
+      (goto-char (point-min)))
      ((eq sig 'end-of-buffer)
-      (end-of-buffer))
+      (goto-char (point-max)))
      (t
       (command-error-default-function data context caller)))))
 
