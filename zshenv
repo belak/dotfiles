@@ -9,6 +9,7 @@ path=(
     "$GOPATH/bin"
     "$HOME/.cargo/bin"
     "$HOME/.emacs.d/bin"
+    "$HOME/.poetry/bin"
     "$HOME/.pyenv/shims"
     "$HOME/.rbenv/shims"
     "$HOME/.rbenv/bin"
