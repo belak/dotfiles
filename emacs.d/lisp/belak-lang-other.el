@@ -36,6 +36,7 @@
 (use-package protobuf-mode
   :mode "\\.proto\\'")
 
+;; TODO: look at Sacha's ruby/robe config
 (use-package ruby-mode
   :mode "\\.rb\\'"
   :config

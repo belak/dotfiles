@@ -42,11 +42,10 @@
   (require 'belak-tools))       ; utils too small for their own file
 
 ;; TODO: look into smartparens (see https://github.com/MatthewZMD/.emacs.d/blob/master/elisp/init-parens.el and Emacs Prelude for inspiration)
-;; TODO: look into hydra
+;; TODO: look into hydra and key-chord
 ;; TODO: look into enh-ruby-mode
 ;; TODO: look into yasnippet and a way to have default empty file buffers
 ;; TODO: look into visual-fill-column
-;; TODO: look into undo-tree
 ;; TODO: look into focus-mode
 ;; TODO: look into eyebrowse
 ;; TODO: look into which-function-mode
@@ -68,3 +67,13 @@
 ;; TODO: look into fill-column-indicator
 ;; TODO: look into verb or other http clients
 ;; TODO: try evil-mode again
+;; TODO: look into multiple-cursors (Sacha has a lot of binds for this)
+;; TODO: look into syncthing
+
+;; TODO: stuff to look into
+;;
+;; - [[http://doc.norang.ca/org-mode.html][Bernt Hansen]]: Lots of Org-related config. I picked up the graph-drawing stuff from this.
+;; - [[https://github.com/bzg/dotemacs][Bastien Guerry]]: Org, Gnus, ERC - Explained in this [[http://sachachua.com/blog/2013/05/emacs-chat-bastien-guerry/][Emacs Chat (~1h)]]
+;; - [[https://github.com/iani/emacs-prelude][Iannis Zannos]]: Explained in this [[https://www.youtube.com/watch?v=0F8aCbC9z3A][Emacs Chat (~1h)]]
+;; - [[https://github.com/magnars/.emacs.d][Magnar Sveen]]: http://whattheemacsd.com/ has some explanations. [[http://sachachua.com/blog/2013/11/emacs-chat-magnar-sveen-emacs-rocks/][Emacs Chat (~1h)]]
+;; - [[https://github.com/jwiegley/dot-emacs][John Wiegley]]: Also see his [[http://www.youtube.com/watch?v=RvPFZL6NJNQ][Emacs Lisp Development talk]] (sorry, sucky video) and [[http://www.youtube.com/watch?v=ytNsHmRLZGM][Emacs Chat video]]

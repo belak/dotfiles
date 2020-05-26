@@ -4,6 +4,56 @@
 
 
 ;;
+;;; Functions
+
+(defun belak--smarter-move-beginning-of-line (arg)
+  "Move point back to indentation of beginning of line.
+
+Move point to the first non-whitespace character on this line.
+If point is already there, move to the beginning of the line.
+Effectively toggle between the first non-whitespace character and
+the beginning of the line.
+
+If ARG is not nil or 1, move forward ARG - 1 lines first.  If
+point reaches the beginning or end of the buffer, stop there.
+
+This originally came from Sacha Chua's Emacs config."
+  (interactive "^p")
+  (setq arg (or arg 1))
+
+  ;; Move lines first
+  (when (/= arg 1)
+    (let ((line-move-visual nil))
+      (forward-line (1- arg))))
+
+  (let ((orig-point (point)))
+    (back-to-indentation)
+    (when (= orig-point (point))
+      (move-beginning-of-line 1))))
+
+;; remap C-a to `smarter-move-beginning-of-line'
+(global-set-key [remap move-beginning-of-line]
+                #'belak--smarter-move-beginning-of-line)
+
+(defun belak--unfill-paragraph (&optional region)
+  "Takes a multi-line paragraph and makes it into a single line of text."
+  (interactive)
+  (barf-if-buffer-read-only)
+  (let ((fill-column (point-max)))
+    (fill-paragraph nil region)))
+(bind-key "M-Q" #'belak--unfill-paragraph)
+
+;; From https://github.com/purcell/emacs.d/blob/master/lisp/init-editing-utils.el
+(defun belak--kill-back-to-indentation ()
+  "Kill from point back to the first non-whitespace character on the line."
+  (interactive)
+  (let ((prev-pos (point)))
+    (back-to-indentation)
+    (kill-region (point) prev-pos)))
+
+(bind-key "C-M-<backspace>" #'belak--kill-back-to-indentation)
+
+;;
 ;;; Packages
 
 ;; There are a few key binds which are close to being what we want, but not
@@ -59,11 +109,27 @@
         show-paren-when-point-in-periphery t)
   (show-paren-mode +1))
 
+(use-package undo-tree
+  :config
+  (setq undo-tree-visualizer-diff t
+        undo-tree-visualizer-timestamps t)
+  (global-undo-tree-mode))
+
 (use-package yasnippet
   :blackout yas-minor-mode
   :hook (prog-mode . yas-minor-mode)
   :hook (text-mode . yas-minor-mode)
+  :general
+  ;; The implicit keybinds conflict with org-mode's cycling, so we switch it to
+  ;; be more explicit.
+  ("M-/" #'yas-expand
+   :keymaps 'yas-minor-mode-map
+   "<tab>" nil
+   "TAB"   nil)
   :config
+  ;; TODO: look at yas/hippie-expand integration
+  ;; TODO: look at Sacha's change-cursor-color-when-can-expand
+
   ;; `no-littering' overrides the snippets dir and makes it harder to find, so
   ;; we change it back.
   (setq yas-snippet-dirs
@@ -78,9 +144,14 @@
 ;;; Tweaks
 
 ;; When region is active, make `capitalize-word' and friends act on it.
+
+;; TODO: replace with general
 (bind-key "M-c" #'capitalize-dwim)
 (bind-key "M-l" #'downcase-dwim)
 (bind-key "M-u" #'upcase-dwim)
+
+;; Useful method of popping back to a previous location.
+(bind-key "C-x p" #'pop-to-mark-command)
 
 ;; Trigger auto-fill after punctuation characters, not just whitespace.
 (mapc
@@ -121,6 +192,9 @@
 ;; Don't make distinctions between ASCII and siblings (like a and a
 ;; with an umlaut)
 (setq search-default-mode 'char-fold-to-regexp)
+
+;; Replace the default `newline' with `newline-and-indent'.
+(bind-key "RET" #'newline-and-indent)
 
 (provide 'belak-editor)
 ;;; belak-editor.el ends here.
