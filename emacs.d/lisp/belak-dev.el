@@ -12,8 +12,7 @@
   (defmacro set-company-backend! (hook backend)
     `(add-hook ',hook (lambda ()
                         (set (make-local-variable 'company-backends) (list ',backend)))))
-  :init
-  (add-transient-hook! pre-command-hook (global-company-mode +1))
+  :hook (prog-mode . company-mode)
   :commands global-company-mode
   :config
   (require 'company-dabbrev)
@@ -190,7 +189,10 @@
 (blackout 'lisp-mode "λ")
 
 ;; Auto wrap text in text-mode.
-(add-hook 'text-mode-hook #'auto-fill-mode)
+;;(add-hook 'text-mode-hook #'auto-fill-mode)
+
+;; Visual line breaks rather than real ones makes more sense in text mode.
+(add-hook 'text-mode-hook #'visual-line-mode)
 
 ;; Some extra files to support with basic modes
 (push '("LICENSE\\'"   . text-mode)      auto-mode-alist)

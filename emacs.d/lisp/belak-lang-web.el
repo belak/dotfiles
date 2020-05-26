@@ -11,6 +11,8 @@
 ;; the JS community does, you don't want to have to constantly update your
 ;; config to keep working.
 
+;; TODO: look at Sacha's debug-counter
+
 (use-package js2-mode
   :blackout ((js2-mode     . "JS")
              (js2-jsx-mode . "JSX"))

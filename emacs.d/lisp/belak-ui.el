@@ -8,16 +8,25 @@
 ;; I maintain and try out a lot of themes. The code to load them is pretty much
 ;; the same, so we throw that config in a macro to make it easier.
 
-(defmacro load-theme! (name &optional package)
+(defmacro load-theme! (name &optional package &rest forms)
+  (declare (indent defun))
   (let ((package-name (if package package (intern (format "%s-theme" name)))))
     `(use-package ,package-name
        :demand t
        :config
+       ,@forms
+
+       ;; TODO: check if we need to hook after-frame-make-funcsions for the
+       ;; daemon or if we can just use that for everything.
+
        (add-transient-hook! window-setup-hook (load-theme ',name t)))))
+       ;;(add-transient-hook! emacs-startup-hook (load-theme ',name t)))))
 
 ;;(load-theme! grayscale)                 ; A simple mostly grayscale theme
 (load-theme! monokai-pro)               ; Based on the VSCode/Sublime themes
-;;(load-theme! modus-vivendi)             ; A very accessible theme
+;;(load-theme! modus-vivendi              ; A very accessible theme
+;;  modus-vivendi-theme
+;;  (setq modus-vivendi-theme-visible-fringes t))
 ;;(load-theme! nord)                      ; Trying this one out
 ;;(load-theme! zenburn)                   ; Oldie but a goodie
 ;;(load-theme! zerodark)                  ; based on some old themes I liked
@@ -40,7 +49,7 @@
   :hook (text-mode . display-line-numbers-mode)
   :hook (conf-mode . display-line-numbers-mode)
   :config
-  (setq-default display-line-numbers-type 'visual
+  (setq-default display-line-numbers-type 'relative
                 display-line-numbers-width 3
                 display-line-numbers-widen t))
 

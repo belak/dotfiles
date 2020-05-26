@@ -216,6 +216,16 @@
   (add-to-list 'recentf-exclude no-littering-etc-directory)
   (recentf-mode +1))
 
+;; Remember past minibuffer history. This pairs nicely with recentf.
+(use-package savehist
+  :demand t
+  :after no-littering
+  :config
+  (setq history-length t
+        history-delete-duplicates t
+        savehist-save-minibuffer-history 1)
+  (savehist-mode 1))
+
 
 ;;
 ;;; Tweaks

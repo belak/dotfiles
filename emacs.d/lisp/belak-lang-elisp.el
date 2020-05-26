@@ -10,7 +10,8 @@
 (use-package macrostep
   :general
   (:keymaps 'emacs-lisp-mode-map
-            "C-c e" #'macrostep-expand))
+            "C-c e" #'macrostep-expand
+            "M-."   #'find-function-at-point))
 
 
 ;;
