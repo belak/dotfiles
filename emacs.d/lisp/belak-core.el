@@ -251,10 +251,11 @@
       inhibit-default-init t)
 (fset #'display-startup-echo-area-message #'ignore)
 
-;; Leave the scratch buffer blank and use emacs-lisp-mode rather than
-;; fundamental mode or anything too minimal.
+;; Leave the scratch buffer blank. We used to switch to `emacs-lisp-mode', but
+;; then all the `prog-mode' deferred setup functions are run, so we stick to
+;; `fundamental-mode'.
 (setq initial-scratch-message nil
-      initial-major-mode 'emacs-lisp-mode)
+      initial-major-mode 'fundamental-mode)
 
 ;; It's alright if Emacs updates the UI a little less often than the
 ;; default of 0.5s.
@@ -280,8 +281,9 @@
       '(read-only t intangible t cursor-intangible t face minibuffer-prompt))
 (add-hook 'minibuffer-setup-hook #'cursor-intangible-mode)
 
-;; TODO: get this working on macOS as well
-(setq browse-url-browser-function 'browse-url-xdg-open)
+(if IS-LINUX
+    (setq browse-url-browser-function 'browse-url-xdg-open)
+  (setq browse-url-browser-function 'browse-url-generic))
 
 (provide 'belak-core)
 ;;; core.el ends here.

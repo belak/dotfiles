@@ -7,7 +7,7 @@
 
 (use-package cmake-mode
   :mode
-  "CMakeLists\\.txt"
+  "CMakeLists\\.txt\\'"
   "\\.cmake\\'")
 
 (use-package dockerfile-mode
@@ -15,6 +15,14 @@
   ;; rather than the exact name, but we also want to match filenames like
   ;; Dockerfile-beta.
   :mode "Dockerfile")
+
+(use-package gitconfig-mode
+  :mode
+  "\\.git/config\\'"
+  "\\.gitconfig\\'")
+
+(use-package gitignore-mode
+  :mode "\\.gitignore\\'")
 
 (use-package haskell-mode
   :mode "\\.hs\\'")
