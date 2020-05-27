@@ -6,6 +6,9 @@
 ;;
 ;;; Packages
 
+(use-feature autoinsert
+  :hook (find-file . auto-insert))
+
 (use-package company
   :blackout
   :preface
@@ -33,6 +36,14 @@
         company-tooltip-align-annotations t
         company-require-match 'never
         company-tooltip-flip-when-above t))
+
+(use-package company-quickhelp
+  :after company
+  :demand t
+  :config
+  (setq company-quickhelp-delay 3)
+
+  (company-quickhelp-mode 1))
 
 ;; Display changed/removed lines in the fringe.
 (use-package diff-hl
@@ -140,6 +151,9 @@
   ;; Use the commit hash rather than the branch name in the URL.
   (setq git-link-use-commit t))
 
+(use-package highlight-escape-sequences
+  :hook (prog-mode . hes-mode))
+
 ;; hl-todo simply highlights TODO and other similar comments to make them easier
 ;; to find. I originally used fic-mode, but it appears that hl-todo is a little
 ;; better and is updated more frequently.
@@ -169,6 +183,10 @@
   ;; would imply. We tame this so we can use it with whatever completing-read
   ;; function we want.
   (setq projectile-completion-system 'default)
+
+  ;; TODO: maybe swap projectile-root-top-down and projectile-root-bottom-up in
+  ;; the root-files-functions.
+
   (projectile-mode +1))
 
 ;; rainbow-mode makes it easier to see colors, but I don't use it very often so

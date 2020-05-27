@@ -69,6 +69,7 @@
 ;; TODO: try evil-mode again
 ;; TODO: look into multiple-cursors (Sacha has a lot of binds for this)
 ;; TODO: look into syncthing
+;; TODO: look into font-lock+
 
 ;; TODO: stuff to look into
 ;;

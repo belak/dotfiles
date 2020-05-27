@@ -53,6 +53,7 @@ This originally came from Sacha Chua's Emacs config."
 
 (bind-key "C-M-<backspace>" #'belak--kill-back-to-indentation)
 
+
 ;;
 ;;; Packages
 
@@ -76,12 +77,40 @@ This originally came from Sacha Chua's Emacs config."
   (setq ctrlf-mode-bindings '())
   (ctrlf-mode +1))
 
+;; Allow C-c C-g to always quit the minibuffer.
+(use-package delsel
+  :bind
+  (:map mode-specific-map
+        ("C-g" . minibuffer-keyboard-quit)))
+
 ;; Often times you just want to move a full block around. This makes it easy to
 ;; select what you need.
 (use-package expand-region
   :bind
-  ("C-="   . er/expand-region)
-  ("C-S-=" . er/contract-region))
+  (("C-="   . er/expand-region)
+   ("C-S-=" . er/contract-region)
+   (:map mode-specific-map
+         :prefix-map region-prefix-map
+         :prefix "r"
+         ("(" . er/mark-inside-pairs)
+         (")" . er/mark-outside-pairs)
+         ("'" . er/mark-inside-quotes)
+         ([34] . er/mark-outside-quotes) ; it's just a quotation mark
+         ("o" . er/mark-org-parent)
+         ("u" . er/mark-url)
+         ("b" . er/mark-org-code-block)
+         ("." . er/mark-method-call)
+         (">" . er/mark-next-accessor)
+         ("w" . er/mark-word)
+         ("d" . er/mark-defun)
+         ("e" . er/mark-email)
+         ("," . er/mark-symbol)
+         ("<" . er/mark-symbol-with-prefix)
+         (";" . er/mark-comment)
+         ("s" . er/mark-sentence)
+         ("S" . er/mark-text-sentence)
+         ("p" . er/mark-paragraph)
+         ("P" . er/mark-text-paragraph))))
 
 ;; It's more standard to use C-n/C-p in Emacs rather than Up and Down, so we
 ;; warn whenever we use a key bind which has a more Emacs-y alternative.

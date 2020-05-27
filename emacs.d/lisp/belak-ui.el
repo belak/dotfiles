@@ -41,7 +41,26 @@
 
 ;; Make it clearer which window you're switching to when using C-x o.
 (use-package ace-window
-  :bind ("C-x o" . ace-window))
+  :bind
+  ("C-x o" . ace-window)
+  ("M-o"   . ace-window))
+
+(use-package dashboard
+  :demand t
+  :config
+  ;; Ensure `emacsclient' starts up with the dashboard.
+  (setq initial-buffer-choice (lambda () (get-buffer "*dashboard*")))
+
+  (setq dashboard-startup-banner 'logo
+	dashboard-set-navigator t
+	dashboard-set-footer nil
+	dashboard-items '((recents   . 5)
+			  (bookmarks . 5)
+			  (projects  . 5)
+			  (agenda    . 5)
+			  (registers . 5)))
+
+  (dashboard-setup-startup-hook))
 
 ;; We want line numbers to make it easier when using prefix commands.
 (use-feature display-line-numbers

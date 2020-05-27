@@ -40,10 +40,51 @@
 (use-package esup
   :commands esup)
 
+(use-package focus-mode
+  :commands focus-mode)
+
+(use-package free-keys
+  :commands free-keys)
+
+;; NOTE: this should not be loaded by default because there's at least somewhat
+;; of a performance penalty.
+(use-package keyfreq
+  :config
+  (setq keyfreq-excluded-commands
+        '(self-insert-command
+          forward-char
+          backward-char
+          previous-line
+          next-line))
+
+  (keyfreq-mode 1)
+  (keyfreq-autosave-mode 1))
+
 ;; This provides functionality similar to soulver on macOS, but we can use it
 ;; everywhere.
 (use-package literate-calc-mode
   :mode ("\\.calc\\'" . literate-calc-mode))
+
+;; TODO: add shackle rules for these windows
+(use-feature net-utils
+  :bind
+  (:map mode-specific-map
+        :prefix-map net-utils-prefix-map
+        :prefix "n"
+        ("p" . ping)
+        ("i" . ifconfig)
+        ("w" . iwconfig)
+        ("n" . netstat)
+        ("p" . ping)
+        ("a" . arp)
+        ("r" . route)
+        ("h" . nslookup-host)
+        ("d" . dig)
+        ("s" . smbclient)
+        ("t" . traceroute))
+  :config
+  (when (or IS-MAC IS-LINUX)
+    (setq ping-program-options '("-c" "4"))))
 
 ;; vterm is like all the built-in terminals, but even better because it uses
 ;; libvterm which is pretty solid and handles most control sequences really
