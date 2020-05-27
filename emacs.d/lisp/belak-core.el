@@ -44,12 +44,10 @@
 
 ;; Install the core packages we'll need for the rest of the configuration.
 (straight-use-package 'use-package)
-(straight-use-package 'general)
 (straight-use-package 'blackout)
 
 (eval-when-compile
   (require 'use-package))
-(require 'general)
 (require 'blackout)
 
 ;; Tell `use-package' to always load features lazily unless told otherwise. It's

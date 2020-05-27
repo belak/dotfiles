@@ -35,15 +35,14 @@
   :straight org-plus-contrib
   :mode ("\\.org\\'" . org-mode)
   :hook (org-mode . visual-fill-mode)
-  :general (("C-c a" #'org-agenda)
-            ("C-c b" #'org-switchb)
-            ("C-c c" #'org-capture)
-            ("C-c l" #'org-store-link)
-            ("C-c j" #'org-clock-goto)
-
-            :keymaps 'org-mode-map
-            ("C-c C-r" #'org-refile)
-            ("C-c v"   #'org-show-todo-tree))
+  :bind (("C-c a" . org-agenda)
+         ("C-c b" . org-switchb)
+         ("C-c c" . org-capture)
+         ("C-c l" . org-store-link)
+         ("C-c j" . org-clock-goto)
+         (:map org-mode-map
+               ("C-c C-r" . org-refile)
+               ("C-c v"   . org-show-todo-tree)))
   :config
   (setq
    ;; Allow using shift-select like in other buffers.

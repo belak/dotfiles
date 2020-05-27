@@ -51,19 +51,38 @@
     (add-hook 'diff-hl-mode-hook #'diff-hl-margin-mode)))
 
 (use-feature dired
-  :general (:keymaps 'dired-mode-map
-                     "q" #'belak--dired-quit-all)
+  :bind (:map dired-mode-map
+              ;; Reuse the same dired window
+              ("RET" . dired-find-alternate-file)
+              ("^"   . belak--dired-up-directory)
+              ("q"   . belak--dired-quit-all))
   :config
-  ;; TODO: there's an alternate way used here which replaces the current buffer
-  ;; rather than killing all of them at the end:
-  ;; https://github.com/MatthewZMD/.emacs.d/blob/master/elisp/init-dired.el
+  ;; Ensure we can use the keybind we set without warnings
+  (put 'dired-find-alternate-file 'disabled nil)
+
+  ;; On macOS, we require GNU ls in order for dired to work. This lets us focus
+  ;; on one set of switches rather than separate per OS.
+  (when (executable-find "gls")
+    (setq insert-directory-program "gls"))
+
+  (setq dired-listing-switches "--group-directories-first -al")
+
+  (defun belak--dired-up-directory ()
+    (interactive)
+    (find-alternate-file ".."))
+
   (defun belak--dired-quit-all ()
     (interactive)
     (mapc #'kill-buffer (belak-buffers-in-mode 'dired-mode))
     (message "Killed all dired buffers")))
 
+(use-feature dired-x
+  :after dired
+  :hook (dired-mode . dired-omit-mode))
+
 ;; Add fancier colors to `dired-mode'.
 (use-package diredfl
+  :after dired
   :hook (dired-mode . diredfl-mode))
 
 (use-package editorconfig
@@ -132,8 +151,8 @@
 
 ;; `magit' is one of the best git interfaces I've ever used.
 (use-package magit
-  :general
-  ("C-c g" #'magit-status)
+  :bind
+  ("C-c g" . magit-status)
   :config
   (setq magit-auto-revert-mode nil)
 
@@ -144,7 +163,7 @@
 (use-package projectile
   :blackout
   :commands (projectile-project-p projectile-mode)
-  :general ("C-c p" '(:keymap projectile-command-map))
+  :bind-keymap ("C-c p" . projectile-command-map)
   :config
   ;; Strangely the default for projectile is `ido', not `default' as the name
   ;; would imply. We tame this so we can use it with whatever completing-read

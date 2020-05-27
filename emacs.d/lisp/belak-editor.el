@@ -59,18 +59,18 @@ This originally came from Sacha Chua's Emacs config."
 ;; There are a few key binds which are close to being what we want, but not
 ;; quite, so we use `crux' as a utility library to fill in a few gaps.
 (use-package crux
-  :general
-  ;;("C-k"     #'crux-smart-kill-line)  ; This doesn't work with C-u
-  ("C-c k"   #'crux-kill-other-buffers)
-  ("C-c f d" #'crux-delete-file-and-buffer)
-  ("C-c f r" #'crux-rename-buffer-and-file))
+  :bind
+  ;;("C-k"     . crux-smart-kill-line)  ; This doesn't work with C-u
+  ("C-c k"   . crux-kill-other-buffers)
+  ("C-c f d" . crux-delete-file-and-buffer)
+  ("C-c f r" . crux-rename-buffer-and-file))
 
 (use-package ctrlf
-  :general
-  ([remap isearch-forward]         #'ctrlf-forward-literal)
-  ([remap isearch-backward]        #'ctrlf-backward-literal)
-  ([remap isearch-forward-regexp]  #'ctrlf-forward-regexp)
-  ([remap isearch-backward-regexp] #'ctrlf-backward-regexp)
+  :bind
+  ([remap isearch-forward]         . ctrlf-forward-literal)
+  ([remap isearch-backward]        . ctrlf-backward-literal)
+  ([remap isearch-forward-regexp]  . ctrlf-forward-regexp)
+  ([remap isearch-backward-regexp] . ctrlf-backward-regexp)
   :config
   ;; Clear out the bindings because we've already defined them.
   (setq ctrlf-mode-bindings '())
@@ -79,9 +79,9 @@ This originally came from Sacha Chua's Emacs config."
 ;; Often times you just want to move a full block around. This makes it easy to
 ;; select what you need.
 (use-package expand-region
-  :general
-  ("C-="   #'er/expand-region)
-  ("C-S-=" #'er/contract-region))
+  :bind
+  ("C-="   . er/expand-region)
+  ("C-S-=" . er/contract-region))
 
 ;; It's more standard to use C-n/C-p in Emacs rather than Up and Down, so we
 ;; warn whenever we use a key bind which has a more Emacs-y alternative.
@@ -119,13 +119,12 @@ This originally came from Sacha Chua's Emacs config."
   :blackout yas-minor-mode
   :hook (prog-mode . yas-minor-mode)
   :hook (text-mode . yas-minor-mode)
-  :general
-  ;; The implicit keybinds conflict with org-mode's cycling, so we switch it to
-  ;; be more explicit.
-  ("M-/" #'yas-expand
-   :keymaps 'yas-minor-mode-map
-   "<tab>" nil
-   "TAB"   nil)
+  :bind (;; The implicit keybinds conflict with org-mode's cycling, so we switch it to
+	 ;; be more explicit.
+	 ("M-/" . yas-expand)
+	 (:map yas-minor-mode-map
+	       ("<tab>" . nil)
+	       ("TAB"   . nil)))
   :config
   ;; TODO: look at yas/hippie-expand integration
   ;; TODO: look at Sacha's change-cursor-color-when-can-expand
@@ -145,7 +144,6 @@ This originally came from Sacha Chua's Emacs config."
 
 ;; When region is active, make `capitalize-word' and friends act on it.
 
-;; TODO: replace with general
 (bind-key "M-c" #'capitalize-dwim)
 (bind-key "M-l" #'downcase-dwim)
 (bind-key "M-u" #'upcase-dwim)
