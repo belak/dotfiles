@@ -41,7 +41,7 @@
 
 ;; Make it clearer which window you're switching to when using C-x o.
 (use-package ace-window
-  :general ("C-x o" #'ace-window))
+  :bind ("C-x o" . ace-window))
 
 ;; We want line numbers to make it easier when using prefix commands.
 (use-feature display-line-numbers
@@ -73,10 +73,10 @@
 
 ;; Replace the default help buffers with helpful because it's much prettier.
 (use-package helpful
-  :general
-  ("C-h f" #'helpful-function)
-  ("C-h v" #'helpful-variable)
-  ("C-h k" #'helpful-key))
+  :bind
+  ("C-h f" . helpful-function)
+  ("C-h v" . helpful-variable)
+  ("C-h k" . helpful-key))
 
 ;; Highlight the current line to make the cursor easier to find.
 (use-feature hl-line
@@ -90,7 +90,7 @@
 ;; If we ever accidentally end up in a buffer list, this should make sure it
 ;; looks decent.
 (use-feature ibuffer
-  :general ([remap list-buffers] #'ibuffer))
+  :bind ([remap list-buffers] . ibuffer))
 
 ;; We want to make it easier to tame random windows and popups that show up.
 ;; Most of the configuration for this happens in other packages and will call
@@ -115,10 +115,8 @@
 ;; Improve usability by showing key binds when we stop typing for long enough.
 (use-package which-key
   :blackout
-  ;; Unbind C-h C-h so our manual trigger will work properly. Note that this
-  ;; implies `:defer' so we get around this by adding `which-key-mode' to the
-  ;; `after-init' hook.
-  :general ("C-h C-h" nil)
+  ;; Unbind C-h C-h so our manual trigger will work properly.
+  :bind ("C-h C-h" . nil)
   :hook (after-init . which-key-mode)
   :config
   (setq which-key-sort-order 'which-key-prefix-then-key-order

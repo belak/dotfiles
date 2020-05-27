@@ -53,9 +53,9 @@
 ;; 'this' to strings like "this".
 (use-package python-switch-quotes
   :after python
-  :general
-  (:keymaps 'python-mode-map
-            "C-c '" #'python-switch-quotes))
+  :bind
+  (:map python-mode-map
+        ("C-c '" . python-switch-quotes)))
 
 ;; This adds some basic features for requirements files, such as highlighting
 ;; and auto-completion of names from PyPI.
