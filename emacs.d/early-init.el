@@ -2,10 +2,10 @@
 
 ;;; Commentary:
 
-;; Emacs HEAD (27+) introduces early-init.el, which is run before
-;; init.el, before package and UI initialization happens. Disabling UI
-;; elements and adding some performance optimizations in here can
-;; result in an improvement in startup time.
+;; Emacs HEAD (27+) introduces early-init.el, which is run before init.el,
+;; before package and UI initialization happens. Disabling UI elements and
+;; adding some performance optimizations in here can result in an improvement in
+;; startup time.
 
 ;;; Code:
 
@@ -13,8 +13,8 @@
 (setq gc-cons-threshold most-positive-fixnum)
 
 ;; In Emacs 27+, package initialization occurs before `user-init-file' is
-;; loaded, but after `early-init-file'. We handle package initialization, so
-;; we must prevent Emacs from doing it early!
+;; loaded, but after `early-init-file'. We handle package initialization, so we
+;; must prevent Emacs from doing it early!
 (setq package-enable-at-startup nil)
 (advice-add #'package--ensure-init-file :override #'ignore)
 

@@ -69,6 +69,8 @@
   (setq hl-line-sticky-flag nil
         global-hl-line-sticky-flag nil))
 
+;; This package is required by `dashboard', but we don't want it to display in
+;; the minor-modes display so we hide it.
 (use-package! page-break-lines :blackout)
 
 ;; We want to make it easier to tame random windows and popups that show up.
@@ -109,6 +111,8 @@
   ;; (setq which-key-show-early-on-C-h t
   ;;       which-key-idle-delay most-positive-fixnum
   ;;       which-key-idle-secondary-delay 1e-100)
+
+  (setq which-key-idle-delay 0.5)
 
   (which-key-setup-side-window-bottom))
 
@@ -198,8 +202,7 @@
 ;; Don't blink the cursor
 (blink-cursor-mode -1)
 
-;; Disable graphical pop-ups. Most libraries have alternatives for
-;; this.
+;; Disable graphical pop-ups. Most libraries have alternatives for this.
 (setq use-dialog-box nil)
 
 ;; The behavior here isn't very clear, so we disable it. The cursor is plenty
@@ -210,8 +213,8 @@
 (setq ring-bell-function #'ignore
       visible-bell nil)
 
-;; Ensure the help window is selected when one is open. This makes it
-;; much easier to quit them when we're done.
+;; Ensure the help window is selected when one is open. This makes it much
+;; easier to quit them when we're done.
 (setq help-window-select t)
 
 ;; Make Emacs split windows in a more sane way.
@@ -226,7 +229,6 @@
 ;; Allow for minibuffer-ception. Sometimes we need another minibuffer command
 ;; while we're in the minibuffer.
 (setq enable-recursive-minibuffers t)
-
 
 ;; Expand the minibuffer to fit multi-line text displayed in the echo-area. This
 ;; doesn't look too great with direnv, however...
@@ -260,6 +262,9 @@
 Pass the rest to the default handler."
   (let ((sig (car data)))
     (cond
+     ;; NOTE: there is an issue with this if you are scrolling in non-selected
+     ;; window. When you hit the top, it will scroll the selected window rather
+     ;; than the window you're scrolling in.
      ((eq sig 'beginning-of-buffer)
       (goto-char (point-min)))
      ((eq sig 'end-of-buffer)
