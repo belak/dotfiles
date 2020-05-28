@@ -1,12 +1,12 @@
 ;;; belak-lang-go.el -*- lexical-binding: t; -*-
 
-(require 'belak-core)
+(require 'belak-lib)
 (require 'belak-dev)
 
 ;;
 ;;; Packages
 
-(use-package go-mode
+(use-package! go-mode
   :mode "\\.go\\'"
   :hook ((go-mode . belak--go-mode-hook)
          (go-mode . subword-mode))
@@ -22,23 +22,23 @@
   (defun belak--go-mode-hook ()
     (add-hook 'before-save-hook 'gofmt-before-save nil t)))
 
-(use-package company-go
+(use-package! company-go
   :demand t
   :after (go-mode company)
   :config
   (setq company-go-show-annotation t)
   (set-company-backend! go-mode-hook company-go))
 
-(use-package go-eldoc
+(use-package! go-eldoc
   :demand t
   :after go-mode
   :hook (go-mode . go-eldoc-setup))
 
+
 ;;
 ;;; Tweaks
 
-(use-feature projectile
-  :config
+(after! projectile
   (add-to-list 'projectile-project-root-files "go.mod"))
 
 (provide 'belak-lang-go)

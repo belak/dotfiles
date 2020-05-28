@@ -1,6 +1,6 @@
 ;;; belak-org.el -*- lexical-binding: t; -*-
 
-(require 'belak-core)
+(require 'belak-lib)
 
 ;; In the past, it made sense to babel my config file using `org-mode'. However,
 ;; that method has a number of disadvantages: it's slower and harder to
@@ -31,7 +31,7 @@
 ;;
 ;;; Packages
 
-(use-package org
+(use-package! org
   :straight org-plus-contrib
   :mode ("\\.org\\'" . org-mode)
   :bind (("C-c a" . org-agenda)

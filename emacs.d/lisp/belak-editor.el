@@ -1,6 +1,152 @@
-;;; belak-editor.el --- text interaction settings -*- lexical-binding: t; -*-
+;;; belak-editor.el -*- lexical-binding: t; -*-
 
-(require 'belak-core)
+(require 'belak-lib)
+
+;;
+;;; Packages
+
+;; Revert buffers to their state on disk when they change. Note that this is a
+;; tweaked version of what ships with doom-emacs to simplify a number of things.
+(use-feature! autorevert
+  :blackout
+  ;; revert buffers when their files/state have changed
+  :hook (focus-in            . belak--auto-revert-buffers-h)
+  :hook (after-save          . belak--auto-revert-buffers-h)
+  :hook (belak-switch-buffer . belak--auto-revert-buffer-h)
+  :config
+  (setq auto-revert-verbose t ; let us know when it happens
+        auto-revert-use-notify nil
+        auto-revert-stop-on-user-input nil
+        ;; Only prompts for confirmation when buffer is unsaved.
+        revert-without-query (list "."))
+
+  ;; Instead of using `auto-revert-mode' or `global-auto-revert-mode', we employ
+  ;; lazy auto reverting on `focus-in-hook' and `belak-switch-buffer-hook'.
+  ;;
+  ;; This is because autorevert abuses the heck out of inotify handles which can
+  ;; grind Emacs to a halt if you do expensive IO (outside of Emacs) on the
+  ;; files you have open (like compression). We only really need to revert
+  ;; changes when we switch to a buffer or when we focus the Emacs frame.
+  (defun belak--auto-revert-buffer-h ()
+    "Auto revert current buffer, if necessary."
+    (unless (or auto-revert-mode (active-minibuffer-window))
+      (auto-revert-handler)))
+
+  (defun belak--auto-revert-buffers-h ()
+    "Auto revert stale buffers in visible windows, if necessary."
+    (dolist (buf (belak-visible-buffers))
+      (with-current-buffer buf
+        (belak--auto-revert-buffer-h)))))
+
+(use-package! ctrlf
+  :bind
+  ([remap isearch-forward]         . ctrlf-forward-literal)
+  ([remap isearch-backward]        . ctrlf-backward-literal)
+  ([remap isearch-forward-regexp]  . ctrlf-forward-regexp)
+  ([remap isearch-backward-regexp] . ctrlf-backward-regexp)
+  :config
+  ;; Clear out the bindings because we've already defined them.
+  (setq ctrlf-mode-bindings '())
+  (ctrlf-mode +1))
+
+;; Allow C-c C-g to always quit the minibuffer.
+(use-feature! delsel
+  :bind
+  (:map mode-specific-map
+        ("C-g" . minibuffer-keyboard-quit)))
+
+;; Often times you just want to move a full block around. This makes it easy to
+;; select what you need.
+(use-package! expand-region
+  :bind
+  (("C-="   . er/expand-region)
+   ("C-S-=" . er/contract-region)
+   (:map mode-specific-map
+         :prefix-map region-prefix-map
+         :prefix "r"
+         ("("  . er/mark-inside-pairs)
+         (")"  . er/mark-outside-pairs)
+         ("'"  . er/mark-inside-quotes)
+         ("\"" . er/mark-outside-quotes)
+         ("o"  . er/mark-org-parent)
+         ("u"  . er/mark-url)
+         ("b"  . er/mark-org-code-block)
+         ("."  . er/mark-method-call)
+         (">"  . er/mark-next-accessor)
+         ("w"  . er/mark-word)
+         ("d"  . er/mark-defun)
+         ("e"  . er/mark-email)
+         (","  . er/mark-symbol)
+         ("<"  . er/mark-symbol-with-prefix)
+         (";"  . er/mark-comment)
+         ("s"  . er/mark-sentence)
+         ("S"  . er/mark-text-sentence)
+         ("p"  . er/mark-paragraph)
+         ("P"  . er/mark-text-paragraph))))
+
+;; It's more standard to use C-n/C-p in Emacs rather than Up and Down, so we
+;; warn whenever we use a key bind which has a more Emacs-y alternative.
+(use-package! guru-mode
+  :blackout
+  :hook (prog-mode . guru-mode)
+  :config
+  (setq guru-warn-only t))
+
+;; Automatically clean up old buffers. This also provides a midnight-hook which
+;; makes it possible to define cleanup functions.
+(use-feature! midnight
+  :commands midnight-mode
+  :init
+  (add-transient-hook! pre-command-hook (midnight-mode 1)))
+
+;; Highlight matching delimiters
+(use-package! paren
+  :demand t
+  ;;:after-call after-find-file doom-switch-buffer-hook
+  :config
+  (setq show-paren-delay 0.1
+        show-paren-highlight-openparen t
+        show-paren-when-point-inside-paren t
+        show-paren-when-point-in-periphery t)
+  (show-paren-mode +1))
+
+(use-package! savehist
+  :demand t
+  :config
+  (setq history-length t
+        history-delete-duplicates t
+        savehist-save-minibuffer-history 1)
+  (savehist-mode 1))
+
+(use-package! undo-tree
+  :config
+  (setq undo-tree-visualizer-diff t
+        undo-tree-visualizer-timestamps t)
+  (global-undo-tree-mode))
+
+(use-package! yasnippet
+  :blackout yas-minor-mode
+  :hook (prog-mode . yas-minor-mode)
+  :hook (text-mode . yas-minor-mode)
+  :bind (;; The implicit keybinds conflict with org-mode's cycling, so we switch it to
+	 ;; be more explicit.
+	 ("M-/" . yas-expand)
+	 (:map yas-minor-mode-map
+	       ("<tab>" . nil)
+	       ("TAB"   . nil)))
+  :config
+  ;; TODO: look at yas/hippie-expand integration
+  ;; TODO: look at Sacha's change-cursor-color-when-can-expand
+
+  ;; `no-littering' overrides the snippets dir and makes it harder to find, so
+  ;; we change it back.
+  (setq yas-snippet-dirs
+        (list (expand-file-name "snippets" user-emacs-directory)
+          'yasnippet-snippets-dir)))
+
+(use-package! yasnippet-snippets
+  :demand t
+  :after yasnippet)
 
 
 ;;
@@ -55,124 +201,9 @@ This originally came from Sacha Chua's Emacs config."
 
 
 ;;
-;;; Packages
-
-;; There are a few key binds which are close to being what we want, but not
-;; quite, so we use `crux' as a utility library to fill in a few gaps.
-(use-package crux
-  :bind
-  ;;("C-k"     . crux-smart-kill-line)  ; This doesn't work with C-u
-  ("C-c k"   . crux-kill-other-buffers)
-  ("C-c f d" . crux-delete-file-and-buffer)
-  ("C-c f r" . crux-rename-buffer-and-file))
-
-(use-package ctrlf
-  :bind
-  ([remap isearch-forward]         . ctrlf-forward-literal)
-  ([remap isearch-backward]        . ctrlf-backward-literal)
-  ([remap isearch-forward-regexp]  . ctrlf-forward-regexp)
-  ([remap isearch-backward-regexp] . ctrlf-backward-regexp)
-  :config
-  ;; Clear out the bindings because we've already defined them.
-  (setq ctrlf-mode-bindings '())
-  (ctrlf-mode +1))
-
-;; Allow C-c C-g to always quit the minibuffer.
-(use-package delsel
-  :bind
-  (:map mode-specific-map
-        ("C-g" . minibuffer-keyboard-quit)))
-
-;; Often times you just want to move a full block around. This makes it easy to
-;; select what you need.
-(use-package expand-region
-  :bind
-  (("C-="   . er/expand-region)
-   ("C-S-=" . er/contract-region)
-   (:map mode-specific-map
-         :prefix-map region-prefix-map
-         :prefix "r"
-         ("(" . er/mark-inside-pairs)
-         (")" . er/mark-outside-pairs)
-         ("'" . er/mark-inside-quotes)
-         ([34] . er/mark-outside-quotes) ; it's just a quotation mark
-         ("o" . er/mark-org-parent)
-         ("u" . er/mark-url)
-         ("b" . er/mark-org-code-block)
-         ("." . er/mark-method-call)
-         (">" . er/mark-next-accessor)
-         ("w" . er/mark-word)
-         ("d" . er/mark-defun)
-         ("e" . er/mark-email)
-         ("," . er/mark-symbol)
-         ("<" . er/mark-symbol-with-prefix)
-         (";" . er/mark-comment)
-         ("s" . er/mark-sentence)
-         ("S" . er/mark-text-sentence)
-         ("p" . er/mark-paragraph)
-         ("P" . er/mark-text-paragraph))))
-
-;; It's more standard to use C-n/C-p in Emacs rather than Up and Down, so we
-;; warn whenever we use a key bind which has a more Emacs-y alternative.
-(use-package guru-mode
-  :blackout
-  :hook (prog-mode . guru-mode)
-  :config
-  (setq guru-warn-only t))
-
-;; Automatically clean up old buffers. This also provides a midnight-hook which
-;; makes it possible to define cleanup functions.
-(use-feature midnight
-  :commands midnight-mode
-  :init
-  (add-transient-hook! pre-command-hook (midnight-mode 1)))
-
-;; Highlight matching delimiters
-(use-package paren
-  :demand t
-  ;;:after-call after-find-file doom-switch-buffer-hook
-  :config
-  (setq show-paren-delay 0.1
-        show-paren-highlight-openparen t
-        show-paren-when-point-inside-paren t
-        show-paren-when-point-in-periphery t)
-  (show-paren-mode +1))
-
-(use-package undo-tree
-  :config
-  (setq undo-tree-visualizer-diff t
-        undo-tree-visualizer-timestamps t)
-  (global-undo-tree-mode))
-
-(use-package yasnippet
-  :blackout yas-minor-mode
-  :hook (prog-mode . yas-minor-mode)
-  :hook (text-mode . yas-minor-mode)
-  :bind (;; The implicit keybinds conflict with org-mode's cycling, so we switch it to
-	 ;; be more explicit.
-	 ("M-/" . yas-expand)
-	 (:map yas-minor-mode-map
-	       ("<tab>" . nil)
-	       ("TAB"   . nil)))
-  :config
-  ;; TODO: look at yas/hippie-expand integration
-  ;; TODO: look at Sacha's change-cursor-color-when-can-expand
-
-  ;; `no-littering' overrides the snippets dir and makes it harder to find, so
-  ;; we change it back.
-  (setq yas-snippet-dirs
-        (list (expand-file-name "snippets" user-emacs-directory)
-          'yasnippet-snippets-dir)))
-
-(use-package yasnippet-snippets
-  :demand t
-  :after yasnippet)
-
-;;
 ;;; Tweaks
 
 ;; When region is active, make `capitalize-word' and friends act on it.
-
 (bind-key "M-c" #'capitalize-dwim)
 (bind-key "M-l" #'downcase-dwim)
 (bind-key "M-u" #'upcase-dwim)
@@ -185,11 +216,6 @@ This originally came from Sacha Chua's Emacs config."
  (lambda (c)
    (set-char-table-range auto-fill-chars c t))
  "!-=+]};:'\",.?")
-
-;; If a mode defines a comment, only autofill inside them.
-(setq comment-auto-fill-only-comments t)
-
-(blackout 'auto-fill-mode)
 
 ;; Make tab a tiny bit smarter - if the current line is already indented, then
 ;; complete at point.
@@ -219,9 +245,6 @@ This originally came from Sacha Chua's Emacs config."
 ;; Don't make distinctions between ASCII and siblings (like a and a
 ;; with an umlaut)
 (setq search-default-mode 'char-fold-to-regexp)
-
-;; Replace the default `newline' with `newline-and-indent'.
-(bind-key "RET" #'newline-and-indent)
 
 (provide 'belak-editor)
 ;;; belak-editor.el ends here.

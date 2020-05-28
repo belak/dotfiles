@@ -1,27 +1,16 @@
-;;; belak-core.el --- essential utilities -*- lexical-binding: t; -*-
+;;; belak-core.el -*- lexical-binding: t; -*-
 
 ;;
-;;; Constants
+;;; Package management
 
-(defconst IS-MAC   (eq system-type 'darwin))
-(defconst IS-LINUX (eq system-type 'gnu/linux))
-(defconst IS-GUI   (display-graphic-p))
-
-
-;;
-;;; Package Management
-
-;; Make straight only check for modifications made inside Emacs - this greatly
-;; improves startup time at the expense of being able to edit package files
-;; outside Emacs. We also need to use custom-set-variables over `setq' because
-;; the variable may not have been loaded yet and this needs to be done before
-;; the bootstrap is called.
-(custom-set-variables '(straight-check-for-modifications '(check-on-save find-when-checking)))
+(custom-set-variables '(straight-cache-autoloads t)
+                      '(straight-check-for-modifications '(check-on-save find-when-checking))
+                      '(straight-use-package-by-default t)
+                      '(straight-vc-git-default-clone-depth 1))
 
 ;; This is the official bootstrap code from the straight.el repo. In addition,
 ;; we use this to make sure `use-package', and `blackout' are installed so we
 ;; can use them with the rest of our configuration.
-
 (defvar bootstrap-version)
 (let ((bootstrap-file
        (expand-file-name "straight/repos/straight.el/bootstrap.el" user-emacs-directory))
@@ -37,67 +26,62 @@
 
 (require 'straight)
 
-;; By default, use straight to install a package of the same name. This can be
-;; overridden with `:straight nil'. We also provide a convenience macro called
-;; `use-feature' which works wraps `use-package' and disables straight.
-(setq straight-use-package-by-default t)
-
-;; Install the core packages we'll need for the rest of the configuration.
+;; Even though these packages are installed here, we actually require
+;; them in `belak-lib' to make it easier to provide to other modules.
 (straight-use-package 'use-package)
 (straight-use-package 'blackout)
 
-(eval-when-compile
-  (require 'use-package))
-(require 'blackout)
+(require 'belak-lib)
 
-;; Tell `use-package' to always load features lazily unless told otherwise. It's
-;; nicer to have this kind of thing be deterministic: if `:demand' is present,
-;; the loading is eager; otherwise, the loading is lazy. This lets us use
-;; `use-feature' similar to how the `after!' macro works in Doom Emacs.
-;;
-;; See https://github.com/jwiegley/use-package#notes-about-lazy-loading.
+;; By default, we want `use-package' to only load packages when explicitly
+;; called on. This makes it easier to lazy-load packages.
 (setq use-package-always-defer t)
 
 
 ;;
-;;; Load lib
+;;; No-Littering
 
-;; This includes a number of utility functions, macros, and hooks which are
-;; helpful for the rest of the config. Including it as early as possible makes
-;; it easy for us to ensure it has been loaded, but we do it after installing
-;; `use-package' because there are relevant utility functions there.
+;; We want to make sure we avoid dumping a bunch of additional files in our
+;; emacs directory, so we install to a hidden dir in our emacs directory.
+;;
+;; Note that the only thing that should be before this is any required setup to
+;; install this and prepare. We want to make sure these values are used for
+;; every package we load if possible.
+;;
+;; This configuration used to try and put the `etc' and `var' directories inside
+;; a hidden directory, but if the Emacs config ever failed to load, we were left
+;; with these directories anyway, so it's not worth the trouble.
 
-(require 'belak-lib)
+(use-package! no-littering
+  :demand t
+  :config
+  (setq auto-save-file-name-transforms
+        `((".*" ,(no-littering-expand-var-file-name "auto-save/") t))))
+
+
+;;
+;;; Packages
+
+;; Remember files we were recently in. We also clean up `recentf' when Emacs
+;; quits, so it should be only for the existing session.
+(use-feature! recentf
+  :demand t
+  :after no-littering
+  :hook (kill-emacs . recentf-cleanup)
+  :config
+  (add-to-list 'recentf-exclude no-littering-var-directory)
+  (add-to-list 'recentf-exclude no-littering-etc-directory)
+  (recentf-mode +1))
 
 
 ;;
 ;;; Optimizations
 
-;; We want to disable as much as possible as early as possible, so we do this as
-;; soon as we have our package manager loaded. There are some even
-;; higher-priority optimizations in `early-init.el' as well.
-
-;; We'd like to know how long startup took. This isn't explicitly related to
-;; optimization, but it is helpful for debugging startup times.
-(add-transient-hook! emacs-startup-hook
-  (let ((pkg-count (length (hash-table-keys straight--success-cache)))
-        (startup-time (float-time (time-subtract after-init-time before-init-time))))
-    (message "Loaded %d packages in %.03fs" pkg-count startup-time)))
-
-;; This is a hack to make garbage collection happen when the user is idle.
-;; There's a fairly high threshold when active and a fairly low threshold when
-;; idling.
-;;
-;; Also note that this will re-enable the GC. Early in the init process we set
-;; the limit super high so a GC wouldn't be triggered. However, this enables
-;; gcmh-mode after a command has been run in order to properly start the GC
-;; again.
-(use-package gcmh
+(use-package! gcmh
   :blackout
   :commands gcmh-mode
-  :hook (focus-out . gcmh-idle-garbage-collect)
-  :init
-  (add-transient-hook! pre-command-hook (gcmh-mode +1))
+  :hook (focus-out  . gcmh-idle-garbage-collect)
+  :hook (after-init . gcmh-mode)
   :config
   (setq gcmh-idle-delay 10
         gcmh-high-cons-threshold (* 100 1024 1024))) ; 100MB
@@ -105,7 +89,7 @@
 ;; So Long mitigates slowness due to extremely long lines. Currently available
 ;; in Emacs master branch only, so we fall back to the upstream.
 (unless (fboundp 'global-so-long-mode)
-  (use-package so-long
+  (use-package! so-long
     :commands global-so-long-mode
     :straight (:repo "https://git.savannah.gnu.org/git/so-long.git")))
 (add-transient-hook! pre-command-hook (global-so-long-mode +1))
@@ -120,10 +104,6 @@
 ;; inaccurate fontification while scrolling.
 (setq fast-but-imprecise-scrolling t)
 
-;; Don't highlight or display the cursor in non-selected windows.
-(setq-default cursor-in-non-selected-windows nil)
-(setq highlight-nonselected-windows nil)
-
 
 ;;
 ;;; System Variables
@@ -137,7 +117,7 @@
 ;; Note that we do this first just in case any other packages need values from
 ;; here.
 
-(use-package exec-path-from-shell
+(use-package! exec-path-from-shell
   :demand t
   :if (and IS-GUI (or IS-MAC IS-LINUX))
   :config
@@ -146,89 +126,9 @@
 
 
 ;;
-;;; No-littering
-
-;; We want to make sure we avoid dumping a bunch of additional files in our
-;; emacs directory, so we install to a hidden dir in our emacs directory.
-;;
-;; Note that the only thing that should be before this is any required setup to
-;; install this and prepare. We want to make sure these values are used for
-;; every package we load if possible.
-
-(use-package no-littering
-  :demand t
-  :preface
-  (setq no-littering-etc-directory
-	(expand-file-name ".local/etc/" user-emacs-directory))
-  (setq no-littering-var-directory
-	(expand-file-name ".local/var/" user-emacs-directory))
-  :config
-  (setq auto-save-file-name-transforms
-        `((".*" ,(no-littering-expand-var-file-name "auto-save/") t))))
-
-
-;;
-;;; Packages
-
-;; Revert buffers to their state on disk when they change. Note that this is a
-;; tweaked version of what ships with doom-emacs to simplify a number of things.
-(use-package autorevert
-  :blackout
-  ;; revert buffers when their files/state have changed
-  :hook (focus-in            . belak--auto-revert-buffers-h)
-  :hook (after-save          . belak--auto-revert-buffers-h)
-  :hook (belak-switch-buffer . belak--auto-revert-buffer-h)
-  :config
-  (setq auto-revert-verbose t ; let us know when it happens
-        auto-revert-use-notify nil
-        auto-revert-stop-on-user-input nil
-        ;; Only prompts for confirmation when buffer is unsaved.
-        revert-without-query (list "."))
-
-  ;; Instead of using `auto-revert-mode' or `global-auto-revert-mode', we employ
-  ;; lazy auto reverting on `focus-in-hook' and `belak-switch-buffer-hook'.
-  ;;
-  ;; This is because autorevert abuses the heck out of inotify handles which can
-  ;; grind Emacs to a halt if you do expensive IO (outside of Emacs) on the
-  ;; files you have open (like compression). We only really need to revert
-  ;; changes when we switch to a buffer or when we focus the Emacs frame.
-  (defun belak--auto-revert-buffer-h ()
-    "Auto revert current buffer, if necessary."
-    (unless (or auto-revert-mode (active-minibuffer-window))
-      (auto-revert-handler)))
-
-  (defun belak--auto-revert-buffers-h ()
-    "Auto revert stale buffers in visible windows, if necessary."
-    (dolist (buf (belak-visible-buffers))
-      (with-current-buffer buf
-        (belak--auto-revert-buffer-h)))))
-
-;; Remember files we were recently in. We also clean up `recentf' when Emacs
-;; quits, so it should be only for the existing session.
-(use-feature recentf
-  :demand t
-  :after no-littering
-  :hook (kill-emacs . recentf-cleanup)
-  :config
-  (add-to-list 'recentf-exclude no-littering-var-directory)
-  (add-to-list 'recentf-exclude no-littering-etc-directory)
-  (recentf-mode +1))
-
-;; Remember past minibuffer history. This pairs nicely with recentf.
-(use-package savehist
-  :demand t
-  :after no-littering
-  :config
-  (setq history-length t
-        history-delete-duplicates t
-        savehist-save-minibuffer-history 1)
-  (savehist-mode 1))
-
-
-;;
 ;;; Tweaks
 
-;; This "fixes" any cus tomizations we make so they don't polute the init.el. It
+;; This "fixes" any customizations we make so they don't polute the init.el. It
 ;; allows usage of the customization interface if there's ever a need.
 (setq custom-file (expand-file-name "custom.el" user-emacs-directory))
 (when (file-exists-p custom-file)
@@ -286,4 +186,4 @@
   (setq browse-url-browser-function 'browse-url-generic))
 
 (provide 'belak-core)
-;;; core.el ends here.
+;;; belak-core.el ends here.
