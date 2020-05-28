@@ -1,11 +1,11 @@
-;;; belak-tools -*- lexical-binding: t; -*-
+;;; belak-tools.el -*- lexical-binding: t; -*-
 
-(require 'belak-core)
+(require 'belak-lib)
 
 ;;
 ;;; Email
 
-(use-feature mu4e
+(use-feature! mu4e
   :load-path "/usr/local/share/emacs/site-lisp/mu/mu4e"
   :commands mu4e
   :config
@@ -37,76 +37,60 @@
 ;;
 ;;; Various Tools
 
-(use-package esup
+;; Provide something useful to make it easier to jump to other files at startup.
+(use-package! dashboard
+  :demand t
+  :config
+  ;; Ensure `emacsclient' starts up with the dashboard.
+  (setq initial-buffer-choice (lambda () (get-buffer "*dashboard*")))
+
+  (setq dashboard-startup-banner 'logo
+        dashboard-set-navigator t
+        dashboard-set-footer nil
+        dashboard-center-content t)
+
+  (setq dashboard-items '((recents   . 5)
+                          (bookmarks . 5)
+                          (projects  . 5)
+                          (agenda    . 5)
+                          (registers . 5)))
+
+  (dashboard-setup-startup-hook))
+
+(use-package! esup
   :commands esup)
 
-(use-package writeroom-mode
-  :commands belak-toggle-writeroom
-  :config
-  ;; We only want writeroom for the distraction-free part, not the "mess with
-  ;; your other settings part". It also does a terrible job of cleaning it up
-  ;; and restoring them so we just want our own toggle function.
-  (setq writeroom-global-effects nil
-        writeroom-mode-line t)
-
-  (defun belak-toggle-writeroom ()
-    (interactive)
-    (if writeroom-mode
-        (progn
-          (display-line-numbers-mode 1)
-          (writeroom-mode -1))
-      (progn
-        (display-line-numbers-mode -1)
-        (writeroom-mode 1)))))
-
-(use-package free-keys
+(use-package! free-keys
   :commands free-keys)
 
-;; NOTE: this should not be loaded by default because there's at least somewhat
-;; of a performance penalty.
-(use-package keyfreq
+(use-package! git-link
+  :commands git-link
   :config
-  (setq keyfreq-excluded-commands
-        '(self-insert-command
-          forward-char
-          backward-char
-          previous-line
-          next-line))
+  ;; Use the commit hash rather than the branch name in the URL.
+  (setq git-link-use-commit t))
 
-  (keyfreq-mode 1)
-  (keyfreq-autosave-mode 1))
+;; Replace the default help buffers with helpful because it's much prettier.
+(use-package! helpful
+  :bind
+  ("C-h f" . helpful-function)
+  ("C-h v" . helpful-variable)
+  ("C-h k" . helpful-key))
 
-;; This provides functionality similar to soulver on macOS, but we can use it
-;; everywhere.
-(use-package literate-calc-mode
+;; This provides functionality similar to soulver on macOS, but we can
+;; use it everywhere.
+(use-package! literate-calc-mode
   :mode ("\\.calc\\'" . literate-calc-mode))
 
-;; TODO: add shackle rules for these windows
-(use-feature net-utils
-  :bind
-  (:map mode-specific-map
-        :prefix-map net-utils-prefix-map
-        :prefix "n"
-        ("p" . ping)
-        ("i" . ifconfig)
-        ("w" . iwconfig)
-        ("n" . netstat)
-        ("p" . ping)
-        ("a" . arp)
-        ("r" . route)
-        ("h" . nslookup-host)
-        ("d" . dig)
-        ("s" . smbclient)
-        ("t" . traceroute))
-  :config
-  (when (or IS-MAC IS-LINUX)
-    (setq ping-program-options '("-c" "4"))))
+;; rainbow-mode makes it easier to see colors, but it's a bit
+;; overwhelming so it's left to be called when needed.
+(use-package! rainbow-mode
+  :commands rainbow-mode)
 
-;; vterm is like all the built-in terminals, but even better because it uses
-;; libvterm which is pretty solid and handles most control sequences really
-;; well.
-(use-package vterm
+;; vterm is like all the built-in terminals, but even better because
+;; it uses libvterm which is pretty solid and handles most control
+;; sequences really well.
+(use-package! vterm
   :commands vterm)
 
 (provide 'belak-tools)
-;;; belak-tools.el ends here
+;;; belak-tools.el ends here.

@@ -1,13 +1,13 @@
 ;;; belak-lang-c.el -*- lexical-binding: t; -*-
 
-(require 'belak-core)
+(require 'belak-lib)
 
 ;;
 ;;; Packages
 
 ;; `irony-mode' is a pretty solid dev environment for C/C++/ObjC, but we also
 ;; need to load up the additional `company' and `flycheck' modules.
-(use-package irony
+(use-package! irony
   :commands
   belak--maybe-enable-irony-mode
   :hook
@@ -25,18 +25,19 @@
       (irony-mode 1))))
 
 ;; Add completion support
-(use-package company-irony
+(use-package! company-irony
   :demand t
   :after (irony company)
   :config
   (set-company-backend! irony-mode-hook company-irony))
 
 ;; Add linting support
-(use-package flycheck-irony
+(use-package! flycheck-irony
   :demand t
   :after (irony flycheck)
   :config
   (add-hook 'flycheck-mode-hook #'flycheck-irony-setup))
+
 
 ;;
 ;;; Functions
@@ -56,6 +57,7 @@ http://stackoverflow.com/questions/3312114/how-to-tell-emacs-to-open-h-file-in-c
         (c-mode)
       (c++-mode))))
 (add-to-list 'auto-mode-alist '("\\.h\\'" . c-c++-header))
+
 
 ;;
 ;;; Tweaks

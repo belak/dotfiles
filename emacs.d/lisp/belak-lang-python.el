@@ -1,6 +1,6 @@
 ;;; belak-lang-python.el -*- lexical-binding: t; -*-
 
-(require 'belak-core)
+(require 'belak-lib)
 (require 'belak-dev)
 
 ;;
@@ -11,7 +11,7 @@
 ;; anaconda-mode and pyenv. It provides a nice mix of tweakability and
 ;; convenience.
 
-(use-feature python
+(use-feature! python
   :mode ("\\.py\\'" . python-mode)
   :interpreter
   ("python"  . python-mode)
@@ -21,7 +21,7 @@
 
 ;; anaconda-mode provides code navigation and docs. Additionally, if
 ;; company-mode is enabled, company-anaconda will also be enabled.
-(use-package anaconda-mode
+(use-package! anaconda-mode
   :diminish anaconda-mode
   :after python
   :hook (python-mode . anaconda-mode)
@@ -29,7 +29,7 @@
   (setq anaconda-mode-installation-directory "~/.emacs.d/.local/anaconda-mode")
   :hook (anaconda-mode . anaconda-eldoc-mode))
 
-(use-package company-anaconda
+(use-package! company-anaconda
   :demand t
   :after (anaconda-mode company)
   :config (set-company-backend! python-mode-hook company-anaconda))
@@ -39,7 +39,7 @@
 ;; available. In the past I used virtualenvwrapper, but after homebrew upgrades
 ;; I'd have to recreate all my python environments. Using pyenv lets me avoid
 ;; that.
-(use-package pyenv-mode
+(use-package! pyenv-mode
   :after (python projectile)
   :hook (projectile-after-switch-project . belak--projectile-pyenv-mode-hook)
   :config
@@ -51,7 +51,7 @@
 
 ;; Cycle between apostrophes and quotes in python strings. Converts strings like
 ;; 'this' to strings like "this".
-(use-package python-switch-quotes
+(use-package! python-switch-quotes
   :after python
   :bind
   (:map python-mode-map
@@ -59,7 +59,7 @@
 
 ;; This adds some basic features for requirements files, such as highlighting
 ;; and auto-completion of names from PyPI.
-(use-package pip-requirements
+(use-package! pip-requirements
   :mode
   ("requirements\\.txt\\'"    . pip-requirements-mode)
   ("requirements-.*\\.txt\\'" . pip-requirements-mode)

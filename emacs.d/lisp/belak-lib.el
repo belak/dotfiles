@@ -25,7 +25,24 @@
   "Copies the entire buffer to the kill-ring."
   (interactive)
   (copy-region-as-kill 1 (point-max)))
+;;; External Packages
+;;
+;; We actually want to export a number of packages from here to make it easier
+;; to write other modules. This lets us avoid requiring `belak-core' as well as
+;; `belak-lib' to make the byte-compiler happy even if we don't use them in this
+;; file explicitly.
 
+(eval-when-compile
+  (require 'use-package))
+(require 'blackout)
+
+
+;;
+;;; Constants
+
+(defconst IS-MAC   (eq system-type 'darwin))
+(defconst IS-LINUX (eq system-type 'gnu/linux))
+(defconst IS-GUI   (display-graphic-p))
 
 ;;
 ;;; Sulami Utility Functions
@@ -65,22 +82,16 @@
 ;;
 ;;; Macros
 
-(defmacro delq! (elt list &optional fetcher)
-  "`delq' ELT from LIST in-place.
-
-If FETCHER is a function, ELT is used as the key in LIST (an alist)."
-  `(setq ,list
-         (delq ,(if fetcher
-                    `(funcall ,fetcher ,elt ,list)
-                  elt)
-               ,list)))
-
-(defmacro appendq! (sym &rest lists)
-  "Append LISTS to SYM in-place."
-  `(setq ,sym (append ,sym ,@lists)))
+(defmacro after! (package &rest body)
+  "Evaluate `BODY' after `PACKAGE' have loaded."
+  (declare (indent defun))
+  (let ((body (macroexp-progn body)))
+    `(if (featurep ',package)
+         ,body
+       (eval-after-load ',package ',body))))
 
 (defmacro add-transient-hook! (hook &rest forms)
-  "Attaches a self-removing function NAME to a given HOOK."
+  "Attaches a self-removing function `NAME' to a given `HOOK'."
   (declare (indent 1))
   (let ((fn (gensym "belak--transient-")))
     `(progn
@@ -91,28 +102,48 @@ If FETCHER is a function, ELT is used as the key in LIST (an alist)."
        (put ',fn 'permanent-local-hook t)
        (add-hook ',hook #',fn))))
 
-(defmacro after! (package &rest body)
-  "Evaluate BODY after PACKAGE have loaded."
-  (declare (indent defun))
-  (let ((body (macroexp-progn body)))
-    `(if (featurep ',package)
-         ,body
-       (eval-after-load ',package ',body))))
+(defmacro appendq! (sym &rest lists)
+  "Append LISTS to SYM in-place."
+  `(setq ,sym (append ,sym ,@lists)))
 
-(defmacro use-feature (name &rest args)
+(defmacro delq! (elt list &optional fetcher)
+  "`delq' ELT from LIST in-place.
+
+If FETCHER is a function, ELT is used as the key in LIST (an alist)."
+  `(setq ,list
+         (delq ,(if fetcher
+                    `(funcall ,fetcher ,elt ,list)
+                  elt)
+               ,list)))
+
+(defmacro load-theme! (name &optional package &rest forms)
+  (declare (indent defun))
+  (let ((package-name (if package package (intern (format "%s-theme" name)))))
+    `(use-package! ,package-name
+       :demand t
+       :config
+       ,@forms
+
+       ;; TODO: check if we need to hook after-frame-make-funcsions for the
+       ;; daemon or if we can just use that for everything.
+
+       (add-transient-hook! window-setup-hook (load-theme ',name t)))))
+       ;;(add-transient-hook! emacs-startup-hook (load-theme ',name t)))))
+
+(defmacro use-feature! (name &rest forms)
   "Like `use-package', but disables straight integration.
-NAME and ARGS are as in `use-package'."
+`NAME' and `FORMS' are as in `use-package'."
+  (declare (indent defun))
+  `(use-package! ,name
+     :straight nil
+     ,@forms))
+
+(defmacro use-package! (name &rest forms)
+  "An alias for `use-package'"
   (declare (indent defun))
   `(use-package ,name
-     :straight nil
-     ,@args))
+     ,@forms))
 
-;; Highlight use-feature the same as use-package
-(defconst use-feature-font-lock-keywords
-  '(("(\\(use-feature\\)\\_>[ \t']*\\(\\(?:\\sw\\|\\s_\\)+\\)?"
-     (1 font-lock-keyword-face)
-     (2 font-lock-constant-face nil t))))
-(font-lock-add-keywords 'emacs-lisp-mode use-feature-font-lock-keywords)
 
 ;;
 ;;; Hooks
@@ -137,5 +168,14 @@ NAME and ARGS are as in `use-package'."
 (add-hook 'post-command-hook
           'run-belak-switch-buffer-hook)
 
+
+;;
+;;; Tweaks
+
+;; Disabling the additional `use-package` highlighting makes it so the package
+;; names aren't highlighted, but since we define out own similar macros, this
+;; saves us from having to declare the same highlighting on those as well.
+(font-lock-remove-keywords 'emacs-lisp-mode use-package-font-lock-keywords)
+
 (provide 'belak-lib)
-;; belak-lib.el ends here
+;;; belak-lib.el ends here.

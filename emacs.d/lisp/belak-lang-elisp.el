@@ -1,13 +1,13 @@
 ;;; belak-lang-elisp.el -*- lexical-binding: t; -*-
 
-(require 'belak-core)
+(require 'belak-lib)
 (require 'belak-dev)
 
 
 ;;
 ;;; Packages
 
-(use-package macrostep
+(use-package! macrostep
   :bind
   (:map emacs-lisp-mode-map
         ("C-c e" . macrostep-expand)
@@ -29,8 +29,7 @@
 
 (bind-key "C-c :" 'belak--eval-region-or-buffer)
 
-(use-feature flycheck
-  :config
+(after! flycheck
   (setq flycheck-emacs-lisp-load-path 'inherit)
 
   ;; Reduce verbosity of flycheck when we're in either the emacs or dotfiles

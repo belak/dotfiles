@@ -1,52 +1,12 @@
 ;;; belak-dev.el -*- lexical-binding: t; -*-
 
-(require 'belak-core)
-(require 'belak-ui)
+(require 'belak-lib)
 
 ;;
 ;;; Packages
 
-(use-feature autoinsert
-  :hook (find-file . auto-insert))
-
-(use-package company
-  :blackout
-  :preface
-  (defmacro set-company-backend! (hook backend)
-    `(add-hook ',hook (lambda ()
-                        (set (make-local-variable 'company-backends) (list ',backend)))))
-  :hook (prog-mode . company-mode)
-  :commands global-company-mode
-  :config
-  (require 'company-dabbrev)
-
-  ;; TODO: look into tab-n-go.
-
-  (use-package company-dabbrev
-    :straight nil
-    :config
-    ;; Improve basic text matching
-    (setq company-dabbrev-other-buffers nil
-          company-dabbrev-ignore-case nil
-          company-dabbrev-downcase nil))
-
-  (setq company-idle-delay 0.25
-        company-show-numbers t
-        company-tooltip-limit 14
-        company-tooltip-align-annotations t
-        company-require-match 'never
-        company-tooltip-flip-when-above t))
-
-(use-package company-quickhelp
-  :after company
-  :demand t
-  :config
-  (setq company-quickhelp-delay 3)
-
-  (company-quickhelp-mode 1))
-
 ;; Display changed/removed lines in the fringe.
-(use-package diff-hl
+(use-package! diff-hl
   ;; Enable `diff-hl' for programming, text, and `dired-mode'.
   :hook (prog-mode          . diff-hl-mode)
   :hook (text-mode          . diff-hl-mode)
@@ -61,7 +21,7 @@
   (unless IS-GUI
     (add-hook 'diff-hl-mode-hook #'diff-hl-margin-mode)))
 
-(use-feature dired
+(use-feature! dired
   :bind (:map dired-mode-map
               ;; Reuse the same dired window
               ("RET" . dired-find-alternate-file)
@@ -87,29 +47,29 @@
     (mapc #'kill-buffer (belak-buffers-in-mode 'dired-mode))
     (message "Killed all dired buffers")))
 
-(use-feature dired-x
+(use-feature! dired-x
   :after dired
   :hook (dired-mode . dired-omit-mode))
 
 ;; Add fancier colors to `dired-mode'.
-(use-package diredfl
+(use-package! diredfl
   :after dired
   :hook (dired-mode . diredfl-mode))
 
-(use-package editorconfig
+(use-package! editorconfig
   :blackout
   :hook
   (prog-mode . editorconfig-mode)
   (text-mode . editorconfig-mode))
 
-(use-feature eldoc
+(use-feature! eldoc
   :blackout
   :hook (prog-mode . eldoc-mode)
   :config
   (setq eldoc-idle-delay 0.1))
 
 ;; `flycheck-mode' is used for linters and catching compilation errors.
-(use-package flycheck
+(use-package! flycheck
   :blackout
   :hook (prog-mode . flycheck-mode)
   :config
@@ -136,47 +96,30 @@
 
   ;; When we use the error list, we want to make sure shackle puts it somewhere
   ;; better.
-  (add-shackle-rule '(flycheck-error-list-mode :noselect t :align 'below :size 7))
-  (add-winner-boring-buffer "*Flycheck errors*"))
+  (add-shackle-rule! '(flycheck-error-list-mode :noselect t :align 'below :size 7))
+  (add-winner-boring-buffer! "*Flycheck errors*"))
 
-(use-feature flyspell
-  :blackout
-  :hook
-  (text-mode . flyspell-mode)
-  (prog-mode . flyspell-prog-mode))
-
-(use-package git-link
-  :commands git-link
-  :config
-  ;; Use the commit hash rather than the branch name in the URL.
-  (setq git-link-use-commit t))
-
-(use-package highlight-escape-sequences
+(use-package! highlight-escape-sequences
   :hook (prog-mode . hes-mode))
 
-;; hl-todo simply highlights TODO and other similar comments to make them easier
-;; to find. I originally used fic-mode, but it appears that hl-todo is a little
-;; better and is updated more frequently.
-(use-package hl-todo
+(use-package! hl-todo
   :hook (prog-mode . hl-todo-mode)
   :config
-  ;; TODO: tweak hl-todo-keyword-faces, maybe remove most of them
+  ;; TODO: maybe tweaks hl-todo-keyword-faces, as I don't actually use most of
+  ;; them.
   (setq hl-todo-highlight-punctuation ":"))
 
 ;; `magit' is one of the best git interfaces I've ever used.
-(use-package magit
+(use-package! magit
   :bind
   ("C-c g" . magit-status)
   :config
   (setq magit-auto-revert-mode nil)
 
-  (add-shackle-rule '(magit-diff-mode :noselect t)))
+  (add-shackle-rule! '(magit-diff-mode :noselect t)))
 
-;; Project based navigation is how I deal with code. This tracks projects to
-;; make it easier to navigate between them.
-(use-package projectile
+(use-package! projectile
   :blackout
-  :commands (projectile-project-p projectile-mode)
   :bind-keymap ("C-c p" . projectile-command-map)
   :config
   ;; Strangely the default for projectile is `ido', not `default' as the name
@@ -189,53 +132,59 @@
 
   (projectile-mode +1))
 
-;; rainbow-mode makes it easier to see colors, but I don't use it very often so
-;; I leave it disabled unless called.
-(use-package rainbow-mode
-  :commands rainbow-mode)
 
-(use-feature remember
-  :commands remember remember-notes
+;;
+;;; Completion
+
+(use-package! company
+  :blackout
+  :preface
+  (defmacro set-company-backend! (hook backend)
+    `(add-hook ',hook (lambda ()
+                        (set (make-local-variable 'company-backends) (list ',backend)))))
+  :hook (prog-mode . company-mode)
+  :commands global-company-mode
   :config
-  (setq remember-notes-initial-major-mode 'gfm-mode))
+  (require 'company-dabbrev)
 
-(use-package ripgrep)
+  ;; TODO: look into tab-n-go.
 
-;; Feature `smerge-mode' provides an interactive mode for visualizing and
-;; resolving Git merge conflicts.
-(use-feature smerge-mode
-  :blackout)
+  (use-package! company-dabbrev
+    :straight nil
+    :config
+    ;; Improve basic text matching
+    (setq company-dabbrev-other-buffers nil
+          company-dabbrev-ignore-case nil
+          company-dabbrev-downcase nil))
 
-;; Because we use `magit' we really just want to disable the built-in Emacs VC
-;; support. This improves performance in a number of instances.
-(use-feature vc-hooks
+  (setq company-idle-delay 0.25
+        company-show-numbers t
+        company-tooltip-limit 14
+        company-tooltip-align-annotations t
+        company-require-match 'never
+        company-tooltip-flip-when-above t))
+
+(use-package! company-quickhelp
+  :after company
+  :demand t
   :config
+  (setq company-quickhelp-delay 3)
 
-  ;; Disable VC. This improves performance and disables some annoying
-  ;; warning messages and prompts, especially regarding symlinks. See
-  ;; https://stackoverflow.com/a/6190338/3538165.
-  (setq vc-handled-backends nil))
+  (company-quickhelp-mode 1))
 
 
 ;;
-;;; Mode Tweaks
+;;; Performance
 
-;; Make the lisp mode names a bit shorter
-(blackout 'lisp-interaction-mode "λ»")
-(blackout 'emacs-lisp-mode "Eλ")
-(blackout 'lisp-mode "λ")
+;; Because we use `magit' we really just want to disable the built-in Emacs VC
+;; support. This improves performance in a number of instances.
+(use-feature! vc-hooks
+  :config
 
-;; Auto wrap text in text-mode.
-;;(add-hook 'text-mode-hook #'auto-fill-mode)
-
-;; Visual line breaks rather than real ones makes more sense in text mode.
-(add-hook 'text-mode-hook #'visual-line-mode)
-
-;; Some extra files to support with basic modes
-(push '("LICENSE\\'"   . text-mode)      auto-mode-alist)
-(push '("\\.log\\'"    . text-mode)      auto-mode-alist)
-(push '("\\.env\\'"    . sh-mode)        auto-mode-alist)
-(push '("gitignore\\'" . conf-unix-mode) auto-mode-alist)
+  ;; Disable VC. This improves performance and disables some annoying warning
+  ;; messages and prompts, especially regarding symlinks. See
+  ;; https://stackoverflow.com/a/6190338/3538165.
+  (setq vc-handled-backends nil))
 
 (provide 'belak-dev)
-;;; belak-dev.el ends here.
+;;; belak-dev.el ends here
