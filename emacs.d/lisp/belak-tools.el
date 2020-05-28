@@ -40,8 +40,24 @@
 (use-package esup
   :commands esup)
 
-(use-package focus-mode
-  :commands focus-mode)
+(use-package writeroom-mode
+  :commands belak-toggle-writeroom
+  :config
+  ;; We only want writeroom for the distraction-free part, not the "mess with
+  ;; your other settings part". It also does a terrible job of cleaning it up
+  ;; and restoring them so we just want our own toggle function.
+  (setq writeroom-global-effects nil
+        writeroom-mode-line t)
+
+  (defun belak-toggle-writeroom ()
+    (interactive)
+    (if writeroom-mode
+        (progn
+          (display-line-numbers-mode 1)
+          (writeroom-mode -1))
+      (progn
+        (display-line-numbers-mode -1)
+        (writeroom-mode 1)))))
 
 (use-package free-keys
   :commands free-keys)
