@@ -34,7 +34,6 @@
 (use-package org
   :straight org-plus-contrib
   :mode ("\\.org\\'" . org-mode)
-  :hook (org-mode . visual-fill-mode)
   :bind (("C-c a" . org-agenda)
          ("C-c b" . org-switchb)
          ("C-c c" . org-capture)
