@@ -4,8 +4,8 @@
   (error "Detected Emacs %s but only 26.1 and higher is supported"
 	 emacs-version))
 
-;; Support for early-init was added in Emacs 27 so in order to
-;; properly support Emacs 26, we need to manually load it.
+;; Support for early-init was added in Emacs 27 so in order to properly support
+;; Emacs 26, we need to manually load it.
 (when (< emacs-major-version 27)
   (load (concat user-emacs-directory "early-init") nil 'nomessage))
 

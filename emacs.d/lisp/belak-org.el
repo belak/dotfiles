@@ -52,9 +52,9 @@
    org-src-tab-acts-natively t
    org-src-preserve-indentation t
 
-   ;; Make sure org isn't "helpful" in trying to add spaces at the
-   ;; start of code blocks. This makes it much easier to work with
-   ;; when dealing with babeled files.
+   ;; Make sure org isn't "helpful" in trying to add spaces at the start of code
+   ;; blocks. This makes it much easier to work with when dealing with babeled
+   ;; files.
    org-edit-src-content-indentation 0
 
    ;; Try to navigate to file links rather than open them.
