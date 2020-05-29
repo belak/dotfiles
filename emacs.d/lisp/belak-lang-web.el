@@ -21,9 +21,11 @@
   :interpreter ("node" . js2-mode))
 
 (use-package! typescript-mode
+  :blackout "Typescript"
   :mode ("\\.tsx?\\'" . typescript-mode))
 
 (use-package! tide
+  :blackout
   :after (typescript-mode company flycheck)
   :hook
   (typescript-mode . tide-setup)
