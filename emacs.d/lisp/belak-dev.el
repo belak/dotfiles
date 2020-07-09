@@ -176,15 +176,12 @@
 ;;
 ;;; Performance
 
-;; Because we use `magit' we really just want to disable the built-in Emacs VC
-;; support. This improves performance in a number of instances.
+;; Normally, we'd disable all the VC backends as we use Magit to interface with
+;; Git. However, `diff-hl' requires the VC backends to be enabled to work, so we
+;; disable everything other than git.
 (use-feature! vc-hooks
   :config
-
-  ;; Disable VC. This improves performance and disables some annoying warning
-  ;; messages and prompts, especially regarding symlinks. See
-  ;; https://stackoverflow.com/a/6190338/3538165.
-  (setq vc-handled-backends nil))
+  (setq vc-handled-backends '(Git)))
 
 (provide 'belak-dev)
 ;;; belak-dev.el ends here
