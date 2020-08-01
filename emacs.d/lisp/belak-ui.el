@@ -287,7 +287,7 @@ Pass the rest to the default handler."
       ;; during large-scale scrolling commands. If kept over 100, the window is
       ;; never automatically recentered.
       scroll-conservatively 101
-      scroll-margin 2
+      scroll-margin 3
 
       ;; NOTE: optimally, this would be set to true, but it seems to cause
       ;; issues with performance and cursor jumping when scrolling.
