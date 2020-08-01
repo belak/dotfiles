@@ -44,13 +44,6 @@
 (use-package! protobuf-mode
   :mode "\\.proto\\'")
 
-;; TODO: look at Sacha's ruby/robe config
-(use-package! ruby-mode
-  :mode "\\.rb\\'"
-  :config
-  :hook
-  (ruby-mode . subword-mode))
-
 (use-feature! sh-mode
   :mode
   "\\.zsh\\'"

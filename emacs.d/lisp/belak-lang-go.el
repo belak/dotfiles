@@ -22,6 +22,12 @@
   (defun belak--go-mode-hook ()
     (add-hook 'before-save-hook 'gofmt-before-save nil t)))
 
+(use-package! go-guru
+  :demand t
+  :after go-mode
+  :bind (:map go-mode-map
+              ("M-." . go-guru-definition)))
+
 (use-package! company-go
   :demand t
   :after (go-mode company)

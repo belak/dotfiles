@@ -86,6 +86,12 @@
 (use-package! rainbow-mode
   :commands rainbow-mode)
 
+;; Restclient gives us something similar to Postman, but in Emacs.
+(use-package! restclient
+  :mode ("\\.rest\\'" . restclient-mode)
+  :config
+  (setq restclient-log-request t))
+
 ;; vterm is like all the built-in terminals, but even better because
 ;; it uses libvterm which is pretty solid and handles most control
 ;; sequences really well.

@@ -118,6 +118,8 @@
         savehist-save-minibuffer-history 1)
   (savehist-mode 1))
 
+(use-feature! subword :blackout)
+
 (use-package! undo-tree
   :config
   (setq undo-tree-visualizer-diff t

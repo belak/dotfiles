@@ -94,7 +94,8 @@
    org-babel-load-languages '((emacs-lisp . t)
                               (calc . t)
                               (python . t)
-                              (shell . t))
+                              (shell . t)
+                              (ruby . t))
 
    ;; TODO: maybe replace calc with literate-calc and set up org-src-lang-modes
    ;; TODO: look at Sacha's org-sort-list-in-custom-order
