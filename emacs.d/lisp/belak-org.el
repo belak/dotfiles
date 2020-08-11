@@ -110,5 +110,9 @@
   ;;(add-function :after after-focus-change-function 'org-save-all-org-buffers)
   )
 
+(use-package! org-roam
+  :after org
+  :hook (after-init . org-roam-mode))
+
 (provide 'belak-org)
 ;;; belak-org.el ends here
