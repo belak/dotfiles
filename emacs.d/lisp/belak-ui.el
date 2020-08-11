@@ -304,5 +304,16 @@ Pass the rest to the default handler."
       mouse-wheel-scroll-amount '(1 ((shift) . 1))
       mouse-wheel-progressive-speed nil)  ; don't accelerate scrolling
 
+;;
+;;; Disable other themes when calling `load-theme'
+
+(defun belak-load-theme-advice (f theme-id &optional no-confirm no-enable &rest args)
+  "Enhances `load-theme' to disable enabled themes for a clean slate."
+  (unless no-enable
+    (belak-disable-all-themes))
+  (apply f theme-id no-confirm no-enable args))
+
+(advice-add 'load-theme :around #'belak-load-theme-advice)
+
 (provide 'belak-ui)
 ;;; belak-ui.el ends here.
