@@ -81,6 +81,10 @@
 (use-package! literate-calc-mode
   :mode ("\\.calc\\'" . literate-calc-mode))
 
+;; This allows us to read epubs in Emacs.
+(use-package! nov
+  :mode ("\\.epub\\'" . nov-mode))
+
 ;; rainbow-mode makes it easier to see colors, but it's a bit
 ;; overwhelming so it's left to be called when needed.
 (use-package! rainbow-mode

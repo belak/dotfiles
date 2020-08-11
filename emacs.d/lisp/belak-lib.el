@@ -20,11 +20,17 @@
                         (memq (buffer-local-value 'major-mode buf) modes))
                       (buffer-list))))
 
+(defun belak-disable-all-themes ()
+  (interactive)
+  (mapc #'disable-theme custom-enabled-themes))
+
 ;; TODO: add a binding for this
 (defun belak-copy-buffer ()
   "Copies the entire buffer to the kill-ring."
   (interactive)
   (copy-region-as-kill 1 (point-max)))
+
+;;
 ;;; External Packages
 ;;
 ;; We actually want to export a number of packages from here to make it easier
@@ -43,6 +49,7 @@
 (defconst IS-MAC   (eq system-type 'darwin))
 (defconst IS-LINUX (eq system-type 'gnu/linux))
 (defconst IS-GUI   (display-graphic-p))
+
 
 ;;
 ;;; Sulami Utility Functions
@@ -78,6 +85,7 @@
     (if face
         (message "Face: %s" face)
       (message "No face at %d" pos))))
+
 
 ;;
 ;;; Macros

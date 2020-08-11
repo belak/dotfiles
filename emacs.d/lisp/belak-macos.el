@@ -30,8 +30,8 @@
 ;; Swap command and meta. In order to support similar key binds between macOS
 ;; and Linux (at least in terms of placement on the keyboard) we swap command
 ;; and meta.
-(setq mac-command-modifier 'meta)
-(setq mac-option-modifier 'super)
+;;(setq mac-command-modifier 'meta)
+;;(setq mac-option-modifier 'super)
 
 (provide 'belak-macos)
 ;;; belak-macos.el ends here.

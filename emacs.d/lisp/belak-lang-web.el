@@ -33,6 +33,13 @@
 
 
 ;;
+;;; CSS
+
+(use-feature! css-mode
+  :mode "\\.css\\'")
+
+
+;;
 ;;; HTML
 
 (use-feature! nxml-mode

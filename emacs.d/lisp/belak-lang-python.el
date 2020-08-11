@@ -68,6 +68,5 @@
   ("requirements-.*\\.in\\'"  . pip-requirements-mode)
   ("requirements/.*\\.in\\'"  . pip-requirements-mode))
 
-
 (provide 'belak-lang-python)
 ;;; belak-lang-python.el ends here

@@ -77,6 +77,9 @@
 ;;
 ;;; Optimizations
 
+;; `gcmh-mode' is a long standing hack which tweaks the garbage collection to be
+;; more performant in normal scenarios. We also add a hook to focus-out so Emacs
+;; can GC in the background.
 (use-package! gcmh
   :blackout
   :commands gcmh-mode
