@@ -9,7 +9,8 @@
 (use-package! go-mode
   :mode "\\.go\\'"
   :hook ((go-mode . belak--go-mode-hook)
-         (go-mode . subword-mode))
+         (go-mode . subword-mode)
+         (go-mode . lsp))
   :config
   ;; Ignore go test -c output files
   (add-to-list 'completion-ignored-extensions ".test")
@@ -21,24 +22,6 @@
 
   (defun belak--go-mode-hook ()
     (add-hook 'before-save-hook 'gofmt-before-save nil t)))
-
-(use-package! go-guru
-  :demand t
-  :after go-mode
-  :bind (:map go-mode-map
-              ("M-." . go-guru-definition)))
-
-(use-package! company-go
-  :demand t
-  :after (go-mode company)
-  :config
-  (setq company-go-show-annotation t)
-  (set-company-backend! go-mode-hook company-go))
-
-(use-package! go-eldoc
-  :demand t
-  :after go-mode
-  :hook (go-mode . go-eldoc-setup))
 
 
 ;;

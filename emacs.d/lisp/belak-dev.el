@@ -149,6 +149,11 @@
 
   ;; TODO: look into tab-n-go.
 
+  ;; Reset the company backends to a fairly minimal set. We rely on the
+  ;; `lsp-mode' integration with `completion-at-point'. Any languages which need
+  ;; a specific backend other than these can configure them via hooks.
+  (setq company-backends '(company-capf company-files company-dabbrev))
+
   (use-package! company-dabbrev
     :straight nil
     :config
@@ -172,6 +177,24 @@
 
   (company-quickhelp-mode 1))
 
+;; Load lsp-mode for usage with languages
+(use-package! lsp-mode
+  :after company
+  :commands (lsp lsp-deferred)
+  :hook ((lsp-mode . lsp-enable-which-key-integration))
+  :config
+  (require 'lsp-clients)
+
+  ;; In order to keep things snappy, we disable file watching. In theory this
+  ;; shouldn't cause any major issues because local file changes should still
+  ;; trigger updates.
+  (setq lsp-enable-file-watchers nil)
+
+  ;; Ensure we're using `company-capf' as the completion provider.
+  (setq lsp-completion-provider :capf))
+
+(use-package! lsp-ui
+  :after lsp-mode)
 
 ;;
 ;;; Performance
