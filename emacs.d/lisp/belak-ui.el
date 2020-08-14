@@ -6,18 +6,18 @@
 ;;; Themes
 
 (load-theme! monokai-pro)               ; Based on the VSCode/Sublime themes
-;;(load-theme! modus-vivendi              ; A very accessible theme
-;;  modus-vivendi-theme
-;;  (setq modus-vivendi-theme-visible-fringes t
-;;        modus-vivendi-theme-slanted-constructs t))
-;;(load-theme! nord)                      ; Trying this one out
-;;(load-theme! zenburn)                   ; Oldie but a goodie
-;;(load-theme! zerodark)                  ; based on some old themes I liked
+;; (load-theme! modus-vivendi              ; A very accessible theme
+;;   modus-vivendi-theme
+;;   (setq modus-vivendi-theme-visible-fringes t
+;;         modus-vivendi-theme-slanted-constructs t))
+;; (load-theme! nord)                      ; Trying this one out
+;; (load-theme! zenburn)                   ; Oldie but a goodie
+;; (load-theme! zerodark)                  ; based on some old themes I liked
 
-;;(load-theme!                            ; One set of themes I maintain, so I try
-;; base16-default-dark                    ; to keep this around even when I'm not
-;; base16-theme)                          ; using it.
-;;(load-theme! grayscale)                 ; A simple mostly grayscale theme
+;; (load-theme!                            ; One set of themes I maintain, so I try
+;;  base16-default-dark                    ; to keep this around even when I'm not
+;;  base16-theme)                          ; using it.
+;; (load-theme! grayscale)                 ; A simple mostly grayscale theme
 
 
 ;;
@@ -169,6 +169,7 @@
   :config
   (selectrum-prescient-mode +1))
 
+
 ;;
 ;;; Tweaks
 
@@ -303,6 +304,7 @@ Pass the rest to the default handler."
       ;; mouse
       mouse-wheel-scroll-amount '(1 ((shift) . 1))
       mouse-wheel-progressive-speed nil)  ; don't accelerate scrolling
+
 
 ;;
 ;;; Disable other themes when calling `load-theme'

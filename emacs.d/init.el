@@ -23,6 +23,7 @@
   (require 'belak-core)                 ; low level setup
   (require 'belak-ui)                   ; make things pretty... well, prettier
   (require 'belak-editor)               ; load the text editing portion of this OS
+  ;;(require 'belak-evil)                 ; the text-editor program
 
   (when IS-MAC
     (require 'belak-macos))             ; macOS specific tweaks
