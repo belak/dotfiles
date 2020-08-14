@@ -5,11 +5,11 @@
 ;;
 ;;; Themes
 
-;;(load-theme! monokai-pro)               ; Based on the VSCode/Sublime themes
-(load-theme! modus-vivendi              ; A very accessible theme
-  modus-vivendi-theme
-  (setq modus-vivendi-theme-visible-fringes t
-        modus-vivendi-theme-slanted-constructs t))
+(load-theme! monokai-pro)               ; Based on the VSCode/Sublime themes
+;;(load-theme! modus-vivendi              ; A very accessible theme
+;;  modus-vivendi-theme
+;;  (setq modus-vivendi-theme-visible-fringes t
+;;        modus-vivendi-theme-slanted-constructs t))
 ;;(load-theme! nord)                      ; Trying this one out
 ;;(load-theme! zenburn)                   ; Oldie but a goodie
 ;;(load-theme! zerodark)                  ; based on some old themes I liked
