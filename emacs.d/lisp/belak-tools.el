@@ -90,6 +90,9 @@
 (use-package! rainbow-mode
   :commands rainbow-mode)
 
+(use-package! ranger
+  :commands ranger)
+
 ;; Restclient gives us something similar to Postman, but in Emacs.
 (use-package! restclient
   :mode ("\\.rest\\'" . restclient-mode)

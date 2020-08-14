@@ -99,6 +99,14 @@
   :init
   (add-transient-hook! pre-command-hook (midnight-mode 1)))
 
+;; Multiple cursors can be very powerful when used right.
+(use-package! multiple-cursors
+  :bind
+  ("C-S-c C-S-c" . mc/edit-lines)
+  ("C->"         . mc/mark-next-like-this)
+  ("C-<"         . mc/mark-previous-like-this)
+  ("C-c C-<"     . mc/mark-all-like-this))
+
 ;; Highlight matching delimiters
 (use-package! paren
   :demand t
@@ -118,9 +126,13 @@
         savehist-save-minibuffer-history 1)
   (savehist-mode 1))
 
+;; We use subword mode in a few `prog-mode' major modes like Go, but we want it
+;; hidden, so we black it out here.
 (use-feature! subword :blackout)
 
 (use-package! undo-tree
+  :defer nil
+  :blackout
   :config
   (setq undo-tree-visualizer-diff t
         undo-tree-visualizer-timestamps t)
