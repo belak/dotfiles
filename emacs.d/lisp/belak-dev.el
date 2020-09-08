@@ -183,8 +183,6 @@
   :commands (lsp lsp-deferred)
   :hook ((lsp-mode . lsp-enable-which-key-integration))
   :config
-  (require 'lsp-clients)
-
   ;; In order to keep things snappy, we disable file watching. In theory this
   ;; shouldn't cause any major issues because local file changes should still
   ;; trigger updates.
