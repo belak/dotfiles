@@ -292,7 +292,12 @@ Pass the rest to the default handler."
 
       ;; NOTE: optimally, this would be set to true, but it seems to cause
       ;; issues with performance and cursor jumping when scrolling.
-      scroll-preserve-screen-position nil
+      ;;
+      ;; NOTE: this actually has 3 possible values: nil (disable), t (enable
+      ;; when moving off screen), and all other values (always enable). We
+      ;; actually want it always enabled, but that isn't `t' for some reason, so
+      ;; we make something up.
+      scroll-preserve-screen-position 'enable
 
       ;; Reduce cursor lag by a tiny bit by not auto-adjusting `window-vscroll'
       ;; for tall lines.
