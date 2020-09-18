@@ -273,7 +273,7 @@ Pass the rest to the default handler."
      (t
       (command-error-default-function data context caller)))))
 
-(setq command-error-function #'belak-command-error-function)
+;;(setq command-error-function #'belak-command-error-function)
 
 
 ;;
@@ -287,8 +287,12 @@ Pass the rest to the default handler."
       ;; `scroll-conservatively'). This is especially slow in larger files
       ;; during large-scale scrolling commands. If kept over 100, the window is
       ;; never automatically recentered.
-      scroll-conservatively 101
+      ;;scroll-conservatively 101
+
+      ;; Always keep 3 lines between the cursor and the top/bottom of the buffer
+      ;; when possible. Additionally, we always want to scroll by 1.
       scroll-margin 3
+      scroll-step 1
 
       ;; NOTE: optimally, this would be set to true, but it seems to cause
       ;; issues with performance and cursor jumping when scrolling.
@@ -297,18 +301,23 @@ Pass the rest to the default handler."
       ;; when moving off screen), and all other values (always enable). We
       ;; actually want it always enabled, but that isn't `t' for some reason, so
       ;; we make something up.
-      scroll-preserve-screen-position 'enable
+      ;;
+      ;; NOTE: I've given up on this setting for now - it causes the cursor to
+      ;; jump to the middle of the screen, ignoring our other carefully tweaked
+      ;; settings. It's not worth the frustration of having your cursor suddenly
+      ;; on a different line.
+      ;;
+      ;;scroll-preserve-screen-position 'enable
 
       ;; Reduce cursor lag by a tiny bit by not auto-adjusting `window-vscroll'
       ;; for tall lines.
       auto-window-vscroll nil
 
-      ;;scroll-up-aggressively 0.01
-      ;;scroll-down-aggressively 0.01
-
       ;; mouse
-      mouse-wheel-scroll-amount '(1 ((shift) . 1))
-      mouse-wheel-progressive-speed nil)  ; don't accelerate scrolling
+      mouse-wheel-scroll-amount '(1
+                                  ;;((shift)   . 1)
+                                  ((control) . text-scale))
+      mouse-wheel-progressive-speed nil)
 
 
 ;;
