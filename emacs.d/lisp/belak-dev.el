@@ -114,7 +114,9 @@
   :bind
   ("C-c g" . magit-status)
   :config
-  (setq magit-auto-revert-mode nil)
+  ;; Unfortunately, as this causes major performance issues in large repos,
+  ;; which I often run into at my job, it's just easier to disable this.
+  (magit-auto-revert-mode -1)
 
   (add-shackle-rule! '(magit-diff-mode :noselect t)))
 

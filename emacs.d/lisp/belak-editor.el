@@ -5,6 +5,8 @@
 ;;
 ;;; Packages
 
+;; TODO: take a look at bufler
+
 ;; Revert buffers to their state on disk when they change. Note that this is a
 ;; tweaked version of what ships with doom-emacs to simplify a number of things.
 (use-feature! autorevert
