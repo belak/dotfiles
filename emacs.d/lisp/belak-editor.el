@@ -133,6 +133,8 @@
 (use-package! undo-tree
   :defer nil
   :blackout
+  :bind
+  ("C-c u" . undo-tree-visualize)
   :config
   (setq undo-tree-visualizer-diff t
         undo-tree-visualizer-timestamps t)
@@ -142,12 +144,13 @@
   :blackout yas-minor-mode
   :hook (prog-mode . yas-minor-mode)
   :hook (text-mode . yas-minor-mode)
-  :bind (;; The implicit keybinds conflict with org-mode's cycling, so we switch it to
-	 ;; be more explicit.
-	 ("M-/" . yas-expand)
-	 (:map yas-minor-mode-map
-	       ("<tab>" . nil)
-	       ("TAB"   . nil)))
+  :bind (
+         ;; The implicit keybinds conflict with org-mode's cycling, so we switch
+	     ;; it to be more explicit.
+	     ("M-/" . yas-expand)
+	     (:map yas-minor-mode-map
+	           ("<tab>" . nil)
+	           ("TAB"   . nil)))
   :config
   ;; TODO: look at yas/hippie-expand integration
   ;; TODO: look at Sacha's change-cursor-color-when-can-expand
@@ -222,8 +225,20 @@ This originally came from Sacha Chua's Emacs config."
 (bind-key "M-l" #'downcase-dwim)
 (bind-key "M-u" #'upcase-dwim)
 
+;; Add an alternate keybind for commenting.
+(bind-key "C-c /" #'comment-dwim)
+
 ;; Useful method of popping back to a previous location.
 (bind-key "C-x p" #'pop-to-mark-command)
+
+;; It's much more useful to kill the current buffer rather than the whole frame,
+;; similar to what other applications do.
+(bind-key "s-w" #'kill-this-buffer)
+
+;; Unbind anything we don't find useful.
+(unbind-key "s-t")                      ; I don't think I've ever needed the
+                                        ; font panel in emacs, let alone bound
+                                        ; to something as easy to type as this.
 
 ;; Trigger auto-fill after punctuation characters, not just whitespace.
 (mapc
