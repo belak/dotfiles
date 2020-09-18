@@ -25,9 +25,33 @@
 
 ;; Make it clearer which window you're switching to when using C-x o.
 (use-package! ace-window
+  :defer nil
   :bind
   ("C-x o" . ace-window)
-  ("M-o"   . ace-window))
+  ("M-o"   . ace-window)
+  :config
+  ;; Don't dim the background and use easy-to-type letters rather than numbers
+  ;; for the jump keys.
+  (setq aw-background nil
+        aw-keys       '(?a ?s ?d ?f ?g ?h ?j ?k ?l))
+
+  ;; Advise ace-window so no cursors display while it is active.
+  (defun belak--ace-window (orig-fun &rest args)
+    (let ((cursor-type nil)
+          (cursor-in-non-selected-window nil))
+      (apply orig-fun args)))
+
+  (advice-add 'ace-window :around #'belak--ace-window)
+
+  ;; Always display the window key in the modeline to make jumping easier.
+  (ace-window-display-mode 1))
+
+;; Dim the non-active window to make it a little easier to focus on the
+;; currently active window.
+(use-package dimmer
+  :defer nil
+  ;;:custom (dimmer-fraction 0.2)
+  :hook (after-init . dimmer-mode))
 
 ;; We want line numbers to make it easier when using prefix commands.
 (use-feature! display-line-numbers
@@ -107,6 +131,8 @@
         which-key-min-display-lines 6
         which-key-side-window-slot -10)
 
+  ;; TODO: add support for `which-key-enable-extended-define-key'
+
   ;; Set up which-key to only display when C-h is pressed.
   ;; (setq which-key-show-early-on-C-h t
   ;;       which-key-idle-delay most-positive-fixnum
@@ -140,9 +166,16 @@
        (appendq! winner-boring-buffers (list ,boring-buffer-name))))
   :config
   (setq winner-boring-buffers
-        '("*Completions*" "*Compile-Log*" "*inferior-lisp*"
-          "*Fuzzy Completions*" "*Apropos*" "*Help*" "*cvs*"
-          "*Buffer List*" "*Ibuffer*" "*esh command on file*"))
+        '("*Apropos*"
+          "*Buffer List*"
+          "*Compile-Log*"
+          "*Completions*"
+          "*Fuzzy Completions*"
+          "*Help*"
+          "*Ibuffer*"
+          "*cvs*"
+          "*esh command on file*"
+          "*inferior-lisp*"))
   (winner-mode +1))
 
 
