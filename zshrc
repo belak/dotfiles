@@ -2,68 +2,40 @@
 # Dependencies
 #
 
-[[ ! -d "$HOME/.antigen" ]] && git clone https://github.com/zsh-users/antigen.git "$HOME/.antigen"
-source "$HOME/.antigen/antigen.zsh"
+[[ ! -d "$HOME/.zplug" ]] && git clone https://github.com/zplug/zplug "$HOME/.zplug"
+source "$HOME/.zplug/init.zsh"
 [[ ! -d "$HOME/.nvm" ]] && git clone https://github.com/creationix/nvm "$HOME/.nvm"
 
 #
 # Plugins
 #
 
-if [[ -f "$HOME/.use-prezto" ]]; then
-  #source "$HOME/.antigen/bundles/sorin-ionescu/prezto/modules/prompt/external/powerlevel10k/config/p10k-lean.zsh"
-  zstyle ':prezto:*:*' color 'yes'
-  zstyle ':prezto:module:editor' key-bindings 'emacs'
-  zstyle ':prezto:module:git:alias' skip 'yes'
-  #zstyle ':prezto:module:prompt' theme 'powerlevel10k'
-  zstyle ':prezto:module:prompt' theme 'belak'
-  zstyle ':prezto:module:prompt' pwd-length 'short'
-  zstyle ':prezto:module:ruby:chruby' auto-switch 'yes'
-  zstyle ':prezto:module:terminal' auto-title 'yes'
-  zstyle ':prezto:module:python' autovenv 'yes'
-  zstyle ':prezto:load' pmodule \
-      'environment' \
-      'helper' \
-      'editor' \
-      'history' \
-      'git' \
-      'contrib-prompt' \
-      'prompt' \
-      'utility' \
-      'gpg' \
-      'ssh' \
-      'python' \
-      'ruby' \
-      'completion' \
-      'syntax-highlighting' \
-      'ssh'
+# Let zplug manage itself when using zplug update
+zplug 'zplug/zplug', hook-build:'zplug --self-manage'
 
-  antigen use prezto
-else
-  # Set the default plugin repo to be zsh-utils
-  antigen use belak/zsh-utils
+# Specify completions we want before the completion module
+zplug "zsh-users/zsh-completions"
 
-  # Specify completions we want before the completion module
-  antigen bundle zsh-users/zsh-completions
+# Specify which zsh-utils modules we want
+zplug "belak/zsh-utils", use:"editor/*.plugin.zsh"
+zplug "belak/zsh-utils", use:"history/*.plugin.zsh"
+zplug "belak/zsh-utils", use:"prompt/*.plugin.zsh"
+zplug "belak/zsh-utils", use:"utility/*.plugin.zsh"
+zplug "belak/zsh-utils", use:"completion/*.plugin.zsh"
 
-  # Specify plugins we want
-  antigen bundle editor
-  antigen bundle history
-  antigen bundle prompt
-  antigen bundle utility
-  antigen bundle completion
-
-  # Load gitstatus for our prompt
-  antigen bundle romkatv/gitstatus
-fi
+# Load gitstatus for our prompt
+zplug "romkatv/gitstatus"
 
 # Specify additional external plugins we want
-antigen bundle rupa/z z.sh
-#antigen bundle zsh-users/zsh-syntax-highlighting
-antigen bundle zdharma/fast-syntax-highlighting
+zplug "rupa/z", use:z.sh
+#zplug "zsh-users/zsh-syntax-highlighting"
+zplug "zdharma/fast-syntax-highlighting", defer:2
 
-# Load everything
-antigen apply
+if ! zplug check; then
+    zplug install
+fi
+
+zplug load
 
 #
 # Settings
