@@ -24,4 +24,4 @@ rofi.hlfg:     #f0dfaf
 rofi.hlbg:     #1e2320
 
 ! include the color scheme
-#include ".belak/xcolors/base16-tomorrow"
+#include ".belak/xcolors/linux"
