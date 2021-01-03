@@ -1,7 +1,9 @@
 # Use a nice font that we can install everywhere
 font:
   normal:
-    family: Source Code Pro
+    family: Terminus
+  bold:
+    style: Regular
 
   size: 12
 
