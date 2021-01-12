@@ -12,3 +12,5 @@
 	user = belak
 [rerere]
 	enabled = true
+[init]
+    defaultBranch = main
