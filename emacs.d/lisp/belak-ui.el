@@ -21,6 +21,12 @@
 
 
 ;;
+;;; Fonts
+
+(add-to-list 'default-frame-alist '(font . "Terminus 12"))
+
+
+;;
 ;;; Packages
 
 ;; Make it clearer which window you're switching to when using C-x o.
@@ -347,8 +353,8 @@ Pass the rest to the default handler."
       auto-window-vscroll nil
 
       ;; mouse
-      mouse-wheel-scroll-amount '(1
-                                  ;;((shift)   . 1)
+      mouse-wheel-scroll-amount '(3
+                                  ((shift)   . 1)
                                   ((control) . text-scale))
       mouse-wheel-progressive-speed nil)
 
