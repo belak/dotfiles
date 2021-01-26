@@ -112,6 +112,7 @@
 
 (use-package! org-roam
   :after org
+  :blackout
   :hook (after-init . org-roam-mode))
 
 (provide 'belak-org)
