@@ -34,6 +34,12 @@
   :after (anaconda-mode company)
   :config (set-company-backend! python-mode-hook company-anaconda))
 
+(use-package! blacken
+  :after python
+  :hook (python-mode . blacken-mode)
+  :config
+  (setq blacken-only-if-project-is-blackened t))
+
 ;; This allows for simple switching between pyenv environments and provides us
 ;; with some basic building blocks to auto-switch to the proper pyenv if
 ;; available. In the past I used virtualenvwrapper, but after homebrew upgrades

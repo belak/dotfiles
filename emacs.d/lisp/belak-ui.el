@@ -312,7 +312,7 @@ Pass the rest to the default handler."
      (t
       (command-error-default-function data context caller)))))
 
-;;(setq command-error-function #'belak-command-error-function)
+(setq command-error-function #'belak-command-error-function)
 
 
 ;;
