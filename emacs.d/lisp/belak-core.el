@@ -37,6 +37,10 @@
 ;; called on. This makes it easier to lazy-load packages.
 (setq use-package-always-defer t)
 
+;; Some debugging toggles, used for diagnosing startup and startup speed.
+(setq use-package-verbose t
+      use-package-minimum-reported-time 0.001)
+
 
 ;;
 ;;; No-Littering
@@ -124,7 +128,7 @@
   :demand t
   :if (and IS-GUI (or IS-MAC IS-LINUX))
   :config
-  (setq exec-path-from-shell-check-startup-files nil)
+  (setq exec-path-from-shell-arguments nil)
   (exec-path-from-shell-initialize))
 
 
