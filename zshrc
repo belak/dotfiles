@@ -1,3 +1,7 @@
+if [[ $+commands[tty] && $(tty) = "/dev/tty1" ]]; then
+    exec startx
+fi
+
 #
 # Dependencies
 #
