@@ -1,0 +1,18 @@
+#!/bin/sh
+
+pgrep -x sxhkd > /dev/null || sxhkd &
+
+bspc monitor -d tty www dev opt
+
+bspc config border_width         2
+bspc config window_gap           5
+
+bspc config split_ratio           0.52
+bspc config borderless_monocle    true
+bspc config gapless_monocle       true
+bspc config focus_follows_pointer true
+
+# This needs to pick up the space names from previous bspc commands. Thankfully
+# it's optional so if something early in the config fails, it's not a big deal
+# if this fails to start... so we just put it last.
+pgrep -x polybar > /dev/null || polybar -r mybar
