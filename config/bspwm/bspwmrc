@@ -1,8 +1,6 @@
 #!/bin/sh
 
-$HOME/.config/bspwm/ensure-running.sh sxhkd &
-$HOME/.config/bspwm/ensure-running.sh xss-lock -- \
-    i3lock --blur 1 --color 000000ff --pass-media-keys --pass-screen-keys &
+~/.config/bspwm/config-pre.sh
 
 bspc monitor -d tty www dev opt
 
@@ -14,7 +12,5 @@ bspc config borderless_monocle    true
 bspc config gapless_monocle       true
 bspc config focus_follows_pointer true
 
-# This needs to pick up the space names from previous bspc commands. Thankfully
-# it's optional so if something early in the config fails, it's not a big deal
-# if this fails to start... so we just put it last.
-$HOME/.config/bspwm/ensure-running.sh polybar -r mybar &
+~/.config/bspwm/config-post.sh &
+
