@@ -77,6 +77,10 @@ let g:lightline = {
 
 " Various Settings {{{
 
+" We use rooter to automatically cd to the project root, but we don't want it to
+" tell us it did that.
+let g:rooter_silent_chdir = 1
+
 " Golang specific settings
 let g:go_fmt_command = "goimports"
 
