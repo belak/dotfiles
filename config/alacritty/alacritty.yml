@@ -1,40 +1,77 @@
+env:
+  # Unfortunately many servers don't have terminfo for alacritty. xterm-256color
+  # should be just about everywhere (and is actually alacritty's fallback), so
+  # we just use that.
+  TERM: xterm-256color
+
 # Use a nice font that we can install everywhere
 font:
   normal:
     family: Terminus
-  bold:
-    style: Regular
 
-  size: 12
+  # I have no idea why this needs to be 7 to match with what 12 is everywhere
+  # else. Something's messed up somewhere.
+  size: 7
 
-# No need for bold when using bright colors
-draw_bold_text_with_bright_colors: false
+# Setting this to true will make it so we actually draw "bold" text with
+# different colors.
+draw_bold_text_with_bright_colors: true
 
-# Hybrid colors
-colors:
-  primary:
-    background: '0x1d1f21'
-    foreground: '0xc5c8c6'
+schemes:
+  # Based on the linux terminal. This is also the default in Xterm. It's very
+  # high-contrast and fairly readable.
+  linux: &linux
+    primary:
+      background: '0x000000'
+      foreground: '0xffffff'
 
-  normal:
-    black:   '0x282a2e'
-    red:     '0xa54242'
-    green:   '0x8c9440'
-    yellow:  '0xde935f'
-    blue:    '0x5f819d'
-    magenta: '0x85678f'
-    cyan:    '0x5e8d87'
-    white:   '0x707880'
+    normal:
+      black:   '0x000000'
+      red:     '0xaa0000'
+      green:   '0x00aa00'
+      yellow:  '0xaa5500'
+      blue:    '0x0000aa'
+      magenta: '0xaa00aa'
+      cyan:    '0x00aaaa'
+      white:   '0xaaaaaa'
 
-  bright:
-    black:   '0x373b41'
-    red:     '0xcc6666'
-    green:   '0xb5bd68'
-    yellow:  '0xf0c674'
-    blue:    '0x81a2be'
-    magenta: '0xb294bb'
-    cyan:    '0x8abeb7'
-    white:   '0xc5c8c6'
+    bright:
+      black:   '0x555555'
+      red:     '0xff5555'
+      green:   '0x55ff55'
+      yellow:  '0xffff55'
+      blue:    '0x5555ff'
+      magenta: '0xff55ff'
+      cyan:    '0x55ffff'
+      white:   '0xffffff'
+
+  hybrid: &hybrid
+    primary:
+      background: '0x1d1f21'
+      foreground: '0xc5c8c6'
+
+    normal:
+      black:   '0x282a2e'
+      red:     '0xa54242'
+      green:   '0x8c9440'
+      yellow:  '0xde935f'
+      blue:    '0x5f819d'
+      magenta: '0x85678f'
+      cyan:    '0x5e8d87'
+      white:   '0x707880'
+
+    bright:
+      black:   '0x373b41'
+      red:     '0xcc6666'
+      green:   '0xb5bd68'
+      yellow:  '0xf0c674'
+      blue:    '0x81a2be'
+      magenta: '0xb294bb'
+      cyan:    '0x8abeb7'
+      white:   '0xc5c8c6'
+
+# Linux colors
+colors: *linux
 
 # Hide the mouse when we're not using it
 mouse:
