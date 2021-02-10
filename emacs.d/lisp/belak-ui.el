@@ -5,12 +5,12 @@
 ;;
 ;;; Themes
 
-(load-theme! monokai-pro)               ; Based on the VSCode/Sublime themes
-;; (load-theme! modus-vivendi              ; A very accessible theme
-;;   modus-vivendi-theme
-;;   (setq modus-themes-no-mixed-fonts t
-;;         modus-vivendi-theme-fringes 'subtle
-;;         modus-vivendi-theme-slanted-constructs t))
+;; (load-theme! monokai-pro)               ; Based on the VSCode/Sublime themes
+(load-theme! modus-vivendi              ; A very accessible theme
+  modus-vivendi-theme
+  (setq modus-themes-no-mixed-fonts t
+        modus-vivendi-theme-fringes 'subtle
+        modus-vivendi-theme-slanted-constructs t))
 ;; (load-theme! nord)                      ; Trying this one out
 ;; (load-theme! zenburn)                   ; Oldie but a goodie
 ;; (load-theme! zerodark)                  ; based on some old themes I liked
@@ -24,8 +24,8 @@
 ;;
 ;;; Fonts
 
-(set-face-font 'default        "Terminus")
-(set-face-font 'fixed-pitch    "Terminus")
+(set-face-font 'default        "Terminus 12")
+(set-face-font 'fixed-pitch    "Terminus 12")
 ;;(set-face-font 'variable-pitch "")
 
 
