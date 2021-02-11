@@ -10,3 +10,5 @@ polybar -r mybar &
 # Try to restore our saved backlight brightness state.
 brightnessctl -r
 brightnessctl -r --device tpacpi::kbd_backlight
+
+if [[ -f ~/.fehbg ]]; then ~/.fehbg; fi
