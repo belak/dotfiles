@@ -1,0 +1,10 @@
+# Default to a font we can install everywhere.
+#
+# Alternatively, we could specify this in the main config file, but then it
+# wouldn't be possible to override values in other files, which we generally
+# want to do on MacOS.
+font:
+  normal:
+    family: Terminus
+
+  size: 12
