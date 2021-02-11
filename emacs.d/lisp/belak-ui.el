@@ -24,8 +24,14 @@
 ;;
 ;;; Fonts
 
-(set-face-font 'default        "Terminus 12")
-(set-face-font 'fixed-pitch    "Terminus 12")
+(cond
+ (IS-MAC
+  (set-face-font 'default        "Monaco")
+  (set-face-font 'fixed-pitch    "Monaco"))
+ (IS-LINUX
+  (set-face-font 'default        "Terminus 12")
+  (set-face-font 'fixed-pitch    "Terminus 12")))
+
 ;;(set-face-font 'variable-pitch "")
 
 
@@ -356,10 +362,10 @@ Pass the rest to the default handler."
       auto-window-vscroll nil
 
       ;; mouse
-      mouse-wheel-scroll-amount '(3
-                                  ((shift)   . 1)
+      mouse-wheel-scroll-amount '(2
+                                  ((shift)   . hscroll)
                                   ((control) . text-scale))
-      mouse-wheel-progressive-speed nil)
+      mouse-wheel-scroll-amount-horizontal 2)
 
 
 ;;
