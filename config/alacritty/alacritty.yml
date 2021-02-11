@@ -9,12 +9,10 @@ font:
   normal:
     family: Terminus
 
-  # I have no idea why this needs to be 7 to match with what 12 is everywhere
-  # else. Something's messed up somewhere.
-  size: 7
+  size: 12
 
 # Setting this to true will make it so we actually draw "bold" text with
-# different colors.
+# different colors. This lets many applications use 16 colors rather than 8.
 draw_bold_text_with_bright_colors: true
 
 schemes:
