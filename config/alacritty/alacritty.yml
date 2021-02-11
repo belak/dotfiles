@@ -1,15 +1,15 @@
+# NOTE: we have a separate fonts.yml file because it needs to be possible to
+# override fonts on specific machines/platforms (Alacritty doesn't currently
+# have a way to import only if on a specific platform).
+import:
+  - ~/.config/alacritty/fonts.yml
+  - ~/.config/alacritty/local.yml
+
 env:
   # Unfortunately many servers don't have terminfo for alacritty. xterm-256color
   # should be just about everywhere (and is actually alacritty's fallback), so
   # we just use that.
   TERM: xterm-256color
-
-# Use a nice font that we can install everywhere
-font:
-  normal:
-    family: Terminus
-
-  size: 12
 
 # Setting this to true will make it so we actually draw "bold" text with
 # different colors. This lets many applications use 16 colors rather than 8.
