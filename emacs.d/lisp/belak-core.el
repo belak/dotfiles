@@ -71,7 +71,10 @@
 (use-feature! recentf
   :demand t
   :after no-littering
-  :hook (kill-emacs . recentf-cleanup)
+  ;; For some reason this hook causes issues with exiting, so it's disabled for
+  ;; now until I can find time to debug it.
+  ;;
+  ;;:hook (kill-emacs . recentf-cleanup)
   :config
   (add-to-list 'recentf-exclude no-littering-var-directory)
   (add-to-list 'recentf-exclude no-littering-etc-directory)
@@ -196,6 +199,10 @@
 (if IS-LINUX
     (setq browse-url-browser-function 'browse-url-xdg-open)
   (setq browse-url-browser-function 'browse-url-generic))
+
+;; For some reason, default-directory seems to be / when using emacs-plus on
+;; macOS. This isn't ideal, so it's overridden to the user's home directory.
+(setq default-directory "~/")
 
 (provide 'belak-core)
 ;;; belak-core.el ends here.
