@@ -188,7 +188,9 @@
   ;; In order to keep things snappy, we disable file watching. In theory this
   ;; shouldn't cause any major issues because local file changes should still
   ;; trigger updates.
-  (setq lsp-enable-file-watchers nil)
+  (setq lsp-enable-file-watchers nil
+        lsp-headerline-breadcrumb-enable nil
+        lsp-headerline-breadcrumb-segments '(project file symbols))
 
   ;; Ensure we're using `company-capf' as the completion provider.
   (setq lsp-completion-provider :capf))
