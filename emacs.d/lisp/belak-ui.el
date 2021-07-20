@@ -7,10 +7,11 @@
 
 ;; (load-theme! monokai-pro)               ; Based on the VSCode/Sublime themes
 (load-theme! modus-vivendi              ; A very accessible theme
-  modus-vivendi-theme
+  modus-themes
   (setq modus-themes-no-mixed-fonts t
         modus-vivendi-theme-fringes 'subtle
-        modus-vivendi-theme-slanted-constructs t))
+        modus-vivendi-theme-slanted-constructs t)
+  (modus-themes-load-themes))
 ;; (load-theme! nord)                      ; Trying this one out
 ;; (load-theme! zenburn)                   ; Oldie but a goodie
 ;; (load-theme! zerodark)                  ; based on some old themes I liked
