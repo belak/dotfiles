@@ -32,7 +32,6 @@
 ;;; Packages
 
 (use-package! org
-  :straight org-plus-contrib
   :mode ("\\.org\\'" . org-mode)
   :bind (("C-c a" . org-agenda)
          ("C-c b" . org-switchb)
@@ -109,6 +108,9 @@
 
   ;;(add-function :after after-focus-change-function 'org-save-all-org-buffers)
   )
+
+(use-package! org-contrib
+  :after org)
 
 (use-package! org-roam
   :after org
