@@ -44,3 +44,6 @@ export WINIT_X11_SCALE_FACTOR=1
 
 # We manually display the venv, so we don't want virtualenv doing that for us
 export VIRTUAL_ENV_DISABLE_PROMPT=true
+
+# Load cargo env if available
+if [[ -f "$HOME/.cargo/env" ]]; then source "$HOME/.cargo/env"; fi
