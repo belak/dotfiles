@@ -1,6 +1,18 @@
 ;;; belak-core.el -*- lexical-binding: t; -*-
 
 ;;
+;;; Early settings
+
+(with-eval-after-load 'gnutls
+  (eval-when-compile
+    (require 'gnutls))
+
+  ;; Update some gnutls settings to make connections more secure. We want to do
+  ;; this as early as possible so they're used when installing straight.
+  (setq gnutls-verify-error   t
+        gnutls-min-prime-bits 3072))
+
+;;
 ;;; Package management
 
 (custom-set-variables '(straight-cache-autoloads t)

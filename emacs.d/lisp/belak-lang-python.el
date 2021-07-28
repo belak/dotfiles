@@ -17,7 +17,9 @@
   ("python"  . python-mode)
   ("python2" . python-mode)
   ("python3" . python-mode)
-  :hook (python-mode . subword-mode))
+  :hook (python-mode . subword-mode)
+  :config
+  (setq python-fill-docstring-style 'django))
 
 ;; anaconda-mode provides code navigation and docs. Additionally, if
 ;; company-mode is enabled, company-anaconda will also be enabled.

@@ -13,6 +13,9 @@
         ("C-c e" . macrostep-expand)
         ("M-."    . find-function-at-point)))
 
+(use-package! package-lint
+  :commands package-lint)
+
 
 ;;
 ;;; Functions

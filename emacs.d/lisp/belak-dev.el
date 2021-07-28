@@ -60,7 +60,11 @@
   :blackout
   :hook
   (prog-mode . editorconfig-mode)
-  (text-mode . editorconfig-mode))
+  (text-mode . editorconfig-mode)
+  :config
+  (after! recentf
+    (add-to-list 'editorconfig-exclude-regexps
+                 (file-truename (expand-file-name recentf-save-file)))))
 
 (use-feature! eldoc
   :blackout
@@ -170,6 +174,14 @@
         company-tooltip-align-annotations t
         company-require-match 'never
         company-tooltip-flip-when-above t))
+
+;; Package `company-prescient' provides intelligent sorting and filtering for
+;; candidates in Company completions.
+(use-package! company-prescient
+  :demand t
+  :after company
+  :config
+  (company-prescient-mode +1))
 
 (use-package! company-quickhelp
   :after company

@@ -45,9 +45,6 @@
   :config
   (setq markdown-fontify-code-blocks-natively t))
 
-(use-package! php-mode
-  :mode "\\.php\\'")
-
 (use-package! pkgbuild-mode
   :mode "PKGBUILD\\'")
 
@@ -62,7 +59,9 @@
   "zshenv\\'")
 
 (use-package! toml-mode
-  :mode "\\.toml\\'")
+  :mode
+  "\\.toml\\'"
+  "Pipfile\\'")
 
 (use-package! yaml-mode
   :mode "\\.ya?ml\\'"
