@@ -222,6 +222,9 @@ This originally came from Sacha Chua's Emacs config."
 ;;
 ;;; Tweaks
 
+;; Prevent accidental usage of `list-buffers'.
+(bind-key "C-x C-b" #'switch-to-buffer)
+
 ;; When region is active, make `capitalize-word' and friends act on it.
 (bind-key "M-c" #'capitalize-dwim)
 (bind-key "M-l" #'downcase-dwim)

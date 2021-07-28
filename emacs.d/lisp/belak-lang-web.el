@@ -75,6 +75,9 @@
   :config
   (setq json-reformat:indent-width 2))
 
+(use-package! php-mode
+  :mode "\\.php\\'")
+
 
 ;;
 ;;; Tweaks

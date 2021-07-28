@@ -71,10 +71,22 @@
 
 ;; Replace the default help buffers with helpful because it's much prettier.
 (use-package! helpful
-  :bind
-  ("C-h f" . helpful-function)
-  ("C-h v" . helpful-variable)
-  ("C-h k" . helpful-key))
+  :bind (;; Remap standard commands.
+         ([remap describe-function] . #'helpful-callable)
+         ([remap describe-variable] . #'helpful-variable)
+         ([remap describe-symbol]   . #'helpful-symbol)
+         ([remap describe-key]      . #'helpful-key)
+
+         ;; Suggested bindings from the documentation at
+         ;; https://github.com/Wilfred/helpful.
+
+         :map help-map
+         ("F"   . #'helpful-function)
+         ("M-f" . #'helpful-macro)
+         ("C"   . #'helpful-command)
+
+         :map global-map
+         ("C-c C-d" . #'helpful-at-point)))
 
 ;; This provides functionality similar to soulver on macOS, but we can
 ;; use it everywhere.
@@ -98,6 +110,21 @@
   :mode ("\\.rest\\'" . restclient-mode)
   :config
   (setq restclient-log-request t))
+
+;; Package `rg' just provides an interactive command `rg' to run the search tool
+;; of the same name.
+(use-package rg
+  :bind (("C-c k" . #'belak--rg))
+  :commands (rg rg-run)
+  :init
+  (defun belak--rg (&optional only-current-type)
+    "Search for string in current project.
+With ONLY-CURRENT-TYPE non-nil, or interactively with prefix
+argument, search only in files matching current type."
+    (interactive "P")
+    (rg-run (rg-read-pattern nil)
+            (if only-current-type (car (rg-default-alias)) "*")
+            (rg-project-root buffer-file-name))))
 
 ;; vterm is like all the built-in terminals, but even better because
 ;; it uses libvterm which is pretty solid and handles most control

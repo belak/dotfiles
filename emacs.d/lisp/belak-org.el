@@ -46,6 +46,11 @@
    ;; Allow using shift-select like in other buffers.
    org-support-shift-select t
 
+   ;; If you try to insert a heading in the middle of an entry, don't split it
+   ;; in half, but instead insert the new heading after the end of the current
+   ;; entry.
+   org-insert-heading-respect-content t
+
    ;; Make tab and indentation in code blocks behave like they would in that
    ;; language's major mode.
    org-src-tab-acts-natively t
@@ -80,6 +85,10 @@
    org-log-done-with-time t
    org-log-refile t
 
+   ;; Some special magical bindings to make keys act smarter
+   org-special-ctrl-a/e t
+   org-special-ctrl-k t
+
    org-agenda-dim-blocked-tasks t
 
    ;; TODO: org-log-into-drawer, org-clock-into-drawer
@@ -89,6 +98,8 @@
    ;; TODO: look at Sacha's weekly and monthly reviews
    ;; TODO: look at org-move-line-to-end-of-list
    ;; TODO: look at org-attach for board game files
+   ;; TODO: look at org-agenda
+   ;; TODO: look at org-clock
 
    org-babel-load-languages '((emacs-lisp . t)
                               (calc . t)
@@ -101,9 +112,10 @@
    ;; TODO: look at some of the Emacs news feeds in Sacha's config
 
    org-use-effective-time t
-   org-extend-today-until 3
+   org-extend-today-until 5
 
-   org-startup-folded nil
+   ;; Show headlines but not content by default.
+   org-startup-folded 'content
    )
 
   ;;(add-function :after after-focus-change-function 'org-save-all-org-buffers)

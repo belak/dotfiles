@@ -8,9 +8,18 @@
 ;; (load-theme! monokai-pro)               ; Based on the VSCode/Sublime themes
 (load-theme! modus-vivendi              ; A very accessible theme
   modus-themes
+
+  ;; Italics look pretty rough in terminals (at least with the fonts I use), so
+  ;; we make sure they're only enabled if we have a full GUI.
+  (when IS-GUI
+    (setq modus-themes-italic-constructs t))
+
   (setq modus-themes-no-mixed-fonts t
-        modus-vivendi-theme-fringes 'subtle
-        modus-vivendi-theme-slanted-constructs t)
+        modus-themes-lang-checkers  '(background straight-underline text-also)
+        modus-themes-completions    'opinionated
+        modus-themes-fringes        'subtle
+        modus-themes-mode-line      '(borderless))
+
   (modus-themes-load-themes))
 ;; (load-theme! nord)                      ; Trying this one out
 ;; (load-theme! zenburn)                   ; Oldie but a goodie
@@ -64,7 +73,11 @@
 
 ;; Dim the non-active window to make it a little easier to focus on the
 ;; currently active window.
-(use-package dimmer
+;;
+;; NOTE: I like this package, but it's currently disabled because it causes a
+;; very distracting flicker whenever clicking.
+(use-package! dimmer
+  :disabled t
   :defer nil
   ;;:custom (dimmer-fraction 0.2)
   :hook (after-init . dimmer-mode))
@@ -132,6 +145,14 @@
         shackle-default-rule '(:select t)
         shackle-default-size 0.4
         shackle-inhibit-window-quit-on-same-windows t))
+
+;; Package `transient' is the interface used by Magit to display popups.
+(use-package transient
+  :config
+  ;; Allow using `q' to quit out of popups, in addition to `C-g'. See
+  ;; <https://magit.vc/manual/transient.html#Why-does-q-not-quit-popups-anymore_003f>
+  ;; for discussion.
+  (transient-bind-q-to-quit))
 
 ;; Improve usability by showing key binds when we stop typing for long enough.
 (use-package! which-key
@@ -209,7 +230,8 @@
   :demand t
   :config
   ;; This is essentially the default with fuzzy matching appended.
-  (setq prescient-filter-method '(literal regexp initialism fuzzy))
+  (setq prescient-filter-method  '(literal regexp initialism fuzzy)
+        prescient-history-length 1000)
   (prescient-persist-mode +1))
 
 (use-package! selectrum-prescient
@@ -334,9 +356,14 @@ Pass the rest to the default handler."
       ;; Emacs spends too much effort recentering the screen if you scroll the
       ;; cursor more than N lines past window edges (where N is the settings of
       ;; `scroll-conservatively'). This is especially slow in larger files
-      ;; during large-scale scrolling commands. If kept over 100, the window is
-      ;; never automatically recentered.
-      ;;scroll-conservatively 101
+      ;; during large-scale scrolling commands. If kept high enough, the window
+      ;; is never automatically recentered.
+      scroll-conservatively 10000
+
+      ;; Disable any magical acceleration emacs will try to add when scrolling.
+      ;; In my experience, this only results in jumpier scrolling, the opposite
+      ;; of what we want.
+      mouse-wheel-progressive-speed nil
 
       ;; Always keep 3 lines between the cursor and the top/bottom of the buffer
       ;; when possible. Additionally, we always want to scroll by 1.
@@ -364,9 +391,14 @@ Pass the rest to the default handler."
 
       ;; mouse
       mouse-wheel-scroll-amount '(2
-                                  ((shift)   . hscroll)
-                                  ((control) . text-scale))
-      mouse-wheel-scroll-amount-horizontal 2)
+                                  ((shift)   . 1)
+                                  ((control) . text-scale)))
+
+;;
+;;; Improvements for terminal emacs
+
+(unless IS-GUI
+  (xterm-mouse-mode t))
 
 
 ;;
