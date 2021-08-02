@@ -19,10 +19,11 @@
 
 ;; Load our theme and tweak a number of things about it to my preference.
 (setq doom-theme                  'modus-vivendi
-      modus-themes-no-mixed-conts t
-      modus-themes-lang-checkers  '(background straight-underline text-also)
+      modus-themes-no-mixed-fonts t
       modus-themes-completions    'opinionated
       modus-themes-fringes        'subtle
+      modus-themes-lang-checkers  '(background straight-underline text-also)
+      modus-themes-mode-line      '(accented)
       modus-themes-prompts        '(background))
 
 ;; Italics look pretty rough in most terminals (at least with the fonts I use),
@@ -71,3 +72,15 @@
 
 ;;(after! ido
 ;;  (setq ido-use-virtual-buffers t))
+
+(after! org
+  (setq org-support-shift-select t           ; Re-enable shift-select
+        org-insert-heading-respect-content t ; Insert new headings, even when inside one
+        org-adapt-indentation 'headline-data ; We don't want text inside headings to be indented
+        org-special-ctrl-k t                 ; Make C-k behave specially in headlines
+
+        ;; org-agenda settings
+        org-log-done t                   ; TODO: ensure this works
+        org-log-done-with-time t         ; Include time as well as date when closing tasks
+        org-log-refile t                 ; TODO: ensure this works
+        org-agenda-dim-blocked-tasks t)) ; Make tasks in the blocked state dim
