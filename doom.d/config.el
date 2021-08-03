@@ -84,3 +84,6 @@
         org-log-done-with-time t         ; Include time as well as date when closing tasks
         org-log-refile t                 ; TODO: ensure this works
         org-agenda-dim-blocked-tasks t)) ; Make tasks in the blocked state dim
+
+(after! orderless
+  (setq orderless-matching-styles '(orderless-literal orderless-flex orderless-regexp)))
