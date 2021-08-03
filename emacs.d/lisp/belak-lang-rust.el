@@ -12,12 +12,12 @@
   :mode "\\.rs\\'"
   :hook ((rust-mode . belak--rust-mode-hook)
          (rust-mode . subword-mode)
-         (rust-mode . lsp))
+         (rust-mode . eglot-ensure))
   :config
-  (setq lsp-rust-server 'rust-analyzer)
+  (add-to-list 'eglot-server-programs '(rust-mode "rust-analyzer"))
 
   (defun belak--rust-mode-hook ()
-    (add-hook 'before-save-hook 'lsp-format-buffer nil t)))
+    (add-hook 'before-save-hook 'eglot-format nil t)))
 
 (use-package! cargo
   :hook (rust-mode . cargo-minor-mode))
