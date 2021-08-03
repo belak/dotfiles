@@ -103,6 +103,12 @@
   (add-shackle-rule! '(flycheck-error-list-mode :noselect t :align 'below :size 7))
   (add-winner-boring-buffer! "*Flycheck errors*"))
 
+;; Using flycheck-inline means we need to require that file.
+(use-package! flycheck-inline
+  :disabled t
+  :after flycheck
+  :hook (flycheck-mode . flycheck-inline-mode))
+
 (use-package! highlight-escape-sequences
   :hook (prog-mode . hes-mode))
 
@@ -156,8 +162,9 @@
   ;; TODO: look into tab-n-go.
 
   ;; Reset the company backends to a fairly minimal set. We rely on the
-  ;; `lsp-mode' integration with `completion-at-point'. Any languages which need
-  ;; a specific backend other than these can configure them via hooks.
+  ;; `eglot'/`lsp-mode' integration with `completion-at-point'. Any languages
+  ;; which need a specific backend other than these can configure them via
+  ;; hooks.
   (setq company-backends '(company-capf company-files company-dabbrev))
 
   (use-package! company-dabbrev
@@ -169,7 +176,7 @@
           company-dabbrev-downcase nil))
 
   (setq company-idle-delay 0.25
-        company-show-numbers t
+        company-show-quick-access t
         company-tooltip-limit 14
         company-tooltip-align-annotations t
         company-require-match 'never
@@ -191,8 +198,12 @@
 
   (company-quickhelp-mode 1))
 
+(use-package eglot
+  :commands (eglot eglot-ensure))
+
 ;; Load lsp-mode for usage with languages
 (use-package! lsp-mode
+  :disabled t
   :after company
   :commands (lsp lsp-deferred)
   :hook ((lsp-mode . lsp-enable-which-key-integration))
@@ -208,6 +219,7 @@
   (setq lsp-completion-provider :capf))
 
 (use-package! lsp-ui
+  :disabled t
   :after lsp-mode)
 
 ;;

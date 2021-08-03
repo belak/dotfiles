@@ -10,7 +10,7 @@
   :mode "\\.go\\'"
   :hook ((go-mode . belak--go-mode-hook)
          (go-mode . subword-mode)
-         (go-mode . lsp))
+         (go-mode . eglot-ensure))
   :config
   ;; Ignore go test -c output files
   (add-to-list 'completion-ignored-extensions ".test")
