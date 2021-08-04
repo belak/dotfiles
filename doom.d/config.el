@@ -17,9 +17,11 @@
     (setq doom-font                "Terminus 12"
           doom-variable-pitch-font "Terminus 12")))
 
-;; Load our theme and tweak a number of things about it to my preference.
-(setq doom-theme                  'modus-vivendi
-      modus-themes-no-mixed-fonts t
+;; Set the theme to be loaded
+(setq doom-theme                  'modus-vivendi)
+
+;; Tweak a number of things about the modus themes to my preference.
+(setq modus-themes-no-mixed-fonts t
       modus-themes-completions    'opinionated
       modus-themes-fringes        'subtle
       modus-themes-lang-checkers  '(background straight-underline text-also)
@@ -36,12 +38,16 @@
 (setq doom-modeline-icon nil
       doom-modeline-buffer-file-name-style 'truncate-upto-root)
 
+;; This determines the style of line numbers in effect. If set to `nil', line
+;; numbers are disabled. For relative line numbers, set this to `relative'.
 (setq display-line-numbers-type 'relative)
 
 ;; If you use `org' and don't want your org files in the default location below,
 ;; change `org-directory'. It must be set before org loads!
 (setq org-directory "~/org/")
 
+;; The default style for uniquifying buffer names is strange, so we change it to
+;; something more useful.
 (setq uniquify-buffer-name-style  'forward
       uniquify-strip-common-suffix nil)
 
@@ -53,8 +59,8 @@
   "Zap back to CHAR."
   (interactive "Zap back to char: ")
   (zap-up-to-char -1 char))
-(global-set-key "\M-Z" 'reverse-zap-up-to-char)
 
+;; Fix up a number of keybinds which have strange behaviors.
 (map!
  ;; Allow C-a and C-e to work in normal mode as well.
  ;; TODO: make sure they also enter insert mode
@@ -85,5 +91,7 @@
         org-log-refile t                 ; TODO: ensure this works
         org-agenda-dim-blocked-tasks t)) ; Make tasks in the blocked state dim
 
+;; By default this is only `literal' and `regexp'. We add `flex' to make it more
+;; like the other options.
 (after! orderless
   (setq orderless-matching-styles '(orderless-literal orderless-flex orderless-regexp)))
