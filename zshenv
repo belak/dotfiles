@@ -42,6 +42,12 @@ export MOZ_USE_XINPUT2=1
 # underlying windowing toolkit they use to return a scaling factor of 1.
 export WINIT_X11_SCALE_FACTOR=1
 
+# Currently, the default window decorations for the windowing toolkit Alacritty
+# uses don't fit in at all. Unfortunately, until the proper Wayland protocol
+# extension is implemented, the easiest way to fix this is to force the use of
+# x11 in the underlying toolkit to trick it into relying on server-side decorations.
+export WINIT_UNIX_BACKEND=x11
+
 # We manually display the venv, so we don't want virtualenv doing that for us
 export VIRTUAL_ENV_DISABLE_PROMPT=true
 
