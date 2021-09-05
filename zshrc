@@ -1,5 +1,5 @@
 if [[ $+commands[tty] && $(tty) = "/dev/tty1" ]]; then
-    exec startx
+  exec startx
 fi
 
 #
@@ -36,7 +36,7 @@ zplug "rupa/z", use:z.sh
 zplug "zdharma/fast-syntax-highlighting", defer:2
 
 if ! zplug check; then
-    zplug install
+  zplug install
 fi
 
 zplug load
@@ -53,12 +53,19 @@ bindkey -e
 # Disable ^s and ^q
 stty -ixon
 
+# In order to group dirs together, we need to specify that we're grouping.
+zstyle ':completion:*:matches' group 'yes'
+zstyle ':completion:*'         group-name ''
+
+# List dirs first, to match what we do for ls.
+zstyle ':completion:*' list-dirs-first true
+
+
 #
 # Aliases
 #
 
 alias json="python -mjson.tool"
-alias j="z"
 
 # Set the default Less options.
 # Mouse-wheel scrolling has been disabled by -X (disable screen clearing).
@@ -68,6 +75,9 @@ export LESS='-F -g -i -M -R -S -w -X -z-4'
 #
 # Functions
 #
+
+# Load functions from our fpath
+autoload j
 
 gocover () {
   t="/tmp/go-cover.$$.tmp"

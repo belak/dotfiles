@@ -1,0 +1,29 @@
+# TODO: add output when changes occur
+j() {
+  local CDPATH
+  CDPATH=$HOME/.belak/bookmarks
+
+  CMD=$1
+  shift
+
+  case "$CMD" in
+    a|add)
+      target=$(basename $(pwd))
+      if [[ -n "$1" ]]; then
+        target=$1
+      fi
+      ln -s $(pwd) "$HOME/.belak/bookmarks/$target"
+      ;;
+    m|mv)
+      mv "$HOME/.belak/bookmarks/$1" "$HOME/.belak/bookmarks/$2"
+      ;;
+    d|delete|rm)
+      rm "$HOME/.belak/bookmarks/$1"
+      ;;
+    *)
+      cd -P "$CMD"
+      ;;
+  esac
+}
+
+j()
