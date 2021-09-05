@@ -1,0 +1,36 @@
+#compdef j
+
+_bookmarks() {
+  _files -/ -W $HOME/.belak/bookmarks
+}
+
+_j() {
+  _arguments \
+    '1: :->cmds_targets' \
+    '*: :->args'
+
+  case "$state" in
+    cmds_targets)
+      _alternative \
+        'commands:commands:(add mv delete rm)' \
+        'targets:bookmarks:_bookmarks'
+      ;;
+    args)
+      case "${words[2]}" in
+        a|add)
+          _arguments \
+            '2: :->add_name'
+          ;;
+        m|mv)
+          _arguments \
+            '2: :_bookmarks' \
+            '3: :->mv_target'
+          ;;
+        d|delete|rm)
+          _arguments \
+            '2: :_bookmarks'
+          ;;
+      esac
+      ;;
+  esac
+}
