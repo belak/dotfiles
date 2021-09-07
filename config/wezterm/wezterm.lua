@@ -4,7 +4,7 @@ return {
   font = wezterm.font("Terminus (TTF)"),
   font_size = 12.0,
 
-  close_behavior = "Close",
+  exit_behavior = "Close",
 
   -- None of the color schemes quite match the default Linux colors, so we
   -- define our own.
