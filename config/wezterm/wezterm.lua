@@ -1,6 +1,20 @@
 local wezterm = require 'wezterm';
 
 return {
+  -- Override a number of keybinds to make them spawn in the home directory
+  -- rather than the current one.
+  keys = {
+    {key="t", mods="CMD", action=wezterm.action{SpawnCommandInNewTab={
+      cwd = wezterm.home_dir,
+    }}},
+    {key="t", mods="CTRL|SHIFT", action=wezterm.action{SpawnCommandInNewTab={
+      cwd = wezterm.home_dir,
+    }}},
+  },
+
+  -- Set the font information. We use the ttf version of Terminus because for
+  -- some reason the bitmap font doesn't work properly on Linux and we can use
+  -- the same font on macOS.
   font = wezterm.font("Terminus (TTF)"),
   font_size = 12.0,
 
@@ -14,6 +28,8 @@ return {
       background = "#000000",
       foreground = "#ffffff",
 
+      -- NOTE: these aren't quite right - I should probably tweak them at some
+      -- point.
       cursor_bg = "#53ae71",
       cursor_border = "#53ae71",
       cursor_fg = "#000000",
