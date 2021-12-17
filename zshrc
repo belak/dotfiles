@@ -66,6 +66,7 @@ zstyle ':completion:*' list-dirs-first true
 #
 
 alias json="python -mjson.tool"
+alias k="kubectl"
 
 # Set the default Less options.
 # Mouse-wheel scrolling has been disabled by -X (disable screen clearing).
