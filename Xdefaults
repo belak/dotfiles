@@ -14,6 +14,11 @@ URxvt.url-launcher:    /usr/bin/google-chrome-stable
 URxvt.matcher.button:  1
 URxvt.clipboard.autocopy: true
 
+xterm*background: black
+xterm*foreground: white
+xterm*renderFont: true
+xterm*faceName:   xft:Terminus:size=12
+
 ! rofi stuffs
 rofi.font:     xos4 Terminus 10
 rofi.location: 2
