@@ -10,12 +10,18 @@ return {
     {key="t", mods="CTRL|SHIFT", action=wezterm.action{SpawnCommandInNewTab={
       cwd = wezterm.home_dir,
     }}},
+    {key="\"", mods="CTRL|ALT", action=wezterm.action{SplitHorizontal={
+      cwd = wezterm.home_dir,
+    }}},
+    {key="%", mods="CTRL|ALT", action=wezterm.action{SplitVertical={
+      cwd = wezterm.home_dir,
+    }}},
   },
 
   -- Set the font information. We use the ttf version of Terminus because for
   -- some reason the bitmap font doesn't work properly on Linux and we can use
   -- the same font on macOS.
-  font = wezterm.font("Terminus (TTF)"),
+  font = wezterm.font("Ubuntu Mono"),
   font_size = 12.0,
 
   exit_behavior = "Close",
