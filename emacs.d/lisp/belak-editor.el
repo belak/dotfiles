@@ -133,6 +133,7 @@
 (use-feature! subword :blackout)
 
 (use-package! undo-tree
+  :disabled t
   :defer nil
   :blackout
   :bind

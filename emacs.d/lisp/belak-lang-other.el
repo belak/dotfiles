@@ -27,11 +27,13 @@
   )
 
 (use-package! gitconfig-mode
+  :disabled t
   :mode
   "\\.git/config\\'"
   "\\.gitconfig\\'")
 
 (use-package! gitignore-mode
+  :disabled t
   :mode "\\.gitignore\\'")
 
 (use-package! haskell-mode
