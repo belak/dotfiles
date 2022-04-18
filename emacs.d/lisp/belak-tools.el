@@ -71,6 +71,7 @@
 
 ;; Replace the default help buffers with helpful because it's much prettier.
 (use-package! helpful
+  :disabled t
   :bind (;; Remap standard commands.
          ([remap describe-function] . #'helpful-callable)
          ([remap describe-variable] . #'helpful-variable)

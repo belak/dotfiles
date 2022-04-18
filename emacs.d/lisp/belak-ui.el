@@ -16,7 +16,6 @@
 
   (setq modus-themes-no-mixed-fonts t
         modus-themes-lang-checkers  '(background straight-underline text-also)
-        modus-themes-completions    'opinionated
         modus-themes-fringes        'subtle
         modus-themes-mode-line      '(borderless))
 
@@ -50,6 +49,7 @@
 
 ;; Make it clearer which window you're switching to when using C-x o.
 (use-package! ace-window
+  :disabled t
   :defer nil
   :bind
   ("C-x o" . ace-window)

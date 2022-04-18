@@ -1,6 +1,6 @@
 ;;; $DOOMDIR/config.el -*- lexical-binding: t; -*-
 
-;; Additional useful defines not included in Doom.
+;; Additional useful defines not included in Doom proper.
 (defconst IS-GUI (display-graphic-p))
 
 ;; Some functionality uses this to identify you, e.g. GPG configuration, email
@@ -11,21 +11,20 @@
 ;; UI
 (cond
   (IS-MAC
-    (setq doom-font                "Monaco"
-          doom-variable-pitch-font "Monaco"))
+    (setq doom-font                (font-spec :family "Monaco")
+          doom-variable-pitch-font (font-spec :family "Monaco")))
   (IS-LINUX
-    (setq doom-font                "Terminus 12"
-          doom-variable-pitch-font "Terminus 12")))
+    (setq doom-font                (font-spec :family "Terminus" :size 12.0)
+          doom-variable-pitch-font (font-spec :family "Terminus" :size 12.0))))
 
 ;; Set the theme to be loaded
-(setq doom-theme                  'modus-vivendi)
+(setq doom-theme 'modus-vivendi)
 
-;; Tweak a number of things about the modus themes to my preference.
+;; Tweak a number of things about the mous themes to my preferences.
 (setq modus-themes-no-mixed-fonts t
-      modus-themes-completions    'opinionated
       modus-themes-fringes        'subtle
       modus-themes-lang-checkers  '(background straight-underline text-also)
-      modus-themes-mode-line      '(accented)
+      modus-themes-mode-line      '(accented borderless)
       modus-themes-prompts        '(background))
 
 ;; Italics look pretty rough in most terminals (at least with the fonts I use),
