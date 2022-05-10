@@ -9,6 +9,10 @@
 
 ;;; Code:
 
+;; Make the warnings buffer only appear on errors. We set this as early as
+;; possible to try and catch everything.
+(setq warning-minimum-level :error)
+
 ;; Defer garbage collection further back in the startup process
 (setq gc-cons-threshold most-positive-fixnum)
 

@@ -162,9 +162,10 @@
 (prefer-coding-system 'utf-8)
 (setq locale-coding-system 'utf-8)
 
-;; Resolve symlinks when opening files
-(setq find-file-visit-truename t
-      vc-follow-symlinks t)
+;; Resolve symlinks when opening files - this is disabled until
+;; https://github.com/raxod502/straight.el/issues/944 is resolved.
+;;(setq find-file-visit-truename t
+;;      vc-follow-symlinks t)
 
 ;; Increase the amount of data which Emacs reads from the process. The default
 ;; of 4k is too low 4k considering that the some of the language server
