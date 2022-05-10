@@ -1,5 +1,17 @@
 local wezterm = require 'wezterm';
 
+-- Set the font information. We use the ttf version of Terminus because for
+-- some reason the bitmap font doesn't work properly on Linux.
+local font = "Terminus (TTF)"
+local font_size = 12.0
+
+if wezterm.target_triple == "x86_64-apple-darwin" then
+  -- When I'm using MacOS, I'm generally on a larger monitor, so a larger font
+  -- size is important for readability.
+  font = "Source Code Pro"
+  font_size = 14.0
+end
+
 return {
   -- Override a number of keybinds to make them spawn in the home directory
   -- rather than the current one.
@@ -18,13 +30,19 @@ return {
     }}},
   },
 
-  -- Set the font information. We use the ttf version of Terminus because for
-  -- some reason the bitmap font doesn't work properly on Linux and we can use
-  -- the same font on macOS.
-  font = wezterm.font("Ubuntu Mono"),
-  font_size = 12.0,
+  font = wezterm.font(font),
+  font_size = font_size,
 
   exit_behavior = "Close",
+
+  -- Disable all the ligatures we can. For some reason many fonts have a
+  -- ligature for "fi" which looks really weird when in the middle of a
+  -- word like config. It may be petty but I find it easier to disable
+  -- all ligatures than put up with it.
+  harfbuzz_features = {"calt=0", "clig=0", "liga=0"},
+
+  -- Revert to the old tab bar style
+  use_fancy_tab_bar = false,
 
   -- None of the color schemes quite match the default Linux colors, so we
   -- define our own.
