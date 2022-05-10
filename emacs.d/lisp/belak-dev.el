@@ -198,6 +198,9 @@
 
   (company-quickhelp-mode 1))
 
+;; Between `eglot' and `lsp-mode' I've had better experiences with eglot because
+;; it tries to do less. That being said lsp-mode has improved quite a bit in the
+;; last few years, so I need to take another look.
 (use-package eglot
   :commands (eglot eglot-ensure))
 

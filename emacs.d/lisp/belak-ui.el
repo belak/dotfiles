@@ -14,8 +14,7 @@
   (when IS-GUI
     (setq modus-themes-italic-constructs t))
 
-  (setq modus-themes-no-mixed-fonts t
-        modus-themes-lang-checkers  '(background straight-underline text-also)
+  (setq modus-themes-lang-checkers  '(background straight-underline text-also)
         modus-themes-fringes        'subtle
         modus-themes-mode-line      '(borderless))
 
@@ -49,7 +48,6 @@
 
 ;; Make it clearer which window you're switching to when using C-x o.
 (use-package! ace-window
-  :disabled t
   :defer nil
   :bind
   ("C-x o" . ace-window)
@@ -185,12 +183,11 @@
   :blackout global-whitespace-mode
   :demand t
   :config
-  (setq whitespace-style '(trailing face tabs tab-mark lines-tail)
-        whitespace-display-mappings '((space-mark 32 [183] [46])
-                                      (newline-mark 10 [182 10])
-                                      (tab-mark 9 [9655 9] [92 9])))
-
-  (setq whitespace-global-modes '(text-mode prog-mode org-mode))
+  (setq whitespace-style '(face trailing tabs tab-mark lines-tail missing-newline-at-eof)
+        whitespace-display-mappings '((space-mark   32 [183])
+                                      (newline-mark 10 [36 10])
+                                      (tab-mark      9 [62 9]))
+        whitespace-global-modes '(text-mode prog-mode org-mode))
 
   (global-whitespace-mode t))
 

@@ -22,3 +22,4 @@ emacs.d/custom.el
 emacs.d/straight
 emacs.d/var
 emacs.d/etc
+emacs.d/eln-cache

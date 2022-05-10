@@ -26,15 +26,16 @@
   (set-face-attribute 'gemini-heading-face-3 nil :height 1.0)
   )
 
-(use-package! gitconfig-mode
-  :disabled t
+(use-package! git-modes
   :mode
-  "\\.git/config\\'"
-  "\\.gitconfig\\'")
-
-(use-package! gitignore-mode
-  :disabled t
-  :mode "\\.gitignore\\'")
+  ;; We only include a subset of patterns from the relevant modes, since we need
+  ;; to put something in here to get autoload working with `use-package' and
+  ;; these are the primary ones we use.
+  ("/\\.gitconfig\\'"     . gitconfig-mode)
+  ("/\\.git/config\\'"    . gitconfig-mode)
+  ("/\\.gitmodules\\'"    . gitconfig-mode)
+  ("/\\.gitignore\\'"     . gitignore-mode)
+  ("/\\.gitattributes\\'" . gitattributes-mode))
 
 (use-package! haskell-mode
   :mode "\\.hs\\'")
