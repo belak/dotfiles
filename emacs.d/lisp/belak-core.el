@@ -50,7 +50,7 @@
 (setq use-package-always-defer t)
 
 ;; Some debugging toggles, used for diagnosing startup and startup speed.
-(setq use-package-verbose t
+(setq use-package-verbose nil
       use-package-minimum-reported-time 0.001)
 
 
@@ -138,11 +138,13 @@
 ;;
 ;; Note that we do this first just in case any other packages need values from
 ;; here.
-
 (use-package! exec-path-from-shell
   :demand t
   :if (and IS-GUI (or IS-MAC IS-LINUX))
   :config
+  ;; Setting `exec-path-from-shell-arguments' to nil makes it use a
+  ;; non-interactive shell which makes startup *much* quicker. This drops
+  ;; startup time from 6s to a few ms in some cases.
   (setq exec-path-from-shell-arguments nil)
   (exec-path-from-shell-initialize))
 
@@ -201,6 +203,8 @@
 (global-set-key "\M-Z" 'reverse-zap-up-to-char)
 
 ;; Typing yes/no is obnoxious when y/n will do
+;;
+;;TODO: try comp-never-optimize-functions with yes-or-no-p
 (fset #'yes-or-no-p #'y-or-n-p)
 
 ;; Try really hard to keep the cursor from getting stuck in the read-only prompt
@@ -209,12 +213,15 @@
       '(read-only t intangible t cursor-intangible t face minibuffer-prompt))
 (add-hook 'minibuffer-setup-hook #'cursor-intangible-mode)
 
+;; If we're on linux, force using xdg-open for urls.
 (if IS-LINUX
     (setq browse-url-browser-function 'browse-url-xdg-open)
   (setq browse-url-browser-function 'browse-url-generic))
 
 ;; For some reason, default-directory seems to be / when using emacs-plus on
 ;; macOS. This isn't ideal, so it's overridden to the user's home directory.
+;;
+;; TODO: check if this is still true
 (setq default-directory "~/")
 
 (provide 'belak-core)

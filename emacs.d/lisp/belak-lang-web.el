@@ -60,7 +60,11 @@
   :config
   (setq web-mode-markup-indent-offset 2
         web-mode-css-indent-offset 2
-        web-mode-code-indent-offset 2))
+        web-mode-code-indent-offset 2)
+
+  (setq web-mode-enable-auto-pairing t
+        web-mode-enable-auto-closing t
+        web-mode-enable-current-element-highlight t))
 
 (use-package! emmet-mode
   :after web-mode

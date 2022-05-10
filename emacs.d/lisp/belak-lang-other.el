@@ -84,7 +84,6 @@
 (push '("LICENSE\\'"   . text-mode)      auto-mode-alist)
 (push '("\\.log\\'"    . text-mode)      auto-mode-alist)
 (push '("\\.env\\'"    . sh-mode)        auto-mode-alist)
-(push '("gitignore\\'" . conf-unix-mode) auto-mode-alist)
 
 (provide 'belak-lang-other)
 ;;; belak-lang-other.el ends here.
