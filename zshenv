@@ -1,5 +1,14 @@
 export GOPATH="$HOME/go"
 
+# Add a bunch of locations we use to the path. There are a bunch of weird
+# caviats here.
+#
+# On macOS, for some reason, when we use a non-interactive shell /usr/local/bin
+# and /usr/local/sbin (which are the default location for homebrew) don't get
+# added to the path, so we force it here just in case. This fixes some oddities
+# in Emacs.
+#
+# Most other changes make a bit more sense.
 typeset -U path fpath
 path=(
     "$HOME/bin"
@@ -16,6 +25,8 @@ path=(
     "$HOME/.rbenv/bin"
     "$HOME/.local/bin"
     /usr/local/opt/python/libexec/bin
+    /usr/local/bin
+    /usr/local/sbin
     $path
 )
 fpath=("$HOME/.belak/zsh" $fpath)

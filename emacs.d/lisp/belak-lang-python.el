@@ -76,5 +76,11 @@
   ("requirements-.*\\.in\\'"  . pip-requirements-mode)
   ("requirements/.*\\.in\\'"  . pip-requirements-mode))
 
+(use-package! py-isort
+  :hook (python-mode . belak--py-isort-hook)
+  :config
+  (defun belak--go-mode-hook ()
+    (add-hook 'before-save-hook 'py-isort-before-save nil t)))
+
 (provide 'belak-lang-python)
 ;;; belak-lang-python.el ends here

@@ -39,6 +39,7 @@
 
 ;; Provide something useful to make it easier to jump to other files at startup.
 (use-package! dashboard
+  :disabled t
   :demand t
   :config
   ;; Ensure `emacsclient' starts up with the dashboard.
@@ -57,6 +58,7 @@
 
   (dashboard-setup-startup-hook))
 
+;; Basic tooling for profiling startup
 (use-package! esup
   :commands esup)
 
@@ -71,6 +73,7 @@
 
 ;; Replace the default help buffers with helpful because it's much prettier.
 (use-package! helpful
+  :disabled t
   :bind (;; Remap standard commands.
          ([remap describe-function] . #'helpful-callable)
          ([remap describe-variable] . #'helpful-variable)

@@ -27,6 +27,7 @@
               ("RET" . dired-find-alternate-file)
               ("^"   . belak--dired-up-directory)
               ("q"   . belak--dired-quit-all))
+  :commands dired
   :config
   ;; Ensure we can use the keybind we set without warnings
   (put 'dired-find-alternate-file 'disabled nil)
@@ -224,6 +225,7 @@
 (use-package! lsp-ui
   :disabled t
   :after lsp-mode)
+
 
 ;;
 ;;; Performance
