@@ -71,13 +71,9 @@
 
 ;; Dim the non-active window to make it a little easier to focus on the
 ;; currently active window.
-;;
-;; NOTE: I like this package, but it's currently disabled because it causes a
-;; very distracting flicker whenever clicking.
 (use-package! dimmer
-  :disabled t
   :defer nil
-  ;;:custom (dimmer-fraction 0.2)
+  :custom (dimmer-fraction 0.2)
   :hook (after-init . dimmer-mode))
 
 ;; We want line numbers to make it easier when using prefix commands.
@@ -179,6 +175,7 @@
 
 ;; TODO: doom uses some hacks to approximate this, potentially faster.
 ;; TODO: prelude has a nice way of optionally enabling `whitespace' for certain modes
+;; TODO: is there a way to only display things like spaces/tabs when selected?
 (use-feature! whitespace
   :blackout global-whitespace-mode
   :demand t
@@ -216,26 +213,46 @@
 ;;
 ;;; Completing-Read
 
-(use-package! selectrum
+;; A nice, no-nonsense completing-read replacement. I switched to this over
+;; `selectrum' because it seems to be slightly better designed and I switched
+;; from `ido-mode' (along with `ido-vertical-mode', `flx-ido', `smex', `anzu'
+;; and more) because I get roughly the same features with much less
+;; configuration.
+(use-package! vertico
   :demand t
   :config
-  ;; Make the count display a little more like anzu.
-  (setq selectrum-count-style 'current/matches)
-  (selectrum-mode +1))
+  (vertico-mode))
 
-(use-package! prescient
+;; Orderless lets us tweak the completion sorting/filtering with nausiating
+;; detail.
+(use-package orderless
   :demand t
+  :custom
+  (orderless-matching-styles '(orderless-literal
+                               orderless-regexp
+                               orderless-flex))
   :config
-  ;; This is essentially the default with fuzzy matching appended.
-  (setq prescient-filter-method  '(literal regexp initialism fuzzy)
-        prescient-history-length 1000)
-  (prescient-persist-mode +1))
+  ;; Enable the orderless completion style
+  (setq completion-styles '(orderless basic))
 
-(use-package! selectrum-prescient
+  ;; There's an odd issue when using TRAMP, that causes hostname completion to
+  ;; not work, so there needs to be an override for files which tries basic
+  ;; first.
+  (setq completion-category-defaults nil
+        completion-category-overrides '((file (styles basic partial-completion))))
+
+  ;; Tweak the matching styles to add flex matching because I'm lazy and don't
+  ;; want to bother typing spaces.
+  )
+
+;; This makes completing-read frameworks work more like helm with useful columns
+;; of information, but with way less configuration.
+(use-package! marginalia
   :demand t
-  :after (selectrum prescient)
+  :bind (:map minibuffer-local-map
+         ("M-A" . marginalia-cycle))
   :config
-  (selectrum-prescient-mode +1))
+  (marginalia-mode))
 
 
 ;;
@@ -319,7 +336,7 @@
 
 ;; Don't tell me about keybindings when I run a command with M-x. If I run a
 ;; command enough, I'll look up or make a keybind.
-(setq suggest-key-bindings nil)
+;;(setq suggest-key-bindings nil)
 
 
 ;;
