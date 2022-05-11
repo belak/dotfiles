@@ -39,7 +39,6 @@
 
 ;; Provide something useful to make it easier to jump to other files at startup.
 (use-package! dashboard
-  :disabled t
   :demand t
   :config
   ;; Ensure `emacsclient' starts up with the dashboard.
@@ -62,9 +61,11 @@
 (use-package! esup
   :commands esup)
 
+;; Useful when trying to find an available key to bind something to.
 (use-package! free-keys
   :commands free-keys)
 
+;; I don't use this very often, but it's helpful when needed.
 (use-package! git-link
   :commands git-link
   :config
@@ -92,7 +93,7 @@
          ("C-c C-d" . #'helpful-at-point)))
 
 ;; This provides functionality similar to soulver on macOS, but we can
-;; use it everywhere.
+;; use it on other OSes as well.
 (use-package! literate-calc-mode
   :mode ("\\.calc\\'" . literate-calc-mode))
 
@@ -104,9 +105,6 @@
 ;; overwhelming so it's left to be called when needed.
 (use-package! rainbow-mode
   :commands rainbow-mode)
-
-(use-package! ranger
-  :commands ranger)
 
 ;; Restclient gives us something similar to Postman, but in Emacs.
 (use-package! restclient

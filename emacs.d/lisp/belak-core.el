@@ -166,8 +166,9 @@
 
 ;; Resolve symlinks when opening files - this is disabled until
 ;; https://github.com/raxod502/straight.el/issues/944 is resolved.
-;;(setq find-file-visit-truename t
-;;      vc-follow-symlinks t)
+;;(setq find-file-visit-truename t)
+
+(setq vc-follow-symlinks t)
 
 ;; Increase the amount of data which Emacs reads from the process. The default
 ;; of 4k is too low 4k considering that the some of the language server

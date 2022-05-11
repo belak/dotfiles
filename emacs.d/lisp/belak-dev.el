@@ -61,11 +61,7 @@
   :blackout
   :hook
   (prog-mode . editorconfig-mode)
-  (text-mode . editorconfig-mode)
-  :config
-  (after! recentf
-    (add-to-list 'editorconfig-exclude-regexps
-                 (file-truename (expand-file-name recentf-save-file)))))
+  (text-mode . editorconfig-mode))
 
 (use-feature! eldoc
   :blackout
@@ -204,27 +200,6 @@
 ;; last few years, so I need to take another look.
 (use-package eglot
   :commands (eglot eglot-ensure))
-
-;; Load lsp-mode for usage with languages
-(use-package! lsp-mode
-  :disabled t
-  :after company
-  :commands (lsp lsp-deferred)
-  :hook ((lsp-mode . lsp-enable-which-key-integration))
-  :config
-  ;; In order to keep things snappy, we disable file watching. In theory this
-  ;; shouldn't cause any major issues because local file changes should still
-  ;; trigger updates.
-  (setq lsp-enable-file-watchers nil
-        lsp-headerline-breadcrumb-enable nil
-        lsp-headerline-breadcrumb-segments '(project file symbols))
-
-  ;; Ensure we're using `company-capf' as the completion provider.
-  (setq lsp-completion-provider :capf))
-
-(use-package! lsp-ui
-  :disabled t
-  :after lsp-mode)
 
 
 ;;
