@@ -62,5 +62,9 @@ export WINIT_UNIX_BACKEND=x11
 # We manually display the venv, so we don't want virtualenv doing that for us
 export VIRTUAL_ENV_DISABLE_PROMPT=true
 
+# Workaround for some SSH flags I use - they're deprecated on macOS for some
+# reason, but this will fix the warning for now.
+export APPLE_SSH_ADD_BEHAVIOR=openssh
+
 # Load cargo env if available
 if [[ -f "$HOME/.cargo/env" ]]; then source "$HOME/.cargo/env"; fi
