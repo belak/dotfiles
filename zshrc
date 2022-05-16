@@ -3,43 +3,45 @@ if [[ $+commands[tty] && $(tty) = "/dev/tty1" ]]; then
 fi
 
 #
-# Dependencies
+# Plugin Loading Utils
 #
 
-[[ ! -d "$HOME/.zplug" ]] && git clone https://github.com/zplug/zplug "$HOME/.zplug"
-source "$HOME/.zplug/init.zsh"
-[[ ! -d "$HOME/.nvm" ]] && git clone https://github.com/creationix/nvm "$HOME/.nvm"
+# I got so tired of plugin managers changing or going missing every few years,
+# so I just wrote this minimal function to handle all the use-cases I need.
+belak-load() {
+  cleaned_path=${1:l}
+  repo=${cleaned_path:h2}
+  if [[ ! -d "$HOME/.config/belak/$cleaned_path" ]]; then
+    dirname=$(dirname $repo)
+    mkdir -p "$HOME/.config/belak/$dirname"
+    git clone "https://github.com/$repo" "$HOME/.config/belak/$repo"
+  fi
+  target=${2:-${cleaned_path:t}.plugin.zsh}
+
+  set --
+  source "$HOME/.config/belak/$cleaned_path/$target"
+}
 
 #
 # Plugins
 #
 
-# Let zplug manage itself when using zplug update
-zplug 'zplug/zplug', hook-build:'zplug --self-manage'
-
-# Specify completions we want before the completion module
-zplug "zsh-users/zsh-completions"
+# Specify completions we want before the completion module is loaded
+belak-load 'zsh-users/zsh-completions'
 
 # Specify which zsh-utils modules we want
-zplug "belak/zsh-utils", use:"editor/*.plugin.zsh"
-zplug "belak/zsh-utils", use:"history/*.plugin.zsh"
-zplug "belak/zsh-utils", use:"prompt/*.plugin.zsh"
-zplug "belak/zsh-utils", use:"utility/*.plugin.zsh"
-zplug "belak/zsh-utils", use:"completion/*.plugin.zsh"
+belak-load 'belak/zsh-utils/editor'
+belak-load 'belak/zsh-utils/history'
+belak-load 'belak/zsh-utils/prompt'
+belak-load 'belak/zsh-utils/utility'
+belak-load 'belak/zsh-utils/completion'
 
 # Load gitstatus for our prompt
-zplug "romkatv/gitstatus"
+belak-load 'romkatv/gitstatus'
 
 # Specify additional external plugins we want
-zplug "rupa/z", use:z.sh
-#zplug "zsh-users/zsh-syntax-highlighting"
-zplug "zdharma/fast-syntax-highlighting", defer:2
-
-if ! zplug check; then
-  zplug install
-fi
-
-zplug load
+belak-load 'rupa/z' 'z.sh'
+#belak-load 'z-shell/f-sy-h'
 
 #
 # Settings
