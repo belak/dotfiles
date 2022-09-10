@@ -106,6 +106,10 @@ if (( $+commands[rbenv] )); then
   eval "$(rbenv init -)"
 fi
 
+if (( $+commands[direnv] )); then
+  eval "$(direnv hook zsh)"
+fi
+
 # Make it possible to add per-machine customizations.
 if [[ -f ~/.zshrc.local ]] source ~/.zshrc.local
 
