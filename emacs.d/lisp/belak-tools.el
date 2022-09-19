@@ -112,6 +112,14 @@
   :config
   (setq restclient-log-request t))
 
+(use-package! ob-restclient
+  :after org
+  :config
+  (after! org
+    (org-babel-do-load-languages
+     'org-babel-load-languages
+     '((restclient . t)))))
+
 ;; Package `rg' just provides an interactive command `rg' to run the search tool
 ;; of the same name.
 (use-package rg
