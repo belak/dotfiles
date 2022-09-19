@@ -264,7 +264,7 @@ This originally came from Sacha Chua's Emacs config."
 (setq-default tab-width 4
               tab-always-indent t
               indent-tabs-mode nil
-              fill-column 80)
+              fill-column 120)
 
 ;; Clean up some various requirements that Emacs sometimes complains about or
 ;; handles.
@@ -280,6 +280,19 @@ This originally came from Sacha Chua's Emacs config."
 ;; Don't make distinctions between ASCII and siblings (like a and a
 ;; with an umlaut)
 (setq search-default-mode 'char-fold-to-regexp)
+
+(after! flycheck
+  ;; Experiment with vale for prose linting. Most of this config comes from
+  ;; https://duncan.codes/posts/2020-09-14-prose-linting-vale-emacs.org/index.html
+  (flycheck-define-checker vale
+    "A checker for prose"
+    :command ("vale" "--output" "line" source)
+    :standard-input nil
+    :error-patterns
+    ((error line-start (file-name) ":" line ":" column ":" (id (one-or-more (not (any ":")))) ":" (message) line-end))
+    :modes (markdown-mode org-mode text-mode)
+    )
+  (add-to-list 'flycheck-checkers 'vale 'append))
 
 (provide 'belak-editor)
 ;;; belak-editor.el ends here.

@@ -230,10 +230,6 @@
 ;; detail.
 (use-package orderless
   :demand t
-  :custom
-  (orderless-matching-styles '(orderless-literal
-                               orderless-regexp
-                               orderless-flex))
   :config
   ;; Enable the orderless completion style
   (setq completion-styles '(orderless basic))
@@ -260,6 +256,9 @@
 
 ;;
 ;;; Tweaks
+
+;; Shrink the fringe to 4px.
+(set-fringe-mode 4)
 
 ;; Don't highlight or display the cursor in non-selected windows. This has the
 ;; added advantage of being a slight performance boost.
