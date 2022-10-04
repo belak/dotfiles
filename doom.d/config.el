@@ -5,7 +5,7 @@
 
 ;; Some functionality uses this to identify you, e.g. GPG configuration, email
 ;; clients, file templates and snippets.
-(setq user-full-name "Kaleb Elwert"
+(setq user-full-name    "Kaleb Elwert"
       user-mail-address "belak@coded.io")
 
 ;; UI
