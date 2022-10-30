@@ -5,6 +5,9 @@
 ;;
 ;;; Themes
 
+;; (load-theme! ef-bio                     ; A set of fairly accessible themes
+;;   ef-themes)
+
 ;; (load-theme! monokai-pro)               ; Based on the VSCode/Sublime themes
 
 (load-theme! modus-vivendi              ; A very accessible theme
