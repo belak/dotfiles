@@ -164,8 +164,7 @@
   ;; hooks.
   (setq company-backends '(company-capf company-files company-dabbrev))
 
-  (use-package! company-dabbrev
-    :straight nil
+  (use-feature! company-dabbrev
     :config
     ;; Improve basic text matching
     (setq company-dabbrev-other-buffers nil
