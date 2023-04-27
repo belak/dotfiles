@@ -27,9 +27,15 @@ path=(
     /usr/local/opt/python/libexec/bin
     /usr/local/bin
     /usr/local/sbin
+    /opt/homebrew/bin
+    /opt/homebrew/sbin
     $path
 )
-fpath=("$HOME/.belak/zsh" $fpath)
+fpath=(
+    "$HOME/.belak/zsh"
+    /opt/homebrew/share/zsh/site-functions
+    $fpath
+)
 
 # Certain default applications
 export ALTERNATE_EDITOR=""
