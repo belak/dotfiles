@@ -34,4 +34,7 @@
   (require 'belak-lang-other)           ; smaller language settings
 
   (require 'belak-org)                  ; the best reason to use emacs
-  (require 'belak-tools))               ; utils too small for their own file
+  (require 'belak-tools)                ; utils too small for their own file
+
+  (require 'elpaca)
+  (elpaca-wait))                        ; wait for package to fix after-init

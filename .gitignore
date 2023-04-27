@@ -19,7 +19,7 @@ vim/view
 *.elc
 emacs.d/.local
 emacs.d/custom.el
-emacs.d/straight
+emacs.d/elpaca
 emacs.d/var
 emacs.d/etc
 emacs.d/eln-cache
