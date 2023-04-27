@@ -20,9 +20,7 @@
 
   (setq modus-themes-lang-checkers  '(background straight-underline text-also)
         modus-themes-fringes        'subtle
-        modus-themes-mode-line      '(borderless))
-
-  (modus-themes-load-themes))
+        modus-themes-mode-line      '(borderless)))
 
 ;; (load-theme! nord)                      ; Trying this one out
 ;; (load-theme! zenburn)                   ; Oldie but a goodie
@@ -195,7 +193,7 @@
   (global-whitespace-mode t))
 
 ;; undo/redo changes to Emacs' window layout
-(use-package! winner
+(use-feature! winner
   :demand t
   :preface
   (defmacro add-winner-boring-buffer! (boring-buffer-name)

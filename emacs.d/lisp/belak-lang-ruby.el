@@ -1,7 +1,12 @@
-;;; belak-lang-ruby -*- lexical-binding: t; -*-
+;;; belak-lang-ruby.el -*- lexical-binding: t; -*-
+
+(require 'belak-lib)
+
+;;
+;;; Packages
 
 ;; TODO: look at Sacha's ruby/robe config
-(use-package! ruby-mode
+(use-feature! ruby-mode
   :mode "\\.rb\\'"
   :config
   :hook

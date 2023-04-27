@@ -110,7 +110,7 @@
   ("C-c C-<"     . mc/mark-all-like-this))
 
 ;; Highlight matching delimiters
-(use-package! paren
+(use-feature! paren
   :demand t
   ;;:after-call after-find-file doom-switch-buffer-hook
   :config
@@ -120,7 +120,7 @@
         show-paren-when-point-in-periphery t)
   (show-paren-mode +1))
 
-(use-package! savehist
+(use-feature! savehist
   :demand t
   :config
   (setq history-length t
