@@ -48,6 +48,9 @@
   :config
   (setq markdown-fontify-code-blocks-natively t))
 
+(use-package! nix-mode
+  :mode "\\.nix\\'")
+
 (use-package! pkgbuild-mode
   :mode "PKGBUILD\\'")
 

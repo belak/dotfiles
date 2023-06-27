@@ -74,3 +74,8 @@ export APPLE_SSH_ADD_BEHAVIOR=openssh
 
 # Load cargo env if available
 if [[ -f "$HOME/.cargo/env" ]]; then source "$HOME/.cargo/env"; fi
+
+# Load nix home-manager env if available
+if [[ -f "$HOME/.nix-profile/etc/profile.d/hm-session-vars.sh" ]]; then
+    source "$HOME/.nix-profile/etc/profile.d/hm-session-vars.sh"
+fi
