@@ -36,6 +36,8 @@
 
   console.font = "${pkgs.terminus_font}/share/consolefonts/ter-114n.psf.gz";
 
+  services.fprintd.enable = true;
+
   # Enable the X11 windowing system.
   services.xserver.enable = true;
   services.xserver.excludePackages = [ pkgs.xterm ];
