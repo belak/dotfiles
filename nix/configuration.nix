@@ -7,7 +7,7 @@
 {
   imports =
     [ # Include the results of the hardware scan.
-      ./hardware-configuration.nix
+      /etc/nixos/hardware-configuration.nix
     ];
 
   nix = {
@@ -109,7 +109,7 @@
 
   programs.zsh = {
     enable = true;
-    
+
     # The default setup does a bunch of weird things so we disable all of them.
     # This lets us properly set them up in our user-level zshrc.
     promptInit = "";
@@ -126,6 +126,8 @@
   # };
 
   # List services that you want to enable:
+
+  services.fwupd.enable = true;
 
   # Enable the OpenSSH daemon.
   # services.openssh.enable = true;
