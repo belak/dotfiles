@@ -2,7 +2,7 @@ local wezterm = require 'wezterm';
 
 -- Set the font information. We use the ttf version of Terminus because for
 -- some reason the bitmap font doesn't work properly on Linux.
-local font = "Terminus (TTF)"
+local font = "Terminus"
 local font_size = 12.0
 
 if wezterm.target_triple == "x86_64-apple-darwin" then
@@ -12,7 +12,7 @@ if wezterm.target_triple == "x86_64-apple-darwin" then
   font_size = 14.0
 end
 
-return {
+local config = {
   -- Override a number of keybinds to make them spawn in the home directory
   -- rather than the current one.
   keys = {
@@ -83,3 +83,8 @@ return {
     }
   }
 }
+
+local wayland_gnome = require 'wayland_gnome'
+wayland_gnome.apply_to_config(config)
+
+return config
