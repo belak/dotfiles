@@ -25,12 +25,15 @@
     curl
     direnv
     discord
+    dmidecode
     editorconfig-core-c
     emacs
     fd
     findutils
     firefox
+    fwupd
     git
+    gnome-firmware
     htop
     killall
     neovim
@@ -67,6 +70,9 @@
     ".vimrc".source = ~/.dotfiles/vimrc;
     ".zshenv".source = ~/.dotfiles/zshenv;
     ".zshrc".source = ~/.dotfiles/zshrc;
+
+    ".config/home-manager/home.nix".source = config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/.dotfiles/nix/home-manager.nix";
+
   };
 
   # Let Home Manager install and manage itself.
