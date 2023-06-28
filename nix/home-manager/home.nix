@@ -2,6 +2,7 @@
 
 {
   nixpkgs.config.allowUnfree = true;
+  nixpkgs.config.allowUnfreePredicate = _: true;
 
   # Home Manager needs a bit of information about you and the paths it should
   # manage.
@@ -65,18 +66,18 @@
 
   home.file = {
     ".config" = {
-      source = ~/.dotfiles/config;
+      source = ../../config;
       recursive = true;
     };
     ".vim" = {
-      source = ~/.dotfiles/vim;
+      source = ../../vim;
       recursive = true;
     };
-    ".editorconfig".source = ~/.dotfiles/editorconfig;
-    ".finicky.js".source = ~/.dotfiles/finicky.js;
-    ".vimrc".source = ~/.dotfiles/vimrc;
-    ".zshenv".source = ~/.dotfiles/zshenv;
-    ".zshrc".source = ~/.dotfiles/zshrc;
+    ".editorconfig".source = ../../editorconfig;
+    ".finicky.js".source = ../../finicky.js;
+    ".vimrc".source = ../../vimrc;
+    ".zshenv".source = ../../zshenv;
+    ".zshrc".source = ../../zshrc;
 
     # Set up this file to be symlinked into the location home-manager expects it
     # to be. This allows us to set it up once by passing `-f` and not have to
