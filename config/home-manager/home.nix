@@ -51,28 +51,22 @@
     nix-direnv.enable = true;
   };
 
-  # Home Manager is pretty good at managing dotfiles. The primary way to manage
-  # plain files is through 'home.file'. We don't actually define all dotfiles,
-  # even though it would probably make sense to, primarily because I'm lazy and
-  # most files aren't needed.
   home.file = {
-    ".config/alacritty" = {
-      source = ~/.dotfiles/config/alacritty;
+    ".belak" = {
+      source = ~/.dotfiles/belak;
       recursive = true;
     };
-    ".editorconfig".source = ~/.dotfiles/editorconfig;
-    ".emacs.d" = {
-      source = ~/.dotfiles/emacs.d;
+    ".config" = {
+      source = ~/.dotfiles/config;
       recursive = true;
     };
-    ".gitconfig".source = ~/.dotfiles/gitconfig;
-    ".gitignore".source = ~/.dotfiles/gitignore;
-    ".tmux.conf".source = ~/.dotfiles/tmux.conf;
-    ".vimrc".source = ~/.dotfiles/vimrc;
     ".vim" = {
       source = ~/.dotfiles/vim;
       recursive = true;
     };
+    ".editorconfig".source = ~/.dotfiles/editorconfig;
+    ".finicky.js".source = ~/.dotfiles/finicky.js;
+    ".vimrc".source = ~/.dotfiles/vimrc;
     ".zshenv".source = ~/.dotfiles/zshenv;
     ".zshrc".source = ~/.dotfiles/zshrc;
   };
