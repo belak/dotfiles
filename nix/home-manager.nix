@@ -46,6 +46,13 @@
     unzip
     wezterm
 
+    # Stuff to try
+    micro
+
+    # Fun stuff
+    cmatrix
+    pipes-rs
+
     # Go
     go
     gofumpt
