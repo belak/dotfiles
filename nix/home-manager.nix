@@ -21,7 +21,6 @@
   # environment.
   home.packages = with pkgs; [
     alacritty
-    coreutils
     curl
     direnv
     discord
@@ -79,8 +78,17 @@
     ".zshenv".source = ~/.dotfiles/zshenv;
     ".zshrc".source = ~/.dotfiles/zshrc;
 
+    # Set up this file to be symlinked into the location home-manager expects it
+    # to be. This allows us to set it up once by passing `-f` and not have to
+    # worry about it again.
+    #
+    # Note that we have to use mkOutOfStoreSymlink because we want `home.nix` to
+    # be a symlink rather than a file in the nix store. Putting it in the nix
+    # store causes makes it so you have to run `home-manager switch` twice for
+    # every change to `home.nix` (the first update causes the file to update,
+    # the second actually uses it), and makes it harder to recover from syntax
+    # errors.
     ".config/home-manager/home.nix".source = config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/.dotfiles/nix/home-manager.nix";
-
   };
 
   # Let Home Manager install and manage itself.
