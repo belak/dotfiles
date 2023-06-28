@@ -29,4 +29,4 @@ rofi.hlfg:     #f0dfaf
 rofi.hlbg:     #1e2320
 
 ! include the color scheme
-#include ".belak/xcolors/linux"
+#include ".config/belak/xcolors/linux"
