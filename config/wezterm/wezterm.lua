@@ -54,8 +54,8 @@ local config = {
 
       -- NOTE: these aren't quite right - I should probably tweak them at some
       -- point.
-      cursor_bg = "#53ae71",
-      cursor_border = "#53ae71",
+      cursor_bg = "#ffffff",
+      cursor_border = "#ffffff",
       cursor_fg = "#000000",
       selection_bg = "#4d52f8",
       selection_fg = "#000000",
