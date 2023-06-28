@@ -1,3 +1,3 @@
 COPY_ALWAYS="hgrc gitconfig config/systemd/user/emacs.service"
 EXCLUDES="README.md base16-shell tools config/nvim/plugged"
-SYMLINK_DIRS="vim config/nvim doom.d emacs.d zgen"
+SYMLINK_DIRS="config/doom config/emacs config/nvim zgen"
