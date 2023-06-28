@@ -51,3 +51,7 @@ tab_width = 2
 [{*.sh,*.zsh}]
 indent_size = 2
 tab_width = 2
+
+[*.nix]
+indent_size = 2
+tab_width = 2

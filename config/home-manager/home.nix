@@ -1,6 +1,8 @@
 { config, pkgs, ... }:
 
 {
+  nixpkgs.config.allowUnfree = true;
+
   # Home Manager needs a bit of information about you and the paths it should
   # manage.
   home.username = "belak";
@@ -21,8 +23,11 @@
     alacritty
     coreutils
     curl
+    direnv
+    discord
     editorconfig-core-c
     emacs
+    fd
     findutils
     firefox
     git
@@ -30,6 +35,7 @@
     killall
     p7zip
     pkg-config
+    ripgrep
     terminus_font
     tmux
     unzip
@@ -38,13 +44,12 @@
     go
     gofumpt
     gotools
-
-    # Rust
-    cargo
-    rustc
-    rust-analyzer
-    rustfmt
   ];
+
+  programs.direnv = {
+    enable = true;
+    nix-direnv.enable = true;
+  };
 
   # Home Manager is pretty good at managing dotfiles. The primary way to manage
   # plain files is through 'home.file'. We don't actually define all dotfiles,
