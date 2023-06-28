@@ -34,6 +34,8 @@
 
   i18n.defaultLocale = "en_US.UTF-8";
 
+  console.font = "${pkgs.terminus_font}/share/consolefonts/ter-114n.psf.gz";
+
   # Enable the X11 windowing system.
   services.xserver.enable = true;
   services.xserver.excludePackages = [ pkgs.xterm ];
@@ -86,8 +88,8 @@
   # set up the rest of the system.
   environment.systemPackages = with pkgs; [
     gnome.gnome-tweaks
-    gnomeExtensions.unite
     git
+    terminus_font
     vim
   ];
 
