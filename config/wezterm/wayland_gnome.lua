@@ -1,6 +1,8 @@
 -- Originally copied from this comment on GitHub:
 --
 -- https://github.com/wez/wezterm/issues/3334#issuecomment-1510393277
+--
+-- This has since been tweaked to also set `window_decorations`.
 
 local wezterm = require 'wezterm'
 local mod = {}
@@ -32,6 +34,8 @@ function mod.apply_to_config(config)
       config.font_size = (config.font_size or 10.0) * tonumber(stdout)
     end
   end
+
+  config.window_decorations = "RESIZE"
 
 end
 
