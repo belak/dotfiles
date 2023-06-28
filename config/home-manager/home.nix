@@ -33,12 +33,14 @@
     git
     htop
     killall
+    neovim
     p7zip
     pkg-config
     ripgrep
     terminus_font
     tmux
     unzip
+    wezterm
 
     # Go
     go
@@ -52,10 +54,6 @@
   };
 
   home.file = {
-    ".belak" = {
-      source = ~/.dotfiles/belak;
-      recursive = true;
-    };
     ".config" = {
       source = ~/.dotfiles/config;
       recursive = true;

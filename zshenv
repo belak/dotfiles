@@ -32,7 +32,7 @@ path=(
     $path
 )
 fpath=(
-    "$HOME/.belak/zsh"
+    "$HOME/.config/belak/zsh"
     /opt/homebrew/share/zsh/site-functions
     $fpath
 )
