@@ -36,6 +36,7 @@
     gnome-firmware
     htop
     killall
+    libinput
     neovim
     p7zip
     pkg-config
