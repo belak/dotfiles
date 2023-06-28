@@ -57,6 +57,11 @@
 
   (dashboard-setup-startup-hook))
 
+(use-package! envrc
+  :demand t
+  :config
+  (envrc-global-mode))
+
 ;; Basic tooling for profiling startup
 (use-package! esup
   :commands esup)

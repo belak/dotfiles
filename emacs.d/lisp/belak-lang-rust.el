@@ -14,7 +14,8 @@
          (rust-mode . subword-mode)
          (rust-mode . eglot-ensure))
   :config
-  (add-to-list 'eglot-server-programs '(rust-mode "rust-analyzer"))
+  (after! eglot
+    (add-to-list 'eglot-server-programs '(rust-mode "rust-analyzer")))
 
   (defun belak--rust-mode-hook ()
     (add-hook 'before-save-hook 'eglot-format nil t)))
