@@ -34,6 +34,7 @@
     fwupd
     git
     gnome-firmware
+    gnomeExtensions.unite
     htop
     killall
     libinput
