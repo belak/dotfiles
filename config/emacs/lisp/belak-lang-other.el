@@ -5,6 +5,11 @@
 ;;
 ;;; Packages
 
+(use-package! bazel
+  :mode
+  ("\\.bzl\\'"   . bazel-mode)
+  ("\\.bazel\\'" . bazel-mode))
+
 (use-package! cmake-mode
   :mode
   "CMakeLists\\.txt\\'"
