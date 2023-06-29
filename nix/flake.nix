@@ -14,7 +14,10 @@
     let
       system = "x86_64-linux";
       pkgs = nixpkgs.legacyPackages.${system};
-    in {
+    in
+    {
+      formatter."${system}" = pkgs.nixpkgs-fmt;
+
       homeConfigurations."belak" = home-manager.lib.homeManagerConfiguration {
         inherit pkgs;
 

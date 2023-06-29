@@ -6,7 +6,8 @@
 
 {
   imports =
-    [ # Include the results of the hardware scan.
+    [
+      # Include the results of the hardware scan.
       /etc/nixos/hardware-configuration.nix
     ];
 
@@ -102,16 +103,16 @@
     gnome-photos
     gnome-tour
   ]) ++ (with pkgs.gnome; [
-    cheese           # webcam tool
-    gnome-maps       # map tool
-    gnome-music      # music player
-    gedit            # text editor
-    epiphany         # web browser
-    geary            # email reader
-    evince           # document viewer
+    cheese # webcam tool
+    gnome-maps # map tool
+    gnome-music # music player
+    gedit # text editor
+    epiphany # web browser
+    geary # email reader
+    evince # document viewer
     gnome-characters # font/character viewer
-    simple-scan      # scanner utility
-    totem            # video player
+    simple-scan # scanner utility
+    totem # video player
   ]);
 
   programs.zsh = {
@@ -120,7 +121,7 @@
     # The default setup does a bunch of weird things so we disable all of them.
     # This lets us properly set them up in our user-level zshrc.
     promptInit = "";
-    setOptions = [];
+    setOptions = [ ];
     enableGlobalCompInit = false;
   };
 
