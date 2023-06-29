@@ -94,11 +94,35 @@
     ".config/home-manager/flake.nix".source = config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/.dotfiles/nix/flake.nix";
   };
 
+  gtk = {
+    enable = true;
+
+    iconTheme = {
+      name = "Papirus-Dark";
+      package = pkgs.papirus-icon-theme;
+    };
+
+    theme.name = "Adwaita-dark";
+
+    gtk3.extraConfig = {
+      Settings = ''
+        gtk-application-prefer-dark-theme=1
+      '';
+    };
+
+    gtk4.extraConfig = {
+      Settings = ''
+        gtk-application-prefer-dark-theme=1
+      '';
+    };
+  };
+
   dconf.settings = {
     "org/gnome/desktop/interface" = {
       color-scheme = "prefer-dark";
       enable-hot-corners = false;
       font-antialiasing = "rgba";
+      gtk-theme = "Adwaita-dark";
     };
     "org/gnome/mutter" = {
       dynamic-workspaces = true;
@@ -108,6 +132,7 @@
       enabled-extensions = [
         "unite@hardpixel.eu"
         "dash-to-dock@micxgx.gmail.com"
+        "user-theme@gnome-shell-extensions.gcampax.github.com"
       ];
       favorite-apps = [
         "firefox.desktop"
