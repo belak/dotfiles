@@ -36,7 +36,9 @@
 
   console.font = "${pkgs.terminus_font}/share/consolefonts/ter-114n.psf.gz";
 
-  services.fprintd.enable = true;
+  # Disable fprintd for now because the gdm behavior disallows password auth.
+  #
+  #services.fprintd.enable = true;
 
   # Enable the X11 windowing system.
   services.xserver.enable = true;
