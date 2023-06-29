@@ -89,7 +89,7 @@
     # every change to `home.nix` (the first update causes the file to update,
     # the second actually uses it), and makes it harder to recover from syntax
     # errors.
-    ".config/home-manager/home.nix".source = config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/.dotfiles/nix/home-manager/home.nix";
+    ".config/home-manager/flake.nix".source = config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/.dotfiles/nix/flake.nix";
   };
 
   # Let Home Manager install and manage itself.
