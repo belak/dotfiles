@@ -18,12 +18,16 @@
     {
       formatter."${system}" = pkgs.nixpkgs-fmt;
 
+      nixosConfigurations.zagreus = nixpkgs.lib.nixosSystem {
+        inherit pkgs;
+
+        modules = [ ./nixos/configuration.nix ];
+      };
+
       homeConfigurations."belak" = home-manager.lib.homeManagerConfiguration {
         inherit pkgs;
 
-        modules = [
-          ./home-manager/home.nix
-        ];
+        modules = [ ./home-manager/home.nix ];
       };
     };
 }
