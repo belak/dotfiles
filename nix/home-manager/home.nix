@@ -173,7 +173,6 @@
     (n: [
       { name = "move-to-workspace-${toString n}"; value = [ "<Super><Shift>${toString n}" ]; }
       { name = "switch-to-workspace-${toString n}"; value = [ "<Super>${toString n}" ]; }
-      { name = "switch-to-application-${toString n}"; value = [ ]; }
     ])
     (lib.range 1 9)));
 
