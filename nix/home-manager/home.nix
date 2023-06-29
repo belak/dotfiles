@@ -94,6 +94,45 @@
     ".config/home-manager/flake.nix".source = config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/.dotfiles/nix/flake.nix";
   };
 
+  dconf.settings = {
+    "org/gnome/desktop/interface" = {
+      color-scheme = "prefer-dark";
+      enable-hot-corners = false;
+      font-antialiasing = "rgba";
+    };
+    "org/gnome/mutter" = {
+      dynamic-workspaces = true;
+      edge-tiling = true;
+    };
+    "org/gnome/shell" = {
+      enabled-extensions = [
+        "unite@hardpixel.eu"
+        "dash-to-dock@micxgx.gmail.com"
+      ];
+      favorite-apps = [
+        "firefox.desktop"
+        "org.wezfurlong.wezterm.desktop"
+        "discord.desktop"
+      ];
+    };
+    "org/gnome/shell/extensions/dash-to-dock" = {
+      apply-custom-theme = false;
+      background-opacity = 0.0;
+      dash-max-icon-size = 48;
+      show-show-apps-button = false;
+      show-trash = false;
+      transparency-mode = "FIXED";
+    };
+    "org/gnome/shell/extensions/unite" = {
+      hide-activities-button = "always";
+      show-window-buttons = "both";
+      show-window-title = "both";
+    };
+    "org/gnome/tweaks" = {
+      show-extensions-notice = false;
+    };
+  };
+
   # Let Home Manager install and manage itself.
   programs.home-manager.enable = true;
 }
