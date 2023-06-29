@@ -34,6 +34,7 @@
     fwupd
     git
     gnome-firmware
+    gnomeExtensions.dash-to-dock
     gnomeExtensions.unite
     htop
     killall
