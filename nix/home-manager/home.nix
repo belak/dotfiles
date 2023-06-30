@@ -22,12 +22,13 @@
   # environment.
   home.packages = with pkgs; [
     alacritty
+    binutils
     curl
     direnv
     discord
     dmidecode
     editorconfig-core-c
-    emacs
+    emacs-gtk
     fd
     findutils
     firefox
@@ -42,8 +43,10 @@
     killall
     libinput
     neovim
+    obsidian
     p7zip
     pkg-config
+    powertop
     ripgrep
     terminus_font
     tmux
@@ -51,7 +54,7 @@
     wezterm
 
     # Stuff to try
-    micro
+    sublime-music
 
     # Fun stuff
     cmatrix
@@ -61,6 +64,11 @@
     go
     gofumpt
     gotools
+
+    # Rust
+    rustc
+    rust-analyzer
+    cargo
   ];
 
   programs.direnv = {
