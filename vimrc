@@ -101,6 +101,7 @@ set tabstop=4
 set shiftwidth=4
 
 " Random settings
+set autoindent                 " Enable basic indentitation, smarter than "smart"indent
 set hlsearch                   " Hilight what we're searching for
 set showcmd                    " Always show the currently entered command
 set writebackup                " Make a backup before overwriting a file
