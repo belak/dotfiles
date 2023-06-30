@@ -20,6 +20,7 @@
     settings = {
       experimental-features = [ "nix-command" "flakes" ];
       auto-optimise-store = true;
+      warn-dirty = false;
     };
 
     gc = {
@@ -32,7 +33,18 @@
   # Bootloader.
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
+
+  # Hardware quirks
+
+  # For some reason the touchpad buttons on my laptop don't work by default.
+  # This param tells the driver to use a secondary bus for the device which
+  # seems to fix the issue.
   boot.kernelParams = [ "psmouse.synaptics_intertouch=0" ];
+
+  # We need to specify our video driver because it clears the console font when
+  # loaded. This works around the race condition by making sure the video driver
+  # is loaded as early as possible during the boot process.
+  boot.initrd.kernelModules = [ "i915" ];
 
   networking = {
     hostName = "zagreus";
@@ -45,7 +57,11 @@
 
   i18n.defaultLocale = "en_US.UTF-8";
 
-  console.font = "${pkgs.terminus_font}/share/consolefonts/ter-114n.psf.gz";
+  console = {
+    earlySetup = true;
+    font = "${pkgs.terminus_font}/share/consolefonts/ter-114n.psf.gz";
+    packages = with pkgs; [ terminus_font ];
+  };
 
   # Disable fprintd for now because the gdm behavior disallows password auth.
   #
@@ -104,7 +120,7 @@
   environment.systemPackages = with pkgs; [
     gnome.gnome-tweaks
     git
-    terminus_font
+    lsb-release
     vim
   ];
 
