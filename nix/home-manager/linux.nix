@@ -26,6 +26,7 @@
   home.packages = with pkgs; [
     alacritty
     binutils
+    cloc
     cura
     curl
     dig
@@ -38,6 +39,7 @@
     findutils
     firefox
     fwupd
+    fzf
     git
     gnome-firmware
     gnome.dconf-editor
@@ -45,6 +47,7 @@
     gnomeExtensions.space-bar
     gnomeExtensions.unite
     htop
+    jq
     killall
     libinput
     neovim
@@ -62,6 +65,8 @@
     wezterm
 
     # Stuff to try
+    bat
+    gitui
     sublime-music
 
     # Fun stuff
@@ -69,9 +74,9 @@
     pipes-rs
 
     # Go
-    go
-    gofumpt
-    gotools
+    pkgs-unstable.go
+    pkgs-unstable.gofumpt
+    pkgs-unstable.gotools
 
     # Rust
     pkgs-unstable.rustc
