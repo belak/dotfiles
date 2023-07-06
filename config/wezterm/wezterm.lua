@@ -1,14 +1,16 @@
 local wezterm = require 'wezterm';
 
+local is_macos = wezterm.target_triple == "x86_64-apple-darwin" or wezterm.target_triple == "aarch64-apple-darwin"
+
 -- Set the font information. We use the ttf version of Terminus because for
 -- some reason the bitmap font doesn't work properly on Linux.
 local font = "Terminus"
 local font_size = 12.0
 
-if wezterm.target_triple == "x86_64-apple-darwin" or wezterm.target_triple == "aarch64-apple-darwin" then
+if is_macos then
   -- When I'm using MacOS, I'm generally on a larger monitor, so a larger font
   -- size is important for readability.
-  font = "Source Code Pro"
+  font = "Terminus (TTF)"
   font_size = 14.0
 end
 
