@@ -5,7 +5,7 @@ local wezterm = require 'wezterm';
 local font = "Terminus"
 local font_size = 12.0
 
-if wezterm.target_triple == "x86_64-apple-darwin" then
+if wezterm.target_triple == "x86_64-apple-darwin" or wezterm.target_triple == "aarch64-apple-darwin" then
   -- When I'm using MacOS, I'm generally on a larger monitor, so a larger font
   -- size is important for readability.
   font = "Source Code Pro"
