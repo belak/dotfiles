@@ -79,3 +79,8 @@ if [[ -f "$HOME/.cargo/env" ]]; then source "$HOME/.cargo/env"; fi
 if [[ -f "$HOME/.nix-profile/etc/profile.d/hm-session-vars.sh" ]]; then
     source "$HOME/.nix-profile/etc/profile.d/hm-session-vars.sh"
 fi
+
+# On macOS the zshenv in /etc/static sets up the nix environment.
+if [[ -f "/etc/static/zshenv" ]]; then
+    source "/etc/static/zshenv"
+fi

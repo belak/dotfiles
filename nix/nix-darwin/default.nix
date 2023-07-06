@@ -6,7 +6,59 @@
   homebrew = {
     enable = true;
 
-    brews = [ ];
+    taps = [
+      "d12frosted/emacs-plus"
+      "goreleaser/tap"
+      "homebrew/cask-fonts"
+    ];
+
+    brews = [
+      "cbindgen"
+      "cloc"
+      "dos2unix"
+      "editorconfig"
+      "fd"
+      "findutils"
+      "gimme"
+      "git"
+      "gitui"
+      "go"
+      "golangci-lint"
+      "goreleaser"
+      "gnu-sed"
+      "htop"
+      "lftp"
+      "neovim"
+      "p7zip"
+      "protoc-gen-go"
+      "protoc-gen-go-grpc"
+      "pwgen"
+      "ripgrep"
+      "sdl12-compat"
+      "sdl_gfx"
+      "sdl_image"
+      "sdl_mixer"
+      "sdl_ttf"
+      "svgo"
+      "tmux"
+      "vim"
+      "wget"
+    ];
+
+    casks = [
+      "alfred"
+      "bartender"
+      "discord"
+      "finicky"
+      "firefox"
+      { name = "font-source-code-pro"; args.require_sha = false; }
+      "monodraw"
+      "obsidian"
+      "postgres-unofficial"
+      "prusaslicer"
+      "trailer"
+      "wezterm"
+    ];
 
     masApps = {
       Parcel = 639968404;
@@ -20,6 +72,17 @@
     build-users-group = "nixbld";
     experimental-features = "nix-command flakes";
     trusted-users = [ "root" "kaleb.elwert" ];
+  };
+
+  programs.zsh = {
+    enable = true;
+
+    # Similar to NixOS, the default setup does a bunch of weird things so we
+    # disable all of them. This lets us properly set them up in our user-level
+    # zshrc.
+    promptInit = "";
+    enableCompletion = false;
+    enableBashCompletion = false;
   };
 
   # Auto upgrade nix package and the daemon service.
