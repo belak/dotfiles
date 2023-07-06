@@ -1,4 +1,4 @@
-{ config, pkgs, lib, ... }:
+{ config, pkgs, pkgs-unstable, lib, ... }:
 
 {
   nixpkgs.config.allowUnfreePredicate = pkg: builtins.elem (lib.getName pkg) [
@@ -28,6 +28,7 @@
     binutils
     cura
     curl
+    dig
     direnv
     discord
     dmidecode
@@ -73,9 +74,9 @@
     gotools
 
     # Rust
-    rustc
-    rust-analyzer
-    cargo
+    pkgs-unstable.rustc
+    pkgs-unstable.rust-analyzer
+    pkgs-unstable.cargo
   ];
 
   programs.direnv = {
