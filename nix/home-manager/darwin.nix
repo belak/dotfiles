@@ -16,9 +16,7 @@
     nix-direnv.enable = true;
   };
 
-  home.packages = with pkgs; [
-    wezterm
-  ];
+  home.packages = with pkgs; [ ];
 
   # Let Home Manager install and manage itself.
   programs.home-manager.enable = true;
