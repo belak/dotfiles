@@ -112,9 +112,6 @@
     shell = pkgs.zsh;
   };
 
-  # Allow unfree packages
-  nixpkgs.config.allowUnfree = true;
-
   # We keep global packages pretty minimal - essentially only what we'd need to
   # set up the rest of the system.
   environment.systemPackages = with pkgs; [

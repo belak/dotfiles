@@ -1,8 +1,11 @@
 { config, pkgs, lib, ... }:
 
 {
-  nixpkgs.config.allowUnfree = true;
-  nixpkgs.config.allowUnfreePredicate = _: true;
+  nixpkgs.config.allowUnfreePredicate = pkg: builtins.elem (lib.getName pkg) [
+    "discord"
+    "obsidian"
+    "skypeforlinux"
+  ];
 
   # Home Manager needs a bit of information about you and the paths it should
   # manage.
@@ -23,6 +26,7 @@
   home.packages = with pkgs; [
     alacritty
     binutils
+    cura
     curl
     direnv
     discord
@@ -45,9 +49,12 @@
     neovim
     obsidian
     p7zip
+    pavucontrol
     pkg-config
     powertop
     ripgrep
+    skypeforlinux
+    standardnotes
     terminus_font
     tmux
     unzip
