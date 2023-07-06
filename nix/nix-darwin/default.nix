@@ -51,6 +51,7 @@
       "discord"
       "finicky"
       "firefox"
+      "font-terminus"
       { name = "font-source-code-pro"; args.require_sha = false; }
       "monodraw"
       "obsidian"
