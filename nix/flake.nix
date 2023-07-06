@@ -2,32 +2,63 @@
   description = "Home Manager configuration of belak";
 
   inputs = {
-    # Specify the source of Home Manager and Nixpkgs.
     nixpkgs.url = "github:nixos/nixpkgs/nixos-23.05";
+
+    nixpkgs-darwin.url = "github:nixos/nixpkgs/nixpkgs-23.05-darwin";
+
     home-manager = {
       url = "github:nix-community/home-manager/release-23.05";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+
+    darwin = {
+      url = "github:LnL7/nix-darwin";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
-  outputs = { nixpkgs, home-manager, ... }:
-    let
+  outputs = { nixpkgs, nixpkgs-darwin, darwin, home-manager, ... }: {
+    formatter = {
+      x86_64-linux = nixpkgs.legacyPackages.x86_64.nixpkgs-fmt;
+      aarch64-darwin = nixpkgs-darwin.legacyPackages.aarch64-darwin.nixpkgs-fmt;
+    };
+
+    nixosConfigurations.zagreus = nixpkgs.lib.nixosSystem rec {
       system = "x86_64-linux";
       pkgs = nixpkgs.legacyPackages.${system};
-    in
-    {
-      formatter."${system}" = pkgs.nixpkgs-fmt;
 
-      nixosConfigurations.zagreus = nixpkgs.lib.nixosSystem {
-        inherit pkgs;
-
-        modules = [ ./nixos/configuration.nix ];
-      };
-
-      homeConfigurations."belak" = home-manager.lib.homeManagerConfiguration {
-        inherit pkgs;
-
-        modules = [ ./home-manager/home.nix ];
-      };
+      modules = [
+        ./nixos/configuration.nix
+      ];
     };
+
+    # My work computers tend to use the username kaleb.elwert, and are macbooks,
+    # while I tend to use "belak" for all my personal machines. This provides a
+    # convenient way to differentiate them.
+
+    homeConfigurations."belak" = home-manager.lib.homeManagerConfiguration {
+      pkgs = nixpkgs.legacyPackages.x86_64-linux;
+
+      modules = [
+        ./modules/dotfiles.nix
+        ./home-manager/linux.nix
+      ];
+    };
+
+    homeConfigurations."kaleb.elwert" = home-manager.lib.homeManagerConfiguration {
+      pkgs = nixpkgs-darwin.legacyPackages.aarch64-darwin;
+
+      modules = [
+        ./modules/dotfiles.nix
+        ./home-manager/darwin.nix
+      ];
+    };
+
+    darwinConfigurations."COMP-JY4T0D6C0V" = darwin.lib.darwinSystem {
+      system = "aarch64-darwin";
+      pkgs = nixpkgs-darwin.legacyPackages.aarch64-darwin;
+
+      modules = [ ./nix-darwin/default.nix ];
+    };
+  };
 }
