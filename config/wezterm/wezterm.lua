@@ -7,12 +7,20 @@ local is_macos = wezterm.target_triple == "x86_64-apple-darwin" or wezterm.targe
 local font = "Terminus"
 local font_size = 12.0
 
+local extra_keys = {};
+
 if is_macos then
   -- When I'm using MacOS, I'm generally on a larger monitor, so a larger font
   -- size is important for readability.
   font = "Terminus (TTF)"
   font_size = 14.0
+
+  extra_keys = {
+    {key="LeftArrow", mods="CMD", action=wezterm.action.ActivateTabRelative(-1)},
+    {key="RightArrow", mods="CMD", action=wezterm.action.ActivateTabRelative(1)},
+  }
 end
+
 
 local config = {
   -- Override a number of keybinds to make them spawn in the home directory
@@ -30,6 +38,7 @@ local config = {
     {key="%", mods="CTRL|ALT", action=wezterm.action{SplitVertical={
       cwd = wezterm.home_dir,
     }}},
+    table.unpack(extra_keys)
   },
 
   font = wezterm.font(font),
