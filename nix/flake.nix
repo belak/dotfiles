@@ -3,10 +3,9 @@
 
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs/nixos-23.05";
-
     nixpkgs-unstable.url = "github:nixos/nixpkgs/nixos-unstable";
-
     nixpkgs-darwin.url = "github:nixos/nixpkgs/nixpkgs-23.05-darwin";
+    hardware.url = "github:nixos/nixos-hardware";
 
     home-manager = {
       url = "github:nix-community/home-manager/release-23.05";
@@ -29,9 +28,7 @@
       system = "x86_64-linux";
       pkgs = nixpkgs.legacyPackages.${system};
 
-      modules = [
-        ./nixos/configuration.nix
-      ];
+      modules = [ ./hosts/zagreus ];
     };
 
     darwinConfigurations."COMP-JY4T0D6C0V" = darwin.lib.darwinSystem {
