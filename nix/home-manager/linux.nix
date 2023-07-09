@@ -1,6 +1,12 @@
-{ config, pkgs, pkgs-unstable, lib, ... }:
+{ config, pkgs, extra-pkgs, lib, ... }:
 
 {
+  nixpkgs.overlays = [
+    (self: super: {
+      unstable = extra-pkgs.unstable;
+    })
+  ];
+
   nixpkgs.config.allowUnfreePredicate = pkg: builtins.elem (lib.getName pkg) [
     "discord"
     "obsidian"
@@ -32,7 +38,7 @@
     discord
     dmidecode
     editorconfig-core-c
-    emacs-gtk
+    emacs
     fd
     findutils
     firefox
@@ -55,6 +61,7 @@
     pkg-config
     powertop
     ripgrep
+    rpi-imager
     skypeforlinux
     standardnotes
     terminus_font
@@ -72,14 +79,14 @@
     pipes-rs
 
     # Go
-    pkgs-unstable.go
-    pkgs-unstable.gofumpt
-    pkgs-unstable.gotools
+    unstable.go
+    unstable.gofumpt
+    unstable.gotools
 
     # Rust
-    pkgs-unstable.rustc
-    pkgs-unstable.rust-analyzer
-    pkgs-unstable.cargo
+    unstable.rustc
+    unstable.rust-analyzer
+    unstable.cargo
   ];
 
   programs.direnv = {
@@ -152,6 +159,7 @@
     };
     "org/gnome/shell/extensions/unite" = {
       hide-activities-button = "always";
+      hide-window-titlebars = "both";
       show-window-buttons = "both";
       show-window-title = "both";
     };

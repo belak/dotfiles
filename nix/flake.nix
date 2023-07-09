@@ -5,7 +5,7 @@
     nixpkgs.url = "github:nixos/nixpkgs/nixos-23.05";
     nixpkgs-unstable.url = "github:nixos/nixpkgs/nixos-unstable";
     nixpkgs-darwin.url = "github:nixos/nixpkgs/nixpkgs-23.05-darwin";
-    hardware.url = "github:nixos/nixos-hardware";
+    nixos-hardware.url = "github:nixos/nixos-hardware";
 
     home-manager = {
       url = "github:nix-community/home-manager/release-23.05";
@@ -18,17 +18,20 @@
     };
   };
 
-  outputs = { nixpkgs, nixpkgs-darwin, nixpkgs-unstable, darwin, home-manager, ... }: {
+  outputs = { nixpkgs, nixpkgs-darwin, nixpkgs-unstable, nixos-hardware, darwin, home-manager, ... }: {
     formatter = {
       x86_64-linux = nixpkgs.legacyPackages.x86_64-linux.nixpkgs-fmt;
       aarch64-darwin = nixpkgs-darwin.legacyPackages.aarch64-darwin.nixpkgs-fmt;
     };
 
-    nixosConfigurations."zagreus" = nixpkgs.lib.nixosSystem rec {
+    nixosConfigurations."zagreus" = nixpkgs.lib.nixosSystem {
       system = "x86_64-linux";
-      pkgs = nixpkgs.legacyPackages.${system};
+      pkgs = nixpkgs.legacyPackages.x86_64-linux;
 
-      modules = [ ./hosts/zagreus ];
+      modules = [
+        nixos-hardware.nixosModules.lenovo-thinkpad-t14
+        ./hosts/zagreus
+      ];
     };
 
     darwinConfigurations."COMP-JY4T0D6C0V" = darwin.lib.darwinSystem {
@@ -46,7 +49,7 @@
       pkgs = nixpkgs.legacyPackages.x86_64-linux;
 
       extraSpecialArgs = {
-        pkgs-unstable = nixpkgs-unstable.legacyPackages.x86_64-linux;
+        extra-pkgs.unstable = nixpkgs-unstable.legacyPackages.x86_64-linux;
       };
 
       modules = [
