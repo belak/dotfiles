@@ -1,6 +1,11 @@
 { pkgs, ... }: {
-  environment.systemPackages = [
-    pkgs.vim
+  environment.systemPackages = with pkgs; [
+    editorconfig-core-c
+    fd
+    neovim
+    ripgrep
+    tmux
+    vim
   ];
 
   homebrew = {
@@ -16,8 +21,6 @@
       "cbindgen"
       "cloc"
       "dos2unix"
-      "editorconfig"
-      "fd"
       "findutils"
       "gimme"
       "git"
@@ -28,20 +31,16 @@
       "gnu-sed"
       "htop"
       "lftp"
-      "neovim"
       "p7zip"
       "protoc-gen-go"
       "protoc-gen-go-grpc"
       "pwgen"
-      "ripgrep"
       "sdl12-compat"
       "sdl_gfx"
       "sdl_image"
       "sdl_mixer"
       "sdl_ttf"
       "svgo"
-      "tmux"
-      "vim"
       "wget"
     ];
 
