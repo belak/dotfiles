@@ -1,7 +1,4 @@
 { pkgs, ... }: {
-  home.username = "kaleb.elwert";
-  home.homeDirectory = "/Users/kaleb.elwert";
-
   # This value determines the Home Manager release that your configuration is
   # compatible with. This helps avoid breakage when a new Home Manager release
   # introduces backwards incompatible changes.
@@ -16,7 +13,10 @@
     nix-direnv.enable = true;
   };
 
-  home.packages = with pkgs; [ ];
+  home.packages = with pkgs; [
+    fd
+    ripgrep
+  ];
 
   # Let Home Manager install and manage itself.
   programs.home-manager.enable = true;

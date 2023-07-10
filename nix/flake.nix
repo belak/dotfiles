@@ -14,57 +14,98 @@
 
     darwin = {
       url = "github:LnL7/nix-darwin";
-      inputs.nixpkgs.follows = "nixpkgs";
+      inputs.nixpkgs.follows = "nixpkgs-darwin";
     };
   };
 
-  outputs = { nixpkgs, nixpkgs-darwin, nixpkgs-unstable, nixos-hardware, darwin, home-manager, ... }: {
-    formatter = {
-      x86_64-linux = nixpkgs.legacyPackages.x86_64-linux.nixpkgs-fmt;
-      aarch64-darwin = nixpkgs-darwin.legacyPackages.aarch64-darwin.nixpkgs-fmt;
-    };
+  outputs = inputs @ { nixpkgs, nixpkgs-darwin, nixpkgs-unstable, nixos-hardware, darwin, home-manager, ... }:
+    let
+      lib = {
+        isDarwin = system: (builtins.elem system inputs.nixpkgs.lib.platforms.darwin);
 
-    nixosConfigurations."zagreus" = nixpkgs.lib.nixosSystem {
-      system = "x86_64-linux";
-      pkgs = nixpkgs.legacyPackages.x86_64-linux;
+        # mkPkgs is a convenience function which takes a base nixpkgs instance
+        # and bolts on nixpkgs-unstable under the "unstable" key. This lets us
+        # reference unstable packages like pkgs.unstable.rustc without having to
+        # maintain an additional reference to nixpkgs-unstable through all our
+        # modules.
+        mkPkgs = base: system: base.legacyPackages.${system} // {
+          unstable = nixpkgs-unstable.legacyPackages.${system};
+        };
 
-      modules = [
-        nixos-hardware.nixosModules.lenovo-thinkpad-t14
-        ./hosts/zagreus
-      ];
-    };
+        # mkDarwinSystem is a convenience function for declaring a nix-darwin
+        # system and integrating it with home-manager.
+        mkDarwinSystem =
+          { hostname
+          , username ? "belak"
+          , system ? "aarch64-darwin"
+          , extraModules ? [ ]
+          }: darwin.lib.darwinSystem {
+            inherit system;
+            pkgs = lib.mkPkgs nixpkgs-darwin system;
+            modules = [
+              # Per-host config file
+              ./hosts/${hostname}
 
-    darwinConfigurations."COMP-JY4T0D6C0V" = darwin.lib.darwinSystem {
-      system = "aarch64-darwin";
-      pkgs = nixpkgs-darwin.legacyPackages.aarch64-darwin;
+              # Ensure home-manager is enabled
+              home-manager.darwinModules.home-manager
 
-      modules = [ ./nix-darwin/default.nix ];
-    };
+              # Configure home-manager. Note that we need to use users.users to
+              # declare the home directory rather than home.homeDirectory so
+              # home-manager properly picks it up.
+              {
+                users.users.${username}.home = "/Users/${username}";
+                home-manager.users.${username}.imports = [
+                  ./modules/dotfiles.nix
+                  ./home-manager/darwin.nix
+                ];
+              }
+            ] ++ extraModules;
+          };
 
-    # My work computers tend to use the username kaleb.elwert, and are macbooks,
-    # while I tend to use "belak" for all my personal machines. This provides a
-    # convenient way to differentiate them.
-
-    homeConfigurations."belak" = home-manager.lib.homeManagerConfiguration {
-      pkgs = nixpkgs.legacyPackages.x86_64-linux;
-
-      extraSpecialArgs = {
-        extra-pkgs.unstable = nixpkgs-unstable.legacyPackages.x86_64-linux;
+        # mkNixosSystem is a convenience function for declaring a nixos system,
+        # and integrating it with home-manager.
+        mkNixosSystem =
+          { hostname
+          , username ? "belak"
+          , system ? "x86_64-linux"
+          , extraModules ? [ ]
+          }: nixpkgs.lib.nixosSystem {
+            inherit system;
+            pkgs = lib.mkPkgs nixpkgs-darwin system;
+            modules = [
+              ./hosts/${hostname}
+            ] ++ extraModules;
+          };
+      };
+    in
+    {
+      formatter = {
+        x86_64-linux = nixpkgs.legacyPackages.x86_64-linux.nixpkgs-fmt;
+        aarch64-darwin = nixpkgs-darwin.legacyPackages.aarch64-darwin.nixpkgs-fmt;
+        x86_64-darwin = nixpkgs-darwin.legacyPackages.x86_64-darwin.nixpkgs-fmt;
       };
 
-      modules = [
-        ./modules/dotfiles.nix
-        ./home-manager/linux.nix
-      ];
-    };
+      nixosConfigurations."zagreus" = lib.mkNixosSystem {
+        hostname = "zagreus";
+        extraModules = [
+          nixos-hardware.nixosModules.lenovo-thinkpad-t14
+        ];
+      };
 
-    homeConfigurations."kaleb.elwert" = home-manager.lib.homeManagerConfiguration {
-      pkgs = nixpkgs-darwin.legacyPackages.aarch64-darwin;
+      darwinConfigurations."COMP-JY4T0D6C0V" = lib.mkDarwinSystem {
+        hostname = "COMP-JY4T0D6C0V";
+        username = "kaleb.elwert";
+      };
 
-      modules = [
-        ./modules/dotfiles.nix
-        ./home-manager/darwin.nix
-      ];
+      # There are some things nixos and nix-darwin can't provide; for everything
+      # else there's home-manager.
+      homeConfigurations."belak" = home-manager.lib.homeManagerConfiguration {
+        pkgs = nixpkgs.legacyPackages.x86_64-linux;
+
+        modules = [
+          ./modules/dotfiles.nix
+          ./home-manager/linux.nix
+        ];
+      };
     };
-  };
 }

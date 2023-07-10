@@ -1,12 +1,6 @@
-{ config, pkgs, extra-pkgs, lib, ... }:
+{ config, pkgs, lib, ... }:
 
 {
-  nixpkgs.overlays = [
-    (self: super: {
-      unstable = extra-pkgs.unstable;
-    })
-  ];
-
   nixpkgs.config.allowUnfreePredicate = pkg: builtins.elem (lib.getName pkg) [
     "discord"
     "obsidian"
