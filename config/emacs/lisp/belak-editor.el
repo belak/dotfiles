@@ -264,7 +264,7 @@ This originally came from Sacha Chua's Emacs config."
 (setq-default tab-width 4
               tab-always-indent t
               indent-tabs-mode nil
-              fill-column 120)
+              fill-column 80)
 
 ;; Clean up some various requirements that Emacs sometimes complains about or
 ;; handles.
