@@ -31,7 +31,7 @@
 
       nixosConfigurations."zagreus" = lib.mkNixosSystem {
         hostname = "zagreus";
-        extraModules = [
+        nixosModules = [
           nixos-hardware.nixosModules.lenovo-thinkpad-t14
         ];
       };
