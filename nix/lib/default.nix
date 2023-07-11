@@ -60,7 +60,8 @@
     { hostname
     , username ? "belak"
     , system ? "x86_64-linux"
-    , extraModules ? [ ]
+    , nixosModules ? [ ]
+    , hmModules ? [ ]
     }: nixpkgs-nixos.lib.nixosSystem (mkSystemArgs {
       hostname = hostname;
       username = username;
@@ -70,8 +71,8 @@
         ../modules/unstable-overlay.nix
         ../modules/dotfiles.nix
         ../home-manager/linux.nix
-      ];
-      extraModules = extraModules;
+      ] ++ hmModules;
+      extraModules = nixosModules;
     });
 
   # mkNixosSystem is a convenience function for declaring a nixos system,
@@ -80,7 +81,8 @@
     { hostname
     , username ? "belak"
     , system ? "aarch64-darwin"
-    , extraModules ? [ ]
+    , darwinModules ? [ ]
+    , hmModules ? [ ]
     }: darwin.lib.darwinSystem (mkSystemArgs {
       hostname = hostname;
       username = username;
@@ -90,10 +92,12 @@
         ../modules/unstable-overlay.nix
         ../modules/dotfiles.nix
         ../home-manager/darwin.nix
-      ];
-      extraModules = extraModules;
+      ] ++ hmModules;
+      extraModules = darwinModules;
     });
 
+  # mkHome is a convenience function for declaring a home-manager setup with our
+  # specific package setup.
   mkHome =
     { username ? "belak"
     , system ? "x86_64-linux"
@@ -107,7 +111,7 @@
       modules = [
         ./modules/unstable-overlay.nix
         ./modules/dotfiles.nix
-      ];
+      ] ++ hmModules;
 
       extraSpecialArgs = {
         nixpkgs-unstable = nixpkgs-unstable;
