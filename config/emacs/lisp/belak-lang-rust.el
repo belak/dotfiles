@@ -21,6 +21,7 @@
     (add-hook 'before-save-hook 'eglot-format nil t)))
 
 (use-package! cargo
+  :blackout cargo-minor-mode
   :hook (rust-mode . cargo-minor-mode))
 
 (use-package! flycheck-rust
