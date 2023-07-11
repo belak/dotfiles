@@ -14,8 +14,11 @@
   };
 
   home.packages = with pkgs; [
+    editorconfig-core-c
     fd
+    neovim
     ripgrep
+    tmux
   ];
 
   # Let Home Manager install and manage itself.

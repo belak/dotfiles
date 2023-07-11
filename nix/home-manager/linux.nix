@@ -26,11 +26,11 @@
   home.packages = with pkgs; [
     binutils
     cloc
-    cura
     curl
     dig
     discord
     dmidecode
+    dos2unix
     editorconfig-core-c
     emacs
     fd
@@ -49,11 +49,13 @@
     killall
     libinput
     neovim
+    nodePackages.svgo
     obsidian
     p7zip
     pavucontrol
     pkg-config
     powertop
+    pwgen
     ripgrep
     rpi-imager
     skypeforlinux
@@ -63,10 +65,20 @@
     tmux
     unzip
     wezterm
+    wget
+
+    # Libraries for projects
+    SDL_compat
+    SDL_gfx
+    SDL_image
+    SDL_mixer
+    SDL_ttf
 
     # Stuff to try
     bat
+    cura
     gitui
+    lftp
     sublime-music
 
     # Fun stuff
@@ -76,6 +88,8 @@
     # Go
     unstable.go
     unstable.gofumpt
+    unstable.golangci-lint
+    unstable.goreleaser
     unstable.gotools
 
     # Rust

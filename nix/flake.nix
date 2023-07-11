@@ -1,5 +1,5 @@
 {
-  description = "Home Manager configuration of belak";
+  description = "Belak's Polyglot Nix configuration";
 
   inputs = {
     nixpkgs-nixos.url = "github:nixos/nixpkgs/nixos-23.05";

@@ -33,15 +33,14 @@
         # Ensure home-manager is enabled
         home-manager.nixosModules.home-manager
 
-        # Configure home-manager. Note that we need to use users.users to
-        # declare the home directory rather than home.homeDirectory so
-        # home-manager properly picks it up.
         {
+          # Configure a home directory so home-manager can pick it up.
           users.users.${username}.home =
             if isDarwin system
             then "/Users/${username}"
             else "/home/${username}";
 
+          # Declare which modules home-manager will use.
           home-manager.users.${username}.imports = hmModules;
 
           # Note that we also need to pass in nixpkgs-unstable so the
@@ -52,7 +51,6 @@
         }
       ] ++ extraModules;
     };
-
 
   # mkNixosSystem is a convenience function for declaring a nixos system,
   # and integrating it with home-manager.
