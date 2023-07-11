@@ -14,11 +14,32 @@
   };
 
   home.packages = with pkgs; [
+    cloc
+    crane
+    curl
+    dig
+    dos2unix
     editorconfig-core-c
     fd
+    fzf
+    git
+    htop
+    jq
+    #mame-tools
     neovim
+    nodePackages.svgo
+    p7zip
+    pwgen
     ripgrep
     tmux
+    unzip
+    wget
+
+    # Stuff to try
+    bat
+    gitui
+    ko
+    lftp
   ];
 
   # Let Home Manager install and manage itself.

@@ -14,13 +14,12 @@
 
     brews = [
       "cbindgen"
-      "cloc"
       "findutils"
       "gimme"
       "go"
       "gnu-sed"
-      "protoc-gen-go"
-      "protoc-gen-go-grpc"
+
+      "d12frosted/emacs-plus/emacs-plus@28"
     ];
 
     casks = [
@@ -35,14 +34,22 @@
       "obsidian"
       "postgres-unofficial"
       "prusaslicer"
+      "rar"
+      "standard-notes"
       "trailer"
       "wezterm"
     ];
 
     masApps = {
+      "CARROT Weather" = 993487541;
+      "Dark Noise" = 1465439395;
       Parcel = 639968404;
       Reeder = 1529448980;
       Things = 904280696;
+
+      # Stuff I'm trying out
+      Mela = 1568924476;
+      MusicBox = 1614730313;
     };
   };
 
