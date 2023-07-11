@@ -18,81 +18,9 @@
     };
   };
 
-  outputs = inputs @ { nixpkgs-nixos, nixpkgs-darwin, nixpkgs-unstable, nixos-hardware, darwin, home-manager, ... }:
+  outputs = inputs @ { nixpkgs-nixos, nixpkgs-darwin, nixos-hardware, ... }:
     let
-      lib = {
-        isDarwin = system: (builtins.elem system inputs.nixpkgs.lib.platforms.darwin);
-
-        # mkDarwinSystem is a convenience function for declaring a nix-darwin
-        # system and integrating it with home-manager.
-        mkDarwinSystem =
-          { hostname
-          , username ? "belak"
-          , system ? "aarch64-darwin"
-          , extraModules ? [ ]
-          }: darwin.lib.darwinSystem {
-            inherit system;
-            pkgs = nixpkgs-darwin.legacyPackages.${system};
-
-            modules = [
-              # Per-host config file
-              ./hosts/${hostname}
-
-              # Ensure home-manager is enabled
-              home-manager.darwinModules.home-manager
-
-              # Configure home-manager. Note that we need to use users.users to
-              # declare the home directory rather than home.homeDirectory so
-              # home-manager properly picks it up.
-              {
-                users.users.${username}.home = "/Users/${username}";
-                home-manager.users.${username}.imports = [
-                  ./modules/unstable-overlay.nix
-                  ./modules/dotfiles.nix
-                  ./home-manager/darwin.nix
-                ];
-              }
-            ] ++ extraModules;
-          };
-
-        # mkNixosSystem is a convenience function for declaring a nixos system,
-        # and integrating it with home-manager.
-        mkNixosSystem =
-          { hostname
-          , username ? "belak"
-          , system ? "x86_64-linux"
-          , extraModules ? [ ]
-          }: nixpkgs-nixos.lib.nixosSystem {
-            inherit system;
-            pkgs = nixpkgs-nixos.legacyPackages.${system};
-
-            modules = [
-              # Per-host config file
-              ./hosts/${hostname}
-
-              # Ensure home-manager is enabled
-              home-manager.nixosModules.home-manager
-
-              # Configure home-manager. Note that we need to use users.users to
-              # declare the home directory rather than home.homeDirectory so
-              # home-manager properly picks it up.
-              {
-                users.users.${username}.home = "/home/${username}";
-                home-manager.users.${username}.imports = [
-                  ./modules/unstable-overlay.nix
-                  ./modules/dotfiles.nix
-                  ./home-manager/linux.nix
-                ];
-
-                # Note that we also need to pass in nixpkgs-unstable so the
-                # unstable-overlay functions as expected.
-                home-manager.extraSpecialArgs = {
-                  nixpkgs-unstable = nixpkgs-unstable;
-                };
-              }
-            ] ++ extraModules;
-          };
-      };
+      lib = import ./lib inputs;
     in
     {
       formatter = {
@@ -115,14 +43,9 @@
 
       # There are some things nixos and nix-darwin can't provide; for everything
       # else there's home-manager.
-      homeConfigurations."belak" = home-manager.lib.homeManagerConfiguration {
-        pkgs = nixpkgs-nixos.legacyPackages.x86_64-linux;
-
-        modules = [
-          ./modules/unstable-overlay.nix
-          ./modules/dotfiles.nix
-          ./home-manager/linux.nix
-        ];
+      homeConfigurations."belak" = lib.mkHome { };
+      homeConfigurations."kaleb.elwert" = lib.mkHome {
+        system = "aarch64-darwin";
       };
     };
 }
