@@ -54,7 +54,10 @@
   (setq markdown-fontify-code-blocks-natively t))
 
 (use-package! nix-mode
-  :mode "\\.nix\\'")
+  :mode "\\.nix\\'"
+  :hook
+  (nix-mode . subword-mode))
+
 
 (use-package! pkgbuild-mode
   :mode "PKGBUILD\\'")
