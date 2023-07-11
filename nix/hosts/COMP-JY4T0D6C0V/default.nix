@@ -51,6 +51,7 @@
     build-users-group = "nixbld";
     experimental-features = "nix-command flakes";
     trusted-users = [ "root" "kaleb.elwert" ];
+    warn-dirty = false;
   };
 
   programs.zsh = {

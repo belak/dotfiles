@@ -41,7 +41,9 @@
         ../hosts/${hostname}
 
         # Ensure home-manager is enabled
-        home-manager.nixosModules.home-manager
+        (if isDarwin system
+         then home-manager.darwinModules.home-manager
+         else home-manager.nixosModules.home-manager)
 
         {
           # Configure a home directory so home-manager can pick it up.
@@ -104,10 +106,9 @@
     , system ? "x86_64-linux"
     , hmModules ? [ ]
     }: home-manager.lib.homeManagerConfiguration {
-      pkgs =
-        if isDarwin system
-        then nixpkgs-darwin.legacyPackages.${system}
-        else nixpkgs-nixos.legacyPackages.${system};
+      pkgs = mkPkgs system (if isDarwin system
+                            then nixpkgs-darwin
+                            else nixpkgs-nixos);
 
       modules = [
         ../modules/dotfiles.nix
