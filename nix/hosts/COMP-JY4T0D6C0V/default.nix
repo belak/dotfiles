@@ -1,10 +1,5 @@
 { pkgs, ... }: {
   environment.systemPackages = with pkgs; [
-    editorconfig-core-c
-    fd
-    neovim
-    ripgrep
-    tmux
     vim
   ];
 
@@ -20,28 +15,12 @@
     brews = [
       "cbindgen"
       "cloc"
-      "dos2unix"
       "findutils"
       "gimme"
-      "git"
-      "gitui"
       "go"
-      "golangci-lint"
-      "goreleaser"
       "gnu-sed"
-      "htop"
-      "lftp"
-      "p7zip"
       "protoc-gen-go"
       "protoc-gen-go-grpc"
-      "pwgen"
-      "sdl12-compat"
-      "sdl_gfx"
-      "sdl_image"
-      "sdl_mixer"
-      "sdl_ttf"
-      "svgo"
-      "wget"
     ];
 
     casks = [
