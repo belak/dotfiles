@@ -111,6 +111,10 @@
   :after flycheck
   :hook (flycheck-mode . flycheck-inline-mode))
 
+(use-package! forge
+  :after magit
+  :demand)
+
 (use-package! highlight-escape-sequences
   :hook (prog-mode . hes-mode))
 
