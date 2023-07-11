@@ -59,6 +59,7 @@
     skypeforlinux
     standardnotes
     terminus_font
+    thunderbird
     tmux
     unzip
     wezterm
