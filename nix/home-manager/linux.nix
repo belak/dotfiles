@@ -1,4 +1,4 @@
-{ config, pkgs, lib, ... }:
+{ pkgs, lib, ... }:
 
 {
   # Home Manager needs a bit of information about you and the paths it should
@@ -20,6 +20,7 @@
   home.packages = with pkgs; [
     binutils
     cloc
+    crane
     curl
     dig
     discord
@@ -42,6 +43,7 @@
     jq
     killall
     libinput
+    mame-tools
     neovim
     nodePackages.svgo
     obsidian
@@ -78,18 +80,6 @@
     # Fun stuff
     cmatrix
     pipes-rs
-
-    # Go
-    unstable.go
-    unstable.gofumpt
-    unstable.golangci-lint
-    unstable.goreleaser
-    unstable.gotools
-
-    # Rust
-    unstable.rustc
-    unstable.rust-analyzer
-    unstable.cargo
   ];
 
   programs.direnv = {

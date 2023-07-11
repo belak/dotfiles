@@ -34,11 +34,19 @@
         nixosModules = [
           nixos-hardware.nixosModules.lenovo-thinkpad-t14
         ];
+        hmModules = [
+          ./modules/go.nix
+          ./modules/rust.nix
+        ];
       };
 
       darwinConfigurations."COMP-JY4T0D6C0V" = lib.mkDarwinSystem {
         hostname = "COMP-JY4T0D6C0V";
         username = "kaleb.elwert";
+        hmModules = [
+          ./modules/go.nix
+          ./modules/rust.nix
+        ];
       };
 
       # There are some things nixos and nix-darwin can't provide; for everything
