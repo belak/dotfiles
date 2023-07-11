@@ -5,6 +5,15 @@
 , darwin
 , ...
 }: rec {
+  mkPkgs = system: basePkgs: import basePkgs {
+    inherit system;
+    overlays = [
+      (final: prev: {
+        unstable = nixpkgs-unstable.legacyPackages.${system};
+      })
+    ];
+  };
+
   isDarwin = system: nixpkgs-nixos.lib.hasSuffix "-darwin" system;
 
   mkSystemArgs =
@@ -19,12 +28,8 @@
 
       # We bolt on nixpkgs-unstable here so it can be used in system-wide
       # modules.
-      pkgs =
-        (if isDarwin system
-        then nixpkgs-darwin.legacyPackages.${system}
-        else nixpkgs-nixos.legacyPackages.${system}) // {
-          unstable = nixpkgs-unstable.legacyPackages.${system};
-        };
+      pkgs = mkPkgs system
+        (if isDarwin system then nixpkgs-darwin else nixpkgs-nixos);
 
       modules = [
         # Per-host config file
