@@ -7,9 +7,16 @@
 }: rec {
   mkPkgs = system: basePkgs: import basePkgs {
     inherit system;
+
+    config.allowUnfreePredicate = pkg: builtins.elem (basePkgs.lib.getName pkg) [
+      "discord"
+      "obsidian"
+      "skypeforlinux"
+    ];
+
     overlays = [
       (final: prev: {
-        unstable = nixpkgs-unstable.legacyPackages.${system};
+        unstable = nixpkgs-unstable.legacyPackages.${prev.system};
       })
     ];
   };
@@ -19,6 +26,7 @@
   mkSystemArgs =
     { hostname
     , username
+    , homeDirectory
     , system
     , nixpkgs
     , hmModules
@@ -26,10 +34,7 @@
     }: {
       inherit system;
 
-      # We bolt on nixpkgs-unstable here so it can be used in system-wide
-      # modules.
-      pkgs = mkPkgs system
-        (if isDarwin system then nixpkgs-darwin else nixpkgs-nixos);
+      pkgs = mkPkgs system nixpkgs;
 
       modules = [
         # Per-host config file
@@ -40,19 +45,12 @@
 
         {
           # Configure a home directory so home-manager can pick it up.
-          users.users.${username}.home =
-            if isDarwin system
-            then "/Users/${username}"
-            else "/home/${username}";
+          users.users.${username}.home = homeDirectory;
 
           # Declare which modules home-manager will use.
           home-manager.users.${username}.imports = hmModules;
 
-          # Note that we also need to pass in nixpkgs-unstable so the
-          # unstable-overlay functions as expected.
-          home-manager.extraSpecialArgs = {
-            nixpkgs-unstable = nixpkgs-unstable;
-          };
+          home-manager.useGlobalPkgs = true;
         }
       ] ++ extraModules;
     };
@@ -68,10 +66,10 @@
     }: nixpkgs-nixos.lib.nixosSystem (mkSystemArgs {
       hostname = hostname;
       username = username;
+      homeDirectory = "/home/${username}";
       system = system;
       nixpkgs = nixpkgs-nixos;
       hmModules = [
-        ../modules/unstable-overlay.nix
         ../modules/dotfiles.nix
         ../home-manager/linux.nix
       ] ++ hmModules;
@@ -89,10 +87,10 @@
     }: darwin.lib.darwinSystem (mkSystemArgs {
       hostname = hostname;
       username = username;
+      homeDirectory = "/Users/${username}";
       system = system;
-      nixpkgs = nixpkgs-nixos;
+      nixpkgs = nixpkgs-darwin;
       hmModules = [
-        ../modules/unstable-overlay.nix
         ../modules/dotfiles.nix
         ../home-manager/darwin.nix
       ] ++ hmModules;
@@ -112,12 +110,7 @@
         else nixpkgs-nixos.legacyPackages.${system};
 
       modules = [
-        ./modules/unstable-overlay.nix
-        ./modules/dotfiles.nix
+        ../modules/dotfiles.nix
       ] ++ hmModules;
-
-      extraSpecialArgs = {
-        nixpkgs-unstable = nixpkgs-unstable;
-      };
     };
 }
