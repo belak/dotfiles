@@ -18,7 +18,7 @@
       (final: prev: {
         unstable = nixpkgs-unstable.legacyPackages.${prev.system};
       })
-    ];
+    ] ++ (basePkgs.lib.attrValues (import ../overlays));
   };
 
   isDarwin = system: nixpkgs-nixos.lib.hasSuffix "-darwin" system;
@@ -42,8 +42,8 @@
 
         # Ensure home-manager is enabled
         (if isDarwin system
-         then home-manager.darwinModules.home-manager
-         else home-manager.nixosModules.home-manager)
+        then home-manager.darwinModules.home-manager
+        else home-manager.nixosModules.home-manager)
 
         {
           # Configure a home directory so home-manager can pick it up.
@@ -107,8 +107,8 @@
     , hmModules ? [ ]
     }: home-manager.lib.homeManagerConfiguration {
       pkgs = mkPkgs system (if isDarwin system
-                            then nixpkgs-darwin
-                            else nixpkgs-nixos);
+      then nixpkgs-darwin
+      else nixpkgs-nixos);
 
       modules = [
         ../modules/dotfiles.nix
