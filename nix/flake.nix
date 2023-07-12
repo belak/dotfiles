@@ -3,6 +3,7 @@
 
   inputs = {
     nixpkgs-nixos.url = "github:nixos/nixpkgs/nixos-23.05";
+    nixpkgs-master.url = "github:nixos/nixpkgs/master";
     nixpkgs-unstable.url = "github:nixos/nixpkgs/nixos-unstable";
     nixpkgs-darwin.url = "github:nixos/nixpkgs/nixpkgs-23.05-darwin";
     nixos-hardware.url = "github:nixos/nixos-hardware";
