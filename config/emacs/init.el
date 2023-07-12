@@ -27,6 +27,7 @@
   (require 'belak-lang-c)               ; always a classic
   (require 'belak-lang-elisp)           ; Parens. Parens everywhere.
   (require 'belak-lang-go)              ; "Google Golang"
+  (require 'belak-lang-nix)             ;
   (require 'belak-lang-python)          ; not super sexy, but super stable
   (require 'belak-lang-ruby)            ;
   (require 'belak-lang-rust)            ; memory safety at the cost of sanity

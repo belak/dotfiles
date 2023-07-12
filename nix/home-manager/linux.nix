@@ -53,15 +53,18 @@
     powertop
     pwgen
     ripgrep
+    rnix-lsp
     rpi-imager
     skypeforlinux
     standardnotes
     terminus_font
-    thunderbird
     tmux
     unzip
     wezterm
     wget
+
+    # Bleeding edge
+    master.thunderbird-bin
 
     # Libraries for projects
     SDL_compat

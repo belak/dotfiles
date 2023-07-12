@@ -1,5 +1,6 @@
 { nixpkgs-nixos
 , nixpkgs-darwin
+, nixpkgs-master
 , nixpkgs-unstable
 , home-manager
 , darwin
@@ -16,6 +17,7 @@
 
     overlays = [
       (final: prev: {
+        master = nixpkgs-master.legacyPackages.${prev.system};
         unstable = nixpkgs-unstable.legacyPackages.${prev.system};
       })
     ] ++ (basePkgs.lib.attrValues (import ../overlays));
