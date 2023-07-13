@@ -35,6 +35,7 @@
       "postgres-unofficial"
       "prusaslicer"
       "rar"
+      "spotify"
       "standard-notes"
       "trailer"
       "wezterm"
