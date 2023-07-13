@@ -1,6 +1,6 @@
 # belak's dotfiles
 
-## NixOS
+## Nix
 
 For setup, run the following:
 
@@ -31,3 +31,9 @@ needed to set up the system, and shells.
 There should only be a single entrypoint per system - if a system runs on NixOS,
 standalone home-manager should not be used. This allows us to keep packages in
 sync between global installations and home-manager installations.
+
+### Work Computers
+
+Note that the Nix flake in this repo is also used as a dependency in a private
+work flake. This allows me to keep most common configuration here, in modules,
+and have any work-specific config in a private repo.
