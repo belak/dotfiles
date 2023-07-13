@@ -60,8 +60,9 @@
     terminus_font
     tmux
     unzip
-    wezterm
     wget
+
+    my.wezterm
 
     # Bleeding edge
     master.thunderbird-bin
