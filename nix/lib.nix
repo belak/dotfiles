@@ -19,6 +19,8 @@
     overlays = builtins.attrValues self.overlays;
   };
 
+  optionalPath = path: if (builtins.pathExists path) then [ path ] else [ ];
+
   isDarwin = system: builtins.elem system nixpkgs-darwin.lib.platforms.darwin;
 
   # mkNixosSystem is a convenience function for declaring a nixos system,
@@ -28,7 +30,7 @@
     , username ? "belak"
     , system ? "x86_64-linux"
     , nixosModules ? [ ]
-    , hmModules ? [ ]
+    , homeModules ? [ ]
     }:
     nixpkgs-nixos.lib.nixosSystem {
       inherit system;
@@ -36,7 +38,6 @@
       pkgs = mkPkgs system nixpkgs-nixos;
 
       modules = [
-        ./hosts/nixos/${hostname}
         home-manager.nixosModules.home-manager
 
         # Configure home-manager and set up a user so home-manager can pick up
@@ -44,9 +45,9 @@
         {
           home-manager.useGlobalPkgs = true;
           users.users.${username}.home = "/home/${username}";
-          home-manager.users.${username}.imports = hmModules;
+          home-manager.users.${username}.imports = homeModules;
         }
-      ] ++ nixosModules;
+      ] ++ (optionalPath ./hosts/nixos/${hostname}) ++ nixosModules;
     };
 
   # mkDarwinSystem is a convenience function for declaring a nix-darwin system,
@@ -56,7 +57,7 @@
     , username ? "belak"
     , system ? "aarch64-darwin"
     , darwinModules ? [ ]
-    , hmModules ? [ ]
+    , homeModules ? [ ]
     }:
     darwin.lib.darwinSystem {
       inherit system;
@@ -64,7 +65,6 @@
       pkgs = mkPkgs system nixpkgs-darwin;
 
       modules = [
-        ./hosts/darwin/${hostname}
         home-manager.darwinModules.home-manager
 
         # Configure home-manager and set up a user so home-manager can pick up
@@ -72,9 +72,9 @@
         {
           home-manager.useGlobalPkgs = true;
           users.users.${username}.home = "/Users/${username}";
-          home-manager.users.${username}.imports = hmModules;
+          home-manager.users.${username}.imports = homeModules;
         }
-      ] ++ darwinModules;
+      ] ++ (optionalPath ./hosts/darwin/${hostname}) ++ darwinModules;
     };
 
   # mkHome is a convenience function for declaring a home-manager setup with our
@@ -82,13 +82,13 @@
   mkHome =
     { username ? "belak"
     , system ? "x86_64-linux"
-    , hmModules ? [ ]
+    , homeModules ? [ ]
     }: home-manager.lib.homeManagerConfiguration {
       pkgs = mkPkgs system
         (if isDarwin system
         then nixpkgs-darwin
         else nixpkgs-nixos);
 
-      modules = hmModules;
+      modules = homeModules;
     };
 }

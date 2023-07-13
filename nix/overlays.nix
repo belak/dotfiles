@@ -1,4 +1,4 @@
-{ nixpkgs-master, nixpkgs-unstable, ... }: {
+{ nixpkgs-unstable, ... }: {
   overrides = (final: prev: {
     my = { };
   });
@@ -8,7 +8,6 @@
   });
 
   unstable = (final: prev: {
-    master = nixpkgs-master.legacyPackages.${prev.system};
     unstable = nixpkgs-unstable.legacyPackages.${prev.system};
   });
 }
