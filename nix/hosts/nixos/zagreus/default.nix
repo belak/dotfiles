@@ -1,4 +1,4 @@
-{ pkgs, ... }:
+{ pkgs, nixos-hardware, ... }:
 
 {
   imports = [
