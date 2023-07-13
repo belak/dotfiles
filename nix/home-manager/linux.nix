@@ -19,6 +19,7 @@
   # environment.
   home.packages = with pkgs; [
     binutils
+    calibre
     cloc
     crane
     curl
@@ -62,7 +63,9 @@
     unzip
     wget
 
-    my.wezterm
+    # Local overrides
+    #my.wezterm
+    wezterm-bin
 
     # Bleeding edge
     master.thunderbird-bin

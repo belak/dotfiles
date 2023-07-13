@@ -101,7 +101,6 @@
   environment.systemPackages = with pkgs; [
     gnome.gnome-tweaks
     git
-    lsb-release
     vim
   ];
 
