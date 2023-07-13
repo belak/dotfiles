@@ -6,14 +6,13 @@
 , python3
 , fontconfig
 , openssl
+, libGL
 , libX11
 , libxcb
 , libxkbcommon
 , wayland
 , xcbutil
 , xcbutilimage
-, xcbutilkeysyms
-, xcbutilwm
 , zlib
 , libiconv
 }:
@@ -23,6 +22,7 @@ let
     fontconfig
     zlib
   ] ++ lib.optionals stdenv.isLinux [
+    libGL
     libX11
     libxcb
     libxkbcommon
@@ -30,8 +30,6 @@ let
     wayland
     xcbutil
     xcbutilimage
-    xcbutilkeysyms
-    xcbutilwm
   ] ++ lib.optionals stdenv.isDarwin [
     libiconv
   ]);
