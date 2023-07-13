@@ -23,10 +23,12 @@
     let
       lib = import ./lib.nix inputs;
       overlays = import ./overlays.nix inputs;
+      hmModules = import ./modules inputs;
     in
     {
       inherit lib;
       inherit overlays;
+      inherit hmModules;
 
       formatter = {
         x86_64-linux = nixpkgs-nixos.legacyPackages.x86_64-linux.nixpkgs-fmt;
