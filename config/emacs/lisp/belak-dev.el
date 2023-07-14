@@ -95,10 +95,8 @@
   ;; fringe.
   (setq flycheck-indication-mode 'right-fringe)
 
-  ;; Ensure flycheck only displays the errors in the minibuffer if the error
-  ;; list isn't open.
-  (setq flycheck-display-errors-function
-        'flycheck-display-error-messages-unless-error-list)
+  ;; Don't display flycheck errors in the minibuffer
+  (setq flycheck-display-errors-function 'ignore)
 
   ;; When we use the error list, we want to make sure shackle puts it somewhere
   ;; better.
