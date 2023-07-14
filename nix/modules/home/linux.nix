@@ -66,9 +66,6 @@
     # Local overrides
     my.wezterm-bin
 
-    # Bleeding edge
-    master.thunderbird-bin
-
     # Libraries for projects
     SDL_compat
     SDL_gfx
