@@ -6,6 +6,9 @@
   homebrew = {
     enable = true;
 
+    # Remove any homebrew apps not installed via nix-darwin.
+    onActivation.cleanup = "zap";
+
     taps = [
       "d12frosted/emacs-plus"
       "goreleaser/tap"
