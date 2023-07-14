@@ -6,12 +6,8 @@
   home.packages = with pkgs; [
     # GUI apps need to be installed through homebrew on macOS so the .app file
     # shows up in /Applications and is findable by Alfred.
-    cura
     emacs
     my.wezterm-bin
-
-    # GUI apps I'm trying out
-    sublime-music
 
     # mame-tools is currently broken on macOS, so we keep it Linux-only.
     mame-tools

@@ -1,5 +1,6 @@
 { pkgs, ... }: {
   home.packages = with pkgs; [
+    mu
     neovim
     p7zip
     rnix-lsp

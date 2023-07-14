@@ -1,6 +1,7 @@
 { pkgs, ... }: {
   home.packages = with pkgs; [
     calibre
+    cura
     discord
     firefox
     obsidian
@@ -8,6 +9,9 @@
     rpi-imager
     skypeforlinux
     standardnotes
+
+    # Stuff I'm trying out
+    sublime-music
   ];
 
   # This section is in gui rather than gnome because most of the applications I
