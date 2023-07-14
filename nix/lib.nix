@@ -23,6 +23,8 @@
 
   isDarwin = system: builtins.elem system nixpkgs-darwin.lib.platforms.darwin;
 
+  isLinux = system: builtins.elem system nixpkgs-nixos.lib.platforms.linux;
+
   # mkNixosSystem is a convenience function for declaring a nixos system,
   # and integrating it with home-manager.
   mkNixosSystem =
@@ -45,7 +47,10 @@
         {
           home-manager.useGlobalPkgs = true;
           users.users.${username}.home = "/home/${username}";
-          home-manager.users.${username}.imports = homeModules;
+          home-manager.users.${username}.imports = [
+            ./modules/home/common.nix
+            ./modules/home/linux.nix
+          ] ++ homeModules;
         }
       ] ++ (optionalPath ./hosts/nixos/${hostname}) ++ nixosModules;
     };
@@ -72,7 +77,10 @@
         {
           home-manager.useGlobalPkgs = true;
           users.users.${username}.home = "/Users/${username}";
-          home-manager.users.${username}.imports = homeModules;
+          home-manager.users.${username}.imports = [
+            ./modules/home/common.nix
+            ./modules/home/darwin.nix
+          ] ++ homeModules;
         }
       ] ++ (optionalPath ./hosts/darwin/${hostname}) ++ darwinModules;
     };
@@ -89,6 +97,8 @@
         then nixpkgs-darwin
         else nixpkgs-nixos);
 
-      modules = homeModules;
+      modules = [
+        ./modules/home/common.nix
+      ] ++ homeModules;
     };
 }

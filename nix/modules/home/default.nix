@@ -1,8 +1,8 @@
 inputs: {
-  # NOTE: We specifically don't call these modules - this is needed so they can
-  # be imported in flakes which depend on this one. They are specifically meant
-  # to be called as home-manager modules. They may rely on additional setup from
-  # self.lib.mkDarwinSystem or self.lib.mkHome
+  # NOTE: We specifically don't call these imports - this is needed so they can
+  # be imported in flakes which depend on this one and used as home-manager
+  # modules. They may rely on additional setup from self.lib.mkDarwinSystem or
+  # self.lib.mkHome
 
   common = import ./common.nix;
 
@@ -11,8 +11,9 @@ inputs: {
   linux = import ./linux.nix;
 
   # Feature modules
+  cli = import ./cli.nix;
   dev = import ./dev.nix;
   dotfiles = import ./dotfiles.nix;
-  go = import ./go.nix;
-  rust = import ./rust.nix;
+  gnome = import ./gnome.nix;
+  gui = import ./gui.nix;
 }
