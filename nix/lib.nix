@@ -40,6 +40,8 @@
       pkgs = mkPkgs system nixpkgs-nixos;
 
       modules = [
+        ./modules/nixos/common.nix
+
         home-manager.nixosModules.home-manager
 
         # Configure home-manager and set up a user so home-manager can pick up
@@ -70,6 +72,8 @@
       pkgs = mkPkgs system nixpkgs-darwin;
 
       modules = [
+        ./modules/darwin/common.nix
+
         home-manager.darwinModules.home-manager
 
         # Configure home-manager and set up a user so home-manager can pick up

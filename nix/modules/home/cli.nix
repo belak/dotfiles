@@ -3,7 +3,6 @@
     binutils
     curl
     dig
-    dmidecode
     fd
     findutils
     fzf

@@ -12,8 +12,9 @@
     # mame-tools is currently broken on macOS, so we keep it Linux-only.
     mame-tools
 
-    # There's no reason to install powertop on macOS because it's focused on
-    # optimizing the Linux kernel.
+    # These packages are focused on linux-only features so there's no point
+    # installing them on macOS.
+    dmidecode
     powertop
 
     # Terminus needs to be installed from a homebrew cask on macOS to pick it
