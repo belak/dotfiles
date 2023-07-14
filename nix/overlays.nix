@@ -1,10 +1,10 @@
 { nixpkgs-unstable, ... }: {
   overrides = (final: prev: {
-    my = { };
-  });
-
-  extras = (final: prev: {
-    wezterm-bin = final.callPackage ./pkgs/wezterm-bin.nix { };
+    my = {
+      pyenv = final.callPackage ./pkgs/pyenv.nix { };
+      pyenv-virtualenv = final.callPackage ./pkgs/pyenv-virtualenv.nix { };
+      wezterm-bin = final.callPackage ./pkgs/wezterm-bin.nix { };
+    };
   });
 
   unstable = (final: prev: {

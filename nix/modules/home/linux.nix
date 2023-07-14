@@ -64,8 +64,7 @@
     wget
 
     # Local overrides
-    #my.wezterm
-    wezterm-bin
+    my.wezterm-bin
 
     # Bleeding edge
     master.thunderbird-bin
