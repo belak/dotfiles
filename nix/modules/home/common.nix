@@ -8,10 +8,8 @@
 
     # Stuff to try
     bat
-    cura
     gitui
     lftp
-    sublime-music
 
     # Fun stuff
     cmatrix
