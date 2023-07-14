@@ -46,10 +46,11 @@
           common
         ];
         homeModules = with homeModules; [
-          linux
+          cli
+          dev
           dotfiles
-          go
-          rust
+          gnome
+          gui
         ];
       };
 

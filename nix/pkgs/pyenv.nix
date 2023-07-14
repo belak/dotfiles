@@ -25,7 +25,7 @@ stdenv.mkDerivation rec {
 
   configureScript = "src/configure";
 
-  makeFlags = ["-C" "src"];
+  makeFlags = [ "-C" "src" ];
 
   installPhase = ''
     runHook preInstall
