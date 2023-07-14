@@ -1,8 +1,4 @@
-{ lib
-, stdenv
-, fetchFromGitHub
-, installShellFiles
-}:
+{ lib, stdenv, fetchFromGitHub, bash }:
 
 stdenv.mkDerivation rec {
   pname = "pyenv-virtualenv";
@@ -12,26 +8,15 @@ stdenv.mkDerivation rec {
     owner = "pyenv";
     repo = "pyenv-virtualenv";
     rev = "refs/tags/v${version}";
-    hash = "sha256-kIjhxr39r8PT3pMvUQohkS2QHwX3QwtZn9n1Z7/nOxc=";
+    hash = "sha256-G79U7/jd1tYP5xp+1UkK91mnRpM1o1h8ypQ3PmfMUDM=";
   };
 
-  postPatch = ''
-    patchShebangs --build install.sh
-  '';
-
-  nativeBuildInputs = [
-    installShellFiles
-  ];
-
-  configureScript = "src/configure";
-
-  makeFlags = ["-C" "src"];
-
   installPhase = ''
-    runHook preInstall
-
     mkdir -p "$out"
-    PREFIX="$out" ./install.sh
+    cp -R bin "$out/bin"
+    cp -R libexec "$out/libexec"
+    cp -R shims "$out/shims"
+    cp -R etc "$out/etc"
   '';
 
   meta = with lib; {
@@ -39,7 +24,7 @@ stdenv.mkDerivation rec {
     homepage = "https://github.com/pyenv/pyenv-virtualenv";
     changelog = "https://github.com/pyenv/pyenv-virtualenv/blob/${src.rev}/CHANGELOG.md";
     license = licenses.mit;
-    maintainers = with maintainers; [ tjni ];
+    maintainers = with maintainers; [ ];
     platforms = platforms.all;
   };
 }
