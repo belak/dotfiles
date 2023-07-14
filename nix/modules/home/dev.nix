@@ -1,7 +1,7 @@
 { pkgs, ... }: {
   home.packages = with pkgs; [
-    #pyenv
-    #pyenv-virtualenv
+    my.pyenv
+    my.pyenv-virtualenv
     #rbenv
     #ruby-build
     yarn
