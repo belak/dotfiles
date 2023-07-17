@@ -61,7 +61,7 @@ let
       ] ++ (optionalPath ./hosts/nixos/${hostname}) ++ extraNixosModules;
 
       specialArgs = {
-        inherit inputs;
+        inherit nixos-hardware;
       };
     };
 
@@ -90,10 +90,6 @@ let
           home-manager.users.${username}.imports = baseHomeModules ++ (optionalPath ./hosts/home/${hostname}.nix) extraHomeModules;
         }
       ] ++ (optionalPath ./hosts/darwin/${hostname}) ++ extraDarwinModules;
-
-      specialArgs = {
-        inherit inputs;
-      };
     };
 
   # mkHome is a convenience function for declaring a home-manager setup with our
@@ -109,10 +105,6 @@ let
         else nixpkgs-nixos);
 
       modules = baseHomeModules ++ extraHomeModules;
-
-      extraSpecialArgs = {
-        inherit inputs;
-      };
     };
 in
 {
