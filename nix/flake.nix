@@ -44,5 +44,9 @@
       # There are some things nixos and nix-darwin can't provide; for everything
       # else there's home-manager.
       homeConfigurations."belak" = lib.mkHome { };
+
+      homeConfigurations."belak@zagreus" = lib.mkHome {
+        hostname = "zagreus";
+      };
     };
 }
