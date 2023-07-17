@@ -1,12 +1,26 @@
 { pkgs, ... }: {
   home.packages = with pkgs; [
+    binutils
+    curl
+    dig
+    fd
+    findutils
+    fzf
+    git
+    htop
     isync
+    jq
+    killall
     mu
     neovim
     p7zip
+    pwgen
+    ripgrep
     rnix-lsp
     nodePackages.svgo
+    tmux
     unzip
+    wget
 
     # Stuff to try
     bat

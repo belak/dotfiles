@@ -3,6 +3,7 @@
     calibre
     cura
     discord
+    emacs
     firefox
     obsidian
     pavucontrol
@@ -10,8 +11,16 @@
     skypeforlinux
     standardnotes
 
+    my.wezterm-bin
+
     # Stuff I'm trying out
     sublime-music
+
+    # Dwarf fortress is a terrifyingly large mish-mash of packages.
+    (dwarf-fortress-packages.dwarf-fortress-full.override {
+      #dfVersion = "50.09";
+      enableIntro = false;
+    })
   ];
 
   # This section is in gui rather than gnome because most of the applications I

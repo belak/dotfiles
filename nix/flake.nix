@@ -18,20 +18,14 @@
     };
   };
 
-  outputs = inputs @ { self, nixpkgs-unstable, nixos-hardware, ... }:
+  outputs = inputs @ { nixpkgs-unstable, ... }:
     let
       lib = import ./lib.nix inputs;
       overlays = import ./overlays.nix inputs;
-      homeModules = import ./modules/home inputs;
-      darwinModules = import ./modules/darwin inputs;
-      nixosModules = import ./modules/nixos inputs;
     in
     {
       inherit lib;
       inherit overlays;
-      inherit homeModules;
-      inherit darwinModules;
-      inherit nixosModules;
 
       formatter = {
         x86_64-linux = nixpkgs-unstable.legacyPackages.x86_64-linux.nixpkgs-fmt;
@@ -39,27 +33,16 @@
         x86_64-darwin = nixpkgs-unstable.legacyPackages.x86_64-darwin.nixpkgs-fmt;
       };
 
-      nixosConfigurations."zagreus" = self.lib.mkNixosSystem {
+      nixosConfigurations."auron" = lib.mkNixosSystem {
+        hostname = "auron";
+      };
+
+      nixosConfigurations."zagreus" = lib.mkNixosSystem {
         hostname = "zagreus";
-        nixosModules = with nixosModules; [
-          nixos-hardware.nixosModules.lenovo-thinkpad-t14
-          common
-        ];
-        homeModules = with homeModules; [
-          cli
-          dev
-          dotfiles
-          gnome
-          gui
-        ];
       };
 
       # There are some things nixos and nix-darwin can't provide; for everything
       # else there's home-manager.
-      homeConfigurations."belak" = self.lib.mkHome {
-        homeModules = with homeModules; [
-          dotfiles
-        ];
-      };
+      homeConfigurations."belak" = lib.mkHome { };
     };
 }

@@ -1,8 +1,9 @@
-{ pkgs, nixos-hardware, ... }:
+{ pkgs, inputs, ... }:
 
 {
   imports = [
     ./hardware-configuration.nix
+    inputs.nixos-hardware.nixosModules.lenovo-thinkpad-t14
   ];
 
   nix = {
@@ -99,7 +100,6 @@
   # We keep global packages pretty minimal - essentially only what we'd need to
   # set up the rest of the system.
   environment.systemPackages = with pkgs; [
-    gnome.gnome-tweaks
     git
     vim
   ];

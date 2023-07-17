@@ -60,7 +60,7 @@
   nix.settings = {
     auto-optimise-store = true;
     build-users-group = "nixbld";
-    experimental-features = "nix-command flakes";
+    experimental-features = [ "nix-command flakes" ];
     trusted-users = [ "root" "kaleb.elwert" ];
     warn-dirty = false;
   };
