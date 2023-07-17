@@ -1,44 +1,55 @@
-{ pkgs, ... }: {
-  home.packages = with pkgs; [
-    # Various tools
-    cloc
-    crane
-    dos2unix
-    editorconfig-core-c
-    pkg-config
+{ pkgs, config, lib, ... }:
 
-    # Libraries for projects
-    SDL_compat
-    SDL_gfx
-    SDL_image
-    SDL_mixer
-    SDL_ttf
+let
+  cfg = config.belak.dev;
+in
+{
+  options.belak.dev = {
+    enable = lib.mkEnableOption "devtools";
+  };
 
-    # Javascript
-    yarn
+  config = lib.mkIf cfg.enable {
+    home.packages = with pkgs; [
+      # Various tools
+      cloc
+      crane
+      dos2unix
+      editorconfig-core-c
+      pkg-config
 
-    # Python
-    python311
-    virtualenv
-    my.pyenv
-    my.pyenv-virtualenv
+      # Libraries for projects
+      SDL_compat
+      SDL_gfx
+      SDL_image
+      SDL_mixer
+      SDL_ttf
 
-    # Ruby
-    my.rbenv
-    my.ruby-build
+      # Javascript
+      yarn
 
-    # Rust
-    unstable.rustc
-    unstable.cargo
-    unstable.rust-analyzer
+      # Python
+      python311
+      virtualenv
+      my.pyenv
+      my.pyenv-virtualenv
 
-    # Go and additional tools
-    unstable.go
-    unstable.gofumpt
-    unstable.golangci-lint
-    unstable.goreleaser
-    unstable.gotools
-    unstable.protoc-gen-go
-    unstable.protoc-gen-go-grpc
-  ];
+      # Ruby
+      my.rbenv
+      my.ruby-build
+
+      # Rust
+      unstable.rustc
+      unstable.cargo
+      unstable.rust-analyzer
+
+      # Go and additional tools
+      unstable.go
+      unstable.gofumpt
+      unstable.golangci-lint
+      unstable.goreleaser
+      unstable.gotools
+      unstable.protoc-gen-go
+      unstable.protoc-gen-go-grpc
+    ];
+  };
 }
