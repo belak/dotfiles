@@ -16,6 +16,7 @@ in
       dos2unix
       editorconfig-core-c
       pkg-config
+      protobuf
 
       # Libraries for projects
       SDL_compat
