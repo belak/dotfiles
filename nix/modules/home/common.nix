@@ -26,7 +26,6 @@
     bat
     gitui
     lftp
-    neomutt
     neovim
 
     # Fun stuff

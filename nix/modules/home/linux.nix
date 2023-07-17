@@ -8,8 +8,9 @@ in
     # All tweaks in this file should be linux-specific and should be commented
     # with the reason.
     home.packages = with pkgs; [
-      # mame-tools is currently broken on macOS, so we keep it Linux-only.
+      # These packages is currently broken on macOS, so we keep it Linux-only.
       mame-tools
+      neomutt
 
       # These packages are focused on linux-only features so there's no point
       # installing them on macOS.
