@@ -20,5 +20,12 @@
     # Terminus needs to be installed from a homebrew cask on macOS to pick it
     # up.
     terminus_font
+
+    # Dwarf fortress is a terrifyingly large mish-mash of packages which
+    # introduce complications on macOS, so we only use it on Linux.
+    (dwarf-fortress-packages.dwarf-fortress-full.override {
+      #dfVersion = "50.09";
+      enableIntro = false;
+    })
   ];
 }

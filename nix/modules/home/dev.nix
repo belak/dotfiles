@@ -18,6 +18,8 @@
     yarn
 
     # Python
+    python311
+    virtualenv
     my.pyenv
     my.pyenv-virtualenv
 

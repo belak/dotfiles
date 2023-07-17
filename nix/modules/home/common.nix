@@ -12,6 +12,7 @@
     bat
     gitui
     lftp
+    neomutt
 
     # Fun stuff
     cmatrix
