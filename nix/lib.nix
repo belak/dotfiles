@@ -31,6 +31,8 @@ rec {
 
   mkOptionals = check: data: if check then data else [ ];
 
+  optionalFile = path: if builtins.pathExists path then [ path ] else [ ];
+
   isDarwin = system: builtins.elem system nixpkgs-darwin.lib.platforms.darwin;
 
   isLinux = system: builtins.elem system nixpkgs-nixos.lib.platforms.linux;
@@ -49,21 +51,21 @@ rec {
 
       pkgs = mkPkgs system nixpkgs-nixos;
 
-      modules = baseNixosModules ++ [
-        ./hosts/nixos/${hostname}
+      modules = baseNixosModules ++
+        (optionalFile ./hosts/nixos/${hostname}) ++
+        [
+          home-manager.nixosModules.home-manager
 
-        home-manager.nixosModules.home-manager
-
-        # Configure home-manager and set up a user so home-manager can pick up
-        # the homeDirectory.
-        {
-          home-manager.useGlobalPkgs = true;
-          users.users.${username}.home = "/home/${username}";
-          home-manager.users.${username}.imports = baseHomeModules ++ [
-            ./hosts/home/${hostname}.nix
-          ] ++ extraHomeModules;
-        }
-      ] ++ extraNixosModules;
+          # Configure home-manager and set up a user so home-manager can pick up
+          # the homeDirectory.
+          {
+            home-manager.useGlobalPkgs = true;
+            users.users.${username}.home = "/home/${username}";
+            home-manager.users.${username}.imports = baseHomeModules ++
+              (optionalFile ./hosts/home/${hostname}.nix) ++
+              extraHomeModules;
+          }
+        ] ++ extraNixosModules;
 
       specialArgs = {
         inherit nixos-hardware;
@@ -84,21 +86,22 @@ rec {
 
       pkgs = mkPkgs system nixpkgs-darwin;
 
-      modules = baseDarwinModules ++ [
-        ./hosts/darwin/${hostname}
+      modules = baseDarwinModules ++
+        (optionalFile ./hosts/darwin/${hostname}) ++
+        [
 
-        home-manager.darwinModules.home-manager
+          home-manager.darwinModules.home-manager
 
-        # Configure home-manager and set up a user so home-manager can pick up
-        # the homeDirectory.
-        {
-          home-manager.useGlobalPkgs = true;
-          users.users.${username}.home = "/Users/${username}";
-          home-manager.users.${username}.imports = baseHomeModules ++ [
-            ./hosts/home/${hostname}.nix
-          ] ++ extraHomeModules;
-        }
-      ] ++ extraDarwinModules;
+          # Configure home-manager and set up a user so home-manager can pick up
+          # the homeDirectory.
+          {
+            home-manager.useGlobalPkgs = true;
+            users.users.${username}.home = "/Users/${username}";
+            home-manager.users.${username}.imports = baseHomeModules ++
+              (optionalFile ./hosts/home/${hostname}.nix) ++
+              extraHomeModules;
+          }
+        ] ++ extraDarwinModules;
     };
 
   # mkHome is a convenience function for declaring a home-manager setup with our
@@ -115,7 +118,7 @@ rec {
         else nixpkgs-nixos);
 
       modules = baseHomeModules ++
-        (mkOptionals (hostname != null) [ ./hosts/home/${hostname}.nix ]) ++
+        (mkOptionals (hostname != null) (optionalFile ./hosts/home/${hostname}.nix)) ++
         extraHomeModules;
     };
 }
