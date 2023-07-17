@@ -12,7 +12,6 @@
     jq
     killall
     mu
-    neovim
     p7zip
     pwgen
     ripgrep
@@ -20,6 +19,7 @@
     nodePackages.svgo
     tmux
     unzip
+    vim
     wget
 
     # Stuff to try
@@ -27,6 +27,7 @@
     gitui
     lftp
     neomutt
+    neovim
 
     # Fun stuff
     cmatrix
