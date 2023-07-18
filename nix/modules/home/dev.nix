@@ -40,7 +40,9 @@ in
 
       # Rust
       unstable.rustc
+      unstable.rustfmt
       unstable.cargo
+      unstable.clippy
       unstable.rust-analyzer
 
       # Go and additional tools
