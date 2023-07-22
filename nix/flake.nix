@@ -27,26 +27,31 @@
       inherit lib;
       inherit overlays;
 
-      formatter = {
-        x86_64-linux = nixpkgs-unstable.legacyPackages.x86_64-linux.nixpkgs-fmt;
-        aarch64-darwin = nixpkgs-unstable.legacyPackages.aarch64-darwin.nixpkgs-fmt;
-        x86_64-darwin = nixpkgs-unstable.legacyPackages.x86_64-darwin.nixpkgs-fmt;
-      };
+      formatter = lib.forAllSystems
+        (system: nixpkgs-unstable.legacyPackages.${system}.nixpkgs-fmt);
 
-      nixosConfigurations."auron" = lib.mkNixosSystem {
-        hostname = "auron";
-      };
+      nixosConfigurations = {
+        "auron" = lib.mkNixosSystem {
+          hostname = "auron";
+        };
 
-      nixosConfigurations."zagreus" = lib.mkNixosSystem {
-        hostname = "zagreus";
+        "zagreus" = lib.mkNixosSystem {
+          hostname = "zagreus";
+        };
       };
 
       # There are some things nixos and nix-darwin can't provide; for everything
       # else there's home-manager.
-      homeConfigurations."belak" = lib.mkHome { };
+      homeConfigurations = {
+        "belak@auron" = lib.mkHome {
+          hostname = "auron";
+        };
 
-      homeConfigurations."belak@zagreus" = lib.mkHome {
-        hostname = "zagreus";
+        "belak@zagreus" = lib.mkHome {
+          hostname = "zagreus";
+        };
+
+        "belak" = lib.mkHome { };
       };
     };
 }
