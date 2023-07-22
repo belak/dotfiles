@@ -7,7 +7,8 @@
   homebrew = {
     enable = true;
 
-    # Remove any homebrew apps not installed via nix-darwin.
+    # Remove any homebrew apps not installed via nix-darwin along with any
+    # relevant config files.
     onActivation.cleanup = "zap";
 
     taps = [
