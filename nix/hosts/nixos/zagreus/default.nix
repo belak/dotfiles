@@ -1,45 +1,9 @@
-{ pkgs, nixos-hardware, ... }:
+{ pkgs, ... }:
 
 {
   imports = [
     ./hardware-configuration.nix
-    nixos-hardware.nixosModules.lenovo-thinkpad-t14
   ];
-
-  nix = {
-    extraOptions = ''
-      keep-outputs = true
-      keep-derivations = true
-    '';
-
-    settings = {
-      experimental-features = [ "nix-command" "flakes" ];
-      auto-optimise-store = true;
-      warn-dirty = false;
-    };
-
-    gc = {
-      automatic = true;
-      dates = "weekly";
-      options = "--delete-older-than 2d";
-    };
-  };
-
-  # Bootloader.
-  boot.loader.systemd-boot.enable = true;
-  boot.loader.efi.canTouchEfiVariables = true;
-
-  # Hardware quirks
-
-  # For some reason the touchpad buttons on my laptop don't work by default.
-  # This param tells the driver to use a secondary bus for the device which
-  # seems to fix the issue.
-  boot.kernelParams = [ "psmouse.synaptics_intertouch=0" ];
-
-  # We need to specify our video driver because it clears the console font when
-  # loaded. This works around the race condition by making sure the video driver
-  # is loaded as early as possible during the boot process.
-  boot.initrd.kernelModules = [ "i915" ];
 
   networking = {
     hostName = "zagreus";
