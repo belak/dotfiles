@@ -92,7 +92,7 @@ rec {
   mkHome =
     { username ? "belak"
     , system ? "x86_64-linux"
-    , nixpkgs ? nixpkgs-nixos
+    , nixpkgs ? if isDarwin system then nixpkgs-darwin else nixpkgs-nixos
     , hostname ? null
     , extraHomeModules ? [ ]
     }:

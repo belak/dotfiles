@@ -29,6 +29,7 @@
 
     casks = [
       "alfred"
+      "altair-graphql-client"
       "bartender"
       "discord"
       "finicky"
@@ -42,7 +43,6 @@
       "rar"
       "spotify"
       "standard-notes"
-      "trailer"
       "wezterm"
     ];
 
