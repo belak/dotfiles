@@ -23,7 +23,7 @@ rec {
     # rather than on a system-by-system basis.
     config.allowUnfreePredicate = pkg: builtins.elem (nixpkgs.lib.getName pkg) [
       "discord"
-      "dwarf-fortress"
+      "hplip"
       "obsidian"
       "skypeforlinux"
     ];
