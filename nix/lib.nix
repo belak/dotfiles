@@ -16,12 +16,10 @@ in
 rec {
   forAllSystems = nixpkgs-unstable.lib.genAttrs nixpkgs-unstable.lib.systems.flakeExposed;
 
-  mkPkgs = system: nixpkgs: import nixpkgs {
-    inherit system;
-
+  mkPkgs = pkgs: pkgs // {
     # It's easiest to configure our unfree packages for every nixpkgs input
     # rather than on a system-by-system basis.
-    config.allowUnfreePredicate = pkg: builtins.elem (nixpkgs.lib.getName pkg) [
+    config.allowUnfreePredicate = pkg: builtins.elem (pkgs.lib.getName pkg) [
       "discord"
       "hplip"
       "obsidian"
@@ -43,14 +41,14 @@ rec {
   # and integrating it with home-manager.
   mkNixosSystem =
     { hostname
+    , pkgs ? nixpkgs-nixos.legacyPackages.x86_64-linux
     , username ? "belak"
-    , system ? "x86_64-linux"
     , extraNixosModules ? [ ]
     }:
     nixpkgs-nixos.lib.nixosSystem {
-      inherit system;
+      system = pkgs.system;
 
-      pkgs = mkPkgs system nixpkgs-nixos;
+      pkgs = mkPkgs pkgs;
 
       modules = baseNixosModules ++
         (optionalFile ./hosts/nixos/${hostname}) ++
@@ -70,13 +68,13 @@ rec {
   mkDarwinSystem =
     { hostname
     , username ? "belak"
-    , system ? "aarch64-darwin"
+    , pkgs ? nixpkgs-darwin.legacyPackages.aarch64-darwin
     , extraDarwinModules ? [ ]
     }:
     darwin.lib.darwinSystem {
-      inherit system;
+      system = pkgs.system;
 
-      pkgs = mkPkgs system nixpkgs-darwin;
+      pkgs = mkPkgs pkgs;
 
       modules = baseDarwinModules ++
         (optionalFile ./hosts/darwin/${hostname}) ++
@@ -90,27 +88,27 @@ rec {
   # mkHome is a convenience function for declaring a home-manager setup with our
   # specific package setup.
   mkHome =
-    { username ? "belak"
-    , system ? "x86_64-linux"
-    , nixpkgs ? if isDarwin system then nixpkgs-darwin else nixpkgs-nixos
+    { pkgs ? nixpkgs-nixos.legacyPackages.x86_64-linux
+    , username ? "belak"
     , hostname ? null
     , extraHomeModules ? [ ]
     }:
     home-manager.lib.homeManagerConfiguration {
-      pkgs = mkPkgs system nixpkgs;
+      pkgs = mkPkgs pkgs;
 
-      modules = baseHomeModules ++ [
-        {
-          home = {
-            username = username;
-            homeDirectory = (
-              if isDarwin system
-              then "/Users/${username}"
-              else "/home/${username}"
-            );
-          };
-        }
-      ] ++ (mkOptionals (hostname != null) (optionalFile ./hosts/home/${hostname}.nix)) ++
-        extraHomeModules;
+      modules = baseHomeModules ++
+        (mkOptionals (hostname != null) (optionalFile ./hosts/home/${hostname}.nix)) ++
+        [
+          {
+            home = {
+              username = username;
+              homeDirectory = (
+                if isDarwin pkgs.system
+                then "/Users/${username}"
+                else "/home/${username}"
+              );
+            };
+          }
+        ] ++ extraHomeModules;
     };
 }
