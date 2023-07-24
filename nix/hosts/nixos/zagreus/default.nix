@@ -15,10 +15,10 @@
 
   i18n.defaultLocale = "en_US.UTF-8";
 
-  console = {
+  console = with pkgs; {
     earlySetup = true;
-    font = "${pkgs.terminus_font}/share/consolefonts/ter-114n.psf.gz";
-    packages = with pkgs; [ terminus_font ];
+    font = "${terminus_font}/share/consolefonts/ter-114n.psf.gz";
+    packages = [ terminus_font ];
   };
 
   # Enable fprintd for fingerprint auth. Note that this is disabled for now
@@ -65,6 +65,8 @@
   # set up the rest of the system.
   environment.systemPackages = with pkgs; [
     git
+    gutenprint
+    hplipWithPlugin
     vim
   ];
 
@@ -78,7 +80,6 @@
     gedit # text editor
     epiphany # web browser
     geary # email reader
-    evince # document viewer
     gnome-characters # font/character viewer
     simple-scan # scanner utility
     totem # video player

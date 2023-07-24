@@ -3,6 +3,8 @@
 {
   imports = [
     (modulesPath + "/installer/scan/not-detected.nix")
+    nixos-hardware.nixosModules.common-pc-ssd
+    nixos-hardware.nixosModules.common-cpu-intel
     nixos-hardware.nixosModules.lenovo-thinkpad-t14
   ];
 
@@ -10,8 +12,9 @@
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
 
+  # Kernel modules
   boot.initrd.availableKernelModules = [ "xhci_pci" "nvme" "usb_storage" "sd_mod" "rtsx_pci_sdmmc" ];
-  #boot.initrd.kernelModules = [ ];
+  boot.initrd.kernelModules = [ ];
   boot.kernelModules = [ "kvm-intel" ];
   boot.extraModulePackages = [ ];
 
@@ -21,11 +24,6 @@
   # This param tells the driver to use a secondary bus for the device which
   # seems to fix the issue.
   boot.kernelParams = [ "psmouse.synaptics_intertouch=0" ];
-
-  # We need to specify our video driver because it clears the console font when
-  # loaded. This works around the race condition by making sure the video driver
-  # is loaded as early as possible during the boot process.
-  boot.initrd.kernelModules = [ "i915" ];
 
   # Filesystems
 
