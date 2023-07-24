@@ -6,6 +6,7 @@ in
 {
   options.belak.dotfiles = {
     enable = lib.mkEnableOption "dotfiles";
+    homeManagerFlake = lib.mkOption { default = "${config.belak.homeDirectory}/.dotfiles/nix/flake.nix"; };
   };
 
   config = lib.mkIf cfg.enable {
@@ -34,7 +35,7 @@ in
       # every change to `home.nix` (the first update causes the file to update,
       # the second actually uses it), and makes it harder to recover from syntax
       # errors.
-      ".config/home-manager/flake.nix".source = config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/.dotfiles/nix/flake.nix";
+      ".config/home-manager/flake.nix".source = config.lib.file.mkOutOfStoreSymlink cfg.homeManagerFlake;
     };
   };
 }

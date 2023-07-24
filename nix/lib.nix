@@ -29,6 +29,8 @@ rec {
     overlays = builtins.attrValues self.overlays;
   };
 
+  systemHome = system: username: if isDarwin system then "/Users/${username}" else "/home/${username}";
+
   mkOptionals = check: data: if check then data else [ ];
 
   optionalFile = path: if builtins.pathExists path then [ path ] else [ ];
@@ -46,7 +48,7 @@ rec {
     , extraNixosModules ? [ ]
     }:
     nixpkgs-nixos.lib.nixosSystem {
-      system = pkgs.system;
+      inherit (pkgs) system;
 
       pkgs = mkPkgs pkgs;
 
@@ -72,7 +74,7 @@ rec {
     , extraDarwinModules ? [ ]
     }:
     darwin.lib.darwinSystem {
-      system = pkgs.system;
+      inherit (pkgs) system;
 
       pkgs = mkPkgs pkgs;
 
@@ -100,13 +102,9 @@ rec {
         (mkOptionals (hostname != null) (optionalFile ./hosts/home/${hostname}.nix)) ++
         [
           {
-            home = {
+            belak = {
               username = username;
-              homeDirectory = (
-                if isDarwin pkgs.system
-                then "/Users/${username}"
-                else "/home/${username}"
-              );
+              homeDirectory = systemHome pkgs.system username;
             };
           }
         ] ++ extraHomeModules;
