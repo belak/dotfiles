@@ -21,7 +21,6 @@ rec {
     # rather than on a system-by-system basis.
     config.allowUnfreePredicate = pkg: builtins.elem (pkgs.lib.getName pkg) [
       "discord"
-      "hplip"
       "obsidian"
       "skypeforlinux"
     ];
