@@ -16,11 +16,14 @@ in
 rec {
   forAllSystems = nixpkgs-unstable.lib.genAttrs nixpkgs-unstable.lib.systems.flakeExposed;
 
-  mkPkgs = pkgs: pkgs // {
+  mkPkgs = system: nixpkgs: import nixpkgs {
+    inherit system;
+
     # It's easiest to configure our unfree packages for every nixpkgs input
     # rather than on a system-by-system basis.
-    config.allowUnfreePredicate = pkg: builtins.elem (pkgs.lib.getName pkg) [
+    config.allowUnfreePredicate = pkg: builtins.elem (nixpkgs.lib.getName pkg) [
       "discord"
+      "hplip"
       "obsidian"
       "skypeforlinux"
     ];
@@ -42,14 +45,15 @@ rec {
   # and integrating it with home-manager.
   mkNixosSystem =
     { hostname
-    , pkgs ? nixpkgs-nixos.legacyPackages.x86_64-linux
+    , nixpkgs ? nixpkgs-nixos
+    , system ? "x86_64-linux"
     , username ? "belak"
     , extraNixosModules ? [ ]
     }:
-    nixpkgs-nixos.lib.nixosSystem {
-      inherit (pkgs) system;
+    nixpkgs.lib.nixosSystem {
+      inherit system;
 
-      pkgs = mkPkgs pkgs;
+      pkgs = mkPkgs system nixpkgs;
 
       modules = baseNixosModules ++
         (optionalFile ./hosts/nixos/${hostname}) ++
@@ -69,13 +73,14 @@ rec {
   mkDarwinSystem =
     { hostname
     , username ? "belak"
-    , pkgs ? nixpkgs-darwin.legacyPackages.aarch64-darwin
+    , nixpkgs ? nixpkgs-darwin
+    , system ? "aarch64-darwin"
     , extraDarwinModules ? [ ]
     }:
     darwin.lib.darwinSystem {
-      inherit (pkgs) system;
+      inherit system;
 
-      pkgs = mkPkgs pkgs;
+      pkgs = mkPkgs system nixpkgs;
 
       modules = baseDarwinModules ++
         (optionalFile ./hosts/darwin/${hostname}) ++
@@ -89,13 +94,14 @@ rec {
   # mkHome is a convenience function for declaring a home-manager setup with our
   # specific package setup.
   mkHome =
-    { pkgs ? nixpkgs-nixos.legacyPackages.x86_64-linux
+    { nixpkgs ? nixpkgs-nixos
+    , system ? "x86_64-linux"
     , username ? "belak"
     , hostname ? null
     , extraHomeModules ? [ ]
     }:
     home-manager.lib.homeManagerConfiguration {
-      pkgs = mkPkgs pkgs;
+      pkgs = mkPkgs system nixpkgs;
 
       modules = baseHomeModules ++
         (mkOptionals (hostname != null) (optionalFile ./hosts/home/${hostname}.nix)) ++
@@ -103,7 +109,7 @@ rec {
           {
             belak = {
               username = username;
-              homeDirectory = systemHome pkgs.system username;
+              homeDirectory = systemHome system username;
             };
           }
         ] ++ extraHomeModules;
