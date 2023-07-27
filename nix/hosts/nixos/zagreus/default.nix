@@ -66,7 +66,6 @@
   environment.systemPackages = with pkgs; [
     git
     gutenprint
-    hplipWithPlugin
     vim
   ];
 
