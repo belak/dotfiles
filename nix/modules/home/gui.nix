@@ -17,6 +17,7 @@ in
       firefox
       obsidian
       pavucontrol
+      prusa-slicer
       rpi-imager
       skypeforlinux
       standardnotes
