@@ -17,12 +17,14 @@ in
       firefox
       obsidian
       pavucontrol
-      prusa-slicer
       rpi-imager
       skypeforlinux
       standardnotes
 
       my.wezterm-bin
+
+      # Packages I want more up to date
+      unstable.prusa-slicer
 
       # Stuff I'm trying out
       sublime-music
