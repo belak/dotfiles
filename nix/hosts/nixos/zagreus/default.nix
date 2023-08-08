@@ -57,7 +57,7 @@
   users.users.belak = {
     isNormalUser = true;
     description = "Kaleb Elwert";
-    extraGroups = [ "networkmanager" "wheel" ];
+    extraGroups = [ "networkmanager" "wheel" "dialout" ];
     shell = pkgs.zsh;
   };
 
@@ -96,6 +96,19 @@
   };
 
   # List services that you want to enable:
+
+  services.postgresql = {
+    enable = true;
+    ensureDatabases = [ "seabird" ];
+    ensureUsers = [{
+      name = "belak";
+      ensureClauses.superuser = true;
+    }];
+    authentication = ''
+      #type database  DBuser  auth-method
+      local all       all     trust
+    '';
+  };
 
   services.fwupd.enable = true;
 

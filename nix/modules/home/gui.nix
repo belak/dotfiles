@@ -13,7 +13,6 @@ in
       calibre
       cura
       discord
-      emacs
       firefox
       obsidian
       pavucontrol
@@ -22,6 +21,9 @@ in
       standardnotes
 
       my.wezterm-bin
+
+      # We use the pure GTK variant of emacs to get better Wayland support
+      emacs29-pgtk
 
       # Packages I want more up to date
       unstable.prusa-slicer
