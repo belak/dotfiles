@@ -24,7 +24,7 @@
       "go"
       "gnu-sed"
 
-      "d12frosted/emacs-plus/emacs-plus@28"
+      "d12frosted/emacs-plus/emacs-plus@29"
     ];
 
     casks = [
