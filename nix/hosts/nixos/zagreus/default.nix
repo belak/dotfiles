@@ -40,6 +40,20 @@
     xkbVariant = "";
   };
 
+  # We use tlp to automatically configure some power saving settings. This
+  # requires us to disable power-profiles-daemon explicitly which comes by
+  # default as a part of Gnome 40.
+  services.tlp = {
+    enable = true;
+    settings = {
+      # Note that because we're on a modern intel CPU, the only CPU governors we
+      # have are "performance" and "powersave".
+      CPU_SCALING_GOVERNOR_ON_AC = "performance";
+      CPU_SCALING_GOVERNOR_ON_BAT = "powersave";
+    };
+  };
+  services.power-profiles-daemon.enable = false;
+
   # Enable CUPS to print documents.
   services.printing.enable = true;
 
@@ -64,9 +78,11 @@
   # We keep global packages pretty minimal - essentially only what we'd need to
   # set up the rest of the system.
   environment.systemPackages = with pkgs; [
+    acpi
     git
     gutenprint
     hplipWithPlugin
+    powertop
     vim
   ];
 

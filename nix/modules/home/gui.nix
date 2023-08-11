@@ -14,11 +14,13 @@ in
       cura
       discord
       firefox
+      gparted
       obsidian
       pavucontrol
       rpi-imager
       skypeforlinux
       standardnotes
+      xorg.xhost
 
       my.wezterm-bin
 
