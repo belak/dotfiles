@@ -24,7 +24,10 @@
       "go"
       "gnu-sed"
 
-      "d12frosted/emacs-plus/emacs-plus@29"
+      {
+        name = "d12frosted/emacs-plus/emacs-plus@29";
+        args = [ "with-native-comp" ];
+      }
     ];
 
     casks = [
