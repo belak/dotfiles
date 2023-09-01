@@ -172,6 +172,19 @@
 ;;
 ;;; Functions
 
+(defun belak--escape (&optional interactive)
+  "Run escape hook"
+  (interactive (list 'interactive))
+  (cond ((minibuffer-window-active-p (minibuffer-window))
+         ;; quit the minibuffer if open.
+         (when interactive
+           (setq this-command 'abort-recursive-edit))
+         (abort-recursive-edit))
+        ;; Back to the default
+        ((unwind-protect (keyboard-quit)
+           (when interactive
+             (setq this-command 'keyboard-quit))))))
+
 (defun belak--smarter-move-beginning-of-line (arg)
   "Move point back to indentation of beginning of line.
 
@@ -222,6 +235,10 @@ This originally came from Sacha Chua's Emacs config."
 
 ;;
 ;;; Tweaks
+
+;; Replace the default escape keybind with `belak--escape` which will also exit
+;; minibuffers.
+(global-set-key [remap keyboard-quit] #'belak--escape)
 
 ;; Prevent accidental usage of `list-buffers'.
 (bind-key "C-x C-b" #'switch-to-buffer)
