@@ -67,7 +67,8 @@
   :blackout
   :hook (prog-mode . eldoc-mode)
   :config
-  (setq eldoc-idle-delay 0.1))
+  (setq eldoc-idle-delay 0.1
+        eldoc-echo-area-use-multiline-p nil))
 
 ;; `flycheck-mode' is used for linters and catching compilation errors.
 (use-package! flycheck
