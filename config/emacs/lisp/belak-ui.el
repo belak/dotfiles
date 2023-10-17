@@ -310,7 +310,8 @@
 (setq window-combination-resize t)
 
 ;; Make resizing the window much more plesant when using a GUI.
-(setq frame-resize-pixelwise t)
+(setq frame-resize-pixelwise t
+      frame-inhibit-implied-resize t)
 
 ;; Underline looks a bit better when drawn lower
 (setq x-underline-at-descent-line t)
