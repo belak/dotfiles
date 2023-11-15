@@ -23,6 +23,7 @@
       "gimme"
       "go"
       "gnu-sed"
+      "spotify-tui"
 
       {
         name = "d12frosted/emacs-plus/emacs-plus@29";
@@ -33,6 +34,7 @@
     casks = [
       "alfred"
       "altair-graphql-client"
+      "android-studio"
       "bartender"
       "discord"
       "finicky"
@@ -42,6 +44,7 @@
         name = "font-source-code-pro";
         args.require_sha = false;
       }
+      "intellij-idea-ce"
       "monodraw"
       "obsidian"
       "postgres-unofficial"
