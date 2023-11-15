@@ -1,9 +1,11 @@
-{ pkgs, config, lib, ... }:
-
-let
-  cfg = config.belak.gui;
-in
 {
+  pkgs,
+  config,
+  lib,
+  ...
+}: let
+  cfg = config.belak.gui;
+in {
   options.belak.gui = {
     enable = lib.mkEnableOption "gui";
   };

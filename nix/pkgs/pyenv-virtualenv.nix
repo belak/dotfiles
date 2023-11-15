@@ -1,5 +1,9 @@
-{ lib, stdenv, fetchFromGitHub, bash }:
-
+{
+  lib,
+  stdenv,
+  fetchFromGitHub,
+  bash,
+}:
 stdenv.mkDerivation rec {
   pname = "pyenv-virtualenv";
   version = "1.2.1";
@@ -24,7 +28,7 @@ stdenv.mkDerivation rec {
     homepage = "https://github.com/pyenv/pyenv-virtualenv";
     changelog = "https://github.com/pyenv/pyenv-virtualenv/blob/${src.rev}/CHANGELOG.md";
     license = licenses.mit;
-    maintainers = with maintainers; [ ];
+    maintainers = with maintainers; [];
     platforms = platforms.all;
   };
 }

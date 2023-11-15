@@ -1,4 +1,4 @@
-{ pkgs, ... }: {
+{pkgs, ...}: {
   environment.systemPackages = with pkgs; [
     home-manager
     vim
@@ -26,7 +26,7 @@
 
       {
         name = "d12frosted/emacs-plus/emacs-plus@29";
-        args = [ "with-native-comp" ];
+        args = ["with-native-comp"];
       }
     ];
 
@@ -38,7 +38,10 @@
       "finicky"
       "firefox"
       "font-terminus"
-      { name = "font-source-code-pro"; args.require_sha = false; }
+      {
+        name = "font-source-code-pro";
+        args.require_sha = false;
+      }
       "monodraw"
       "obsidian"
       "postgres-unofficial"
@@ -65,8 +68,8 @@
   nix.settings = {
     auto-optimise-store = true;
     build-users-group = "nixbld";
-    experimental-features = [ "nix-command flakes" ];
-    trusted-users = [ "root" "kaleb.elwert" ];
+    experimental-features = ["nix-command flakes"];
+    trusted-users = ["root" "kaleb.elwert"];
     warn-dirty = false;
   };
 
