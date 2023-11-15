@@ -144,6 +144,10 @@
   ;; function we want.
   (setq projectile-completion-system 'default)
 
+  ;; Ignore all projects from the go module cache, as it's read only and we
+  ;; primarily use `find-function-at-point' to navigate there.
+  (setq projectile-ignored-projects '("~/go/pkg/"))
+
   ;; TODO: maybe swap projectile-root-top-down and projectile-root-bottom-up in
   ;; the root-files-functions.
 
