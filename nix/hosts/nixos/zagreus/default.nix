@@ -76,9 +76,10 @@
   };
 
   # We keep global packages pretty minimal - essentially only what we'd need to
-  # set up the rest of the system.
+  # set up the rest of the system and stuff which can't be configured by a user.
   environment.systemPackages = with pkgs; [
     acpi
+    android-udev-rules
     git
     gutenprint
     hplipWithPlugin
