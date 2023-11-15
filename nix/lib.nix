@@ -29,10 +29,6 @@ in rec {
           "skypeforlinux"
         ];
 
-      config.permittedInsecurePackages = [
-        "electron-24.8.6"
-      ];
-
       overlays = builtins.attrValues self.overlays;
     };
 

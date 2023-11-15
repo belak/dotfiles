@@ -17,7 +17,6 @@ in {
       discord
       firefox
       gparted
-      obsidian
       pavucontrol
       qbittorrent
       rpi-imager
@@ -36,6 +35,7 @@ in {
       emacs29-pgtk
 
       # Packages I want more up to date
+      unstable.obsidian
       unstable.prusa-slicer
 
       # Stuff I'm trying out

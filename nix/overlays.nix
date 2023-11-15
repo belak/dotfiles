@@ -11,6 +11,16 @@
   };
 
   unstable = final: prev: {
-    unstable = nixpkgs-unstable.legacyPackages.${prev.system};
+    # Normally this would be nixpkgs-unstable.legacyPackages.${prev.system}, but
+    # we need to set config.allowUnfreePredicate, so we build in a minimal
+    # version of lib.mkPkgs.
+    unstable = import nixpkgs-unstable {
+      inherit (prev) system;
+
+      config.allowUnfreePredicate = pkg:
+        builtins.elem (nixpkgs-unstable.lib.getName pkg) [
+          "obsidian"
+        ];
+    };
   };
 }
