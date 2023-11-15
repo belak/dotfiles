@@ -21,6 +21,7 @@ in {
       curl
       dig
       fd
+      ffmpeg
       findutils
       fzf
       git
@@ -38,6 +39,7 @@ in {
       unzip
       vim
       wget
+      yt-dlp
 
       # Stuff to try
       bat

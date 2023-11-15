@@ -21,7 +21,9 @@ in {
       crane
       dos2unix
       editorconfig-core-c
+      exiftool
       gnumake
+      imagemagick
       pkg-config
       protobuf
 
