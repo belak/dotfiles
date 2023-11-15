@@ -1,9 +1,11 @@
-{ pkgs, config, lib, ... }:
-
-let
-  cfg = config.belak.dev;
-in
 {
+  pkgs,
+  config,
+  lib,
+  ...
+}: let
+  cfg = config.belak.dev;
+in {
   options.belak.dev = {
     enable = lib.mkEnableOption "devtools";
   };

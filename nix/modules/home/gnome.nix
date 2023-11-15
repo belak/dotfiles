@@ -1,9 +1,11 @@
-{ config, pkgs, lib, ... }:
-
-let
-  cfg = config.belak.gnome;
-in
 {
+  config,
+  pkgs,
+  lib,
+  ...
+}: let
+  cfg = config.belak.gnome;
+in {
   options.belak.gnome = {
     enable = lib.mkEnableOption "gnome";
   };
@@ -71,14 +73,23 @@ in
 
     dconf.settings."org/gnome/desktop/wm/keybindings" = lib.listToAttrs (lib.concatLists (map
       (n: [
-        { name = "move-to-workspace-${toString n}"; value = [ "<Super><Shift>${toString n}" ]; }
-        { name = "switch-to-workspace-${toString n}"; value = [ "<Super>${toString n}" ]; }
+        {
+          name = "move-to-workspace-${toString n}";
+          value = ["<Super><Shift>${toString n}"];
+        }
+        {
+          name = "switch-to-workspace-${toString n}";
+          value = ["<Super>${toString n}"];
+        }
       ])
       (lib.range 1 9)));
 
     dconf.settings."org/gnome/shell/keybindings" = lib.listToAttrs (lib.concatLists (map
       (n: [
-        { name = "switch-to-application-${toString n}"; value = [ ]; }
+        {
+          name = "switch-to-application-${toString n}";
+          value = [];
+        }
       ])
       (lib.range 1 9)));
   };

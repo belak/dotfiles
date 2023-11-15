@@ -1,7 +1,7 @@
-{ stdenv
-, fetchFromGitHub
+{
+  stdenv,
+  fetchFromGitHub,
 }:
-
 stdenv.mkDerivation {
   pname = "trekscii";
   version = "0.0.1";
@@ -13,7 +13,7 @@ stdenv.mkDerivation {
     hash = "sha256-Mn3wasplwXsDCBEpHLqdh0G+SqYIirj7lKvM3VehPH0=";
   };
 
-  installFlags = [ "DESTDIR=$(out)" ];
+  installFlags = ["DESTDIR=$(out)"];
 
   installPhase = ''
     mkdir -p $out/bin
@@ -27,4 +27,3 @@ stdenv.mkDerivation {
 
   #buildInputs = [ boost libtorrent-rasterbar qtbase qttools qtsvg ];
 }
-

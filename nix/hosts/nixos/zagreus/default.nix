@@ -1,6 +1,4 @@
-{ pkgs, ... }:
-
-{
+{pkgs, ...}: {
   imports = [
     ./hardware-configuration.nix
   ];
@@ -18,7 +16,7 @@
   console = with pkgs; {
     earlySetup = true;
     font = "${terminus_font}/share/consolefonts/ter-114n.psf.gz";
-    packages = [ terminus_font ];
+    packages = [terminus_font];
   };
 
   # Enable fprintd for fingerprint auth. Note that this is disabled for now
@@ -28,7 +26,7 @@
 
   # Enable the X11 windowing system.
   services.xserver.enable = true;
-  services.xserver.excludePackages = [ pkgs.xterm ];
+  services.xserver.excludePackages = [pkgs.xterm];
 
   # Enable the GNOME Desktop Environment.
   services.xserver.displayManager.gdm.enable = true;
@@ -71,7 +69,7 @@
   users.users.belak = {
     isNormalUser = true;
     description = "Kaleb Elwert";
-    extraGroups = [ "networkmanager" "wheel" "dialout" ];
+    extraGroups = ["networkmanager" "wheel" "dialout"];
     shell = pkgs.zsh;
   };
 
@@ -87,20 +85,22 @@
     vim
   ];
 
-  environment.gnome.excludePackages = (with pkgs; [
-    gnome-photos
-    gnome-tour
-  ]) ++ (with pkgs.gnome; [
-    cheese # webcam tool
-    gnome-maps # map tool
-    gnome-music # music player
-    gedit # text editor
-    epiphany # web browser
-    geary # email reader
-    gnome-characters # font/character viewer
-    simple-scan # scanner utility
-    totem # video player
-  ]);
+  environment.gnome.excludePackages =
+    (with pkgs; [
+      gnome-photos
+      gnome-tour
+    ])
+    ++ (with pkgs.gnome; [
+      cheese # webcam tool
+      gnome-maps # map tool
+      gnome-music # music player
+      gedit # text editor
+      epiphany # web browser
+      geary # email reader
+      gnome-characters # font/character viewer
+      simple-scan # scanner utility
+      totem # video player
+    ]);
 
   programs.zsh = {
     enable = true;
@@ -108,7 +108,7 @@
     # The default setup does a bunch of weird things so we disable all of them.
     # This lets us properly set them up in our user-level zshrc.
     promptInit = "";
-    setOptions = [ ];
+    setOptions = [];
     enableGlobalCompInit = false;
   };
 
@@ -116,11 +116,13 @@
 
   services.postgresql = {
     enable = true;
-    ensureDatabases = [ "seabird" ];
-    ensureUsers = [{
-      name = "belak";
-      ensureClauses.superuser = true;
-    }];
+    ensureDatabases = ["seabird"];
+    ensureUsers = [
+      {
+        name = "belak";
+        ensureClauses.superuser = true;
+      }
+    ];
     authentication = ''
       #type database  DBuser  auth-method
       local all       all     trust

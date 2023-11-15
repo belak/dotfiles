@@ -1,12 +1,13 @@
-{ config, lib, ... }:
-
-let
-  cfg = config.belak.dotfiles;
-in
 {
+  config,
+  lib,
+  ...
+}: let
+  cfg = config.belak.dotfiles;
+in {
   options.belak.dotfiles = {
     enable = lib.mkEnableOption "dotfiles";
-    homeManagerFlake = lib.mkOption { default = "${config.belak.homeDirectory}/.dotfiles/nix/flake.nix"; };
+    homeManagerFlake = lib.mkOption {default = "${config.belak.homeDirectory}/.dotfiles/nix/flake.nix";};
   };
 
   config = lib.mkIf cfg.enable {
