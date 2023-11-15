@@ -22,10 +22,15 @@ rec {
     # It's easiest to configure our unfree packages for every nixpkgs input
     # rather than on a system-by-system basis.
     config.allowUnfreePredicate = pkg: builtins.elem (nixpkgs.lib.getName pkg) [
+      "android-studio-stable"
       "discord"
       "hplip"
       "obsidian"
       "skypeforlinux"
+    ];
+
+    config.permittedInsecurePackages = [
+      "electron-24.8.6"
     ];
 
     overlays = builtins.attrValues self.overlays;
