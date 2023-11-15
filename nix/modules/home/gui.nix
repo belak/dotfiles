@@ -17,12 +17,18 @@ in
       gparted
       obsidian
       pavucontrol
+      qbittorrent
       rpi-imager
       skypeforlinux
       standardnotes
       xorg.xhost
 
+      my.trekscii
       my.wezterm-bin
+
+      # We use android-studio for android apps while we're still getting the
+      # hang of android dev.
+      android-studio
 
       # We use the pure GTK variant of emacs to get better Wayland support
       emacs29-pgtk

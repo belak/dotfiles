@@ -8,7 +8,7 @@ in
     # All tweaks in this file should be linux-specific and should be commented
     # with the reason.
     home.packages = with pkgs; [
-      # These packages is currently broken on macOS, so we keep it Linux-only.
+      # These packages are currently broken on macOS, so we keep them Linux-only.
       mame-tools
       neomutt
 
@@ -20,6 +20,10 @@ in
       # Terminus needs to be installed from a homebrew cask on macOS to pick it
       # up.
       terminus_font
+
+      # Various additional fonts which improve the Linux experience
+      dejavu_fonts
+      noto-fonts-emoji
     ];
   };
 }
