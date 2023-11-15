@@ -14,7 +14,6 @@ in
     home.homeDirectory = cfg.homeDirectory;
 
     home.packages = with pkgs; [
-      binutils
       curl
       dig
       fd

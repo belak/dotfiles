@@ -9,12 +9,17 @@ in
   };
 
   config = lib.mkIf cfg.enable {
+    # programs.java.enable = true;
+
     home.packages = with pkgs; [
       # Various tools
+      android-tools
+      clang
       cloc
       crane
       dos2unix
       editorconfig-core-c
+      gnumake
       pkg-config
       protobuf
 
@@ -24,6 +29,9 @@ in
       SDL_image
       SDL_mixer
       SDL_ttf
+
+      # Java
+      jdk8
 
       # Javascript
       yarn
