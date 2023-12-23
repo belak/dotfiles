@@ -21,6 +21,10 @@
         builtins.elem (nixpkgs-unstable.lib.getName pkg) [
           "obsidian"
         ];
+
+      config.permittedInsecurePackages = [
+        "electron-25.9.0"
+      ];
     };
   };
 }
