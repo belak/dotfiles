@@ -16,13 +16,21 @@ in {
       cura
       discord
       firefox
-      gparted
+      gimp
+      logseq
       pavucontrol
       qbittorrent
       rpi-imager
       skypeforlinux
       standardnotes
+      vlc
       xorg.xhost
+      zettlr
+
+      # TODO: there seems to be an issue launching gparted from the gnome
+      # applications. It may be due to home-manager vs. nixos for packages
+      # requiring sudo.
+      gparted
 
       my.trekscii
       my.wezterm-bin
@@ -37,9 +45,6 @@ in {
       # Packages I want more up to date
       unstable.obsidian
       unstable.prusa-slicer
-
-      # Stuff I'm trying out
-      sublime-music
     ];
 
     # This section is in gui rather than gnome because most of the applications I

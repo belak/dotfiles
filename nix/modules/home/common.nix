@@ -22,6 +22,7 @@ in {
       dig
       fd
       ffmpeg
+      file
       findutils
       fzf
       git
@@ -30,12 +31,14 @@ in {
       jq
       killall
       mu
+      ncdu
       p7zip
       pwgen
       ripgrep
       rnix-lsp
       nodePackages.svgo
       tmux
+      unrar
       unzip
       vim
       wget
