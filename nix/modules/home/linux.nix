@@ -9,6 +9,9 @@ in {
     # All tweaks in this file should be linux-specific and should be commented
     # with the reason.
     home.packages = with pkgs; [
+      # Partition editing should only really be done on my Linux boxes.
+      parted
+
       # These packages are currently broken on macOS, so we keep them Linux-only.
       mame-tools
       neomutt

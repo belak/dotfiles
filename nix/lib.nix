@@ -27,6 +27,7 @@ in rec {
           "hplip"
           "obsidian"
           "skypeforlinux"
+          "unrar"
         ];
 
       overlays = builtins.attrValues self.overlays;

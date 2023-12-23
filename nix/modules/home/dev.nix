@@ -24,6 +24,7 @@ in {
       exiftool
       gnumake
       imagemagick
+      picotool
       pkg-config
       protobuf
 
@@ -33,6 +34,7 @@ in {
       SDL_image
       SDL_mixer
       SDL_ttf
+      zlib.dev
 
       # Java
       jdk8
