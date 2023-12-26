@@ -30,10 +30,6 @@ in rec {
           "unrar"
         ];
 
-      config.permittedInsecurePackages = [
-        "electron-25.9.0"
-      ];
-
       overlays = builtins.attrValues self.overlays;
     };
 
