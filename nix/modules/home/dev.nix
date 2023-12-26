@@ -27,6 +27,7 @@ in {
       picotool
       pkg-config
       protobuf
+      ubootTools
 
       # Libraries for projects
       SDL_compat
