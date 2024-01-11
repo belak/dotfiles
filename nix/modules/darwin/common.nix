@@ -52,7 +52,9 @@
       "rar"
       "spotify"
       "standard-notes"
+      "via"
       "wezterm"
+      "zotero"
     ];
 
     masApps = {
