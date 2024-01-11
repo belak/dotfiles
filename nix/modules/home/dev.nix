@@ -16,7 +16,6 @@ in {
     home.packages = with pkgs; [
       # Various tools
       android-tools
-      clang
       cloc
       crane
       dos2unix

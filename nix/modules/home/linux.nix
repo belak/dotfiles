@@ -9,6 +9,9 @@ in {
     # All tweaks in this file should be linux-specific and should be commented
     # with the reason.
     home.packages = with pkgs; [
+      # These packages break things on macOS, so we only install them in Linux.
+      clang
+
       # Partition editing should only really be done on my Linux boxes.
       parted
 
