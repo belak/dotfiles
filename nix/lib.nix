@@ -88,10 +88,10 @@ in rec {
   # mkDarwinSystem is a convenience function for declaring a nix-darwin system,
   # and integrating it with home-manager.
   mkDarwinSystem = {
-    hostname,
-    username ? "belak",
     nixpkgs ? nixpkgs-darwin,
     system ? "aarch64-darwin",
+    username ? "belak",
+    hostname ? null,
     extraDarwinModules ? [],
   }:
     darwin.lib.darwinSystem {
@@ -101,7 +101,7 @@ in rec {
 
       modules =
         baseDarwinModules
-        ++ (optionalFile ./hosts/darwin/${hostname})
+        ++ (mkOptionals (hostname != null) (optionalFile ./hosts/darwin/${hostname}.nix))
         ++ [
           {
             users.users.${username}.home = "/Users/${username}";
