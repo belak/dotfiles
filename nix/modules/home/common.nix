@@ -34,6 +34,7 @@ in {
       ncdu
       p7zip
       pwgen
+      rar
       ripgrep
       rnix-lsp
       nodePackages.svgo

@@ -33,8 +33,6 @@
 
     casks = [
       "alfred"
-      "altair-graphql-client"
-      "android-studio"
       "bartender"
       "discord"
       "finicky"
@@ -49,11 +47,16 @@
       "obsidian"
       "postgres-unofficial"
       "prusaslicer"
-      "rar"
       "spotify"
-      "standard-notes"
-      "via"
       "wezterm"
+
+      # Stuff I'm migrating away from
+      "standard-notes"
+
+      # Stuff I'm trying out.
+      "altair-graphql-client"
+      "android-studio"
+      "via"
       "zotero"
     ];
 
