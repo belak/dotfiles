@@ -38,6 +38,7 @@ in {
 
       # Java
       jdk8
+      jdk17
 
       # Javascript
       yarn
