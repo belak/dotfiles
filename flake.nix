@@ -19,8 +19,8 @@
   };
 
   outputs = inputs @ {nixpkgs-unstable, ...}: let
-    lib = import ./lib.nix inputs;
-    overlays = import ./overlays.nix inputs;
+    lib = import ./nix/lib.nix inputs;
+    overlays = import ./nix/overlays.nix inputs;
   in {
     inherit lib;
     inherit overlays;
