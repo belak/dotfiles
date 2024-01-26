@@ -26,8 +26,8 @@ in rec {
           "discord"
           "hplip"
           "obsidian"
+          "rar"
           "skypeforlinux"
-          "unrar"
         ];
 
       config.permittedInsecurePackages = [

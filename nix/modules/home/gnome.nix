@@ -15,8 +15,6 @@ in {
       gnome-firmware
       gnome.dconf-editor
       gnome.gnome-tweaks
-      gnomeExtensions.dash-to-dock
-      gnomeExtensions.space-bar
       gnomeExtensions.unite
     ];
 
@@ -28,15 +26,13 @@ in {
         gtk-theme = "Adwaita-dark";
       };
       "org/gnome/mutter" = {
-        dynamic-workspaces = true;
+        #dynamic-workspaces = true;
         edge-tiling = true;
       };
       "org/gnome/shell" = {
         enabled-extensions = [
           "unite@hardpixel.eu"
-          "dash-to-dock@micxgx.gmail.com"
           "user-theme@gnome-shell-extensions.gcampax.github.com"
-          "space-bar@luchrioh"
         ];
         favorite-apps = [
           "firefox.desktop"
@@ -44,27 +40,13 @@ in {
           "discord.desktop"
         ];
       };
-      "org/gnome/shell/extensions/dash-to-dock" = {
-        apply-custom-theme = false;
-        background-opacity = 0.0;
-        dash-max-icon-size = 48;
-        hot-keys = false;
-        show-show-apps-button = false;
-        show-trash = false;
-        transparency-mode = "FIXED";
-      };
-      "org/gnome/shell/extensions/space-bar/appearance" = {
-        workspaces-bar-padding = 5;
-      };
-      "org/gnome/shell/extensions/space-bar/shortcuts" = {
-        enable-activate-workspace-shortcuts = false;
-        enable-move-to-workspace-shortcuts = false;
-      };
       "org/gnome/shell/extensions/unite" = {
-        hide-activities-button = "always";
+        hide-activities-button = "never";
         hide-window-titlebars = "both";
+        reduce-panel-spacing = false;
         show-window-buttons = "both";
         show-window-title = "both";
+        use-activities-text = false;
       };
       "org/gnome/tweaks" = {
         show-extensions-notice = false;

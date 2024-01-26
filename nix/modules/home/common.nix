@@ -27,33 +27,26 @@ in {
       fzf
       git
       htop
-      isync
       jq
       killall
-      mu
+      lftp
       ncdu
-      p7zip
       pwgen
-      rar
       ripgrep
-      rnix-lsp
-      nodePackages.svgo
+      #rnix-lsp
       tmux
-      unrar
-      unzip
       vim
       wget
       yt-dlp
 
-      # Stuff to try
-      bat
-      gitui
-      lftp
-      neovim
+      # Archive Formats
+      p7zip
+      rar
+      unzip
 
-      # Fun stuff
-      cmatrix
-      pipes-rs
+      # Stuff to try
+      #bat
+      #neovim
     ];
 
     programs.direnv = {
@@ -63,14 +56,5 @@ in {
 
     # Let Home Manager install and manage itself.
     programs.home-manager.enable = true;
-
-    # This value determines the Home Manager release that your configuration is
-    # compatible with. This helps avoid breakage when a new Home Manager release
-    # introduces backwards incompatible changes.
-    #
-    # You should not change this value, even if you update Home Manager. If you do
-    # want to update the value, then make sure to first check the Home Manager
-    # release notes.
-    home.stateVersion = "23.05"; # Please read the comment before changing.
   };
 }

@@ -11,8 +11,6 @@ in {
   };
 
   config = lib.mkIf cfg.enable {
-    # programs.java.enable = true;
-
     home.packages = with pkgs; [
       # Various tools
       android-tools
@@ -26,22 +24,6 @@ in {
       picotool
       pkg-config
       protobuf
-      ubootTools
-
-      # Libraries for projects
-      SDL_compat
-      SDL_gfx
-      SDL_image
-      SDL_mixer
-      SDL_ttf
-      zlib.dev
-
-      # Java
-      jdk8
-      jdk17
-
-      # Javascript
-      yarn
 
       # Python
       python311
@@ -52,22 +34,6 @@ in {
       # Ruby
       my.rbenv
       my.ruby-build
-
-      # Rust
-      unstable.rustc
-      unstable.rustfmt
-      unstable.cargo
-      unstable.clippy
-      unstable.rust-analyzer
-
-      # Go and additional tools
-      unstable.go
-      unstable.gofumpt
-      unstable.golangci-lint
-      unstable.goreleaser
-      unstable.gotools
-      unstable.protoc-gen-go
-      unstable.protoc-gen-go-grpc
     ];
   };
 }
