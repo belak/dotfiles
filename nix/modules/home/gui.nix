@@ -13,19 +13,11 @@ in {
   config = lib.mkIf cfg.enable {
     home.packages = with pkgs; [
       calibre
-      cura
       discord
       firefox
       gimp
-      logseq
-      pavucontrol
-      qbittorrent
       rpi-imager
-      skypeforlinux
-      standardnotes
-      vlc
       xorg.xhost
-      zettlr
 
       # TODO: there seems to be an issue launching gparted from the gnome
       # applications. It may be due to home-manager vs. nixos for packages
@@ -34,10 +26,6 @@ in {
 
       my.trekscii
       my.wezterm-bin
-
-      # We use android-studio for android apps while we're still getting the
-      # hang of android dev.
-      android-studio
 
       # We use the pure GTK variant of emacs to get better Wayland support
       emacs29-pgtk
