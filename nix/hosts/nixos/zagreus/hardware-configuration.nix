@@ -33,16 +33,16 @@
   # Filesystems
 
   fileSystems."/" = {
-    device = "/dev/disk/by-uuid/d848ec10-ce30-42ac-b190-c546ba3c1b46";
+    device = "/dev/disk/by-partlabel/zag-root";
     fsType = "ext4";
   };
 
   fileSystems."/boot" = {
-    device = "/dev/disk/by-uuid/8490-5623";
+    device = "/dev/disk/by-partlabel/zag-boot";
     fsType = "vfat";
   };
 
-  swapDevices = [{device = "/dev/disk/by-uuid/274c3150-8704-4f18-954f-28b480584138";}];
+  swapDevices = [{device = "/dev/disk/by-partlabel/zag-swap";}];
 
   # Enables DHCP on each ethernet and wireless interface. In case of scripted networking
   # (the default) this is the recommended approach. When using systemd-networkd it's
