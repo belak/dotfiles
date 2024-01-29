@@ -13,6 +13,7 @@ in {
       clang
 
       # Partition editing should only really be done on my Linux boxes.
+      exfatprogs
       parted
 
       # These packages are currently broken on macOS, so we keep them Linux-only.
