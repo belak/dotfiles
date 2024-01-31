@@ -26,6 +26,10 @@
       "gnu-sed"
       "spotify-tui"
 
+      # Frustratingly, emacs-plus doesn't properly specify gcc as a build
+      # dependency, so without this, the brew install fails.
+      "gcc"
+
       {
         name = "d12frosted/emacs-plus/emacs-plus@29";
         args = [ "with-native-comp" ];
