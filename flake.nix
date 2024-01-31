@@ -18,39 +18,29 @@
     };
   };
 
-  outputs = inputs @ {nixpkgs-unstable, ...}: let
-    lib = import ./nix/lib.nix inputs;
-    overlays = import ./nix/overlays.nix inputs;
-  in {
-    inherit lib;
-    inherit overlays;
+  outputs =
+    inputs@{ nixpkgs-unstable, ... }:
+    let
+      lib = import ./nix/lib.nix inputs;
+      overlays = import ./nix/overlays.nix inputs;
+    in
+    {
+      inherit lib;
+      inherit overlays;
 
-    formatter =
-      lib.forAllSystems
-      (system: nixpkgs-unstable.legacyPackages.${system}.alejandra);
+      formatter = lib.forAllSystems (system: nixpkgs-unstable.legacyPackages.${system}.nixfmt-rfc-style);
 
-    nixosConfigurations = {
-      "auron" = lib.mkNixosSystem {
-        hostname = "auron";
+      nixosConfigurations = {
+        "auron" = lib.mkNixosSystem { hostname = "auron"; };
+        "zagreus" = lib.mkNixosSystem { hostname = "zagreus"; };
       };
 
-      "zagreus" = lib.mkNixosSystem {
-        hostname = "zagreus";
+      # There are some things nixos and nix-darwin can't provide; for everything
+      # else there's home-manager.
+      homeConfigurations = {
+        "belak@auron" = lib.mkHome { hostname = "auron"; };
+        "belak@zagreus" = lib.mkHome { hostname = "zagreus"; };
+        "belak" = lib.mkHome { };
       };
     };
-
-    # There are some things nixos and nix-darwin can't provide; for everything
-    # else there's home-manager.
-    homeConfigurations = {
-      "belak@auron" = lib.mkHome {
-        hostname = "auron";
-      };
-
-      "belak@zagreus" = lib.mkHome {
-        hostname = "zagreus";
-      };
-
-      "belak" = lib.mkHome {};
-    };
-  };
 }

@@ -30,7 +30,7 @@ stdenv.mkDerivation rec {
     homepage = "https://github.com/rbenv/ruby-build";
     changelog = "https://github.com/rbenv/ruby-build/releases/tag/v${src.rev}";
     license = licenses.mit;
-    maintainers = with maintainers; [];
+    maintainers = with maintainers; [ ];
     platforms = platforms.all;
   };
 }

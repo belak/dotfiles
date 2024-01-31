@@ -1,4 +1,5 @@
-{pkgs, ...}: {
+{ pkgs, ... }:
+{
   environment.systemPackages = with pkgs; [
     home-manager
     vim
@@ -27,7 +28,7 @@
 
       {
         name = "d12frosted/emacs-plus/emacs-plus@29";
-        args = ["with-native-comp"];
+        args = [ "with-native-comp" ];
       }
     ];
 
@@ -76,8 +77,11 @@
   nix.settings = {
     auto-optimise-store = true;
     build-users-group = "nixbld";
-    experimental-features = ["nix-command flakes"];
-    trusted-users = ["root" "kaleb.elwert"];
+    experimental-features = [ "nix-command flakes" ];
+    trusted-users = [
+      "root"
+      "kaleb.elwert"
+    ];
     warn-dirty = false;
   };
 

@@ -9,7 +9,7 @@ stdenv.mkDerivation rec {
   pname = "rbenv";
   version = "1.2.0";
 
-  nativeBuildInputs = [installShellFiles];
+  nativeBuildInputs = [ installShellFiles ];
 
   src = fetchFromGitHub {
     owner = "rbenv";
@@ -40,7 +40,7 @@ stdenv.mkDerivation rec {
     '';
     homepage = "https://github.com/rbenv/rbenv";
     license = licenses.mit;
-    maintainers = with maintainers; [];
+    maintainers = with maintainers; [ ];
     platforms = platforms.all;
   };
 }

@@ -1,7 +1,6 @@
-{pkgs, ...}: {
-  imports = [
-    ./hardware-configuration.nix
-  ];
+{ pkgs, ... }:
+{
+  imports = [ ./hardware-configuration.nix ];
 
   networking = {
     hostName = "zagreus";
@@ -16,7 +15,7 @@
   console = with pkgs; {
     earlySetup = true;
     font = "${terminus_font}/share/consolefonts/ter-114n.psf.gz";
-    packages = [terminus_font];
+    packages = [ terminus_font ];
   };
 
   # Enable fprintd for fingerprint auth. Note that this is disabled for now
@@ -26,7 +25,7 @@
 
   # Enable the X11 windowing system.
   services.xserver.enable = true;
-  services.xserver.excludePackages = [pkgs.xterm];
+  services.xserver.excludePackages = [ pkgs.xterm ];
 
   # Enable the GNOME Desktop Environment.
   services.xserver.displayManager.gdm.enable = true;
@@ -69,7 +68,11 @@
   users.users.belak = {
     isNormalUser = true;
     description = "Kaleb Elwert";
-    extraGroups = ["networkmanager" "wheel" "dialout"];
+    extraGroups = [
+      "networkmanager"
+      "wheel"
+      "dialout"
+    ];
     shell = pkgs.zsh;
   };
 
@@ -106,7 +109,7 @@
     # The default setup does a bunch of weird things so we disable all of them.
     # This lets us properly set them up in our user-level zshrc.
     promptInit = "";
-    setOptions = [];
+    setOptions = [ ];
     enableGlobalCompInit = false;
   };
 
@@ -114,7 +117,7 @@
 
   services.postgresql = {
     enable = true;
-    ensureDatabases = ["seabird"];
+    ensureDatabases = [ "seabird" ];
     ensureUsers = [
       {
         name = "belak";

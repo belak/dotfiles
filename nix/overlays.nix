@@ -1,12 +1,13 @@
-{nixpkgs-unstable, ...}: {
+{ nixpkgs-unstable, ... }:
+{
   overrides = final: prev: {
     my = {
-      pyenv = final.callPackage ./pkgs/pyenv.nix {};
-      pyenv-virtualenv = final.callPackage ./pkgs/pyenv-virtualenv.nix {};
-      rbenv = final.callPackage ./pkgs/rbenv.nix {};
-      ruby-build = final.callPackage ./pkgs/ruby-build.nix {};
-      trekscii = final.callPackage ./pkgs/trekscii.nix {};
-      wezterm-bin = final.callPackage ./pkgs/wezterm-bin.nix {};
+      pyenv = final.callPackage ./pkgs/pyenv.nix { };
+      pyenv-virtualenv = final.callPackage ./pkgs/pyenv-virtualenv.nix { };
+      rbenv = final.callPackage ./pkgs/rbenv.nix { };
+      ruby-build = final.callPackage ./pkgs/ruby-build.nix { };
+      trekscii = final.callPackage ./pkgs/trekscii.nix { };
+      wezterm-bin = final.callPackage ./pkgs/wezterm-bin.nix { };
     };
   };
 
@@ -17,14 +18,9 @@
     unstable = import nixpkgs-unstable {
       inherit (prev) system;
 
-      config.allowUnfreePredicate = pkg:
-        builtins.elem (nixpkgs-unstable.lib.getName pkg) [
-          "obsidian"
-        ];
+      config.allowUnfreePredicate = pkg: builtins.elem (nixpkgs-unstable.lib.getName pkg) [ "obsidian" ];
 
-      config.permittedInsecurePackages = [
-        "electron-25.9.0"
-      ];
+      config.permittedInsecurePackages = [ "electron-25.9.0" ];
     };
   };
 }
