@@ -28,7 +28,6 @@
   :after python
   :hook (python-mode . anaconda-mode)
   :init
-  (setq anaconda-mode-installation-directory "~/.emacs.d/.local/anaconda-mode")
   :hook (anaconda-mode . anaconda-eldoc-mode))
 
 (use-package! company-anaconda
@@ -79,7 +78,7 @@
 (use-package! py-isort
   :hook (python-mode . belak--py-isort-hook)
   :config
-  (defun belak--go-mode-hook ()
+  (defun belak--py-isort-hook ()
     (add-hook 'before-save-hook 'py-isort-before-save nil t)))
 
 (provide 'belak-lang-python)
