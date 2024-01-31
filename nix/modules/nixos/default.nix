@@ -1,3 +1,1 @@
-{
-  common = import ./common.nix;
-}
+{ common = import ./common.nix; }

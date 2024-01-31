@@ -19,13 +19,14 @@ stdenv.mkDerivation rec {
     patchShebangs --build src/configure
   '';
 
-  nativeBuildInputs = [
-    installShellFiles
-  ];
+  nativeBuildInputs = [ installShellFiles ];
 
   configureScript = "src/configure";
 
-  makeFlags = ["-C" "src"];
+  makeFlags = [
+    "-C"
+    "src"
+  ];
 
   installPhase = ''
     runHook preInstall
@@ -48,7 +49,7 @@ stdenv.mkDerivation rec {
     homepage = "https://github.com/pyenv/pyenv";
     changelog = "https://github.com/pyenv/pyenv/blob/${src.rev}/CHANGELOG.md";
     license = licenses.mit;
-    maintainers = with maintainers; [tjni];
+    maintainers = with maintainers; [ tjni ];
     platforms = platforms.all;
   };
 }

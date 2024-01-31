@@ -4,13 +4,15 @@
   lib,
   pkgs,
   ...
-}: let
+}:
+let
   cfg = config.belak;
-in {
+in
+{
   # Any common options, used in multiple places should probably go here.
   options.belak = {
-    username = lib.mkOption {default = "belak";};
-    homeDirectory = lib.mkOption {default = self.lib.systemHome pkgs.system cfg.username;};
+    username = lib.mkOption { default = "belak"; };
+    homeDirectory = lib.mkOption { default = self.lib.systemHome pkgs.system cfg.username; };
   };
 
   config = {

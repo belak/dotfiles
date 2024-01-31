@@ -1,11 +1,7 @@
-{
-  pkgs,
-  lib,
-  ...
-}: let
+{ pkgs, lib, ... }:
+let
   inherit (pkgs) stdenv;
-in {
-  config = lib.mkIf stdenv.isDarwin {
-    home.packages = with pkgs; [];
-  };
+in
+{
+  config = lib.mkIf stdenv.isDarwin { home.packages = with pkgs; [ ]; };
 }

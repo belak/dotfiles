@@ -1,10 +1,8 @@
-{
-  lib,
-  pkgs,
-  ...
-}: let
+{ lib, pkgs, ... }:
+let
   inherit (pkgs) stdenv;
-in {
+in
+{
   config = lib.mkIf stdenv.isLinux {
     # All tweaks in this file should be linux-specific and should be commented
     # with the reason.

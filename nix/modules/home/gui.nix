@@ -3,9 +3,11 @@
   config,
   lib,
   ...
-}: let
+}:
+let
   cfg = config.belak.gui;
-in {
+in
+{
   options.belak.gui = {
     enable = lib.mkEnableOption "gui";
   };

@@ -5,7 +5,8 @@
   nixos-hardware,
   modulesPath,
   ...
-}: {
+}:
+{
   imports = [
     (modulesPath + "/installer/scan/not-detected.nix")
     nixos-hardware.nixosModules.common-pc-ssd
@@ -18,17 +19,23 @@
   boot.loader.efi.canTouchEfiVariables = true;
 
   # Kernel modules
-  boot.initrd.availableKernelModules = ["xhci_pci" "nvme" "usb_storage" "sd_mod" "rtsx_pci_sdmmc"];
-  boot.initrd.kernelModules = [];
-  boot.kernelModules = ["kvm-intel"];
-  boot.extraModulePackages = [];
+  boot.initrd.availableKernelModules = [
+    "xhci_pci"
+    "nvme"
+    "usb_storage"
+    "sd_mod"
+    "rtsx_pci_sdmmc"
+  ];
+  boot.initrd.kernelModules = [ ];
+  boot.kernelModules = [ "kvm-intel" ];
+  boot.extraModulePackages = [ ];
 
   # Hardware quirks
 
   # For some reason the touchpad buttons on my laptop don't work by default.
   # This param tells the driver to use a secondary bus for the device which
   # seems to fix the issue.
-  boot.kernelParams = ["psmouse.synaptics_intertouch=0"];
+  boot.kernelParams = [ "psmouse.synaptics_intertouch=0" ];
 
   # Filesystems
 
@@ -42,7 +49,7 @@
     fsType = "vfat";
   };
 
-  swapDevices = [{device = "/dev/disk/by-partlabel/zag-swap";}];
+  swapDevices = [ { device = "/dev/disk/by-partlabel/zag-swap"; } ];
 
   # Enables DHCP on each ethernet and wireless interface. In case of scripted networking
   # (the default) this is the recommended approach. When using systemd-networkd it's
