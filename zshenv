@@ -1,4 +1,5 @@
 export GOPATH="$HOME/go"
+export VOLTA_HOME="$HOME/.volta"
 
 # Add a bunch of locations we use to the path. There are a bunch of weird
 # caviats here.
@@ -17,6 +18,7 @@ path=(
     "/Applications/Sublime Text.app/Contents/SharedSupport/bin"
     "/Applications/Visual Studio Code.app/Contents/Resources/app/bin"
     "$GOPATH/bin"
+    "$VOLTA_HOME/bin"
     "$HOME/.cargo/bin"
     "$HOME/.emacs.d/bin"
     "$HOME/.poetry/bin"
