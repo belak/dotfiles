@@ -26,6 +26,9 @@
       "gnu-sed"
       "spotify-tui"
 
+      # We need OpenJDK for modern versions of Minecraft
+      "openjdk@17"
+
       # Frustratingly, emacs-plus doesn't properly specify gcc as a build
       # dependency, so without this, the brew install fails.
       "gcc"
@@ -48,9 +51,13 @@
         args.require_sha = false;
       }
       "intellij-idea-ce"
+      "modrinth"
       "monodraw"
       "obsidian"
+      "openscad"
+      "orcaslicer"
       "postgres-unofficial"
+      "prismlauncher"
       "prusaslicer"
       "spotify"
       "wezterm"
