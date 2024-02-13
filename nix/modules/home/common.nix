@@ -19,6 +19,9 @@ in
     home.username = cfg.username;
     home.homeDirectory = cfg.homeDirectory;
 
+    # Hide news display by default
+    news.display = "silent";
+
     home.packages = with pkgs; [
       curl
       dig
