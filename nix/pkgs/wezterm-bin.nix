@@ -38,11 +38,11 @@ let
 in
 stdenv.mkDerivation rec {
   pname = "wezterm-bin";
-  version = "20240127-113634-bbcac864";
+  version = "20240203-110809-5046fc22";
 
   src = fetchurl {
     url = "https://github.com/wez/wezterm/releases/download/${version}/wezterm-${version}.Ubuntu22.04.tar.xz";
-    hash = "sha256-poAt6qpZlE4QisVJAfGFs+UvYueEiOtN73/MzEhvVVA=";
+    hash = "sha256-FCy0beZIIAuFLMSx2TLmuPKp08VfbcWvRLbU7rk4X1w=";
   };
 
   #nativeBuildInputs = [ pkg-config python3 perl ];
