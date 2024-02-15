@@ -121,11 +121,6 @@
 ;;
 ;;; Dependency Workarounds
 
-;; pos-tip is a dependency for company-quickhelp, but the referenced version
-;; isn't new enough.
-(use-package! pos-tip
-  :elpaca (:type git :host github :repo "belak/pos-tip"))
-
 ;; eldoc and jsonrpc are both built-in dependencies needed by eglot, but they're not new enough,
 ;; so we have to install a different version using elpaca.
 (use-package! eldoc)
