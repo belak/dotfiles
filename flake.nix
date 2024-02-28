@@ -41,6 +41,7 @@
       homeConfigurations = {
         "belak@auron" = lib.mkHome { hostname = "auron"; };
         "belak@zagreus" = lib.mkHome { hostname = "zagreus"; };
+        "belak@zidane" = lib.mkHome { hostname = "zidane"; };
         "belak" = lib.mkHome { };
       };
     };
