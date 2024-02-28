@@ -33,6 +33,7 @@
       nixosConfigurations = {
         "auron" = lib.mkNixosSystem { hostname = "auron"; };
         "zagreus" = lib.mkNixosSystem { hostname = "zagreus"; };
+        "zidane" = lib.mkNixosSystem { hostname = "zidane"; };
       };
 
       # There are some things nixos and nix-darwin can't provide; for everything
