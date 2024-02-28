@@ -27,6 +27,10 @@ in
       pkg-config
       protobuf
 
+      # Packages we want more up-to-date versions of
+      unstable.kubectl
+      unstable.talosctl
+
       # Python
       python311
       virtualenv

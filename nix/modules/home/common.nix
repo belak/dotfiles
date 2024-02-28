@@ -42,6 +42,7 @@ in
       tmux
       vim
       wget
+      yq
       yt-dlp
 
       # Archive Formats
