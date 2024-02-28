@@ -31,7 +31,6 @@
       formatter = lib.forAllSystems (system: nixpkgs-unstable.legacyPackages.${system}.nixfmt-rfc-style);
 
       nixosConfigurations = {
-        "auron" = lib.mkNixosSystem { hostname = "auron"; };
         "zagreus" = lib.mkNixosSystem { hostname = "zagreus"; };
         "zidane" = lib.mkNixosSystem { hostname = "zidane"; };
       };
@@ -39,7 +38,6 @@
       # There are some things nixos and nix-darwin can't provide; for everything
       # else there's home-manager.
       homeConfigurations = {
-        "belak@auron" = lib.mkHome { hostname = "auron"; };
         "belak@zagreus" = lib.mkHome { hostname = "zagreus"; };
         "belak@zidane" = lib.mkHome { hostname = "zidane"; };
         "belak" = lib.mkHome { };
