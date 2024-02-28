@@ -1,5 +1,0 @@
-{
-  belak = {
-    dotfiles.enable = true;
-  };
-}
