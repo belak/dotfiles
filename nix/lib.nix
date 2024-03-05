@@ -23,6 +23,9 @@ rec {
 
       # It's easiest to configure our unfree packages for every nixpkgs input
       # rather than on a system-by-system or module-by-module basis.
+      #
+      # Note that confusingly unstable packages are configured in the unstable
+      # overlay, not here.
       config.allowUnfreePredicate =
         pkg:
         builtins.elem (nixpkgs.lib.getName pkg) [
@@ -56,7 +59,9 @@ rec {
       hostname,
       nixpkgs ? nixpkgs-nixos,
       system ? "x86_64-linux",
-      username ? "belak",
+      configuredUsers ? {
+        "belak" = [ ];
+      },
       extraNixosModules ? [ ],
     }:
     nixpkgs.lib.nixosSystem {
@@ -66,10 +71,35 @@ rec {
 
       modules =
         baseNixosModules
+        ++ [
+          home-manager.nixosModules.home-manager
+          {
+            # Use the nixos pkgs we just configured
+            home-manager.useGlobalPkgs = true;
+            home-manager.useUserPackages = true;
+          }
+        ]
         ++ (optionalFile ./hosts/nixos/${hostname})
-        ++ [ { users.users.${username}.home = "/home/${username}"; } ]
+        ++ builtins.attrValues (
+          builtins.mapAttrs
+            (username: extraHomeModules: {
+              users.users.${username}.home = "/home/${username}";
+              home-manager.users.${username} = {
+                imports = mkHomeModules {
+                  inherit
+                    system
+                    hostname
+                    username
+                    extraHomeModules
+                    ;
+                };
+              };
+            })
+            configuredUsers
+        )
         ++ extraNixosModules;
 
+      # Pass extra inputs through to all modules.
       specialArgs = {
         inherit nixos-hardware;
       };
@@ -97,6 +127,29 @@ rec {
         ++ extraDarwinModules;
     };
 
+  # mkHomeModules is used by both mkNixosSystem and mkHome to allow both to use
+  # the same modules. This allows us to have our config in our
+  # nixosConfiguration and still use the same setup if we're using home-manager
+  # standalone.
+  mkHomeModules =
+    {
+      system,
+      hostname,
+      username,
+      extraHomeModules,
+    }:
+    baseHomeModules
+    ++ (mkOptionals (hostname != null) (optionalFile ./hosts/home/${hostname}.nix))
+    ++ [
+      {
+        belak = {
+          username = username;
+          homeDirectory = systemHome system username;
+        };
+      }
+    ]
+    ++ extraHomeModules;
+
   # mkHome is a convenience function for declaring a home-manager setup with our
   # specific package setup.
   mkHome =
@@ -110,17 +163,13 @@ rec {
     home-manager.lib.homeManagerConfiguration {
       pkgs = mkPkgs system nixpkgs;
 
-      modules =
-        baseHomeModules
-        ++ (mkOptionals (hostname != null) (optionalFile ./hosts/home/${hostname}.nix))
-        ++ [
-          {
-            belak = {
-              username = username;
-              homeDirectory = systemHome system username;
-            };
-          }
-        ]
-        ++ extraHomeModules;
+      modules = mkHomeModules {
+        inherit
+          system
+          hostname
+          username
+          extraHomeModules
+          ;
+      };
     };
 }

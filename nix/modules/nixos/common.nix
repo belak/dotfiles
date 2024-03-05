@@ -24,7 +24,6 @@
 
   environment.systemPackages = with pkgs; [
     git
-    home-manager
     vim
   ];
 }
