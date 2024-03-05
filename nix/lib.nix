@@ -111,7 +111,9 @@ rec {
     {
       nixpkgs ? nixpkgs-darwin,
       system ? "aarch64-darwin",
-      username ? "belak",
+      configuredUsers ? {
+        "belak" = [ ];
+      },
       hostname ? null,
       extraDarwinModules ? [ ],
     }:
@@ -122,14 +124,38 @@ rec {
 
       modules =
         baseDarwinModules
+        ++ [
+          home-manager.darwinModules.home-manager
+          {
+            # Use the nixos pkgs we just configured
+            home-manager.useGlobalPkgs = true;
+            home-manager.useUserPackages = true;
+          }
+        ]
         ++ (mkOptionals (hostname != null) (optionalFile ./hosts/darwin/${hostname}.nix))
-        ++ [ { users.users.${username}.home = "/Users/${username}"; } ]
+        ++ builtins.attrValues (
+          builtins.mapAttrs
+            (username: extraHomeModules: {
+              users.users.${username}.home = "/Users/${username}";
+              home-manager.users.${username} = {
+                imports = mkHomeModules {
+                  inherit
+                    system
+                    hostname
+                    username
+                    extraHomeModules
+                    ;
+                };
+              };
+            })
+            configuredUsers
+        )
         ++ extraDarwinModules;
     };
 
-  # mkHomeModules is used by both mkNixosSystem and mkHome to allow both to use
-  # the same modules. This allows us to have our config in our
-  # nixosConfiguration and still use the same setup if we're using home-manager
+  # mkHomeModules is used by mkNixosSystem, mkDarwinSystem and mkHome to allow
+  # all to use the same modules. This allows us to have our config in our system
+  # configurations and still use the same setup if we're using home-manager
   # standalone.
   mkHomeModules =
     {
