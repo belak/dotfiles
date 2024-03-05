@@ -1,4 +1,9 @@
-{ config, lib, pkgs, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 let
   cfg = config.belak.server;
 in
@@ -7,7 +12,5 @@ in
     enable = lib.mkEnableOption "server";
   };
 
-  config = lib.mkIf cfg.enable {
-    environment.systemPackages = with pkgs; [ molly-guard ];
-  };
+  config = lib.mkIf cfg.enable { environment.systemPackages = with pkgs; [ molly-guard ]; };
 }

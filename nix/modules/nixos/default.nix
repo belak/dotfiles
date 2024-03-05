@@ -1,4 +1,4 @@
 {
-common = import ./common.nix;
-server = import ./server.nix;
+  common = import ./common.nix;
+  server = import ./server.nix;
 }

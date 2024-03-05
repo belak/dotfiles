@@ -22,5 +22,9 @@
     };
   };
 
-  environment.systemPackages = with pkgs; [ git home-manager vim ];
+  environment.systemPackages = with pkgs; [
+    git
+    home-manager
+    vim
+  ];
 }
