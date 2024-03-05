@@ -40,7 +40,8 @@ belak-load 'belak/zsh-utils/completion'
 belak-load 'romkatv/gitstatus'
 
 # Specify additional external plugins we want
-belak-load 'rupa/z' 'z.sh'
+belak-load 'agkozak/zsh-z'
+#belak-load 'rupa/z' 'z.sh'
 #belak-load 'z-shell/f-sy-h'
 
 #
@@ -69,6 +70,7 @@ zstyle ':completion:*' list-dirs-first true
 
 alias json="python -mjson.tool"
 alias k="kubectl"
+alias j="z"
 
 # Set the default Less options.
 # Mouse-wheel scrolling has been disabled by -X (disable screen clearing).
@@ -78,9 +80,6 @@ export LESS='-F -g -i -M -R -S -w -X -z-4'
 #
 # Functions
 #
-
-# Load functions from our fpath
-autoload j
 
 gocover () {
   t="/tmp/go-cover.$$.tmp"
