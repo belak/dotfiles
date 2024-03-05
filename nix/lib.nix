@@ -22,19 +22,18 @@ rec {
       inherit system;
 
       # It's easiest to configure our unfree packages for every nixpkgs input
-      # rather than on a system-by-system basis.
+      # rather than on a system-by-system or module-by-module basis.
       config.allowUnfreePredicate =
         pkg:
         builtins.elem (nixpkgs.lib.getName pkg) [
           "android-studio-stable"
           "discord"
           "hplip"
-          "obsidian"
           "rar"
           "skypeforlinux"
         ];
 
-      config.permittedInsecurePackages = [ "electron-25.9.0" ];
+      config.permittedInsecurePackages = [ ];
 
       overlays = builtins.attrValues self.overlays;
     };
