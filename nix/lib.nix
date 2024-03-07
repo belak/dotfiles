@@ -189,13 +189,22 @@ rec {
     home-manager.lib.homeManagerConfiguration {
       pkgs = mkPkgs system nixpkgs;
 
-      modules = mkHomeModules {
-        inherit
-          system
-          hostname
-          username
-          extraHomeModules
-          ;
-      };
+      modules =
+        mkHomeModules {
+          inherit
+            system
+            hostname
+            username
+            extraHomeModules
+            ;
+        }
+        ++ [
+          {
+            # Let Home Manager install and manage itself. Note that we set this
+            # up *only* when calling mkHome because other setups should use
+            # home-manager via their nix-darwin and nixos modules.
+            programs.home-manager.enable = true;
+          }
+        ];
     };
 }
