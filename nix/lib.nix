@@ -74,7 +74,8 @@ rec {
         ++ [
           home-manager.nixosModules.home-manager
           {
-            # Use the nixos pkgs we just configured
+            # Use the nixos pkgs we just configured rather than a separate
+            # variable.
             home-manager.useGlobalPkgs = true;
             home-manager.useUserPackages = true;
           }
@@ -85,6 +86,8 @@ rec {
             (username: extraHomeModules: {
               users.users.${username}.home = "/home/${username}";
               home-manager.users.${username} = {
+                # Using the modules as "imports" should be pretty much the same
+                # thing as "modules" in a homeConfiguration.
                 imports = mkHomeModules {
                   inherit
                     system
@@ -127,7 +130,8 @@ rec {
         ++ [
           home-manager.darwinModules.home-manager
           {
-            # Use the nixos pkgs we just configured
+            # Use the nixos pkgs we just configured rather than a separate
+            # variable.
             home-manager.useGlobalPkgs = true;
             home-manager.useUserPackages = true;
           }
@@ -138,6 +142,8 @@ rec {
             (username: extraHomeModules: {
               users.users.${username}.home = "/Users/${username}";
               home-manager.users.${username} = {
+                # Using the modules as "imports" should be pretty much the same
+                # thing as "modules" in a homeConfiguration.
                 imports = mkHomeModules {
                   inherit
                     system
