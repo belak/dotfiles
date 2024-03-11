@@ -38,7 +38,7 @@ in
       ncdu
       pwgen
       ripgrep
-      #rnix-lsp
+      rnix-lsp
       tmux
       vim
       wget
@@ -47,10 +47,11 @@ in
 
       # Archive Formats
       p7zip
-      rar
+      rar # Note that confusingly rar includes unrar, but not vice versa
       unzip
 
       # Stuff to try
+      gitui
       #bat
       #neovim
     ];
