@@ -14,6 +14,9 @@ in
 
   config = lib.mkIf cfg.enable {
     home.packages = with pkgs; [
+      # TODO: most of these packages probably shouldn't be installed globally -
+      # they make more sense to install local to projects.
+
       # Various tools
       android-tools
       cloc
@@ -27,7 +30,7 @@ in
       pkg-config
       protobuf
 
-      # Packages we want more up-to-date versions of
+      # Packages we want to keep more up to date.
       unstable.kubectl
       unstable.talosctl
 

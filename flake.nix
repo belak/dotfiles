@@ -42,7 +42,7 @@
       # else there's home-manager.
       #
       # Most of our home-manager config either uses the nixos or nix-darwin
-      # modules. For everything else, we can use home-manager standalone.
+      # modules. When that isn't possible, we can use home-manager standalone.
       #
       # It's better for these to be host-specific configs, so we can still have
       # host-specific configuration, but we provide a default "belak" fallback
