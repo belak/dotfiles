@@ -35,7 +35,6 @@ in
       jq
       killall
       lftp
-      ncdu
       pwgen
       ripgrep
       rnix-lsp

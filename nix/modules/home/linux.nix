@@ -19,6 +19,7 @@ in
 
       # These packages are currently broken on macOS, so we keep them Linux-only.
       mame-tools
+      ncdu
 
       # These packages are focused on linux-only features so there's no point
       # installing them on macOS.
