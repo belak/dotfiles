@@ -43,6 +43,10 @@ in
       # Ruby
       my.rbenv
       my.ruby-build
+
+      # Podman
+      podman
+      podman-compose
     ];
   };
 }
