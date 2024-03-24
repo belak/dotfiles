@@ -32,6 +32,9 @@ in
       # We use the pure GTK variant of emacs to get better Wayland support
       emacs29-pgtk
 
+      # Packages I'm trying out
+      fractal
+
       # Packages I want more up to date
       unstable.obsidian
       unstable.prusa-slicer
