@@ -23,6 +23,7 @@
     };
   };
 
+
   outputs =
     inputs@{ nixpkgs-unstable, nixos-generators, ... }:
     let
@@ -39,6 +40,10 @@
       formatter = lib.forAllSystems (system: nixpkgs-unstable.legacyPackages.${system}.nixfmt-rfc-style);
 
       nixosConfigurations = {
+        "kupo" = lib.mkNixosSystem {
+          hostname = "kupo";
+          system = "aarch64-linux";
+        };
         "zagreus" = lib.mkNixosSystem { hostname = "zagreus"; };
         "zidane" = lib.mkNixosSystem { hostname = "zidane"; };
       };
