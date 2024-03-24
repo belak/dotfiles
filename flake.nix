@@ -44,6 +44,18 @@
           hostname = "kupo";
           system = "aarch64-linux";
         };
+        "stiltzkin" = lib.mkNixosSystem {
+          hostname = "stiltzkin";
+          system = "aarch64-linux";
+        };
+        "moguo" = lib.mkNixosSystem {
+          hostname = "moguo";
+          system = "aarch64-linux";
+        };
+        "monty" = lib.mkNixosSystem {
+          hostname = "monty";
+          system = "aarch64-linux";
+        };
         "zagreus" = lib.mkNixosSystem { hostname = "zagreus"; };
         "zidane" = lib.mkNixosSystem { hostname = "zidane"; };
       };
@@ -77,6 +89,8 @@
               (
                 { pkgs, ... }:
                 {
+                  sdImage.compressImage = false;
+
                   security.sudo.enable = true;
 
                   users.users.belak = {

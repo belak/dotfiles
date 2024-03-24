@@ -16,7 +16,7 @@
   services.openssh.enable = true;
 
   networking = {
-    hostName = "kupo";
+    hostName = "monty";
     domain = "elwert.dev";
   };
 
