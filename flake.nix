@@ -56,6 +56,8 @@
           hostname = "monty";
           system = "aarch64-linux";
         };
+        "eiko" = lib.mkNixosSystem { hostname = "eiko"; };
+        "vivi" = lib.mkNixosSystem { hostname = "vivi"; };
         "zagreus" = lib.mkNixosSystem { hostname = "zagreus"; };
         "zidane" = lib.mkNixosSystem { hostname = "zidane"; };
       };
