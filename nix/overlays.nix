@@ -10,8 +10,6 @@
       inherit (final) system;
 
       config.allowUnfreePredicate = pkg: builtins.elem (final.lib.getName pkg) [ "obsidian" ];
-
-      config.permittedInsecurePackages = [ "electron-25.9.0" ];
     };
   };
 }

@@ -171,7 +171,7 @@ rec {
     ++ [
       {
         belak = {
-          username = username;
+          inherit username;
           homeDirectory = systemHome system username;
         };
       }
