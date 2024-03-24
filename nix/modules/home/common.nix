@@ -46,6 +46,7 @@ in
       # Nix tools
       nix-index
       rnix-lsp
+      statix
 
       # Archive Formats
       p7zip
