@@ -12,5 +12,9 @@ in
     enable = lib.mkEnableOption "server";
   };
 
-  config = lib.mkIf cfg.enable { environment.systemPackages = with pkgs; [ molly-guard ]; };
+  config = lib.mkIf cfg.enable {
+    environment.systemPackages = with pkgs; [ molly-guard ];
+
+    services.openssh.enable = true;
+  };
 }
