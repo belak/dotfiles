@@ -126,6 +126,15 @@
                 {
                   imports = [ "${toString modulesPath}/installer/cd-dvd/installation-cd-minimal.nix" ];
 
+                  security.sudo.enable = true;
+
+                  users.users.belak = {
+                    isNormalUser = true;
+                    description = "Kaleb Elwert";
+                    initialPassword = "hunter2";
+                    extraGroups = [ "wheel" ];
+                  };
+
                   # Enable ssh at boot
                   services.openssh.enable = true;
 
