@@ -3,6 +3,7 @@
 private
 
 host-*
+result
 
 # vim/nvim related
 config/nvim/.netrwhist

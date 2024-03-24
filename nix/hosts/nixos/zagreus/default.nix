@@ -12,6 +12,9 @@
 
   i18n.defaultLocale = "en_US.UTF-8";
 
+  belak.dev.enable = true;
+  belak.dev.armEmulation = true;
+
   console = with pkgs; {
     earlySetup = true;
     font = "${terminus_font}/share/consolefonts/ter-114n.psf.gz";
@@ -73,8 +76,18 @@
       "wheel"
       "dialout"
     ];
-    subUidRanges = [{ startUid = 100000; count = 65536; }];
-    subGidRanges = [{ startGid = 100000; count = 65536; }];
+    subUidRanges = [
+      {
+        startUid = 100000;
+        count = 65536;
+      }
+    ];
+    subGidRanges = [
+      {
+        startGid = 100000;
+        count = 65536;
+      }
+    ];
     shell = pkgs.zsh;
   };
 

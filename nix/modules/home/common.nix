@@ -37,12 +37,15 @@ in
       lftp
       pwgen
       ripgrep
-      rnix-lsp
       tmux
       vim
       wget
       yq
       yt-dlp
+
+      # Nix tools
+      nix-index
+      rnix-lsp
 
       # Archive Formats
       p7zip
