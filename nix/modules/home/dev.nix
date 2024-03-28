@@ -18,7 +18,6 @@ in
       # they make more sense to install local to projects.
 
       # Various tools
-      android-tools
       cloc
       crane
       dos2unix
@@ -29,10 +28,6 @@ in
       picotool
       pkg-config
       protobuf
-
-      # Packages we want to keep more up to date.
-      unstable.kubectl
-      unstable.talosctl
 
       # Python
       python311

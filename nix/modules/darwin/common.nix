@@ -21,7 +21,6 @@
       "gimme"
       "go"
       "gnu-sed"
-      "spotify-tui"
 
       # We need OpenJDK for modern versions of Minecraft
       "openjdk@17"
@@ -63,10 +62,7 @@
       "standard-notes"
 
       # Stuff I'm trying out.
-      "altair-graphql-client"
-      "android-studio"
       "via"
-      "zotero"
     ];
 
     masApps = {

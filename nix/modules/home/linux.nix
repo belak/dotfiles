@@ -7,12 +7,6 @@ in
     # All tweaks in this file should be linux-specific and should be commented
     # with the reason.
     home.packages = with pkgs; [
-      # These packages break things on macOS, so we only install them in Linux.
-      #
-      # TODO: this is a dev package and we probably shouldn't install it
-      # globally.
-      clang
-
       # Partition editing should only really be done on my Linux boxes.
       exfatprogs
       parted
