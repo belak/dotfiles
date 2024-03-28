@@ -76,13 +76,7 @@ rec {
               home-manager.users.${username} = {
                 # Using the modules as "imports" should be pretty much the same
                 # thing as "modules" in a homeConfiguration.
-                imports = mkHomeModules {
-                  inherit
-                    hostname
-                    username
-                    extraHomeModules
-                    ;
-                };
+                imports = mkHomeModules { inherit hostname username extraHomeModules; };
               };
             })
             configuredUsers
@@ -141,13 +135,7 @@ rec {
               home-manager.users.${username} = {
                 # Using the modules as "imports" should be pretty much the same
                 # thing as "modules" in a homeConfiguration.
-                imports = mkHomeModules {
-                  inherit
-                    hostname
-                    username
-                    extraHomeModules
-                    ;
-                };
+                imports = mkHomeModules { inherit hostname username extraHomeModules; };
               };
             })
             configuredUsers
