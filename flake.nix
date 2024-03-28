@@ -23,9 +23,15 @@
     };
   };
 
-
   outputs =
-    inputs@{ self, nixpkgs-nixos, nixpkgs-unstable, nixos-generators, nixos-hardware, ... }:
+    inputs@{
+      self,
+      nixpkgs-nixos,
+      nixpkgs-unstable,
+      nixos-generators,
+      nixos-hardware,
+      ...
+    }:
     let
       lib = import ./nix/lib.nix inputs;
       overlays = import ./nix/overlays.nix inputs;
@@ -33,6 +39,10 @@
     {
       inherit lib;
       inherit overlays;
+
+      darwinModules.default = import ./nix/modules/darwin;
+      homeModules.default = import ./nix/modules/home;
+      nixosModules.default = import ./nix/modules/nixos;
 
       # There are a number of different formatters available: nixfmt, alejandra,
       # and nixfmt-rfc-style. As rfc-style is the "up-and-coming" format, we use
