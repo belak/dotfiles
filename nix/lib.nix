@@ -106,6 +106,16 @@ rec {
       };
     };
 
+  mkColmenaNode = node: {
+    deployment = {
+      targetHost = "${node}.elwert.dev";
+      targetUser = "root";
+    };
+
+    nixpkgs.system = self.nixosConfigurations.${node}.config.nixpkgs.system;
+    imports = self.nixosConfigurations.${node}._module.args.modules;
+  };
+
   # mkDarwinSystem is a convenience function for declaring a nix-darwin system,
   # and integrating it with home-manager.
   mkDarwinSystem =

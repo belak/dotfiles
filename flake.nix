@@ -25,7 +25,7 @@
 
 
   outputs =
-    inputs@{ nixpkgs-unstable, nixos-generators, ... }:
+    inputs@{ self, nixpkgs-nixos, nixpkgs-unstable, nixos-generators, nixos-hardware, ... }:
     let
       lib = import ./nix/lib.nix inputs;
       overlays = import ./nix/overlays.nix inputs;
@@ -73,6 +73,24 @@
       # for the most common cases.
       homeConfigurations = {
         "belak" = lib.mkHome { };
+      };
+
+      colmena = {
+        meta = {
+          nixpkgs = lib.mkPkgs "x86_64-linux" nixpkgs-nixos;
+          specialArgs = {
+            inherit nixos-hardware;
+          };
+        };
+
+        kupo = lib.mkColmenaNode "kupo";
+        stiltzkin = lib.mkColmenaNode "stiltzkin";
+        moguo = lib.mkColmenaNode "moguo";
+        monty = lib.mkColmenaNode "monty";
+
+        eiko = lib.mkColmenaNode "eiko";
+        vivi = lib.mkColmenaNode "vivi";
+        zidane = lib.mkColmenaNode "zidane";
       };
 
       packages = lib.forAllSystems (

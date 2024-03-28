@@ -13,12 +13,20 @@
 {
   imports = [
     (modulesPath + "/installer/scan/not-detected.nix")
-    nixos-hardware.nixosModules.raspberry-pi-4
+
+    # NOTE: We actually specifically avoid the Raspberry Pi 4 modules from
+    # nixos-hardware because it changes out the kernel. Sticking to mainline is
+    # generally better.
+    #
+    #nixos-hardware.nixosModules.raspberry-pi-4
   ];
 
+  # All of these modules seem to be needed in order to boot from a USB drive.
   boot.initrd.availableKernelModules = [
     "xhci_pci"
-    "uas"
+    "uas"               # usb_storage but newer
+    "pcie_brcmstb"      # needed for the PCIe bus to work
+    "reset_raspberrypi" # needed to get the VL805 USB controller firmware to load
   ];
   boot.initrd.kernelModules = [ ];
   boot.kernelModules = [ ];
@@ -32,13 +40,6 @@
   swapDevices = [ ];
 
   # Raspberry Pi 4 related tweaks
-  hardware = {
-    raspberry-pi."4".apply-overlays-dtmerge.enable = true;
-    deviceTree = {
-      enable = true;
-      filter = "*rpi-4-*.dtb";
-    };
-  };
   console.enable = false;
   environment.systemPackages = with pkgs; [
     libraspberrypi
