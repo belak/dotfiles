@@ -6,20 +6,12 @@
     hostName = "zagreus";
     domain = "elwert.dev";
     networkmanager.enable = true;
+
   };
-
-  time.timeZone = "US/Pacific";
-
-  i18n.defaultLocale = "en_US.UTF-8";
 
   belak.dev.enable = true;
   belak.dev.armEmulation = true;
-
-  console = with pkgs; {
-    earlySetup = true;
-    font = "${terminus_font}/share/consolefonts/ter-114n.psf.gz";
-    packages = [ terminus_font ];
-  };
+  belak.laptop.enable = true;
 
   # Enable fprintd for fingerprint auth. Note that this is disabled for now
   # because the gdm behavior disallows password auth.
@@ -91,16 +83,6 @@
     shell = pkgs.zsh;
   };
 
-  # We keep global packages pretty minimal - essentially only what we'd need to
-  # set up the rest of the system and stuff which can't be configured by a user.
-  environment.systemPackages = with pkgs; [
-    acpi
-    android-udev-rules
-    git
-    powertop
-    vim
-  ];
-
   environment.gnome.excludePackages =
     (with pkgs; [
       gnome-photos
@@ -117,16 +99,6 @@
       simple-scan # scanner utility
       totem # video player
     ]);
-
-  programs.zsh = {
-    enable = true;
-
-    # The default setup does a bunch of weird things so we disable all of them.
-    # This lets us properly set them up in our user-level zshrc.
-    promptInit = "";
-    setOptions = [ ];
-    enableGlobalCompInit = false;
-  };
 
   # List services that you want to enable:
 

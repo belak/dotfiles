@@ -18,23 +18,12 @@
     domain = "elwert.dev";
   };
 
-  # Set your time zone.
-  time.timeZone = "Etc/UTC";
-
   users.users.belak = {
     isNormalUser = true;
     initialPassword = "hunter2";
     description = "Kaleb Elwert";
     extraGroups = [ "wheel" ];
     shell = pkgs.zsh;
-  };
-
-  programs.zsh = {
-    enable = true;
-
-    promptInit = "";
-    setOptions = [ ];
-    enableGlobalCompInit = false;
   };
 
   # This value determines the NixOS release from which the default

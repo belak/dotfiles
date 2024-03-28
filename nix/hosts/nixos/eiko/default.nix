@@ -18,9 +18,6 @@
     domain = "elwert.dev";
   };
 
-  # Set your time zone.
-  time.timeZone = "Etc/UTC";
-
   users.users.belak = {
     isNormalUser = true;
     initialPassword = "hunter2";
@@ -28,16 +25,6 @@
     extraGroups = [ "wheel" ];
     shell = pkgs.zsh;
   };
-
-  programs.zsh = {
-    enable = true;
-
-    promptInit = "";
-    setOptions = [ ];
-    enableGlobalCompInit = false;
-  };
-
-  services.logind.lidSwitch = "ignore";
 
   # This value determines the NixOS release from which the default
   # settings for stateful data, like file locations and database versions
