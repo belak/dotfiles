@@ -36,9 +36,6 @@ rec {
       overlays = builtins.attrValues self.overlays;
     };
 
-  systemHome =
-    pkgs: username: if pkgs.stdenv.isDarwin then "/Users/${username}" else "/home/${username}";
-
   mkOptionals = check: data: if check then data else [ ];
 
   optionalFile = path: if builtins.pathExists path then [ path ] else [ ];
@@ -81,7 +78,6 @@ rec {
                 # thing as "modules" in a homeConfiguration.
                 imports = mkHomeModules {
                   inherit
-                    system
                     hostname
                     username
                     extraHomeModules
@@ -147,7 +143,6 @@ rec {
                 # thing as "modules" in a homeConfiguration.
                 imports = mkHomeModules {
                   inherit
-                    system
                     hostname
                     username
                     extraHomeModules
@@ -166,24 +161,13 @@ rec {
   # standalone.
   mkHomeModules =
     {
-      system,
       hostname,
       username,
       extraHomeModules,
     }:
     [ self.homeModules.default ]
-    ++ (mkOptionals (hostname != null) (optionalFile ./hosts/home/${hostname}.nix))
-    ++ [
-      (
-        { pkgs, ... }:
-        {
-          belak = {
-            inherit username;
-            homeDirectory = systemHome pkgs username;
-          };
-        }
-      )
-    ]
+    ++ (mkOptionals (hostname != null) (optionalFile ./users/${username}/${hostname}.nix))
+    ++ (optionalFile ./users/${username}/default.nix)
     ++ extraHomeModules;
 
   # mkHome is a convenience function for declaring a home-manager setup with our
@@ -199,22 +183,13 @@ rec {
     home-manager.lib.homeManagerConfiguration {
       pkgs = mkPkgs system nixpkgs;
 
-      modules =
-        mkHomeModules {
-          inherit
-            system
-            hostname
-            username
-            extraHomeModules
-            ;
+      modules = mkHomeModules { inherit hostname username extraHomeModules; } ++ [
+        {
+          # Let Home Manager install and manage itself. Note that we set this
+          # up *only* when calling mkHome because other setups should use
+          # home-manager via their nix-darwin and nixos modules.
+          programs.home-manager.enable = true;
         }
-        ++ [
-          {
-            # Let Home Manager install and manage itself. Note that we set this
-            # up *only* when calling mkHome because other setups should use
-            # home-manager via their nix-darwin and nixos modules.
-            programs.home-manager.enable = true;
-          }
-        ];
+      ];
     };
 }
