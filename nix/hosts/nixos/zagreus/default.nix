@@ -6,7 +6,6 @@
     hostName = "zagreus";
     domain = "elwert.dev";
     networkmanager.enable = true;
-
   };
 
   belak = {
