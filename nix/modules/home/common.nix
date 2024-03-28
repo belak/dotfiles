@@ -12,7 +12,9 @@ in
   # Any common options, used in multiple places should probably go here.
   options.belak = {
     username = lib.mkOption { default = "belak"; };
-    homeDirectory = lib.mkOption { default = self.lib.systemHome pkgs cfg.username; };
+    homeDirectory = lib.mkOption {
+      default = if pkgs.stdenv.isDarwin then "/Users/${cfg.username}" else "/home/${cfg.username}";
+    };
   };
 
   config = {
