@@ -9,9 +9,12 @@
 
   };
 
-  belak.dev.enable = true;
-  belak.dev.armEmulation = true;
-  belak.laptop.enable = true;
+  belak = {
+    dev.enable = true;
+    dev.armEmulation = true;
+    gnome.enable = true;
+    laptop.enable = true;
+  };
 
   # Enable fprintd for fingerprint auth. Note that this is disabled for now
   # because the gdm behavior disallows password auth.
@@ -21,10 +24,6 @@
   # Enable the X11 windowing system.
   services.xserver.enable = true;
   services.xserver.excludePackages = [ pkgs.xterm ];
-
-  # Enable the GNOME Desktop Environment.
-  services.xserver.displayManager.gdm.enable = true;
-  services.xserver.desktopManager.gnome.enable = true;
 
   # Configure keymap in X11
   services.xserver = {
@@ -82,23 +81,6 @@
     ];
     shell = pkgs.zsh;
   };
-
-  environment.gnome.excludePackages =
-    (with pkgs; [
-      gnome-photos
-      gnome-tour
-    ])
-    ++ (with pkgs.gnome; [
-      cheese # webcam tool
-      gnome-maps # map tool
-      gnome-music # music player
-      gedit # text editor
-      epiphany # web browser
-      geary # email reader
-      gnome-characters # font/character viewer
-      simple-scan # scanner utility
-      totem # video player
-    ]);
 
   # List services that you want to enable:
 

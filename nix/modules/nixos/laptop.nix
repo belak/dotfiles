@@ -5,7 +5,7 @@
   ...
 }:
 let
-  cfg = config.belak.server;
+  cfg = config.belak.laptop;
 in
 {
   options.belak.laptop = {
