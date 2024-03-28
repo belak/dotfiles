@@ -1,7 +1,4 @@
-{
-  pkgs,
-  ...
-}:
+{ pkgs, ... }:
 {
   belak = {
     dotfiles.enable = true;
@@ -10,9 +7,7 @@
     gui.enable = true;
   };
 
-  home.packages = with pkgs; [
-    colmena
-  ];
+  home.packages = with pkgs; [ colmena ];
 
   # This value determines the Home Manager release that your configuration is
   # compatible with. This helps avoid breakage when a new Home Manager release

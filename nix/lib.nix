@@ -8,11 +8,6 @@
   darwin,
   ...
 }@inputs:
-let
-  baseNixosModules = builtins.attrValues (import ./modules/nixos);
-  baseDarwinModules = builtins.attrValues (import ./modules/darwin);
-  baseHomeModules = builtins.attrValues (import ./modules/home);
-in
 rec {
   forAllSystems = nixpkgs-unstable.lib.genAttrs nixpkgs-unstable.lib.systems.flakeExposed;
 
@@ -42,15 +37,11 @@ rec {
     };
 
   systemHome =
-    system: username: if isDarwin system then "/Users/${username}" else "/home/${username}";
+    pkgs: username: if pkgs.stdenv.isDarwin then "/Users/${username}" else "/home/${username}";
 
   mkOptionals = check: data: if check then data else [ ];
 
   optionalFile = path: if builtins.pathExists path then [ path ] else [ ];
-
-  isDarwin = system: builtins.elem system nixpkgs-darwin.lib.platforms.darwin;
-
-  isLinux = system: builtins.elem system nixpkgs-nixos.lib.platforms.linux;
 
   # mkNixosSystem is a convenience function for declaring a nixos system,
   # and integrating it with home-manager.
@@ -70,8 +61,8 @@ rec {
       pkgs = mkPkgs system nixpkgs;
 
       modules =
-        baseNixosModules
-        ++ [
+        [
+          self.nixosModules.default
           home-manager.nixosModules.home-manager
           {
             # Use the nixos pkgs we just configured rather than a separate
@@ -82,21 +73,23 @@ rec {
         ]
         ++ (optionalFile ./hosts/nixos/${hostname})
         ++ builtins.attrValues (
-          builtins.mapAttrs (username: extraHomeModules: {
-            users.users.${username}.home = "/home/${username}";
-            home-manager.users.${username} = {
-              # Using the modules as "imports" should be pretty much the same
-              # thing as "modules" in a homeConfiguration.
-              imports = mkHomeModules {
-                inherit
-                  system
-                  hostname
-                  username
-                  extraHomeModules
-                  ;
+          builtins.mapAttrs
+            (username: extraHomeModules: {
+              users.users.${username}.home = "/home/${username}";
+              home-manager.users.${username} = {
+                # Using the modules as "imports" should be pretty much the same
+                # thing as "modules" in a homeConfiguration.
+                imports = mkHomeModules {
+                  inherit
+                    system
+                    hostname
+                    username
+                    extraHomeModules
+                    ;
+                };
               };
-            };
-          }) configuredUsers
+            })
+            configuredUsers
         )
         ++ extraNixosModules;
 
@@ -134,8 +127,8 @@ rec {
       pkgs = mkPkgs system nixpkgs;
 
       modules =
-        baseDarwinModules
-        ++ [
+        [
+          self.darwinModules.default
           home-manager.darwinModules.home-manager
           {
             # Use the nixos pkgs we just configured rather than a separate
@@ -146,21 +139,23 @@ rec {
         ]
         ++ (mkOptionals (hostname != null) (optionalFile ./hosts/darwin/${hostname}.nix))
         ++ builtins.attrValues (
-          builtins.mapAttrs (username: extraHomeModules: {
-            users.users.${username}.home = "/Users/${username}";
-            home-manager.users.${username} = {
-              # Using the modules as "imports" should be pretty much the same
-              # thing as "modules" in a homeConfiguration.
-              imports = mkHomeModules {
-                inherit
-                  system
-                  hostname
-                  username
-                  extraHomeModules
-                  ;
+          builtins.mapAttrs
+            (username: extraHomeModules: {
+              users.users.${username}.home = "/Users/${username}";
+              home-manager.users.${username} = {
+                # Using the modules as "imports" should be pretty much the same
+                # thing as "modules" in a homeConfiguration.
+                imports = mkHomeModules {
+                  inherit
+                    system
+                    hostname
+                    username
+                    extraHomeModules
+                    ;
+                };
               };
-            };
-          }) configuredUsers
+            })
+            configuredUsers
         )
         ++ extraDarwinModules;
     };
@@ -176,15 +171,18 @@ rec {
       username,
       extraHomeModules,
     }:
-    baseHomeModules
+    [ self.homeModules.default ]
     ++ (mkOptionals (hostname != null) (optionalFile ./hosts/home/${hostname}.nix))
     ++ [
-      {
-        belak = {
-          inherit username;
-          homeDirectory = systemHome system username;
-        };
-      }
+      (
+        { pkgs, ... }:
+        {
+          belak = {
+            inherit username;
+            homeDirectory = systemHome pkgs username;
+          };
+        }
+      )
     ]
     ++ extraHomeModules;
 

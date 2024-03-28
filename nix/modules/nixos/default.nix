@@ -1,5 +1,7 @@
 {
-  common = import ./common.nix;
-  dev = import ./dev.nix;
-  server = import ./server.nix;
+  imports = [
+    ./common.nix
+    ./dev.nix
+    ./server.nix
+  ];
 }

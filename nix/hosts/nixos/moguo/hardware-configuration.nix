@@ -24,8 +24,8 @@
   # All of these modules seem to be needed in order to boot from a USB drive.
   boot.initrd.availableKernelModules = [
     "xhci_pci"
-    "uas"               # usb_storage but newer
-    "pcie_brcmstb"      # needed for the PCIe bus to work
+    "uas" # usb_storage but newer
+    "pcie_brcmstb" # needed for the PCIe bus to work
     "reset_raspberrypi" # needed to get the VL805 USB controller firmware to load
   ];
   boot.initrd.kernelModules = [ ];
