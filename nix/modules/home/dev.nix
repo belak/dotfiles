@@ -25,6 +25,7 @@ in
       exiftool
       gnumake
       imagemagick
+      mdbook
       picotool
       pkg-config
       protobuf
