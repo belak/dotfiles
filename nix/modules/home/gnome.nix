@@ -57,31 +57,27 @@ in
       # Keybinds
       "org/gnome/desktop/wm/keybindings" = lib.listToAttrs (
         lib.concatLists (
-          map
-            (n: [
-              {
-                name = "move-to-workspace-${toString n}";
-                value = [ "<Super><Shift>${toString n}" ];
-              }
-              {
-                name = "switch-to-workspace-${toString n}";
-                value = [ "<Super>${toString n}" ];
-              }
-            ])
-            (lib.range 1 9)
+          map (n: [
+            {
+              name = "move-to-workspace-${toString n}";
+              value = [ "<Super><Shift>${toString n}" ];
+            }
+            {
+              name = "switch-to-workspace-${toString n}";
+              value = [ "<Super>${toString n}" ];
+            }
+          ]) (lib.range 1 9)
         )
       );
 
       "org/gnome/shell/keybindings" = lib.listToAttrs (
         lib.concatLists (
-          map
-            (n: [
-              {
-                name = "switch-to-application-${toString n}";
-                value = [ ];
-              }
-            ])
-            (lib.range 1 9)
+          map (n: [
+            {
+              name = "switch-to-application-${toString n}";
+              value = [ ];
+            }
+          ]) (lib.range 1 9)
         )
       );
     };

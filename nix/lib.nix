@@ -70,16 +70,14 @@ rec {
         ]
         ++ (optionalFile ./hosts/nixos/${hostname})
         ++ builtins.attrValues (
-          builtins.mapAttrs
-            (username: extraHomeModules: {
-              users.users.${username}.home = "/home/${username}";
-              home-manager.users.${username} = {
-                # Using the modules as "imports" should be pretty much the same
-                # thing as "modules" in a homeConfiguration.
-                imports = mkHomeModules { inherit hostname username extraHomeModules; };
-              };
-            })
-            configuredUsers
+          builtins.mapAttrs (username: extraHomeModules: {
+            users.users.${username}.home = "/home/${username}";
+            home-manager.users.${username} = {
+              # Using the modules as "imports" should be pretty much the same
+              # thing as "modules" in a homeConfiguration.
+              imports = mkHomeModules { inherit hostname username extraHomeModules; };
+            };
+          }) configuredUsers
         )
         ++ extraNixosModules;
 
@@ -129,16 +127,14 @@ rec {
         ]
         ++ (mkOptionals (hostname != null) (optionalFile ./hosts/darwin/${hostname}.nix))
         ++ builtins.attrValues (
-          builtins.mapAttrs
-            (username: extraHomeModules: {
-              users.users.${username}.home = "/Users/${username}";
-              home-manager.users.${username} = {
-                # Using the modules as "imports" should be pretty much the same
-                # thing as "modules" in a homeConfiguration.
-                imports = mkHomeModules { inherit hostname username extraHomeModules; };
-              };
-            })
-            configuredUsers
+          builtins.mapAttrs (username: extraHomeModules: {
+            users.users.${username}.home = "/Users/${username}";
+            home-manager.users.${username} = {
+              # Using the modules as "imports" should be pretty much the same
+              # thing as "modules" in a homeConfiguration.
+              imports = mkHomeModules { inherit hostname username extraHomeModules; };
+            };
+          }) configuredUsers
         )
         ++ extraDarwinModules;
     };
