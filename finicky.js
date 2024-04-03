@@ -19,18 +19,6 @@ module.exports = {
       browser: "us.zoom.xos"
     },
     {
-      // Open any link from Discord in Firefox
-      match: ({opener}) =>
-          ["com.hnc.Discord"].includes(opener.bundleId),
-      browser: "Firefox"
-    },
-    {
-      // Open any link from Slack in Google Chrome
-      match: ({opener}) =>
-          ["com.tinyspeck.slackmacgap"].includes(opener.bundleId),
-      browser: "Google Chrome"
-    },
-    {
       // Force Spotify links to actually open in the Spotify app
       match: finicky.matchDomains("open.spotify.com"),
       browser: "Spotify"
@@ -67,7 +55,19 @@ module.exports = {
         'github.com/seabird-chat/*'
       ],
       browser: 'Firefox'
-    }
+    },
+    {
+      // Open any link from Slack which doesn't match the above rules in Google Chrome. This allows us to have specific URLs opened in specific browsers and fall back to checking based on
+      match: ({opener}) =>
+          ["com.tinyspeck.slackmacgap"].includes(opener.bundleId),
+      browser: "Google Chrome"
+    },
+    {
+      // Open any link from Discord in Firefox
+      match: ({opener}) =>
+          ["com.hnc.Discord"].includes(opener.bundleId),
+      browser: "Firefox"
+    },
   ],
 
   rewrite: [
