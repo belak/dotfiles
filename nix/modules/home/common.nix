@@ -47,6 +47,7 @@ in
 
       # Nix tools
       nix-index
+      #rippkgs
       rnix-lsp
       statix
 
@@ -57,6 +58,7 @@ in
 
       # Stuff to try
       gitui
+      ncspot
       #bat
       #neovim
     ];

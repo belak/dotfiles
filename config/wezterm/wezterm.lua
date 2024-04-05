@@ -55,6 +55,11 @@ local config = {
   -- Revert to the old tab bar style
   use_fancy_tab_bar = false,
 
+  -- Hide the tab-bar if there's only one application. Sometimes I use terminal
+  -- applications, and it works well to hide the tab-bar if I'm using wezterm
+  -- as an application window.
+  hide_tab_bar_if_only_one_tab = true,
+
   -- None of the color schemes quite match the default Linux colors, so we
   -- define our own.
   color_scheme = "Linux",
