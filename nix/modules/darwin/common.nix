@@ -89,6 +89,14 @@
     warn-dirty = false;
   };
 
+  system.defaults = {
+    CustomUserPreferences = {
+      "com.apple.finder" = {
+        "_FXSortFoldersFirst" = true;
+      };
+    };
+  };
+
   programs.zsh = {
     enable = true;
 
