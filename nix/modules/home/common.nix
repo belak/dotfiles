@@ -40,6 +40,7 @@ in
       pwgen
       ripgrep
       tmux
+      tree
       vim
       wget
       yq
