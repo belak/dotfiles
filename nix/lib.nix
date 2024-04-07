@@ -31,7 +31,7 @@ rec {
           "skypeforlinux"
         ];
 
-      config.permittedInsecurePackages = [ ];
+      config.permittedInsecurePackages = [ "nix-2.15.3" ];
 
       overlays = builtins.attrValues self.overlays;
     };
