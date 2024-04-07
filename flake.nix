@@ -1,4 +1,5 @@
 {
+
   description = "Belak's Polyglot Nix configuration";
 
   inputs = {
