@@ -9,11 +9,7 @@
     # relevant config files.
     onActivation.cleanup = "zap";
 
-    taps = [
-      "d12frosted/emacs-plus"
-      "goreleaser/tap"
-      "homebrew/cask-fonts"
-    ];
+    taps = [ "homebrew/cask-fonts" ];
 
     brews = [
       "cbindgen"
@@ -24,15 +20,6 @@
 
       # We need OpenJDK for modern versions of Minecraft
       "openjdk@17"
-
-      # Frustratingly, emacs-plus doesn't properly specify gcc as a build
-      # dependency, so without this, the brew install fails.
-      "gcc"
-
-      {
-        name = "d12frosted/emacs-plus/emacs-plus@29";
-        args = [ "with-native-comp" ];
-      }
     ];
 
     casks = [
@@ -73,7 +60,6 @@
       Things = 904280696;
 
       # Stuff I'm trying out
-      Mela = 1568924476;
       MusicBox = 1614730313;
     };
   };

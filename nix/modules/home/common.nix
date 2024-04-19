@@ -46,8 +46,13 @@ in
       yq
       yt-dlp
 
+      # We use the pure GTK variant of emacs to get better Wayland support. Thankfully
+      # it also works on macOS.
+      emacs29-pgtk
+
       # Nix tools
       nix-index
+      nix-tree
       #rippkgs
       rnix-lsp
       statix
