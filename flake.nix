@@ -104,11 +104,9 @@
         zidane = lib.mkColmenaNode "zidane";
       };
 
-      packages = lib.forAllSystems (
-        system: {
-          rpi-bootstrap-image = import ./nix/pkgs/rpi-bootstrap-image.nix inputs;
-          install-iso-minimal = import ./nix/pkgs/install-iso-minimal.nix inputs;
-        }
-      );
+      packages = lib.forAllSystems (system: {
+        rpi-bootstrap-image = import ./nix/pkgs/rpi-bootstrap-image.nix inputs;
+        install-iso-minimal = import ./nix/pkgs/install-iso-minimal.nix inputs;
+      });
     };
 }

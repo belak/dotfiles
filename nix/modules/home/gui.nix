@@ -29,9 +29,6 @@ in
       my.trekscii
       my.wezterm-bin
 
-      # We use the pure GTK variant of emacs to get better Wayland support
-      emacs29-pgtk
-
       # Packages I'm trying out
       fractal
 

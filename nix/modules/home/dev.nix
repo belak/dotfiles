@@ -43,6 +43,9 @@ in
       # Podman
       podman
       podman-compose
+
+      # Packages I'm trying out
+      unstable.jj
     ];
   };
 }
