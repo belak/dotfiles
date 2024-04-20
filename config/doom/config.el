@@ -1,82 +1,32 @@
 ;;; $DOOMDIR/config.el -*- lexical-binding: t; -*-
 
-;; Additional useful defines not included in Doom proper.
+;;
+;;; Constants
+
+;; Additional useful defines not included in Doom proper. Even though doom has
+;; moved away from `IS-MAC' and `IS-LINUX', this is still the clearest way to
+;; express it.
 (defconst IS-GUI (display-graphic-p))
 
-;; Some functionality uses this to identify you, e.g. GPG configuration, email
-;; clients, file templates and snippets.
+
+;;
+;;; Settings
+
 (setq user-full-name    "Kaleb Elwert"
       user-mail-address "belak@coded.io")
-
-;; UI
-(cond
-  (IS-MAC
-    (setq doom-font                (font-spec :family "Monaco")
-          doom-variable-pitch-font (font-spec :family "Monaco")))
-  (IS-LINUX
-    (setq doom-font                (font-spec :family "Terminus" :size 12.0)
-          doom-variable-pitch-font (font-spec :family "Terminus" :size 12.0))))
-
-;; Set the theme to be loaded
-(setq doom-theme 'modus-vivendi)
-
-;; Tweak a number of things about the mous themes to my preferences.
-(setq modus-themes-no-mixed-fonts t
-      modus-themes-fringes        'subtle
-      modus-themes-lang-checkers  '(background straight-underline text-also)
-      modus-themes-mode-line      '(accented borderless)
-      modus-themes-prompts        '(background))
-
-;; Italics look pretty rough in most terminals (at least with the fonts I use),
-;; so we make sure they're only enabled if we have a full GUI.
-(when IS-GUI
-  (setq modus-themes-italic-constructs t))
-
-;; Disable icons in the modeline - this makes it a little smaller and causes it
-;; to use normal characters instead.
-(setq doom-modeline-icon nil
-      doom-modeline-buffer-file-name-style 'truncate-upto-root)
-
-;; This determines the style of line numbers in effect. If set to `nil', line
-;; numbers are disabled. For relative line numbers, set this to `relative'.
-(setq display-line-numbers-type 'relative)
-
-;; If you use `org' and don't want your org files in the default location below,
-;; change `org-directory'. It must be set before org loads!
-(setq org-directory "~/org/")
 
 ;; The default style for uniquifying buffer names is strange, so we change it to
 ;; something more useful.
 (setq uniquify-buffer-name-style  'forward
       uniquify-strip-common-suffix nil)
 
-;; Load zap-up-to-char and define reverse-zap-up-to-char to be used in keybinds
-;; below.
-(autoload 'zap-up-to-char "misc" "" 'interactive)
+;; Don't make distinctions between ASCII and siblings (like a and a with an
+;; umlaut) when searching.
+(setq search-default-mode 'char-fold-to-regexp)
 
-(defun reverse-zap-up-to-char (char)
-  "Zap back to CHAR."
-  (interactive "Zap back to char: ")
-  (zap-up-to-char -1 char))
-
-;; Fix up a number of keybinds which have strange behaviors.
-(map!
- ;; Allow C-a and C-e to work in normal mode as well.
- ;; TODO: make sure they also enter insert mode
- :n "C-a" #'doom/backward-to-bol-or-indent
- :n "C-e" #'doom/forward-to-last-non-comment-or-eol
-
- ;; Replace zap-to-char with zap-up-to-char because I find it easier to grok.
- :g [remap zap-to-char] #'zap-up-to-char
- :g "M-S-z"             #'reverse-zap-up-to-char
-
- ;; Make home and end do the same thing as C-a/C-e rather than going to the
- ;; beginning/end of a buffer.
- :g "<home>" #'doom/backward-to-bol-or-indent
- :g "<end>"  #'doom/forward-to-last-non-comment-or-eol)
-
-;;(after! ido
-;;  (setq ido-use-virtual-buffers t))
+;; If you use `org' and don't want your org files in the default location below,
+;; change `org-directory'. It must be set before org loads!
+(setq org-directory "~/org/")
 
 (after! org
   (setq org-support-shift-select t           ; Re-enable shift-select
@@ -90,7 +40,91 @@
         org-log-refile t                 ; TODO: ensure this works
         org-agenda-dim-blocked-tasks t)) ; Make tasks in the blocked state dim
 
-;; By default this is only `literal' and `regexp'. We add `flex' to make it more
-;; like the other options.
-(after! orderless
-  (setq orderless-matching-styles '(orderless-literal orderless-flex orderless-regexp)))
+
+;;
+;;; UI
+
+(setq doom-theme 'modus-vivendi)
+
+(cond
+ ((featurep :system 'macos)
+  (setq doom-font                (font-spec :family "Monaco")
+        doom-variable-pitch-font (font-spec :family "Monaco")))
+ ((featurep :system 'linux)
+  (setq doom-font                (font-spec :family "Terminus" :size 12.0)
+        doom-variable-pitch-font (font-spec :family "Terminus" :size 12.0))))
+
+;; Italics look pretty rough in most terminals (at least with the fonts I use),
+;; so we make sure they're only enabled if we have a full GUI.
+(when IS-GUI
+  (setq modus-themes-italic-constructs t))
+
+;; Disable icons in the modeline - this makes it a little smaller and causes it
+;; to use normal characters instead.
+(setq doom-modeline-icon nil)
+
+;; Use relative line numbers rather than absolute.
+(setq display-line-numbers-type 'relative)
+
+
+;;
+;;; Utility Functions
+
+(defun belak--unfill-paragraph (&optional region)
+  "Takes a multi-line paragraph and makes it into a single line of text."
+  (interactive)
+  (barf-if-buffer-read-only)
+  (let ((fill-column (point-max)))
+    (fill-paragraph nil region)))
+
+(defun belak--eval-region-or-buffer ()
+  (interactive)
+  (if (region-active-p)
+      (eval-region (region-beginning) (region-end))
+    (eval-buffer)))
+
+;; Load zap-up-to-char and define reverse-zap-up-to-char to be used in keybinds
+;; below.
+(autoload 'zap-up-to-char "misc" "" 'interactive)
+
+(defun reverse-zap-up-to-char (char)
+  "Zap back to CHAR."
+  (interactive "Zap back to char: ")
+  (zap-up-to-char -1 char))
+
+
+;;
+;;; Keybinds
+
+;; Fix up a number of keybinds which have strange behaviors.
+(map!
+ ;; I've never needed the font panel in Emacs, and even if I did I wouldn't want
+ ;; it bound to this.
+ :g "s-t" nil
+
+ ;; It's far more useful than you'd expect to be able to easily evaluate a
+ ;; region or buffer of code, especially when developing Emacs pacakges.
+ :g "C-c :" #'belak--eval-region-or-buffer
+
+ ;; There doesn't seem to be a decent default for contract-region, so we set one.
+ :g "C-+" #'er/contract-region
+
+ ;; Allow M-S-q to undo M-q
+ :g "M-Q" #'belak--unfill-paragraph
+
+ ;; Prevent accidental usage of `list-buffers'
+ :g "C-x C-b" #'switch-to-buffer
+
+ ;; Allow C-a and C-e to work in normal mode as well.
+ ;; TODO: make sure they also enter insert mode
+ :n "C-a" #'doom/backward-to-bol-or-indent
+ :n "C-e" #'doom/forward-to-last-non-comment-or-eol
+
+ ;; Replace zap-to-char with zap-up-to-char because I find it easier to grok.
+ :g [remap zap-to-char] #'zap-up-to-char
+ :g "M-S-z"             #'reverse-zap-up-to-char
+
+ ;; Make home and end do the same thing as C-a/C-e rather than going to the
+ ;; beginning/end of a buffer.
+ :g "<home>" #'doom/backward-to-bol-or-indent
+ :g "<end>"  #'doom/forward-to-last-non-comment-or-eol)

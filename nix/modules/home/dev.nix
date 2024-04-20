@@ -19,6 +19,7 @@ in
 
       # Various tools
       cloc
+      cmake
       crane
       dos2unix
       editorconfig-core-c
@@ -29,6 +30,22 @@ in
       picotool
       pkg-config
       protobuf
+      shellcheck
+      shfmt
+      stylelint
+
+      poetry
+      pipenv
+      python3Packages.pyflakes
+      python3Packages.isort
+      python3Packages.nose
+      python3Packages.black
+      nodePackages.js-beautify
+
+      # Go
+      go
+      gore
+      gotests
 
       # Python
       python311
@@ -43,6 +60,10 @@ in
       # Podman
       podman
       podman-compose
+
+      # Zig
+      zig
+      zls
 
       # Packages I'm trying out
       unstable.jj

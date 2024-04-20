@@ -19,6 +19,7 @@ path=(
     "/Applications/Visual Studio Code.app/Contents/Resources/app/bin"
     "$GOPATH/bin"
     "$VOLTA_HOME/bin"
+    "$HOME/.config/emacs/bin"
     "$HOME/.cargo/bin"
     "$HOME/.emacs.d/bin"
     "$HOME/.poetry/bin"
