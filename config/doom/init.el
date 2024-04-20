@@ -36,7 +36,7 @@
        ;;(emoji +unicode)  ; 🙂
        hl-todo           ; highlight TODO/FIXME/NOTE/DEPRECATED/HACK/REVIEW
        ;;hydra
-       indent-guides     ; highlighted indent columns
+       ;;indent-guides     ; highlighted indent columns
        ;;ligatures         ; ligatures and symbols to make your code pretty again
        ;;minimap           ; show a map of the code on the side
        modeline          ; snazzy, Atom-inspired modeline, plus API
@@ -106,7 +106,7 @@
        ;;taskrunner        ; taskrunner for all your projects
        ;;terraform         ; infrastructure as code
        ;;tmux              ; an API for interacting with tmux
-       ;;tree-sitter       ; syntax and parsing, sitting in a tree...
+       tree-sitter       ; syntax and parsing, sitting in a tree...
        ;;upload            ; map local to remote projects via ssh/ftp
 
        :os
@@ -137,15 +137,19 @@
        ;;fstar             ; (dependent) types and (monadic) effects and Z3
        ;;gdscript          ; the language you waited for
        (go               ; the hipster dialect
-        +lsp)
+        +lsp
+        +tree-sitter)
        ;;(graphql +lsp)    ; Give queries a REST
        ;;(haskell +lsp)    ; a language that's lazier than I am
        ;;hy                ; readability of scheme w/ speed of python
        ;;idris             ; a language you can depend on
-       json              ; At least it ain't XML
+       (json             ; At least it ain't XML
+        +lsp
+        +tree-sitter)
        ;;(java +lsp)       ; the poster child for carpal tunnel syndrome
-       (javascript        ; all(hope(abandon(ye(who(enter(here))))))
-        +lsp)
+       (javascript       ; all(hope(abandon(ye(who(enter(here))))))
+        +lsp
+        +tree-sitter)
        ;;julia             ; a better, faster MATLAB
        ;;kotlin            ; a better, slicker Java(Script)
        ;;latex             ; writing papers in Emacs has never been so fun
@@ -155,7 +159,8 @@
        markdown          ; writing docs for people to ignore
        ;;nim               ; python + lisp at the speed of c
        (nix              ; I hereby declare "nix geht mehr!"
-        +lsp)
+        +lsp
+        +tree-sitter)
        ;;ocaml             ; an objective camel
        org               ; organize your plain life in plain text
        ;;php               ; perl's insecure younger brother
@@ -163,7 +168,8 @@
        ;;purescript        ; javascript, but functional
        (python           ; beautiful is better than ugly
         +lsp
-        +poetry)
+        +poetry
+        +tree-sitter)
        ;;qt                ; the 'cutest' gui framework ever
        ;;racket            ; a DSL for DSLs
        ;;raku              ; the artist formerly known as perl6
@@ -171,7 +177,8 @@
        ;;rst               ; ReST in peace
        ;;(ruby +rails)     ; 1.step {|i| p "Ruby is #{i.even? ? 'love' : 'life'}"}
        (rust             ; Fe2O3.unwrap().unwrap().unwrap().unwrap()
-        +lsp)
+        +lsp
+        +tree-sitter)
        ;;scala             ; java, but good
        ;;(scheme +guile)   ; a fully conniving family of lisps
        sh                ; she sells {ba,z,fi}sh shells on the C xor
@@ -179,10 +186,13 @@
        ;;solidity          ; do you need a blockchain? No.
        ;;swift             ; who asked for emoji variables?
        ;;terra             ; Earth and Moon in alignment for performance.
-       web               ; the tubes
+       (web              ; the tubes
+        +lsp
+        +tree-sitter)
        yaml              ; JSON, but readable
        (zig              ; C, but simpler
-        +lsp)
+        +lsp
+        +tree-sitter)
 
        :email
        ;;(mu4e +org +gmail)
