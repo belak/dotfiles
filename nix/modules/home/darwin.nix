@@ -6,7 +6,11 @@
 }:
 {
   config = lib.mkIf pkgs.stdenv.isDarwin {
-    home.packages = with pkgs; [ mkalias ];
+    home.packages = with pkgs; [
+      coreutils-prefixed
+      gnugrep
+      mkalias
+    ];
 
     # This is a hack adapted from https://github.com/LnL7/nix-darwin/issues/214#issuecomment-2048491929
     # which creates aliases for home-manager applications, allowing them
