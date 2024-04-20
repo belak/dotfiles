@@ -40,6 +40,9 @@
         org-log-refile t                 ; TODO: ensure this works
         org-agenda-dim-blocked-tasks t)) ; Make tasks in the blocked state dim
 
+(after! nix-mode
+  (setq nix-nixfmt-bin "alejandra"))
+
 
 ;;
 ;;; UI

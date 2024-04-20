@@ -34,6 +34,10 @@ in
       shfmt
       stylelint
 
+      alejandra
+      nixfmt
+      #nixfmt-rfc-style
+
       poetry
       pipenv
       python3Packages.pyflakes
