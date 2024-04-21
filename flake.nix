@@ -43,12 +43,6 @@
     {
       inherit lib;
 
-      cache = {
-        pkgs = lib.forAllSystems (
-          system: lib.mkPkgs system nixpkgs-nixos (builtins.attrValues self.overlays)
-        );
-      };
-
       overlays = import ./nix/overlays.nix inputs;
       darwinModules.default = import ./nix/modules/darwin;
       homeModules.default = import ./nix/modules/home;
