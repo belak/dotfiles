@@ -1,6 +1,12 @@
 { pkgs, ... }:
 {
-  imports = [ ./hardware-configuration.nix ];
+  imports = [
+    # Include the results of the hardware scan.
+    ./hardware-configuration.nix
+
+    # Users
+    ../belak.nix
+  ];
 
   networking = {
     hostName = "zagreus";
@@ -56,29 +62,6 @@
     alsa.enable = true;
     alsa.support32Bit = true;
     pulse.enable = true;
-  };
-
-  users.users.belak = {
-    isNormalUser = true;
-    description = "Kaleb Elwert";
-    extraGroups = [
-      "networkmanager"
-      "wheel"
-      "dialout"
-    ];
-    subUidRanges = [
-      {
-        startUid = 100000;
-        count = 65536;
-      }
-    ];
-    subGidRanges = [
-      {
-        startGid = 100000;
-        count = 65536;
-      }
-    ];
-    shell = pkgs.zsh;
   };
 
   # List services that you want to enable:

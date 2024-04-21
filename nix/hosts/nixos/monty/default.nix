@@ -6,6 +6,9 @@
   imports = [
     # Include the results of the hardware scan.
     ./hardware-configuration.nix
+
+    # Users
+    ../belak.nix
   ];
 
   boot.loader.grub.enable = false;
@@ -16,14 +19,6 @@
   networking = {
     hostName = "monty";
     domain = "elwert.dev";
-  };
-
-  users.users.belak = {
-    isNormalUser = true;
-    initialPassword = "hunter2";
-    description = "Kaleb Elwert";
-    extraGroups = [ "wheel" ];
-    shell = pkgs.zsh;
   };
 
   # This value determines the NixOS release from which the default

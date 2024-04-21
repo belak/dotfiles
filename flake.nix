@@ -54,26 +54,51 @@
       formatter = lib.forAllSystems (system: nixpkgs-unstable.legacyPackages.${system}.nixfmt-rfc-style);
 
       nixosConfigurations = {
+        # Raspberry Pis
         "kupo" = lib.mkNixosSystem {
           hostname = "kupo";
           system = "aarch64-linux";
+          modules = [ ./nix/hosts/nixos/kupo ];
         };
         "stiltzkin" = lib.mkNixosSystem {
           hostname = "stiltzkin";
           system = "aarch64-linux";
+          modules = [ ./nix/hosts/nixos/stiltzkin ];
         };
         "moguo" = lib.mkNixosSystem {
           hostname = "moguo";
           system = "aarch64-linux";
+          modules = [ ./nix/hosts/nixos/moguo ];
         };
         "monty" = lib.mkNixosSystem {
           hostname = "monty";
           system = "aarch64-linux";
+          modules = [ ./nix/hosts/nixos/monty ];
         };
-        "eiko" = lib.mkNixosSystem { hostname = "eiko"; };
-        "vivi" = lib.mkNixosSystem { hostname = "vivi"; };
-        "zagreus" = lib.mkNixosSystem { hostname = "zagreus"; };
-        "zidane" = lib.mkNixosSystem { hostname = "zidane"; };
+
+        # ThinkCentre M93p
+        "eiko" = lib.mkNixosSystem {
+          hostname = "eiko";
+          modules = [ ./nix/hosts/nixos/eiko ];
+        };
+
+        # Intel NUC7i7DNHE
+        "vivi" = lib.mkNixosSystem {
+          hostname = "vivi";
+          modules = [ ./nix/hosts/nixos/vivi ];
+        };
+
+        # Primary Laptop (ThinkPad T14 Gen 1)
+        "zagreus" = lib.mkNixosSystem {
+          hostname = "zagreus";
+          modules = [ ./nix/hosts/nixos/zagreus ];
+        };
+
+        # Old Laptop (ThinkPad T460)
+        "zidane" = lib.mkNixosSystem {
+          hostname = "zidane";
+          modules = [ ./nix/hosts/nixos/zidane ];
+        };
       };
 
       # There are some things nixos and nix-darwin can't provide; for everything

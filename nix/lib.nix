@@ -12,7 +12,14 @@ let
   );
 in
 rec {
-  forAllSystems = nixpkgs-nixos.lib.genAttrs nixpkgs-nixos.lib.systems.flakeExposed;
+  # We could use nixpkgs-nixos.lib.systems.flakeExposed, but I prefer to only
+  # expose architectures I use this on.
+  forAllSystems = nixpkgs-nixos.lib.genAttrs [
+    "aarch64-linux"
+    "x86_64-linux"
+    "aarch64-darwin"
+    #"x86_64-darwin"
+  ];
 
   mkPkgs =
     system: nixpkgs: overlays:
@@ -43,11 +50,11 @@ rec {
   mkNixosSystem =
     {
       hostname,
+      modules,
       system ? "x86_64-linux",
       configuredUsers ? {
         "belak" = [ ];
       },
-      extraNixosModules ? [ ],
     }:
     nixpkgs-nixos.lib.nixosSystem {
       inherit system;
@@ -65,7 +72,6 @@ rec {
             home-manager.useUserPackages = true;
           }
         ]
-        ++ (optionalFile ./hosts/nixos/${hostname})
         ++ builtins.attrValues (
           builtins.mapAttrs (username: extraHomeModules: {
             users.users.${username}.home = "/home/${username}";
@@ -76,7 +82,7 @@ rec {
             };
           }) configuredUsers
         )
-        ++ extraNixosModules;
+        ++ modules;
 
       # Pass extra inputs through to all modules.
       specialArgs = {
