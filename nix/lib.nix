@@ -1,39 +1,32 @@
 {
   self,
   nixpkgs-nixos,
-  nixpkgs-darwin,
-  nixpkgs-unstable,
   nixos-hardware,
   home-manager,
   darwin,
   ...
 }@inputs:
 rec {
-  forAllSystems = nixpkgs-unstable.lib.genAttrs nixpkgs-unstable.lib.systems.flakeExposed;
+  forAllSystems = nixpkgs-nixos.lib.genAttrs nixpkgs-nixos.lib.systems.flakeExposed;
 
   mkPkgs =
-    system: nixpkgs:
+    system: nixpkgs: overlays:
     import nixpkgs {
       inherit system;
+      inherit overlays;
 
-      # It's easiest to configure our unfree packages for every nixpkgs input
-      # rather than on a system-by-system or module-by-module basis.
-      #
-      # Note that confusingly unstable packages are configured in the unstable
-      # overlay, not here.
       config.allowUnfreePredicate =
         pkg:
         builtins.elem (nixpkgs.lib.getName pkg) [
           "android-studio-stable"
           "discord"
           "hplip"
+          "obsidian"
           "rar"
           "skypeforlinux"
         ];
 
       config.permittedInsecurePackages = [ "nix-2.15.3" ];
-
-      overlays = builtins.attrValues self.overlays;
     };
 
   mkOptionals = check: data: if check then data else [ ];
@@ -45,17 +38,16 @@ rec {
   mkNixosSystem =
     {
       hostname,
-      nixpkgs ? nixpkgs-nixos,
       system ? "x86_64-linux",
       configuredUsers ? {
         "belak" = [ ];
       },
       extraNixosModules ? [ ],
     }:
-    nixpkgs.lib.nixosSystem {
+    nixpkgs-nixos.lib.nixosSystem {
       inherit system;
 
-      pkgs = mkPkgs system nixpkgs;
+      pkgs = self.cache.pkgs.${system};
 
       modules =
         [
@@ -101,7 +93,6 @@ rec {
   # and integrating it with home-manager.
   mkDarwinSystem =
     {
-      nixpkgs ? nixpkgs-darwin,
       system ? "aarch64-darwin",
       configuredUsers ? {
         "belak" = [ ];
@@ -112,7 +103,7 @@ rec {
     darwin.lib.darwinSystem {
       inherit system;
 
-      pkgs = mkPkgs system nixpkgs;
+      pkgs = self.cache.pkgs.${system};
 
       modules =
         [
@@ -158,14 +149,13 @@ rec {
   # specific package setup.
   mkHome =
     {
-      nixpkgs ? nixpkgs-nixos,
       system ? "x86_64-linux",
       username ? "belak",
       hostname ? null,
       extraHomeModules ? [ ],
     }:
     home-manager.lib.homeManagerConfiguration {
-      pkgs = mkPkgs system nixpkgs;
+      pkgs = self.cache.pkgs.${system};
 
       modules = mkHomeModules { inherit hostname username extraHomeModules; } ++ [
         {

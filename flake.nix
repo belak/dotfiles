@@ -3,8 +3,11 @@
   description = "Belak's Polyglot Nix configuration";
 
   inputs = {
+    # Note that we use the nixos branch, even though there is a separate darwin
+    # branch. Because nixos generally lags a bit farther behind, all darwin
+    # packages should be available in the binary cache by the time the nixos
+    # branch updates.
     nixpkgs-nixos.url = "github:nixos/nixpkgs/nixos-23.11";
-    nixpkgs-darwin.url = "github:nixos/nixpkgs/nixpkgs-23.11-darwin";
     nixpkgs-unstable.url = "github:nixos/nixpkgs/nixos-unstable";
     nixos-hardware.url = "github:nixos/nixos-hardware";
 
@@ -15,7 +18,7 @@
 
     darwin = {
       url = "github:LnL7/nix-darwin";
-      inputs.nixpkgs.follows = "nixpkgs-darwin";
+      inputs.nixpkgs.follows = "nixpkgs-nixos";
     };
 
     nixos-generators = {
@@ -39,8 +42,14 @@
     in
     {
       inherit lib;
-      inherit overlays;
 
+      cache = {
+        pkgs = lib.forAllSystems (
+          system: lib.mkPkgs system nixpkgs-nixos (builtins.attrValues self.overlays)
+        );
+      };
+
+      overlays = import ./nix/overlays.nix inputs;
       darwinModules.default = import ./nix/modules/darwin;
       homeModules.default = import ./nix/modules/home;
       nixosModules.default = import ./nix/modules/nixos;

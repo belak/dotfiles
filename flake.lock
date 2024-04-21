@@ -3,7 +3,7 @@
     "darwin": {
       "inputs": {
         "nixpkgs": [
-          "nixpkgs-darwin"
+          "nixpkgs-nixos"
         ]
       },
       "locked": {
@@ -92,22 +92,6 @@
         "type": "github"
       }
     },
-    "nixpkgs-darwin": {
-      "locked": {
-        "lastModified": 1712294834,
-        "narHash": "sha256-IWoVkD20AE4d1lskV90d2LUtde0A/HiyaZIAAxpHpzk=",
-        "owner": "nixos",
-        "repo": "nixpkgs",
-        "rev": "3fd216d9c45b63c57dd9a4b92c21b62626163068",
-        "type": "github"
-      },
-      "original": {
-        "owner": "nixos",
-        "ref": "nixpkgs-23.11-darwin",
-        "repo": "nixpkgs",
-        "type": "github"
-      }
-    },
     "nixpkgs-nixos": {
       "locked": {
         "lastModified": 1712168706,
@@ -146,7 +130,6 @@
         "home-manager": "home-manager",
         "nixos-generators": "nixos-generators",
         "nixos-hardware": "nixos-hardware",
-        "nixpkgs-darwin": "nixpkgs-darwin",
         "nixpkgs-nixos": "nixpkgs-nixos",
         "nixpkgs-unstable": "nixpkgs-unstable"
       }

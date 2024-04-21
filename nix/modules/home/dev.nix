@@ -34,17 +34,14 @@ in
       shfmt
       stylelint
 
-      alejandra
-      nixfmt
-      #nixfmt-rfc-style
+      unstable.alejandra
+      #unstable.nixfmt-classic
+      unstable.nixfmt-rfc-style
 
       poetry
-      pipenv
-      python3Packages.pyflakes
-      python3Packages.isort
-      python3Packages.nose
       python3Packages.black
       nodePackages.js-beautify
+      ruff
 
       # Go
       go
