@@ -103,25 +103,26 @@
 (map!
  ;; I've never needed the font panel in Emacs, and even if I did I wouldn't want
  ;; it bound to this.
- :g "s-t" nil
+ "s-t" nil
 
  ;; It's far more useful than you'd expect to be able to easily evaluate a
  ;; region or buffer of code, especially when developing Emacs pacakges.
- :g "C-c :" #'belak--eval-region-or-buffer
+ "C-c :" #'belak--eval-region-or-buffer
 
  ;; There doesn't seem to be a decent default for contract-region, so we set one.
- :g "C-+" #'er/contract-region
+ "C-+" #'er/contract-region
 
  ;; Allow M-S-q to undo M-q
- :g "M-Q" #'belak--unfill-paragraph
+ "M-Q" #'belak--unfill-paragraph
 
  ;; Prevent accidental usage of `list-buffers'
- :g "C-x C-b" #'switch-to-buffer
+ "C-x C-b" #'switch-to-buffer
 
- ;; Allow C-a and C-e to work in normal mode as well.
- ;; TODO: make sure they also enter insert mode
- :n "C-a" #'doom/backward-to-bol-or-indent
- :n "C-e" #'doom/forward-to-last-non-comment-or-eol
+ ;; Add some convenience bindings for font size switching which work on multiple
+ ;; platforms.
+ "S-=" #'doom/increase-font-size
+ "S--" #'doom/decrease-font-size
+ "S-0" #'doom/reset-font-size
 
  ;; Replace zap-to-char with zap-up-to-char because I find it easier to grok.
  :g [remap zap-to-char] #'zap-up-to-char
@@ -130,4 +131,9 @@
  ;; Make home and end do the same thing as C-a/C-e rather than going to the
  ;; beginning/end of a buffer.
  :g "<home>" #'doom/backward-to-bol-or-indent
- :g "<end>"  #'doom/forward-to-last-non-comment-or-eol)
+ :g "<end>"  #'doom/forward-to-last-non-comment-or-eol
+
+ ;; Allow C-a and C-e to work in normal mode as well.
+ ;; TODO: make sure they also enter insert mode
+ :n "C-a" #'doom/backward-to-bol-or-indent
+ :n "C-e" #'doom/forward-to-last-non-comment-or-eol)
