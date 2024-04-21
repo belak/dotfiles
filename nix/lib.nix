@@ -6,6 +6,11 @@
   darwin,
   ...
 }@inputs:
+let
+  pkgsCache = self.lib.forAllSystems (
+    system: self.lib.mkPkgs system nixpkgs-nixos (builtins.attrValues self.overlays)
+  );
+in
 rec {
   forAllSystems = nixpkgs-nixos.lib.genAttrs nixpkgs-nixos.lib.systems.flakeExposed;
 
@@ -47,7 +52,7 @@ rec {
     nixpkgs-nixos.lib.nixosSystem {
       inherit system;
 
-      pkgs = self.cache.pkgs.${system};
+      pkgs = pkgsCache.${system};
 
       modules =
         [
@@ -103,7 +108,7 @@ rec {
     darwin.lib.darwinSystem {
       inherit system;
 
-      pkgs = self.cache.pkgs.${system};
+      pkgs = pkgsCache.${system};
 
       modules =
         [
@@ -155,7 +160,7 @@ rec {
       extraHomeModules ? [ ],
     }:
     home-manager.lib.homeManagerConfiguration {
-      pkgs = self.cache.pkgs.${system};
+      pkgs = pkgsCache.${system};
 
       modules = mkHomeModules { inherit hostname username extraHomeModules; } ++ [
         {
