@@ -13,7 +13,7 @@ let
 in
 rec {
   # We could use nixpkgs-nixos.lib.systems.flakeExposed, but I prefer to only
-  # expose architectures I use this on.
+  # expose architectures I actually run.
   forAllSystems = nixpkgs-nixos.lib.genAttrs [
     "aarch64-linux"
     "x86_64-linux"
@@ -89,16 +89,6 @@ rec {
         inherit nixos-hardware;
       };
     };
-
-  mkColmenaNode = node: {
-    deployment = {
-      targetHost = "${node}.elwert.dev";
-      targetUser = "root";
-    };
-
-    nixpkgs.system = self.nixosConfigurations.${node}.config.nixpkgs.system;
-    imports = self.nixosConfigurations.${node}._module.args.modules;
-  };
 
   # mkDarwinSystem is a convenience function for declaring a nix-darwin system,
   # and integrating it with home-manager.

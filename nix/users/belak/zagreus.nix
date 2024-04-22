@@ -8,5 +8,8 @@
     gui.enable = true;
   };
 
-  home.packages = with pkgs; [ colmena ];
+  home.packages = with pkgs; [
+    colmena
+    deploy-rs
+  ];
 }
