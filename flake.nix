@@ -21,6 +21,11 @@
       inputs.nixpkgs.follows = "nixpkgs-nixos";
     };
 
+    deploy-rs = {
+      url = "github:serokell/deploy-rs";
+      inputs.nixpkgs.follows = "nixpkgs-unstable";
+    };
+
     nixos-generators = {
       url = "github:nix-community/nixos-generators";
       inputs.nixpkgs.follows = "nixpkgs-nixos";
@@ -34,6 +39,7 @@
       nixpkgs-unstable,
       nixos-generators,
       nixos-hardware,
+      deploy-rs,
       ...
     }:
     let
@@ -114,22 +120,76 @@
         "belak" = lib.mkHome { };
       };
 
-      colmena = {
-        meta = {
-          nixpkgs = lib.mkPkgs "x86_64-linux" nixpkgs-nixos;
-          specialArgs = {
-            inherit nixos-hardware;
+      deploy.nodes = {
+        kupo = {
+          hostname = "kupo.elwert.dev";
+
+          profiles.system = {
+            user = "root";
+            sshUser = "root";
+            path = deploy-rs.lib.aarch64-linux.activate.nixos self.nixosConfigurations.kupo;
           };
         };
 
-        kupo = lib.mkColmenaNode "kupo";
-        stiltzkin = lib.mkColmenaNode "stiltzkin";
-        moguo = lib.mkColmenaNode "moguo";
-        monty = lib.mkColmenaNode "monty";
+        stiltzkin = {
+          hostname = "stiltzkin.elwert.dev";
 
-        eiko = lib.mkColmenaNode "eiko";
-        vivi = lib.mkColmenaNode "vivi";
-        zidane = lib.mkColmenaNode "zidane";
+          profiles.system = {
+            user = "root";
+            sshUser = "root";
+            path = deploy-rs.lib.aarch64-linux.activate.nixos self.nixosConfigurations.stiltzkin;
+          };
+        };
+
+        moguo = {
+          hostname = "moguo.elwert.dev";
+
+          profiles.system = {
+            user = "root";
+            sshUser = "root";
+            path = deploy-rs.lib.aarch64-linux.activate.nixos self.nixosConfigurations.moguo;
+          };
+        };
+
+        monty = {
+          hostname = "monty.elwert.dev";
+
+          profiles.system = {
+            user = "root";
+            sshUser = "root";
+            path = deploy-rs.lib.aarch64-linux.activate.nixos self.nixosConfigurations.monty;
+          };
+        };
+
+        eiko = {
+          hostname = "eiko.elwert.dev";
+
+          profiles.system = {
+            user = "root";
+            sshUser = "root";
+            path = deploy-rs.lib.x86_64-linux.activate.nixos self.nixosConfigurations.eiko;
+          };
+        };
+
+        vivi = {
+          hostname = "vivi.elwert.dev";
+
+          profiles.system = {
+            user = "root";
+            sshUser = "root";
+            path = deploy-rs.lib.x86_64-linux.activate.nixos self.nixosConfigurations.vivi;
+          };
+        };
+
+        zidane = {
+          hostname = "zidane.elwert.dev";
+
+          profiles.system = {
+            user = "root";
+            sshUser = "root";
+            path = deploy-rs.lib.x86_64-linux.activate.nixos self.nixosConfigurations.zidane;
+          };
+        };
       };
 
       packages = lib.forAllSystems (system: {
