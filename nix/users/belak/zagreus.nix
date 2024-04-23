@@ -2,6 +2,7 @@
 {
   belak = {
     dotfiles.enable = true;
+    dotfiles.symlink = true;
     dev.enable = true;
     gnome.enable = true;
     gui.enable = true;
