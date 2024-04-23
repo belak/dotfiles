@@ -5,6 +5,9 @@ private
 host-*
 result
 
+# personal tweaks
+config/belak/repos
+
 # vim/nvim related
 config/nvim/.netrwhist
 config/nvim/plugged
