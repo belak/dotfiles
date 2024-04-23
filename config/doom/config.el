@@ -17,8 +17,17 @@
 
 ;; The default style for uniquifying buffer names is strange, so we change it to
 ;; something more useful.
-(setq uniquify-buffer-name-style  'forward
-      uniquify-strip-common-suffix nil)
+;;
+;; NOTE: this is disabled (and we use the buffer-name-relative package instead)
+;; until doom-emacs removes the dependency on persp-mode for workspaces. See
+;; https://github.com/doomemacs/doomemacs/pull/7727#issuecomment-1992785677 for
+;; some background information.
+;;
+;;(setq uniquify-buffer-name-style  'forward
+;;      uniquify-strip-common-suffix nil)
+
+(use-package! buffer-name-relative
+  :hook (doom-first-buffer . buffer-name-relative-mode))
 
 ;; Don't make distinctions between ASCII and siblings (like a and a with an
 ;; umlaut) when searching.
@@ -37,8 +46,10 @@
         ;; org-agenda settings
         org-log-done t                   ; TODO: ensure this works
         org-log-done-with-time t         ; Include time as well as date when closing tasks
-        org-log-refile t                 ; TODO: ensure this works
-        org-agenda-dim-blocked-tasks t)) ; Make tasks in the blocked state dim
+        org-log-refile t))                 ; TODO: ensure this works
+
+(after! org-agenda
+  (setq org-agenda-dim-blocked-tasks t)) ; Make tasks in the blocked state dim
 
 (after! nix-mode
   (setq nix-nixfmt-bin "alejandra"))
