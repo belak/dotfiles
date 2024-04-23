@@ -21,8 +21,6 @@ in
 
   config = lib.mkIf cfg.enable {
     home.file = {
-      # TODO: remove old config dirs
-
       ".config/alacritty" = mkSource "config/alacritty";
       ".config/belak" = mkSource "config/belak";
       ".config/doom" = mkSource "config/doom";
