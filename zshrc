@@ -11,15 +11,15 @@ fi
 belak-load() {
   cleaned_path=${1:l}
   repo=${cleaned_path:h2}
-  if [[ ! -d "$HOME/.config/belak/$cleaned_path" ]]; then
+  if [[ ! -d "$HOME/.config/belak/repos/$cleaned_path" ]]; then
     dirname=$(dirname $repo)
-    mkdir -p "$HOME/.config/belak/$dirname"
-    git clone "https://github.com/$repo" "$HOME/.config/belak/$repo"
+    mkdir -p "$HOME/.config/belak/repos/$dirname"
+    git clone "https://github.com/$repo" "$HOME/.config/belak/repos/$repo"
   fi
   target=${2:-${cleaned_path:t}.plugin.zsh}
 
   set --
-  source "$HOME/.config/belak/$cleaned_path/$target"
+  source "$HOME/.config/belak/repos/$cleaned_path/$target"
 }
 
 #
