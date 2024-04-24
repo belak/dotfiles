@@ -108,6 +108,18 @@
 
 
 ;;
+;;; Packages
+
+(use-package! bazel
+  :mode
+  ("\\.bzl\\'"   . bazel-mode)
+  ("\\.bazel\\'" . bazel-mode))
+
+(use-package! protobuf-mode
+  :mode "\\.proto\\'")
+
+
+;;
 ;;; Keybinds
 
 ;; Fix up a number of keybinds which have strange behaviors.

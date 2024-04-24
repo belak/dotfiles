@@ -4,5 +4,9 @@
 (package! modus-themes)
 (package! monokai-pro-theme)
 
-;; buffer-name-relative is needed so
+(package! bazel)
+(package! protobuf-mode)
+
+;; buffer-name-relative is needed as a workaround because the uniquify settings
+;; don't work with persp-mode, which doom currently uses for workspaces.
 (package! buffer-name-relative)
