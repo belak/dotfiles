@@ -44,6 +44,8 @@ local config = {
   font = wezterm.font(font),
   font_size = font_size,
 
+  bold_brightens_ansi_colors = "BrightOnly",
+
   exit_behavior = "Close",
 
   -- Disable all the ligatures we can. For some reason many fonts have a
