@@ -11,7 +11,9 @@ config/belak/repos
 # vim/nvim related
 config/nvim/.netrwhist
 config/nvim/plugged
-config/vim/swap
+config/nvim/swap
+config/nvim/view
+config/nvim/lazy-lock.json
 vim/.netrwhist
 vim/autoload/plug.vim.old
 vim/plugged

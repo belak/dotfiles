@@ -65,8 +65,8 @@ in
       # Stuff to try
       gitui
       ncspot
+      neovim
       #bat
-      #neovim
     ];
 
     programs.direnv = {
