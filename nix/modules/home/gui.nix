@@ -19,6 +19,8 @@ in
       firefox
       gimp
       rpi-imager
+      wl-clipboard
+      xclip
       xorg.xhost
 
       # TODO: there seems to be an issue launching gparted from the gnome
