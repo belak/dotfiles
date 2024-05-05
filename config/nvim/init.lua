@@ -2,7 +2,7 @@ vim.opt.compatible = false
 
 -- Variables {{{
 
-HOME = os.getenv("HOME")
+local HOME = os.getenv("HOME")
 
 -- }}}
 
@@ -34,14 +34,33 @@ require("lazy").setup({
 
   -- Extra utilities
   "airblade/vim-gitgutter",
-  "airblade/vim-rooter",
+  "echasnovski/mini.indentscope",
+  {
+    "nvim-telescope/telescope.nvim",
+    dependencies = { 'nvim-lua/plenary.nvim' },
+    config = function()
+      local builtin = require('telescope.builtin')
+      vim.keymap.set('n', '<leader>ff', builtin.find_files, {})
+      vim.keymap.set('n', '<leader>fg', builtin.live_grep, {})
+      vim.keymap.set('n', '<leader>fb', builtin.buffers, {})
+      vim.keymap.set('n', '<leader>fh', builtin.help_tags, {})
+    end
+  },
   "tpope/vim-commentary",
   "tpope/vim-fugitive",
 
   -- Appearance
-  'myusuf3/numbers.vim',
-  'nvim-lualine/lualine.nvim',
-  'w0ng/vim-hybrid',
+  "nvim-lualine/lualine.nvim",
+  "stevearc/dressing.nvim",
+  "w0ng/vim-hybrid",
+
+  {
+    'echasnovski/mini.nvim',
+    config = function()
+      require('mini.misc').setup()
+      MiniMisc.setup_auto_root()
+    end
+  },
 })
 
 -- }}}
@@ -62,30 +81,25 @@ require('lualine').setup({
   },
 })
 
--- Clear some stuff for vim-airline-colornum
---vim.opt.cursorline = true
---vim.cmd([[hi clear CursorLine]])
-
 -- Highlight VCS conflict markers
 vim.cmd([[match ErrorMsg '^\(<\|=\|>\)\{7\}\([^=].\+\)\?$']])
 
-vim.opt.list = true
--- set listchars=tab:▸\ ,trail:•,extends:#,nbsp:.,eol:¬ " Highlight problematic whitespace
+
+-- Highlight problematic whitespace
+--vim.opt.list = true
+--vim.opt.listchars = "tab:▸\\ ,trail:•,extends:#,nbsp:.,eol:¬"
 
 -- }}}
 
 -- Various Settings {{{
-
--- We use rooter to automatically cd to the project root, but we don't want it to
--- tell us it did that.
-vim.g.rooter_silent_chdir = 1
 
 -- Default tab settings
 vim.opt.tabstop = 4
 vim.opt.shiftwidth = 4
 
 -- Random settings
-vim.opt.autoindent  = true      -- Enable basic indentitation, smarter than "smart"indent
+vim.opt.autoindent  = true      -- Enable basic indentation, smarter than "smart"indent
+vim.opt.cursorline  = true      -- Highlight the current line
 vim.opt.incsearch   = true      -- Start searching as we start typing
 vim.opt.hlsearch    = true      -- Hilight what we're searching for
 vim.opt.showcmd     = true      -- Always show the currently entered command
@@ -102,7 +116,6 @@ vim.opt.hidden      = true      -- Allow buffer switching without saving
 vim.opt.showmode    = false     -- No point since we use airline
 vim.opt.scrolloff   = 5         -- Ensure we have a buffer of 5 lines at the top and bottom
 vim.cmd([[
-  set fillchars=vert:\│     " Unicode line for separators
   set iskeyword-=.          " '.' is an end of word designator
   set iskeyword-=#          " '#' is an end of word designator
   set iskeyword-=-          " '-' is an end of word designator
@@ -111,24 +124,40 @@ vim.cmd([[
 
 -- If clipboard is available, do everything we can to yank to the system
 -- clipboard rather than only the internal keyboard.
---set clipboard^=unnamed
---if vim.fn.has('clipboard') == 1 then
---  if vim.fn.has('unnamedplus') == 1 then
---    -- When possible use + register for copy-paste
---    vim.opt.clipboard = "unnamed,unnamedplus"
---  else
---    -- On mac and Windows, use * register for copy-paste
---    vim.opt.clipboard = "unnamed"
---  end
---end
+if vim.fn.has('clipboard') == 1 then
+  if vim.fn.has('unnamedplus') == 1 then
+    -- When possible use + register for copy-paste
+    vim.opt.clipboard = "unnamedplus"
+  else
+    -- On mac and Windows, use * register for copy-paste
+    vim.opt.clipboard = "unnamed"
+  end
+end
 
 -- Split and select the right window
 vim.opt.splitbelow = true
 vim.opt.splitright = true
 
 -- Line numbers
+--
+-- This includes some magic to disable relative numbers in insert mode and
+-- disable absolute numbers in visual mode. It is roughly based on the
+-- functionality of numbers.vim.
 vim.opt.number = true
 vim.opt.relativenumber = true
+
+vim.api.nvim_create_autocmd('ModeChanged', {
+  callback = function(event)
+    vim.opt.number = true
+    vim.opt.relativenumber = true
+
+    if string.match(event.match, ":i$") then
+      vim.opt.relativenumber = false
+    elseif string.match(event.match, ":v$") then
+      vim.opt.number = false
+    end
+  end
+})
 
 -- Make sure the annoying backup files, swap files, and undo files stay out of
 -- the code directories.
@@ -136,9 +165,6 @@ vim.opt.backupdir = HOME .. "/.config/nvim/backup"
 vim.opt.directory = HOME .. "/.config/nvim/swap"
 vim.opt.undodir   = HOME .. "/.config/nvim/undo"
 vim.opt.wildignore:append("*/vendor/**")
-
--- Highlight the end of long lines in red
---au BufWinEnter * let w:m2=matchadd('ErrorMsg', '\%>80v.\+', -1)
 
 -- Make sure we don't auto-wrap all text, unless we're in a markdown file.
 --set formatoptions-=t
@@ -151,25 +177,22 @@ vim.opt.wildignore:append("*/vendor/**")
 -- Key binds
 
 -- Easier split stuff
---nmap vs :vsplit<cr>
---nmap sp :split<cr>
+vim.keymap.set("n", "vs", ":vsplit<cr>")
+vim.keymap.set("n", "sp", ":split<cr>")
 
 -- Allow using the repeat operator with a visual selection (!)
 -- http://stackoverflow.com/a/8064607/127816
 --vnoremap . :normal .<CR>
 
 -- Easier movement between panes
---nmap <C-h> <C-w>h
---nmap <C-j> <C-w>j
---nmap <C-k> <C-w>k
---nmap <C-l> <C-w>l
+vim.keymap.set("n", "<C-h>", "<C-w>h")
+vim.keymap.set("n", "<C-j>", "<C-w>j")
+vim.keymap.set("n", "<C-k>", "<C-w>k")
+vim.keymap.set("n", "<C-l>", "<C-w>l")
 
 -- Wrapped lines goes down/up to next row, rather than next line in file.
---noremap j gj
---noremap k gk
-
--- Add a bind for fzf
---nmap <C-p> :GFiles<cr>
+vim.keymap.set("", "j", "gj", { noremap = true, })
+vim.keymap.set("", "k", "gk", { noremap = true, })
 
 -- Clear search results
 --nmap <leader>c :let @/=""<CR>

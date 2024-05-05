@@ -12,6 +12,7 @@ config/belak/repos
 config/nvim/.netrwhist
 config/nvim/plugged
 config/nvim/swap
+config/nvim/undo
 config/nvim/view
 config/nvim/lazy-lock.json
 vim/.netrwhist

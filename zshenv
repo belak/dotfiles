@@ -42,11 +42,10 @@ fpath=(
 
 # Certain default applications
 export ALTERNATE_EDITOR=""
-export EDITOR=vim
+export EDITOR=nvim
 export PAGER=less
 
 # Magic incantations
-export NVIM_TUI_ENABLE_CURSOR_SHAPE=1
 export WORKON_HOME="$HOME/.virtualenvs"
 export DISABLE_AUTO_UPDATE=true
 
