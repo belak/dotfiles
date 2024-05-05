@@ -90,6 +90,12 @@ rec {
       };
     };
 
+  mkNixosDeploy = nixosConfig: {
+    user = "root";
+    sshUser = "root";
+    path = pkgsCache.${nixosConfig.config.nixpkgs.system}.deploy-rs.lib.activate.nixos nixosConfig;
+  };
+
   # mkDarwinSystem is a convenience function for declaring a nix-darwin system,
   # and integrating it with home-manager.
   mkDarwinSystem =

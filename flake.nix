@@ -123,72 +123,37 @@
       deploy.nodes = {
         kupo = {
           hostname = "kupo.elwert.dev";
-
-          profiles.system = {
-            user = "root";
-            sshUser = "root";
-            path = deploy-rs.lib.aarch64-linux.activate.nixos self.nixosConfigurations.kupo;
-          };
+          profiles.system = lib.mkNixosDeploy self.nixosConfigurations.kupo;
         };
 
         stiltzkin = {
           hostname = "stiltzkin.elwert.dev";
-
-          profiles.system = {
-            user = "root";
-            sshUser = "root";
-            path = deploy-rs.lib.aarch64-linux.activate.nixos self.nixosConfigurations.stiltzkin;
-          };
+          profiles.system = lib.mkNixosDeploy self.nixosConfigurations.stiltzkin;
         };
 
         moguo = {
           hostname = "moguo.elwert.dev";
-
-          profiles.system = {
-            user = "root";
-            sshUser = "root";
-            path = deploy-rs.lib.aarch64-linux.activate.nixos self.nixosConfigurations.moguo;
-          };
+          profiles.system = lib.mkNixosDeploy self.nixosConfigurations.moguo;
         };
 
         monty = {
           hostname = "monty.elwert.dev";
-
-          profiles.system = {
-            user = "root";
-            sshUser = "root";
-            path = deploy-rs.lib.aarch64-linux.activate.nixos self.nixosConfigurations.monty;
-          };
+          profiles.system = lib.mkNixosDeploy self.nixosConfigurations.monty;
         };
 
         eiko = {
           hostname = "eiko.elwert.dev";
-
-          profiles.system = {
-            user = "root";
-            sshUser = "root";
-            path = deploy-rs.lib.x86_64-linux.activate.nixos self.nixosConfigurations.eiko;
-          };
+          profiles.system = lib.mkNixosDeploy self.nixosConfigurations.eiko;
         };
 
         vivi = {
           hostname = "vivi.elwert.dev";
-
-          profiles.system = {
-            user = "root";
-            sshUser = "root";
-            path = deploy-rs.lib.x86_64-linux.activate.nixos self.nixosConfigurations.vivi;
-          };
+          profiles.system = lib.mkNixosDeploy self.nixosConfigurations.vivi;
         };
 
         zidane = {
           hostname = "zidane.elwert.dev";
-
-          profiles.system = {
-            user = "root";
-            sshUser = "root";
-            path = deploy-rs.lib.x86_64-linux.activate.nixos self.nixosConfigurations.zidane;
-          };
+          profiles.system = lib.mkNixosDeploy self.nixosConfigurations.zidane;
         };
       };
 
