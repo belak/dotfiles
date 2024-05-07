@@ -52,7 +52,7 @@ require("lazy").setup({
   -- Appearance
   "nvim-lualine/lualine.nvim",
   "stevearc/dressing.nvim",
-  "w0ng/vim-hybrid",
+  "tinted-theming/base16-vim"
 
   {
     'echasnovski/mini.nvim',
@@ -68,9 +68,8 @@ require("lazy").setup({
 -- Appearance {{{
 
 -- Colorscheme and syntax settings
-vim.g.hybrid_custom_term_colors = 1
 vim.opt.background = "dark"
-vim.cmd([[colorscheme hybrid]])
+vim.cmd([[colorscheme base16-default-dark]])
 
 require('lualine').setup({
   options = {
