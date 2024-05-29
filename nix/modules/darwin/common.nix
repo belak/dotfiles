@@ -9,8 +9,6 @@
     # relevant config files.
     onActivation.cleanup = "zap";
 
-    taps = [ "homebrew/cask-fonts" ];
-
     brews = [
       "cbindgen"
       "findutils"
