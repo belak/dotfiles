@@ -28,7 +28,7 @@ in
       # requiring sudo.
       gparted
 
-      my.trekscii
+      #my.trekscii # TODO: currently broken
       my.wezterm-bin
 
       # Packages I'm trying out
