@@ -54,7 +54,7 @@ in
       nix-index
       nix-tree
       #rippkgs
-      rnix-lsp
+      #rnix-lsp
       statix
 
       # Archive Formats
