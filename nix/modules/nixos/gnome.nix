@@ -21,12 +21,12 @@ in
       (with pkgs; [
         gnome-photos
         gnome-tour
+        gedit
       ])
       ++ (with pkgs.gnome; [
         cheese # webcam tool
         gnome-maps # map tool
         gnome-music # music player
-        gedit # text editor
         epiphany # web browser
         geary # email reader
         gnome-characters # font/character viewer

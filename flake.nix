@@ -7,12 +7,12 @@
     # branch. Because nixos generally lags a bit farther behind, all darwin
     # packages should be available in the binary cache by the time the nixos
     # branch updates.
-    nixpkgs-nixos.url = "github:nixos/nixpkgs/nixos-23.11";
+    nixpkgs-nixos.url = "github:nixos/nixpkgs/nixos-24.05";
     nixpkgs-unstable.url = "github:nixos/nixpkgs/nixos-unstable";
     nixos-hardware.url = "github:nixos/nixos-hardware";
 
     home-manager = {
-      url = "github:nix-community/home-manager/release-23.11";
+      url = "github:nix-community/home-manager/release-24.05";
       inputs.nixpkgs.follows = "nixpkgs-nixos";
     };
 

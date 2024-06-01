@@ -31,9 +31,9 @@
   services.xserver.excludePackages = [ pkgs.xterm ];
 
   # Configure keymap in X11
-  services.xserver = {
+  services.xserver.xkb = {
     layout = "us";
-    xkbVariant = "";
+    variant = "";
   };
 
   # We use tlp to automatically configure some power saving settings. This
