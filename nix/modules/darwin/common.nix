@@ -34,6 +34,7 @@
       "intellij-idea-ce"
       "modrinth"
       "monodraw"
+      "mos"
       "obsidian"
       "openscad"
       "orcaslicer"
