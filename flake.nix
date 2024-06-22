@@ -52,67 +52,89 @@
       # There are a number of different formatters available: nixfmt, alejandra,
       # and nixfmt-rfc-style. As rfc-style is the "up-and-coming" format, we use
       # that rather than stock nixfmt.
-      formatter = lib.forAllSystems (system: nixpkgs-unstable.legacyPackages.${system}.alejandra);
+      formatter = lib.forAllSystems (system: nixpkgs-unstable.legacyPackages.${system}.nixfmt-rfc-style);
 
       nixosConfigurations = {
         # Raspberry Pis
         "kupo" = lib.mkNixosSystem {
           hostname = "kupo";
           system = "aarch64-linux";
-          modules = [ ./nix/hosts/nixos/kupo ];
+          modules = [
+            ./nix/hosts/nixos/kupo
+            ./nix/users/nixos/belak
+          ];
         };
         "stiltzkin" = lib.mkNixosSystem {
           hostname = "stiltzkin";
           system = "aarch64-linux";
-          modules = [ ./nix/hosts/nixos/stiltzkin ];
+          modules = [
+            ./nix/hosts/nixos/stiltzkin
+            ./nix/users/nixos/belak
+          ];
         };
         "moguo" = lib.mkNixosSystem {
           hostname = "moguo";
           system = "aarch64-linux";
-          modules = [ ./nix/hosts/nixos/moguo ];
+          modules = [
+            ./nix/hosts/nixos/moguo
+            ./nix/users/nixos/belak
+          ];
         };
         "monty" = lib.mkNixosSystem {
           hostname = "monty";
           system = "aarch64-linux";
-          modules = [ ./nix/hosts/nixos/monty ];
+          modules = [
+            ./nix/hosts/nixos/monty
+            ./nix/users/nixos/belak
+          ];
         };
 
         # ThinkCentre M93p
         "eiko" = lib.mkNixosSystem {
           hostname = "eiko";
-          modules = [ ./nix/hosts/nixos/eiko ];
+          modules = [
+            ./nix/hosts/nixos/eiko
+            ./nix/users/nixos/belak
+          ];
         };
 
         # Intel NUC7i7DNHE
         "vivi" = lib.mkNixosSystem {
           hostname = "vivi";
-          modules = [ ./nix/hosts/nixos/vivi ];
+          modules = [
+            ./nix/hosts/nixos/vivi
+            ./nix/users/nixos/belak
+          ];
         };
 
         # Primary Laptop (ThinkPad T14 Gen 1)
         "zagreus" = lib.mkNixosSystem {
           hostname = "zagreus";
-          modules = [ ./nix/hosts/nixos/zagreus ];
+          modules = [
+            ./nix/hosts/nixos/zagreus
+            ./nix/users/nixos/belak
+          ];
         };
 
         # Old Laptop (ThinkPad T460)
         "zidane" = lib.mkNixosSystem {
           hostname = "zidane";
-          modules = [ ./nix/hosts/nixos/zidane ];
+          modules = [
+            ./nix/hosts/nixos/zidane
+            ./nix/users/nixos/belak
+          ];
         };
       };
 
       # There are some things nixos and nix-darwin can't provide; for everything
       # else there's home-manager.
       #
-      # Most of our home-manager config either uses the nixos or nix-darwin
-      # modules. When that isn't possible, we can use home-manager standalone.
-      #
       # It's better for these to be host-specific configs, so we can still have
       # host-specific configuration, but we provide a default "belak" fallback
       # for the most common cases.
       homeConfigurations = {
         "belak" = lib.mkHome { };
+        "belak@zagreus" = lib.mkHome { hostname = "zagreus"; };
       };
 
       deploy.nodes = {

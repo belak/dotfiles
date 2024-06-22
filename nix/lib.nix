@@ -49,37 +49,13 @@ rec {
       modules,
       system ? "x86_64-linux",
       nixpkgs ? nixpkgs-nixos,
-      configuredUsers ? {
-        "belak" = [ ];
-      },
     }:
     nixpkgs-nixos.lib.nixosSystem {
       inherit system;
 
       pkgs = mkPkgs system nixpkgs (builtins.attrValues self.overlays);
 
-      modules =
-        [
-          self.nixosModules.default
-          home-manager.nixosModules.home-manager
-          {
-            # Use the nixos pkgs we just configured rather than a separate
-            # variable.
-            home-manager.useGlobalPkgs = true;
-            home-manager.useUserPackages = true;
-          }
-        ]
-        ++ builtins.attrValues (
-          builtins.mapAttrs (username: extraHomeModules: {
-            users.users.${username}.home = "/home/${username}";
-            home-manager.users.${username} = {
-              # Using the modules as "imports" should be pretty much the same
-              # thing as "modules" in a homeConfiguration.
-              imports = mkHomeModules { inherit hostname username extraHomeModules; };
-            };
-          }) configuredUsers
-        )
-        ++ modules;
+      modules = [ self.nixosModules.default ] ++ modules;
 
       # Pass extra inputs through to all modules.
       specialArgs = {
@@ -100,41 +76,25 @@ rec {
   mkDarwinSystem =
     {
       system ? "aarch64-darwin",
-      configuredUsers ? {
-        "belak" = [ ];
-      },
       hostname ? null,
       nixpkgs ? nixpkgs-darwin,
-      extraDarwinModules ? [ ],
+      modules ? [ ],
     }:
     darwin.lib.darwinSystem {
       inherit system;
 
       pkgs = mkPkgs system nixpkgs (builtins.attrValues self.overlays);
 
-      modules =
-        [
-          self.darwinModules.default
-          home-manager.darwinModules.home-manager
-          {
-            # Use the nixos pkgs we just configured rather than a separate
-            # variable.
-            home-manager.useGlobalPkgs = true;
-            home-manager.useUserPackages = true;
-          }
-        ]
-        ++ (mkOptionals (hostname != null) (optionalFile ./hosts/darwin/${hostname}.nix))
-        ++ builtins.attrValues (
-          builtins.mapAttrs (username: extraHomeModules: {
-            users.users.${username}.home = "/Users/${username}";
-            home-manager.users.${username} = {
-              # Using the modules as "imports" should be pretty much the same
-              # thing as "modules" in a homeConfiguration.
-              imports = mkHomeModules { inherit hostname username extraHomeModules; };
-            };
-          }) configuredUsers
-        )
-        ++ extraDarwinModules;
+      modules = [
+        self.darwinModules.default
+        home-manager.darwinModules.home-manager
+        {
+          # Use the nixos pkgs we just configured rather than a separate
+          # variable.
+          home-manager.useGlobalPkgs = true;
+          home-manager.useUserPackages = true;
+        }
+      ] ++ modules;
     };
 
   # mkHomeModules is used by mkNixosSystem, mkDarwinSystem and mkHome to allow
@@ -145,12 +105,12 @@ rec {
     {
       hostname,
       username,
-      extraHomeModules,
+      modules,
     }:
     [ self.homeModules.default ]
-    ++ (mkOptionals (hostname != null) (optionalFile ./users/${username}/${hostname}.nix))
-    ++ (optionalFile ./users/${username}/default.nix)
-    ++ extraHomeModules;
+    ++ (mkOptionals (hostname != null) (optionalFile ./users/home/${username}/${hostname}.nix))
+    ++ (optionalFile ./users/home/${username}/default.nix)
+    ++ modules;
 
   # mkHome is a convenience function for declaring a home-manager setup with our
   # specific package setup.
@@ -160,12 +120,12 @@ rec {
       username ? "belak",
       hostname ? null,
       nixpkgs ? nixpkgs-nixos,
-      extraHomeModules ? [ ],
+      modules ? [ ],
     }:
     home-manager.lib.homeManagerConfiguration {
       pkgs = mkPkgs system nixpkgs (builtins.attrValues self.overlays);
 
-      modules = mkHomeModules { inherit hostname username extraHomeModules; } ++ [
+      modules = mkHomeModules { inherit hostname username modules; } ++ [
         {
           # Let Home Manager install and manage itself. Note that we set this
           # up *only* when calling mkHome because other setups should use

@@ -1,4 +1,5 @@
-{pkgs, ...}: {
+{ pkgs, ... }:
+{
   belak = {
     dotfiles = {
       enable = true;
@@ -9,7 +10,5 @@
     gui.enable = true;
   };
 
-  home.packages = with pkgs; [
-    deploy-rs
-  ];
+  home.packages = with pkgs; [ deploy-rs ];
 }
