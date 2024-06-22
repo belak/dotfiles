@@ -25,7 +25,9 @@ in
       editorconfig-core-c
       exiftool
       gnumake
+      httpie
       imagemagick
+      jq
       mdbook
       picotool
       pkg-config
@@ -33,10 +35,6 @@ in
       shellcheck
       shfmt
       stylelint
-
-      unstable.alejandra
-      #unstable.nixfmt-classic
-      unstable.nixfmt-rfc-style
 
       poetry
       python3Packages.black
@@ -67,7 +65,10 @@ in
       zls
 
       # Packages I'm trying out
+      unstable.diskonaut
       unstable.jj
+      unstable.mdcat
+      unstable.nnn
     ];
   };
 }
