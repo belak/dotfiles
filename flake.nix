@@ -52,7 +52,7 @@
       # There are a number of different formatters available: nixfmt, alejandra,
       # and nixfmt-rfc-style. As rfc-style is the "up-and-coming" format, we use
       # that rather than stock nixfmt.
-      formatter = lib.forAllSystems (system: nixpkgs-unstable.legacyPackages.${system}.nixfmt-rfc-style);
+      formatter = lib.forAllSystems (system: nixpkgs-unstable.legacyPackages.${system}.alejandra);
 
       nixosConfigurations = {
         # Raspberry Pis
