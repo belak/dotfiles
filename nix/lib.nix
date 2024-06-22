@@ -4,6 +4,7 @@
   nixpkgs-darwin,
   nixos-hardware,
   home-manager,
+  deploy-rs,
   darwin,
   ...
 }:
@@ -66,9 +67,19 @@ rec {
   mkNixosDeploy = nixosConfig: {
     user = "root";
     sshUser = "root";
+    # TODO: this builds deploy-rs rather than using the version from the package
+    # cache
+    path = deploy-rs.lib.${nixosConfig.config.nixpkgs.system}.activate.nixos nixosConfig;
+  };
+
+  mkHomeDeploy = homeManagerConfig: {
+    user = homeManagerConfig.config.home.username;
+    sshUser = "root";
+    # TODO: this builds deploy-rs rather than using the version from the package
+    # cache
     path =
-      nixosConfig.config.nixpkgs.${nixosConfig.config.nixpkgs.system}.deploy-rs.lib.activate.nixos
-        nixosConfig;
+      deploy-rs.lib.${homeManagerConfig.config.nixpkgs.system}.activate.home-manager
+        homeManagerConfig;
   };
 
   # mkDarwinSystem is a convenience function for declaring a nix-darwin system,

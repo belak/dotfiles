@@ -141,36 +141,43 @@
         kupo = {
           hostname = "kupo.elwert.dev";
           profiles.system = lib.mkNixosDeploy self.nixosConfigurations.kupo;
+          profiles.belak = lib.mkHomeDeploy self.homeConfigurations.belak;
         };
 
         stiltzkin = {
           hostname = "stiltzkin.elwert.dev";
           profiles.system = lib.mkNixosDeploy self.nixosConfigurations.stiltzkin;
+          profiles.belak = lib.mkHomeDeploy self.homeConfigurations.belak;
         };
 
         moguo = {
           hostname = "moguo.elwert.dev";
           profiles.system = lib.mkNixosDeploy self.nixosConfigurations.moguo;
+          profiles.belak = lib.mkHomeDeploy self.homeConfigurations.belak;
         };
 
         monty = {
           hostname = "monty.elwert.dev";
           profiles.system = lib.mkNixosDeploy self.nixosConfigurations.monty;
+          profiles.belak = lib.mkHomeDeploy self.homeConfigurations.belak;
         };
 
         eiko = {
           hostname = "eiko.elwert.dev";
           profiles.system = lib.mkNixosDeploy self.nixosConfigurations.eiko;
+          profiles.belak = lib.mkHomeDeploy self.homeConfigurations.belak;
         };
 
         vivi = {
           hostname = "vivi.elwert.dev";
           profiles.system = lib.mkNixosDeploy self.nixosConfigurations.vivi;
+          profiles.belak = lib.mkHomeDeploy self.homeConfigurations.belak;
         };
 
         zidane = {
           hostname = "zidane.elwert.dev";
           profiles.system = lib.mkNixosDeploy self.nixosConfigurations.zidane;
+          profiles.belak = lib.mkHomeDeploy self.homeConfigurations.belak;
         };
       };
 
