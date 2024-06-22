@@ -1,5 +1,4 @@
-{ lib, ... }:
-{
+{lib, ...}: {
   belak = {
     dotfiles.enable = lib.mkDefault true;
   };

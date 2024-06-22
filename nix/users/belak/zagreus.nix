@@ -1,5 +1,4 @@
-{ pkgs, ... }:
-{
+{pkgs, ...}: {
   belak = {
     dotfiles = {
       enable = true;
@@ -11,7 +10,6 @@
   };
 
   home.packages = with pkgs; [
-    colmena
     deploy-rs
   ];
 }
