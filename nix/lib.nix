@@ -1,16 +1,12 @@
 {
   self,
   nixpkgs-nixos,
+  nixpkgs-darwin,
   nixos-hardware,
   home-manager,
   darwin,
   ...
-}@inputs:
-let
-  pkgsCache = self.lib.forAllSystems (
-    system: self.lib.mkPkgs system nixpkgs-nixos (builtins.attrValues self.overlays)
-  );
-in
+}:
 rec {
   # We could use nixpkgs-nixos.lib.systems.flakeExposed, but I prefer to only
   # expose architectures I actually run.
@@ -38,7 +34,7 @@ rec {
           "skypeforlinux"
         ];
 
-      config.permittedInsecurePackages = [ "nix-2.15.3" ];
+      config.permittedInsecurePackages = [ ];
     };
 
   mkOptionals = check: data: if check then data else [ ];
@@ -52,6 +48,7 @@ rec {
       hostname,
       modules,
       system ? "x86_64-linux",
+      nixpkgs ? nixpkgs-nixos,
       configuredUsers ? {
         "belak" = [ ];
       },
@@ -59,7 +56,7 @@ rec {
     nixpkgs-nixos.lib.nixosSystem {
       inherit system;
 
-      pkgs = pkgsCache.${system};
+      pkgs = mkPkgs system nixpkgs (builtins.attrValues self.overlays);
 
       modules =
         [
@@ -93,7 +90,9 @@ rec {
   mkNixosDeploy = nixosConfig: {
     user = "root";
     sshUser = "root";
-    path = pkgsCache.${nixosConfig.config.nixpkgs.system}.deploy-rs.lib.activate.nixos nixosConfig;
+    path =
+      nixosConfig.config.nixpkgs.${nixosConfig.config.nixpkgs.system}.deploy-rs.lib.activate.nixos
+        nixosConfig;
   };
 
   # mkDarwinSystem is a convenience function for declaring a nix-darwin system,
@@ -105,12 +104,13 @@ rec {
         "belak" = [ ];
       },
       hostname ? null,
+      nixpkgs ? nixpkgs-darwin,
       extraDarwinModules ? [ ],
     }:
     darwin.lib.darwinSystem {
       inherit system;
 
-      pkgs = pkgsCache.${system};
+      pkgs = mkPkgs system nixpkgs (builtins.attrValues self.overlays);
 
       modules =
         [
@@ -159,10 +159,11 @@ rec {
       system ? "x86_64-linux",
       username ? "belak",
       hostname ? null,
+      nixpkgs ? nixpkgs-nixos,
       extraHomeModules ? [ ],
     }:
     home-manager.lib.homeManagerConfiguration {
-      pkgs = pkgsCache.${system};
+      pkgs = mkPkgs system nixpkgs (builtins.attrValues self.overlays);
 
       modules = mkHomeModules { inherit hostname username extraHomeModules; } ++ [
         {

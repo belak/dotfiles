@@ -11,7 +11,9 @@
 
   # This is a modified version of what's in the deploy-rs readme. For some
   # reason overriding deploy-rs entirely seems to clobber the needed `lib` attr.
-  # Note that this depends on our "unstable" overlay.
+  # Note that this depends on our "unstable" overlay because it's the easiest
+  # way to make sure we get a package from nixpkgs and not from the deploy-rs
+  # source.
   deploy-rs-pkg-override = final: prev: {
     deploy-rs = final.unstable.deploy-rs // {
       inherit (prev.deploy-rs) lib;
