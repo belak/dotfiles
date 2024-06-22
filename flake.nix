@@ -1,13 +1,9 @@
 {
-
   description = "Belak's Polyglot Nix configuration";
 
   inputs = {
-    # Note that we use the nixos branch, even though there is a separate darwin
-    # branch. Because nixos generally lags a bit farther behind, all darwin
-    # packages should be available in the binary cache by the time the nixos
-    # branch updates.
     nixpkgs-nixos.url = "github:nixos/nixpkgs/nixos-24.05";
+    nixpkgs-darwin.url = "github:nixos/nixpkgs/nixpkgs-24.05-darwin";
     nixpkgs-unstable.url = "github:nixos/nixpkgs/nixos-unstable";
     nixos-hardware.url = "github:nixos/nixos-hardware";
 
@@ -44,7 +40,6 @@
     }:
     let
       lib = import ./nix/lib.nix inputs;
-      overlays = import ./nix/overlays.nix inputs;
     in
     {
       inherit lib;
