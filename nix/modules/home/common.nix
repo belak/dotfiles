@@ -51,11 +51,15 @@ in
       emacs29-pgtk
 
       # Nix tools
-      nix-index
-      nix-tree
-      #rippkgs
-      #rnix-lsp
-      statix
+      #unstable.rippkgs
+      #unstable.rnix-lsp
+      unstable.alejandra
+      unstable.manix
+      unstable.nil
+      unstable.nix-index
+      unstable.nix-tree
+      unstable.nixfmt-rfc-style
+      unstable.statix
 
       # Archive Formats
       p7zip
@@ -63,10 +67,10 @@ in
       unzip
 
       # Stuff to try
+      bat
       gitui
       ncspot
       neovim
-      #bat
     ];
 
     programs.direnv = {
