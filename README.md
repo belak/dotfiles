@@ -12,9 +12,7 @@ sudo nixos-rebuild switch
 # TODO: nix-darwin setup
 
 # home-manager setup
-nix-channel --add https://github.com/nix-community/home-manager/archive/release-23.05.tar.gz home-manager
-nix-channel --update
-home-manager switch -f ~/.dotfiles/nix
+nix run github:nix-community/home-manager -- switch --flake ~/.dotfiles
 ```
 
 ### Concepts
