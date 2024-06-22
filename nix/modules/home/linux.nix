@@ -21,11 +21,12 @@ in
       powertop
 
       # Terminus needs to be installed from a homebrew cask on macOS to pick it
-      # up.
+      # up so we install it for Linux here.
       terminus_font
 
       # Various additional fonts which improve the Linux experience
       dejavu_fonts
+      nerdfonts
       noto-fonts-emoji
     ];
   };
