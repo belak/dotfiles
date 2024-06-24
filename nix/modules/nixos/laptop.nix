@@ -22,6 +22,7 @@ in
     environment.systemPackages = with pkgs; [
       acpi
       android-udev-rules
+      gparted
       powertop
     ];
   };

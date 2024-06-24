@@ -134,48 +134,77 @@
       # for the most common cases.
       homeConfigurations = {
         "belak" = lib.mkHome { };
+        "belak-arm64" = lib.mkHome { system = "aarch64-linux"; };
         "belak@zagreus" = lib.mkHome { hostname = "zagreus"; };
       };
 
       deploy.nodes = {
         kupo = {
           hostname = "kupo.elwert.dev";
+          profilesOrder = [
+            "belak"
+            "system"
+          ];
           profiles.system = lib.mkNixosDeploy self.nixosConfigurations.kupo;
-          profiles.belak = lib.mkHomeDeploy self.homeConfigurations.belak;
+          profiles.belak = lib.mkHomeDeploy self.homeConfigurations.belak-arm64;
         };
 
         stiltzkin = {
           hostname = "stiltzkin.elwert.dev";
+          profilesOrder = [
+            "belak"
+            "system"
+          ];
           profiles.system = lib.mkNixosDeploy self.nixosConfigurations.stiltzkin;
-          profiles.belak = lib.mkHomeDeploy self.homeConfigurations.belak;
+          profiles.belak = lib.mkHomeDeploy self.homeConfigurations.belak-arm64;
         };
 
         moguo = {
           hostname = "moguo.elwert.dev";
+          profilesOrder = [
+            "belak"
+            "system"
+          ];
           profiles.system = lib.mkNixosDeploy self.nixosConfigurations.moguo;
-          profiles.belak = lib.mkHomeDeploy self.homeConfigurations.belak;
+          profiles.belak = lib.mkHomeDeploy self.homeConfigurations.belak-arm64;
         };
 
         monty = {
           hostname = "monty.elwert.dev";
+          profilesOrder = [
+            "belak"
+            "system"
+          ];
           profiles.system = lib.mkNixosDeploy self.nixosConfigurations.monty;
-          profiles.belak = lib.mkHomeDeploy self.homeConfigurations.belak;
+          profiles.belak = lib.mkHomeDeploy self.homeConfigurations.belak-arm64;
         };
 
         eiko = {
           hostname = "eiko.elwert.dev";
+          profilesOrder = [
+            "belak"
+            "system"
+          ];
           profiles.system = lib.mkNixosDeploy self.nixosConfigurations.eiko;
           profiles.belak = lib.mkHomeDeploy self.homeConfigurations.belak;
         };
 
         vivi = {
           hostname = "vivi.elwert.dev";
+          profilesOrder = [
+            "belak"
+            "system"
+          ];
           profiles.system = lib.mkNixosDeploy self.nixosConfigurations.vivi;
           profiles.belak = lib.mkHomeDeploy self.homeConfigurations.belak;
         };
 
         zidane = {
           hostname = "zidane.elwert.dev";
+          profilesOrder = [
+            "belak"
+            "system"
+          ];
           profiles.system = lib.mkNixosDeploy self.nixosConfigurations.zidane;
           profiles.belak = lib.mkHomeDeploy self.homeConfigurations.belak;
         };

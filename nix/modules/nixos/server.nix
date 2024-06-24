@@ -17,7 +17,7 @@ in
 
     services.openssh.enable = true;
 
-    # We use mkOverride because we want to override the default values.
+    # We use mkForce because we want to override the default values.
     time.timeZone = lib.mkForce "Etc/UTC";
 
     # For laptops, this will make it so they can be run closed. This should have

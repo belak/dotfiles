@@ -24,9 +24,10 @@ in
       # up so we install it for Linux here.
       terminus_font
 
-      # Various additional fonts which improve the Linux experience
+      # Various additional fonts which improve the Linux experience. Normally
+      # nerdfonts would be included here so Doom Emacs wouldn't need to download
+      # them, but it's an 8Gb package.
       dejavu_fonts
-      nerdfonts
       noto-fonts-emoji
     ];
   };
