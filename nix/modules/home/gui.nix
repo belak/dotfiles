@@ -26,13 +26,9 @@ in
       # TODO: there seems to be an issue launching gparted from the gnome
       # applications. It may be due to home-manager vs. nixos for packages
       # requiring sudo.
-      gparted
+      #gparted
 
-      #my.trekscii # TODO: currently broken
       my.wezterm-bin
-
-      # Packages I'm trying out
-      fractal
 
       # Packages I want more up to date
       unstable.obsidian

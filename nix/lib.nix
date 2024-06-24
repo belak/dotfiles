@@ -4,7 +4,6 @@
   nixpkgs-darwin,
   nixos-hardware,
   home-manager,
-  deploy-rs,
   darwin,
   ...
 }:
