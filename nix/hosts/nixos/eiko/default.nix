@@ -23,7 +23,11 @@
 
   services.soju = {
     enable = true;
+    hostName = "soju.elwert.cloud";
+    listen = [ "irc+insecure://:6667" ];
   };
+
+  networking.firewall.allowedTCPPorts = [ 6667 ];
 
   # This value determines the NixOS release from which the default
   # settings for stateful data, like file locations and database versions
