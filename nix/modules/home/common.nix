@@ -24,6 +24,7 @@ in
     news.display = "silent";
 
     home.packages = with pkgs; [
+      _1password
       curl
       dig
       fd
