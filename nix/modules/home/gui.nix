@@ -31,6 +31,7 @@ in
       my.wezterm-bin
 
       # Packages I want more up to date
+      unstable.halloy
       unstable.obsidian
       unstable.prusa-slicer
     ];
