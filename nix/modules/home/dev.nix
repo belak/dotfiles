@@ -45,6 +45,7 @@ in
       go
       gore
       gotests
+      gotools
 
       # Python
       python311

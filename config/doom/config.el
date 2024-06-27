@@ -18,7 +18,7 @@
 ;; The default doom settings run apheleia to format, even when an LSP is
 ;; available. This is a hack to use +format/buffer until apheleia gets LSP
 ;; support.
-(add-hook 'before-save-hook #'+format/buffer)
+;;(add-hook 'before-save-hook #'+format/buffer)
 
 ;; The default style for uniquifying buffer names is strange, so we change it to
 ;; something more useful.
@@ -37,6 +37,9 @@
 ;; Don't make distinctions between ASCII and siblings (like a and a with an
 ;; umlaut) when searching.
 (setq search-default-mode 'char-fold-to-regexp)
+
+(after! go-mode
+  (setq gofmt-command "goimports"))
 
 ;; If you use `org' and don't want your org files in the default location below,
 ;; change `org-directory'. It must be set before org loads!
