@@ -5,5 +5,6 @@
     ./gnome.nix
     ./laptop.nix
     ./server.nix
+    ./soju.nix
   ];
 }
