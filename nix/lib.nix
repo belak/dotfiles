@@ -43,8 +43,7 @@ rec {
 
   optionalFile = path: if builtins.pathExists path then [ path ] else [ ];
 
-  # mkNixosSystem is a convenience function for declaring a nixos system,
-  # and integrating it with home-manager.
+  # mkNixosSystem is a convenience function for declaring a nixos system.
   mkNixosSystem =
     {
       hostname,
@@ -90,8 +89,7 @@ rec {
       path = pkgs.deploy-rs.lib.activate.home-manager homeManagerConfig;
     };
 
-  # mkDarwinSystem is a convenience function for declaring a nix-darwin system,
-  # and integrating it with home-manager.
+  # mkDarwinSystem is a convenience function for declaring a nix-darwin system.
   mkDarwinSystem =
     {
       system ? "aarch64-darwin",
@@ -110,26 +108,8 @@ rec {
       ] ++ modules;
     };
 
-  # mkHomeModules is used by mkNixosSystem, mkDarwinSystem and mkHome to allow
-  # all to use the same modules. This allows us to have our config in our system
-  # configurations and still use the same setup if we're using home-manager
-  # standalone.
-  mkHomeModules =
-    {
-      hostname,
-      username,
-      modules,
-    }:
-    [
-      self.homeModules.default
-      agenix.homeManagerModules.default
-    ]
-    ++ (mkOptionals (hostname != null) (optionalFile ./users/home/${username}/${hostname}.nix))
-    ++ (optionalFile ./users/home/${username}/default.nix)
-    ++ modules;
-
-  # mkHome is a convenience function for declaring a home-manager setup with our
-  # specific package setup.
+  # mkHome is a convenience function for declaring a home-manager config with
+  # our specific package setup.
   mkHome =
     {
       system ? "x86_64-linux",
@@ -141,11 +121,19 @@ rec {
     home-manager.lib.homeManagerConfiguration {
       pkgs = mkPkgs system nixpkgs (builtins.attrValues self.overlays);
 
-      modules = mkHomeModules { inherit hostname username modules; } ++ [
-        {
-          # Let Home Manager install and manage itself.
-          programs.home-manager.enable = true;
-        }
-      ];
+      modules =
+        [
+          self.homeModules.default
+          agenix.homeManagerModules.default
+        ]
+        ++ (mkOptionals (hostname != null) (optionalFile ./users/home/${username}/${hostname}.nix))
+        ++ (optionalFile ./users/home/${username}/default.nix)
+        ++ [
+          {
+            # Let Home Manager install and manage itself.
+            programs.home-manager.enable = true;
+          }
+        ]
+        ++ modules;
     };
 }
