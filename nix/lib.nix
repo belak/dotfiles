@@ -3,6 +3,7 @@
   nixpkgs-nixos,
   nixpkgs-darwin,
   nixos-hardware,
+  agenix,
   home-manager,
   darwin,
   ...
@@ -56,7 +57,10 @@ rec {
 
       pkgs = mkPkgs system nixpkgs (builtins.attrValues self.overlays);
 
-      modules = [ self.nixosModules.default ] ++ modules;
+      modules = [
+        self.nixosModules.default
+        agenix.nixosModules.default
+      ] ++ modules;
 
       # Pass extra inputs through to all modules.
       specialArgs = {
@@ -102,13 +106,7 @@ rec {
 
       modules = [
         self.darwinModules.default
-        home-manager.darwinModules.home-manager
-        {
-          # Use the nixos pkgs we just configured rather than a separate
-          # variable.
-          home-manager.useGlobalPkgs = true;
-          home-manager.useUserPackages = true;
-        }
+        agenix.darwinModules.default
       ] ++ modules;
     };
 
@@ -122,7 +120,10 @@ rec {
       username,
       modules,
     }:
-    [ self.homeModules.default ]
+    [
+      self.homeModules.default
+      agenix.homeManagerModules.default
+    ]
     ++ (mkOptionals (hostname != null) (optionalFile ./users/home/${username}/${hostname}.nix))
     ++ (optionalFile ./users/home/${username}/default.nix)
     ++ modules;
@@ -142,9 +143,7 @@ rec {
 
       modules = mkHomeModules { inherit hostname username modules; } ++ [
         {
-          # Let Home Manager install and manage itself. Note that we set this
-          # up *only* when calling mkHome because other setups should use
-          # home-manager via their nix-darwin and nixos modules.
+          # Let Home Manager install and manage itself.
           programs.home-manager.enable = true;
         }
       ];

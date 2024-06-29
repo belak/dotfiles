@@ -25,6 +25,8 @@ in
 
     home.packages = with pkgs; [
       _1password
+      age
+      agenix
       curl
       dig
       fd

@@ -1,11 +1,14 @@
 {
   self,
   nixpkgs-unstable,
+  agenix,
   deploy-rs,
   ...
 }:
 {
   additions = final: _prev: { my = import ./pkgs { pkgs = final; }; };
+
+  agenix = final: _prev: { agenix = agenix.packages.${final.system}.default; };
 
   deploy-rs-overlay = deploy-rs.overlays.default;
 

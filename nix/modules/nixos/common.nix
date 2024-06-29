@@ -22,6 +22,8 @@
     };
   };
 
+  users.mutableUsers = false;
+
   environment.systemPackages = with pkgs; [
     git
     vim

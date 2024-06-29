@@ -22,6 +22,13 @@
       inputs.nixpkgs.follows = "nixpkgs-unstable";
     };
 
+    agenix = {
+      url = "github:ryantm/agenix";
+      inputs.nixpkgs.follows = "nixpkgs-nixos";
+      inputs.darwin.follows = "darwin";
+      inputs.home-manager.follows = "home-manager";
+    };
+
     nixos-generators = {
       url = "github:nix-community/nixos-generators";
       inputs.nixpkgs.follows = "nixpkgs-nixos";

@@ -4,6 +4,7 @@
     ./dev.nix
     ./gnome.nix
     ./laptop.nix
+    ./secrets.nix
     ./server.nix
     ./soju.nix
   ];
