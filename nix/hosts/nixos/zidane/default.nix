@@ -6,9 +6,6 @@
   imports = [
     # Include the results of the hardware scan.
     ./hardware-configuration.nix
-
-    # Users
-    ../belak.nix
   ];
 
   boot.loader.systemd-boot.enable = true;
