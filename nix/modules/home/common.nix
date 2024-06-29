@@ -39,6 +39,7 @@ in
       jq
       killall
       lftp
+      openssl
       pwgen
       ripgrep
       tmux
