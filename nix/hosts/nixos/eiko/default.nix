@@ -15,19 +15,12 @@
   boot.loader.efi.canTouchEfiVariables = true;
 
   belak.server.enable = true;
+  belak.services.soju.enable = true;
 
   networking = {
     hostName = "eiko";
     domain = "elwert.dev";
   };
-
-  services.soju = {
-    enable = true;
-    hostName = "soju.elwert.cloud";
-    listen = [ "irc+insecure://:6667" ];
-  };
-
-  networking.firewall.allowedTCPPorts = [ 6667 ];
 
   # This value determines the NixOS release from which the default
   # settings for stateful data, like file locations and database versions
