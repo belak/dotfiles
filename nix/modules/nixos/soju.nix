@@ -1,6 +1,6 @@
 { config, lib, ... }:
 let
-  cfg = config.belak.dev;
+  cfg = config.belak.services.soju;
 in
 {
   options.belak.services.soju = {
