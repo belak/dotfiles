@@ -1,3 +1,3 @@
 COPY_ALWAYS="hgrc gitconfig config/systemd/user/emacs.service"
-EXCLUDES="README.md base16-shell tools config/nvim/plugged nix flake.nix flake.lock"
+EXCLUDES="README.md base16-shell tools config/nvim/plugged nix flake.nix flake.lock secrets"
 SYMLINK_DIRS="config/doom config/emacs config/nvim zgen"

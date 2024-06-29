@@ -21,6 +21,10 @@
     laptop.enable = true;
   };
 
+  # TODO: at the moment this is enabled purely so the hostKeys are available to
+  # agenix. Ideally that wouldn't be necessary.
+  services.openssh.enable = true;
+
   # Enable fprintd for fingerprint auth. Note that this is disabled for now
   # because the gdm behavior disallows password auth.
   #
