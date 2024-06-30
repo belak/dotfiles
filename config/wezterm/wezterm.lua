@@ -13,7 +13,7 @@ if is_macos then
   -- When I'm using MacOS, I'm generally on a larger monitor, so a larger font
   -- size is important for readability.
   font = "Terminus (TTF)"
-  font_size = 14.0
+  font_size = 16.0
 
   extra_keys = {
     {key="LeftArrow", mods="CMD", action=wezterm.action.ActivateTabRelative(-1)},

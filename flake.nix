@@ -61,6 +61,13 @@
       # that rather than stock nixfmt.
       formatter = lib.forAllSystems (system: nixpkgs-unstable.legacyPackages.${system}.nixfmt-rfc-style);
 
+      darwinConfigurations = {
+        "baku" = lib.mkDarwinSystem {
+          hostname = "baku";
+          system = "x86_64-darwin";
+        };
+      };
+
       nixosConfigurations = {
         # Raspberry Pis
         "kupo" = lib.mkNixosSystem {
@@ -142,6 +149,7 @@
       homeConfigurations = {
         "belak" = lib.mkHome { };
         "belak-arm64" = lib.mkHome { system = "aarch64-linux"; };
+        "belak@baku" = lib.mkHome { hostname = "baku"; system = "x86_64-darwin"; };
         "belak@zagreus" = lib.mkHome { hostname = "zagreus"; };
       };
 

@@ -21,8 +21,10 @@
     ];
 
     casks = [
+      "1password"
       "alfred"
       "bartender"
+      "calibre"
       "discord"
       "finicky"
       "firefox"
@@ -41,6 +43,7 @@
       "postgres-unofficial"
       "prismlauncher"
       "prusaslicer"
+      "rectangle"
       "spotify"
       "wezterm"
 
@@ -57,6 +60,7 @@
       Parcel = 639968404;
       Reeder = 1529448980;
       Things = 904280696;
+      Xcode = 497799835;
 
       # Stuff I'm trying out
       MusicBox = 1614730313;
@@ -75,12 +79,28 @@
   };
 
   system.defaults = {
+    dock = {
+      autohide = true;
+      show-recents = false;
+      tilesize = 48;
+      persistent-apps = [
+        "/Applications/Firefox.app"
+        "/Applications/WezTerm.app"
+        "/Applications/Obsidian.app"
+        "/Applications/Things3.app"
+      ];
+    };
+
+    screencapture.disable-shadow = true;
+
     CustomUserPreferences = {
       "com.apple.finder" = {
         "_FXSortFoldersFirst" = true;
       };
     };
   };
+
+  #keyboard.remapCapsLockToEscape = true;
 
   programs.zsh = {
     enable = true;
