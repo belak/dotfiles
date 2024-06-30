@@ -49,9 +49,11 @@ in
       yq
       yt-dlp
 
-      # We use the pure GTK variant of emacs to get better Wayland support. Thankfully
-      # it also works on macOS.
-      emacs29-pgtk
+      # We use the pure GTK variant of emacs to get better Wayland support.
+      #
+      # TODO: there are some issues with the pgtk build on macOS, so we just use
+      # the normal emacs build there.
+      (if pkgs.stdenv.isDarwin then pkgs.emacs else pkgs.emacs29-pgtk)
 
       # Nix tools
       #unstable.rippkgs
