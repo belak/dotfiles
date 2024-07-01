@@ -45,6 +45,7 @@
       "prusaslicer"
       "rectangle"
       "spotify"
+      "textual"
       "wezterm"
 
       # Stuff I'm migrating away from
