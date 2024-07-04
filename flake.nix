@@ -149,7 +149,10 @@
       homeConfigurations = {
         "belak" = lib.mkHome { };
         "belak-arm64" = lib.mkHome { system = "aarch64-linux"; };
-        "belak@baku" = lib.mkHome { hostname = "baku"; system = "x86_64-darwin"; };
+        "belak@baku" = lib.mkHome {
+          hostname = "baku";
+          system = "x86_64-darwin";
+        };
         "belak@zagreus" = lib.mkHome { hostname = "zagreus"; };
       };
 

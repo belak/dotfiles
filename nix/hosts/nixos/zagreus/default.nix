@@ -8,7 +8,10 @@
   networking = {
     hostName = "zagreus";
     domain = "elwert.dev";
-    networkmanager.enable = true;
+    networkmanager = {
+      enable = true;
+      plugins = with pkgs; [ networkmanager-l2tp ];
+    };
   };
 
   belak = {
@@ -17,6 +20,8 @@
     gnome.enable = true;
     laptop.enable = true;
   };
+
+  environment.systemPackages = with pkgs; [ pptp ];
 
   # TODO: at the moment this is enabled purely so the hostKeys are available to
   # agenix. Ideally that wouldn't be necessary.
