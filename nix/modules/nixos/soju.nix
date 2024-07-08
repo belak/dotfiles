@@ -1,9 +1,9 @@
 { config, lib, ... }:
 let
-  cfg = config.belak.services.soju;
+  cfg = config.belak.soju;
 in
 {
-  options.belak.services.soju = {
+  options.belak.soju = {
     enable = lib.mkEnableOption "soju";
   };
 

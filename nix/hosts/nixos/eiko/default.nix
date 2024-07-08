@@ -12,7 +12,11 @@
   boot.loader.efi.canTouchEfiVariables = true;
 
   belak.server.enable = true;
-  belak.services.soju.enable = true;
+
+  belak.gitea.enable = true;
+  belak.postgres.enable = true;
+  belak.soju.enable = true;
+  belak.traefik.enable = true;
 
   networking = {
     hostName = "eiko";
