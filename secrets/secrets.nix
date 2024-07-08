@@ -25,4 +25,5 @@ let
 in
 {
   "belak-password.age".publicKeys = [ user-belak-zagreus ] ++ systems;
+  "traefik-env.age".publicKeys = [ user-belak-zagreus ] ++ [ system-eiko ];
 }
