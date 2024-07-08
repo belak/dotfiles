@@ -1,6 +1,8 @@
 let
+  user-belak-work = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIFUSx9TTTHUq4GOkeBU4Ga03QombEBiZLqqa8KIqnnUy";
   user-belak-zagreus = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIGNHMEfjGg5ek6OtbFytZ/zCSZosT8aHqHRfnufb3gIi";
 
+  # TODO: add user-belak-work when I'm on zagreus
   users = [ user-belak-zagreus ];
 
   system-kupo = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIPwQnnGikM0ko50JG6l7WPosQNgtnjqpR9i6BvYbkRO2";
