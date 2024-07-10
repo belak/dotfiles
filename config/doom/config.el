@@ -15,11 +15,6 @@
 (setq user-full-name    "Kaleb Elwert"
       user-mail-address "belak@coded.io")
 
-;; The default doom settings run apheleia to format, even when an LSP is
-;; available. This is a hack to use +format/buffer until apheleia gets LSP
-;; support.
-;;(add-hook 'before-save-hook #'+format/buffer)
-
 ;; The default style for uniquifying buffer names is strange, so we change it to
 ;; something more useful.
 ;;
