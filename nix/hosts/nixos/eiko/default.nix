@@ -16,7 +16,17 @@
   belak.gitea.enable = true;
   belak.postgres.enable = true;
   belak.soju.enable = true;
-  belak.traefik.enable = true;
+  belak.acme.enable = true;
+  belak.nginx.enable = true;
+
+  #services.seafile = {
+  #  enable = true;
+  #
+  #  ccnetSettings.General.SERVICE_URL = "https://seafile.elwert.cloud";
+  #  initialAdminPassword = "hunter2";
+  #
+  #  # 8083
+  #};
 
   networking = {
     hostName = "eiko";

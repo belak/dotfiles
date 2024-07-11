@@ -2,10 +2,6 @@ let
   user-belak-work = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIFUSx9TTTHUq4GOkeBU4Ga03QombEBiZLqqa8KIqnnUy";
   user-belak-zagreus = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIGNHMEfjGg5ek6OtbFytZ/zCSZosT8aHqHRfnufb3gIi";
 
-  users-admins = [
-    user-belak-work
-    user-belak-zagreus
-  ];
   users = [
     user-belak-work
     user-belak-zagreus
@@ -32,6 +28,6 @@ let
   ];
 in
 {
-  "belak-password.age".publicKeys = users-admins ++ systems;
-  "traefik-env.age".publicKeys = users-admins ++ [ system-eiko ];
+  "acme-cloudflare-env.age".publicKeys = users ++ [ system-eiko ];
+  "belak-password.age".publicKeys = users ++ systems;
 }

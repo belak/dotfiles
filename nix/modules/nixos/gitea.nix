@@ -22,6 +22,11 @@ in
       };
     };
 
+    services.nginx.virtualHosts."${cfg.domain}" = {
+      useACMEHost = "primary";
+      forceSSL = true;
+    };
+
     services.traefik.dynamicConfigOptions = {
       http.services.gitea.loadBalancer.servers = [ "http://localhost:${giteaConfig.HTTP_PORT}" ];
 

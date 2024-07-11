@@ -1,6 +1,7 @@
 { config, lib, ... }:
 let
   cfg = config.belak.soju;
+  certCfg = config.security.acme.certs.soju;
 in
 {
   options.belak.soju = {
@@ -11,9 +12,22 @@ in
     services.soju = {
       enable = true;
       hostName = "soju.elwert.cloud";
-      listen = [ "irc+insecure://:6667" ];
+      listen = [ "ircs://:7000" ];
+      tlsCertificate = "${certCfg.directory}/soju/fullchain.pem";
+      tlsCertificateKey = "${certCfg.directory}/soju/key.pem";
     };
 
-    networking.firewall.allowedTCPPorts = [ 6667 ];
+    #systemd.services.soju = {
+    #  after = [ "acme-selfsigned-soju.target" ];
+    #  requires = [ "acme-finished-soju.target" ];
+    #}
+
+    security.acme.certs.soju = {
+      domain = "soju.elwert.cloud";
+      group = "soju";
+      reloadServices = [ "soju" ];
+    };
+
+    networking.firewall.allowedTCPPorts = [ 7000 ];
   };
 }
