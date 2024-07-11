@@ -10,7 +10,7 @@ in
   config = lib.mkIf cfg.enable {
     services.traefik = {
       enable = true;
-      environmentFiles = [ config.age.secrets.traefik-env.path ];
+      environmentFiles = [ config.age.secrets.acme-cloudflare-env.path ];
       staticConfigOptions = {
         defaultEntryPoints = [ "https" ];
         log.level = "INFO";

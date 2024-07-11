@@ -8,7 +8,7 @@ in
   };
 
   config = lib.mkIf cfg.enable {
-    services.postgres = {
+    services.postgresql = {
       enable = true;
     };
   };

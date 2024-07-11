@@ -1,6 +1,6 @@
 {
   age.secrets = {
     belak-password.file = ../../../secrets/belak-password.age;
-    traefik-env.file = ../../../secrets/traefik-env.age;
+    acme-cloudflare-env.file = ../../../secrets/acme-cloudflare-env.age;
   };
 }
