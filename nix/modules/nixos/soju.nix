@@ -13,8 +13,8 @@ in
       enable = true;
       hostName = "soju.elwert.cloud";
       listen = [ "ircs://:7000" ];
-      tlsCertificate = "${certCfg.directory}/soju/fullchain.pem";
-      tlsCertificateKey = "${certCfg.directory}/soju/key.pem";
+      tlsCertificate = "${certCfg.directory}/fullchain.pem";
+      tlsCertificateKey = "${certCfg.directory}/key.pem";
     };
 
     #systemd.services.soju = {
