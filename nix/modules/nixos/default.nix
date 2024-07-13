@@ -12,6 +12,5 @@
     ./secrets.nix
     ./server.nix
     ./soju.nix
-    ./traefik.nix
   ];
 }

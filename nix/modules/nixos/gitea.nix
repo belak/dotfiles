@@ -18,13 +18,15 @@ in
 
       settings.server = {
         ROOT_URL = "https://${cfg.domain}";
-        HTTP_ADDR = "127.0.0.1";
+        PROTOCOL = "http+unix";
       };
     };
 
     services.nginx.virtualHosts."${cfg.domain}" = {
       useACMEHost = "primary";
       forceSSL = true;
+
+      locations."/".proxyPass = "http://unix:${giteaConfig.HTTP_ADDR}";
     };
 
     services.traefik.dynamicConfigOptions = {
