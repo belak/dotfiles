@@ -10,6 +10,10 @@ in
   config = lib.mkIf cfg.enable {
     services.nginx = {
       enable = true;
+
+      recommendedProxySettings = true;
+      recommendedTlsSettings = true;
+      recommendedOptimisation = true;
     };
 
     security.acme.certs.primary = {
