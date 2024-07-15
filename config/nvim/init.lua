@@ -52,7 +52,7 @@ require("lazy").setup({
   -- Appearance
   "nvim-lualine/lualine.nvim",
   "stevearc/dressing.nvim",
-  "tinted-theming/base16-vim"
+  "tinted-theming/base16-vim",
 
   {
     'echasnovski/mini.nvim',
