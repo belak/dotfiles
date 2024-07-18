@@ -52,9 +52,10 @@
       inherit lib;
 
       overlays = import ./nix/overlays.nix inputs;
-      darwinModules.default = import ./nix/modules/darwin;
-      homeModules.default = import ./nix/modules/home;
-      nixosModules.default = import ./nix/modules/nixos;
+
+      darwinModules.default = import ./nix/darwin/modules;
+      homeModules.default = import ./nix/home/modules;
+      nixosModules.default = import ./nix/nixos/modules;
 
       # There are a number of different formatters available: nixfmt, alejandra,
       # and nixfmt-rfc-style. As rfc-style is the "up-and-coming" format, we use
@@ -63,7 +64,6 @@
 
       darwinConfigurations = {
         "baku" = lib.mkDarwinSystem {
-          hostname = "baku";
           system = "x86_64-darwin";
         };
       };
@@ -71,71 +71,63 @@
       nixosConfigurations = {
         # Raspberry Pis
         "kupo" = lib.mkNixosSystem {
-          hostname = "kupo";
           system = "aarch64-linux";
           modules = [
-            ./nix/hosts/nixos/kupo
-            ./nix/users/nixos/belak
+            ./nix/nixos/hosts/kupo
+            ./nix/nixos/users/belak
           ];
         };
         "stiltzkin" = lib.mkNixosSystem {
-          hostname = "stiltzkin";
           system = "aarch64-linux";
           modules = [
-            ./nix/hosts/nixos/stiltzkin
-            ./nix/users/nixos/belak
+            ./nix/nixos/hosts/stiltzkin
+            ./nix/nixos/users/belak
           ];
         };
         "moguo" = lib.mkNixosSystem {
-          hostname = "moguo";
           system = "aarch64-linux";
           modules = [
-            ./nix/hosts/nixos/moguo
-            ./nix/users/nixos/belak
+            ./nix/nixos/hosts/moguo
+            ./nix/nixos/users/belak
           ];
         };
         "monty" = lib.mkNixosSystem {
-          hostname = "monty";
           system = "aarch64-linux";
           modules = [
-            ./nix/hosts/nixos/monty
-            ./nix/users/nixos/belak
+            ./nix/nixos/hosts/monty
+            ./nix/nixos/users/belak
           ];
         };
 
         # ThinkCentre M93p
         "eiko" = lib.mkNixosSystem {
-          hostname = "eiko";
           modules = [
-            ./nix/hosts/nixos/eiko
-            ./nix/users/nixos/belak
+            ./nix/nixos/hosts/eiko
+            ./nix/nixos/users/belak
           ];
         };
 
         # Intel NUC7i7DNHE
         "vivi" = lib.mkNixosSystem {
-          hostname = "vivi";
           modules = [
-            ./nix/hosts/nixos/vivi
-            ./nix/users/nixos/belak
+            ./nix/nixos/hosts/vivi
+            ./nix/nixos/users/belak
           ];
         };
 
         # Primary Laptop (ThinkPad T14 Gen 1)
         "zagreus" = lib.mkNixosSystem {
-          hostname = "zagreus";
           modules = [
-            ./nix/hosts/nixos/zagreus
-            ./nix/users/nixos/belak
+            ./nix/nixos/hosts/zagreus
+            ./nix/nixos/users/belak
           ];
         };
 
         # Old Laptop (ThinkPad T460)
         "zidane" = lib.mkNixosSystem {
-          hostname = "zidane";
           modules = [
-            ./nix/hosts/nixos/zidane
-            ./nix/users/nixos/belak
+            ./nix/nixos/hosts/zidane
+            ./nix/nixos/users/belak
           ];
         };
       };
@@ -147,13 +139,30 @@
       # host-specific configuration, but we provide a default "belak" fallback
       # for the most common cases.
       homeConfigurations = {
-        "belak" = lib.mkHome { };
-        "belak-arm64" = lib.mkHome { system = "aarch64-linux"; };
-        "belak@baku" = lib.mkHome {
-          hostname = "baku";
-          system = "x86_64-darwin";
+        "belak" = lib.mkHome {
+          modules = [
+            ./nix/home/users/belak
+          ];
         };
-        "belak@zagreus" = lib.mkHome { hostname = "zagreus"; };
+        "belak-arm64" = lib.mkHome {
+          system = "aarch64-linux";
+          modules = [
+            ./nix/home/users/belak
+          ];
+        };
+        "belak@baku" = lib.mkHome {
+          system = "x86_64-darwin";
+          modules = [
+            ./nix/home/users/belak
+            ./nix/home/users/belak/baku.nix
+          ];
+        };
+        "belak@zagreus" = lib.mkHome {
+          modules = [
+            ./nix/home/users/belak
+            ./nix/home/users/belak/zagreus.nix
+          ];
+        };
       };
 
       deploy.nodes = {
