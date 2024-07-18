@@ -17,5 +17,7 @@ in
         environmentFile = config.age.secrets.acme-cloudflare-env.path;
       };
     };
+
+    age.secrets.acme-cloudflare-env.file = ../../../secrets/acme-cloudflare-env.age;
   };
 }
