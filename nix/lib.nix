@@ -46,7 +46,6 @@ rec {
   # mkNixosSystem is a convenience function for declaring a nixos system.
   mkNixosSystem =
     {
-      hostname,
       modules,
       system ? "x86_64-linux",
       nixpkgs ? nixpkgs-nixos,
@@ -93,7 +92,6 @@ rec {
   mkDarwinSystem =
     {
       system ? "aarch64-darwin",
-      hostname ? null,
       nixpkgs ? nixpkgs-darwin,
       modules ? [ ],
     }:
@@ -114,7 +112,6 @@ rec {
     {
       system ? "x86_64-linux",
       username ? "belak",
-      hostname ? null,
       nixpkgs ? nixpkgs-nixos,
       modules ? [ ],
     }:
@@ -126,8 +123,6 @@ rec {
           self.homeModules.default
           agenix.homeManagerModules.default
         ]
-        ++ (mkOptionals (hostname != null) (optionalFile ./users/home/${username}/${hostname}.nix))
-        ++ (optionalFile ./users/home/${username}/default.nix)
         ++ [
           {
             # Let Home Manager install and manage itself.
