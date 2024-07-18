@@ -29,6 +29,7 @@ in
       imagemagick
       jq
       mdbook
+      patchelf
       picotool
       pkg-config
       protobuf
