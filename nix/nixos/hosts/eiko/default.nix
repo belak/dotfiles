@@ -18,11 +18,14 @@
 
   belak.server.enable = true;
 
-  belak.gitea.enable = true;
-  belak.postgres.enable = true;
-  belak.soju.enable = true;
+  belak.services = {
+    gitea.enable = true;
+    postgres.enable = true;
+    soju.enable = true;
+    nginx.enable = true;
+  };
+
   belak.acme.enable = true;
-  belak.nginx.enable = true;
 
   #services.seafile = {
   #  enable = true;

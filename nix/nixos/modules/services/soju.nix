@@ -5,7 +5,7 @@
   ...
 }:
 let
-  cfg = config.belak.soju;
+  cfg = config.belak.services.soju;
   certCfg = config.security.acme.certs.soju;
 
   stateDir = "/var/lib/soju";
@@ -25,7 +25,7 @@ let
   '';
 in
 {
-  options.belak.soju = {
+  options.belak.services.soju = {
     enable = lib.mkEnableOption "soju";
   };
 
@@ -62,6 +62,8 @@ in
     };
 
     users.groups.soju = { };
+
+    belak.acme.enable = true;
 
     security.acme.certs.soju = {
       domain = "soju.elwert.cloud";
