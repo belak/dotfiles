@@ -1,9 +1,9 @@
 { config, lib, ... }:
 let
-  cfg = config.belak.nginx;
+  cfg = config.belak.services.nginx;
 in
 {
-  options.belak.nginx = {
+  options.belak.services.nginx = {
     enable = lib.mkEnableOption "nginx";
   };
 
@@ -15,6 +15,8 @@ in
       recommendedTlsSettings = true;
       recommendedOptimisation = true;
     };
+
+    belak.acme.enable = true;
 
     security.acme.certs.primary = {
       domain = "${config.networking.hostName}.${config.networking.domain}";

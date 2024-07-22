@@ -1,9 +1,9 @@
 { config, lib, ... }:
 let
-  cfg = config.belak.postgres;
+  cfg = config.belak.services.postgres;
 in
 {
-  options.belak.postgres = {
+  options.belak.services.postgres = {
     enable = lib.mkEnableOption "postgres";
   };
 
