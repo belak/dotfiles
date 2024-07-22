@@ -16,16 +16,16 @@
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
 
-  belak.server.enable = true;
+  belak = {
+    server.enable = true;
 
-  belak.services = {
-    gitea.enable = true;
-    postgres.enable = true;
-    soju.enable = true;
-    nginx.enable = true;
+    services = {
+      gitea.enable = true;
+      nginx.enable = true;
+      postgres.enable = true;
+      soju.enable = true;
+    };
   };
-
-  belak.acme.enable = true;
 
   #services.seafile = {
   #  enable = true;
