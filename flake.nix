@@ -63,9 +63,7 @@
       formatter = lib.forAllSystems (system: nixpkgs-unstable.legacyPackages.${system}.nixfmt-rfc-style);
 
       darwinConfigurations = {
-        "baku" = lib.mkDarwinSystem {
-          system = "x86_64-darwin";
-        };
+        "baku" = lib.mkDarwinSystem { system = "x86_64-darwin"; };
       };
 
       nixosConfigurations = {
@@ -139,16 +137,10 @@
       # host-specific configuration, but we provide a default "belak" fallback
       # for the most common cases.
       homeConfigurations = {
-        "belak" = lib.mkHome {
-          modules = [
-            ./nix/home/users/belak
-          ];
-        };
+        "belak" = lib.mkHome { modules = [ ./nix/home/users/belak ]; };
         "belak-arm64" = lib.mkHome {
           system = "aarch64-linux";
-          modules = [
-            ./nix/home/users/belak
-          ];
+          modules = [ ./nix/home/users/belak ];
         };
         "belak@baku" = lib.mkHome {
           system = "x86_64-darwin";

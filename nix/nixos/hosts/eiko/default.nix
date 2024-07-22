@@ -1,7 +1,12 @@
 # Edit this configuration file to define what should be installed on
 # your system.  Help is available in the configuration.nix(5) man page
 # and in the NixOS manual (accessible by running `nixos-help`).
-{ config, pkgs, ... }:
+{
+  lib,
+  config,
+  pkgs,
+  ...
+}:
 {
   imports = [
     # Include the results of the hardware scan.
@@ -27,6 +32,24 @@
   #
   #  # 8083
   #};
+
+  # We have a number of services which run on a host which hasn't been migrated
+  # to NixOS, so we just forward them for now.
+  services.nginx.virtualHosts =
+    lib.genAttrs
+      [
+        "git.elwert.cloud"
+        "cloud.elwert.cloud"
+        "files.elwert.cloud"
+        "btta-api.elwert.cloud"
+        "btta-media.elwert.cloud"
+      ]
+      (host: {
+        useACMEHost = "primary";
+        forceSSL = true;
+
+        locations."/".proxyPass = "https://steiner.elwert.dev";
+      });
 
   networking = {
     hostName = "eiko";
