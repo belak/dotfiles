@@ -12,7 +12,6 @@ let
   #runtimeDir = "/run/soju";
 
   configFile = pkgs.writeText "soju.conf" ''
-    listen irc+insecure://:6667
     listen ircs://:7000
     hostname soju.elwert.cloud
     tls ${certCfg.directory}/fullchain.pem ${certCfg.directory}/key.pem
