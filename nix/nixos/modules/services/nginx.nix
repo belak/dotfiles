@@ -14,6 +14,10 @@ in
       recommendedProxySettings = true;
       recommendedTlsSettings = true;
       recommendedOptimisation = true;
+
+      commonHttpConfig = ''
+        add_header X-Clacks-Overhead "GNU Douglas Adams, Robert Asprin";
+      '';
     };
 
     belak.acme.enable = true;
