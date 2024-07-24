@@ -22,6 +22,7 @@
 
     casks = [
       "1password"
+      "airbuddy"
       "alfred"
       "bartender"
       "calibre"
