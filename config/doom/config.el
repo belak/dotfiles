@@ -144,6 +144,9 @@
  ;; Prevent accidental usage of `list-buffers'
  "C-x C-b" #'switch-to-buffer
 
+ "C-x \"" #'split-window-below
+ "C-x %" #'split-window-right
+
  ;; Add some convenience bindings for font size switching which work on multiple
  ;; platforms.
  "S-=" #'doom/increase-font-size
