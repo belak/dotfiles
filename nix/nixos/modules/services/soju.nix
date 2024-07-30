@@ -13,6 +13,7 @@ let
 
   configFile = pkgs.writeText "soju.conf" ''
     listen ircs://:7000
+    listen ws+insecure://localhost:7001
     hostname soju.elwert.cloud
     tls ${certCfg.directory}/fullchain.pem ${certCfg.directory}/key.pem
     db sqlite3 ${stateDir}/soju.db
@@ -26,6 +27,8 @@ in
 {
   options.belak.services.soju = {
     enable = lib.mkEnableOption "soju";
+    domain = lib.mkOption { default = "soju.elwert.cloud"; };
+    gamjaDomain = lib.mkOption { default = "irc.elwert.cloud"; };
   };
 
   config = lib.mkIf cfg.enable {
@@ -34,7 +37,7 @@ in
     # will change in the future, so it's less error prone to just define the
     # whole thing ourselves.
 
-    environment.systemPackages = [ sojuctl ];
+    environment.systemPackages = [ sojuctl pkgs.gamja ];
 
     systemd.services.soju = {
       description = "Soju IRC bouncer";
@@ -64,14 +67,25 @@ in
 
     belak.acme.enable = true;
 
+    services.nginx.virtualHosts."${cfg.gamjaDomain}" = {
+      useACMEHost = "primary";
+      forceSSL = true;
+
+      locations."/".root = pkgs.gamja;
+
+      locations."/socket" = {
+        proxyPass = "http://localhost:7001";
+        proxyWebsockets = true;
+      };
+    };
+
     security.acme.certs.soju = {
-      domain = "soju.elwert.cloud";
+      inherit (cfg) domain;
       group = "soju";
       reloadServices = [ "soju" ];
     };
 
     networking.firewall.allowedTCPPorts = [
-      6667
       7000
     ];
   };
