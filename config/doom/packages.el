@@ -3,6 +3,7 @@
 
 (package! modus-themes)
 (package! monokai-pro-theme)
+(package! grayscale-theme)
 
 (package! bazel)
 (package! protobuf-mode)
