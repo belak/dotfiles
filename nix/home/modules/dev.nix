@@ -28,6 +28,7 @@ in
       httpie
       imagemagick
       jq
+      lcov
       mdbook
       patchelf
       picotool
@@ -37,10 +38,8 @@ in
       shfmt
       stylelint
 
-      poetry
-      python3Packages.black
+      # Javascript
       nodePackages.js-beautify
-      ruff
 
       # Go
       go
@@ -49,7 +48,10 @@ in
       gotools
 
       # Python
+      poetry
       python311
+      python3Packages.black
+      ruff
       virtualenv
       my.pyenv
       my.pyenv-virtualenv
@@ -68,6 +70,7 @@ in
 
       # Packages I'm trying out
       unstable.diskonaut
+      unstable.helix
       unstable.jj
       unstable.mdcat
       unstable.nnn
