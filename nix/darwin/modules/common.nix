@@ -100,6 +100,12 @@
         "_FXSortFoldersFirst" = true;
       };
     };
+
+    NSGlobalDomain = {
+      NSAutomaticDashSubstitutionEnabled = false;
+      NSAutomaticPeriodSubstitutionEnabled = false;
+      NSAutomaticQuoteSubstitutionEnabled = false;
+    };
   };
 
   #keyboard.remapCapsLockToEscape = true;
