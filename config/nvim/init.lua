@@ -69,7 +69,7 @@ require("lazy").setup({
 
 -- Colorscheme and syntax settings
 vim.opt.background = "dark"
-vim.cmd([[colorscheme base16-default-dark]])
+vim.cmd([[colorscheme quiet]])
 
 require('lualine').setup({
   options = {
