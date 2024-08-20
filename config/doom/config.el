@@ -36,6 +36,11 @@
 (after! go-mode
   (setq gofmt-command "goimports"))
 
+(after! magit
+  ;; Drop magit-insert-tags-header from the status-headers-hook to improve
+  ;; performance in large repositories.
+  (delq! 'magit-insert-tags-header magit-status-headers-hook))
+
 ;; If you use `org' and don't want your org files in the default location below,
 ;; change `org-directory'. It must be set before org loads!
 (setq org-directory "~/org/")
@@ -62,6 +67,7 @@
 ;;; UI
 
 (setq doom-theme 'modus-vivendi)
+;;(setq doom-theme 'grayscale)
 
 (cond
  ((featurep :system 'macos)
