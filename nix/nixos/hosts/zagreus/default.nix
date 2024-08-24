@@ -11,6 +11,7 @@
     networkmanager = {
       enable = true;
       plugins = with pkgs; [ networkmanager-l2tp ];
+      wifi.backend = "iwd";
     };
   };
 
