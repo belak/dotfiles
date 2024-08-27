@@ -155,9 +155,9 @@
 
  ;; Add some convenience bindings for font size switching which work on multiple
  ;; platforms.
- "S-=" #'doom/increase-font-size
- "S--" #'doom/decrease-font-size
- "S-0" #'doom/reset-font-size
+ "s-=" #'text-scale-increase
+ "s--" #'text-scale-decrease
+ "s-0" #'text-scale-set
 
  ;; Replace zap-to-char with zap-up-to-char because I find it easier to grok.
  :g [remap zap-to-char] #'zap-up-to-char
@@ -169,6 +169,8 @@
  :g "<end>"  #'doom/forward-to-last-non-comment-or-eol
 
  ;; Allow C-a and C-e to work in normal mode as well.
- ;; TODO: make sure they also enter insert mode
+ ;;
+ ;; TODO: make sure they also enter insert mode, similar to evil-insert-line and
+ ;; evil-append-line.
  :n "C-a" #'doom/backward-to-bol-or-indent
  :n "C-e" #'doom/forward-to-last-non-comment-or-eol)
