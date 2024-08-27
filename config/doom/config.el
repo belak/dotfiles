@@ -71,8 +71,8 @@
 
 (cond
  ((featurep :system 'macos)
-  (setq doom-font                (font-spec :family "Monaco")
-        doom-variable-pitch-font (font-spec :family "Monaco")))
+  (setq doom-font                (font-spec :family "Monaco" :size 12.0)
+        doom-variable-pitch-font (font-spec :family "Monaco" :size 12.0)))
  ((featurep :system 'linux)
   (setq doom-font                (font-spec :family "Terminus" :size 12.0)
         doom-variable-pitch-font (font-spec :family "Terminus" :size 12.0))))
@@ -155,9 +155,9 @@
 
  ;; Add some convenience bindings for font size switching which work on multiple
  ;; platforms.
- "s-=" #'text-scale-increase
- "s--" #'text-scale-decrease
- "s-0" #'text-scale-set
+ "s-=" #'doom/increase-font-size
+ "s--" #'doom/decrease-font-size
+ "s-0" #'doom/reset-font-size
 
  ;; Replace zap-to-char with zap-up-to-char because I find it easier to grok.
  :g [remap zap-to-char] #'zap-up-to-char
