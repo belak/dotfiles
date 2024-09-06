@@ -24,6 +24,7 @@ in
       dos2unix
       editorconfig-core-c
       exiftool
+      grpcurl
       gnumake
       httpie
       imagemagick
@@ -69,6 +70,8 @@ in
       zls
 
       # Packages I'm trying out
+      codeowners
+      git-codeowners
       unstable.diskonaut
       unstable.helix
       unstable.jj
