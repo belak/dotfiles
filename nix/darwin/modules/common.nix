@@ -54,6 +54,7 @@
 
       # Stuff I'm trying out.
       "via"
+      "zotero"
     ];
 
     masApps = {
@@ -70,7 +71,11 @@
   };
 
   nix.settings = {
-    auto-optimise-store = true;
+    # Until https://github.com/NixOS/nix/issues/7273 is fixed,
+    # auto-optimize-store should be left off and `nix store optimize` should be
+    # regularly run.
+    #auto-optimise-store = true;
+
     build-users-group = "nixbld";
     experimental-features = [ "nix-command flakes" ];
     trusted-users = [

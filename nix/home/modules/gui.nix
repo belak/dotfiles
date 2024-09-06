@@ -34,6 +34,10 @@ in
       unstable.halloy
       unstable.obsidian
       unstable.prusa-slicer
+
+      # Stuff I'm trying out
+      pinta
+      unstable.zotero_7
     ];
 
     # This section is in gui rather than gnome because most of the applications I
