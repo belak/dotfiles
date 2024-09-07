@@ -33,24 +33,13 @@ in
       mdbook
       patchelf
       picotool
-      pkg-config
       protobuf
       shellcheck
       shfmt
       stylelint
 
-      # Javascript
-      nodePackages.js-beautify
-
-      # Go
-      go
-      gore
-      gotests
-      gotools
-
       # Python
       poetry
-      python311
       python3Packages.black
       ruff
       virtualenv
@@ -65,10 +54,6 @@ in
       podman
       podman-compose
 
-      # Zig
-      zig
-      zls
-
       # Packages I'm trying out
       codeowners
       git-codeowners
@@ -76,7 +61,6 @@ in
       unstable.helix
       unstable.jj
       unstable.mdcat
-      unstable.nnn
     ];
   };
 }

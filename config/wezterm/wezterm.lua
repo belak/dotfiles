@@ -1,6 +1,7 @@
 local wezterm = require 'wezterm';
 
 local is_macos = wezterm.target_triple == "x86_64-apple-darwin" or wezterm.target_triple == "aarch64-apple-darwin"
+local is_linux = wezterm.target_triple == "x86_64-unknown-linux-gnu"
 
 -- Set the font information. We use the ttf version of Terminus because for
 -- some reason the bitmap font doesn't work properly on Linux.
@@ -102,7 +103,13 @@ local config = {
   }
 }
 
-local wayland_gnome = require 'wayland_gnome'
-wayland_gnome.apply_to_config(config)
+if is_linux then
+  -- For some reason all the desktop environments I use on Linux don't seem to
+  -- play well with wezterm's window decorations, so we just disable them.
+  config.window_decorations = "RESIZE"
+end
+
+--local wayland_gnome = require 'wayland_gnome'
+--wayland_gnome.apply_to_config(config)
 
 return config

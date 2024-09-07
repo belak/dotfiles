@@ -72,9 +72,7 @@ in
       unzip
 
       # Stuff to try
-      bat
       gitui
-      ncspot
       neovim
     ];
 

@@ -18,7 +18,8 @@
   belak = {
     dev.enable = true;
     dev.armEmulation = true;
-    gnome.enable = true;
+    cosmic.enable = true;
+    #gnome.enable = true;
     laptop.enable = true;
   };
 

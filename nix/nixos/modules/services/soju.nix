@@ -37,7 +37,10 @@ in
     # will change in the future, so it's less error prone to just define the
     # whole thing ourselves.
 
-    environment.systemPackages = [ sojuctl pkgs.gamja ];
+    environment.systemPackages = [
+      sojuctl
+      pkgs.gamja
+    ];
 
     systemd.services.soju = {
       description = "Soju IRC bouncer";
@@ -85,8 +88,6 @@ in
       reloadServices = [ "soju" ];
     };
 
-    networking.firewall.allowedTCPPorts = [
-      7000
-    ];
+    networking.firewall.allowedTCPPorts = [ 7000 ];
   };
 }
