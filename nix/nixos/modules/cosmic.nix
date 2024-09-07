@@ -20,5 +20,8 @@ in
 
     services.desktopManager.cosmic.enable = true;
     services.displayManager.cosmic-greeter.enable = true;
+
+    # Enable all system76 daemons (power, firmware, etc)
+    hardware.system76.enableAll = true;
   };
 }
