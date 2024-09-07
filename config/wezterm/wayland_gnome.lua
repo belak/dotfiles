@@ -1,8 +1,6 @@
 -- Originally copied from this comment on GitHub:
 --
 -- https://github.com/wez/wezterm/issues/3334#issuecomment-1510393277
---
--- This has since been tweaked to also set `window_decorations`.
 
 local wezterm = require 'wezterm'
 local mod = {}
@@ -27,16 +25,14 @@ function mod.apply_to_config(config)
     config.xcursor_size = tonumber(stdout)
   end
 
-  config.enable_wayland = true
+  if os.getenv("WAYLAND_DISPLAY") then
+    config.enable_wayland = true
 
-  if config.enable_wayland and os.getenv("WAYLAND_DISPLAY") then
     local success, stdout, stderr = gsettings("text-scaling-factor")
     if success then
       config.font_size = (config.font_size or 10.0) * tonumber(stdout)
     end
   end
-
-  config.window_decorations = "RESIZE"
 end
 
 return mod

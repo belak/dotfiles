@@ -29,6 +29,14 @@
       inputs.home-manager.follows = "home-manager";
     };
 
+    # Note that even though logically we should make nixos-cosmic.inputs.nixpkgs
+    # "follow" nixpkgs-unstable, we need to use the inputs provided by that
+    # flake in order for the provided binary cache to work.
+    nixos-cosmic = {
+      url = "github:lilyinstarlight/nixos-cosmic";
+      #inputs.nixpkgs.follows = "nixpkgs-unstable";
+    };
+
     nixos-generators = {
       url = "github:nix-community/nixos-generators";
       inputs.nixpkgs.follows = "nixpkgs-nixos";
@@ -38,11 +46,7 @@
   outputs =
     inputs@{
       self,
-      nixpkgs-nixos,
       nixpkgs-unstable,
-      nixos-generators,
-      nixos-hardware,
-      deploy-rs,
       ...
     }:
     let

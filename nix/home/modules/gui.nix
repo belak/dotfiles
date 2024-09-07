@@ -23,15 +23,9 @@ in
       xclip
       xorg.xhost
 
-      # TODO: there seems to be an issue launching gparted from the gnome
-      # applications. It may be due to home-manager vs. nixos for packages
-      # requiring sudo.
-      #gparted
-
       my.wezterm-bin
 
       # Packages I want more up to date
-      unstable.halloy
       unstable.obsidian
       unstable.prusa-slicer
 
