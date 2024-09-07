@@ -109,7 +109,9 @@ if is_linux then
   config.window_decorations = "RESIZE"
 end
 
---local wayland_gnome = require 'wayland_gnome'
---wayland_gnome.apply_to_config(config)
+if os.getenv("DESKTOP_SESSION") == "gnome" then
+  local wayland_gnome = require 'wayland_gnome'
+  wayland_gnome.apply_to_config(config)
+end
 
 return config
