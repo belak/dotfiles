@@ -70,12 +70,13 @@
     };
   };
 
-  nix.settings = {
-    # Until https://github.com/NixOS/nix/issues/7273 is fixed,
-    # auto-optimize-store should be left off and `nix store optimize` should be
-    # regularly run.
-    #auto-optimise-store = true;
+  # Until https://github.com/NixOS/nix/issues/7273 is fixed,
+  # auto-optimize-store should be left off. We can approximate it by using
+  # nix.optimize.automatic to run `nix store optimize` on a schedule.
+  # nix.settings.auto-optimize-store = true;
+  nix.optimise.automatic = true;
 
+  nix.settings = {
     build-users-group = "nixbld";
     experimental-features = [ "nix-command flakes" ];
     trusted-users = [
