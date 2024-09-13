@@ -39,11 +39,6 @@ belak-load 'belak/zsh-utils/completion'
 # Load gitstatus for our prompt
 belak-load 'romkatv/gitstatus'
 
-# Specify additional external plugins we want
-belak-load 'agkozak/zsh-z'
-#belak-load 'rupa/z' 'z.sh'
-#belak-load 'z-shell/f-sy-h'
-
 #
 # Settings
 #
@@ -70,7 +65,6 @@ zstyle ':completion:*' list-dirs-first true
 
 alias json="python -mjson.tool"
 alias k="kubectl"
-alias j="z"
 
 # Set the default Less options.
 # Mouse-wheel scrolling has been disabled by -X (disable screen clearing).
@@ -92,6 +86,10 @@ gocover () {
 
 # Load fzf. This will usually be installed when neovim plugins are installed.
 if [[ -f ~/.fzf.zsh ]] source ~/.fzf.zsh
+
+if (( $+commands[jump] )); then
+  eval "$(jump shell)"
+fi
 
 if (( $+commands[pyenv] )); then
   eval "$(pyenv init -)"

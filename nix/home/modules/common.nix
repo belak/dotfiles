@@ -37,6 +37,7 @@ in
       git
       htop
       jq
+      jump
       killall
       lftp
       openssl
