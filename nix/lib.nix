@@ -53,9 +53,9 @@
   # mkDarwinSystem is a convenience function for declaring a nix-darwin system.
   mkDarwinSystem =
     {
+      modules,
       system ? "aarch64-darwin",
       nixpkgs ? nixpkgs-darwin,
-      modules ? [ ],
     }:
     darwin.lib.darwinSystem {
       inherit system;
@@ -74,14 +74,13 @@
       ] ++ modules;
     };
 
-  # mkHome is a convenience function for declaring a home-manager config with
-  # our specific package setup.
+  # mkHome is a convenience function for declaring a home-manager config.
   mkHome =
     {
+      modules,
       system ? "x86_64-linux",
       username ? "belak",
       nixpkgs ? nixpkgs-nixos,
-      modules ? [ ],
     }:
     home-manager.lib.homeManagerConfiguration {
       extraSpecialArgs = {

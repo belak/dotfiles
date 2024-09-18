@@ -67,7 +67,10 @@
       formatter = lib.forAllSystems (system: nixpkgs-unstable.legacyPackages.${system}.nixfmt-rfc-style);
 
       darwinConfigurations = {
-        "baku" = lib.mkDarwinSystem { system = "x86_64-darwin"; };
+        "baku" = lib.mkDarwinSystem {
+          system = "x86_64-darwin";
+          modules = [ ];
+        };
       };
 
       nixosConfigurations = {
