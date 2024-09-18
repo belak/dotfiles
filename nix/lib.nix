@@ -79,7 +79,6 @@
     {
       modules,
       system ? "x86_64-linux",
-      username ? "belak",
       nixpkgs ? nixpkgs-nixos,
     }:
     home-manager.lib.homeManagerConfiguration {

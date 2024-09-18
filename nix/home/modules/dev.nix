@@ -20,6 +20,7 @@ in
       # Various tools
       cloc
       crane
+      deadnix
       dos2unix
       editorconfig-core-c
       exiftool
