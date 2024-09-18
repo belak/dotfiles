@@ -1,6 +1,7 @@
 {
   imports = [
     ./common.nix
+    ./nixpkgs.nix
 
     # Platforms
     ./darwin.nix

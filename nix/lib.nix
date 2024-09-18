@@ -19,27 +19,6 @@ rec {
     "x86_64-darwin"
   ];
 
-  mkPkgs =
-    system: nixpkgs: overlays:
-    import nixpkgs {
-      inherit system;
-      inherit overlays;
-
-      config.allowUnfreePredicate =
-        pkg:
-        builtins.elem (nixpkgs.lib.getName pkg) [
-          "1password-cli"
-          "android-studio-stable"
-          "discord"
-          "hplip"
-          "obsidian"
-          "rar"
-          "skypeforlinux"
-        ];
-
-      config.permittedInsecurePackages = [ ];
-    };
-
   mkOptionals = check: data: if check then data else [ ];
 
   optionalFile = path: if builtins.pathExists path then [ path ] else [ ];
@@ -51,10 +30,8 @@ rec {
       system ? "x86_64-linux",
       nixpkgs ? nixpkgs-nixos,
     }:
-    nixpkgs-nixos.lib.nixosSystem {
+    nixpkgs.lib.nixosSystem {
       inherit system;
-
-      pkgs = mkPkgs system nixpkgs (builtins.attrValues self.overlays);
 
       modules = [
         self.nixosModules.default
@@ -64,6 +41,7 @@ rec {
 
       # Pass extra inputs through to all modules.
       specialArgs = {
+        inherit self;
         inherit nixos-hardware;
       };
     };
@@ -100,9 +78,16 @@ rec {
     darwin.lib.darwinSystem {
       inherit system;
 
-      pkgs = mkPkgs system nixpkgs (builtins.attrValues self.overlays);
+      specialArgs = {
+        inherit self;
+      };
 
       modules = [
+        {
+          # Override the "nixpkgs" src to be based on the passed-in nixpkgs
+          # rather than whichever input nix-darwin.nixpkgs follows.
+          nixpkgs.source = nixpkgs;
+        }
         self.darwinModules.default
         agenix.darwinModules.default
       ] ++ modules;
@@ -118,19 +103,17 @@ rec {
       modules ? [ ],
     }:
     home-manager.lib.homeManagerConfiguration {
-      pkgs = mkPkgs system nixpkgs (builtins.attrValues self.overlays);
+      extraSpecialArgs = {
+        inherit self;
+      };
 
-      modules =
-        [
-          self.homeModules.default
-          agenix.homeManagerModules.default
-        ]
-        ++ [
-          {
-            # Let Home Manager install and manage itself.
-            programs.home-manager.enable = true;
-          }
-        ]
-        ++ modules;
+      pkgs = import nixpkgs {
+        inherit system;
+      };
+
+      modules = [
+        self.homeModules.default
+        agenix.homeManagerModules.default
+      ] ++ modules;
     };
 }

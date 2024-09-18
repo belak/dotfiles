@@ -13,6 +13,12 @@ in
   };
 
   config = lib.mkIf cfg.enable {
+    nixpkgs.allowedUnfree = [
+      "discord"
+      "hplip"
+      "obsidian"
+    ];
+
     home.packages = with pkgs; [
       calibre
       discord

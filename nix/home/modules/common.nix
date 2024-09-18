@@ -17,6 +17,11 @@ in
   };
 
   config = {
+    nixpkgs.allowedUnfree = [
+      "1password-cli"
+      "rar"
+    ];
+
     home.username = cfg.username;
     home.homeDirectory = cfg.homeDirectory;
 

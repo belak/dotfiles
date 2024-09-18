@@ -30,7 +30,7 @@
     "darwin": {
       "inputs": {
         "nixpkgs": [
-          "nixpkgs-nixos"
+          "nixpkgs-darwin"
         ]
       },
       "locked": {

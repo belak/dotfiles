@@ -1,5 +1,4 @@
 {
-  self,
   nixpkgs-unstable,
   agenix,
   deploy-rs,
@@ -27,5 +26,5 @@
     };
   };
 
-  unstable = final: _prev: { unstable = self.lib.mkPkgs final.system nixpkgs-unstable [ ]; };
+  unstable = final: _prev: { unstable = import nixpkgs-unstable { inherit (final) system; }; };
 }
