@@ -50,28 +50,6 @@ rec {
       };
     };
 
-  mkNixosDeploy =
-    nixosConfig:
-    let
-      pkgs = nixosConfig._module.args.pkgs;
-    in
-    {
-      user = "root";
-      sshUser = "root";
-      path = pkgs.deploy-rs.lib.activate.nixos nixosConfig;
-    };
-
-  mkHomeDeploy =
-    homeManagerConfig:
-    let
-      pkgs = homeManagerConfig.pkgs;
-    in
-    {
-      user = homeManagerConfig.config.home.username;
-      sshUser = "root";
-      path = pkgs.deploy-rs.lib.activate.home-manager homeManagerConfig;
-    };
-
   # mkDarwinSystem is a convenience function for declaring a nix-darwin system.
   mkDarwinSystem =
     {
@@ -118,5 +96,27 @@ rec {
         self.homeModules.default
         agenix.homeManagerModules.default
       ] ++ modules;
+    };
+
+  mkNixosDeploy =
+    nixosConfig:
+    let
+      pkgs = nixosConfig._module.args.pkgs;
+    in
+    {
+      user = "root";
+      sshUser = "root";
+      path = pkgs.deploy-rs.lib.activate.nixos nixosConfig;
+    };
+
+  mkHomeDeploy =
+    homeManagerConfig:
+    let
+      pkgs = homeManagerConfig.pkgs;
+    in
+    {
+      user = homeManagerConfig.config.home.username;
+      sshUser = "root";
+      path = pkgs.deploy-rs.lib.activate.home-manager homeManagerConfig;
     };
 }
