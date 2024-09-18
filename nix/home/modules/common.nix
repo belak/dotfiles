@@ -26,7 +26,7 @@ in
     home.homeDirectory = cfg.homeDirectory;
 
     # Hide news display by default
-    news.display = "silent";
+    news.display = lib.mkDefault "silent";
 
     home.packages = with pkgs; [
       _1password
@@ -65,6 +65,7 @@ in
       #unstable.rippkgs
       #unstable.rnix-lsp
       unstable.alejandra
+      unstable.deadnix
       unstable.manix
       unstable.nil
       unstable.nix-index
@@ -74,7 +75,7 @@ in
 
       # Archive Formats
       p7zip
-      #rar # Note that confusingly rar includes unrar, but not vice versa
+      rar # Note that confusingly rar includes unrar, but not vice versa
       unzip
 
       # Stuff to try
