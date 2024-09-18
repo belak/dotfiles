@@ -2,17 +2,16 @@
   lib,
   stdenv,
   fetchFromGitHub,
-  bash,
 }:
 stdenv.mkDerivation rec {
   pname = "pyenv-virtualenv";
-  version = "1.2.1";
+  version = "1.2.4";
 
   src = fetchFromGitHub {
     owner = "pyenv";
     repo = "pyenv-virtualenv";
     rev = "refs/tags/v${version}";
-    hash = "sha256-G79U7/jd1tYP5xp+1UkK91mnRpM1o1h8ypQ3PmfMUDM=";
+    hash = "sha256-NgtowwE1T5NoiYiL18vdpYumVuPSWoDCOyP2//d+uHk=";
   };
 
   installPhase = ''
