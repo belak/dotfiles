@@ -2,12 +2,11 @@
   lib,
   stdenv,
   fetchFromGitHub,
-  bash,
   installShellFiles,
 }:
 stdenv.mkDerivation rec {
   pname = "rbenv";
-  version = "1.2.0";
+  version = "1.3.0";
 
   nativeBuildInputs = [ installShellFiles ];
 
@@ -15,7 +14,7 @@ stdenv.mkDerivation rec {
     owner = "rbenv";
     repo = "rbenv";
     rev = "v${version}";
-    sha256 = "sha256-m/Yy5EK8pLTBFcsgKCrNvQrPFFIlYklXXZbjN4Nmm9c=";
+    hash = "sha256-AO0z9QtCGHwUr2ji28sbvQmCBDIfjAqbiac+HTH3N7Q=";
   };
 
   postPatch = ''
@@ -29,7 +28,7 @@ stdenv.mkDerivation rec {
     mv libexec $out
     ln -s $out/libexec/rbenv $out/bin/rbenv
 
-    installShellCompletion completions/rbenv.{bash,zsh}
+    installShellCompletion completions/{rbenv.bash,_rbenv}
   '';
 
   meta = with lib; {
