@@ -2,23 +2,23 @@
   lib,
   stdenv,
   fetchFromGitHub,
-  bash,
 }:
 stdenv.mkDerivation rec {
   pname = "ruby-build";
-  version = "20230710";
+  version = "20240917";
 
   src = fetchFromGitHub {
     owner = "rbenv";
     repo = "ruby-build";
     rev = "v${version}";
-    hash = "sha256-/IoRgODmXotvOeCNiJN9SePvywNGgccq2nGtfMG/wtA=";
+    hash = "sha256-qeSBulxb9JcJuC1fnw5haf7b2QSDm1qnHC3ZHdxwsDI=";
   };
+
+  buildPhase = '':'';
 
   installPhase = ''
     mkdir -p "$out"
-    cp -R bin "$out/bin"
-    cp -R share "$out/share"
+    PREFIX="$out" ./install.sh
   '';
 
   meta = with lib; {
