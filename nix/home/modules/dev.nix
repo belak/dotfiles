@@ -19,7 +19,6 @@ in
 
       # Various tools
       cloc
-      cmake
       crane
       dos2unix
       editorconfig-core-c
@@ -34,9 +33,6 @@ in
       patchelf
       picotool
       protobuf
-      shellcheck
-      shfmt
-      stylelint
 
       # Python
       poetry
