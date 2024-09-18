@@ -20,16 +20,13 @@ in
       # Various tools
       cloc
       crane
-      deadnix
       dos2unix
       editorconfig-core-c
       exiftool
       grpcurl
       gnumake
-      httpie
       imagemagick
       jq
-      lcov
       mdbook
       patchelf
       picotool
