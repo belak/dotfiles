@@ -9,7 +9,7 @@
   darwin,
   ...
 }:
-rec {
+{
   # We could use nixpkgs-nixos.lib.systems.flakeExposed, but I prefer to only
   # expose architectures I actually run.
   forAllSystems = nixpkgs-nixos.lib.genAttrs [
