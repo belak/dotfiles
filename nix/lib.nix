@@ -33,6 +33,10 @@ rec {
     nixpkgs.lib.nixosSystem {
       inherit system;
 
+      pkgs = import nixpkgs {
+        inherit system;
+      };
+
       modules = [
         self.nixosModules.default
         agenix.nixosModules.default
@@ -82,12 +86,11 @@ rec {
         inherit self;
       };
 
+      pkgs = import nixpkgs {
+        inherit system;
+      };
+
       modules = [
-        {
-          # Override the "nixpkgs" src to be based on the passed-in nixpkgs
-          # rather than whichever input nix-darwin.nixpkgs follows.
-          nixpkgs.source = nixpkgs;
-        }
         self.darwinModules.default
         agenix.darwinModules.default
       ] ++ modules;
