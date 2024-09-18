@@ -98,6 +98,8 @@
       ] ++ modules;
     };
 
+  # mkNixosDeploy takes a nixosConfig, generated using mkNixosSystem, and
+  # generates an opinionated deploy-rs config.
   mkNixosDeploy =
     nixosConfig:
     let
@@ -109,6 +111,8 @@
       path = pkgs.deploy-rs.lib.activate.nixos nixosConfig;
     };
 
+  # mkHomeDeploy takes a homeManagerConfig, generated using mkHome, and
+  # generates an opinionated deploy-rs config.
   mkHomeDeploy =
     homeManagerConfig:
     let
