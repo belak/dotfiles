@@ -14,7 +14,7 @@
 
     darwin = {
       url = "github:LnL7/nix-darwin";
-      inputs.nixpkgs.follows = "nixpkgs-nixos";
+      inputs.nixpkgs.follows = "nixpkgs-darwin";
     };
 
     deploy-rs = {
