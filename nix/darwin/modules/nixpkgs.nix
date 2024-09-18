@@ -19,7 +19,7 @@ in
   };
 
   config = {
-    nixpkgs.overlays = (builtins.attrValues self.overlays);
+    nixpkgs.overlays = builtins.attrValues self.overlays;
     nixpkgs.config.allowUnfreePredicate = pkg: builtins.elem (lib.getName pkg) allowed;
   };
 }
