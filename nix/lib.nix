@@ -33,9 +33,13 @@
     nixpkgs.lib.nixosSystem {
       inherit system;
 
-      pkgs = import nixpkgs {
-        inherit system;
-      };
+      # NOTE: we actually *don't* want to configure nixpkgs using `pkgs` because
+      # that would require us to set config options here. Instead we use
+      # `nixpkgs.lib.nixosSystem` and set `system`, which allows us to configure
+      # nixpkgs via modules instead.
+      #pkgs = import nixpkgs {
+      #  inherit system;
+      #};
 
       modules = [
         self.nixosModules.default
