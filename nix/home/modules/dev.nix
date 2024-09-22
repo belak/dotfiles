@@ -27,6 +27,8 @@ in
       gnumake
       imagemagick
       jq
+      just
+      lcov
       mdbook
       patchelf
       picotool
