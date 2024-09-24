@@ -23,7 +23,6 @@ Plug 'tpope/vim-fugitive'
 Plug 'bling/vim-bufferline'
 Plug 'itchyny/lightline.vim'
 Plug 'myusuf3/numbers.vim'
-"Plug 'romainl/flattened'
 Plug 'w0ng/vim-hybrid'
 
 " Linting and compiling
