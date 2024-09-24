@@ -19,6 +19,7 @@ in
 
     environment.gnome.excludePackages =
       (with pkgs; [
+        gnome-console
         gnome-photos
         gnome-tour
         gedit
@@ -27,6 +28,7 @@ in
         cheese # webcam tool
         gnome-maps # map tool
         gnome-music # music player
+        gnome-weather # weather
         epiphany # web browser
         geary # email reader
         gnome-characters # font/character viewer
