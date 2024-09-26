@@ -62,17 +62,6 @@ require("lazy").setup({
       },
     },
   },
-  {
-    "romgrk/barbar.nvim",
-    init = function() vim.g.barbar_auto_setup = false end,
-    opts = {
-      icons = {
-        filetype = {
-          enabled = false,
-        },
-      },
-    },
-  },
   "stevearc/dressing.nvim",
   "tinted-theming/base16-vim",
 
