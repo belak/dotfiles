@@ -50,7 +50,29 @@ require("lazy").setup({
   "tpope/vim-fugitive",
 
   -- Appearance
-  "nvim-lualine/lualine.nvim",
+  "miikanissi/modus-themes.nvim",
+  {
+    "nvim-lualine/lualine.nvim",
+    opts = {
+      options = {
+        theme = "16color",
+        icons_enabled = false,
+        section_separators = '',
+        component_separators = '|',
+      },
+    },
+  },
+  {
+    "romgrk/barbar.nvim",
+    init = function() vim.g.barbar_auto_setup = false end,
+    opts = {
+      icons = {
+        filetype = {
+          enabled = false,
+        },
+      },
+    },
+  },
   "stevearc/dressing.nvim",
   "tinted-theming/base16-vim",
 
@@ -69,16 +91,7 @@ require("lazy").setup({
 
 -- Colorscheme and syntax settings
 vim.opt.background = "dark"
-vim.cmd([[colorscheme quiet]])
-
-require('lualine').setup({
-  options = {
-    theme = "16color",
-    icons_enabled = false,
-    section_separators = '',
-    component_separators = '|',
-  },
-})
+vim.cmd([[colorscheme modus]])
 
 -- Highlight VCS conflict markers
 vim.cmd([[match ErrorMsg '^\(<\|=\|>\)\{7\}\([^=].\+\)\?$']])
