@@ -70,6 +70,7 @@ in
       unstable.nil
       unstable.nix-index
       unstable.nix-tree
+      unstable.nixd
       unstable.nixfmt-rfc-style
       unstable.statix
 
