@@ -39,7 +39,7 @@
   # We have a number of services which run on a host which hasn't been migrated
   # to NixOS, so we just forward them for now.
   services.nginx.virtualHosts =
-    lib.genAttrs
+    (lib.genAttrs
       [
         "git.elwert.cloud"
         "cloud.elwert.cloud"
@@ -51,8 +51,22 @@
         useACMEHost = "primary";
         forceSSL = true;
 
-        locations."/".proxyPass = "https://steiner.elwert.dev";
-      });
+        # steiner.elwert.dev
+        locations."/".proxyPass = "https://192.168.30.3";
+      })
+    )
+    // (lib.genAttrs
+      [
+        "hydra.elwert.cloud"
+      ]
+      (host: {
+        useACMEHost = "primary";
+        forceSSL = true;
+
+        # vivi.elwert.dev
+        locations."/".proxyPass = "https://192.168.30.14";
+      })
+    );
 
   networking = {
     hostName = "eiko";

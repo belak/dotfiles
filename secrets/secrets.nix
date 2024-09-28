@@ -28,6 +28,9 @@ let
   ];
 in
 {
-  "acme-cloudflare-env.age".publicKeys = users ++ [ system-eiko ];
+  "acme-cloudflare-env.age".publicKeys = users ++ [
+    system-eiko
+    system-vivi
+  ];
   "belak-password.age".publicKeys = users ++ systems;
 }
