@@ -11,7 +11,15 @@
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
 
-  belak.server.enable = true;
+  belak = {
+    server.enable = true;
+
+    services = {
+      hydra.enable = true;
+      nginx.enable = true;
+      postgres.enable = true;
+    };
+  };
 
   networking = {
     hostName = "vivi";
