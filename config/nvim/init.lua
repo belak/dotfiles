@@ -30,46 +30,40 @@ vim.opt.rtp:prepend(lazypath)
 require("lazy").setup({
   -- Simple tweaks
   "tpope/vim-rsi",
-  "tpope/vim-surround",
-
-  -- Extra utilities
-  "airblade/vim-gitgutter",
-  "echasnovski/mini.indentscope",
-  {
-    "nvim-telescope/telescope.nvim",
-    dependencies = { 'nvim-lua/plenary.nvim' },
-    config = function()
-      local builtin = require('telescope.builtin')
-      vim.keymap.set('n', '<leader>ff', builtin.find_files, {})
-      vim.keymap.set('n', '<leader>fg', builtin.live_grep, {})
-      vim.keymap.set('n', '<leader>fb', builtin.buffers, {})
-      vim.keymap.set('n', '<leader>fh', builtin.help_tags, {})
-    end
-  },
-  "tpope/vim-commentary",
-  "tpope/vim-fugitive",
 
   -- Appearance
+  -- "airblade/vim-gitgutter",
   "miikanissi/modus-themes.nvim",
-  {
-    "nvim-lualine/lualine.nvim",
-    opts = {
-      options = {
-        theme = "16color",
-        icons_enabled = false,
-        section_separators = '',
-        component_separators = '|',
-      },
-    },
-  },
-  "stevearc/dressing.nvim",
-  "tinted-theming/base16-vim",
 
+  -- Various mini.nvim config
   {
     'echasnovski/mini.nvim',
     config = function()
+      require('mini.comment').setup()
+
+      require('mini.diff').setup()
+
+      require('mini.git').setup()
+
+      require('mini.indentscope').setup({
+        draw = {
+          delay = 0,
+          animation = require('mini.indentscope').gen_animation.none(),
+        }
+      })
+
       require('mini.misc').setup()
       MiniMisc.setup_auto_root()
+
+      require('mini.pick').setup()
+      vim.keymap.set('n', '<leader>ff', function() MiniPick.builtin.files({ tool = 'git'}) end, {})
+      vim.keymap.set('n', '<leader>fg', MiniPick.builtin.grep_live, {})
+      vim.keymap.set('n', '<leader>fb', MiniPick.builtin.buffers, {})
+      vim.keymap.set('n', '<leader>fh', MiniPick.builtin.help, {})
+
+      require('mini.statusline').setup()
+
+      require('mini.surround').setup()
     end
   },
 })
