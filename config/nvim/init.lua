@@ -32,7 +32,6 @@ require("lazy").setup({
   "tpope/vim-rsi",
 
   -- Appearance
-  -- "airblade/vim-gitgutter",
   "miikanissi/modus-themes.nvim",
 
   -- Various mini.nvim config
@@ -56,12 +55,14 @@ require("lazy").setup({
       MiniMisc.setup_auto_root()
 
       require('mini.pick').setup()
-      vim.keymap.set('n', '<leader>ff', function() MiniPick.builtin.files({ tool = 'git'}) end, {})
+      vim.keymap.set('n', '<leader>ff', MiniPick.builtin.files, {})
       vim.keymap.set('n', '<leader>fg', MiniPick.builtin.grep_live, {})
       vim.keymap.set('n', '<leader>fb', MiniPick.builtin.buffers, {})
       vim.keymap.set('n', '<leader>fh', MiniPick.builtin.help, {})
 
-      require('mini.statusline').setup()
+      require('mini.statusline').setup({
+        use_icons = false,
+      })
 
       require('mini.surround').setup()
     end
@@ -78,11 +79,6 @@ vim.cmd([[colorscheme modus]])
 
 -- Highlight VCS conflict markers
 vim.cmd([[match ErrorMsg '^\(<\|=\|>\)\{7\}\([^=].\+\)\?$']])
-
-
--- Highlight problematic whitespace
---vim.opt.list = true
---vim.opt.listchars = "tab:▸\\ ,trail:•,extends:#,nbsp:.,eol:¬"
 
 -- }}}
 
