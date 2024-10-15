@@ -25,6 +25,11 @@
 
   environment.systemPackages = with pkgs; [ pptp ];
 
+  services.nats = {
+    enable = true;
+    jetstream = true;
+  };
+
   # TODO: at the moment this is enabled purely so the hostKeys are available to
   # agenix. Ideally that wouldn't be necessary.
   services.openssh.enable = true;
