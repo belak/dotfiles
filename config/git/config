@@ -1,6 +1,8 @@
 [user]
 	name = Kaleb Elwert
 	email = belak@coded.io
+[fetch]
+    prune = true
 [pull]
 	rebase = true
 [push]
