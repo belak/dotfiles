@@ -71,6 +71,11 @@
           system = "x86_64-darwin";
           modules = [ ];
         };
+
+        "melinoe" = lib.mkDarwinSystem {
+          system = "aarch64-darwin";
+          modules = [ ];
+        };
       };
 
       nixosConfigurations = {
@@ -154,6 +159,13 @@
           modules = [
             ./nix/home/users/belak
             ./nix/home/users/belak/baku.nix
+          ];
+        };
+        "belak@melinoe" = lib.mkHome {
+          system = "aarch64-darwin";
+          modules = [
+            ./nix/home/users/belak
+            ./nix/home/users/belak/melinoe.nix
           ];
         };
         "belak@zagreus" = lib.mkHome {
