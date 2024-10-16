@@ -58,6 +58,10 @@ zstyle ':completion:*'         group-name ''
 # List dirs first, to match what we do for ls.
 zstyle ':completion:*' list-dirs-first true
 
+# Set the default Less options.
+# Mouse-wheel scrolling has been disabled by -X (disable screen clearing).
+# Remove -X and -F (exit if the content fits on one screen) to enable it.
+export LESS='-F -g -i -M -R -S -w -X -z-4'
 
 #
 # Aliases
@@ -65,11 +69,6 @@ zstyle ':completion:*' list-dirs-first true
 
 alias json="python -mjson.tool"
 alias k="kubectl"
-
-# Set the default Less options.
-# Mouse-wheel scrolling has been disabled by -X (disable screen clearing).
-# Remove -X and -F (exit if the content fits on one screen) to enable it.
-export LESS='-F -g -i -M -R -S -w -X -z-4'
 
 #
 # Functions
