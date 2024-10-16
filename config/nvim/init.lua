@@ -38,7 +38,7 @@ MiniDeps.now(function()
   })
 end)
 
-MiniDeps.later(function()
+MiniDeps.now(function()
   require('mini.basics').setup({
     options = {
       basic = true,
@@ -59,6 +59,7 @@ MiniDeps.later(function()
   vim.opt.signcolumn = 'no'
 end)
 MiniDeps.later(function() require('mini.comment').setup() end)
+MiniDeps.later(function() require('mini.completion').setup() end)
 MiniDeps.later(function() require('mini.diff').setup() end)
 MiniDeps.later(function() require('mini.git').setup() end)
 MiniDeps.later(function()
@@ -108,11 +109,11 @@ vim.cmd([[match ErrorMsg '^\(<\|=\|>\)\{7\}\([^=].\+\)\?$']])
 
 -- }}}
 
---- Line numbers
----
---- This includes some magic to disable relative numbers in insert mode and
---- disable absolute numbers in visual mode. It is roughly based on the
---- functionality of numbers.vim.
+-- Line numbers
+--
+-- This includes some magic to disable relative numbers in insert mode and
+-- disable absolute numbers in visual mode. It is roughly based on the
+-- functionality of numbers.vim.
 vim.opt.number = true
 vim.opt.relativenumber = true
 
