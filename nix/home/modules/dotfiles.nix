@@ -23,6 +23,7 @@ in
     home.file = {
       ".config/alacritty" = mkSource "config/alacritty";
       ".config/belak" = mkSource "config/belak";
+      ".config/direnv/direnv.toml" = mkSource "config/direnv/direnv.toml";
       ".config/doom" = mkSource "config/doom";
       ".config/git" = mkSource "config/git";
       ".config/nvim" = mkSource "config/nvim";
