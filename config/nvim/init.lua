@@ -29,6 +29,7 @@ require('mini.deps').setup({ path = { package = path_package } })
 MiniDeps.add("echasnovski/mini.nvim")
 MiniDeps.add("tpope/vim-rsi")
 MiniDeps.add("miikanissi/modus-themes.nvim")
+MiniDeps.add("stevearc/conform.nvim")
 
 -- Initialize all our UI-related plugins here, so we don't have the vim
 -- equivalent of a "flash of unstyled content".
@@ -92,6 +93,23 @@ MiniDeps.later(function()
   vim.keymap.set('n', '<leader>fg', MiniPick.builtin.grep_live, {})
   vim.keymap.set('n', '<leader>fb', MiniPick.builtin.buffers, {})
   vim.keymap.set('n', '<leader>fh', MiniPick.builtin.help, {})
+end)
+
+MiniDeps.later(function()
+  require('conform').setup({
+    formatters_by_ft = {
+      go = { "goimports", "gofmt" },
+      rust = { "rustfmt" },
+    },
+    default_format_opts = {
+      lsp_format = "prefer",
+    },
+    format_on_save = {
+      -- These options will be passed to conform.format()
+      timeout_ms = 500,
+      lsp_format = "fallback",
+    },
+  })
 end)
 
 -- }}}
