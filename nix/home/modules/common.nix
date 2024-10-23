@@ -81,7 +81,7 @@ in
 
       # Stuff to try
       gitui
-      neovim
+      unstable.neovim
     ];
 
     programs.direnv = {
