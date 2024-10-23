@@ -41,6 +41,7 @@ Plug 'pearofducks/ansible-vim'
 Plug 'rust-lang/rust.vim'
 Plug 'posva/vim-vue'
 Plug 'uarun/vim-protobuf'
+Plug 'zorab47/procfile.vim'
 
 call plug#end()
 " }}}
