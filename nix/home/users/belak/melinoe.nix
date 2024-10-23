@@ -8,5 +8,8 @@
 
   home.packages = with pkgs; [
     deploy-rs
+    typst
+    typstfmt
+    typst-preview
   ];
 }
