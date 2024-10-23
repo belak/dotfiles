@@ -74,7 +74,9 @@
 
         "melinoe" = lib.mkDarwinSystem {
           system = "aarch64-darwin";
-          modules = [ ];
+          modules = [
+            ./nix/darwin/hosts/melinoe.nix
+          ];
         };
       };
 
