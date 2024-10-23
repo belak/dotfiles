@@ -76,6 +76,7 @@
     experimental-features = [ "nix-command flakes" ];
     trusted-users = [
       "root"
+      "belak"
       "kaleb.elwert"
     ];
     warn-dirty = false;
@@ -85,6 +86,7 @@
     dock = {
       autohide = true;
       show-recents = false;
+      minimize-to-application = true;
       tilesize = 48;
       persistent-apps = [
         "/Applications/Firefox.app"
@@ -94,20 +96,25 @@
       ];
     };
 
-    screencapture.disable-shadow = true;
-
-    CustomUserPreferences = {
-      "com.apple.finder" = {
-        "_FXSortFoldersFirst" = true;
-      };
+    finder = {
+      ShowPathbar = true;
+      _FXSortFoldersFirst = true;
     };
+
+    #loginwindow.SHOWFULLNAME = true;
+
+    screencapture.disable-shadow = true;
 
     NSGlobalDomain = {
       NSAutomaticDashSubstitutionEnabled = false;
       NSAutomaticPeriodSubstitutionEnabled = false;
       NSAutomaticQuoteSubstitutionEnabled = false;
+
+      AppleInterfaceStyle = "Dark";
     };
   };
+
+  system.startup.chime = false;
 
   #keyboard.remapCapsLockToEscape = true;
 
@@ -125,8 +132,4 @@
   # Auto upgrade nix package and the daemon service.
   services.nix-daemon.enable = true;
   # nix.package = pkgs.nix;
-
-  # Used for backwards compatibility, please read the changelog before changing.
-  # $ darwin-rebuild changelog
-  system.stateVersion = 4;
 }
