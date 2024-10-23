@@ -70,6 +70,10 @@ export LESS='-F -g -i -M -R -S -w -X -z-4'
 alias json="python -mjson.tool"
 alias k="kubectl"
 
+if (( $+commands[nvim] )); then
+  alias vim="nvim"
+fi
+
 #
 # Functions
 #
