@@ -1,57 +1,18 @@
 set nocompatible
 
 " Plugins {{{
-call plug#begin()
 
-Plug 'tpope/vim-sensible'
+packadd! comment
+packadd! editorconfig
+packadd! matchit
 
-" Simple tweaks
-Plug 'airblade/vim-gitgutter'
-Plug 'editorconfig/editorconfig-vim'
-Plug 'tpope/vim-rsi'
-Plug 'tpope/vim-surround'
-
-" Extra utilities
-Plug 'airblade/vim-rooter'
-Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
-Plug 'junegunn/fzf.vim'
-Plug 'preservim/nerdtree'
-Plug 'tpope/vim-commentary'
-Plug 'tpope/vim-fugitive'
-
-" Appearance
-Plug 'bling/vim-bufferline'
-Plug 'itchyny/lightline.vim'
-Plug 'myusuf3/numbers.vim'
-Plug 'w0ng/vim-hybrid'
-
-" Linting and compiling
-Plug 'dense-analysis/ale'
-
-" Language support
-Plug 'cespare/vim-toml'
-Plug 'ekalinin/Dockerfile.vim'
-Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
-Plug 'hashivim/vim-terraform'
-Plug 'leafgarland/typescript-vim'
-Plug 'mxw/vim-jsx'
-Plug 'NoahTheDuke/vim-just'
-Plug 'pangloss/vim-javascript'
-Plug 'pearofducks/ansible-vim'
-Plug 'rust-lang/rust.vim'
-Plug 'posva/vim-vue'
-Plug 'uarun/vim-protobuf'
-Plug 'zorab47/procfile.vim'
-
-call plug#end()
 " }}}
 
 " Appearance {{{
 
 " Colorscheme and syntax settings
-let g:hybrid_custom_term_colors = 1
 set background=dark
-colorscheme hybrid
+colorscheme lunaperche
 
 " Clear some stuff for vim-airline-colornum
 set cursorline
@@ -68,31 +29,13 @@ endif
 " Highlight VCS conflict markers
 match ErrorMsg '^\(<\|=\|>\)\{7\}\([^=].\+\)\?$'
 
-set list
-"set listchars=tab:▸\ ,trail:•,extends:#,nbsp:.,eol:¬ " Highlight problematic whitespace
-
-" Lightline related config
-let g:lightline = {
-      \ 'colorscheme': 'default',
-      \ }
+" Show whitespace
+"set list
+set listchars=tab:>\ ,trail:•,extends:#,nbsp:.,eol:¬ " Highlight problematic whitespace
 
 " }}}
 
 " Various Settings {{{
-
-" We use rooter to automatically cd to the project root, but we don't want it to
-" tell us it did that.
-let g:rooter_silent_chdir = 1
-
-" Golang specific settings
-let g:go_fmt_command = "goimports"
-
-" Make python indentation saner
-let g:pyindent_open_paren = '&sw'
-let g:pyindent_nested_paren = '&sw'
-let g:pyindent_continue = '&sw'
-
-set incsearch
 
 " Convenience remappings
 set clipboard^=unnamed
@@ -104,7 +47,9 @@ set tabstop=4
 set shiftwidth=4
 
 " Random settings
+set backspace=indent,eol,start " Allow backspacing before the start of the line
 set autoindent                 " Enable basic indentitation, smarter than "smart"indent
+set incsearch                  " Show matching pattern while searching
 set hlsearch                   " Hilight what we're searching for
 set showcmd                    " Always show the currently entered command
 set writebackup                " Make a backup before overwriting a file
@@ -124,6 +69,14 @@ set iskeyword-=-               " '-' is an end of word designator
 set iskeyword-=_               " '_' is an end of word designator
 set noshowmode                 " No point since we use airline
 set scrolloff=5                " Ensure we have a buffer of 5 lines at the top and bottom
+set nrformats-=octal           " Disable number operations on octals to avoid confusion
+set ttimeout                   " Make escape key more responsive
+set ttimeoutlen=100            " Reduce escape key timeout
+set laststatus=2               " Always show a status line
+set wildmenu                   " Improve completion menu
+set sidescroll=1               " Minimum number of columns to scroll horizontally
+set sidescrolloff=2            " Minimum number of colums to keep to the left and right of the cursor
+set autoread                   " Read files if they've been updated outside vim
 
 " If clipboard is available, do everything we can to yank to the system
 " clipboard rather than only the internal keyboard.
@@ -172,6 +125,12 @@ else
 endif
 
 " Filetype specific stuff
+
+filetype plugin indent on
+
+" Correctly highlight $() and other modern affordances in filetype=sh
+let g:is_posix = 1
+
 au BufRead,BufNewFile *.tsx setlocal filetype=typescript.jsx
 au BufRead,BufNewFile *.md setlocal filetype=markdown
 au BufRead,BufNewFile *.sp setlocal filetype=cpp
@@ -179,6 +138,9 @@ au BufRead,BufNewFile *.sp setlocal filetype=cpp
 " Make sure we don't auto-wrap all text, unless we're in a markdown file.
 set formatoptions-=t
 autocmd! FileType markdown setlocal formatoptions+=t
+
+" Delete comment character when joining commented lines
+set formatoptions+=j
 
 " }}}
 
@@ -211,9 +173,6 @@ nmap <C-l> <C-w>l
 noremap j gj
 noremap k gk
 
-" Add a bind for fzf
-nmap <C-p> :GFiles<cr>
-
 " Clear search results
 nmap <leader>c :let @/=""<CR>
 
@@ -221,20 +180,6 @@ nmap <leader>c :let @/=""<CR>
 map <Leader>= <C-w>=
 
 nmap <Tab> za
-
-" Fugitive settings
-nnoremap <silent> <leader>gs :Gstatus<CR>
-nnoremap <silent> <leader>gd :Gdiff<CR>
-nnoremap <silent> <leader>gc :Gcommit<CR>
-nnoremap <silent> <leader>gb :Gblame<CR>
-nnoremap <silent> <leader>gl :Glog<CR>
-nnoremap <silent> <leader>gp :Git push<CR>
-nnoremap <silent> <leader>gr :Gread<CR>
-nnoremap <silent> <leader>gw :Gwrite<CR>
-nnoremap <silent> <leader>ge :Gedit<CR>
-" Mnemonic _i_nteractive
-nnoremap <silent> <leader>gi :Git add -p %<CR>
-nnoremap <silent> <leader>gg :SignifyToggle<CR>
 
 " Map the scroll wheel to go a single line at a time
 "map <ScrollWheelUp> <C-Y>
