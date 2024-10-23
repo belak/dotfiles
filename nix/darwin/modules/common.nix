@@ -26,7 +26,6 @@
       "alfred"
       "bartender"
       "calibre"
-      "discord"
       "finicky"
       "firefox"
       "font-terminus"
@@ -41,19 +40,15 @@
       "obsidian"
       "openscad"
       "orcaslicer"
+      "pinta"
       "postgres-unofficial"
       "prismlauncher"
       "prusaslicer"
       "rectangle"
-      "spotify"
       "textual"
       "wezterm"
 
-      # Stuff I'm migrating away from
-      "standard-notes"
-
       # Stuff I'm trying out.
-      "via"
       "zotero"
     ];
 
