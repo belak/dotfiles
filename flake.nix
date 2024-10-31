@@ -142,6 +142,14 @@
             ./nix/nixos/users/belak
           ];
         };
+
+        # Primary Desktop
+        "zorn" = lib.mkNixosSystem {
+          modules = [
+            ./nix/nixos/hosts/zorn
+            ./nix/nixos/users/belak
+          ];
+        };
       };
 
       # There are some things nixos and nix-darwin can't provide; for everything
@@ -174,6 +182,12 @@
           modules = [
             ./nix/home/users/belak
             ./nix/home/users/belak/zagreus.nix
+          ];
+        };
+        "belak@zorn" = lib.mkHome {
+          modules = [
+            ./nix/home/users/belak
+            ./nix/home/users/belak/zorn.nix
           ];
         };
       };
