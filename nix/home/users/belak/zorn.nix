@@ -12,11 +12,13 @@
 
   nixpkgs.allowedUnfree = [
     "1password"
+    "spotify"
   ];
 
   home.packages = with pkgs; [
     _1password-gui
     deploy-rs
     solaar
+    spotify
   ];
 }
