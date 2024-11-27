@@ -82,6 +82,13 @@
 
       nixosConfigurations = {
         # Raspberry Pis
+        "artemicion" = lib.mkNixosSystem {
+          system = "aarch64-linux";
+          modules = [
+            ./nix/nixos/hosts/artemicion
+            ./nix/nixos/users/belak
+          ];
+        };
         "kupo" = lib.mkNixosSystem {
           system = "aarch64-linux";
           modules = [
@@ -193,6 +200,16 @@
       };
 
       deploy.nodes = {
+        artemicion = {
+          hostname = "artemicion.elwert.dev";
+          profilesOrder = [
+            "belak"
+            "system"
+          ];
+          profiles.system = lib.mkNixosDeploy self.nixosConfigurations.artemicion;
+          profiles.belak = lib.mkHomeDeploy self.homeConfigurations.belak-arm64;
+        };
+
         kupo = {
           hostname = "kupo.elwert.dev";
           profilesOrder = [
