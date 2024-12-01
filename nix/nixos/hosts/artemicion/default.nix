@@ -11,7 +11,18 @@
   boot.loader.grub.enable = false;
   boot.loader.generic-extlinux-compatible.enable = true;
 
-  belak.server.enable = true;
+  belak = {
+    server.enable = true;
+
+    services = {
+      nginx.enable = true;
+
+      buildbot-master = {
+        enable = true;
+        domain = "ci.seabird.chat";
+      };
+    };
+  };
 
   services.openssh.enable = true;
 

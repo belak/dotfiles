@@ -35,7 +35,6 @@
     "nvidia-x11"
   ];
 
-
   services.xserver.videoDrivers = [ "nvidia" ];
   hardware.opengl.enable = true;
   hardware.nvidia = {

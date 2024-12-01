@@ -38,7 +38,16 @@ in
 {
   "acme-cloudflare-env.age".publicKeys = users ++ [
     system-eiko
-    system-vivi
   ];
   "belak-password.age".publicKeys = users ++ systems;
+
+  # Each buildbot worker needs its own password. They need to be configured for
+  # both the master host (artemicion) and the worker.
+  "buildbot-workers.age".publicKeys = users ++ [ system-artemicion ];
+  "buildbot-app-secret.age".publicKeys = users ++ [ system-artemicion ];
+  "buildbot-webhook-secret.age".publicKeys = users ++ [ system-artemicion ];
+  "buildbot-oauth-secret.age".publicKeys = users ++ [ system-artemicion ];
+
+  "buildbot-worker-moguo.age".publicKeys = users ++ [ system-moguo ];
+  "buildbot-worker-monty.age".publicKeys = users ++ [ system-monty ];
 }
