@@ -54,18 +54,6 @@
         # steiner.elwert.dev
         locations."/".proxyPass = "https://192.168.30.3";
       })
-    )
-    // (lib.genAttrs
-      [
-        "hydra.elwert.cloud"
-      ]
-      (host: {
-        useACMEHost = "primary";
-        forceSSL = true;
-
-        # vivi.elwert.dev
-        locations."/".proxyPass = "https://192.168.30.14";
-      })
     );
 
   networking = {
