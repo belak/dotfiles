@@ -29,7 +29,7 @@ in
     news.display = lib.mkDefault "silent";
 
     home.packages = with pkgs; [
-      _1password
+      _1password-cli
       age
       agenix
       curl

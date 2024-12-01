@@ -19,21 +19,19 @@ in
 
     environment.gnome.excludePackages =
       (with pkgs; [
+        cheese
+        epiphany
+        geary
+        gedit
+        gnome-characters
         gnome-console
+        gnome-maps
+        gnome-music
         gnome-photos
         gnome-tour
-        gedit
-      ])
-      ++ (with pkgs.gnome; [
-        cheese # webcam tool
-        gnome-maps # map tool
-        gnome-music # music player
-        gnome-weather # weather
-        epiphany # web browser
-        geary # email reader
-        gnome-characters # font/character viewer
-        simple-scan # scanner utility
-        totem # video player
+        gnome-weather
+        simple-scan
+        totem
       ]);
   };
 }
