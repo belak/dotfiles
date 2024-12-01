@@ -76,7 +76,7 @@ in
 
       # Archive Formats
       p7zip
-      rar # Note that confusingly rar includes unrar, but not vice versa
+      #rar # Note that confusingly rar includes unrar, but not vice versa
       unzip
 
       # Stuff to try
