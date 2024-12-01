@@ -2,13 +2,13 @@
   description = "Belak's Polyglot Nix configuration";
 
   inputs = {
-    nixpkgs-nixos.url = "github:nixos/nixpkgs/nixos-24.05";
-    nixpkgs-darwin.url = "github:nixos/nixpkgs/nixpkgs-24.05-darwin";
+    nixpkgs-nixos.url = "github:nixos/nixpkgs/nixos-24.11";
+    nixpkgs-darwin.url = "github:nixos/nixpkgs/nixpkgs-24.11-darwin";
     nixpkgs-unstable.url = "github:nixos/nixpkgs/nixos-unstable";
     nixos-hardware.url = "github:nixos/nixos-hardware";
 
     home-manager = {
-      url = "github:nix-community/home-manager/release-24.05";
+      url = "github:nix-community/home-manager/release-24.11";
       inputs.nixpkgs.follows = "nixpkgs-nixos";
     };
 
