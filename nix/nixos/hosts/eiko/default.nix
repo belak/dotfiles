@@ -21,7 +21,10 @@
 
     services = {
       gitea.enable = true;
-      nginx.enable = true;
+      nginx = {
+        enable = true;
+        enableTls = true;
+      };
       postgres.enable = true;
       soju.enable = true;
     };
@@ -38,6 +41,9 @@
 
   # We have a number of services which run on a host which hasn't been migrated
   # to NixOS, so we just forward them for now.
+  #
+  # Additionally, we use this host for TLS termination inside our network to
+  # simplify the setup of other hosts.
   services.nginx.virtualHosts =
     (lib.genAttrs
       [
@@ -53,6 +59,23 @@
 
         # steiner.elwert.dev
         locations."/".proxyPass = "https://192.168.30.3";
+      })
+    )
+    // (lib.genAttrs
+      [
+        "ci.seabird.chat"
+      ]
+      (host: {
+        useACMEHost = "seabird";
+        forceSSL = true;
+
+        # artemicion.elwert.dev
+        locations."/".proxyPass = "http://192.168.30.14";
+
+        locations."/ws" = {
+          proxyPass = "http://192.168.30.14";
+          proxyWebsockets = true;
+        };
       })
     );
 

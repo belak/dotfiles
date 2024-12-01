@@ -17,8 +17,9 @@ in
     services.xserver.displayManager.gdm.enable = true;
     services.xserver.desktopManager.gnome.enable = true;
 
-    environment.gnome.excludePackages =
-      (with pkgs; [
+    environment.gnome.excludePackages = (
+      with pkgs;
+      [
         cheese
         epiphany
         geary
@@ -32,6 +33,7 @@ in
         gnome-weather
         simple-scan
         totem
-      ]);
+      ]
+    );
   };
 }

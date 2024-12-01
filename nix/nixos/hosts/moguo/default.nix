@@ -11,7 +11,13 @@
   boot.loader.grub.enable = false;
   boot.loader.generic-extlinux-compatible.enable = true;
 
-  belak.server.enable = true;
+  belak = {
+    server.enable = true;
+
+    services = {
+      buildbot-worker.enable = true;
+    };
+  };
 
   networking = {
     hostName = "moguo";

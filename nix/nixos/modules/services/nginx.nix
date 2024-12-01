@@ -5,6 +5,7 @@ in
 {
   options.belak.services.nginx = {
     enable = lib.mkEnableOption "nginx";
+    enableTls = lib.mkEnableOption "nginx-tls";
   };
 
   config = lib.mkIf cfg.enable {
@@ -20,13 +21,21 @@ in
       '';
     };
 
-    belak.acme.enable = true;
+    belak.acme.enable = cfg.enableTls;
 
-    security.acme.certs.primary = {
+    security.acme.certs.primary = lib.mkIf cfg.enableTls {
       domain = "${config.networking.hostName}.${config.networking.domain}";
       extraDomainNames = [
         "homelab.elwert.dev"
         "*.elwert.cloud"
+      ];
+      group = config.services.nginx.group;
+    };
+
+    security.acme.certs.seabird = lib.mkIf cfg.enableTls {
+      domain = "seabird.chat";
+      extraDomainNames = [
+        "*.seabird.chat"
       ];
       group = config.services.nginx.group;
     };
