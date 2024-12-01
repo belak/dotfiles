@@ -14,9 +14,9 @@ in
 
   config = lib.mkIf cfg.enable {
     home.packages = with pkgs; [
+      dconf-editor
       gnome-firmware
-      gnome.dconf-editor
-      gnome.gnome-tweaks
+      gnome-tweaks
       gnomeExtensions.unite
     ];
 
