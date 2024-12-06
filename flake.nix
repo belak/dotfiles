@@ -193,6 +193,12 @@
             ./nix/home/users/belak/zagreus.nix
           ];
         };
+        "belak@zidane" = lib.mkHome {
+          modules = [
+            ./nix/home/users/belak
+            ./nix/home/users/belak/zidane.nix
+          ];
+        };
         "belak@zorn" = lib.mkHome {
           modules = [
             ./nix/home/users/belak
