@@ -17,7 +17,7 @@
     discord
     typst
     typstfmt
-    typst-preview
+    tinymist
     spotify
   ];
 }

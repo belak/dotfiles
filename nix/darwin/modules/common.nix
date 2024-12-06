@@ -49,6 +49,7 @@
       "wezterm"
 
       # Stuff I'm trying out.
+      "utm"
       "zotero"
     ];
 
