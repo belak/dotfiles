@@ -79,6 +79,9 @@ in
       locations."/socket" = {
         proxyPass = "http://localhost:7001";
         proxyWebsockets = true;
+        extraConfig = ''
+          proxy_read_timeout 600s;
+        '';
       };
     };
 
