@@ -18,6 +18,7 @@
     typst
     typstfmt
     tinymist
+    senpai
     spotify
   ];
 }
