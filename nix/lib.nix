@@ -4,7 +4,6 @@
   nixpkgs-darwin,
   nixos-hardware,
   agenix,
-  buildbot-nix,
   home-manager,
   darwin,
   ...
@@ -44,8 +43,6 @@
       modules = [
         self.nixosModules.default
         agenix.nixosModules.default
-        buildbot-nix.nixosModules.buildbot-master
-        buildbot-nix.nixosModules.buildbot-worker
       ] ++ modules;
 
       # Pass extra inputs through to all modules.

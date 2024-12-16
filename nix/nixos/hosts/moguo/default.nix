@@ -15,7 +15,6 @@
     server.enable = true;
 
     services = {
-      buildbot-worker.enable = true;
     };
   };
 
