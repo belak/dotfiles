@@ -26,7 +26,7 @@
   mkNixosSystem =
     {
       modules,
-      system ? "x86_64-linux",
+      system,
       nixpkgs ? nixpkgs-nixos,
     }:
     nixpkgs.lib.nixosSystem {
@@ -56,7 +56,7 @@
   mkDarwinSystem =
     {
       modules,
-      system ? "aarch64-darwin",
+      system,
       nixpkgs ? nixpkgs-darwin,
     }:
     darwin.lib.darwinSystem {
@@ -80,7 +80,7 @@
   mkHome =
     {
       modules,
-      system ? "x86_64-linux",
+      system,
       nixpkgs ? nixpkgs-nixos,
     }:
     home-manager.lib.homeManagerConfiguration {

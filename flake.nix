@@ -112,6 +112,7 @@
 
         # ThinkCentre M93p
         "eiko" = lib.mkNixosSystem {
+          system = "x86_64-linux";
           modules = [
             ./nix/nixos/hosts/eiko
             ./nix/nixos/users/belak
@@ -120,6 +121,7 @@
 
         # Intel NUC7i7DNHE
         "vivi" = lib.mkNixosSystem {
+          system = "x86_64-linux";
           modules = [
             ./nix/nixos/hosts/vivi
             ./nix/nixos/users/belak
@@ -128,6 +130,7 @@
 
         # Primary Laptop (ThinkPad T14 Gen 1)
         "zagreus" = lib.mkNixosSystem {
+          system = "x86_64-linux";
           modules = [
             ./nix/nixos/hosts/zagreus
             ./nix/nixos/users/belak
@@ -136,6 +139,7 @@
 
         # Old Laptop (ThinkPad T460)
         "zidane" = lib.mkNixosSystem {
+          system = "x86_64-linux";
           modules = [
             ./nix/nixos/hosts/zidane
             ./nix/nixos/users/belak
@@ -144,6 +148,7 @@
 
         # Primary Desktop
         "zorn" = lib.mkNixosSystem {
+          system = "x86_64-linux";
           modules = [
             ./nix/nixos/hosts/zorn
             ./nix/nixos/users/belak
@@ -158,7 +163,10 @@
       # host-specific configuration, but we provide a default "belak" fallback
       # for the most common cases.
       homeConfigurations = {
-        "belak" = lib.mkHome { modules = [ ./nix/home/users/belak ]; };
+        "belak" = lib.mkHome {
+          system = "x86_64-linux";
+          modules = [ ./nix/home/users/belak ];
+        };
         "belak-arm64" = lib.mkHome {
           system = "aarch64-linux";
           modules = [ ./nix/home/users/belak ];
@@ -178,18 +186,21 @@
           ];
         };
         "belak@zagreus" = lib.mkHome {
+          system = "x86_64-linux";
           modules = [
             ./nix/home/users/belak
             ./nix/home/users/belak/zagreus.nix
           ];
         };
         "belak@zidane" = lib.mkHome {
+          system = "x86_64-linux";
           modules = [
             ./nix/home/users/belak
             ./nix/home/users/belak/zidane.nix
           ];
         };
         "belak@zorn" = lib.mkHome {
+          system = "x86_64-linux";
           modules = [
             ./nix/home/users/belak
             ./nix/home/users/belak/zorn.nix
