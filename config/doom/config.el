@@ -36,6 +36,9 @@
 (after! go-mode
   (setq gofmt-command "goimports"))
 
+(after! lsp-mode
+  (setq lsp-go-directory-filters ["-bazel-dd-go" "-bazel-out" "-bazel-bin" "-bazel-testlogs"]))
+
 (after! magit
   ;; Drop magit-insert-tags-header from the status-headers-hook to improve
   ;; performance in large repositories.
