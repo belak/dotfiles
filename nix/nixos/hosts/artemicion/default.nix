@@ -16,11 +16,6 @@
 
     services = {
       nginx.enable = true;
-
-      buildbot-master = {
-        enable = true;
-        domain = "ci.seabird.chat";
-      };
     };
   };
 

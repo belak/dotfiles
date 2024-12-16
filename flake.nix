@@ -22,8 +22,6 @@
       inputs.nixpkgs.follows = "nixpkgs-unstable";
     };
 
-    buildbot-nix.url = "github:nix-community/buildbot-nix";
-
     agenix = {
       url = "github:ryantm/agenix";
       inputs.nixpkgs.follows = "nixpkgs-nixos";

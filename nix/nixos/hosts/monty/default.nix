@@ -15,10 +15,8 @@
     server.enable = true;
 
     services = {
-      buildbot-worker.enable = true;
     };
   };
-
 
   networking = {
     hostName = "monty";
