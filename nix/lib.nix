@@ -2,7 +2,6 @@
   self,
   nixpkgs-nixos,
   nixpkgs-darwin,
-  nixos-cosmic,
   nixos-hardware,
   agenix,
   buildbot-nix,
@@ -47,7 +46,6 @@
         agenix.nixosModules.default
         buildbot-nix.nixosModules.buildbot-master
         buildbot-nix.nixosModules.buildbot-worker
-        nixos-cosmic.nixosModules.default
       ] ++ modules;
 
       # Pass extra inputs through to all modules.
