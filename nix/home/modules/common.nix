@@ -35,7 +35,6 @@ in
       curl
       dig
       fd
-      ffmpeg
       file
       findutils
       fzf
@@ -53,9 +52,10 @@ in
       vim
       wget
       yq
-      yt-dlp
 
       # We use the pure GTK variant of emacs to get better Wayland support.
+      #
+      # TODO: move this out of common.nix
       #
       # TODO: there are some issues with the pgtk build on macOS, so we just use
       # the normal emacs build there.
