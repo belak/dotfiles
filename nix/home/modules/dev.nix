@@ -23,20 +23,17 @@ in
       dos2unix
       editorconfig-core-c
       exiftool
+      ffmpeg
       grpcurl
       gnumake
       imagemagick
       jq
       just
-      lcov
-      mdbook
       patchelf
-      picotool
-      protobuf
+      yt-dlp
 
       # Python
       poetry
-      python3Packages.black
       ruff
       virtualenv
       my.pyenv
@@ -54,7 +51,6 @@ in
       codeowners
       git-codeowners
       unstable.diskonaut
-      unstable.helix
       unstable.jj
       unstable.mdcat
     ];

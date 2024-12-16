@@ -34,6 +34,7 @@ in
       # Packages I want more up to date
       unstable.obsidian
       unstable.prusa-slicer
+      unstable.orca-slicer
 
       # Stuff I'm trying out
       pinta
