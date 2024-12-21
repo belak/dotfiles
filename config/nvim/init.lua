@@ -27,9 +27,12 @@ require('mini.deps').setup({ path = { package = path_package } })
 
 -- Add all our plugin repos
 MiniDeps.add("echasnovski/mini.nvim")
-MiniDeps.add("tpope/vim-rsi")
 MiniDeps.add("miikanissi/modus-themes.nvim")
+MiniDeps.add("neovim/nvim-lspconfig")
 MiniDeps.add("stevearc/conform.nvim")
+MiniDeps.add("tpope/vim-rsi")
+MiniDeps.add("nvim-treesitter/nvim-treesitter")
+MiniDeps.add("vrischmann/tree-sitter-templ")
 
 -- Initialize all our UI-related plugins here, so we don't have the vim
 -- equivalent of a "flash of unstyled content".
@@ -100,6 +103,7 @@ MiniDeps.later(function()
     formatters_by_ft = {
       go = { "goimports", "gofmt" },
       rust = { "rustfmt" },
+      templ = { "templ" },
     },
     default_format_opts = {
       lsp_format = "prefer",
@@ -109,6 +113,29 @@ MiniDeps.later(function()
       timeout_ms = 500,
       lsp_format = "fallback",
     },
+  })
+end)
+
+MiniDeps.later(function()
+  local lspconfig = require('lspconfig')
+
+  lspconfig.gopls.setup({})
+  lspconfig.rust_analyzer.setup({})
+  lspconfig.templ.setup({})
+  lspconfig.html.setup({
+    filetypes = { "html", "templ" },
+  })
+  lspconfig.htmx.setup({
+    filetypes = { "html", "templ" },
+  })
+end)
+
+MiniDeps.later(function()
+  require('nvim-treesitter.configs').setup({
+    ensure_installed = { "templ" },
+    highlight = {
+      enable = true,
+    }
   })
 end)
 
