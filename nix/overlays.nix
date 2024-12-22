@@ -5,7 +5,12 @@
   ...
 }:
 {
-  additions = final: _prev: { my = import ./pkgs { pkgs = final; }; };
+  additions = final: _prev: {
+    my = final.lib.packagesFromDirectoryRecursive {
+      callPackage = final.callPackage;
+      directory = ./pkgs;
+    };
+  };
 
   agenix = final: _prev: { agenix = agenix.packages.${final.system}.default; };
 
