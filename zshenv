@@ -13,6 +13,7 @@ export VOLTA_HOME="$HOME/.volta"
 typeset -U path fpath
 path=(
     "$HOME/bin"
+    "/Applications/Ghostty.app/Contents/MacOS"
     "/Applications/Inkscape.app/Contents/Resources/bin"
     "/Applications/Postgres.app/Contents/Versions/latest/bin"
     "/Applications/Sublime Text.app/Contents/SharedSupport/bin"
