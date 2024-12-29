@@ -58,6 +58,7 @@
       "Dark Noise" = 1465439395;
       Parcel = 639968404;
       Reeder = 1529448980;
+      "Supernote Partner" = 1494992020;
       Things = 904280696;
       Xcode = 497799835;
 
