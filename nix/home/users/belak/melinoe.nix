@@ -46,6 +46,7 @@
       "editor.cursorBlinking" = "solid";
       "editor.find.seedSearchStringFromSelection" = false;
       "editor.formatOnSave" = true;
+      "editor.minimap.enabled" = false;
       "editor.renderWhitespace" = "selection";
       "editor.scrollBeyondLastLine" = false;
       "extensions.ignoreRecommendations" = true;
