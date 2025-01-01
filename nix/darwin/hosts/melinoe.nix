@@ -11,7 +11,8 @@
   # as expected.
   system.defaults.screensaver = {
     askForPassword = true;
-    askForPasswordDelay = 10;
+    # TODO: this doesn't seem to work, so we have to set it manually
+    askForPasswordDelay = 5;
   };
 
   # Used for backwards compatibility, please read the changelog before changing.
