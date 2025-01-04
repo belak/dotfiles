@@ -15,6 +15,17 @@
     askForPasswordDelay = 5;
   };
 
+  homebrew = {
+    casks = [
+      "blackhole-2ch"
+      "inkscape"
+    ];
+
+    masApps = {
+      "Logic Pro" = 634148309;
+    };
+  };
+
   # Used for backwards compatibility, please read the changelog before changing.
   # $ darwin-rebuild changelog
   system.stateVersion = 5;
