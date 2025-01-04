@@ -30,16 +30,19 @@
 
     mutableExtensionsDir = false;
 
-    extensions = with pkgs.vscode-extensions; [
-      editorconfig.editorconfig
-      golang.go
-      jnoortheen.nix-ide
-      stkb.rewrap
-      rust-lang.rust-analyzer
-    ] ++ (with pkgs.community-vscode-extensions.vscode-marketplace; [
-      a-h.templ
-      monokai.theme-monokai-pro-vscode
-    ]);
+    extensions =
+      with pkgs.vscode-extensions;
+      [
+        editorconfig.editorconfig
+        golang.go
+        jnoortheen.nix-ide
+        stkb.rewrap
+        rust-lang.rust-analyzer
+      ]
+      ++ (with pkgs.community-vscode-extensions.vscode-marketplace; [
+        a-h.templ
+        monokai.theme-monokai-pro-vscode
+      ]);
 
     userSettings = {
       "editor.acceptSuggestionOnCommitCharacter" = false;
