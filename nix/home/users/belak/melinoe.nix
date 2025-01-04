@@ -52,6 +52,7 @@
       "editor.minimap.enabled" = false;
       "editor.renderWhitespace" = "selection";
       "editor.scrollBeyondLastLine" = false;
+      "explorer.fileNesting.expand" = false;
       "extensions.ignoreRecommendations" = true;
       "files.hotExit" = "off";
       "workbench.colorTheme" = "Monokai Pro";
