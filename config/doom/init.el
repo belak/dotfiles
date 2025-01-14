@@ -194,8 +194,9 @@
         +tree-sitter)
 
        :email
+       (mu4e +mbsync)
        ;;(mu4e +org +gmail)
-       ;;notmuch
+       notmuch
        ;;(wanderlust +gmail)
 
        :app

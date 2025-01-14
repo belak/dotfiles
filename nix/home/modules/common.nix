@@ -59,7 +59,12 @@ in
       #
       # TODO: there are some issues with the pgtk build on macOS, so we just use
       # the normal emacs build there.
-      (if pkgs.stdenv.isDarwin then pkgs.emacs else pkgs.emacs29-pgtk)
+      (
+        (emacsPackagesFor (if pkgs.stdenv.isDarwin then pkgs.emacs else pkgs.emacs29-pgtk))
+        .emacsWithPackages
+        (epkgs: [ unstable.emacsPackages.mu4e ])
+      )
+      unstable.mu
 
       # Nix tools
       #unstable.rippkgs

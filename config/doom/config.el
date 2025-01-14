@@ -33,8 +33,8 @@
 ;; umlaut) when searching.
 (setq search-default-mode 'char-fold-to-regexp)
 
-(after! go-mode
-  (setq gofmt-command "goimports"))
+;;(after! go-mode
+;;  (setq gofmt-command "goimports"))
 
 (after! lsp-mode
   (setq lsp-go-directory-filters ["-bazel-dd-go" "-bazel-out" "-bazel-bin" "-bazel-testlogs"]))
@@ -43,6 +43,19 @@
   ;; Drop magit-insert-tags-header from the status-headers-hook to improve
   ;; performance in large repositories.
   (delq! 'magit-insert-tags-header magit-status-headers-hook))
+
+(setq +notmuch-sync-backend 'mbsync
+      +notmuch-mail-folder  "~/.mail")
+
+(setq mu4e-change-filenames-when-moving t
+      mu4e-trash-without-flag t)
+
+(set-email-account! "primary"
+  '((mu4e-sent-folder       . "/Sent")
+    (mu4e-drafts-folder     . "/Drafts")
+    (mu4e-trash-folder      . "/Trash")
+    (mu4e-refile-folder     . "/Archive"))
+  t)
 
 ;; If you use `org' and don't want your org files in the default location below,
 ;; change `org-directory'. It must be set before org loads!
