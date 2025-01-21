@@ -107,6 +107,15 @@
 
     screencapture.disable-shadow = true;
 
+    # Disable built-in macOS tiling, as we use Rectangle to provide more options
+    # when tiling windows.
+    WindowManager = {
+      EnableTilingByEdgeDrag = false;
+      EnableTopTilingByEdgeDrag = false;
+      EnableTilingOptionAccelerator = false;
+      EnableTiledWindowMargins = false;
+    };
+
     NSGlobalDomain = {
       NSAutomaticDashSubstitutionEnabled = false;
       NSAutomaticPeriodSubstitutionEnabled = false;
