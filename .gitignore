@@ -23,10 +23,8 @@ vim/view
 *.swp
 
 # emacs related
+config/emacs/custom.el
+config/emacs/eln-cache
+config/emacs/etc
+config/emacs/var
 *.elc
-emacs.d/.local
-emacs.d/custom.el
-emacs.d/elpaca
-emacs.d/var
-emacs.d/etc
-emacs.d/eln-cache

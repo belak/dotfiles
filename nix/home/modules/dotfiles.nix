@@ -25,6 +25,7 @@ in
       ".config/belak" = mkSource "config/belak";
       ".config/direnv/direnv.toml" = mkSource "config/direnv/direnv.toml";
       ".config/doom" = mkSource "config/doom";
+      ".config/emacs" = mkSource "config/emacs";
       ".config/git" = mkSource "config/git";
       ".config/nvim" = mkSource "config/nvim";
       ".config/tmux" = mkSource "config/tmux";

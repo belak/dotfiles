@@ -57,14 +57,24 @@ in
       #
       # TODO: move this out of common.nix
       #
-      # TODO: there are some issues with the pgtk build on macOS, so we just use
+      # XXX: there are some issues with the pgtk build on macOS, so we just use
       # the normal emacs build there.
       (
         (emacsPackagesFor (if pkgs.stdenv.isDarwin then pkgs.emacs else pkgs.emacs29-pgtk))
         .emacsWithPackages
-        (epkgs: [ unstable.emacsPackages.mu4e ])
+        (epkgs: [
+          epkgs.melpaPackages.blackout
+          epkgs.melpaPackages.corfu
+          epkgs.melpaPackages.doom-modeline
+          epkgs.melpaPackages.marginalia
+          epkgs.melpaPackages.modus-themes
+          epkgs.melpaPackages.no-littering
+          epkgs.melpaPackages.orderless
+          epkgs.melpaPackages.vertico
+        ] ++ lib.optionals stdenv.isDarwin [
+          epkgs.melpaPackages.ns-auto-titlebar
+        ])
       )
-      unstable.mu
 
       # Nix tools
       #unstable.rippkgs

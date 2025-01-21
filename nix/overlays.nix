@@ -2,6 +2,7 @@
   nixpkgs-unstable,
   agenix,
   deploy-rs,
+  emacs-overlay,
   nix-vscode-extensions,
   ...
 }:
@@ -31,6 +32,8 @@
       inherit (prev.deploy-rs) lib;
     };
   };
+
+  emacs-packages = emacs-overlay.overlays.package;
 
   unstable = final: _prev: { unstable = import nixpkgs-unstable { inherit (final) config system; }; };
 
