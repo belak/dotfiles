@@ -62,6 +62,12 @@
     darwin.lib.darwinSystem {
       inherit system;
 
+      # We sometimes turn this on when testing against the nix-darwin master
+      # branch. This is used to bypass a confidence check which makes sure
+      # you're using a stable nixpkgs with stable nix-darwin.
+      #
+      #enableNixpkgsReleaseCheck = false;
+
       specialArgs = {
         inherit self;
       };
