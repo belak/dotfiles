@@ -1,5 +1,67 @@
 ;;; early-core.el -*- lexical-binding: t; -*-
 
+(require 'belak-lib)
+
+;;
+;;; `use-package' Tweaks
+
+;; By default, we want `use-package' to only load packages when explicitly
+;; called on. This makes it easier to lazy-load packages.
+(setq use-package-always-defer t)
+
+;; Some debugging toggles, used for diagnosing startup and startup speed.
+(setq use-package-verbose nil
+      use-package-minimum-reported-time 0.001)
+
+
+;;
+;;; No-Littering
+
+;; We want to make sure we avoid dumping a bunch of additional files in our
+;; emacs directory, so we install to a hidden dir in our emacs directory.
+;;
+;; Note that the only thing that should be before this is any required setup to
+;; install this and prepare. We want to make sure these values are used for
+;; every package we load if possible.
+;;
+;; This configuration used to try and put the `etc' and `var' directories inside
+;; a hidden directory, but if the Emacs config ever failed to load, we were left
+;; with these directories anyway, so it's not worth the trouble.
+
+(use-package no-littering
+  :demand t
+  :config
+  (no-littering-theme-backups))
+
+
+;;
+;;; Optimizations
+
+;; `gcmh-mode' is a long standing hack which tweaks the garbage collection to be
+;; more performant in normal scenarios. We also add a hook to focus-out so Emacs
+;; can GC in the background.
+(use-package gcmh
+  :blackout
+  :hook (focus-out  . gcmh-idle-garbage-collect)
+  :hook (after-init . gcmh-mode)
+  :config
+  (setq gcmh-idle-delay 10
+        gcmh-high-cons-threshold (* 100 1024 1024))) ; 100MB
+
+(use-package so-long
+  :hook (after-init . global-so-long-mode))
+
+;; Disable bidirectional text rendering for a performance. This unfortunately
+;; disables support for left-to-right languages, but for right-to-left, it's a
+;; performance win.
+(setq-default bidi-display-reordering  'left-to-right
+              bidi-paragraph-direction 'left-to-right)
+
+;; Faster scrolling over unfontified regions. This may provide
+;; inaccurate fontification while scrolling.
+(setq fast-but-imprecise-scrolling t)
+
+
 ;;
 ;;; Tweaks
 
@@ -68,16 +130,13 @@
 ;; macOS. This isn't ideal, so it's overridden to the user's home directory.
 ;;
 ;; TODO: check if this is still true
-(setq default-directory "~/")
+;;(setq default-directory "~/")
 
+;; Disabling the additional `use-package` highlighting makes it so the package
+;; names aren't highlighted, but since we define out own similar macros, this
+;; saves us from having to declare the same highlighting on those as well.
+(font-lock-remove-keywords 'emacs-lisp-mode use-package-font-lock-keywords)
 
-;;
-;;; Packages
-
-(use-package no-littering
-  :demand t
-  :config
-  (no-littering-theme-backups))
 
 (provide 'belak-core)
 ;;; belak-core.el ends here.

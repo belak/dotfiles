@@ -63,14 +63,28 @@ in
         (emacsPackagesFor (if pkgs.stdenv.isDarwin then pkgs.emacs else pkgs.emacs29-pgtk))
         .emacsWithPackages
         (epkgs: [
+          #epkgs.elpaPackages.eglot
+
+          epkgs.melpaPackages.ace-window
           epkgs.melpaPackages.blackout
           epkgs.melpaPackages.corfu
+          epkgs.melpaPackages.ctrlf
+          epkgs.melpaPackages.diff-hl
+          epkgs.melpaPackages.dimmer
           epkgs.melpaPackages.doom-modeline
+          epkgs.melpaPackages.editorconfig
+          epkgs.melpaPackages.expand-region
+          epkgs.melpaPackages.gcmh
+          epkgs.melpaPackages.hl-todo
+          epkgs.melpaPackages.magit
           epkgs.melpaPackages.marginalia
           epkgs.melpaPackages.modus-themes
+          epkgs.melpaPackages.multiple-cursors
           epkgs.melpaPackages.no-littering
           epkgs.melpaPackages.orderless
+          epkgs.melpaPackages.projectile
           epkgs.melpaPackages.vertico
+          epkgs.melpaPackages.which-key
         ] ++ lib.optionals stdenv.isDarwin [
           epkgs.melpaPackages.ns-auto-titlebar
         ])
