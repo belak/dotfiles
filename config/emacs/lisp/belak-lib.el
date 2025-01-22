@@ -23,6 +23,18 @@
 ;;
 ;;; Macros
 
+(defmacro after! (package &rest body)
+  "Evaluate `BODY' after `PACKAGE' have loaded."
+  (declare (indent defun))
+  (let ((body (macroexp-progn body)))
+    `(if (featurep ',package)
+         ,body
+       (eval-after-load ',package ',body))))
+
+(defmacro appendq! (sym &rest lists)
+  "Append LISTS to SYM in-place."
+  `(setq ,sym (append ,sym ,@lists)))
+
 (defmacro delq! (elt list &optional fetcher)
   "`delq' ELT from LIST in-place.
 
@@ -61,12 +73,10 @@ If FETCHER is a function, ELT is used as the key in LIST (an alist)."
               belak-switch-buffer-hook--last-buffer)
     (let ((current (current-buffer)))
       ;;(previous belak-switch-buffer-hook--last-buffer)
-      (setq belak-switch-buffer-hook--last-buffer
-            current)
+      (setq belak-switch-buffer-hook--last-buffer current)
       (run-hooks 'belak-switch-buffer-hook))))
 
-(add-hook 'post-command-hook
-          'run-belak-switch-buffer-hook)
+(add-hook 'post-command-hook 'run-belak-switch-buffer-hook)
 
 (provide 'belak-lib)
 ;;; belak-lib.el ends here.

@@ -126,12 +126,6 @@
     (setq browse-url-browser-function 'browse-url-xdg-open)
   (setq browse-url-browser-function 'browse-url-generic))
 
-;; For some reason, default-directory seems to be / when using emacs-plus on
-;; macOS. This isn't ideal, so it's overridden to the user's home directory.
-;;
-;; TODO: check if this is still true
-;;(setq default-directory "~/")
-
 ;; Disabling the additional `use-package` highlighting makes it so the package
 ;; names aren't highlighted, but since we define out own similar macros, this
 ;; saves us from having to declare the same highlighting on those as well.

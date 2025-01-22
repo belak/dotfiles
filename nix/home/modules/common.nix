@@ -83,6 +83,7 @@ in
           epkgs.melpaPackages.no-littering
           epkgs.melpaPackages.orderless
           epkgs.melpaPackages.projectile
+          #epkgs.melpaPackages.tree-sitter-langs
           epkgs.melpaPackages.vertico
           epkgs.melpaPackages.which-key
         ] ++ lib.optionals stdenv.isDarwin [

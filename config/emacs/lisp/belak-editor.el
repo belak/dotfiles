@@ -7,7 +7,8 @@
 
 (use-package corfu
   :hook (after-init . global-corfu-mode)
-  :bind (:map corfu-map ("<tab>" . corfu-complete)))
+  :bind (:map corfu-map ("<tab>" . corfu-complete))
+  :custom (corfu-auto t))
 
 
 ;;
@@ -130,6 +131,7 @@ This was originally from https://protesilaos.com/codelog/2024-11-28-basic-emacs-
 	 (abort-recursive-edit))
 	(t
 	 (keyboard-quit))))
+(global-set-key [remap keyboard-quit] #'belak/keyboard-quit-dwim)
 
 (defun belak/move-beginning-of-line-dwim (arg)
   "Move point back to indentation of beginning of line.
@@ -156,6 +158,7 @@ This originally came from Sacha Chua's Emacs config."
     (back-to-indentation)
     (when (= orig-point (point))
       (move-beginning-of-line 1))))
+(global-set-key [remap move-beginning-of-line] #'belak/move-beginning-of-line-dwim)
 
 (defun belak--unfill-paragraph (&optional region)
   "Takes a multi-line paragraph and makes it into a single line of text."
@@ -185,11 +188,6 @@ This originally came from Sacha Chua's Emacs config."
               tab-always-indent t
               indent-tabs-mode nil
               fill-column 80)
-
-;; Replace a number of bindings with our tweaked implementations.
-(global-set-key [remap keyboard-quit] #'belak/keyboard-quit-dwim)
-(global-set-key [remap move-beginning-of-line]
-                #'belak/move-beginning-of-line-dwim)
 
 ;; Prevent accidental usage of `list-buffers'.
 (bind-key "C-x C-b" #'switch-to-buffer)

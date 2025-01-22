@@ -67,9 +67,20 @@
 
 ;; Between `eglot' and `lsp-mode' I've had better experiences with eglot because
 ;; it tries to do less. That being said lsp-mode has improved quite a bit in the
-;; last few years, so I need to take another look.
+;; last few years, so it may be worth taking another look.
 (use-package eglot
   :commands (eglot eglot-ensure))
+
+
+;;
+;;; Tree Sitter
+
+(use-package tree-sitter
+  :hook (after-init                . global-tree-sitter-mode)
+  :hook (tree-sitter-after-on-hook . tree-sitter-hl-mode))
+
+;;(use-package tree-sitter-langs
+;;  :after tree-sitter)
 
 
 ;;

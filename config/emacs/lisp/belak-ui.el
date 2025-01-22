@@ -47,7 +47,9 @@
 ;; This makes completing-read frameworks work more like helm with useful columns
 ;; of information, but with way less configuration.
 (use-package marginalia
-  :hook (after-init . marginalia-mode))
+  :hook (after-init . marginalia-mode)
+  :bind (:map minibuffer-local-map
+              ("M-A" . marginalia-cycle)))
 
 ;; Orderless lets us tweak the completion sorting/filtering with nausiating
 ;; detail if we really want to.
@@ -55,7 +57,13 @@
   :demand t
   :config
   ;; Enable the orderless completion style
-  (setq completion-styles '(orderless basic)))
+  (setq completion-styles '(orderless basic))
+
+  ;; There's an odd issue when using TRAMP, that causes hostname completion to
+  ;; not work, so there needs to be an override for files which tries basic
+  ;; first.
+  (setq completion-category-defaults nil
+        completion-category-overrides '((file (styles basic partial-completion)))))
 
 
 ;;
@@ -119,6 +127,15 @@
   ;; buffer.
   (setq hl-line-sticky-flag nil
         global-hl-line-sticky-flag nil))
+
+(use-package display-line-numbers
+  :hook (conf-mode . display-line-numbers-mode)
+  :hook (prog-mode . display-line-numbers-mode)
+  :hook (text-mode . display-line-numbers-mode)
+  :config
+  (setq-default display-line-numbers-type 'relative
+                display-line-numbers-width 3
+                display-line-numbers-widen t))
 
 ;; Package `transient' is the interface used by Magit to display popups.
 (use-package transient
@@ -218,6 +235,13 @@
  ;; during large-scale scrolling commands. If kept high enough, the window
  ;; is never automatically recentered.
  scroll-conservatively 100)
+
+
+;;
+;;; Improvements for terminal emacs
+
+(unless IS-GUI
+  (xterm-mouse-mode t))
 
 
 ;;
