@@ -1,0 +1,40 @@
+* Belak's Dotemacs
+
+** Future Ideas
+
+*** TODO look into smartparens (see https://github.com/MatthewZMD/.emacs.d/blob/master/elisp/init-parens.el and Emacs Prelude for inspiration)
+*** TODO look into hydra and key-chord
+*** TODO look into enh-ruby-mode
+*** TODO look into yasnippet and a way to have default empty file buffers
+*** TODO look into visual-fill-column
+*** TODO look into focus-mode
+*** TODO look into eyebrowse
+*** TODO look into which-function-mode
+*** TODO look into the local-comment-auto-fill from prelude
+*** TODO look into .dir-locals.el over the hack in our elisp setup.
+*** TODO look into storing straight packages elsewhere
+*** TODO add back (cua-mode) shortcuts on macOS.
+*** TODO look into drag stuff mode
+*** TODO look into save-place
+*** TODO look into nerd-commenter
+*** TODO look into posframe, specifically flycheck-posframe
+*** TODO look into flycheck-pos-tip
+*** TODO look into recentf-auto-cleanup
+*** TODO look into dap-mode
+*** TODO look into popup-kill-ring
+*** TODO look into windmove, possibly with windmove-wrap-around
+*** TODO look into winum
+*** TODO look into fill-column-indicator
+*** TODO look into verb or other http clients
+*** TODO try evil-mode again
+*** TODO look into multiple-cursors (Sacha has a lot of binds for this)
+*** TODO look into syncthing
+*** TODO look into font-lock+
+*** TODO look into transpose-frame
+*** TODO Additional repos to look at
+
+- [[http://doc.norang.ca/org-mode.html][Bernt Hansen]]: Lots of Org-related config. I picked up the graph-drawing stuff from this.
+- [[https://github.com/bzg/dotemacs][Bastien Guerry]]: Org, Gnus, ERC - Explained in this [[http://sachachua.com/blog/2013/05/emacs-chat-bastien-guerry/][Emacs Chat (~1h)]]
+- [[https://github.com/iani/emacs-prelude][Iannis Zannos]]: Explained in this [[https://www.youtube.com/watch?v=0F8aCbC9z3A][Emacs Chat (~1h)]]
+- [[https://github.com/magnars/.emacs.d][Magnar Sveen]]: http://whattheemacsd.com/ has some explanations. [[http://sachachua.com/blog/2013/11/emacs-chat-magnar-sveen-emacs-rocks/][Emacs Chat (~1h)]]
+- [[https://github.com/jwiegley/dot-emacs][John Wiegley]]: Also see his [[http://www.youtube.com/watch?v=RvPFZL6NJNQ][Emacs Lisp Development talk]] (sorry, sucky video) and [[http://www.youtube.com/watch?v=ytNsHmRLZGM][Emacs Chat video]]
