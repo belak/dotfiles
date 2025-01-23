@@ -109,9 +109,8 @@
 
 ;; This "fixes" any customizations we make so they don't polute the init.el. It
 ;; allows usage of the customization interface if there's ever a need.
-(setq custom-file (expand-file-name "custom.el" user-emacs-directory))
-(when (file-exists-p custom-file)
-  (load custom-file))
+(setq custom-file (locate-user-emacs-file "custom.el"))
+(load custom-file :no-error-if-file-is-missing)
 
 ;; UTF-8 as the default encoding
 (when (fboundp 'set-charset-priority)
@@ -172,11 +171,6 @@
     (setq browse-url-browser-function 'browse-url-xdg-open)
   (setq browse-url-browser-function 'browse-url-generic))
 
-;; For some reason, default-directory seems to be / when using emacs-plus on
-;; macOS. This isn't ideal, so it's overridden to the user's home directory.
-;;
-;; TODO: check if this is still true
-(setq default-directory "~/")
 
 (provide 'belak-core)
 ;;; belak-core.el ends here.
