@@ -83,7 +83,6 @@ in
           epkgs.melpaPackages.dashboard
           epkgs.melpaPackages.diff-hl
           epkgs.melpaPackages.dimmer
-          epkgs.melpaPackages.diredfl
           epkgs.melpaPackages.dockerfile-mode
           epkgs.melpaPackages.doom-modeline
           epkgs.melpaPackages.editorconfig
