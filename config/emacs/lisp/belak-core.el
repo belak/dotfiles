@@ -68,7 +68,8 @@
         gcmh-high-cons-threshold (* 100 1024 1024))) ; 100MB
 
 ;; So Long mitigates slowness due to extremely long lines.
-(add-transient-hook! pre-command-hook (global-so-long-mode +1))
+(use-feature! so-long
+  :hook (after-init . global-so-long-mode))
 
 ;; Disable bidirectional text rendering for a performance. This unfortunately
 ;; disables support for left-to-right languages, but for right-to-left, it's a

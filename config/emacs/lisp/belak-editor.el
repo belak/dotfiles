@@ -98,8 +98,7 @@
 ;; makes it possible to define cleanup functions.
 (use-feature! midnight
   :commands midnight-mode
-  :init
-  (add-transient-hook! pre-command-hook (midnight-mode 1)))
+  :hook (after-init . midnight-mode))
 
 ;; Multiple cursors can be very powerful when used right.
 (use-package! multiple-cursors
