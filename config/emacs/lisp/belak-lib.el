@@ -60,18 +60,6 @@
          ,body
        (eval-after-load ',package ',body))))
 
-(defmacro add-transient-hook! (hook &rest forms)
-  "Attaches a self-removing function `NAME' to a given `HOOK'."
-  (declare (indent 1))
-  (let ((fn (gensym "belak--transient-")))
-    `(progn
-       (defun ,fn (&rest _)
-         ,@forms
-         (remove-hook ',hook #',fn)
-         (unintern ',fn nil))
-       (put ',fn 'permanent-local-hook t)
-       (add-hook ',hook #',fn))))
-
 (defmacro appendq! (sym &rest lists)
   "Append LISTS to SYM in-place."
   `(setq ,sym (append ,sym ,@lists)))
