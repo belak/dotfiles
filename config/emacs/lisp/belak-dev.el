@@ -109,7 +109,15 @@
   :hook (after-init . global-corfu-mode)
   :custom
   (corfu-auto t)
-  (corfu-auto-delay 0.25))
+  (corfu-auto-delay 0.25)
+  :config
+  (after! dimmer
+    ;; Avoid dimming the window when corfu is opened. This is based on some code
+    ;; from https://github.com/gonewest818/dimmer.el/issues/62.
+    (defun belak--corfu-frame-p ()
+      "Check if the buffer is a corfu frame buffer."
+      (string-match-p "\\` \\*corfu" (buffer-name)))
+    (add-to-list 'dimmer-prevent-dimming-predicates #'belak--corfu-frame-p)))
 
 (use-feature! corfu-history
   :hook (after-init . corfu-history-mode))

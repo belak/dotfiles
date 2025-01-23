@@ -23,6 +23,7 @@
 ;;
 ;;; Fonts
 
+;; TODO: (set-face-font 'variable-pitch "")
 (cond
  (IS-MAC
   (set-face-font 'default        "Monaco")
@@ -30,8 +31,6 @@
  (IS-LINUX
   (set-face-font 'default        "Terminus 12")
   (set-face-font 'fixed-pitch    "Terminus 12")))
-
-;;(set-face-font 'variable-pitch "")
 
 
 ;;
@@ -62,7 +61,20 @@
 (use-package! dimmer
   :defer nil
   :custom (dimmer-fraction 0.2)
-  :hook (after-init . dimmer-mode))
+  :hook (after-init . dimmer-mode)
+  :config
+  ;; Modify the dimmer-config-change-handler to only call dimmer-process-all if
+  ;; no dimming predicates are truthy. This fixes an issue with corfu. Based on
+  ;; code from https://github.com/gonewest818/dimmer.el/issues/62.
+  (defun belak--advise-dimmer-config-change-handler ()
+    "Advise to only force process if no predicate is truthy."
+    (let ((ignore (cl-some (lambda (f) (and (fboundp f) (funcall f)))
+                           dimmer-prevent-dimming-predicates)))
+      (unless ignore
+        (when (fboundp 'dimmer-process-all)
+          (dimmer-process-all t)))))
+
+  (advice-add 'dimmer-config-change-handler :override 'belak--advise-dimmer-config-change-handler))
 
 ;; We want line numbers to make it easier when using prefix commands.
 (use-feature! display-line-numbers
