@@ -139,11 +139,11 @@ If FETCHER is a function, ELT is used as the key in LIST (an alist)."
        ;;(add-transient-hook! emacs-startup-hook (load-theme ',name t)))))
 
 (defmacro use-feature! (name &rest forms)
-  "Like `use-package', but disables elpaca integration.
+  "Like `use-package', but disables package integration.
 `NAME' and `FORMS' are as in `use-package'."
   (declare (indent defun))
   `(use-package! ,name
-     :elpaca nil
+     :ensure nil
      ,@forms))
 
 (defmacro use-package! (name &rest forms)

@@ -68,10 +68,7 @@
           (cursor-in-non-selected-window nil))
       (apply orig-fun args)))
 
-  (advice-add 'ace-window :around #'belak--ace-window)
-
-  ;; Always display the window key in the modeline to make jumping easier.
-  (ace-window-display-mode 1))
+  (advice-add 'ace-window :around #'belak--ace-window))
 
 ;; Dim the non-active window to make it a little easier to focus on the
 ;; currently active window.
