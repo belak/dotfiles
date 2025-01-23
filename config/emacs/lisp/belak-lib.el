@@ -5,30 +5,13 @@
 ;;
 ;;; Functions
 
-(defun belak-enlist (exp)
-  "Return EXP wrapped in a list, or as-is if already a list."
-  (declare (pure t) (side-effect-free t))
-  (if (listp exp) exp (list exp)))
-
 (defun belak-visible-buffers ()
   (delete-dups (mapcar #'window-buffer (window-list))))
-
-(defun belak-buffers-in-mode (modes)
-  "Return a list of buffers whose `major-mode' is `eq' to MODE(S)."
-  (let ((modes (belak-enlist modes)))
-    (cl-remove-if-not (lambda (buf)
-                        (memq (buffer-local-value 'major-mode buf) modes))
-                      (buffer-list))))
 
 (defun belak-disable-all-themes ()
   (interactive)
   (mapc #'disable-theme custom-enabled-themes))
 
-;; TODO: add a binding for this
-(defun belak-copy-buffer ()
-  "Copies the entire buffer to the kill-ring."
-  (interactive)
-  (copy-region-as-kill 1 (point-max)))
 
 ;;
 ;;; External Packages
@@ -57,28 +40,7 @@
 ;; Originally
 ;; https://github.com/sulami/dotfiles/blob/master/emacs/.emacs/README.org
 
-(defun belak-open-scratch-buffer ()
-  "Opens the scratch buffer."
-  (interactive)
-  (switch-to-buffer "*scratch*"))
-
-(defun belak-open-message-buffer ()
-  "Opens the message buffer."
-  (interactive)
-  (switch-to-buffer "*Messages*"))
-
-(defun belak-open-minibuffer ()
-  "Focusses the minibuffer, if active."
-  (interactive)
-  (when (active-minibuffer-window)
-    (select-window (minibuffer-window))))
-
-(defun belak-sort-words (beg end)
-  "Sorts words in region."
-  (interactive "r")
-  (sort-regexp-fields nil "\\w+" "\\&" beg end))
-
-(defun belak-what-face (pos)
+(defun belak/get-face-at-point (pos)
   (interactive "d")
   (let ((face (or (get-char-property pos 'read-face-name)
                   (get-char-property pos 'face))))
@@ -184,6 +146,7 @@ If FETCHER is a function, ELT is used as the key in LIST (an alist)."
 ;; names aren't highlighted, but since we define out own similar macros, this
 ;; saves us from having to declare the same highlighting on those as well.
 (font-lock-remove-keywords 'emacs-lisp-mode use-package-font-lock-keywords)
+
 
 (provide 'belak-lib)
 ;;; belak-lib.el ends here.
