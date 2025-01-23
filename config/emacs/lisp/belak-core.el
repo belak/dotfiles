@@ -119,18 +119,6 @@
 
 
 ;;
-;;; Dependency Workarounds
-
-;; eldoc and jsonrpc are both built-in dependencies needed by eglot, but they're not new enough,
-;; so we have to install a different version using elpaca.
-(use-package! eldoc)
-(use-package! jsonrpc)
-
-;; seq is needed by flycheck and transient (which is needed by magit, rg, and forge)
-(use-package! seq)
-
-
-;;
 ;;; Optimizations
 
 ;; `gcmh-mode' is a long standing hack which tweaks the garbage collection to be
