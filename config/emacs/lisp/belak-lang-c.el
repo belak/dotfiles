@@ -3,43 +3,6 @@
 (require 'belak-lib)
 
 ;;
-;;; Packages
-
-;; `irony-mode' is a pretty solid dev environment for C/C++/ObjC, but we also
-;; need to load up the additional `company' and `flycheck' modules.
-(use-package! irony
-  :commands
-  belak--maybe-enable-irony-mode
-  :hook
-  (c-mode    . belak--maybe-enable-irony-mode)
-  (c++-mode  . belak--maybe-enable-irony-mode)
-  (objc-mode . belak--maybe-enable-irony-mode)
-  :config
-  ;; TODO: look into c-default-style, maybe for java-mode as well.
-
-  (defun belak--maybe-enable-irony-mode ()
-    ;; This works around an issue with modes derived from c-mode and friends by
-    ;; ensuring the major mode is one directly supported by irony-mode. php-mode
-    ;; is one example of this.
-    (when (member major-mode irony-supported-major-modes)
-      (irony-mode 1))))
-
-;; Add completion support
-(use-package! company-irony
-  :demand t
-  :after (irony company)
-  :config
-  (set-company-backend! irony-mode-hook company-irony))
-
-;; Add linting support
-(use-package! flycheck-irony
-  :demand t
-  :after (irony flycheck)
-  :config
-  (add-hook 'flycheck-mode-hook #'flycheck-irony-setup))
-
-
-;;
 ;;; Functions
 
 (defun c-c++-header ()

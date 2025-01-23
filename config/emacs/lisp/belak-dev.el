@@ -68,24 +68,12 @@
   (add-shackle-rule! '(flycheck-error-list-mode :noselect t :align 'below :size 7))
   (add-winner-boring-buffer! "*Flycheck errors*"))
 
-;; Using flycheck-inline means we need to require that file.
-(use-package! flycheck-inline
-  :disabled t
-  :after flycheck
-  :hook (flycheck-mode . flycheck-inline-mode))
-
-(use-package! forge
-  :after magit
-  :demand)
-
 (use-package! highlight-escape-sequences
   :hook (prog-mode . hes-mode))
 
 (use-package! hl-todo
   :hook (prog-mode . hl-todo-mode)
   :config
-  ;; TODO: maybe tweaks hl-todo-keyword-faces, as I don't actually use most of
-  ;; them.
   (setq hl-todo-highlight-punctuation ":"))
 
 ;; `magit' is one of the best git interfaces I've ever used.
@@ -102,6 +90,7 @@
 (use-package! projectile
   :blackout
   :bind-keymap ("C-c p" . projectile-command-map)
+  :hook (after-init . projectile-mode)
   :config
   ;; Strangely the default for projectile is `ido', not `default' as the name
   ;; would imply. We tame this so we can use it with whatever completing-read
@@ -110,65 +99,26 @@
 
   ;; Ignore all projects from the go module cache, as it's read only and we
   ;; primarily use `find-function-at-point' to navigate there.
-  (setq projectile-ignored-projects '("~/go/pkg/"))
-
-  ;; TODO: maybe swap projectile-root-top-down and projectile-root-bottom-up in
-  ;; the root-files-functions.
-
-  (projectile-mode +1))
+  (setq projectile-ignored-projects '("~/go/pkg/")))
 
 
 ;;
 ;;; Completion
 
-(use-package! company
-  :blackout
-  :preface
-  (defmacro set-company-backend! (hook backend)
-    `(add-hook ',hook (lambda ()
-                        (set (make-local-variable 'company-backends) (list ',backend)))))
-  :hook (prog-mode . company-mode)
-  :commands global-company-mode
-  :config
-  (require 'company-dabbrev)
+(use-package! corfu
+  :hook (after-init . global-corfu-mode)
+  :custom
+  (corfu-auto t)
+  (corfu-auto-delay 0.25))
 
-  ;; TODO: look into tab-n-go.
+(use-feature! corfu-history
+  :hook (after-init . corfu-history-mode))
 
-  ;; Reset the company backends to a fairly minimal set. We rely on the
-  ;; `eglot'/`lsp-mode' integration with `completion-at-point'. Any languages
-  ;; which need a specific backend other than these can configure them via
-  ;; hooks.
-  (setq company-backends '(company-capf company-files company-dabbrev))
+(use-feature! corfu-popupinfo
+  :hook (after-init . corfu-popupinfo-mode)
+  :custom
+  (corfu-popupinfo-delay '(0.5 . 0.2)))
 
-  (use-feature! company-dabbrev
-    :config
-    ;; Improve basic text matching
-    (setq company-dabbrev-other-buffers nil
-          company-dabbrev-ignore-case nil
-          company-dabbrev-downcase nil))
-
-  (setq company-idle-delay 0.25
-        company-show-quick-access t
-        company-tooltip-limit 14
-        company-tooltip-align-annotations t
-        company-require-match 'never
-        company-tooltip-flip-when-above t))
-
-;; Package `company-prescient' provides intelligent sorting and filtering for
-;; candidates in Company completions.
-(use-package! company-prescient
-  :demand t
-  :after company
-  :config
-  (company-prescient-mode +1))
-
-(use-package! company-quickhelp
-  :after company
-  :demand t
-  :config
-  (setq company-quickhelp-delay 3)
-
-  (company-quickhelp-mode 1))
 
 ;; Between `eglot' and `lsp-mode' I've had better experiences with eglot because
 ;; it tries to do less. That being said lsp-mode has improved quite a bit in the

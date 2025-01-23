@@ -21,20 +21,6 @@
   :config
   (setq python-fill-docstring-style 'django))
 
-;; anaconda-mode provides code navigation and docs. Additionally, if
-;; company-mode is enabled, company-anaconda will also be enabled.
-(use-package! anaconda-mode
-  :diminish anaconda-mode
-  :after python
-  :hook (python-mode . anaconda-mode)
-  :init
-  :hook (anaconda-mode . anaconda-eldoc-mode))
-
-(use-package! company-anaconda
-  :demand t
-  :after (anaconda-mode company)
-  :config (set-company-backend! python-mode-hook company-anaconda))
-
 (use-package! blacken
   :after python
   :hook (python-mode . blacken-mode)
