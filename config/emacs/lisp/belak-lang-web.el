@@ -24,13 +24,6 @@
   :blackout "Typescript"
   :mode ("\\.tsx?\\'" . typescript-mode))
 
-(use-package! tide
-  :blackout
-  :after (typescript-mode company flycheck)
-  :hook
-  (typescript-mode . tide-setup)
-  (typescript-mode . tide-hl-identifier-mode))
-
 
 ;;
 ;;; CSS
