@@ -207,9 +207,7 @@
 ;; and more) because I get roughly the same features with much less
 ;; configuration.
 (use-package! vertico
-  :demand t
-  :config
-  (vertico-mode))
+  :hook (after-init . vertico-mode))
 
 ;; Orderless lets us tweak the completion sorting/filtering with nausiating
 ;; detail.
@@ -223,20 +221,14 @@
   ;; not work, so there needs to be an override for files which tries basic
   ;; first.
   (setq completion-category-defaults nil
-        completion-category-overrides '((file (styles basic partial-completion))))
-
-  ;; Tweak the matching styles to add flex matching because I'm lazy and don't
-  ;; want to bother typing spaces.
-  )
+        completion-category-overrides '((file (styles basic partial-completion)))))
 
 ;; This makes completing-read frameworks work more like helm with useful columns
 ;; of information, but with way less configuration.
 (use-package! marginalia
-  :demand t
+  :hook (after-init . marginalia-mode)
   :bind (:map minibuffer-local-map
-         ("M-A" . marginalia-cycle))
-  :config
-  (marginalia-mode))
+         ("M-A" . marginalia-cycle)))
 
 
 ;;
@@ -352,49 +344,18 @@ Pass the rest to the default handler."
 ;;
 ;;; Scrolling Tweaks
 
-(setq hscroll-margin 2
-      hscroll-step 1
+(setq
+ ;; Always keep 3 lines between the cursor and the top/bottom of the buffer
+ ;; when possible. Additionally, we always want to scroll by 1.
+ scroll-margin 3
 
-      ;; Emacs spends too much effort recentering the screen if you scroll the
-      ;; cursor more than N lines past window edges (where N is the settings of
-      ;; `scroll-conservatively'). This is especially slow in larger files
-      ;; during large-scale scrolling commands. If kept high enough, the window
-      ;; is never automatically recentered.
-      scroll-conservatively 10000
+ ;; Emacs spends too much effort recentering the screen if you scroll the
+ ;; cursor more than N lines past window edges (where N is the settings of
+ ;; `scroll-conservatively'). This is especially slow in larger files
+ ;; during large-scale scrolling commands. If kept high enough, the window
+ ;; is never automatically recentered.
+ scroll-conservatively 100)
 
-      ;; Disable any magical acceleration emacs will try to add when scrolling.
-      ;; In my experience, this only results in jumpier scrolling, the opposite
-      ;; of what we want.
-      mouse-wheel-progressive-speed nil
-
-      ;; Always keep 3 lines between the cursor and the top/bottom of the buffer
-      ;; when possible. Additionally, we always want to scroll by 1.
-      scroll-margin 3
-      scroll-step 1
-
-      ;; NOTE: optimally, this would be set to true, but it seems to cause
-      ;; issues with performance and cursor jumping when scrolling.
-      ;;
-      ;; NOTE: this actually has 3 possible values: nil (disable), t (enable
-      ;; when moving off screen), and all other values (always enable). We
-      ;; actually want it always enabled, but that isn't `t' for some reason, so
-      ;; we make something up.
-      ;;
-      ;; NOTE: I've given up on this setting for now - it causes the cursor to
-      ;; jump to the middle of the screen, ignoring our other carefully tweaked
-      ;; settings. It's not worth the frustration of having your cursor suddenly
-      ;; on a different line.
-      ;;
-      ;;scroll-preserve-screen-position 'enable
-
-      ;; Reduce cursor lag by a tiny bit by not auto-adjusting `window-vscroll'
-      ;; for tall lines.
-      auto-window-vscroll nil
-
-      ;; mouse
-      mouse-wheel-scroll-amount '(2
-                                  ((shift)   . 1)
-                                  ((control) . text-scale)))
 
 ;;
 ;;; Improvements for terminal emacs
