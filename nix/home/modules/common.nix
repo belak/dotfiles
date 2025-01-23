@@ -96,7 +96,6 @@ in
           epkgs.melpaPackages.flycheck-rust
           epkgs.melpaPackages.free-keys
           epkgs.melpaPackages.gcmh
-          epkgs.melpaPackages.gemini-mode
           epkgs.melpaPackages.git-link
           epkgs.melpaPackages.git-modes
           epkgs.melpaPackages.go-mode
@@ -128,13 +127,11 @@ in
           epkgs.melpaPackages.page-break-lines
           epkgs.melpaPackages.php-mode
           epkgs.melpaPackages.pip-requirements
-          epkgs.melpaPackages.pkgbuild-mode
           epkgs.melpaPackages.projectile
           epkgs.melpaPackages.protobuf-mode
           epkgs.melpaPackages.py-isort
           epkgs.melpaPackages.pyenv-mode
           epkgs.melpaPackages.python-switch-quotes
-          epkgs.melpaPackages.rbenv
           epkgs.melpaPackages.restclient
           epkgs.melpaPackages.rg
           epkgs.melpaPackages.rust-mode

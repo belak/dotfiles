@@ -1,4 +1,4 @@
-;;; belak-macos.el --- macOS related tweaks -*- lexical-binding: t; -*-
+;;; belak-os-macos.el --- macOS related tweaks -*- lexical-binding: t; -*-
 
 (require 'belak-lib)
 
@@ -33,5 +33,5 @@
 ;;(setq mac-command-modifier 'meta)
 ;;(setq mac-option-modifier 'super)
 
-(provide 'belak-macos)
-;;; belak-macos.el ends here.
+(provide 'belak-os-macos)
+;;; belak-os-macos.el ends here.

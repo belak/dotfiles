@@ -21,16 +21,6 @@
   ;; filenames like Dockerfile-beta.
   :mode "Dockerfile")
 
-(use-package! gemini-mode
-  :mode
-  "\\.gmi\\'"
-  "\\.gemini\\'"
-  :config
-  (set-face-attribute 'gemini-heading-face-1 nil :height 1.0)
-  (set-face-attribute 'gemini-heading-face-2 nil :height 1.0)
-  (set-face-attribute 'gemini-heading-face-3 nil :height 1.0)
-  )
-
 (use-package! git-modes
   :mode
   ;; We only include a subset of patterns from the relevant modes, since we need
@@ -53,11 +43,14 @@
   :config
   (setq markdown-fontify-code-blocks-natively t))
 
-(use-package! pkgbuild-mode
-  :mode "PKGBUILD\\'")
-
 (use-package! protobuf-mode
   :mode "\\.proto\\'")
+
+(use-feature! ruby-mode
+  :mode "\\.rb\\'"
+  :config
+  :hook
+  (ruby-mode . subword-mode))
 
 (use-feature! sh-mode
   :mode

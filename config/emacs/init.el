@@ -21,7 +21,7 @@
   ;;(require 'belak-evil)                 ; the text-editor program
 
   (when IS-MAC
-    (require 'belak-macos))             ; macOS specific tweaks
+    (require 'belak-os-macos))          ; macOS specific tweaks
 
   (require 'belak-dev)                  ; common development packages
   (require 'belak-lang-c)               ; always a classic
@@ -29,7 +29,6 @@
   (require 'belak-lang-go)              ; "Google Golang"
   (require 'belak-lang-nix)             ;
   (require 'belak-lang-python)          ; not super sexy, but super stable
-  (require 'belak-lang-ruby)            ;
   (require 'belak-lang-rust)            ; memory safety at the cost of sanity
   (require 'belak-lang-web)             ; the tubes
   (require 'belak-lang-other)           ; smaller language settings
