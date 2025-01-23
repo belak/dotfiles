@@ -5,14 +5,9 @@
 ;;
 ;;; Themes
 
-;; (load-theme! ef-bio                     ; A set of fairly accessible themes
-;;   ef-themes)
-
-;; (load-theme! monokai-pro)               ; Based on the VSCode/Sublime themes
-
-(load-theme! modus-vivendi              ; A very accessible theme
-  modus-themes
-
+(use-package modus-themes
+  :demand t
+  :config
   ;; Italics look pretty rough in terminals (at least with the fonts I use), so
   ;; we make sure they're only enabled if we have a full GUI.
   (when IS-GUI
@@ -20,17 +15,9 @@
 
   (setq modus-themes-lang-checkers  '(background straight-underline text-also)
         modus-themes-fringes        'subtle
-        modus-themes-mode-line      '(borderless)))
+        modus-themes-mode-line      '(borderless))
 
-;; (load-theme! nord)                      ; Trying this one out
-;; (load-theme! zenburn)                   ; Oldie but a goodie
-;; (load-theme! zerodark)                  ; based on some old themes I liked
-
-;; (load-theme!                            ; One set of themes I maintain, so I try
-;;   base16-default-dark                    ; to keep this around even when I'm not
-;;   base16-theme)                          ; using it.
-
-;; (load-theme! grayscale)                 ; A simple mostly grayscale theme
+  (load-theme 'modus-vivendi :no-confirm-loading))
 
 
 ;;

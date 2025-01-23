@@ -86,20 +86,6 @@ If FETCHER is a function, ELT is used as the key in LIST (an alist)."
                   elt)
                ,list)))
 
-(defmacro load-theme! (name &optional package &rest forms)
-  (declare (indent defun))
-  (let ((package-name (if package package (intern (format "%s-theme" name)))))
-    `(use-package! ,package-name
-       :demand t
-       :config
-       ,@forms
-
-       ;; TODO: check if we need to hook after-frame-make-funcsions for the
-       ;; daemon or if we can just use that for everything.
-
-       (add-transient-hook! window-setup-hook (load-theme ',name t)))))
-       ;;(add-transient-hook! emacs-startup-hook (load-theme ',name t)))))
-
 (defmacro use-feature! (name &rest forms)
   "Like `use-package', but disables package integration.
 `NAME' and `FORMS' are as in `use-package'."
