@@ -8,6 +8,12 @@
     nixos-hardware.url = "github:nixos/nixos-hardware";
     nix-vscode-extensions.url = "github:nix-community/nix-vscode-extensions";
 
+    emacs-overlay = {
+      url = "github:nix-community/emacs-overlay";
+      inputs.nixpkgs.follows = "nixpkgs-unstable";
+      inputs.nixpkgs-stable.follows = "nixpkgs-nixos";
+    };
+
     home-manager = {
       url = "github:nix-community/home-manager/release-24.11";
       inputs.nixpkgs.follows = "nixpkgs-nixos";

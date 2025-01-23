@@ -1,7 +1,7 @@
 ;;; init.el -*- lexical-binding: t; -*-
 
-(when (version< emacs-version "27.1")
-  (error "Detected Emacs %s but only 27.1 and higher is supported"
+(when (version< emacs-version "29")
+  (error "Detected Emacs %s but only 29 and higher is supported"
 	 emacs-version))
 
 (add-to-list 'load-path (concat user-emacs-directory "lisp"))
@@ -36,6 +36,4 @@
 
   (require 'belak-org)                  ; the best reason to use emacs
   (require 'belak-tools)                ; utils too small for their own file
-
-  (require 'elpaca)
-  (elpaca-wait))                        ; wait for package to fix after-init
+  )
