@@ -53,38 +53,14 @@
 
 ;; Allow C-c C-g to always quit the minibuffer.
 (use-feature! delsel
-  :bind
-  (:map mode-specific-map
-        ("C-g" . minibuffer-keyboard-quit)))
+  :hook (after-init . delete-selection-mode))
 
 ;; Often times you just want to move a full block around. This makes it easy to
 ;; select what you need.
 (use-package! expand-region
   :bind
-  (("C-="   . er/expand-region)
-   ("C-S-=" . er/contract-region)
-   (:map mode-specific-map
-         :prefix-map region-prefix-map
-         :prefix "r"
-         ("("  . er/mark-inside-pairs)
-         (")"  . er/mark-outside-pairs)
-         ("'"  . er/mark-inside-quotes)
-         ("\"" . er/mark-outside-quotes)
-         ("o"  . er/mark-org-parent)
-         ("u"  . er/mark-url)
-         ("b"  . er/mark-org-code-block)
-         ("."  . er/mark-method-call)
-         (">"  . er/mark-next-accessor)
-         ("w"  . er/mark-word)
-         ("d"  . er/mark-defun)
-         ("e"  . er/mark-email)
-         (","  . er/mark-symbol)
-         ("<"  . er/mark-symbol-with-prefix)
-         (";"  . er/mark-comment)
-         ("s"  . er/mark-sentence)
-         ("S"  . er/mark-text-sentence)
-         ("p"  . er/mark-paragraph)
-         ("P"  . er/mark-text-paragraph))))
+  ("C-="   . er/expand-region)
+  ("C-S-=" . er/contract-region))
 
 ;; It's more standard to use C-n/C-p in Emacs rather than Up and Down, so we
 ;; warn whenever we use a key bind which has a more Emacs-y alternative.
@@ -120,12 +96,11 @@
   (show-paren-mode +1))
 
 (use-feature! savehist
-  :demand t
+  :hook (after-init . savehist-mode)
   :config
   (setq history-length t
         history-delete-duplicates t
-        savehist-save-minibuffer-history 1)
-  (savehist-mode 1))
+        savehist-save-minibuffer-history 1))
 
 ;; We use subword mode in a few `prog-mode' major modes like Go, but we want it
 ;; hidden, so we black it out here.
@@ -171,20 +146,33 @@
 ;;
 ;;; Functions
 
-(defun belak--escape (&optional interactive)
-  "Run escape hook"
-  (interactive (list 'interactive))
-  (cond ((minibuffer-window-active-p (minibuffer-window))
-         ;; quit the minibuffer if open.
-         (when interactive
-           (setq this-command 'abort-recursive-edit))
-         (abort-recursive-edit))
-        ;; Back to the default
-        ((unwind-protect (keyboard-quit)
-           (when interactive
-             (setq this-command 'keyboard-quit))))))
+(defun belak/keyboard-quit-dwim (&optional interactive)
+  "Do-What-I-Mean behaviour for a general `keyboard-quit'.
 
-(defun belak--smarter-move-beginning-of-line (arg)
+The generic `keyboard-quit' does not do the expected thing when
+the minibuffer is open.  Whereas we want it to close the
+minibuffer, even without explicitly focusing it.
+
+The DWIM behaviour of this command is as follows:
+
+- When the region is active, disable it.
+- When the Completions buffer is selected, close it.
+- When a minibuffer is open, but not focused, close the minibuffer.
+- In every other case use the regular `keyboard-quit'.
+
+This was originally from https://protesilaos.com/codelog/2024-11-28-basic-emacs-configuration/"
+  (interactive)
+  (cond ((region-active-p)
+	 (keyboard-quit))
+	((derived-mode-p 'completion-list-mode)
+	 (delete-completion-window))
+	((> (minibuffer-depth) 0)
+	 (abort-recursive-edit))
+	(t
+	 (keyboard-quit))))
+(global-set-key [remap keyboard-quit] #'belak/keyboard-quit-dwim)
+
+(defun belak/move-beginning-of-line-dwim (arg)
   "Move point back to indentation of beginning of line.
 
 Move point to the first non-whitespace character on this line.
@@ -197,6 +185,7 @@ point reaches the beginning or end of the buffer, stop there.
 
 This originally came from Sacha Chua's Emacs config."
   (interactive "^p")
+
   (setq arg (or arg 1))
 
   ;; Move lines first
@@ -208,10 +197,7 @@ This originally came from Sacha Chua's Emacs config."
     (back-to-indentation)
     (when (= orig-point (point))
       (move-beginning-of-line 1))))
-
-;; remap C-a to `smarter-move-beginning-of-line'
-(global-set-key [remap move-beginning-of-line]
-                #'belak--smarter-move-beginning-of-line)
+(global-set-key [remap move-beginning-of-line] #'belak/move-beginning-of-line-dwim)
 
 (defun belak--unfill-paragraph (&optional region)
   "Takes a multi-line paragraph and makes it into a single line of text."
@@ -228,16 +214,11 @@ This originally came from Sacha Chua's Emacs config."
   (let ((prev-pos (point)))
     (back-to-indentation)
     (kill-region (point) prev-pos)))
-
 (bind-key "C-M-<backspace>" #'belak--kill-back-to-indentation)
 
 
 ;;
 ;;; Tweaks
-
-;; Replace the default escape keybind with `belak--escape` which will also exit
-;; minibuffers.
-(global-set-key [remap keyboard-quit] #'belak--escape)
 
 ;; Prevent accidental usage of `list-buffers'.
 (bind-key "C-x C-b" #'switch-to-buffer)
@@ -250,17 +231,14 @@ This originally came from Sacha Chua's Emacs config."
 ;; Add an alternate keybind for commenting.
 (bind-key "C-c /" #'comment-dwim)
 
-;; Useful method of popping back to a previous location.
-(bind-key "C-x p" #'pop-to-mark-command)
-
 ;; It's much more useful to kill the current buffer rather than the whole frame,
 ;; similar to what other applications do.
 (bind-key "s-w" #'kill-this-buffer)
 
-;; Unbind anything we don't find useful.
-(unbind-key "s-t")                      ; I don't think I've ever needed the
-                                        ; font panel in emacs, let alone bound
-                                        ; to something as easy to type as this.
+;; I don't think I've ever needed the font panel in emacs, let alone bound to
+;; something as easy to type as this.
+
+(unbind-key "s-t")
 
 ;; Trigger auto-fill after punctuation characters, not just whitespace.
 (mapc
@@ -271,9 +249,6 @@ This originally came from Sacha Chua's Emacs config."
 ;; Make tab a tiny bit smarter - if the current line is already indented, then
 ;; complete at point.
 (setq tab-always-indent 'complete)
-
-;; Delete selected text when typing.
-(delete-selection-mode 1)
 
 ;; Default indentation. Generally we fall back to editorconfig, but this is here
 ;; just in case.
@@ -296,19 +271,6 @@ This originally came from Sacha Chua's Emacs config."
 ;; Don't make distinctions between ASCII and siblings (like a and a
 ;; with an umlaut)
 (setq search-default-mode 'char-fold-to-regexp)
-
-(after! flycheck
-  ;; Experiment with vale for prose linting. Most of this config comes from
-  ;; https://duncan.codes/posts/2020-09-14-prose-linting-vale-emacs.org/index.html
-  (flycheck-define-checker vale
-    "A checker for prose"
-    :command ("vale" "--output" "line" source)
-    :standard-input nil
-    :error-patterns
-    ((error line-start (file-name) ":" line ":" column ":" (id (one-or-more (not (any ":")))) ":" (message) line-end))
-    :modes (markdown-mode org-mode text-mode)
-    )
-  (add-to-list 'flycheck-checkers 'vale 'append))
 
 (provide 'belak-editor)
 ;;; belak-editor.el ends here.
