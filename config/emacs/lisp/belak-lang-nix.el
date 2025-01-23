@@ -11,7 +11,7 @@
          (nix-mode . eglot-ensure))
   :config
   (after! eglot
-    (add-to-list 'eglot-server-programs '(nix-mode . ("rnix-lsp")))))
+    (add-to-list 'eglot-server-programs '(nix-mode . ("nil")))))
 
 (provide 'belak-lang-nix)
 ;;; belak-lang-nix.el ends here.
