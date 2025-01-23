@@ -206,17 +206,10 @@
 
   (company-quickhelp-mode 1))
 
-;; There's a weird issue with eglot where they require a specific version of the
-;; project library, newer than what's generally built-in, so we need to force it
-;; to install.
-;;
-;; See https://github.com/joaotavora/eglot/issues/549 for more information.
-(use-package! project)
-
 ;; Between `eglot' and `lsp-mode' I've had better experiences with eglot because
 ;; it tries to do less. That being said lsp-mode has improved quite a bit in the
 ;; last few years, so I need to take another look.
-(use-package eglot
+(use-feature! eglot
   :commands (eglot eglot-ensure))
 
 
