@@ -37,7 +37,7 @@
 ;;; Packages
 
 ;; Make it clearer which window you're switching to when using C-x o.
-(use-package! ace-window
+(use-package ace-window
   :defer nil
   :bind
   ("C-x o" . ace-window)
@@ -51,14 +51,14 @@
   ;; Advise ace-window so no cursors display while it is active.
   (defun belak--ace-window (orig-fun &rest args)
     (let ((cursor-type nil)
-          (cursor-in-non-selected-window nil))
+          (cursor-in-non-selected-windows nil))
       (apply orig-fun args)))
 
   (advice-add 'ace-window :around #'belak--ace-window))
 
 ;; Dim the non-active window to make it a little easier to focus on the
 ;; currently active window.
-(use-package! dimmer
+(use-package dimmer
   :defer nil
   :custom (dimmer-fraction 0.2)
   :hook (after-init . dimmer-mode)
@@ -89,7 +89,7 @@
 ;; The `doom-modeline' package seems to match exactly what I want out of a
 ;; modeline. It's simple, doesn't display minor modes by default, and looks
 ;; pretty good.
-(use-package! doom-modeline
+(use-package doom-modeline
   :hook (after-init . doom-modeline-mode)
   :config
   ;; Make sure the line and column numbers are in the modeline.
@@ -118,12 +118,12 @@
 
 ;; This package is required by `dashboard', but we don't want it to display in
 ;; the minor-modes display so we hide it.
-(use-package! page-break-lines :blackout)
+(use-package page-break-lines :blackout)
 
 ;; We want to make it easier to tame random windows and popups that show up.
 ;; Most of the configuration for this happens in other packages and will call
 ;; `add-shackle-rule!'.
-(use-package! shackle
+(use-package shackle
   :hook (pre-command . shackle-mode)
   :preface
   (defmacro add-shackle-rule! (rule)
@@ -149,7 +149,7 @@
   (transient-bind-q-to-quit))
 
 ;; Improve usability by showing key binds when we stop typing for long enough.
-(use-package! which-key
+(use-package which-key
   :blackout
   ;; Unbind C-h C-h so our manual trigger will work properly.
   :bind ("C-h C-h" . nil)
@@ -218,8 +218,12 @@
 ;; from `ido-mode' (along with `ido-vertical-mode', `flx-ido', `smex', `anzu'
 ;; and more) because I get roughly the same features with much less
 ;; configuration.
-(use-package! vertico
+(use-package vertico
   :hook (after-init . vertico-mode))
+
+(use-package consult
+  :bind (([remap goto-line]        . consult-goto-line)
+         ([remap switch-to-buffer] . consult-buffer)))
 
 ;; Orderless lets us tweak the completion sorting/filtering with nausiating
 ;; detail.
@@ -237,7 +241,7 @@
 
 ;; This makes completing-read frameworks work more like helm with useful columns
 ;; of information, but with way less configuration.
-(use-package! marginalia
+(use-package marginalia
   :hook (after-init . marginalia-mode)
   :bind (:map minibuffer-local-map
          ("M-A" . marginalia-cycle)))

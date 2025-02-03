@@ -31,7 +31,7 @@
 ;;
 ;;; Packages
 
-(use-package! org
+(use-package org
   :mode ("\\.org\\'" . org-mode)
   :bind (("C-c a" . org-agenda)
          ("C-c b" . org-switchb)
@@ -121,10 +121,10 @@
   ;;(add-function :after after-focus-change-function 'org-save-all-org-buffers)
   )
 
-(use-package! org-contrib
+(use-package org-contrib
   :after org)
 
-(use-package! org-roam
+(use-package org-roam
   :after org
   :blackout
   :hook (after-init . org-roam-mode))

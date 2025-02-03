@@ -5,23 +5,23 @@
 ;;
 ;;; Packages
 
-(use-package! bazel
+(use-package bazel
   :mode
   ("\\.bzl\\'"   . bazel-mode)
   ("\\.bazel\\'" . bazel-mode))
 
-(use-package! cmake-mode
+(use-package cmake-mode
   :mode
   "CMakeLists\\.txt\\'"
   "\\.cmake\\'")
 
-(use-package! dockerfile-mode
+(use-package dockerfile-mode
   ;; It may seem slightly odd to match all files containing the name
   ;; Dockerfile rather than the exact name, but we also want to match
   ;; filenames like Dockerfile-beta.
   :mode "Dockerfile")
 
-(use-package! git-modes
+(use-package git-modes
   :mode
   ;; We only include a subset of patterns from the relevant modes, since we need
   ;; to put something in here to get autoload working with `use-package' and
@@ -32,18 +32,18 @@
   ("/\\.gitignore\\'"     . gitignore-mode)
   ("/\\.gitattributes\\'" . gitattributes-mode))
 
-(use-package! haskell-mode
+(use-package haskell-mode
   :mode "\\.hs\\'")
 
-(use-package! lua-mode
+(use-package lua-mode
   :mode "\\.lua\\'")
 
-(use-package! markdown-mode
+(use-package markdown-mode
   :mode ("\\.md\\'" . gfm-mode)
   :config
   (setq markdown-fontify-code-blocks-natively t))
 
-(use-package! protobuf-mode
+(use-package protobuf-mode
   :mode "\\.proto\\'")
 
 (use-feature! ruby-mode
@@ -59,12 +59,12 @@
   "zshrc\\'"
   "zshenv\\'")
 
-(use-package! toml-mode
+(use-package toml-mode
   :mode
   "\\.toml\\'"
   "Pipfile\\'")
 
-(use-package! yaml-mode
+(use-package yaml-mode
   :mode "\\.ya?ml\\'"
   :hook
   (yaml-mode . subword-mode))

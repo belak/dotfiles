@@ -8,7 +8,7 @@
 ;;
 ;;; Packages
 
-(use-package! rust-mode
+(use-package rust-mode
   :mode "\\.rs\\'"
   :hook ((rust-mode . belak--rust-mode-hook)
          (rust-mode . subword-mode)
@@ -20,11 +20,11 @@
   (defun belak--rust-mode-hook ()
     (add-hook 'before-save-hook 'eglot-format nil t)))
 
-(use-package! cargo
+(use-package cargo
   :blackout cargo-minor-mode
   :hook (rust-mode . cargo-minor-mode))
 
-(use-package! flycheck-rust
+(use-package flycheck-rust
   :after (rust-mode flycheck)
   :hook (flycheck-mode . flycheck-rust-setup))
 

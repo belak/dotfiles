@@ -21,7 +21,7 @@
   :config
   (setq python-fill-docstring-style 'django))
 
-(use-package! blacken
+(use-package blacken
   :after python
   :hook (python-mode . blacken-mode)
   :config
@@ -32,7 +32,7 @@
 ;; available. In the past I used virtualenvwrapper, but after homebrew upgrades
 ;; I'd have to recreate all my python environments. Using pyenv lets me avoid
 ;; that.
-(use-package! pyenv-mode
+(use-package pyenv-mode
   :after (python projectile)
   :hook (projectile-after-switch-project . belak--projectile-pyenv-mode-hook)
   :config
@@ -44,7 +44,7 @@
 
 ;; Cycle between apostrophes and quotes in python strings. Converts strings like
 ;; 'this' to strings like "this".
-(use-package! python-switch-quotes
+(use-package python-switch-quotes
   :after python
   :bind
   (:map python-mode-map
@@ -52,7 +52,7 @@
 
 ;; This adds some basic features for requirements files, such as highlighting
 ;; and auto-completion of names from PyPI.
-(use-package! pip-requirements
+(use-package pip-requirements
   :mode
   ("requirements\\.txt\\'"    . pip-requirements-mode)
   ("requirements-.*\\.txt\\'" . pip-requirements-mode)
@@ -61,7 +61,7 @@
   ("requirements-.*\\.in\\'"  . pip-requirements-mode)
   ("requirements/.*\\.in\\'"  . pip-requirements-mode))
 
-(use-package! py-isort
+(use-package py-isort
   :hook (python-mode . belak--py-isort-hook)
   :config
   (defun belak--py-isort-hook ()

@@ -72,6 +72,7 @@ in
           epkgs.melpaPackages.blackout
           epkgs.melpaPackages.cargo
           epkgs.melpaPackages.cmake-mode
+          epkgs.melpaPackages.consult
           epkgs.melpaPackages.corfu
           epkgs.melpaPackages.ctrlf
           epkgs.melpaPackages.dashboard
