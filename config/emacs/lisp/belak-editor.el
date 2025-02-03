@@ -9,7 +9,7 @@
 
 ;; Revert buffers to their state on disk when they change. Note that this is a
 ;; tweaked version of what ships with doom-emacs to simplify a number of things.
-(use-feature! autorevert
+(use-package autorevert
   :blackout
   ;; revert buffers when their files/state have changed
   :hook (focus-in            . belak--auto-revert-buffers-h)
@@ -52,7 +52,7 @@
   (ctrlf-mode +1))
 
 ;; Allow C-c C-g to always quit the minibuffer.
-(use-feature! delsel
+(use-package delsel
   :hook (after-init . delete-selection-mode))
 
 ;; Often times you just want to move a full block around. This makes it easy to
@@ -72,7 +72,7 @@
 
 ;; Automatically clean up old buffers. This also provides a midnight-hook which
 ;; makes it possible to define cleanup functions.
-(use-feature! midnight
+(use-package midnight
   :commands midnight-mode
   :hook (after-init . midnight-mode))
 
@@ -85,7 +85,7 @@
   ("C-c C-<"     . mc/mark-all-like-this))
 
 ;; Highlight matching delimiters
-(use-feature! paren
+(use-package paren
   :demand t
   ;;:after-call after-find-file doom-switch-buffer-hook
   :config
@@ -95,7 +95,7 @@
         show-paren-when-point-in-periphery t)
   (show-paren-mode +1))
 
-(use-feature! savehist
+(use-package savehist
   :hook (after-init . savehist-mode)
   :config
   (setq history-length t
@@ -104,7 +104,7 @@
 
 ;; We use subword mode in a few `prog-mode' major modes like Go, but we want it
 ;; hidden, so we black it out here.
-(use-feature! subword :blackout)
+(use-package subword :blackout)
 
 (use-package undo-tree
   :disabled t

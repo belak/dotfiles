@@ -46,13 +46,13 @@
 (use-package protobuf-mode
   :mode "\\.proto\\'")
 
-(use-feature! ruby-mode
+(use-package ruby-mode
   :mode "\\.rb\\'"
   :config
   :hook
   (ruby-mode . subword-mode))
 
-(use-feature! sh-mode
+(use-package sh-mode
   :mode
   "\\.zsh\\'"
   "\\.sh\\'"

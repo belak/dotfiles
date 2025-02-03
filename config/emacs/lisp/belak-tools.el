@@ -5,7 +5,7 @@
 ;;
 ;;; Email
 
-(use-feature! mu4e
+(use-package mu4e
   :load-path ("/usr/local/share/emacs/site-lisp/mu/mu4e"
               "~/.nix-profile/share/emacs/site-lisp/mu4e")
   :commands mu4e

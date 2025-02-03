@@ -39,7 +39,7 @@
 
 ;; Remember files we were recently in. We also clean up `recentf' when Emacs
 ;; quits, so it should be only for the existing session.
-(use-feature! recentf
+(use-package recentf
   :demand t
   :after no-littering
   ;; For some reason this hook causes issues with exiting, so it's disabled for
@@ -68,7 +68,7 @@
         gcmh-high-cons-threshold (* 100 1024 1024))) ; 100MB
 
 ;; So Long mitigates slowness due to extremely long lines.
-(use-feature! so-long
+(use-package so-long
   :hook (after-init . global-so-long-mode))
 
 ;; Disable bidirectional text rendering for a performance. This unfortunately

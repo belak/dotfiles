@@ -28,14 +28,14 @@
 ;;
 ;;; CSS
 
-(use-feature! css-mode
+(use-package css-mode
   :mode "\\.css\\'")
 
 
 ;;
 ;;; HTML
 
-(use-feature! nxml-mode
+(use-package nxml-mode
   :mode "\\.xml\\'"
   :config
   ;; Automatically complete closing tags
