@@ -27,7 +27,7 @@
   (prog-mode . editorconfig-mode)
   (text-mode . editorconfig-mode))
 
-(use-feature! eldoc
+(use-package eldoc
   :blackout
   :hook (prog-mode . eldoc-mode)
   :config
@@ -119,10 +119,10 @@
       (string-match-p "\\` \\*corfu" (buffer-name)))
     (add-to-list 'dimmer-prevent-dimming-predicates #'belak--corfu-frame-p)))
 
-(use-feature! corfu-history
+(use-package corfu-history
   :hook (after-init . corfu-history-mode))
 
-(use-feature! corfu-popupinfo
+(use-package corfu-popupinfo
   :hook (after-init . corfu-popupinfo-mode)
   :custom
   (corfu-popupinfo-delay '(0.5 . 0.2)))
@@ -131,7 +131,7 @@
 ;; Between `eglot' and `lsp-mode' I've had better experiences with eglot because
 ;; it tries to do less. That being said lsp-mode has improved quite a bit in the
 ;; last few years, so I need to take another look.
-(use-feature! eglot
+(use-package eglot
   :commands (eglot eglot-ensure))
 
 
@@ -141,7 +141,7 @@
 ;; Normally, we'd disable all the VC backends as we use Magit to interface with
 ;; Git. However, `diff-hl' requires the VC backends to be enabled to work, so we
 ;; disable everything other than git.
-(use-feature! vc-hooks
+(use-package vc-hooks
   :config
   (setq vc-handled-backends '(Git)))
 

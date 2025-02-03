@@ -77,7 +77,7 @@
   (advice-add 'dimmer-config-change-handler :override 'belak--advise-dimmer-config-change-handler))
 
 ;; We want line numbers to make it easier when using prefix commands.
-(use-feature! display-line-numbers
+(use-package display-line-numbers
   :hook (prog-mode . display-line-numbers-mode)
   :hook (text-mode . display-line-numbers-mode)
   :hook (conf-mode . display-line-numbers-mode)
@@ -108,7 +108,7 @@
         doom-modeline-minor-modes t))
 
 ;; Highlight the current line to make the cursor easier to find.
-(use-feature! hl-line
+(use-package hl-line
   :hook ((prog-mode text-mode conf-mode) . hl-line-mode)
   :config
   ;; Make it so it only displays a highlighted line in the currently selected
@@ -176,7 +176,7 @@
 ;; TODO: doom uses some hacks to approximate this, potentially faster.
 ;; TODO: prelude has a nice way of optionally enabling `whitespace' for certain modes
 ;; TODO: is there a way to only display things like spaces/tabs when selected?
-(use-feature! whitespace
+(use-package whitespace
   :blackout global-whitespace-mode
   :demand t
   :config
@@ -189,7 +189,7 @@
   (global-whitespace-mode t))
 
 ;; undo/redo changes to Emacs' window layout
-(use-feature! winner
+(use-package winner
   :demand t
   :preface
   (defmacro add-winner-boring-buffer! (boring-buffer-name)

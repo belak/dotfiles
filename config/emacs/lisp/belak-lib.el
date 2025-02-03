@@ -74,14 +74,6 @@ If FETCHER is a function, ELT is used as the key in LIST (an alist)."
                   elt)
                ,list)))
 
-(defmacro use-feature! (name &rest forms)
-  "Like `use-package', but disables package integration.
-`NAME' and `FORMS' are as in `use-package'."
-  (declare (indent defun))
-  `(use-package ,name
-     :ensure nil
-     ,@forms))
-
 
 ;;
 ;;; Hooks

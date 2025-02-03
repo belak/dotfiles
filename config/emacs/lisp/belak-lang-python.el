@@ -11,7 +11,7 @@
 ;; anaconda-mode and pyenv. It provides a nice mix of tweakability and
 ;; convenience.
 
-(use-feature! python
+(use-package python
   :mode ("\\.py\\'" . python-mode)
   :interpreter
   ("python"  . python-mode)
