@@ -6,7 +6,7 @@
 ;;; Packages
 
 ;; Display changed/removed lines in the fringe.
-(use-package! diff-hl
+(use-package diff-hl
   ;; Enable `diff-hl' for programming, text, and `dired-mode'.
   :hook (prog-mode          . diff-hl-mode)
   :hook (text-mode          . diff-hl-mode)
@@ -21,7 +21,7 @@
   (unless IS-GUI
     (add-hook 'diff-hl-mode-hook #'diff-hl-margin-mode)))
 
-(use-package! editorconfig
+(use-package editorconfig
   :blackout
   :hook
   (prog-mode . editorconfig-mode)
@@ -35,7 +35,7 @@
         eldoc-echo-area-use-multiline-p nil))
 
 ;; `flycheck-mode' is used for linters and catching compilation errors.
-(use-package! flycheck
+(use-package flycheck
   :blackout
   :hook (prog-mode . flycheck-mode)
   :config
@@ -68,16 +68,16 @@
   (add-shackle-rule! '(flycheck-error-list-mode :noselect t :align 'below :size 7))
   (add-winner-boring-buffer! "*Flycheck errors*"))
 
-(use-package! highlight-escape-sequences
+(use-package highlight-escape-sequences
   :hook (prog-mode . hes-mode))
 
-(use-package! hl-todo
+(use-package hl-todo
   :hook (prog-mode . hl-todo-mode)
   :config
   (setq hl-todo-highlight-punctuation ":"))
 
 ;; `magit' is one of the best git interfaces I've ever used.
-(use-package! magit
+(use-package magit
   :bind
   ("C-c g" . magit-status)
   :config
@@ -87,7 +87,7 @@
 
   (add-shackle-rule! '(magit-diff-mode :noselect t)))
 
-(use-package! projectile
+(use-package projectile
   :blackout
   :bind-keymap ("C-c p" . projectile-command-map)
   :hook (after-init . projectile-mode)
@@ -105,7 +105,7 @@
 ;;
 ;;; Completion
 
-(use-package! corfu
+(use-package corfu
   :hook (after-init . global-corfu-mode)
   :custom
   (corfu-auto t)

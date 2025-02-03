@@ -5,7 +5,7 @@
 ;;
 ;;; Packages
 
-(use-package! nix-mode
+(use-package nix-mode
   :mode "\\.nix\\'"
   :hook ((nix-mode . subword-mode)
          (nix-mode . eglot-ensure))

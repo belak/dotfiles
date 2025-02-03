@@ -13,14 +13,14 @@
 
 ;; TODO: look at Sacha's debug-counter
 
-(use-package! js2-mode
+(use-package js2-mode
   :blackout ((js2-mode     . "JS")
              (js2-jsx-mode . "JSX"))
   :mode (("\\.js\\'"  . js2-mode)
          ("\\.jsx\\'" . js2-jsx-mode))
   :interpreter ("node" . js2-mode))
 
-(use-package! typescript-mode
+(use-package typescript-mode
   :blackout "Typescript"
   :mode ("\\.tsx?\\'" . typescript-mode))
 
@@ -42,7 +42,7 @@
   (setq nxml-slash-auto-complete-flag t))
 
 ;; Add support for lots of dynamic template types.
-(use-package! web-mode
+(use-package web-mode
   :after nxml-mode
   :mode
   "\\.erb\\'"
@@ -59,7 +59,7 @@
         web-mode-enable-auto-closing t
         web-mode-enable-current-element-highlight t))
 
-(use-package! emmet-mode
+(use-package emmet-mode
   :after web-mode
   :hook (web-mode . emmet-mode))
 
@@ -67,12 +67,12 @@
 ;;
 ;;; Other
 
-(use-package! json-mode
+(use-package json-mode
   :mode "\\.json\\'"
   :config
   (setq json-reformat:indent-width 2))
 
-(use-package! php-mode
+(use-package php-mode
   :mode "\\.php\\'")
 
 

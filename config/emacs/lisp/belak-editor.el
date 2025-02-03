@@ -40,7 +40,7 @@
       (with-current-buffer buf
         (belak--auto-revert-buffer-h)))))
 
-(use-package! ctrlf
+(use-package ctrlf
   :bind
   ([remap isearch-forward]         . ctrlf-forward-literal)
   ([remap isearch-backward]        . ctrlf-backward-literal)
@@ -57,14 +57,14 @@
 
 ;; Often times you just want to move a full block around. This makes it easy to
 ;; select what you need.
-(use-package! expand-region
+(use-package expand-region
   :bind
   ("C-="   . er/expand-region)
   ("C-S-=" . er/contract-region))
 
 ;; It's more standard to use C-n/C-p in Emacs rather than Up and Down, so we
 ;; warn whenever we use a key bind which has a more Emacs-y alternative.
-(use-package! guru-mode
+(use-package guru-mode
   :blackout
   :hook (prog-mode . guru-mode)
   :config
@@ -77,7 +77,7 @@
   :hook (after-init . midnight-mode))
 
 ;; Multiple cursors can be very powerful when used right.
-(use-package! multiple-cursors
+(use-package multiple-cursors
   :bind
   ("C-S-c C-S-c" . mc/edit-lines)
   ("C->"         . mc/mark-next-like-this)
@@ -106,7 +106,7 @@
 ;; hidden, so we black it out here.
 (use-feature! subword :blackout)
 
-(use-package! undo-tree
+(use-package undo-tree
   :disabled t
   :defer nil
   :blackout
@@ -117,7 +117,7 @@
         undo-tree-visualizer-timestamps t)
   (global-undo-tree-mode))
 
-(use-package! yasnippet
+(use-package yasnippet
   :blackout yas-minor-mode
   :hook (prog-mode . yas-minor-mode)
   :hook (text-mode . yas-minor-mode)
@@ -138,7 +138,7 @@
         (list (expand-file-name "snippets" user-emacs-directory)
           'yasnippet-snippets-dir)))
 
-(use-package! yasnippet-snippets
+(use-package yasnippet-snippets
   :demand t
   :after yasnippet)
 

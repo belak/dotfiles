@@ -6,7 +6,7 @@
 ;;; Packages
 
 ;; Make the titlebar match the background color on macOS.
-(use-package! ns-auto-titlebar
+(use-package ns-auto-titlebar
   :demand t
   :config
   (ns-auto-titlebar-mode))

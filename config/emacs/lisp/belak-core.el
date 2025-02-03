@@ -28,7 +28,7 @@
 ;; a hidden directory, but if the Emacs config ever failed to load, we were left
 ;; with these directories anyway, so it's not worth the trouble.
 
-(use-package! no-littering
+(use-package no-littering
   :demand t
   :config
   (no-littering-theme-backups))
@@ -58,7 +58,7 @@
 ;; `gcmh-mode' is a long standing hack which tweaks the garbage collection to be
 ;; more performant in normal scenarios. We also add a hook to focus-out so Emacs
 ;; can GC in the background.
-(use-package! gcmh
+(use-package gcmh
   :blackout
   :commands gcmh-mode
   :hook (focus-out  . gcmh-idle-garbage-collect)
@@ -93,7 +93,7 @@
 ;;
 ;; Note that we do this first just in case any other packages need values from
 ;; here.
-(use-package! exec-path-from-shell
+(use-package exec-path-from-shell
   :demand t
   :if (and IS-GUI (or IS-MAC IS-LINUX))
   :config

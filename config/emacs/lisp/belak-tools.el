@@ -39,7 +39,7 @@
 ;;; Various Tools
 
 ;; Provide something useful to make it easier to jump to other files at startup.
-(use-package! dashboard
+(use-package dashboard
   :demand t
   :config
   ;; Ensure `emacsclient' starts up with the dashboard.
@@ -58,28 +58,28 @@
 
   (dashboard-setup-startup-hook))
 
-(use-package! envrc
+(use-package envrc
   :demand t
   :config
   (envrc-global-mode))
 
 ;; Basic tooling for profiling startup
-(use-package! esup
+(use-package esup
   :commands esup)
 
 ;; Useful when trying to find an available key to bind something to.
-(use-package! free-keys
+(use-package free-keys
   :commands free-keys)
 
 ;; I don't use this very often, but it's helpful when needed.
-(use-package! git-link
+(use-package git-link
   :commands git-link
   :config
   ;; Use the commit hash rather than the branch name in the URL.
   (setq git-link-use-commit t))
 
 ;; Replace the default help buffers with helpful because it's much prettier.
-(use-package! helpful
+(use-package helpful
   :disabled t
   :bind (;; Remap standard commands.
          ([remap describe-function] . #'helpful-callable)
@@ -100,25 +100,25 @@
 
 ;; This provides functionality similar to soulver on macOS, but we can
 ;; use it on other OSes as well.
-(use-package! literate-calc-mode
+(use-package literate-calc-mode
   :mode ("\\.calc\\'" . literate-calc-mode))
 
 ;; This allows us to read epubs in Emacs.
-(use-package! nov
+(use-package nov
   :mode ("\\.epub\\'" . nov-mode))
 
 ;; rainbow-mode makes it easier to see colors, but it's a bit
 ;; overwhelming so it's left to be called when needed.
-(use-package! rainbow-mode
+(use-package rainbow-mode
   :commands rainbow-mode)
 
 ;; Restclient gives us something similar to Postman, but in Emacs.
-(use-package! restclient
+(use-package restclient
   :mode ("\\.rest\\'" . restclient-mode)
   :config
   (setq restclient-log-request t))
 
-(use-package! ob-restclient
+(use-package ob-restclient
   :after org
   :config
   (after! org
@@ -144,7 +144,7 @@ argument, search only in files matching current type."
 ;; vterm is like all the built-in terminals, but even better because
 ;; it uses libvterm which is pretty solid and handles most control
 ;; sequences really well.
-(use-package! vterm
+(use-package vterm
   :commands vterm)
 
 (provide 'belak-tools)

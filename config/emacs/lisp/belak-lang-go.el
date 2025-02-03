@@ -6,7 +6,7 @@
 ;;
 ;;; Packages
 
-(use-package! go-mode
+(use-package go-mode
   :mode "\\.go\\'"
   :hook ((go-mode . belak--go-mode-hook)
          (go-mode . subword-mode)
@@ -28,7 +28,7 @@
   :config
   (setq flycheck-golangci-lint-tests t))
 
-(use-package! go-tag
+(use-package go-tag
   :commands
   go-tag-add
   go-tag-refresh

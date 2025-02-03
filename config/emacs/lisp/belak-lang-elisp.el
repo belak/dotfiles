@@ -6,13 +6,13 @@
 ;;
 ;;; Packages
 
-(use-package! macrostep
+(use-package macrostep
   :bind
   (:map emacs-lisp-mode-map
         ("C-c e" . macrostep-expand)
         ("M-."    . find-function-at-point)))
 
-(use-package! package-lint
+(use-package package-lint
   :commands package-lint)
 
 
