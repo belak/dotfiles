@@ -139,8 +139,6 @@ in
           epkgs.melpaPackages.shackle
           epkgs.melpaPackages.toml-mode
           epkgs.melpaPackages.transient
-          epkgs.melpaPackages.tree-sitter
-          #epkgs.melpaPackages.tree-sitter-langs
           epkgs.melpaPackages.typescript-mode
           epkgs.melpaPackages.vertico
           epkgs.melpaPackages.vterm
