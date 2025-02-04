@@ -50,7 +50,7 @@ in
       # Packages I'm trying out
       codeowners
       git-codeowners
-      unstable.diskonaut
+      #unstable.diskonaut
       unstable.jj
       unstable.mdcat
     ];
