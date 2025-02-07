@@ -298,8 +298,9 @@
       };
 
       packages = lib.forAllSystems (system: {
-        rpi-bootstrap-image = import ./nix/pkgs/rpi-bootstrap-image.nix inputs;
         install-iso-minimal = import ./nix/pkgs/install-iso-minimal.nix inputs;
+        rpi-bootstrap-image = import ./nix/pkgs/rpi-bootstrap-image.nix inputs;
+        x13s-install-iso-minimal = import ./nix/pkgs/rpi-bootstrap-image.nix inputs;
       });
     };
 }
