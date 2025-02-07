@@ -10,6 +10,7 @@
     # Feature Modules
     ./dev.nix
     ./dotfiles.nix
+    ./emacs.nix
     ./gnome.nix
     ./gui.nix
   ];
