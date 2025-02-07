@@ -13,15 +13,18 @@ in
   };
 
   config = lib.mkIf cfg.enable {
-    home.packages = with pkgs; [
-      # We use the pure GTK variant of emacs to get better Wayland support.
-      #
-      # XXX: there are some issues with the pgtk build on macOS, so we just use
-      # the normal emacs build there.
-      (
-        (emacsPackagesFor (if pkgs.stdenv.isDarwin then pkgs.emacs else pkgs.emacs29-pgtk))
-        .emacsWithPackages
-        (
+    home.packages =
+      with pkgs;
+      let
+        # We use the pure GTK variant of emacs to get better Wayland support.
+        #
+        # XXX: unfortunately there are some issues with the pgtk build on macOS,
+        # so we just use the normal emacs build there.
+        myEmacs = if pkgs.stdenv.isDarwin then pkgs.emacs else pkgs.emacs29-pgtk;
+        emacsWithPackages = (emacsPackagesFor myEmacs).emacsWithPackages;
+      in
+      [
+        (emacsWithPackages (
           epkgs:
           [
             epkgs.elpaPackages.rainbow-mode
@@ -111,8 +114,7 @@ in
           ++ lib.optionals stdenv.isDarwin [
             epkgs.melpaPackages.ns-auto-titlebar
           ]
-        )
-      )
-    ];
+        ))
+      ];
   };
 }
