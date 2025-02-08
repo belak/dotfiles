@@ -40,6 +40,11 @@
       url = "github:nix-community/nixos-generators";
       inputs.nixpkgs.follows = "nixpkgs-nixos";
     };
+
+    nixos-x13s = {
+      url = "github:BrainWart/x13s-nixos";
+      inputs.nixpkgs.follows = "nixpkgs-unstable";
+    };
   };
 
   outputs =
@@ -135,7 +140,16 @@
           ];
         };
 
-        # Primary Laptop (ThinkPad T14 Gen 1)
+        # ThinkPad X13s Gen 1
+        "quina" = lib.mkNixosSystem {
+          system = "aarch64-linux";
+          modules = [
+            ./nix/nixos/hosts/quina
+            ./nix/nixos/users/belak
+          ];
+        };
+
+        # ThinkPad T14 Gen 1
         "zagreus" = lib.mkNixosSystem {
           system = "x86_64-linux";
           modules = [
@@ -144,7 +158,7 @@
           ];
         };
 
-        # Old Laptop (ThinkPad T460)
+        # ThinkPad T460
         "zidane" = lib.mkNixosSystem {
           system = "x86_64-linux";
           modules = [
@@ -184,6 +198,10 @@
             ./nix/home/users/belak
             ./nix/home/users/belak/baku.nix
           ];
+        };
+        "belak@quina" = lib.mkHome {
+          system = "aarch64-linux";
+          modules = [ ./nix/home/users/belak ];
         };
         "belak@melinoe" = lib.mkHome {
           system = "aarch64-darwin";
