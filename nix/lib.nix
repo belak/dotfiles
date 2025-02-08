@@ -3,6 +3,7 @@
   nixpkgs-nixos,
   nixpkgs-darwin,
   nixos-hardware,
+  nixos-x13s,
   agenix,
   home-manager,
   darwin,
@@ -43,6 +44,7 @@
       modules = [
         self.nixosModules.default
         agenix.nixosModules.default
+        nixos-x13s.nixosModules.default
       ] ++ modules;
 
       # Pass extra inputs through to all modules.
