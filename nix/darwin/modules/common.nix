@@ -123,6 +123,13 @@
 
       AppleInterfaceStyle = "Dark";
     };
+
+    CustomUserPreferences = {
+      "com.apple.desktopservices" = {
+        "DSDontWriteNetworkStores" = true;
+        "DSDontWriteUSBStores" = true;
+      };
+    };
   };
 
   system.startup.chime = false;
