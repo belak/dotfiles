@@ -162,16 +162,16 @@ vim.cmd([[match ErrorMsg '^\(<\|=\|>\)\{7\}\([^=].\+\)\?$']])
 vim.opt.number = true
 vim.opt.relativenumber = true
 
-vim.api.nvim_create_autocmd('ModeChanged', {
+vim.api.nvim_create_autocmd('InsertEnter', {
   callback = function(event)
     vim.opt.number = true
+    vim.opt.relativenumber = false
+  end
+})
+vim.api.nvim_create_autocmd('InsertLeave', {
+  callback = function(event)
+    vim.opt.number = false
     vim.opt.relativenumber = true
-
-    if string.match(event.match, ":i$") then
-      vim.opt.relativenumber = false
-    elseif string.match(event.match, ":v$") then
-      vim.opt.number = false
-    end
   end
 })
 
