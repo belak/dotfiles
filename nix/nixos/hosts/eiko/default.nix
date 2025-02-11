@@ -50,6 +50,7 @@
         "git.elwert.cloud"
         "cloud.elwert.cloud"
         "files.elwert.cloud"
+        "jellyfin.elwert.cloud"
         "btta-api.elwert.cloud"
         "btta-media.elwert.cloud"
       ]
