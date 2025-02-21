@@ -65,6 +65,7 @@
 ;; It's more standard to use C-n/C-p in Emacs rather than Up and Down, so we
 ;; warn whenever we use a key bind which has a more Emacs-y alternative.
 (use-package guru-mode
+  :disabled t
   :blackout
   :hook (prog-mode . guru-mode)
   :config

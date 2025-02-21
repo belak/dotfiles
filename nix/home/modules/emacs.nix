@@ -107,6 +107,7 @@ in
             epkgs.melpaPackages.vertico
             epkgs.melpaPackages.vterm
             epkgs.melpaPackages.web-mode
+            epkgs.melpaPackages.which-key
             epkgs.melpaPackages.yaml-mode
             epkgs.melpaPackages.yasnippet
             epkgs.melpaPackages.yasnippet-snippets
