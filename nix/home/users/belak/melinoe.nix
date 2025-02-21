@@ -4,6 +4,7 @@
     dotfiles.enable = true;
     dotfiles.symlink = true;
     dev.enable = true;
+    emacs.enable = true;
   };
 
   nixpkgs.allowedUnfree = [
