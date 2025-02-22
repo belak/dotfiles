@@ -38,6 +38,9 @@ let
     system-zidane
     system-zorn
   ];
+
+  service-authelia = users ++ [ system-eiko ];
+  service-lldap = users ++ [ system-eiko ];
 in
 {
   "acme-cloudflare-env.age".publicKeys = users ++ [
@@ -45,10 +48,8 @@ in
   ];
   "belak-password.age".publicKeys = users ++ systems;
 
-  "authelia-jwt-secret.age".publicKeys = users ++ [
-    system-eiko
-  ];
-  "authelia-storage-encryption-key.age".publicKeys = users ++ [
-    system-eiko
-  ];
+  "authelia-jwt-secret.age".publicKeys = service-authelia;
+  "authelia-storage-encryption-key.age".publicKeys = service-authelia;
+  "lldap-admin-password.age".publicKeys = service-lldap;
+  "lldap-jwt-secret.age".publicKeys = service-lldap;
 }
