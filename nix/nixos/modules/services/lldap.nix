@@ -16,10 +16,11 @@ in
 
       settings = {
         http_url = "https://${cfg.domain}";
-        database_url = "postgres://lldap@localhost/lldap";
+        database_url = "postgres:///lldap";
         ldap_base_dn = "dc=elwert,dc=cloud";
         ldap_host = "127.0.0.1";
         http_host = "127.0.0.1";
+        #force_ldap_user_pass_reset = true;
       };
     };
 
@@ -39,7 +40,7 @@ in
       useACMEHost = "primary";
       forceSSL = true;
 
-      locations."/".proxyPass = "http://localhost:${lldapSettings.http_port}";
+      locations."/".proxyPass = "http://localhost:${toString lldapSettings.http_port}";
     };
   };
 }
