@@ -44,4 +44,11 @@ in
     system-eiko
   ];
   "belak-password.age".publicKeys = users ++ systems;
+
+  "authelia-jwt-secret.age".publicKeys = users ++ [
+    system-eiko
+  ];
+  "authelia-storage-encryption-key.age".publicKeys = users ++ [
+    system-eiko
+  ];
 }
