@@ -2,6 +2,7 @@
 let
   cfg = config.belak.services.authelia;
   autheliaSettings = config.services.authelia.instances.main.settings;
+  lldapSettings = config.services.lldap.settings;
 in
 {
   options.belak.services.authelia = {
@@ -16,6 +17,16 @@ in
 
       settings = {
         theme = "auto";
+        authentication_backend.ldap = {
+          address = "ldap://localhost:${toString lldapSettings.ldap_port}";
+          base_dn = "dc=elwert,dc=cloud";
+          implementation = "lldap";
+        };
+
+        storage.postgres = {
+          username = "authelia-main";
+          database = "authelia-main";
+        };
       };
 
       secrets = {
@@ -24,14 +35,14 @@ in
       };
     };
 
-    age.secrets.authelia-storage-encryption-key.file = ../../../secrets/authelia-storage-encryption-key.age;
-    age.secrets.authelia-jwt-secret.file = ../../../secrets/authelia-jwt-secret.age;
+    age.secrets.authelia-storage-encryption-key.file = ../../../../secrets/authelia-storage-encryption-key.age;
+    age.secrets.authelia-jwt-secret.file = ../../../../secrets/authelia-jwt-secret.age;
 
     services.postgresql = {
-      ensureDatabases = [ "authelia" ];
+      ensureDatabases = [ "authelia-main" ];
       ensureUsers = [
         {
-          name = "authelia";
+          name = "authelia-main";
           ensureDBOwnership = true;
         }
       ];
@@ -43,6 +54,7 @@ in
       useACMEHost = "primary";
       forceSSL = true;
 
+      # TODO: make this use a unix socket
       locations."/".proxyPass = "http://localhost:9091";
     };
   };
