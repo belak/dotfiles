@@ -17,7 +17,8 @@ in
       recommendedOptimisation = true;
 
       commonHttpConfig = ''
-        add_header X-Clacks-Overhead "GNU Douglas Adams, Robert Asprin";
+        add_header X-Clacks-Overhead "GNU Douglas Adams";
+        add_header X-Clacks-Overhead "GNU Robert Asprin";
       '';
     };
 
