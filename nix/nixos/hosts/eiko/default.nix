@@ -20,7 +20,9 @@
     server.enable = true;
 
     services = {
+      #authelia.enable = true;
       gitea.enable = true;
+      lldap.enable = true;
       nginx = {
         enable = true;
         enableTls = true;
