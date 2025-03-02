@@ -18,3 +18,5 @@
 	enabled = true
 [init]
 	defaultBranch = main
+[diff "ansible-vault"]
+	textconv = ansible-vault view
