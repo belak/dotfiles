@@ -5,6 +5,7 @@
   nixos-hardware,
   nixos-x13s,
   agenix,
+  disko,
   home-manager,
   darwin,
   ...
@@ -44,6 +45,7 @@
       modules = [
         self.nixosModules.default
         agenix.nixosModules.default
+        disko.nixosModules.disko
         nixos-x13s.nixosModules.default
       ] ++ modules;
 
