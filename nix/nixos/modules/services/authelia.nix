@@ -54,7 +54,8 @@ in
       };
 
       environmentVariables = {
-        AUTHELIA_AUTHENTICATION_BACKEND_LDAP_PASSWORD_FILE = config.age.secrets.authelia-ldap-admin-password.path;
+        AUTHELIA_AUTHENTICATION_BACKEND_LDAP_PASSWORD_FILE =
+          config.age.secrets.authelia-ldap-admin-password.path;
       };
 
       secrets = {
