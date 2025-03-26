@@ -23,6 +23,7 @@
       authelia.enable = true;
       gitea.enable = true;
       lldap.enable = true;
+      miniflux.enable = true;
       nginx = {
         enable = true;
         enableTls = true;

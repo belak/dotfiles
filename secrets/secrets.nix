@@ -40,6 +40,7 @@ let
   ];
 
   service-authelia = users ++ [ system-eiko ];
+  service-miniflux = users ++ [ system-eiko ];
   service-lldap = users ++ [ system-eiko ];
 in
 {
@@ -52,4 +53,6 @@ in
   "authelia-storage-encryption-key.age".publicKeys = service-authelia;
   "lldap-admin-password.age".publicKeys = service-lldap;
   "lldap-jwt-secret.age".publicKeys = service-lldap;
+
+  "miniflux-admin-credentials.age".publicKeys = service-miniflux;
 }
