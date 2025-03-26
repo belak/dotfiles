@@ -27,7 +27,13 @@ in
         };
 
         access_control = {
-          default_policy = "one_factor";
+          default_policy = "deny";
+          rules = lib.mkAfter [
+            {
+              domain = "*.elwert.cloud";
+              policy = "one_factor";
+            }
+          ];
         };
 
         storage.postgres = {
