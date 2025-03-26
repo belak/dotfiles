@@ -51,6 +51,8 @@ in
 
   "authelia-jwt-secret.age".publicKeys = service-authelia ++ users;
   "authelia-storage-encryption-key.age".publicKeys = service-authelia ++ users;
+  "authelia-oidc-hmac-secret.age".publicKeys = service-authelia ++ users;
+  "authelia-oidc-rs256-key.age".publicKeys = service-authelia ++ users;
 
   "lldap-admin-password.age".publicKeys = service-lldap ++ users;
   "lldap-jwt-secret.age".publicKeys = service-lldap ++ users;
