@@ -30,11 +30,27 @@ in
           default_policy = "deny";
           rules = lib.mkAfter [
             {
+              domain = "rss.elwert.cloud";
+              policy = "one_factor";
+              subject = ["group:miniflux"];
+            }
+            {
               domain = "*.elwert.cloud";
               policy = "one_factor";
             }
           ];
         };
+
+        identity_providers.oidc.clients = [
+          {
+            client_name = "Miniflux";
+            client_id = "{{ secret \"${config.age.secrets.authelia-miniflux-oidc-client-id.path}\" }}";
+            client_secret = "{{ secret \"${config.age.secrets.miniflux-oidc-client-secret-hashed.path}\" }}";
+            redirect_uris = [
+              "https://rss.elwert.cloud/oauth2/oidc/callback"
+            ];
+          }
+        ];
 
         storage.postgres = {
           username = "authelia-main";
@@ -70,8 +86,9 @@ in
 
         # TODO: allow using RS256 and ES256
         oidcIssuerPrivateKeyFile = config.age.secrets.authelia-oidc-rs256-key.path;
+        oidcHmacSecretFile = config.age.secrets.authelia-oidc-hmac-secret.path;
       };
-    };
+   };
 
     age.secrets.authelia-storage-encryption-key = {
       file = ../../../../secrets/authelia-storage-encryption-key.age;
@@ -95,6 +112,16 @@ in
 
     age.secrets.authelia-ldap-admin-password = {
       file = ../../../../secrets/lldap-admin-password.age;
+      owner = "authelia-main";
+    };
+
+    age.secrets.authelia-miniflux-oidc-client-id = {
+      file = ../../../../secrets/miniflux-oidc-client-id.age;
+      owner = "authelia-main";
+    };
+
+    age.secrets.miniflux-oidc-client-secret-hashed = {
+      file = ../../../../secrets/miniflux-oidc-client-secret-hashed.age;
       owner = "authelia-main";
     };
 

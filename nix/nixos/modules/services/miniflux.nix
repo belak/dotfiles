@@ -13,6 +13,12 @@ in
       enable = true;
       config = {
         LISTEN_ADDR = "/run/miniflux/miniflux.sock";
+        OAUTH2_PROVIDER = "oidc";
+        OAUTH2_CLIENT_ID_FILE = config.age.secrets.miniflux-oidc-client-id.path;
+        OAUTH2_CLIENT_SECRET_FILE = config.age.secrets.miniflux-oidc-client-secret.path;
+        OAUTH2_REDIRECT_URL = "https://${cfg.domain}/oauth2/oidc/callback";
+        OAUTH2_OIDC_DISCOVERY_ENDPOINT = "https://auth.elwert.cloud";
+        OAUTH2_USER_CREATION = 1;
       };
       adminCredentialsFile = config.age.secrets.miniflux-admin-credentials.path;
     };
@@ -32,6 +38,19 @@ in
       locations."/".proxyPass = "http://unix:/run/miniflux/miniflux.sock";
     };
 
-    age.secrets.miniflux-admin-credentials.file = ../../../../secrets/miniflux-admin-credentials.age;
+    age.secrets.miniflux-admin-credentials = {
+      file = ../../../../secrets/miniflux-admin-credentials.age;
+      owner = "miniflux";
+    };
+
+    age.secrets.miniflux-oidc-client-id = {
+      file = ../../../../secrets/miniflux-oidc-client-id.age;
+      owner = "miniflux";
+    };
+
+    age.secrets.miniflux-oidc-client-secret = {
+      file = ../../../../secrets/miniflux-oidc-client-secret.age;
+      owner = "miniflux";
+    };
   };
 }
