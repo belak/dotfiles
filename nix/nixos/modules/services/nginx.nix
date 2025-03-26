@@ -24,6 +24,13 @@ in
 
     belak.acme.enable = cfg.enableTls;
 
+    users.users.nginx = {
+      group = "nginx";
+      isSystemUser = true;
+    };
+
+    users.groups.nginx = {};
+
     security.acme.certs.primary = lib.mkIf cfg.enableTls {
       domain = "${config.networking.hostName}.${config.networking.domain}";
       extraDomainNames = [
@@ -45,5 +52,9 @@ in
       80
       443
     ];
+
+    # Hacks - disable ProtectHome so we can access sockets outside our home.
+    # There should be a better way to do this, but this works for now.
+    systemd.services.nginx.serviceConfig.ProtectHome = false;
   };
 }

@@ -8,7 +8,7 @@ in
   options.belak.services.authelia = {
     enable = lib.mkEnableOption "authelia";
 
-    domain = lib.mkOption { default = "authelia.elwert.cloud"; };
+    domain = lib.mkOption { default = "auth.elwert.cloud"; };
   };
 
   config = lib.mkIf cfg.enable {
@@ -21,9 +21,9 @@ in
         authentication_backend.ldap = {
           address = "ldap://localhost:${toString lldapSettings.ldap_port}";
           base_dn = "dc=elwert,dc=cloud";
-          additional_users_dn = "ou=users";
+          additional_users_dn = "ou=people";
           implementation = "lldap";
-          user = "admin";
+          user = "cn=admin,ou=people,dc=elwert,dc=cloud";
         };
 
         access_control = {
@@ -40,7 +40,7 @@ in
           username = "authelia-main";
           password = "dummy";
           database = "authelia-main";
-          address = "/var/run/postgresql/.s.PGSQL.5432";
+          address = "unix:///var/run/postgresql";
         };
 
         session.cookies = [
