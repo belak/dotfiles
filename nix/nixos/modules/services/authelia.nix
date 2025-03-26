@@ -67,6 +67,9 @@ in
       secrets = {
         storageEncryptionKeyFile = config.age.secrets.authelia-storage-encryption-key.path;
         jwtSecretFile = config.age.secrets.authelia-jwt-secret.path;
+
+        # TODO: allow using RS256 and ES256
+        oidcIssuerPrivateKeyFile = config.age.secrets.authelia-oidc-rs256-key.path;
       };
     };
 
@@ -77,6 +80,16 @@ in
 
     age.secrets.authelia-jwt-secret = {
       file = ../../../../secrets/authelia-jwt-secret.age;
+      owner = "authelia-main";
+    };
+
+    age.secrets.authelia-oidc-hmac-secret = {
+      file = ../../../../secrets/authelia-oidc-hmac-secret.age;
+      owner = "authelia-main";
+    };
+
+    age.secrets.authelia-oidc-rs256-key = {
+      file = ../../../../secrets/authelia-oidc-rs256-key.age;
       owner = "authelia-main";
     };
 
