@@ -19,6 +19,13 @@ in
 
     belak.acme.enable = true;
 
+    users.users.miniflux = {
+      group = "miniflux";
+      isSystemUser = true;
+    };
+
+    users.groups.miniflux = { members = [ "nginx" ]; };
+
     services.nginx.virtualHosts."${cfg.domain}" = {
       useACMEHost = "primary";
       forceSSL = true;
