@@ -39,9 +39,9 @@ let
     system-zorn
   ];
 
-  service-authelia = users ++ [ system-eiko ];
-  service-miniflux = users ++ [ system-eiko ];
-  service-lldap = users ++ [ system-eiko ];
+  service-authelia = [ system-eiko ];
+  service-miniflux = [ system-eiko ];
+  service-lldap = [ system-eiko ];
 in
 {
   "acme-cloudflare-env.age".publicKeys = users ++ [
@@ -49,10 +49,15 @@ in
   ];
   "belak-password.age".publicKeys = users ++ systems;
 
-  "authelia-jwt-secret.age".publicKeys = service-authelia;
-  "authelia-storage-encryption-key.age".publicKeys = service-authelia;
-  "lldap-admin-password.age".publicKeys = service-lldap;
-  "lldap-jwt-secret.age".publicKeys = service-lldap;
+  "authelia-jwt-secret.age".publicKeys = service-authelia ++ users;
+  "authelia-storage-encryption-key.age".publicKeys = service-authelia ++ users;
 
-  "miniflux-admin-credentials.age".publicKeys = service-miniflux;
+  "lldap-admin-password.age".publicKeys = service-lldap ++ users;
+  "lldap-jwt-secret.age".publicKeys = service-lldap ++ users;
+
+  "miniflux-admin-credentials.age".publicKeys = service-miniflux ++ users;
+
+  "miniflux-oidc-client-id.age".publicKeys = service-authelia ++ service-miniflux ++ users;
+  "miniflux-oidc-client-secret.age".publicKeys = service-miniflux ++ users;
+  "miniflux-oidc-client-secret-hashed.age".publicKeys = service-authelia ++ users;
 }
