@@ -19,6 +19,7 @@ in
         OAUTH2_REDIRECT_URL = "https://${cfg.domain}/oauth2/oidc/callback";
         OAUTH2_OIDC_DISCOVERY_ENDPOINT = "https://auth.elwert.cloud";
         OAUTH2_USER_CREATION = 1;
+        DISABLE_LOCAL_AUTH = 1;
       };
       adminCredentialsFile = config.age.secrets.miniflux-admin-credentials.path;
     };
