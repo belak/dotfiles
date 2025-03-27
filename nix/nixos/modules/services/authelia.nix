@@ -30,27 +30,36 @@ in
           default_policy = "deny";
           rules = lib.mkAfter [
             {
-              domain = "rss.elwert.cloud";
-              policy = "one_factor";
-              subject = ["group:miniflux"];
-            }
-            {
               domain = "*.elwert.cloud";
               policy = "one_factor";
             }
           ];
         };
 
-        identity_providers.oidc.clients = [
-          {
-            client_name = "Miniflux";
-            client_id = "{{ secret \"${config.age.secrets.authelia-miniflux-oidc-client-id.path}\" }}";
-            client_secret = "{{ secret \"${config.age.secrets.miniflux-oidc-client-secret-hashed.path}\" }}";
-            redirect_uris = [
-              "https://rss.elwert.cloud/oauth2/oidc/callback"
-            ];
-          }
-        ];
+        identity_providers.oidc = {
+          authorization_policies = {
+            miniflux = {
+              default_policy = "deny";
+              rules = [
+                {
+                  policy = "one_factor";
+                  subject = "group:miniflux";
+                }
+              ];
+            };
+          };
+          clients = [
+            {
+              client_name = "Miniflux";
+              client_id = "{{ secret \"${config.age.secrets.authelia-miniflux-oidc-client-id.path}\" }}";
+              client_secret = "{{ secret \"${config.age.secrets.miniflux-oidc-client-secret-hashed.path}\" }}";
+              authorization_policy = "miniflux";
+              redirect_uris = [
+                "https://rss.elwert.cloud/oauth2/oidc/callback"
+              ];
+            }
+          ];
+        };
 
         storage.postgres = {
           username = "authelia-main";
