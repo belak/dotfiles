@@ -97,7 +97,7 @@ in
         oidcIssuerPrivateKeyFile = config.age.secrets.authelia-oidc-rs256-key.path;
         oidcHmacSecretFile = config.age.secrets.authelia-oidc-hmac-secret.path;
       };
-   };
+    };
 
     age.secrets.authelia-storage-encryption-key = {
       file = ../../../../secrets/authelia-storage-encryption-key.age;

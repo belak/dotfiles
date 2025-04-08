@@ -31,7 +31,9 @@ in
       isSystemUser = true;
     };
 
-    users.groups.miniflux = { members = [ "nginx" ]; };
+    users.groups.miniflux = {
+      members = [ "nginx" ];
+    };
 
     services.nginx.virtualHosts."${cfg.domain}" = {
       useACMEHost = "primary";
