@@ -90,43 +90,6 @@
       };
 
       nixosConfigurations = {
-        # Raspberry Pis
-        "artemicion" = lib.mkNixosSystem {
-          system = "aarch64-linux";
-          modules = [
-            ./nix/nixos/hosts/artemicion
-            ./nix/nixos/users/belak
-          ];
-        };
-        "kupo" = lib.mkNixosSystem {
-          system = "aarch64-linux";
-          modules = [
-            ./nix/nixos/hosts/kupo
-            ./nix/nixos/users/belak
-          ];
-        };
-        "stiltzkin" = lib.mkNixosSystem {
-          system = "aarch64-linux";
-          modules = [
-            ./nix/nixos/hosts/stiltzkin
-            ./nix/nixos/users/belak
-          ];
-        };
-        "moguo" = lib.mkNixosSystem {
-          system = "aarch64-linux";
-          modules = [
-            ./nix/nixos/hosts/moguo
-            ./nix/nixos/users/belak
-          ];
-        };
-        "monty" = lib.mkNixosSystem {
-          system = "aarch64-linux";
-          modules = [
-            ./nix/nixos/hosts/monty
-            ./nix/nixos/users/belak
-          ];
-        };
-
         # ThinkCentre M93p
         "eiko" = lib.mkNixosSystem {
           system = "x86_64-linux";
@@ -193,10 +156,6 @@
           system = "x86_64-linux";
           modules = [ ./nix/home/users/belak ];
         };
-        "belak-arm64" = lib.mkHome {
-          system = "aarch64-linux";
-          modules = [ ./nix/home/users/belak ];
-        };
         "belak@baku" = lib.mkHome {
           system = "x86_64-darwin";
           modules = [
@@ -239,56 +198,6 @@
       };
 
       deploy.nodes = {
-        artemicion = {
-          hostname = "artemicion.elwert.dev";
-          profilesOrder = [
-            "belak"
-            "system"
-          ];
-          profiles.system = lib.mkNixosDeploy self.nixosConfigurations.artemicion;
-          profiles.belak = lib.mkHomeDeploy self.homeConfigurations.belak-arm64;
-        };
-
-        kupo = {
-          hostname = "kupo.elwert.dev";
-          profilesOrder = [
-            "belak"
-            "system"
-          ];
-          profiles.system = lib.mkNixosDeploy self.nixosConfigurations.kupo;
-          profiles.belak = lib.mkHomeDeploy self.homeConfigurations.belak-arm64;
-        };
-
-        stiltzkin = {
-          hostname = "stiltzkin.elwert.dev";
-          profilesOrder = [
-            "belak"
-            "system"
-          ];
-          profiles.system = lib.mkNixosDeploy self.nixosConfigurations.stiltzkin;
-          profiles.belak = lib.mkHomeDeploy self.homeConfigurations.belak-arm64;
-        };
-
-        moguo = {
-          hostname = "moguo.elwert.dev";
-          profilesOrder = [
-            "belak"
-            "system"
-          ];
-          profiles.system = lib.mkNixosDeploy self.nixosConfigurations.moguo;
-          profiles.belak = lib.mkHomeDeploy self.homeConfigurations.belak-arm64;
-        };
-
-        monty = {
-          hostname = "monty.elwert.dev";
-          profilesOrder = [
-            "belak"
-            "system"
-          ];
-          profiles.system = lib.mkNixosDeploy self.nixosConfigurations.monty;
-          profiles.belak = lib.mkHomeDeploy self.homeConfigurations.belak-arm64;
-        };
-
         eiko = {
           hostname = "eiko.elwert.dev";
           profilesOrder = [
