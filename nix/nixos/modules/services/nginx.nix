@@ -29,7 +29,7 @@ in
       isSystemUser = true;
     };
 
-    users.groups.nginx = {};
+    users.groups.nginx = { };
 
     security.acme.certs.primary = lib.mkIf cfg.enableTls {
       domain = "${config.networking.hostName}.${config.networking.domain}";
