@@ -17,6 +17,7 @@
   home.packages = with pkgs; [
     deploy-rs
     discord
+    libation
     nix-init
     typst
     typstfmt
