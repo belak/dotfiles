@@ -38,6 +38,16 @@ in
 
         identity_providers.oidc = {
           authorization_policies = {
+            forgejo = {
+              default_policy = "deny";
+              rules = [
+                {
+                  policy = "one_factor";
+                  subject = "group:git";
+                }
+              ];
+            };
+
             miniflux = {
               default_policy = "deny";
               rules = [
@@ -49,6 +59,15 @@ in
             };
           };
           clients = [
+            {
+              client_name = "Forgejo";
+              client_id = "{{ secret \"${config.age.secrets.authelia-forgejo-oidc-client-id.path}\" }}";
+              client_secret = "{{ secret \"${config.age.secrets.forgejo-oidc-client-secret-hashed.path}\" }}";
+              authorization_policy = "forgejo";
+              redirect_uris = [
+                "https://git.elwert.cloud/user/oauth2/authelia/callback"
+              ];
+            }
             {
               client_name = "Miniflux";
               client_id = "{{ secret \"${config.age.secrets.authelia-miniflux-oidc-client-id.path}\" }}";
@@ -121,6 +140,16 @@ in
 
     age.secrets.authelia-ldap-admin-password = {
       file = ../../../../secrets/lldap-admin-password.age;
+      owner = "authelia-main";
+    };
+
+    age.secrets.authelia-forgejo-oidc-client-id = {
+      file = ../../../../secrets/forgejo-oidc-client-id.age;
+      owner = "authelia-main";
+    };
+
+    age.secrets.forgejo-oidc-client-secret-hashed = {
+      file = ../../../../secrets/forgejo-oidc-client-secret-hashed.age;
       owner = "authelia-main";
     };
 
