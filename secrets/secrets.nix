@@ -50,6 +50,7 @@ in
   ];
   "belak-password.age".publicKeys = users ++ systems;
 
+  "authelia-ldap-password.age".publicKeys = service-authelia ++ users;
   "authelia-jwt-secret.age".publicKeys = service-authelia ++ users;
   "authelia-storage-encryption-key.age".publicKeys = service-authelia ++ users;
   "authelia-oidc-hmac-secret.age".publicKeys = service-authelia ++ users;

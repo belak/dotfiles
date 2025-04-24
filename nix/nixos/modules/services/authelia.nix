@@ -23,7 +23,7 @@ in
           base_dn = "dc=elwert,dc=cloud";
           additional_users_dn = "ou=people";
           implementation = "lldap";
-          user = "cn=admin,ou=people,dc=elwert,dc=cloud";
+          user = "cn=authelia,ou=people,dc=elwert,dc=cloud";
         };
 
         access_control = {
@@ -139,7 +139,7 @@ in
     };
 
     age.secrets.authelia-ldap-admin-password = {
-      file = ../../../../secrets/lldap-admin-password.age;
+      file = ../../../../secrets/authelia-ldap-password.age;
       owner = "authelia-main";
     };
 
