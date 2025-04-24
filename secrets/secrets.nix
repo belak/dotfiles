@@ -40,6 +40,7 @@ let
   ];
 
   service-authelia = [ system-eiko ];
+  service-forgejo = [ system-eiko ];
   service-miniflux = [ system-eiko ];
   service-lldap = [ system-eiko ];
 in
@@ -62,4 +63,8 @@ in
   "miniflux-oidc-client-id.age".publicKeys = service-authelia ++ service-miniflux ++ users;
   "miniflux-oidc-client-secret.age".publicKeys = service-miniflux ++ users;
   "miniflux-oidc-client-secret-hashed.age".publicKeys = service-authelia ++ users;
+
+  "forgejo-oidc-client-id.age".publicKeys = service-authelia ++ service-forgejo ++ users;
+  "forgejo-oidc-client-secret.age".publicKeys = service-forgejo ++ users;
+  "forgejo-oidc-client-secret-hashed.age".publicKeys = service-authelia ++ users;
 }
