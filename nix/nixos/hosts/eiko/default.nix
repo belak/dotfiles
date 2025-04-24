@@ -21,7 +21,7 @@
 
     services = {
       authelia.enable = true;
-      gitea.enable = true;
+      forgejo.enable = true;
       lldap.enable = true;
       miniflux.enable = true;
       nginx = {
@@ -50,7 +50,7 @@
   services.nginx.virtualHosts =
     (lib.genAttrs
       [
-        "git.elwert.cloud"
+        "old-git.elwert.cloud"
         "cloud.elwert.cloud"
         "files.elwert.cloud"
         "jellyfin.elwert.cloud"

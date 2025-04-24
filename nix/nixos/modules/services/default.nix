@@ -1,7 +1,7 @@
 {
   imports = [
     ./authelia.nix
-    ./gitea.nix
+    ./forgejo.nix
     ./lldap.nix
     ./miniflux.nix
     ./nginx.nix
