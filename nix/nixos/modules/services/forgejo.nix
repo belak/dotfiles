@@ -1,17 +1,17 @@
 { config, lib, ... }:
 let
-  cfg = config.belak.services.gitea;
-  giteaConfig = config.services.gitea.settings.server;
+  cfg = config.belak.services.forgejo;
+  forgejoConfig = config.services.forgejo.settings.server;
 in
 {
-  options.belak.services.gitea = {
-    enable = lib.mkEnableOption "gitea";
+  options.belak.services.forgejo = {
+    enable = lib.mkEnableOption "forgejo";
 
-    domain = lib.mkOption { default = "gitea.elwert.cloud"; };
+    domain = lib.mkOption { default = "git.elwert.cloud"; };
   };
 
   config = lib.mkIf cfg.enable {
-    services.gitea = {
+    services.forgejo = {
       enable = true;
 
       database.type = "postgres";
@@ -28,7 +28,7 @@ in
       useACMEHost = "primary";
       forceSSL = true;
 
-      locations."/".proxyPass = "http://unix:${giteaConfig.HTTP_ADDR}";
+      locations."/".proxyPass = "http://unix:${forgejoConfig.HTTP_ADDR}";
     };
   };
 }
