@@ -18,12 +18,16 @@ in
       settings = {
         theme = "auto";
 
-        authentication_backend.ldap = {
-          address = "ldap://localhost:${toString lldapSettings.ldap_port}";
-          base_dn = "dc=elwert,dc=cloud";
-          additional_users_dn = "ou=people";
-          implementation = "lldap";
-          user = "cn=authelia,ou=people,dc=elwert,dc=cloud";
+        authentication_backend = {
+          refresh_interval = "always";
+
+          ldap = {
+            address = "ldap://localhost:${toString lldapSettings.ldap_port}";
+            base_dn = "dc=elwert,dc=cloud";
+            additional_users_dn = "ou=people";
+            implementation = "lldap";
+            user = "cn=authelia,ou=people,dc=elwert,dc=cloud";
+          };
         };
 
         access_control = {
