@@ -16,9 +16,19 @@ in
 
       database.type = "postgres";
 
-      settings.server = {
-        ROOT_URL = "https://${cfg.domain}";
-        PROTOCOL = "http+unix";
+      settings = {
+        server = {
+          ROOT_URL = "https://${cfg.domain}";
+          PROTOCOL = "http+unix";
+        };
+
+        service = {
+          DISABLE_REGISTRATION = true;
+        };
+
+        oauth2_client = {
+          ENABLE_AUTO_REGISTRATION = true;
+        };
       };
     };
 
