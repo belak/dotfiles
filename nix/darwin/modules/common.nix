@@ -49,6 +49,7 @@
       "wezterm"
 
       # Stuff I'm trying out.
+      "hammerspoon"
       "utm"
       "zotero"
     ];
