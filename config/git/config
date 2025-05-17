@@ -9,9 +9,6 @@
 	default = simple
 [branch]
 	autosetuprebase = always
-[core]
-	editor = vim
-	quotepath = false
 [github]
 	user = belak
 [rerere]
