@@ -33,6 +33,7 @@ in
 
       ".editorconfig" = mkSource "editorconfig";
       ".finicky.js" = mkSource "finicky.js";
+      ".hammerspoon" = mkSource "hammerspoon";
       ".vimrc" = mkSource "vimrc";
       ".zshenv" = mkSource "zshenv";
       ".zshrc" = mkSource "zshrc";
