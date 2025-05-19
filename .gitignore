@@ -22,6 +22,9 @@ vim/swap
 vim/view
 *.swp
 
+# git related
+config/git/config.local
+
 # emacs related
 *.elc
 config/emacs/custom.el
