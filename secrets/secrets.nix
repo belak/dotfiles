@@ -68,4 +68,8 @@ in
   "forgejo-oidc-client-id.age".publicKeys = service-authelia ++ service-forgejo ++ users;
   "forgejo-oidc-client-secret.age".publicKeys = service-forgejo ++ users;
   "forgejo-oidc-client-secret-hashed.age".publicKeys = service-authelia ++ users;
+
+  "testing-oidc-client-id.age".publicKeys = service-authelia ++ users;
+  "testing-oidc-client-secret.age".publicKeys = users;
+  "testing-oidc-client-secret-hashed.age".publicKeys = service-authelia ++ users;
 }
