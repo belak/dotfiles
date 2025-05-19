@@ -17,3 +17,5 @@
 	defaultBranch = main
 [diff "ansible-vault"]
 	textconv = ansible-vault view
+[include]
+    path = ~/.config/git/config.local
