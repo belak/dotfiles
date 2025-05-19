@@ -13,7 +13,7 @@ hs.window.animationDuration = 0
 
 hs.hotkey.bind({"cmd", "alt", "ctrl"}, "Left", function()
   local win = hs.window.focusedWindow()
-  win:moveToUnit(hs.layout.left30)
+  win:moveToUnit(hs.layout.left50)
 end)
 
 hs.hotkey.bind({"cmd", "alt", "ctrl"}, "i", function()
@@ -47,7 +47,7 @@ end)
 
 hs.hotkey.bind({"cmd", "alt", "ctrl"}, "Right", function()
   local win = hs.window.focusedWindow()
-  win:moveToUnit(hs.layout.right30)
+  win:moveToUnit(hs.layout.right50)
 end)
 
 hs.hotkey.bind({"cmd", "alt", "ctrl"}, "p", function()
