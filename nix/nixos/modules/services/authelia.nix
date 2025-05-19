@@ -61,6 +61,16 @@ in
                 }
               ];
             };
+
+            testing = {
+              default_policy = "deny";
+              rules = [
+                {
+                  policy = "one_factor";
+                  subject = "group:testers";
+                }
+              ];
+            };
           };
           clients = [
             {
@@ -79,6 +89,15 @@ in
               authorization_policy = "miniflux";
               redirect_uris = [
                 "https://rss.elwert.cloud/oauth2/oidc/callback"
+              ];
+            }
+            {
+              client_name = "Testing";
+              client_id = "{{ secret \"${config.age.secrets.authelia-testing-oidc-client-id.path}\" }}";
+              client_secret = "{{ secret \"${config.age.secrets.testing-oidc-client-secret-hashed.path}\" }}";
+              authorization_policy = "testing";
+              redirect_uris = [
+                "http://localhost:4455/login/callback"
               ];
             }
           ];
@@ -164,6 +183,16 @@ in
 
     age.secrets.miniflux-oidc-client-secret-hashed = {
       file = ../../../../secrets/miniflux-oidc-client-secret-hashed.age;
+      owner = "authelia-main";
+    };
+
+    age.secrets.authelia-testing-oidc-client-id = {
+      file = ../../../../secrets/testing-oidc-client-id.age;
+      owner = "authelia-main";
+    };
+
+    age.secrets.testing-oidc-client-secret-hashed = {
+      file = ../../../../secrets/testing-oidc-client-secret-hashed.age;
       owner = "authelia-main";
     };
 
