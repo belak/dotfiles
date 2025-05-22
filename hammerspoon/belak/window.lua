@@ -6,6 +6,11 @@ local middle40 = hs.geometry.rect(0.3, 0, 0.4, 1)
 local right30top50 = hs.geometry.rect(0.7, 0, 0.3, 0.5)
 local right30bot50 = hs.geometry.rect(0.7, 0.5, 0.3, 0.5)
 
+-- Note that this is a special case because of how pop-out video players work on
+-- macOS.
+local right30top59 = hs.geometry.rect(0.7, 0, 0.3, 0.59)
+local right30bot41 = hs.geometry.rect(0.7, 0.59, 0.3, 0.41)
+
 -- Disable window animations to make things a bit snappier
 hs.window.animationDuration = 0
 
@@ -63,4 +68,14 @@ end)
 hs.hotkey.bind({"cmd", "alt", "ctrl"}, ",", function()
   local win = hs.window.focusedWindow()
   win:moveToUnit(right30bot50)
+end)
+
+hs.hotkey.bind({"cmd", "alt", "ctrl"}, ";", function()
+  local win = hs.window.focusedWindow()
+  win:moveToUnit(right30top59)
+end)
+
+hs.hotkey.bind({"cmd", "alt", "ctrl"}, ".", function()
+  local win = hs.window.focusedWindow()
+  win:moveToUnit(right30bot41)
 end)
