@@ -14,7 +14,7 @@ typeset -U path fpath
 path=(
     "$HOME/bin"
     "/Applications/Ghostty.app/Contents/MacOS"
-    "/Applications/Inkscape.app/Contents/Resources/bin"
+    #"/Applications/Inkscape.app/Contents/Resources/bin"
     "/Applications/Postgres.app/Contents/Versions/latest/bin"
     "/Applications/Sublime Text.app/Contents/SharedSupport/bin"
     "/Applications/Visual Studio Code.app/Contents/Resources/app/bin"

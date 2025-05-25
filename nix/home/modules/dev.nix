@@ -26,7 +26,8 @@ in
       ffmpeg
       grpcurl
       gnumake
-      imagemagick
+      unstable.imagemagick
+      unstable.ghostscript
       jq
       just
       patchelf
