@@ -99,6 +99,16 @@ in
               redirect_uris = [
                 "http://localhost:4455/login/callback"
               ];
+              scopes = [
+                "openid"
+                "offline_access"
+                "profile"
+                "email"
+              ];
+              grant_types = [
+                "refresh_token"
+                "authorization_code"
+              ];
             }
           ];
         };
