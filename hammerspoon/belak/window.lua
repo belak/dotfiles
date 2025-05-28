@@ -3,6 +3,8 @@
 local left30top50 = hs.geometry.rect(0, 0, 0.3, 0.5)
 local left30bot50 = hs.geometry.rect(0, 0.5, 0.3, 0.5)
 local middle40 = hs.geometry.rect(0.3, 0, 0.4, 1)
+local middle40top50 = hs.geometry.rect(0.3, 0, 0.4, 0.5)
+local middle40bot50 = hs.geometry.rect(0.3, 0.5, 0.4, 0.5)
 local right30top50 = hs.geometry.rect(0.7, 0, 0.3, 0.5)
 local right30bot50 = hs.geometry.rect(0.7, 0.5, 0.3, 0.5)
 
@@ -37,6 +39,16 @@ hs.hotkey.bind({"cmd", "alt", "ctrl"}, "n", function()
 end)
 
 -- Middle shortcuts
+
+hs.hotkey.bind({"cmd", "alt", "ctrl"}, "o", function()
+  local win = hs.window.focusedWindow()
+  win:moveToUnit(middle40top50)
+end)
+
+hs.hotkey.bind({"cmd", "alt", "ctrl"}, "m", function()
+  local win = hs.window.focusedWindow()
+  win:moveToUnit(middle40bot50)
+end)
 
 hs.hotkey.bind({"cmd", "alt", "ctrl"}, "Return", function()
   local win = hs.window.focusedWindow()
