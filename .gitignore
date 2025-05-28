@@ -23,7 +23,7 @@ vim/view
 *.swp
 
 # git related
-config/git/config.local
+config/git/config.*
 
 # emacs related
 *.elc
