@@ -26,13 +26,13 @@ in
       ".config/direnv/direnv.toml" = mkSource "config/direnv/direnv.toml";
       ".config/doom" = mkSource "config/doom";
       ".config/emacs" = mkSource "config/emacs";
+      ".config/finicky" = mkSource "config/finicky";
       ".config/git" = mkSource "config/git";
       ".config/nvim" = mkSource "config/nvim";
       ".config/tmux" = mkSource "config/tmux";
       ".config/wezterm" = mkSource "config/wezterm";
 
       ".editorconfig" = mkSource "editorconfig";
-      ".finicky.js" = mkSource "finicky.js";
       ".hammerspoon" = mkSource "hammerspoon";
       ".vimrc" = mkSource "vimrc";
       ".zshenv" = mkSource "zshenv";

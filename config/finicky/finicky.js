@@ -4,7 +4,7 @@ let { localizedName, name } = finicky.getSystemInfo();
 
 const isWorkComputer = localizedName.startsWith('COMP_');
 
-module.exports = {
+export default {
   // All my work computers have had long generated names starting with COMP_, so
   // I use that to decide if I'm using Google Chrome or Firefox by default.
   defaultBrowser: isWorkComputer ? 'Google Chrome' : 'Firefox',
@@ -66,6 +66,12 @@ module.exports = {
       // Open any link from Discord in Firefox
       match: ({opener}) =>
           ["com.hnc.Discord"].includes(opener.bundleId),
+      browser: "Firefox"
+    },
+    {
+      // Open any link from Obsidian in Firefox
+      match: ({opener}) =>
+          ["md.obsidian"].includes(opener.bundleId),
       browser: "Firefox"
     },
   ],
