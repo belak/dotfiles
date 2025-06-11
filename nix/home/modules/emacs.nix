@@ -101,6 +101,7 @@ in
             epkgs.melpaPackages.rg
             epkgs.melpaPackages.rust-mode
             epkgs.melpaPackages.shackle
+            epkgs.melpaPackages.smudge
             epkgs.melpaPackages.toml-mode
             epkgs.melpaPackages.transient
             epkgs.melpaPackages.typescript-mode
