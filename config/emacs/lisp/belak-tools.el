@@ -141,6 +141,9 @@ argument, search only in files matching current type."
             (if only-current-type (car (rg-default-alias)) "*")
             (rg-project-root buffer-file-name))))
 
+(use-package smudge
+  :bind-keymap ("C-c ." . smudge-command-map))
+
 ;; vterm is like all the built-in terminals, but even better because
 ;; it uses libvterm which is pretty solid and handles most control
 ;; sequences really well.
