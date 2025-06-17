@@ -8,7 +8,8 @@
 (use-package bazel
   :mode
   ("\\.bzl\\'"   . bazel-mode)
-  ("\\.bazel\\'" . bazel-mode))
+  ("\\.bazel\\'" . bazel-mode)
+  ("WORKSPACE"   . bazel-mode))
 
 (use-package cmake-mode
   :mode
