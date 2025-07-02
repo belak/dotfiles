@@ -60,6 +60,10 @@
   "zshrc\\'"
   "zshenv\\'")
 
+(use-package terraform-mode
+  :mode
+  "\\.tf\\'")
+
 (use-package toml-mode
   :mode
   "\\.toml\\'"
