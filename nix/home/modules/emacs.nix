@@ -102,6 +102,7 @@ in
             epkgs.melpaPackages.rust-mode
             epkgs.melpaPackages.shackle
             epkgs.melpaPackages.smudge
+            epkgs.melpaPackages.terraform-mode
             epkgs.melpaPackages.toml-mode
             epkgs.melpaPackages.transient
             epkgs.melpaPackages.typescript-mode
