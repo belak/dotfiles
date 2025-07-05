@@ -24,6 +24,10 @@
     laptop.enable = true;
   };
 
+  virtualisation.libvirtd.enable = true;
+  programs.virt-manager.enable = true;
+  users.users.belak.extraGroups = [ "libvirtd" ];
+
   environment.systemPackages = with pkgs; [ pptp ];
 
   services.nats = {

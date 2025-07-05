@@ -6,28 +6,25 @@
         type = "disk";
         content = {
           type = "gpt";
-          partitions = [
-            {
-              name = "ESP";
-              start = "1MiB";
-              size = "512MiB";
+          partitions = {
+            ESP = {
               type = "EF00";
+              size = "512MiB";
               content = {
                 type = "filesystem";
                 format = "vfat";
                 mountpoint = "/boot";
               };
-            }
-            {
-              name = "root";
+            };
+            root = {
               size = "100%";
               content = {
                 type = "filesystem";
                 format = "ext4";
                 mountpoint = "/";
               };
-            }
-          ];
+            };
+          };
         };
       };
     };
