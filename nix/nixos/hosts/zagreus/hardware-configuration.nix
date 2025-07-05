@@ -37,18 +37,6 @@
   # seems to fix the issue.
   boot.kernelParams = [ "psmouse.synaptics_intertouch=0" ];
 
-  # Filesystems
-
-  fileSystems."/" = {
-    device = "/dev/disk/by-partlabel/zag-root";
-    fsType = "ext4";
-  };
-
-  fileSystems."/boot" = {
-    device = "/dev/disk/by-partlabel/zag-boot";
-    fsType = "vfat";
-  };
-
   #swapDevices = [ { device = "/dev/disk/by-partlabel/zag-swap"; } ];
 
   # Enables DHCP on each ethernet and wireless interface. In case of scripted networking
