@@ -6,6 +6,7 @@
       symlink = true;
     };
     dev.enable = true;
+    emacs.enable = true;
     gnome.enable = true;
     gui.enable = true;
   };
