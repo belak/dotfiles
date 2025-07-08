@@ -250,6 +250,21 @@
 ;;
 ;;; Tweaks
 
+;; Replace `text-scale-mode' shortcuts with `global-text-scale-mode' because
+;; that's what we want in almost all cases. Note that for some reason `[remap
+;; text-scale-adjust]' doesn't do what we're looking for, as it breaks the
+;; ability to repeatedly press + or - to change the text scale.
+(bind-key "C-x C-=" 'global-text-scale-adjust)
+(bind-key "C-x C-+" 'global-text-scale-adjust)
+(bind-key "C-x C--" 'global-text-scale-adjust)
+(bind-key "C-x C-0" 'global-text-scale-adjust)
+
+(when IS-MAC
+  (bind-key "S-=" 'global-text-scale-adjust)
+  (bind-key "S-+" 'global-text-scale-adjust)
+  (bind-key "S--" 'global-text-scale-adjust)
+  (bind-key "S-0" 'global-text-scale-adjust))
+
 ;; Shrink the fringe to 4px.
 (set-fringe-mode 4)
 
