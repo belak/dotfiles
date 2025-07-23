@@ -47,6 +47,7 @@ in
 {
   "acme-cloudflare-env.age".publicKeys = users ++ [
     system-eiko
+    system-zidane
   ];
   "belak-password.age".publicKeys = users ++ systems;
 
