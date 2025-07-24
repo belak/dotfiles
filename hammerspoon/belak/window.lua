@@ -16,78 +16,90 @@ local right30bot41 = hs.geometry.rect(0.7, 0.59, 0.3, 0.41)
 -- Disable window animations to make things a bit snappier
 hs.window.animationDuration = 0
 
+-- axHotfix is a workaround for windows which set AXEnhancedUserInterface not
+-- respecting the set animationDuration.
+local function axHotfix(action)
+  local window = hs.window.focusedWindow()
+
+  if not window then return end
+
+  local app = window:application()
+  local ax_app = hs.axuielement.applicationElement(app)
+
+  -- original settings
+  local was_enhanced = ax_app.AXEnhancedUserInterface
+  local original_animation_duration = hs.window.animationDuration
+
+  -- Override AXEnhancedUserInterface and animationDuration
+  ax_app.AXEnhancedUserInterface = false
+  hs.window.animationDuration = 0
+
+  -- Run our action
+  action(window)
+
+  -- restore original settings
+  hs.window.animationDuration = original_animation_duration
+  ax_app.AXEnhancedUserInterface = was_enhanced
+end
+
 -- Left side shortcuts
 
 hs.hotkey.bind({"cmd", "alt", "ctrl"}, "Left", function()
-  local win = hs.window.focusedWindow()
-  win:moveToUnit(hs.layout.left50)
+  axHotfix(function (win) win:moveToUnit(hs.layout.left50) end)
 end)
 
 hs.hotkey.bind({"cmd", "alt", "ctrl"}, "i", function()
-  local win = hs.window.focusedWindow()
-  win:moveToUnit(left30top50)
+  axHotfix(function (win) win:moveToUnit(left30top50) end)
 end)
 
 hs.hotkey.bind({"cmd", "alt", "ctrl"}, "j", function()
-  local win = hs.window.focusedWindow()
-  win:moveToUnit(hs.layout.left30)
+  axHotfix(function (win) win:moveToUnit(hs.layout.left30) end)
 end)
 
 hs.hotkey.bind({"cmd", "alt", "ctrl"}, "n", function()
-  local win = hs.window.focusedWindow()
-  win:moveToUnit(left30bot50)
+  axHotfix(function (win) win:moveToUnit(left30bot50) end)
 end)
 
 -- Middle shortcuts
 
 hs.hotkey.bind({"cmd", "alt", "ctrl"}, "o", function()
-  local win = hs.window.focusedWindow()
-  win:moveToUnit(middle40top50)
+  axHotfix(function (win) win:moveToUnit(middle40top50) end)
 end)
 
 hs.hotkey.bind({"cmd", "alt", "ctrl"}, "m", function()
-  local win = hs.window.focusedWindow()
-  win:moveToUnit(middle40bot50)
+  axHotfix(function (win) win:moveToUnit(middle40bot50) end)
 end)
 
 hs.hotkey.bind({"cmd", "alt", "ctrl"}, "Return", function()
-  local win = hs.window.focusedWindow()
-  win:moveToUnit(middle40)
+  axHotfix(function (win) win:moveToUnit(middle40) end)
 end)
 
 hs.hotkey.bind({"cmd", "alt", "ctrl", "shift"}, "Return", function()
-  local win = hs.window.focusedWindow()
-  win:moveToUnit(hs.layout.maximized)
+  axHotfix(function (win) win:moveToUnit(hs.layout.maximized) end)
 end)
 
 -- Right side shortcuts
 
 hs.hotkey.bind({"cmd", "alt", "ctrl"}, "Right", function()
-  local win = hs.window.focusedWindow()
-  win:moveToUnit(hs.layout.right50)
+  axHotfix(function (win) win:moveToUnit(hs.layout.right50) end)
 end)
 
 hs.hotkey.bind({"cmd", "alt", "ctrl"}, "p", function()
-  local win = hs.window.focusedWindow()
-  win:moveToUnit(right30top50)
+  axHotfix(function (win) win:moveToUnit(right30top50) end)
 end)
 
 hs.hotkey.bind({"cmd", "alt", "ctrl"}, "l", function()
-  local win = hs.window.focusedWindow()
-  win:moveToUnit(hs.layout.right30)
+  axHotfix(function (win) win:moveToUnit(hs.layout.right30) end)
 end)
 
 hs.hotkey.bind({"cmd", "alt", "ctrl"}, ",", function()
-  local win = hs.window.focusedWindow()
-  win:moveToUnit(right30bot50)
+  axHotfix(function (win) win:moveToUnit(right30bot50) end)
 end)
 
 hs.hotkey.bind({"cmd", "alt", "ctrl"}, ";", function()
-  local win = hs.window.focusedWindow()
-  win:moveToUnit(right30top59)
+  axHotfix(function (win) win:moveToUnit(right30top59) end)
 end)
 
 hs.hotkey.bind({"cmd", "alt", "ctrl"}, ".", function()
-  local win = hs.window.focusedWindow()
-  win:moveToUnit(right30bot41)
+  axHotfix(function (win) win:moveToUnit(right30bot41) end)
 end)
