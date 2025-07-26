@@ -44,46 +44,40 @@ in
   config = lib.mkIf cfg.enable {
     services.haproxy =
       let
-        crtStore = builtins.concatStringsSep "\n" (
-          map (
-            f:
-            let
-              certDir = config.security.acme.certs.${f}.directory;
-            in
-            "  load crt \"${certDir}/cert.pem\" key \"${certDir}/key.pem\" alias ${f}"
-          ) cfg.acmeCerts
-        );
+        crtStore = map (
+          f:
+          let
+            certDir = config.security.acme.certs.${f}.directory;
+          in
+          "load crt \"${certDir}/cert.pem\" key \"${certDir}/key.pem\" alias ${f}"
+        ) cfg.acmeCerts;
 
-        crtBind = builtins.concatStringsSep " " (map (f: "crt @/${f}") cfg.acmeCerts);
+        crtBind = map (f: "crt @/${f}") cfg.acmeCerts;
 
-        clacksHeaders = ''
-          http-response add-header X-Clacks-Overhead "GNU Douglas Adams"
-            http-response add-header X-Clacks-Overhead "GNU Robert Asprin"
-        '';
+        clacksHeaders = [
+          ''http-response add-header X-Clacks-Overhead "GNU Douglas Adams"''
+          ''http-response add-header X-Clacks-Overhead "GNU Robert Asprin"''
+        ];
 
-        backendMatchers = builtins.concatStringsSep "\n" (
-          lib.lists.flatten (
-            lib.attrsets.mapAttrsToList (
-              name: backend: (map (matcher: "  use_backend ${name} ${matcher}") backend.matchers)
-            ) cfg.backends
-          )
-        );
-
-        backends = builtins.concatStringsSep "\n" (
+        backendMatchers = lib.lists.flatten (
           lib.attrsets.mapAttrsToList (
-            name: backend:
-            let
-              servers = builtins.concatStringsSep "\n" (
-                lib.attrsets.mapAttrsToList (serverName: server: "  server ${serverName} ${server}") backend.servers
-              );
-            in
-            ''
-              backend ${backend.name}
-                mode ${backend.mode}
-              ${servers}
-            ''
+            name: backend: (map (matcher: "use_backend ${name} ${matcher}") backend.matchers)
           ) cfg.backends
         );
+
+        backends = lib.attrsets.mapAttrsToList (
+          name: backend:
+          let
+            servers = builtins.concatStringsSep "\n  " (
+              lib.attrsets.mapAttrsToList (serverName: server: "server ${serverName} ${server}") backend.servers
+            );
+          in
+          ''
+            backend ${backend.name}
+              mode ${backend.mode}
+              ${servers}
+          ''
+        ) cfg.backends;
 
       in
       {
@@ -102,7 +96,7 @@ in
             timeout tunnel 15m
 
           crt-store
-          ${crtStore}
+            ${builtins.concatStringsSep "\n  " crtStore}
 
           frontend http
             mode http
@@ -110,23 +104,23 @@ in
 
             option httplog
 
-            ${clacksHeaders}
+            ${builtins.concatStringsSep "\n  " clacksHeaders}
 
             # Redirect to https
             http-request redirect scheme https unless { ssl_fc }
 
           frontend https
             mode http
-            bind :443 ssl ${crtBind}
+            bind :443 ssl ${builtins.concatStringsSep " " crtBind}
 
             option httplog
             option forwardfor
 
-            ${clacksHeaders}
+            ${builtins.concatStringsSep "\n  " clacksHeaders}
 
-            ${backendMatchers}
+            ${builtins.concatStringsSep "\n  " backendMatchers}
 
-          ${backends}
+          ${builtins.concatStringsSep "\n" backends}
         '';
       };
 
