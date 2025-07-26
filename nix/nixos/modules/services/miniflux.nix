@@ -36,8 +36,6 @@ in
     };
 
     services.nginx.virtualHosts."${cfg.domain}" = {
-      useACMEHost = "primary";
-      forceSSL = true;
       locations."/".proxyPass = "http://unix:/run/miniflux/miniflux.sock";
     };
 

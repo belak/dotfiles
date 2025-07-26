@@ -71,9 +71,6 @@ in
     belak.acme.enable = true;
 
     services.nginx.virtualHosts."${cfg.gamjaDomain}" = {
-      useACMEHost = "primary";
-      forceSSL = true;
-
       locations."/".root = pkgs.gamja;
 
       locations."/socket" = {
