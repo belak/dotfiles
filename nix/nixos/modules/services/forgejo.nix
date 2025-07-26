@@ -35,9 +35,6 @@ in
     belak.acme.enable = true;
 
     services.nginx.virtualHosts."${cfg.domain}" = {
-      useACMEHost = "primary";
-      forceSSL = true;
-
       locations."/".proxyPass = "http://unix:${forgejoConfig.HTTP_ADDR}";
     };
   };

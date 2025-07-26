@@ -226,9 +226,6 @@ in
     belak.acme.enable = true;
 
     services.nginx.virtualHosts."${cfg.domain}" = {
-      useACMEHost = "primary";
-      forceSSL = true;
-
       # TODO: make this use a unix socket
       locations."/".proxyPass = "http://localhost:9091";
     };

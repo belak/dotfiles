@@ -59,9 +59,6 @@ in
     belak.acme.enable = true;
 
     services.nginx.virtualHosts."${cfg.domain}" = {
-      useACMEHost = "primary";
-      forceSSL = true;
-
       locations."/".proxyPass = "http://localhost:${toString lldapSettings.http_port}";
     };
   };

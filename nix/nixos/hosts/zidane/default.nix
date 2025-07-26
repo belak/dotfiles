@@ -14,11 +14,77 @@
   belak = {
     laptop.enable = true;
     server.enable = true;
+
+    acme.enable = true;
+
+    services = {
+      haproxy = {
+        enable = true;
+        acmeCerts = [
+          "primary"
+          "homelab"
+          "seabird"
+        ];
+        backends = {
+          eiko = {
+            servers.eiko = "eiko.elwert.dev:80";
+
+            matchers = [
+              "if { req.hdr(host) -i eiko.elwert.dev }"
+              "if { req.hdr(host) -i git.elwert.cloud }"
+              "if { req.hdr(host) -i lldap.elwert.cloud }"
+              "if { req.hdr(host) -i auth.elwert.cloud }"
+              "if { req.hdr(host) -i rss.elwert.cloud }"
+              "if { req.hdr(host) -i soju.elwert.cloud }"
+              "if { req.hdr(host) -i gamja.elwert.cloud }"
+            ];
+          };
+
+          steiner = {
+            servers.steiner = "steiner.elwert.dev:80";
+
+            matchers = [
+              "if { req.hdr(host) -i steiner.elwert.dev }"
+              "if { req.hdr(host) -i old-git.elwert.cloud }"
+              "if { req.hdr(host) -i cloud.elwert.cloud }"
+              "if { req.hdr(host) -i files.elwert.cloud }"
+              "if { req.hdr(host) -i jellyfin.elwert.cloud }"
+              "if { req.hdr(host) -i btta-api.elwert.cloud }"
+              "if { req.hdr(host) -i btta-media.elwert.cloud }"
+            ];
+          };
+        };
+      };
+    };
   };
 
   networking = {
     hostName = "zidane";
     domain = "elwert.dev";
+  };
+
+  security.acme.certs.primary = {
+    domain = "elwert.cloud";
+    extraDomainNames = [
+      "*.elwert.cloud"
+    ];
+    group = config.services.haproxy.group;
+    reloadServices = [ "haproxy" ];
+  };
+
+  security.acme.certs.homelab = {
+    domain = "*.elwert.dev";
+    group = config.services.haproxy.group;
+    reloadServices = [ "haproxy" ];
+  };
+
+  security.acme.certs.seabird = {
+    domain = "seabird.chat";
+    extraDomainNames = [
+      "*.seabird.chat"
+    ];
+    group = config.services.haproxy.group;
+    reloadServices = [ "haproxy" ];
   };
 
   # This value determines the NixOS release from which the default
