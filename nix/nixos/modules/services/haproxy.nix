@@ -28,11 +28,11 @@ in
               };
 
               servers = lib.mkOption {
-                type = lib.types.attrsOf lib.types.str;
+                type = with lib.types; attrsOf str;
               };
 
               matchers = lib.mkOption {
-                type = lib.types.listOf lib.types.str;
+                type = with lib.types; listOf str;
               };
             };
           }
@@ -59,17 +59,17 @@ in
           ''http-response add-header X-Clacks-Overhead "GNU Robert Asprin"''
         ];
 
-        backendMatchers = lib.lists.flatten (
-          lib.attrsets.mapAttrsToList (
+        backendMatchers = lib.flatten (
+          lib.mapAttrsToList (
             name: backend: (map (matcher: "use_backend ${name} ${matcher}") backend.matchers)
           ) cfg.backends
         );
 
-        backends = lib.attrsets.mapAttrsToList (
+        backends = lib.mapAttrsToList (
           name: backend:
           let
             servers = builtins.concatStringsSep "\n  " (
-              lib.attrsets.mapAttrsToList (serverName: server: "server ${serverName} ${server}") backend.servers
+              lib.mapAttrsToList (serverName: server: "server ${serverName} ${server}") backend.servers
             );
           in
           ''
