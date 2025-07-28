@@ -45,9 +45,12 @@
 
             matchers = [
               "if { req.hdr(host) -i steiner.elwert.dev }"
+              "if { req.hdr(host) -i elwert.cloud }"
+              "if { req.hdr(host) -i www.elwert.cloud }"
               "if { req.hdr(host) -i old-git.elwert.cloud }"
               "if { req.hdr(host) -i cloud.elwert.cloud }"
               "if { req.hdr(host) -i files.elwert.cloud }"
+              "if { req.hdr(host) -i emby.elwert.cloud }"
               "if { req.hdr(host) -i jellyfin.elwert.cloud }"
               "if { req.hdr(host) -i btta-api.elwert.cloud }"
               "if { req.hdr(host) -i btta-media.elwert.cloud }"
