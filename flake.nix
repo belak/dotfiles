@@ -165,7 +165,10 @@
         };
         "belak@quina" = lib.mkHome {
           system = "aarch64-linux";
-          modules = [ ./nix/home/users/belak ];
+          modules = [
+            ./nix/home/users/belak
+            ./nix/home/users/belak/quina.nix
+          ];
         };
         "belak@melinoe" = lib.mkHome {
           system = "aarch64-darwin";
