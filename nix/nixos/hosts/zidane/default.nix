@@ -40,6 +40,14 @@
             ];
           };
 
+          garnet = {
+            servers.garnet = "garnet.lan:5000";
+
+            matchers = [
+              "if { req.hdr(host) -i garnet.elwert.dev }"
+            ];
+          };
+
           steiner = {
             servers.steiner = "steiner.elwert.dev:80";
 
