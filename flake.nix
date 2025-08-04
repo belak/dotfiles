@@ -99,11 +99,11 @@
           ];
         };
 
-        # Intel NUC7i7DNHE
-        "vivi" = lib.mkNixosSystem {
+        # Beelink Mini S12 Pro
+        "freya" = lib.mkNixosSystem {
           system = "x86_64-linux";
           modules = [
-            ./nix/nixos/hosts/vivi
+            ./nix/nixos/hosts/freya
             ./nix/nixos/users/belak
           ];
         };
@@ -113,6 +113,15 @@
           system = "aarch64-linux";
           modules = [
             ./nix/nixos/hosts/quina
+            ./nix/nixos/users/belak
+          ];
+        };
+
+        # Intel NUC7i7DNHE
+        "vivi" = lib.mkNixosSystem {
+          system = "x86_64-linux";
+          modules = [
+            ./nix/nixos/hosts/vivi
             ./nix/nixos/users/belak
           ];
         };
@@ -207,8 +216,18 @@
             "belak"
             "system"
           ];
-          profiles.system = lib.mkNixosDeploy self.nixosConfigurations.eiko;
           profiles.belak = lib.mkHomeDeploy self.homeConfigurations.belak;
+          profiles.system = lib.mkNixosDeploy self.nixosConfigurations.eiko;
+        };
+
+        freya = {
+          hostname = "freya.elwert.dev";
+          profilesOrder = [
+            "belak"
+            "system"
+          ];
+          profiles.belak = lib.mkHomeDeploy self.homeConfigurations.belak;
+          profiles.system = lib.mkNixosDeploy self.nixosConfigurations.freya;
         };
 
         vivi = {
@@ -217,8 +236,8 @@
             "belak"
             "system"
           ];
-          profiles.system = lib.mkNixosDeploy self.nixosConfigurations.vivi;
           profiles.belak = lib.mkHomeDeploy self.homeConfigurations.belak;
+          profiles.system = lib.mkNixosDeploy self.nixosConfigurations.vivi;
         };
 
         zidane = {
@@ -227,8 +246,8 @@
             "belak"
             "system"
           ];
-          profiles.system = lib.mkNixosDeploy self.nixosConfigurations.zidane;
           profiles.belak = lib.mkHomeDeploy self.homeConfigurations.belak;
+          profiles.system = lib.mkNixosDeploy self.nixosConfigurations.zidane;
         };
       };
 
