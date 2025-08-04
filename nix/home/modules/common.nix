@@ -64,6 +64,7 @@ in
       unstable.nix-tree
       unstable.nixd
       unstable.nixfmt-rfc-style
+      unstable.nixos-anywhere
       unstable.statix
 
       # Archive Formats
