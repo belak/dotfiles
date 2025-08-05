@@ -117,15 +117,6 @@
           ];
         };
 
-        # Intel NUC7i7DNHE
-        "vivi" = lib.mkNixosSystem {
-          system = "x86_64-linux";
-          modules = [
-            ./nix/nixos/hosts/vivi
-            ./nix/nixos/users/belak
-          ];
-        };
-
         # ThinkPad T14 Gen 1
         "zagreus" = lib.mkNixosSystem {
           system = "x86_64-linux";
