@@ -73,7 +73,26 @@
       # There are a number of different formatters available: nixfmt, alejandra,
       # and nixfmt-rfc-style. As rfc-style is the "up-and-coming" format, we use
       # that rather than stock nixfmt.
-      formatter = lib.forAllSystems (system: nixpkgs-unstable.legacyPackages.${system}.nixfmt-rfc-style);
+      formatter = lib.forAllSystems (
+        system:
+        let
+          pkgs = nixpkgs-unstable.legacyPackages.${system};
+        in
+        pkgs.treefmt.withConfig {
+          runtimeInputs = [ pkgs.nixfmt-rfc-style ];
+
+          settings = {
+            # Log level for files treefmt won't format
+            on-unmatched = "info";
+
+            # Configure nixfmt for .nix files
+            formatter.nixfmt = {
+              command = "nixfmt";
+              includes = [ "*.nix" ];
+            };
+          };
+        }
+      );
 
       darwinConfigurations = {
         "baku" = lib.mkDarwinSystem {
