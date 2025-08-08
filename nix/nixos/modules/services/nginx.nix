@@ -11,8 +11,12 @@ in
     services.nginx = {
       enable = true;
 
-      recommendedProxySettings = true;
       recommendedOptimisation = true;
+
+      # Note that we actually cannot use recommendedProxySettings as it will
+      # nuke headers set by our haproxy instance, causing X-Forwarded-* headers
+      # to be lost.
+      #recommendedProxySettings = true;
     };
 
     users.users.nginx = {
