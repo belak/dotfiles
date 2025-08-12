@@ -50,7 +50,6 @@ in
 
       # Packages I'm trying out
       codeowners
-      git-codeowners
       unstable.jujutsu
       unstable.mdcat
     ];
