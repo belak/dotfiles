@@ -69,9 +69,9 @@
             servers.vivi = "vivi.elwert.dev:80";
 
             matchers = [
-              "if { req.hdr(host) -i seabird-webhooks.elwert.cloud }"
               "if { req.hdr(host) -i seabird.chat }"
               "if { req.hdr(host) -i api.seabird.chat }"
+              "if { req.hdr(host) -i seabird-webhooks.elwert.cloud }"
             ];
           };
         };
