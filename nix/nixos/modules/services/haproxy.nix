@@ -116,6 +116,8 @@ in
             option httplog
             option forwardfor
 
+            http-request set-header X-Forwarded-Host %[req.hdr(Host)]
+
             ${builtins.concatStringsSep "\n  " clacksHeaders}
 
             ${builtins.concatStringsSep "\n  " backendMatchers}
