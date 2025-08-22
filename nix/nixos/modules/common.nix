@@ -25,6 +25,7 @@
   users.mutableUsers = false;
 
   environment.systemPackages = with pkgs; [
+    dig
     git
     sysbench
     vim
