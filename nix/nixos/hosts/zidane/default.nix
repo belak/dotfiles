@@ -65,12 +65,24 @@
             ];
           };
 
+          vivi-seabird-core = {
+            servers.vivi-seabird-core = "vivi.elwert.dev:8080 proto h2";
+            matchers = [
+              "if { req.hdr(host) -i api.seabird.chat }"
+              "if { req.hdr(host) -i seabird-core.elwert.cloud }"
+            ];
+          };
+
+          vivi-seabird-core-h2 = {
+            servers.vivi-seabird-core-h2 = "vivi.elwert.dev:81 proto h2";
+            matchers = [ "if { req.hdr(host) -i seabird.chat }" ];
+          };
+
           vivi = {
             servers.vivi = "vivi.elwert.dev:80";
 
             matchers = [
-              "if { req.hdr(host) -i seabird.chat }"
-              "if { req.hdr(host) -i api.seabird.chat }"
+              "if { req.hdr(host) -i webhooks.seabird.chat }"
               "if { req.hdr(host) -i seabird-webhooks.elwert.cloud }"
             ];
           };
