@@ -33,7 +33,6 @@ in
       age
       agenix
       curl
-      dig
       fd
       file
       findutils

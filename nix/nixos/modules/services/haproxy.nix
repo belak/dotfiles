@@ -54,9 +54,10 @@ in
 
         crtBind = map (f: "crt @/${f}") cfg.acmeCerts;
 
-        clacksHeaders = [
+        commonHeaders = [
           ''http-response add-header X-Clacks-Overhead "GNU Douglas Adams"''
           ''http-response add-header X-Clacks-Overhead "GNU Robert Asprin"''
+          ''http-response add-header X-Backend-Hostname %[hostname]''
         ];
 
         backendMatchers = lib.flatten (
@@ -74,6 +75,7 @@ in
           in
           ''
             backend ${backend.name}
+              option forwarded proto host for
               mode ${backend.mode}
               ${servers}
           ''
@@ -95,6 +97,7 @@ in
             timeout server 30s
             timeout tunnel 15m
 
+
           crt-store
             ${builtins.concatStringsSep "\n  " crtStore}
 
@@ -102,9 +105,12 @@ in
             mode http
             bind :80
 
-            option httplog
+            # Most spam traffic seems to be over http, and the only thing this
+            # frontend does is redirect to https anyway, so we can just skip logging.
+            #option httplog
+            #http-request capture req.hdr(host) len 50
 
-            ${builtins.concatStringsSep "\n  " clacksHeaders}
+            ${builtins.concatStringsSep "\n  " commonHeaders}
 
             # Redirect to https
             http-request redirect scheme https unless { ssl_fc }
@@ -115,10 +121,11 @@ in
 
             option httplog
             option forwardfor
+            http-request capture req.hdr(host) len 50
 
             http-request set-header X-Forwarded-Host %[req.hdr(Host)]
 
-            ${builtins.concatStringsSep "\n  " clacksHeaders}
+            ${builtins.concatStringsSep "\n  " commonHeaders}
 
             ${builtins.concatStringsSep "\n  " backendMatchers}
 
