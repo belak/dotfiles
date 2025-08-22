@@ -47,7 +47,8 @@
         agenix.nixosModules.default
         disko.nixosModules.disko
         nixos-x13s.nixosModules.default
-      ] ++ modules;
+      ]
+      ++ modules;
 
       # Pass extra inputs through to all modules.
       specialArgs = {
@@ -83,7 +84,8 @@
       modules = [
         self.darwinModules.default
         agenix.darwinModules.default
-      ] ++ modules;
+      ]
+      ++ modules;
     };
 
   # mkHome is a convenience function for declaring a home-manager config.
@@ -105,7 +107,8 @@
       modules = [
         self.homeModules.default
         agenix.homeManagerModules.default
-      ] ++ modules;
+      ]
+      ++ modules;
     };
 
   # mkNixosDeploy takes a nixosConfig, generated using mkNixosSystem, and

@@ -12,7 +12,8 @@ in
     extraGroups = [
       "wheel"
       "dialout"
-    ] ++ extraGroups;
+    ]
+    ++ extraGroups;
     shell = pkgs.zsh;
 
     # subuid and subgid allows podman to work as expected.
