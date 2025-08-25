@@ -43,7 +43,7 @@
 
         # Hosted on garnet
         "garnet.elwert.dev" = {
-          backend = "http://garnet.lan:5000";
+          backend = "http://garnet.elwert.dev:5000";
           useACMEHost = "homelab";
         };
 
@@ -70,6 +70,9 @@
         "webhooks.seabird.chat" = {
           backend = "http://vivi.elwert.dev";
           useACMEHost = "seabird";
+        };
+        "seabird-core.elwert.cloud" = {
+          backend = "http://vivi.elwert.dev";
         };
       };
     };
