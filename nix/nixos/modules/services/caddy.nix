@@ -11,7 +11,7 @@ in
   options = {
     belak.services.caddy = {
       enable = lib.mkEnableOption "caddy";
-      package = lib.mkPackageOption pkgs "caddy" { };
+      package = lib.mkPackageOption pkgs.unstable "caddy" { };
 
       virtualHosts = lib.mkOption {
         type = lib.types.attrsOf (lib.types.submodule ({ name, ... }: {
@@ -56,6 +56,9 @@ in
           serverAliases = value.extraHosts;
           useACMEHost = value.useACMEHost;
           extraConfig = ''
+            header +X-Clacks-Overhead "GNU Douglas Adams"
+            header +X-Clacks-Overhead "GNU Robert Asprin"
+
             reverse_proxy ${value.backend}
           '';
         };
