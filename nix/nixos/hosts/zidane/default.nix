@@ -75,7 +75,7 @@
 
           vivi-seabird-core-h2 = {
             servers.vivi-seabird-core-h2 = "vivi.elwert.dev:81 proto h2";
-            matchers = [ "if { req.hdr(host) -i seabird.chat }" ];
+            matchers = [ "if { req.hdr(host) -i beta.seabird.chat }" ];
           };
 
           vivi = {
