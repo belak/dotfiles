@@ -17,75 +17,59 @@
 
     acme.enable = true;
 
-    services = {
-      haproxy = {
-        enable = true;
-        acmeCerts = [
-          "primary"
-          "homelab"
-          "seabird"
-        ];
-        backends = {
-          eiko = {
-            servers.eiko = "eiko.elwert.dev:80";
+    services.caddy = {
+      enable = true;
 
-            matchers = [
-              "if { req.hdr(host) -i eiko.elwert.dev }"
-              "if { req.hdr(host) -i git.elwert.cloud }"
-              "if { req.hdr(host) -i lldap.elwert.cloud }"
-              "if { req.hdr(host) -i auth.elwert.cloud }"
-              "if { req.hdr(host) -i rss.elwert.cloud }"
-              "if { req.hdr(host) -i soju.elwert.cloud }"
-              "if { req.hdr(host) -i gamja.elwert.cloud }"
-            ];
-          };
+      virtualHosts = {
+        # Hosted on eiko
+        "auth.elwert.cloud" = {
+          backend = "http://eiko.elwert.dev";
+        };
+        "gamja.elwert.cloud" = {
+          backend = "http://eiko.elwert.dev";
+        };
+        "git.elwert.cloud" = {
+          backend = "http://eiko.elwert.dev";
+        };
+        "lldap.elwert.cloud" = {
+          backend = "http://eiko.elwert.dev";
+        };
+        "rss.elwert.cloud" = {
+          backend = "http://eiko.elwert.dev";
+        };
+        "soju.elwert.cloud" = {
+          backend = "http://eiko.elwert.dev";
+        };
 
-          garnet = {
-            servers.garnet = "garnet.lan:5000";
+        # Hosted on garnet
+        "garnet.elwert.dev" = {
+          backend = "http://garnet.lan:5000";
+          useACMEHost = "homelab";
+        };
 
-            matchers = [
-              "if { req.hdr(host) -i garnet.elwert.dev }"
-            ];
-          };
+        # Hosted on steiner
+        "elwert.cloud" = {
+          extraHosts = [
+            "www.elwert.cloud"
+            "old-git.elwert.cloud"
+            "cloud.elwert.cloud"
+            "files.elwert.cloud"
+            "emby.elwert.cloud"
+            "jellyfin.elwert.cloud"
+            "btta-api.elwert.cloud"
+            "btta-media.elwert.cloud"
+          ];
+          backend = "http://steiner.elwert.dev";
+        };
 
-          steiner = {
-            servers.steiner = "steiner.elwert.dev:80";
-
-            matchers = [
-              "if { req.hdr(host) -i steiner.elwert.dev }"
-              "if { req.hdr(host) -i elwert.cloud }"
-              "if { req.hdr(host) -i www.elwert.cloud }"
-              "if { req.hdr(host) -i old-git.elwert.cloud }"
-              "if { req.hdr(host) -i cloud.elwert.cloud }"
-              "if { req.hdr(host) -i files.elwert.cloud }"
-              "if { req.hdr(host) -i emby.elwert.cloud }"
-              "if { req.hdr(host) -i jellyfin.elwert.cloud }"
-              "if { req.hdr(host) -i btta-api.elwert.cloud }"
-              "if { req.hdr(host) -i btta-media.elwert.cloud }"
-            ];
-          };
-
-          vivi-seabird-core = {
-            servers.vivi-seabird-core = "vivi.elwert.dev:8080 proto h2";
-            matchers = [
-              "if { req.hdr(host) -i api.seabird.chat }"
-              "if { req.hdr(host) -i seabird-core.elwert.cloud }"
-            ];
-          };
-
-          vivi-seabird-core-h2 = {
-            servers.vivi-seabird-core-h2 = "vivi.elwert.dev:81 proto h2";
-            matchers = [ "if { req.hdr(host) -i beta.seabird.chat }" ];
-          };
-
-          vivi = {
-            servers.vivi = "vivi.elwert.dev:80";
-
-            matchers = [
-              "if { req.hdr(host) -i webhooks.seabird.chat }"
-              "if { req.hdr(host) -i seabird-webhooks.elwert.cloud }"
-            ];
-          };
+        # Hosted on vivi (seabird)
+        "api.seabird.chat" = {
+          backend = "http://vivi.elwert.dev";
+          useACMEHost = "seabird";
+        };
+        "webhooks.seabird.chat" = {
+          backend = "http://vivi.elwert.dev";
+          useACMEHost = "seabird";
         };
       };
     };
@@ -101,14 +85,10 @@
     extraDomainNames = [
       "*.elwert.cloud"
     ];
-    group = config.services.haproxy.group;
-    reloadServices = [ "haproxy" ];
   };
 
   security.acme.certs.homelab = {
     domain = "*.elwert.dev";
-    group = config.services.haproxy.group;
-    reloadServices = [ "haproxy" ];
   };
 
   security.acme.certs.seabird = {
@@ -116,8 +96,6 @@
     extraDomainNames = [
       "*.seabird.chat"
     ];
-    group = config.services.haproxy.group;
-    reloadServices = [ "haproxy" ];
   };
 
   # This value determines the NixOS release from which the default

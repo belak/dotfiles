@@ -1,6 +1,7 @@
 {
   imports = [
     ./authelia.nix
+    ./caddy.nix
     ./haproxy.nix
     ./forgejo.nix
     ./lldap.nix
