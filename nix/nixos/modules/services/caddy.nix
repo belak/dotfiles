@@ -14,28 +14,33 @@ in
       package = lib.mkPackageOption pkgs.unstable "caddy" { };
 
       virtualHosts = lib.mkOption {
-        type = lib.types.attrsOf (lib.types.submodule ({ name, ... }: {
-          options = {
-            hostName = lib.mkOption {
-              type = lib.types.str;
-              default = name;
-            };
+        type = lib.types.attrsOf (
+          lib.types.submodule (
+            { name, ... }:
+            {
+              options = {
+                hostName = lib.mkOption {
+                  type = lib.types.str;
+                  default = name;
+                };
 
-            backend = lib.mkOption {
-              type = lib.types.str;
-            };
+                backend = lib.mkOption {
+                  type = lib.types.str;
+                };
 
-            extraHosts = lib.mkOption {
-              type = lib.types.listOf lib.types.str;
-              default = [];
-            };
+                extraHosts = lib.mkOption {
+                  type = lib.types.listOf lib.types.str;
+                  default = [ ];
+                };
 
-            useACMEHost = lib.mkOption {
-              type = lib.types.str;
-              default = "primary";
-            };
-          };
-        }));
+                useACMEHost = lib.mkOption {
+                  type = lib.types.str;
+                  default = "primary";
+                };
+              };
+            }
+          )
+        );
       };
     };
   };
