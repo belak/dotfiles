@@ -36,6 +36,7 @@ in
       # Python
       poetry
       ruff
+      uv
       virtualenv
       my.pyenv
       my.pyenv-virtualenv
