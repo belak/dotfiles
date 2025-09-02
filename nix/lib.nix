@@ -27,7 +27,6 @@
     {
       modules,
       system,
-      nixpkgs ? nixpkgs,
     }:
     nixpkgs.lib.nixosSystem {
       inherit system;
@@ -59,7 +58,6 @@
     {
       modules,
       system,
-      nixpkgs ? nixpkgs,
     }:
     darwin.lib.darwinSystem {
       inherit system;
@@ -90,7 +88,6 @@
     {
       modules,
       system,
-      nixpkgs ? nixpkgs,
     }:
     home-manager.lib.homeManagerConfiguration {
       extraSpecialArgs = {
