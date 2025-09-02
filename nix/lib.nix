@@ -2,7 +2,6 @@
   self,
   nixpkgs-nixos,
   nixpkgs-darwin,
-  nixos-hardware,
   nixos-x13s,
   agenix,
   disko,
@@ -53,7 +52,6 @@
       # Pass extra inputs through to all modules.
       specialArgs = {
         inherit self;
-        inherit nixos-hardware;
       };
     };
 
