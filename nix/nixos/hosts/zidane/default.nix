@@ -11,6 +11,10 @@
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
 
+  environment.systemPackages = [
+    sqlite3
+  ];
+
   belak = {
     laptop.enable = true;
     server.enable = true;

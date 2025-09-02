@@ -2,16 +2,12 @@
   config,
   lib,
   pkgs,
-  nixos-hardware,
   modulesPath,
   ...
 }:
 {
   imports = [
     (modulesPath + "/installer/scan/not-detected.nix")
-    nixos-hardware.nixosModules.common-pc-ssd
-    nixos-hardware.nixosModules.common-cpu-intel
-    nixos-hardware.nixosModules.lenovo-thinkpad-t14
   ];
 
   # Bootloader.
@@ -32,10 +28,15 @@
 
   # Hardware quirks
 
-  # For some reason the touchpad buttons on my laptop don't work by default.
-  # This param tells the driver to use a secondary bus for the device which
-  # seems to fix the issue.
-  boot.kernelParams = [ "psmouse.synaptics_intertouch=0" ];
+  boot.kernelParams = [
+    # Force use of thinkpad_acpi to fix backlight save/load.
+    "acpi_backlight=native"
+
+    # For some reason the touchpad buttons on my laptop don't work by default.
+    # This param tells the driver to use a secondary bus for the device which
+    # seems to fix the issue.
+    "psmouse.synaptics_intertouch=0"
+  ];
 
   #swapDevices = [ { device = "/dev/disk/by-partlabel/zag-swap"; } ];
 
