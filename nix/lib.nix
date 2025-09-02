@@ -1,7 +1,6 @@
 {
   self,
-  nixpkgs-nixos,
-  nixpkgs-darwin,
+  nixpkgs,
   nixos-x13s,
   agenix,
   disko,
@@ -10,9 +9,9 @@
   ...
 }:
 {
-  # We could use nixpkgs-nixos.lib.systems.flakeExposed, but I prefer to only
+  # We could use nixpkgs.lib.systems.flakeExposed, but I prefer to only
   # expose architectures I actually run.
-  forAllSystems = nixpkgs-nixos.lib.genAttrs [
+  forAllSystems = nixpkgs.lib.genAttrs [
     "aarch64-linux"
     "x86_64-linux"
     "aarch64-darwin"
@@ -28,7 +27,7 @@
     {
       modules,
       system,
-      nixpkgs ? nixpkgs-nixos,
+      nixpkgs ? nixpkgs,
     }:
     nixpkgs.lib.nixosSystem {
       inherit system;
@@ -60,7 +59,7 @@
     {
       modules,
       system,
-      nixpkgs ? nixpkgs-darwin,
+      nixpkgs ? nixpkgs,
     }:
     darwin.lib.darwinSystem {
       inherit system;
@@ -91,7 +90,7 @@
     {
       modules,
       system,
-      nixpkgs ? nixpkgs-nixos,
+      nixpkgs ? nixpkgs,
     }:
     home-manager.lib.homeManagerConfiguration {
       extraSpecialArgs = {
