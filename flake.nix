@@ -2,30 +2,33 @@
   description = "Belak's Polyglot Nix configuration";
 
   inputs = {
-    nixpkgs-nixos.url = "github:nixos/nixpkgs/nixos-25.05";
-    nixpkgs-darwin.url = "github:nixos/nixpkgs/nixpkgs-25.05-darwin";
+    nixpkgs.url = "github:nixos/nixpkgs/nixos-25.05";
     nixpkgs-unstable.url = "github:nixos/nixpkgs/nixos-unstable";
-    nix-vscode-extensions.url = "github:nix-community/nix-vscode-extensions";
+
+    nix-vscode-extensions = {
+      url = "github:nix-community/nix-vscode-extensions";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
 
     disko = {
       url = "github:nix-community/disko";
-      inputs.nixpkgs.follows = "nixpkgs-nixos";
+      inputs.nixpkgs.follows = "nixpkgs";
     };
 
     emacs-overlay = {
       url = "github:nix-community/emacs-overlay";
       inputs.nixpkgs.follows = "nixpkgs-unstable";
-      inputs.nixpkgs-stable.follows = "nixpkgs-nixos";
+      inputs.nixpkgs-stable.follows = "nixpkgs";
     };
 
     home-manager = {
       url = "github:nix-community/home-manager/release-25.05";
-      inputs.nixpkgs.follows = "nixpkgs-nixos";
+      inputs.nixpkgs.follows = "nixpkgs";
     };
 
     darwin = {
       url = "github:LnL7/nix-darwin/nix-darwin-25.05";
-      inputs.nixpkgs.follows = "nixpkgs-darwin";
+      inputs.nixpkgs.follows = "nixpkgs";
     };
 
     deploy-rs = {
@@ -35,14 +38,14 @@
 
     agenix = {
       url = "github:ryantm/agenix";
-      inputs.nixpkgs.follows = "nixpkgs-nixos";
+      inputs.nixpkgs.follows = "nixpkgs";
       inputs.darwin.follows = "darwin";
       inputs.home-manager.follows = "home-manager";
     };
 
     nixos-generators = {
       url = "github:nix-community/nixos-generators";
-      inputs.nixpkgs.follows = "nixpkgs-nixos";
+      inputs.nixpkgs.follows = "nixpkgs";
     };
 
     nixos-x13s = {
