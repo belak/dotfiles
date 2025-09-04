@@ -18,8 +18,31 @@
     domain = "elwert.dev";
   };
 
+  environment.systemPackages = with pkgs; [
+    nfs-utils
+  ];
+
   belak = {
     server.enable = true;
+
+    services.plex.enable = true;
+  };
+
+  fileSystems = {
+    "/mnt/garnet" = {
+      device = "garnet.elwert.dev:/volume1/Media";
+      fsType = "nfs";
+    };
+
+    "/mnt/plex/Movies" = {
+      device = "/mnt/garnet/Movies";
+      options = ["bind" "ro"];
+    };
+
+    "/mnt/plex/TV" = {
+      device = "/mnt/garnet/TV";
+      options = ["bind" "ro"];
+    };
   };
 
   # This value determines the NixOS release from which the default
