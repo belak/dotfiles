@@ -46,6 +46,9 @@
         };
 
         # Hosted on freya
+        "jellyfin.elwert.cloud" = {
+          backend = "http://freya.elwert.dev:8096";
+        };
         "plex.elwert.cloud" = {
           backend = ''
             https://freya.elwert.dev:32400 {
@@ -71,7 +74,6 @@
             "cloud.elwert.cloud"
             "files.elwert.cloud"
             "emby.elwert.cloud"
-            "jellyfin.elwert.cloud"
             "btta-api.elwert.cloud"
             "btta-media.elwert.cloud"
           ];

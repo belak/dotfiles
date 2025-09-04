@@ -25,6 +25,7 @@
   belak = {
     server.enable = true;
 
+    services.jellyfin.enable = true;
     services.plex.enable = true;
   };
 
@@ -34,14 +35,36 @@
       fsType = "nfs";
     };
 
+    "/mnt/media/Movies" = {
+      device = "/mnt/garnet/Movies";
+      options = [
+        "bind"
+        "ro"
+      ];
+    };
+
+    "/mnt/media/TV" = {
+      device = "/mnt/garnet/TV";
+      options = [
+        "bind"
+        "ro"
+      ];
+    };
+
     "/mnt/plex/Movies" = {
       device = "/mnt/garnet/Movies";
-      options = ["bind" "ro"];
+      options = [
+        "bind"
+        "ro"
+      ];
     };
 
     "/mnt/plex/TV" = {
       device = "/mnt/garnet/TV";
-      options = ["bind" "ro"];
+      options = [
+        "bind"
+        "ro"
+      ];
     };
   };
 
