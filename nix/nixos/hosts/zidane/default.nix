@@ -11,8 +11,8 @@
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
 
-  environment.systemPackages = [
-    sqlite3
+  environment.systemPackages = with pkgs; [
+    sqlite
   ];
 
   belak = {
@@ -43,6 +43,18 @@
         };
         "soju.elwert.cloud" = {
           backend = "http://eiko.elwert.dev";
+        };
+
+        # Hosted on freya
+        "plex.elwert.cloud" = {
+          backend = ''
+            https://freya.elwert.dev:32400 {
+              transport http {
+                tls
+                tls_server_name 192-168-30-6.63807cfbce034c3987141f96a950107d.plex.direct
+              }
+            }
+          '';
         };
 
         # Hosted on garnet

@@ -7,6 +7,7 @@
     ./lldap.nix
     ./miniflux.nix
     ./nginx.nix
+    ./plex.nix
     ./postgres.nix
     ./soju.nix
   ];
