@@ -96,6 +96,21 @@
         }
       );
 
+      devShells = lib.forAllSystems (
+        system:
+        let
+          pkgs = nixpkgs-unstable.legacyPackages.${system};
+        in
+        {
+          default = pkgs.mkShell {
+            packages = with pkgs; [
+              deploy-rs
+              nixos-anywhere
+            ];
+          };
+        }
+      );
+
       darwinConfigurations = {
         "baku" = lib.mkDarwinSystem {
           system = "x86_64-darwin";

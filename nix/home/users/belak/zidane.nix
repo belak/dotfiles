@@ -6,7 +6,5 @@
     dev.enable = true;
   };
 
-  home.packages = with pkgs; [
-    deploy-rs
-  ];
+  home.packages = with pkgs; [ ];
 }

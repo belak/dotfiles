@@ -17,7 +17,6 @@
 
   home.packages = with pkgs; [
     _1password-gui
-    deploy-rs
     solaar
     spotify
   ];
