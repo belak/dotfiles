@@ -37,7 +37,9 @@ in
       unstable.orca-slicer
 
       # Stuff I'm trying out
+      papers
       pinta
+      resources
       unstable.zotero_7
     ];
 
