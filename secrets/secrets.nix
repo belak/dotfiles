@@ -1,6 +1,7 @@
 let
   user-belak-work = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIFUSx9TTTHUq4GOkeBU4Ga03QombEBiZLqqa8KIqnnUy";
   user-belak-melinoe = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIMzuXboQDv2VCig0+A780O0+sKs1euw+3OafnRA6z14P";
+  user-belak-hades = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIK69hivmEYShurplMVlBfRanBi4St0pbnbRXSP0n7Qnm";
   user-belak-quina = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIBdD1/ti5UMpCjCJbwTGplZZmVNwCT+c6rYqdKa9cN3t";
   user-belak-zagreus = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIGNHMEfjGg5ek6OtbFytZ/zCSZosT8aHqHRfnufb3gIi";
   user-belak-zorn = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIOvdWkVKcV087KDa9e2fdaubwW8SztSo+k+lYaeEKILC";
@@ -8,6 +9,7 @@ let
   users = [
     user-belak-work
     user-belak-melinoe
+    user-belak-hades
     user-belak-quina
     user-belak-zagreus
     user-belak-zorn
@@ -15,6 +17,7 @@ let
 
   system-eiko = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIGFpH5p7ODkUq0kLqda1/fghcCo+MxvCZLdKOfhZCtK+";
   system-freya = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIDU1rGovd901nTi60c/WTDtTrkWSJ8V2lDMJr6MusKWS";
+  system-hades = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAINB84SBcMThfhBWlPiW1ySels6Ri17TDoDSjuuoX4tfF";
   system-quina = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIIyYqXHUJt+EZhWhWH2WlErat+CQQ/iVfsZNkaJLzEBu";
   system-zagreus = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAID4UJL+NcFXmr678LkhV92sqIoM4gpKic0lc8DGH0Mib";
   system-zidane = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIL8pkaoi6ASLpjFP+9v/frMX6wAiWrM3LTMvkdnU8Rd0";
@@ -23,6 +26,7 @@ let
   systems = [
     system-eiko
     system-freya
+    system-hades
     system-quina
     system-zagreus
     system-zidane
