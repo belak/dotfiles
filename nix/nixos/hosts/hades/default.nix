@@ -17,7 +17,7 @@
   };
 
   belak = {
-    dev.enable = true;
+    #dev.enable = true;
     gnome.enable = true;
     laptop.enable = true;
   };
