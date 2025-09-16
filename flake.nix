@@ -144,6 +144,15 @@
           ];
         };
 
+        # MacBook UTM Instance
+        "hades" = lib.mkNixosSystem {
+          system = "aarch64-linux";
+          modules = [
+            ./nix/nixos/hosts/hades
+            ./nix/nixos/users/belak
+          ];
+        };
+
         # ThinkPad X13s Gen 1
         "quina" = lib.mkNixosSystem {
           system = "aarch64-linux";
@@ -197,6 +206,13 @@
           modules = [
             ./nix/home/users/belak
             ./nix/home/users/belak/baku.nix
+          ];
+        };
+        "belak@hades" = lib.mkHome {
+          system = "aarch64-linux";
+          modules = [
+            ./nix/home/users/belak
+            ./nix/home/users/belak/hades.nix
           ];
         };
         "belak@quina" = lib.mkHome {
