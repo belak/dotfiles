@@ -17,6 +17,7 @@
   home.packages = with pkgs; [
     discord
     libation
+    neomutt
     nix-init
     typst
     typstfmt
