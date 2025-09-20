@@ -32,7 +32,9 @@
     };
   };
 
-  unstable = final: _prev: { unstable = nixpkgs-unstable.legacyPackages.${final.system}; };
+  unstable = final: _prev: {
+    unstable = import nixpkgs-unstable { inherit (final) config system; };
+  };
 
   vscode = final: _prev: {
     community-vscode-extensions = nix-vscode-extensions.extensions.${final.system};
