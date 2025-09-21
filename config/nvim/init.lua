@@ -117,15 +117,13 @@ MiniDeps.later(function()
 end)
 
 MiniDeps.later(function()
-  local lspconfig = require('lspconfig')
-
-  lspconfig.gopls.setup({})
-  lspconfig.rust_analyzer.setup({})
-  lspconfig.templ.setup({})
-  lspconfig.html.setup({
+  vim.lsp.enable('gopls')
+  vim.lsp.enable('rust_analyzer')
+  vim.lsp.enable('templ')
+  vim.lsp.config('html', {
     filetypes = { "html", "templ" },
   })
-  lspconfig.htmx.setup({
+  vim.lsp.config('htmx', {
     filetypes = { "html", "templ" },
   })
 end)
