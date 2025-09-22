@@ -81,7 +81,8 @@ MiniDeps.later(function()
     draw = {
       delay = 0,
       animation = require('mini.indentscope').gen_animation.none(),
-    }
+    },
+    symbol = '|',
   })
 end)
 MiniDeps.later(function()
