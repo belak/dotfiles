@@ -13,5 +13,6 @@
     ./emacs.nix
     ./gnome.nix
     ./gui.nix
+    ./vscode.nix
   ];
 }
