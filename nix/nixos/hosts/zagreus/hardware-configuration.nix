@@ -23,7 +23,10 @@
     "rtsx_pci_sdmmc"
   ];
   boot.initrd.kernelModules = [ ];
-  boot.kernelModules = [ "kvm-intel" ];
+  boot.kernelModules = [
+    "i915"
+    "kvm-intel"
+  ];
   boot.extraModulePackages = [ ];
 
   # Hardware quirks
@@ -36,6 +39,8 @@
     # This param tells the driver to use a secondary bus for the device which
     # seems to fix the issue.
     "psmouse.synaptics_intertouch=0"
+
+    "i915.force_probe=9b41"
   ];
 
   #swapDevices = [ { device = "/dev/disk/by-partlabel/zag-swap"; } ];

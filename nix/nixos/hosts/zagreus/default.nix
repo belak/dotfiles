@@ -19,16 +19,22 @@
 
   belak = {
     dev.enable = true;
-    dev.armEmulation = true;
-    gnome.enable = true;
+    #dev.armEmulation = true;
+    #gnome.enable = true;
     laptop.enable = true;
   };
 
-  virtualisation.libvirtd.enable = true;
-  programs.virt-manager.enable = true;
-  users.users.belak.extraGroups = [ "libvirtd" ];
+  #virtualisation.libvirtd.enable = true;
+  #programs.virt-manager.enable = true;
+  #users.users.belak.extraGroups = [ "libvirtd" ];
 
-  environment.systemPackages = with pkgs; [ pptp ];
+  environment.systemPackages = with pkgs; [
+    pciutils
+    pptp
+
+    intel-media-driver
+    vaapiIntel
+  ];
 
   services.nats = {
     enable = true;
@@ -45,8 +51,8 @@
   #services.fprintd.enable = true;
 
   # Enable the X11 windowing system.
-  services.xserver.enable = true;
-  services.xserver.excludePackages = [ pkgs.xterm ];
+  #services.xserver.enable = true;
+  #services.xserver.excludePackages = [ pkgs.xterm ];
 
   # Configure keymap in X11
   services.xserver.xkb = {
@@ -58,7 +64,7 @@
   services.printing.enable = true;
 
   # Enable sound with pipewire.
-  hardware.pulseaudio.enable = false;
+  services.pulseaudio.enable = false;
   security.rtkit.enable = true;
   services.pipewire = {
     enable = true;
