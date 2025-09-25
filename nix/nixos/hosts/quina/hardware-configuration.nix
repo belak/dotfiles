@@ -23,12 +23,12 @@
   boot.extraModulePackages = [ ];
 
   fileSystems."/" = {
-    device = "/dev/disk/by-uuid/090b4c35-3d7f-406c-80fd-59bc5e7b6673";
+    device = "/dev/disk/by-partlabel/quina-root";
     fsType = "ext4";
   };
 
   fileSystems."/boot" = {
-    device = "/dev/disk/by-uuid/B34C-64E4";
+    device = "/dev/disk/by-partlabel/quina-boot";
     fsType = "vfat";
     options = [
       "fmask=0022"
