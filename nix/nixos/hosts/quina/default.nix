@@ -9,19 +9,38 @@
   ];
 
   boot.loader.systemd-boot.enable = true;
+  boot.loader.systemd-boot.installDeviceTree = true;
   boot.loader.efi.canTouchEfiVariables = true;
 
-  #boot.loader.grub.enable = false;
-  #boot.loader.generic-extlinux-compatible.enable = true;
+  hardware.deviceTree = {
+    enable = true;
+    name = "qcom/sc8280xp-lenovo-thinkpad-x13s.dtb";
+  };
 
-  belak.server.enable = true;
+  boot.kernelParams = [
+    "clk_ignore_unused"
+    "pd_ignore_unused"
+    "arm64.nopauth"
+  ];
 
-  nixos-x13s.enable = true;
-  nixos-x13s.kernel = "mainline";
+  boot.initrd.availableKernelModules = [
+    "i2c-core"
+    "i2c-hid"
+    "i2c-hid-of"
+    "i2c-qcom-geni"
+    #"pcie-qcom"
+    "phy-qcom-qmp-combo"
+    "phy-qcom-qmp-pcie"
+    "phy-qcom-qmp-usb"
+    "phy-qcom-snps-femto-v2"
+    "phy-qcom-usb-hs"
+  ];
+
+  belak = {
+    laptop.enable = true;
+  };
 
   networking.networkmanager.enable = true;
-
-  nixpkgs.config.allowUnfree = true;
 
   services.openssh.enable = true;
 
@@ -36,5 +55,5 @@
   # this value at the release version of the first install of this system.
   # Before changing this value read the documentation for this option
   # (e.g. man configuration.nix or on https://nixos.org/nixos/options.html).
-  system.stateVersion = "24.11"; # Did you read the comment?
+  system.stateVersion = "25.04"; # Did you read the comment?
 }
