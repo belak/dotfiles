@@ -27,6 +27,7 @@ in
       ".config/doom" = mkSource "config/doom";
       ".config/emacs" = mkSource "config/emacs";
       ".config/finicky" = mkSource "config/finicky";
+      ".config/foot" = mkSource "config/foot";
       ".config/git" = mkSource "config/git";
       ".config/nvim" = mkSource "config/nvim";
       ".config/tmux" = mkSource "config/tmux";
