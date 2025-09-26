@@ -37,7 +37,19 @@
   ];
 
   belak = {
-    laptop.enable = true;
+    dev.enable = true;
+    gnome.enable = true;
+    laptop = {
+      enable = true;
+      consoleFont = "ter-124n";
+    };
+  };
+
+  fonts = {
+    enableDefaultPackages = true;
+    packages = with pkgs; [
+      nerd-fonts.symbols-only
+    ];
   };
 
   networking.networkmanager.enable = true;
@@ -47,6 +59,29 @@
   networking = {
     hostName = "quina";
     domain = "elwert.dev";
+  };
+
+  environment.systemPackages = with pkgs; [
+    niri
+    uwsm
+    xwayland-satellite
+  ];
+
+  programs.uwsm.enable = true;
+
+  # Configure UWSM to launch Hyprland from a display manager like SDDM
+  programs.uwsm.waylandCompositors = {
+    hyprland = {
+      prettyName = "Niri";
+      comment = "Niri compositor managed by UWSM";
+      binPath = "/run/current-system/sw/bin/niri";
+    };
+  };
+
+  xdg.portal = {
+    enable = true;
+    extraPortals = [ pkgs.xdg-desktop-portal-gnome ];
+    configPackages = [ pkgs.niri ];
   };
 
   # This value determines the NixOS release from which the default
