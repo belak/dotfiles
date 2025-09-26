@@ -9,6 +9,6 @@ in
   };
 
   config = lib.mkIf cfg.enable {
-    boot.binfmt.emulatedSystems = lib.mkIf cfg.enable [ "aarch64-linux" ];
+    boot.binfmt.emulatedSystems = lib.mkIf cfg.armEmulation [ "aarch64-linux" ];
   };
 }
