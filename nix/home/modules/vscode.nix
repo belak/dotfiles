@@ -6,10 +6,19 @@
 }:
 let
   cfg = config.belak.vscode;
+  jsonFormat = pkgs.formats.json { };
 in
 {
   options.belak.vscode = {
     enable = lib.mkEnableOption "vscode";
+    extraExtensions = lib.mkOption {
+      type = lib.types.listOf lib.types.package;
+      default = [ ];
+    };
+    userSettings = lib.mkOption {
+      type = lib.types.either lib.types.path jsonFormat.type;
+      default = { };
+    };
   };
 
   config = lib.mkIf cfg.enable {
@@ -35,37 +44,53 @@ in
           ++ (with pkgs.community-vscode-extensions.vscode-marketplace; [
             a-h.templ
             monokai.theme-monokai-pro-vscode
-          ]);
+          ])
+          ++ cfg.extraExtensions;
 
-        userSettings = {
-          "editor.acceptSuggestionOnCommitCharacter" = false;
-          "editor.cursorBlinking" = "solid";
-          "editor.find.seedSearchStringFromSelection" = false;
-          "editor.formatOnSave" = true;
-          "editor.minimap.enabled" = false;
-          "editor.renderWhitespace" = "selection";
-          "editor.scrollBeyondLastLine" = false;
-          "explorer.fileNesting.expand" = false;
-          "extensions.ignoreRecommendations" = true;
-          "files.hotExit" = "off";
-          "workbench.colorTheme" = "Monokai Pro";
-          "workbench.iconTheme" = "Monokai Pro Icons";
-          "workbench.settings.editor" = "json";
-          "workbench.settings.useSplitJSON" = true;
-          "workbench.startupEditor" = "none";
+        userSettings = lib.mkMerge [
+          ({
+            # Fix a number of nits I have with VSCode, mostly disabling features
+            # and hiding things.
+            "editor.acceptSuggestionOnCommitCharacter" = false;
+            "editor.find.seedSearchStringFromSelection" = false;
+            "editor.scrollBeyondLastLine" = false;
+            "explorer.fileNesting.expand" = false;
+            "extensions.ignoreRecommendations" = true;
+            "workbench.startupEditor" = "none";
+            "files.hotExit" = "off";
+            "search.showLineNumbers" = true;
+            "editor.inlayHints.enabled" = "offUnlessPressed";
 
-          "emmet.includeLanguages" = {
-            "templ" = "html";
-          };
+            # Theme and other UI settings
+            "workbench.colorTheme" = "Monokai Pro";
+            "workbench.iconTheme" = "Monokai Pro Icons";
+            "workbench.editor.highlightModifiedTabs" = true;
+            "editor.cursorBlinking" = "solid";
+            "editor.minimap.enabled" = false;
+            "editor.renderWhitespace" = "selection";
+            "window.menuBarVisibility" = "toggle";
 
-          "[nix]" = {
-            "editor.formatOnSave" = false;
-          };
+            # Use JSON in the settings editor so we can more easily see the exact
+            # keys we need when configuring via nix.
+            "workbench.settings.editor" = "json";
+            "workbench.settings.useSplitJSON" = true;
 
-          "[templ]" = {
-            "editor.defaultFormatter" = "a-h.templ";
-          };
-        };
+            # Disable formatOnSave globally so we can enable it for specific
+            # languages.
+            "editor.formatOnSave" = true;
+
+            # Plugin specific settings
+            "emmet.includeLanguages" = {
+              "templ" = "html";
+            };
+
+            # Language specific settings
+            "[templ]" = {
+              "editor.defaultFormatter" = "a-h.templ";
+            };
+          })
+          cfg.userSettings
+        ];
 
         keybindings = [
           {
