@@ -12,7 +12,6 @@ export VOLTA_HOME="$HOME/.volta"
 # Most other changes make a bit more sense.
 typeset -U path fpath
 path=(
-    "$HOME/bin"
     "/Applications/Ghostty.app/Contents/MacOS"
     #"/Applications/Inkscape.app/Contents/Resources/bin"
     "/Applications/Postgres.app/Contents/Versions/latest/bin"
@@ -20,30 +19,22 @@ path=(
     "/Applications/Visual Studio Code.app/Contents/Resources/app/bin"
     "$GOPATH/bin"
     "$VOLTA_HOME/bin"
-    "$HOME/.config/emacs/bin"
     "$HOME/.cargo/bin"
-    "$HOME/.emacs.d/bin"
     "$HOME/.poetry/bin"
     "$HOME/.pyenv/shims"
     "$HOME/.rbenv/shims"
     "$HOME/.rbenv/bin"
-    "$HOME/.local/bin"
-    /usr/local/opt/python/libexec/bin
-    /usr/local/bin
-    /usr/local/sbin
-    /opt/homebrew/bin
-    /opt/homebrew/sbin
     $path
 )
 fpath=(
     "$HOME/.config/belak/zsh"
-    /opt/homebrew/share/zsh/site-functions
     $fpath
 )
 
 # Certain default applications
 export ALTERNATE_EDITOR=""
 export EDITOR=nvim
+export VISUAL=nvim
 export PAGER=less
 
 # Magic incantations
