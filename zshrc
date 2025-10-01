@@ -2,6 +2,7 @@
 # Plugin Manager
 #
 
+
 ANTIDOTE_DIR=${ZDOTDIR:-~}/.antidote
 
 if [[ ! -d ${ANTIDOTE_DIR} ]]; then
@@ -17,17 +18,12 @@ antidote load
 # Settings
 #
 
-# Set any settings or overrides here - enable the prompt we want and ensure
-# we're using emacs bindings.
-prompt belak
+# Set up our prompt and hide the rprompt after commands complete
+promptinit && prompt belak
+setopt transient_rprompt
+
+# Enable emacs keybinds
 bindkey -e
-
-# Disable ^s and ^q
-stty -ixon
-
-# In order to group dirs together, we need to specify that we're grouping.
-zstyle ':completion:*:matches' group 'yes'
-zstyle ':completion:*'         group-name ''
 
 # List dirs first, to match what we do for ls.
 zstyle ':completion:*' list-dirs-first true
@@ -35,7 +31,7 @@ zstyle ':completion:*' list-dirs-first true
 # Set the default Less options.
 # Mouse-wheel scrolling has been disabled by -X (disable screen clearing).
 # Remove -X and -F (exit if the content fits on one screen) to enable it.
-export LESS='-F -g -i -M -R -S -w -X -z-4'
+export LESS='-g -i -M -R -S -w -z-4'
 
 #
 # Aliases
