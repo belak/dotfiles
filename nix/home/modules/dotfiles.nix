@@ -38,6 +38,7 @@ in
       ".vimrc" = mkSource "vimrc";
       ".zshenv" = mkSource "zshenv";
       ".zshrc" = mkSource "zshrc";
+      ".zsh_plugins.txt" = mkSource "zsh_plugins.txt";
     };
   };
 }

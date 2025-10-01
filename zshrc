@@ -1,39 +1,17 @@
 #
-# Plugin Loading Utils
+# Plugin Manager
 #
 
-# I got so tired of plugin managers changing or going missing every few years,
-# so I just wrote this minimal function to handle all the use-cases I need.
-belak-load() {
-  cleaned_path=${1:l}
-  repo=${cleaned_path:h2}
-  if [[ ! -d "$HOME/.config/belak/repos/$cleaned_path" ]]; then
-    dirname=$(dirname $repo)
-    mkdir -p "$HOME/.config/belak/repos/$dirname"
-    git clone "https://github.com/$repo" "$HOME/.config/belak/repos/$repo"
-  fi
-  target=${2:-${cleaned_path:t}.plugin.zsh}
+ANTIDOTE_DIR=${ZDOTDIR:-~}/.antidote
 
-  set --
-  source "$HOME/.config/belak/repos/$cleaned_path/$target"
-}
+if [[ ! -d ${ANTIDOTE_DIR} ]]; then
+  git clone --depth=1 https://github.com/mattmc3/antidote.git ${ANTIDOTE_DIR}
+fi
 
-#
-# Plugins
-#
+source ${ANTIDOTE_DIR}/antidote.zsh
 
-# Specify completions we want before the completion module is loaded
-belak-load 'zsh-users/zsh-completions'
-
-# Specify which zsh-utils modules we want
-belak-load 'belak/zsh-utils/editor'
-belak-load 'belak/zsh-utils/history'
-belak-load 'belak/zsh-utils/prompt'
-belak-load 'belak/zsh-utils/utility'
-belak-load 'belak/zsh-utils/completion'
-
-# Load gitstatus for our prompt
-belak-load 'romkatv/gitstatus'
+# Load plugins from ~/.zsh_plugins.txt
+antidote load
 
 #
 # Settings
