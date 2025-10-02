@@ -57,8 +57,9 @@ gocover () {
 # Additional Bundles
 #
 
-# Load fzf. This will usually be installed when neovim plugins are installed.
-if [[ -f ~/.fzf.zsh ]] source ~/.fzf.zsh
+if (( $+commands[fzf] )); then
+  eval "$(fzf --zsh)"
+fi
 
 if (( $+commands[jump] )); then
   eval "$(jump shell)"
