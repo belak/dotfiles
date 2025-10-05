@@ -66,15 +66,20 @@ export VIRTUAL_ENV_DISABLE_PROMPT=true
 # reason, but this will fix the warning for now.
 export APPLE_SSH_ADD_BEHAVIOR=openssh
 
+# Prefer using fd for FZF file finding
+if (( $+commands[fd] )); then
+  export FZF_DEFAULT_COMMAND='fd --type file'
+fi
+
 # Load cargo env if available
 if [[ -f "$HOME/.cargo/env" ]]; then source "$HOME/.cargo/env"; fi
 
 # Load nix home-manager env if available
 if [[ -f "$HOME/.nix-profile/etc/profile.d/hm-session-vars.sh" ]]; then
-    source "$HOME/.nix-profile/etc/profile.d/hm-session-vars.sh"
+  source "$HOME/.nix-profile/etc/profile.d/hm-session-vars.sh"
 fi
 
 # On macOS the zshenv in /etc/static sets up the nix environment.
 if [[ -f "/etc/static/zshenv" ]]; then
-    source "/etc/static/zshenv"
+  source "/etc/static/zshenv"
 fi
