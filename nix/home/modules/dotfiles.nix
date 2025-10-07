@@ -29,6 +29,7 @@ in
       ".config/finicky" = mkSource "config/finicky";
       ".config/foot" = mkSource "config/foot";
       ".config/git" = mkSource "config/git";
+      ".config/niri" = mkSource "config/niri";
       ".config/nvim" = mkSource "config/nvim";
       ".config/tmux" = mkSource "config/tmux";
       ".config/wezterm" = mkSource "config/wezterm";
