@@ -36,9 +36,14 @@
     "phy-qcom-usb-hs"
   ];
 
+  networking = {
+    hostName = "quina";
+    domain = "elwert.dev";
+  };
+
   belak = {
     dev.enable = true;
-    gnome.enable = true;
+    #gnome.enable = true;
     laptop = {
       enable = true;
       consoleFont = "ter-124n";
@@ -56,33 +61,28 @@
 
   services.openssh.enable = true;
 
-  networking = {
-    hostName = "quina";
-    domain = "elwert.dev";
-  };
-
   environment.systemPackages = with pkgs; [
-    niri
-    uwsm
-    xwayland-satellite
+    #niri
+    #uwsm
+    #xwayland-satellite
   ];
 
-  programs.uwsm.enable = true;
+  #programs.uwsm.enable = true;
 
   # Configure UWSM to launch Hyprland from a display manager like SDDM
-  programs.uwsm.waylandCompositors = {
-    hyprland = {
-      prettyName = "Niri";
-      comment = "Niri compositor managed by UWSM";
-      binPath = "/run/current-system/sw/bin/niri";
-    };
-  };
+  #programs.uwsm.waylandCompositors = {
+  #  niri = {
+  #    prettyName = "Niri";
+  #    comment = "Niri compositor managed by UWSM";
+  #    binPath = "/run/current-system/sw/bin/niri";
+  #  };
+  #};
 
-  xdg.portal = {
-    enable = true;
-    extraPortals = [ pkgs.xdg-desktop-portal-gnome ];
-    configPackages = [ pkgs.niri ];
-  };
+  #xdg.portal = {
+  #  enable = true;
+  #  extraPortals = [ pkgs.xdg-desktop-portal-gnome ];
+  #  configPackages = [ pkgs.niri ];
+  #};
 
   # This value determines the NixOS release from which the default
   # settings for stateful data, like file locations and database versions
