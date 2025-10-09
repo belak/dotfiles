@@ -2,7 +2,6 @@
 # Plugin Manager
 #
 
-
 ANTIDOTE_DIR=${ZDOTDIR:-~}/.antidote
 
 if [[ ! -d ${ANTIDOTE_DIR} ]]; then
