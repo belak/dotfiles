@@ -20,7 +20,7 @@ export default {
     },
     {
       // Force Spotify links to actually open in the Spotify app
-      match: finicky.matchDomains("open.spotify.com"),
+      match: finicky.matchHostnames("open.spotify.com"),
       browser: "Spotify"
     },
     {
