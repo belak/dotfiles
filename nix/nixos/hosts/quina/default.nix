@@ -61,9 +61,10 @@
 
   services.openssh.enable = true;
 
+  hardware.graphics.enable = true;
+
   environment.systemPackages = with pkgs; [
     #niri
-    #uwsm
     #xwayland-satellite
   ];
 
