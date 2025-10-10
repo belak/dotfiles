@@ -18,7 +18,7 @@ in
 
   config = lib.mkIf cfg.enable {
     console = with pkgs; {
-      #earlySetup = true;
+      earlySetup = true;
       font = "${terminus_font}/share/consolefonts/${cfg.consoleFont}.psf.gz";
       packages = [ terminus_font ];
     };

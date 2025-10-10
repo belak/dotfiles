@@ -21,7 +21,7 @@ in
 
     home.packages = with pkgs; [
       calibre
-      discord
+      #discord
       firefox
       gimp
       rpi-imager
@@ -40,7 +40,10 @@ in
       papers
       pinta
       resources
-      unstable.zotero_7
+      #unstable.zotero_7
+
+      # Needed for gtk settings to work
+      dconf
     ];
 
     # This section is in gui rather than gnome because most of the applications I
