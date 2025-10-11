@@ -24,10 +24,7 @@ in
 
       settings = {
         "org/gnome/desktop/interface" = {
-          color-scheme = "prefer-dark";
           enable-hot-corners = false;
-          font-antialiasing = "rgba";
-          gtk-theme = "Adwaita-dark";
         };
         "org/gnome/mutter" = {
           #dynamic-workspaces = true;

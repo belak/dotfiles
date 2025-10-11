@@ -7,9 +7,8 @@
     };
     dev.enable = true;
     emacs.enable = true;
-    #gnome.enable = true;
-    #gui.enable = true;
-    #vscode.enable = true;
+    gui.enable = true;
+    vscode.enable = true;
   };
 
   home.packages = with pkgs; [
@@ -25,5 +24,6 @@
     #wpctl
 
     niri
+    xwayland-satellite
   ];
 }

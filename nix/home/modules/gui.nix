@@ -15,7 +15,6 @@ in
   config = lib.mkIf cfg.enable {
     nixpkgs.allowedUnfree = [
       "discord"
-      "hplip"
       "obsidian"
     ];
 
@@ -23,11 +22,9 @@ in
       calibre
       #discord
       firefox
+      foot
       gimp
-      rpi-imager
       wl-clipboard
-      xclip
-      xorg.xhost
 
       my.wezterm-bin
 
@@ -40,10 +37,6 @@ in
       papers
       pinta
       resources
-      #unstable.zotero_7
-
-      # Needed for gtk settings to work
-      dconf
     ];
 
     # This section is in gui rather than gnome because most of the applications I
@@ -58,6 +51,10 @@ in
 
       theme.name = "Adwaita-dark";
 
+      # In the future, this can replace the manual `extraConfig` sections below,
+      # but it's only on unstable home-manager for now.
+      #colorScheme = "dark";
+
       gtk3.extraConfig = {
         Settings = ''
           gtk-application-prefer-dark-theme=1
@@ -68,6 +65,18 @@ in
         Settings = ''
           gtk-application-prefer-dark-theme=1
         '';
+      };
+    };
+
+    dconf = {
+      enable = true;
+
+      settings = {
+        "org/gnome/desktop/interface" = {
+          color-scheme = "prefer-dark";
+          font-antialiasing = "rgba";
+          gtk-theme = "Adwaita-dark";
+        };
       };
     };
   };
