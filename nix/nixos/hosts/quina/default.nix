@@ -61,7 +61,10 @@
 
   services.openssh.enable = true;
 
+  # Because we use a GUI on this computer but aren't using a full DE, we need to
+  # enable a few things that the Gnome module would otherwise do for us.
   hardware.graphics.enable = true;
+  programs.dconf.enable = true;
 
   environment.systemPackages = with pkgs; [
     #niri
