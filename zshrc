@@ -1,4 +1,12 @@
 #
+# Graphical Session
+#
+
+if [[ $(tty) == "/dev/tty1" ]]; then
+    exec niri-session
+fi
+
+#
 # Plugin Manager
 #
 
