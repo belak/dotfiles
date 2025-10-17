@@ -35,6 +35,14 @@ bindkey -e
 # List dirs first, to match what we do for ls.
 zstyle ':completion:*' list-dirs-first true
 
+# Remove _approximate from completers, as I don't ever want things to correct to
+# something I didn't type.
+zstyle ':completion:*' completer _complete _match
+
+# Disable magic enter, for a similar reason to why I disable the _approximate
+# completer.
+zstyle ':zephyr:plugin:editor' 'magic-enter' false
+
 # Unset special-dirs so `..` doesn't show up in completions.
 zstyle -d ':completion:*' special-dirs
 
