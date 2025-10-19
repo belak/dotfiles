@@ -24,6 +24,7 @@ in
       editorconfig-core-c
       exiftool
       ffmpeg
+      fswatch
       grpcurl
       gnumake
       unstable.imagemagick

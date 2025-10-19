@@ -8,34 +8,6 @@
     ./disko-config.nix
   ];
 
-  boot.loader.systemd-boot.enable = true;
-  boot.loader.systemd-boot.installDeviceTree = true;
-  boot.loader.efi.canTouchEfiVariables = true;
-
-  hardware.deviceTree = {
-    enable = true;
-    name = "qcom/sc8280xp-lenovo-thinkpad-x13s.dtb";
-  };
-
-  boot.kernelParams = [
-    "clk_ignore_unused"
-    "pd_ignore_unused"
-    "arm64.nopauth"
-  ];
-
-  boot.initrd.availableKernelModules = [
-    "i2c-core"
-    "i2c-hid"
-    "i2c-hid-of"
-    "i2c-qcom-geni"
-    #"pcie-qcom"
-    "phy-qcom-qmp-combo"
-    "phy-qcom-qmp-pcie"
-    "phy-qcom-qmp-usb"
-    "phy-qcom-snps-femto-v2"
-    "phy-qcom-usb-hs"
-  ];
-
   networking = {
     hostName = "quina";
     domain = "elwert.dev";
@@ -43,7 +15,6 @@
 
   belak = {
     dev.enable = true;
-    #gnome.enable = true;
     laptop = {
       enable = true;
       consoleFont = "ter-124n";
@@ -60,27 +31,14 @@
   networking.networkmanager.enable = true;
 
   services.openssh.enable = true;
+  services.pulseaudio.enable = true;
 
   # Because we use a GUI on this computer but aren't using a full DE, we need to
   # enable a few things that the Gnome module would otherwise do for us.
   hardware.graphics.enable = true;
   programs.dconf.enable = true;
 
-  environment.systemPackages = with pkgs; [
-    #niri
-    #xwayland-satellite
-  ];
-
-  #programs.uwsm.enable = true;
-
-  # Configure UWSM to launch Hyprland from a display manager like SDDM
-  #programs.uwsm.waylandCompositors = {
-  #  niri = {
-  #    prettyName = "Niri";
-  #    comment = "Niri compositor managed by UWSM";
-  #    binPath = "/run/current-system/sw/bin/niri";
-  #  };
-  #};
+  environment.systemPackages = with pkgs; [];
 
   #xdg.portal = {
   #  enable = true;

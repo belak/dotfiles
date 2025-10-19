@@ -14,11 +14,13 @@ in
 
   config = lib.mkIf cfg.enable {
     nixpkgs.allowedUnfree = [
+      "1password"
       "discord"
       "obsidian"
     ];
 
     home.packages = with pkgs; [
+      _1password-gui
       calibre
       #discord
       firefox
@@ -49,22 +51,21 @@ in
         package = pkgs.papirus-icon-theme;
       };
 
-      theme.name = "Adwaita-dark";
+      theme = {
+        name = "adw-gtk3";
+        package = pkgs.adw-gtk3;
+      };
 
       # In the future, this can replace the manual `extraConfig` sections below,
       # but it's only on unstable home-manager for now.
       #colorScheme = "dark";
 
       gtk3.extraConfig = {
-        Settings = ''
-          gtk-application-prefer-dark-theme=1
-        '';
+        gtk-application-prefer-dark-theme = true;
       };
 
       gtk4.extraConfig = {
-        Settings = ''
-          gtk-application-prefer-dark-theme=1
-        '';
+        gtk-application-prefer-dark-theme = true;
       };
     };
 
@@ -73,9 +74,9 @@ in
 
       settings = {
         "org/gnome/desktop/interface" = {
+          cursor-theme = "Papirus";
           color-scheme = "prefer-dark";
           font-antialiasing = "rgba";
-          gtk-theme = "Adwaita-dark";
         };
       };
     };
