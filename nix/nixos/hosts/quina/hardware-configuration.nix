@@ -14,9 +14,35 @@
     (modulesPath + "/installer/scan/not-detected.nix")
   ];
 
+  boot.loader.systemd-boot.enable = true;
+  boot.loader.systemd-boot.installDeviceTree = true;
+  boot.loader.efi.canTouchEfiVariables = true;
+
+  hardware.deviceTree = {
+    enable = true;
+    name = "qcom/sc8280xp-lenovo-thinkpad-x13s.dtb";
+  };
+
+  boot.kernelParams = [
+    "clk_ignore_unused"
+    "pd_ignore_unused"
+    "arm64.nopauth"
+  ];
+
   boot.initrd.availableKernelModules = [
     "nvme"
     "usb_storage"
+
+    "i2c-core"
+    "i2c-hid"
+    "i2c-hid-of"
+    "i2c-qcom-geni"
+    #"pcie-qcom"
+    "phy-qcom-qmp-combo"
+    "phy-qcom-qmp-pcie"
+    "phy-qcom-qmp-usb"
+    "phy-qcom-snps-femto-v2"
+    "phy-qcom-usb-hs"
   ];
   boot.initrd.kernelModules = [ ];
   boot.kernelModules = [ ];
