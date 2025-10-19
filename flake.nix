@@ -162,15 +162,6 @@
           ];
         };
 
-        # ThinkPad T14 Gen 1
-        "zagreus" = lib.mkNixosSystem {
-          system = "x86_64-linux";
-          modules = [
-            ./nix/nixos/hosts/zagreus
-            ./nix/nixos/users/belak
-          ];
-        };
-
         # ThinkPad T460
         "zidane" = lib.mkNixosSystem {
           system = "x86_64-linux";
@@ -227,13 +218,6 @@
           modules = [
             ./nix/home/users/belak
             ./nix/home/users/belak/melinoe.nix
-          ];
-        };
-        "belak@zagreus" = lib.mkHome {
-          system = "x86_64-linux";
-          modules = [
-            ./nix/home/users/belak
-            ./nix/home/users/belak/zagreus.nix
           ];
         };
         "belak@zidane" = lib.mkHome {
