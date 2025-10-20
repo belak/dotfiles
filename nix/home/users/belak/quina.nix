@@ -19,7 +19,6 @@
     fuzzel
     pavucontrol
     senpai
-    swaylock
     swww
     waybar
 

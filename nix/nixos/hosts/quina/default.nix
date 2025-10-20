@@ -38,7 +38,12 @@
   hardware.graphics.enable = true;
   programs.dconf.enable = true;
 
-  environment.systemPackages = with pkgs; [];
+  environment.systemPackages = with pkgs; [
+    swayidle
+    swaylock
+  ];
+
+  security.pam.services.swaylock = {};
 
   #xdg.portal = {
   #  enable = true;
