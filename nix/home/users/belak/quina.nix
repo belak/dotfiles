@@ -42,6 +42,21 @@
     };
   };
 
+  systemd.user.services.swayidle = {
+    Install.WantedBy = [ "niri.service" ];
+
+    Service = {
+      ExecStart = "${pkgs.swayidle}/bin/swayidle -w";
+      Restart = "on-failure";
+    };
+
+    Unit = {
+      PartOf = [ "graphical-session.target" ];
+      After = [ "graphical-session.target" ];
+      Requisite = [ "graphical-session.target" ];
+    };
+  };
+
   systemd.user.services.waybar = {
     Install.WantedBy = [ "niri.service" ];
 
