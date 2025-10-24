@@ -21,6 +21,7 @@
     casks = [
       "blackhole-2ch"
       "inkscape"
+      "meta"
     ];
 
     masApps = {
