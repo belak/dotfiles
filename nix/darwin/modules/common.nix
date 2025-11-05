@@ -36,6 +36,7 @@
         name = "font-source-code-pro";
         args.require_sha = false;
       }
+      "ghostty"
       "jordanbaird-ice@beta" # TODO: we need to use "Beta" for now to support Tahoe.
       "intellij-idea-ce"
       "modrinth"
