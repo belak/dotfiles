@@ -25,6 +25,7 @@ in
       #discord
       firefox
       foot
+      ghostty
       gimp
       wl-clipboard
 
