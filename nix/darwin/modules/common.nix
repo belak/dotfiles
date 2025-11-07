@@ -31,11 +31,14 @@
       "calibre"
       "finicky"
       "firefox"
+      "font-jetbrains-mono"
+      "font-monaspace"
       "font-terminus"
       {
         name = "font-source-code-pro";
         args.require_sha = false;
       }
+      "font-symbols-only-nerd-font"
       "ghostty"
       "jordanbaird-ice@beta" # TODO: we need to use "Beta" for now to support Tahoe.
       "intellij-idea-ce"
