@@ -1,7 +1,26 @@
+# Use our custom theme, based on the Modus Vivendi Emacs theme
 theme = Modus Vivendi
 
-font-family = Monaspace Argon
+# Reset fonts so we can specify our own, along with fallbacks.
+font-family =
+font-family = Monaspace Neon
 font-family = Symbols Nerd Font Mono
 font-family = monospace
 
-font-size = 14
+font-size = 12
+
+# For some reason on macOS, this fixes font rendering for non-retina screens,
+# like my main monitor.
+#
+# https://github.com/ghostty-org/ghostty/issues/661
+font-thicken = true
+
+# A few UI tweaks
+macos-icon = blueprint
+
+# Behavior tweaks
+window-inherit-working-directory = false
+
+# Add some keybinds from macOS
+keybind = cmd+right=next_tab
+keybind = cmd+left=previous_tab

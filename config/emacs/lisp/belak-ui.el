@@ -26,8 +26,8 @@
 ;; TODO: (set-face-font 'variable-pitch "")
 (cond
  (IS-MAC
-  (set-face-font 'default        "Monaco")
-  (set-face-font 'fixed-pitch    "Monaco"))
+  (set-face-font 'default        "Monaspace Neon")
+  (set-face-font 'fixed-pitch    "Monaspace Neon"))
  (IS-LINUX
   (set-face-font 'default        "Terminus 12")
   (set-face-font 'fixed-pitch    "Terminus 12")))
