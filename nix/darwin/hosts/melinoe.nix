@@ -20,6 +20,7 @@
   homebrew = {
     casks = [
       "blackhole-2ch"
+      "claude-code"
       "inkscape"
       "meta"
     ];
@@ -27,6 +28,14 @@
     masApps = {
       "Logic Pro" = 634148309;
     };
+  };
+
+  programs.fish = {
+    enable = true;
+  };
+
+  programs.starship = {
+    enable = true;
   };
 
   # Used for backwards compatibility, please read the changelog before changing.
