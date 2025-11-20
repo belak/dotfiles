@@ -100,7 +100,7 @@
       tilesize = 48;
       persistent-apps = [
         "/Applications/Firefox.app"
-        "/Applications/WezTerm.app"
+        "/Applications/Ghostty.app"
         "/Applications/Obsidian.app"
         "/Applications/Things3.app"
       ];
