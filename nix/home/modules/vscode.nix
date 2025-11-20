@@ -38,8 +38,9 @@ in
             editorconfig.editorconfig
             golang.go
             jnoortheen.nix-ide
-            stkb.rewrap
             rust-lang.rust-analyzer
+            stkb.rewrap
+            svelte.svelte-vscode
           ]
           ++ (with pkgs.community-vscode-extensions.vscode-marketplace; [
             a-h.templ
