@@ -27,6 +27,7 @@ in
       foot
       ghostty
       gimp
+      monaspace
       wl-clipboard
 
       my.wezterm-bin
