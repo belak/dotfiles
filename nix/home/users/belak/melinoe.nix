@@ -26,4 +26,8 @@
     spotify
     templ
   ];
+
+  programs.starship = {
+    enable = true;
+  };
 }

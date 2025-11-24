@@ -7,6 +7,12 @@
   pkgs,
   ...
 }:
+let
+  mc-calzone-rcon =
+  (pkgs.writeShellScriptBin "mc-calzone-rcon" ''
+    ${pkgs.mcrcon}/bin/mcrcon -P 25575 -p $(cat /var/lib/minecraft/all-the-calzones/server.properties | grep rcon.password | cut -b 15-) $@
+  '');
+in
 {
   imports = [
     ./disko-config.nix
@@ -20,6 +26,7 @@
 
   environment.systemPackages = with pkgs; [
     nfs-utils
+    mc-calzone-rcon
   ];
 
   belak = {
@@ -67,6 +74,36 @@
       ];
     };
   };
+
+  users.users.minecraft-all-the-calzones = {
+    group = "minecraft-all-the-calzones";
+    isSystemUser = true;
+  };
+
+  users.groups.minecraft-all-the-calzones = { };
+
+  systemd.services.minecraft-all-the-calzones = {
+    wantedBy = [ "multi-user.target" ];
+    wants = [ "network-online.target" ];
+    after = [ "network-online.target" ];
+    path = with pkgs; [
+      openjdk21_headless
+    ];
+    serviceConfig = {
+      Restart = "always";
+      ExecStart = "${pkgs.bash}/bin/bash /var/lib/minecraft/all-the-calzones/run.sh";
+      WorkingDirectory = "/var/lib/minecraft/all-the-calzones";
+      StateDirectory = "minecraft/all-the-calzones";
+      ExecStop = "${mc-calzone-rcon}/bin/mc-calzone-rcon stop";
+      User = "minecraft-all-the-calzones";
+      Group = "minecraft-all-the-calzones";
+    };
+  };
+
+  networking.firewall.allowedTCPPorts = [
+    8080
+    25565
+  ];
 
   # This value determines the NixOS release from which the default
   # settings for stateful data, like file locations and database versions
