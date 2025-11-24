@@ -21,6 +21,7 @@
 
       # We need OpenJDK for modern versions of Minecraft
       "openjdk@17"
+      "openjdk@21"
     ];
 
     casks = [

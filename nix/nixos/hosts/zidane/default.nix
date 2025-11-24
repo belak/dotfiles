@@ -49,6 +49,9 @@
         "jellyfin.elwert.cloud" = {
           backend = "http://freya.elwert.dev:8096";
         };
+        "mc-calzone.elwert.cloud" = {
+          backend = "http://freya.elwert.dev:8080";
+        };
         "plex.elwert.cloud" = {
           backend = ''
             https://freya.elwert.dev:32400 {
