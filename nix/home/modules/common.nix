@@ -72,7 +72,7 @@ in
       unzip
 
       # Stuff to try
-      gitui
+      #gitui
       unstable.neovim
     ];
 
