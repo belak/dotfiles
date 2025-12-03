@@ -37,6 +37,10 @@ local function axHotfix(action)
   -- Run our action
   action(window)
 
+  -- Always raise windows after our action, as a workaround for Slack being
+  -- hidden under windows after moving it.
+  window:raise()
+
   -- restore original settings
   hs.window.animationDuration = original_animation_duration
   ax_app.AXEnhancedUserInterface = was_enhanced
