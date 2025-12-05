@@ -30,6 +30,7 @@
 
   networking.networkmanager.enable = true;
 
+  services.fwupd.enable = true;
   services.openssh.enable = true;
   services.pulseaudio.enable = true;
 
@@ -40,10 +41,14 @@
 
   environment.systemPackages = with pkgs; [
     swayidle
-    swaylock
   ];
 
-  security.pam.services.swaylock = {};
+  programs.gtklock = {
+    enable = true;
+    modules = with pkgs; [
+      gtklock-powerbar-module
+    ];
+  };
 
   #xdg.portal = {
   #  enable = true;

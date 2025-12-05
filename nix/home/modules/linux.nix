@@ -28,7 +28,7 @@ in
       # nerdfonts would be included here so Doom Emacs wouldn't need to download
       # them, but it's an 8Gb package.
       dejavu_fonts
-      noto-fonts-emoji
+      noto-fonts-color-emoji
     ];
   };
 }
