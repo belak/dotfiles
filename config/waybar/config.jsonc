@@ -74,7 +74,7 @@
         "tooltip-format-ethernet": "{ifname}\nIP: {ipaddr}\nGW: {gwaddr}/{cidr}\nUp: {bandwidthUpBits} Down: {bandwidthDownBits}",
         "tooltip-format-wifi": "{ifname}\nSSID: {essid} ({signalStrength}%)\nIP: {ipaddr}\nGW: {gwaddr}/{cidr}\nUp: {bandwidthUpBits} Down: {bandwidthDownBits}",
         "format-icons": {
-            "disconnected": "⚠",
+            "disconnected": "󰖪",
             "ethernet": "",
             "wifi": ""
         }

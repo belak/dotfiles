@@ -52,6 +52,7 @@ in
 
       # Packages I'm trying out
       codeowners
+      unstable.helix
       unstable.jujutsu
       unstable.mdcat
     ];
