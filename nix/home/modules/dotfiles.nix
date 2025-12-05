@@ -33,7 +33,6 @@ in
       ".config/niri" = mkSource "config/niri";
       ".config/nvim" = mkSource "config/nvim";
       ".config/swayidle" = mkSource "config/swayidle";
-      ".config/swaylock" = mkSource "config/swaylock";
       ".config/tmux" = mkSource "config/tmux";
       ".config/waybar" = mkSource "config/waybar";
       ".config/wezterm" = mkSource "config/wezterm";

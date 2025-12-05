@@ -1,4 +1,4 @@
-before-sleep "swaylock -f"
-timeout 300 "swaylock -f"
+before-sleep "gtklock -d"
+timeout 300 "gtklock -d"
 timeout 600 "niri msg action power-off-monitors"
 after-resume "niri msg action power-on-monitors"
