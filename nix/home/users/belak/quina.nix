@@ -17,15 +17,34 @@
     brightnessctl
     foot
     fuzzel
+    mako
     pavucontrol
     senpai
     swww
+    walker
     waybar
+    xdg-utils
 
-    niri
     xdg-desktop-portal-gtk
     xwayland-satellite
+
+    unstable.niri
   ];
+
+  systemd.user.services.mako = {
+    Install.WantedBy = [ "niri.service" ];
+
+    Service = {
+      ExecStart = "${pkgs.mako}/bin/mako";
+      Restart = "on-failure";
+    };
+
+    Unit = {
+      PartOf = [ "graphical-session.target" ];
+      After = [ "graphical-session.target" ];
+      Requisite = [ "graphical-session.target" ];
+    };
+  };
 
   systemd.user.services.swww = {
     Install.WantedBy = [ "niri.service" ];
