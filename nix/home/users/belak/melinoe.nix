@@ -9,9 +9,10 @@
   };
 
   nixpkgs.allowedUnfree = [
+    "claude-code"
     "discord"
     "obsidian"
-    "spotify"
+    #"spotify"
   ];
 
   home.packages = with pkgs; [
@@ -20,11 +21,16 @@
     neomutt
     nix-init
     typst
-    typstfmt
+    typstyle
     tinymist
     senpai
-    spotify
+
+    # The Spotify package is currently broken, so we install it using homebrew
+    # instead.
+    #spotify
     templ
+
+    unstable.claude-code
   ];
 
   programs.starship = {
