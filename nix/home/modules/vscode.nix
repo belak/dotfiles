@@ -38,6 +38,7 @@ in
             editorconfig.editorconfig
             golang.go
             jnoortheen.nix-ide
+            mathiasfrohlich.kotlin
             rust-lang.rust-analyzer
             stkb.rewrap
             svelte.svelte-vscode

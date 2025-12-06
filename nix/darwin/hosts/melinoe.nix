@@ -20,13 +20,14 @@
   homebrew = {
     casks = [
       "blackhole-2ch"
-      "claude-code"
       "inkscape"
-      "meta"
+      "spotify"
     ];
 
     masApps = {
       "Logic Pro" = 634148309;
+      "Meta" = 558317092;
+      "Mp3tag" = 1532597159;
     };
   };
 

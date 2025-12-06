@@ -16,7 +16,7 @@
     libation
     nix-init
     typst
-    typstfmt
+    typstyle
     tinymist
     senpai
     wezterm

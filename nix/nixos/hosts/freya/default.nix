@@ -8,10 +8,11 @@
   ...
 }:
 let
-  mc-calzone-rcon =
-  (pkgs.writeShellScriptBin "mc-calzone-rcon" ''
-    ${pkgs.mcrcon}/bin/mcrcon -P 25575 -p $(cat /var/lib/minecraft/all-the-calzones/server.properties | grep rcon.password | cut -b 15-) $@
-  '');
+  mc-calzone-rcon = (
+    pkgs.writeShellScriptBin "mc-calzone-rcon" ''
+      ${pkgs.mcrcon}/bin/mcrcon -P 25575 -p $(cat /var/lib/minecraft/all-the-calzones/server.properties | grep rcon.password | cut -b 15-) $@
+    ''
+  );
 in
 {
   imports = [
