@@ -13,7 +13,7 @@
     };
   };
 
-  agenix = final: _prev: { agenix = agenix.packages.${final.system}.default; };
+  agenix = final: _prev: { agenix = agenix.packages.${final.stdenv.hostPlatform.system}.default; };
 
   deploy-rs-overlay = deploy-rs.overlays.default;
 
@@ -33,10 +33,13 @@
   };
 
   unstable = final: _prev: {
-    unstable = import nixpkgs-unstable { inherit (final) config system; };
+    unstable = import nixpkgs-unstable {
+      inherit (final) config;
+      inherit (final.stdenv.hostPlatform) system;
+    };
   };
 
   vscode = final: _prev: {
-    community-vscode-extensions = nix-vscode-extensions.extensions.${final.system};
+    community-vscode-extensions = nix-vscode-extensions.extensions.${final.stdenv.hostPlatform.system};
   };
 }
