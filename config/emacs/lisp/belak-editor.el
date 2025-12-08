@@ -99,7 +99,7 @@
 (use-package savehist
   :hook (after-init . savehist-mode)
   :config
-  (setq history-length t
+  (setq history-length 100
         history-delete-duplicates t
         savehist-save-minibuffer-history 1))
 
