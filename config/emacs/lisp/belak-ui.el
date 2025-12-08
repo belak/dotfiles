@@ -13,10 +13,6 @@
   (when IS-GUI
     (setq modus-themes-italic-constructs t))
 
-  (setq modus-themes-lang-checkers  '(background straight-underline text-also)
-        modus-themes-fringes        'subtle
-        modus-themes-mode-line      '(borderless))
-
   (load-theme 'modus-vivendi :no-confirm-loading))
 
 
