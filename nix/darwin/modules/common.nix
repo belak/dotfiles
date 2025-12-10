@@ -41,6 +41,7 @@
       }
       "font-symbols-only-nerd-font"
       "ghostty"
+      "hammerspoon"
       "jordanbaird-ice@beta" # TODO: we need to use "Beta" for now to support Tahoe.
       "intellij-idea-ce"
       "modrinth"
@@ -49,16 +50,15 @@
       "obsidian"
       "openscad"
       "orcaslicer"
-      "pinta"
       "postgres-unofficial"
       "prismlauncher"
       "prusaslicer"
-      "rectangle"
       "textual"
       "wezterm"
 
       # Stuff I'm trying out.
-      "hammerspoon"
+      "pinta"
+      "todoist"
       "utm"
       "zotero"
     ];
