@@ -22,6 +22,6 @@ in
 
     # For laptops, this will make it so they can be run closed. This should have
     # no effect on other hardware.
-    services.logind.lidSwitch = "ignore";
+    services.logind.settings.Login.HandleLidSwitch = "ignore";
   };
 }
