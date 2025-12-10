@@ -38,6 +38,9 @@
         "lldap.elwert.cloud" = {
           backend = "http://eiko.elwert.dev";
         };
+        "pocket-id.elwert.cloud" = {
+          backend = "http://eiko.elwert.dev";
+        };
         "rss.elwert.cloud" = {
           backend = "http://eiko.elwert.dev";
         };

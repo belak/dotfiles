@@ -33,6 +33,7 @@ let
   service-forgejo = [ system-eiko ];
   service-miniflux = [ system-eiko ];
   service-lldap = [ system-eiko ];
+  service-pocket-id = [ system-eiko ];
 in
 {
   "acme-cloudflare-env.age".publicKeys = users ++ [
@@ -55,6 +56,8 @@ in
   "miniflux-oidc-client-id.age".publicKeys = service-authelia ++ service-miniflux ++ users;
   "miniflux-oidc-client-secret.age".publicKeys = service-miniflux ++ users;
   "miniflux-oidc-client-secret-hashed.age".publicKeys = service-authelia ++ users;
+
+  "pocket-id-encryption-key.age".publicKeys = service-pocket-id ++ users;
 
   "forgejo-oidc-client-id.age".publicKeys = service-authelia ++ service-forgejo ++ users;
   "forgejo-oidc-client-secret.age".publicKeys = service-forgejo ++ users;

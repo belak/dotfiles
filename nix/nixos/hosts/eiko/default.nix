@@ -20,11 +20,10 @@
     server.enable = true;
 
     services = {
-      authelia.enable = true;
       forgejo.enable = true;
-      lldap.enable = true;
       miniflux.enable = true;
       nginx.enable = true;
+      pocket-id.enable = true;
       postgres.enable = true;
       soju.enable = true;
     };
