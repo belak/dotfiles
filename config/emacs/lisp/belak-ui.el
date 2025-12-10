@@ -8,10 +8,11 @@
 (use-package modus-themes
   :demand t
   :config
-  ;; Italics look pretty rough in terminals (at least with the fonts I use), so
-  ;; we make sure they're only enabled if we have a full GUI.
+  ;; Italics and bold look pretty rough in terminals (at least with the fonts I
+  ;; use), so we make sure they're only enabled if we have a full GUI.
   (when IS-GUI
-    (setq modus-themes-italic-constructs t))
+    (setq modus-themes-italic-constructs t
+          modus-themes-bold-constructs t))
 
   (load-theme 'modus-vivendi :no-confirm-loading))
 
@@ -56,7 +57,7 @@
 ;; currently active window.
 (use-package dimmer
   :defer nil
-  :custom (dimmer-fraction 0.2)
+  :custom (dimmer-fraction 0.1)
   :hook (after-init . dimmer-mode)
   :config
   ;; Modify the dimmer-config-change-handler to only call dimmer-process-all if
