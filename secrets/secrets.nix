@@ -46,6 +46,7 @@ in
   "miniflux-oidc-client-secret.age".publicKeys = service-miniflux ++ users;
 
   "pocket-id-encryption-key.age".publicKeys = service-pocket-id ++ users;
+  "pocket-id-smtp-password.age".publicKeys = service-pocket-id ++ users;
 
   "forgejo-oidc-client-id.age".publicKeys = service-forgejo ++ users;
   "forgejo-oidc-client-secret.age".publicKeys = service-forgejo ++ users;

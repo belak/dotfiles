@@ -20,12 +20,28 @@ in
         KEYS_STORAGE = "database";
         UI_CONFIG_DISABLED = true;
         APP_NAME = "Elwert Auth";
+
+        # Fastmail settings
+        SMTP_HOST = "smtp.fastmail.com";
+        SMTP_PORT = 465;
+        SMTP_TLS = "tls";
+
+        SMTP_FROM = "pocket-id@elwert.cloud";
+        SMTP_USER = "homelab@elwert.cloud";
+        SMTP_PASSWORD_FILE = config.age.secrets.pocket-id-smtp-password.path;
+
+        EMAIL_ONE_TIME_ACCESS_AS_ADMIN_ENABLED = true;
         # TODO: switch to UNIX_SOCKET
       };
     };
 
     age.secrets.pocket-id-encryption-key = {
       file = ../../../../secrets/pocket-id-encryption-key.age;
+      owner = config.services.pocket-id.user;
+    };
+
+    age.secrets.pocket-id-smtp-password = {
+      file = ../../../../secrets/pocket-id-smtp-password.age;
       owner = config.services.pocket-id.user;
     };
 
