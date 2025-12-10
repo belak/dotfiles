@@ -26,9 +26,6 @@
 
       virtualHosts = {
         # Hosted on eiko
-        "auth.elwert.cloud" = {
-          backend = "http://eiko.elwert.dev";
-        };
         "gamja.elwert.cloud" = {
           backend = "http://eiko.elwert.dev";
         };
