@@ -6,6 +6,8 @@
 }:
 
 {
+  nixpkgs.hostPlatform = lib.mkDefault "aarch64-darwin";
+
   system.primaryUser = "belak";
 
   # Unfortunately we can't set these in the common module without an option

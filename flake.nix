@@ -115,12 +115,10 @@
 
       darwinConfigurations = {
         "baku" = lib.mkDarwinSystem {
-          system = "x86_64-darwin";
-          modules = [ ];
+          modules = [ ./nix/darwin/hosts/baku.nix ];
         };
 
         "melinoe" = lib.mkDarwinSystem {
-          system = "aarch64-darwin";
           modules = [
             ./nix/darwin/hosts/melinoe.nix
           ];
@@ -130,7 +128,6 @@
       nixosConfigurations = {
         # ThinkCentre M93p
         "eiko" = lib.mkNixosSystem {
-          system = "x86_64-linux";
           modules = [
             ./nix/nixos/hosts/eiko
             ./nix/nixos/users/belak
@@ -139,7 +136,6 @@
 
         # Beelink Mini S12 Pro
         "freya" = lib.mkNixosSystem {
-          system = "x86_64-linux";
           modules = [
             ./nix/nixos/hosts/freya
             ./nix/nixos/users/belak
@@ -148,7 +144,6 @@
 
         # MacBook UTM Instance
         "hades" = lib.mkNixosSystem {
-          system = "aarch64-linux";
           modules = [
             ./nix/nixos/hosts/hades
             ./nix/nixos/users/belak
@@ -157,7 +152,6 @@
 
         # ThinkPad X13s Gen 1
         "quina" = lib.mkNixosSystem {
-          system = "aarch64-linux";
           modules = [
             ./nix/nixos/hosts/quina
             ./nix/nixos/users/belak
@@ -166,7 +160,6 @@
 
         # ThinkPad T460
         "zidane" = lib.mkNixosSystem {
-          system = "x86_64-linux";
           modules = [
             ./nix/nixos/hosts/zidane
             ./nix/nixos/users/belak
@@ -175,7 +168,6 @@
 
         # Primary Desktop
         "zorn" = lib.mkNixosSystem {
-          system = "x86_64-linux";
           modules = [
             ./nix/nixos/hosts/zorn
             ./nix/nixos/users/belak
@@ -190,10 +182,6 @@
       # host-specific configuration, but we provide a default "belak" fallback
       # for the most common cases.
       homeConfigurations = {
-        "belak" = lib.mkHome {
-          system = "x86_64-linux";
-          modules = [ ./nix/home/users/belak ];
-        };
         "belak@baku" = lib.mkHome {
           system = "x86_64-darwin";
           modules = [
