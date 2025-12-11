@@ -58,7 +58,6 @@
 
       # Stuff I'm trying out.
       "pinta"
-      "todoist"
       "utm"
       "zotero"
     ];
@@ -69,6 +68,7 @@
       "Parcel Classic" = 639968404;
       Reeder = 1529448980;
       Things = 904280696;
+      Todoist = 585829637;
       Xcode = 497799835;
 
       # Stuff I'm trying out
