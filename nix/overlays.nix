@@ -13,7 +13,7 @@
     };
   };
 
-  agenix = final: _prev: { agenix = agenix.packages.${final.stdenv.hostPlatform.system}.default; };
+  agenix = agenix.overlays.default;
 
   deploy-rs-overlay = deploy-rs.overlays.default;
 

@@ -57,6 +57,7 @@
   outputs =
     inputs@{
       self,
+      agenix,
       nixpkgs-unstable,
       ...
     }:
@@ -104,6 +105,7 @@
         {
           default = pkgs.mkShell {
             packages = with pkgs; [
+              agenix.packages.${system}.agenix
               deploy-rs
               nixos-anywhere
             ];
