@@ -26,19 +26,8 @@
   mkNixosSystem =
     {
       modules,
-      system,
     }:
     nixpkgs.lib.nixosSystem {
-      inherit system;
-
-      # NOTE: we actually *don't* want to configure nixpkgs using `pkgs` because
-      # that would require us to set config options here. Instead we use
-      # `nixpkgs.lib.nixosSystem` and set `system`, which allows us to configure
-      # nixpkgs via modules instead.
-      #pkgs = import nixpkgs {
-      #  inherit system;
-      #};
-
       modules = [
         self.nixosModules.default
         agenix.nixosModules.default
@@ -57,11 +46,8 @@
   mkDarwinSystem =
     {
       modules,
-      system,
     }:
     darwin.lib.darwinSystem {
-      inherit system;
-
       # We sometimes turn this on when testing against the nix-darwin master
       # branch. This is used to bypass a confidence check which makes sure
       # you're using a stable nixpkgs with stable nix-darwin.
@@ -70,10 +56,6 @@
 
       specialArgs = {
         inherit self;
-      };
-
-      pkgs = import nixpkgs {
-        inherit system;
       };
 
       modules = [
@@ -90,12 +72,10 @@
       system,
     }:
     home-manager.lib.homeManagerConfiguration {
+      pkgs = nixpkgs.legacyPackages.${system};
+
       extraSpecialArgs = {
         inherit self;
-      };
-
-      pkgs = import nixpkgs {
-        inherit system;
       };
 
       modules = [

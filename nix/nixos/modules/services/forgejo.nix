@@ -1,4 +1,9 @@
-{ config, pkgs, lib, ... }:
+{
+  config,
+  pkgs,
+  lib,
+  ...
+}:
 let
   cfg = config.belak.services.forgejo;
   forgejoConfig = config.services.forgejo.settings.server;
