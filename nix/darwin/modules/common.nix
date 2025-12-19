@@ -65,7 +65,7 @@
     masApps = {
       "CARROT Weather" = 993487541;
       "Dark Noise" = 1465439395;
-      "Parcel Classic" = 639968404;
+      "Parcel" = 375589283;
       Reeder = 1529448980;
       Things = 904280696;
       Todoist = 585829637;
