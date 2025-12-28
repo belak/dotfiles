@@ -96,6 +96,10 @@ in
       fsType = "nfs";
     };
 
+    "/mnt/unas/media" = {
+      device = "armarant.elwert.dev:/var/nfs/shared/Media";
+      fsType = "nfs";
+    };
   };
 
   users.users.minecraft-all-the-calzones = {

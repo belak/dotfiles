@@ -55,6 +55,11 @@
       device = "garnet-4.elwert.dev:/volume1/Media";
       fsType = "nfs";
     };
+
+    "/mnt/unas/media" = {
+      device = "armarant.elwert.dev:/var/nfs/shared/Media";
+      fsType = "nfs";
+    };
   };
 
   # This value determines the NixOS release from which the default
