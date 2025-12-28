@@ -189,6 +189,20 @@
             ./nix/home/users/belak/baku.nix
           ];
         };
+        "belak@eiko" = lib.mkHome {
+          system = "x86_64-linux";
+          modules = [
+            ./nix/home/users/belak
+            ./nix/home/users/belak/eiko.nix
+          ];
+        };
+        "belak@freya" = lib.mkHome {
+          system = "x86_64-linux";
+          modules = [
+            ./nix/home/users/belak
+            ./nix/home/users/belak/freya.nix
+          ];
+        };
         "belak@hades" = lib.mkHome {
           system = "aarch64-linux";
           modules = [
@@ -233,7 +247,7 @@
             "belak"
             "system"
           ];
-          profiles.belak = lib.mkHomeDeploy self.homeConfigurations.belak;
+          profiles.belak = lib.mkHomeDeploy self.homeConfigurations."belak@eiko";
           profiles.system = lib.mkNixosDeploy self.nixosConfigurations.eiko;
         };
 
@@ -243,18 +257,8 @@
             "belak"
             "system"
           ];
-          profiles.belak = lib.mkHomeDeploy self.homeConfigurations.belak;
+          profiles.belak = lib.mkHomeDeploy self.homeConfigurations."belak@freya";
           profiles.system = lib.mkNixosDeploy self.nixosConfigurations.freya;
-        };
-
-        vivi = {
-          hostname = "vivi.elwert.dev";
-          profilesOrder = [
-            "belak"
-            "system"
-          ];
-          profiles.belak = lib.mkHomeDeploy self.homeConfigurations.belak;
-          profiles.system = lib.mkNixosDeploy self.nixosConfigurations.vivi;
         };
 
         zidane = {
@@ -263,7 +267,7 @@
             "belak"
             "system"
           ];
-          profiles.belak = lib.mkHomeDeploy self.homeConfigurations.belak;
+          profiles.belak = lib.mkHomeDeploy self.homeConfigurations."belak@zidane";
           profiles.system = lib.mkNixosDeploy self.nixosConfigurations.zidane;
         };
       };

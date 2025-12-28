@@ -34,6 +34,29 @@
     domain = "elwert.dev";
   };
 
+  # Temporary during migration off synology
+  fileSystems = {
+    "/mnt/synology/p1" = {
+      device = "garnet.elwert.dev:/volume1/Media";
+      fsType = "nfs";
+    };
+
+    "/mnt/synology/p2" = {
+      device = "garnet-2.elwert.dev:/volume1/Media";
+      fsType = "nfs";
+    };
+
+    "/mnt/synology/p3" = {
+      device = "garnet-3.elwert.dev:/volume1/Media";
+      fsType = "nfs";
+    };
+
+    "/mnt/synology/p4" = {
+      device = "garnet-4.elwert.dev:/volume1/Media";
+      fsType = "nfs";
+    };
+  };
+
   # This value determines the NixOS release from which the default
   # settings for stateful data, like file locations and database versions
   # on your system were taken. It's perfectly fine and recommended to leave

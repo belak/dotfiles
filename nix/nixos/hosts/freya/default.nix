@@ -74,6 +74,28 @@ in
         "ro"
       ];
     };
+
+    # Temporary during migration off synology
+    "/mnt/synology/p1" = {
+      device = "garnet.elwert.dev:/volume1/Media";
+      fsType = "nfs";
+    };
+
+    "/mnt/synology/p2" = {
+      device = "garnet-2.elwert.dev:/volume1/Media";
+      fsType = "nfs";
+    };
+
+    "/mnt/synology/p3" = {
+      device = "garnet-3.elwert.dev:/volume1/Media";
+      fsType = "nfs";
+    };
+
+    "/mnt/synology/p4" = {
+      device = "garnet-4.elwert.dev:/volume1/Media";
+      fsType = "nfs";
+    };
+
   };
 
   users.users.minecraft-all-the-calzones = {
