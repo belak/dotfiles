@@ -24,6 +24,7 @@
               content = {
                 type = "luks";
                 name = "crypted-main";
+                passwordFile = "/tmp/luks-key.txt";
                 content = {
                   type = "lvm_pv";
                   vg = "vg-main";
@@ -45,6 +46,7 @@
               content = {
                 type = "luks";
                 name = "crypted-storage";
+                passwordFile = "/tmp/luks-key.txt";
                 content = {
                   type = "lvm_pv";
                   vg = "vg-storage";
