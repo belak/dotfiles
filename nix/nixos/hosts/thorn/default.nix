@@ -16,14 +16,15 @@
   networking = {
     hostName = "thorn";
     domain = "elwert.dev";
+    useDHCP = false;
   };
 
-  # Configure network connections interactively with nmcli or nmtui.
+  systemd.network.enable = true;
   systemd.network.networks.enp1s0 = {
     name = "enp1s0";
     address = [
-      "192.110.164.67"
-      "2604:6280:113:1::3"
+      "192.110.164.67/29"
+      "2604:6280:113:1::3/64"
     ];
     gateway = [
       "192.110.164.65"
