@@ -17,6 +17,7 @@ let
   system-freya = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIDU1rGovd901nTi60c/WTDtTrkWSJ8V2lDMJr6MusKWS";
   system-hades = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAINB84SBcMThfhBWlPiW1ySels6Ri17TDoDSjuuoX4tfF";
   system-quina = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIBZ06jS8rephEg8IZgqkwBJ7QRPH7Osh+HE0LU6q2YvC";
+  system-thorn = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIHDQ7bg4HjdNGEIym5BaiYfSJqmtISIVFBPWwXrcCEc6";
   system-zidane = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIL8pkaoi6ASLpjFP+9v/frMX6wAiWrM3LTMvkdnU8Rd0";
   system-zorn = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIIl/rte7VsiKLVGhRLz3eSYh4Ln3YO9h/CQEOrib4xKe";
 
@@ -25,6 +26,7 @@ let
     system-freya
     system-hades
     system-quina
+    system-thorn
     system-zidane
     system-zorn
   ];
