@@ -10,8 +10,6 @@
             grub = {
               size = "1M";
               type = "EF02"; # for grub MBR
-              attributes = [ 0 ]; # partition attribute
-              priority = 1; # Needs to be first partition
             };
             boot = {
               size = "1G";
