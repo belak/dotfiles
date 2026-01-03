@@ -44,6 +44,7 @@
     "phy-qcom-snps-femto-v2"
     "phy-qcom-usb-hs"
   ];
+
   boot.initrd.kernelModules = [ ];
   boot.kernelModules = [ ];
   boot.extraModulePackages = [ ];
@@ -52,8 +53,7 @@
   # being available (which should be true based on the docs) but for some reason
   # the kernel can't use it. This disables the TPM which isn't even working
   # properly and stops it from hanging systemd for 90s on startup.
-  security.tpm2.enable = false;
-  boot.initrd.systemd.tpm2.enable = false;
+  systemd.tpm2.enable = false;
 
   swapDevices = [ ];
 
