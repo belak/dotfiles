@@ -158,14 +158,6 @@
           ];
         };
 
-        # Remote virt-manager install
-        "thorn" = lib.mkNixosSystem {
-          modules = [
-            ./nix/nixos/hosts/thorn
-            ./nix/nixos/users/belak
-          ];
-        };
-
         # ThinkPad T460
         "zidane" = lib.mkNixosSystem {
           modules = [
@@ -232,14 +224,6 @@
             ./nix/home/users/belak/melinoe.nix
           ];
         };
-        "belak@thorn" = lib.mkHome {
-          system = "x86_64-linux";
-          modules = [
-            ./nix/home/users/belak
-            ./nix/home/users/belak/thorn.nix
-          ];
-        };
-
         "belak@zidane" = lib.mkHome {
           system = "x86_64-linux";
           modules = [
@@ -275,16 +259,6 @@
           ];
           profiles.belak = lib.mkHomeDeploy self.homeConfigurations."belak@freya";
           profiles.system = lib.mkNixosDeploy self.nixosConfigurations.freya;
-        };
-
-        thorn = {
-          hostname = "thorn.elwert.dev";
-          profilesOrder = [
-            "belak"
-            "system"
-          ];
-          profiles.belak = lib.mkHomeDeploy self.homeConfigurations."belak@thorn";
-          profiles.system = lib.mkNixosDeploy self.nixosConfigurations.thorn;
         };
 
         zidane = {

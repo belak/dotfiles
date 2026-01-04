@@ -88,6 +88,7 @@ in
             # org
             # org-contrib
             # org-roam
+            epkgs.melpaPackages.org-gtd
             epkgs.melpaPackages.package-lint
             epkgs.melpaPackages.page-break-lines
             epkgs.melpaPackages.php-mode
