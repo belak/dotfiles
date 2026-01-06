@@ -39,7 +39,6 @@ in
 
     environment.systemPackages = [
       sojuctl
-      pkgs.gamja
     ];
 
     systemd.services.soju = {
@@ -77,6 +76,7 @@ in
         proxyPass = "http://localhost:7001";
         proxyWebsockets = true;
         extraConfig = ''
+          proxy_set_header Host $host;
           proxy_read_timeout 600s;
         '';
       };
