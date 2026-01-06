@@ -48,9 +48,9 @@ in
       wants = [ "network-online.target" ];
       after = [
         "network-online.target"
-        "acme-selfsigned-soju.target"
+        "acme-soju.service"
       ];
-      requires = [ "acme-finished-soju.target" ];
+      requires = [ "acme-soju.service" ];
       serviceConfig = {
         Restart = "always";
         ExecStart = "${pkgs.soju}/bin/soju -config ${configFile}";
