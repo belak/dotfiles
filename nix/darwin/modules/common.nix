@@ -58,6 +58,7 @@
 
       # Stuff I'm trying out.
       "pinta"
+      "sol"
       "utm"
       "zotero"
     ];
