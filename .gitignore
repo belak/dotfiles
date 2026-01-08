@@ -32,3 +32,9 @@ config/emacs/eln-cache
 config/emacs/elpaca
 config/emacs/etc
 config/emacs/var
+
+# fish related
+config/fish/completions
+config/fish/fish_variables
+config/fish/functions
+config/fish/themes
