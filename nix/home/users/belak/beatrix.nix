@@ -16,5 +16,9 @@
     makemkv
     handbrake
     my.rubyripper
+
+    flac
+    lame
+    vorbis-tools
   ];
 }
