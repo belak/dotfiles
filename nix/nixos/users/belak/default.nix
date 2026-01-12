@@ -10,6 +10,7 @@ in
     hashedPasswordFile = config.age.secrets.belak-password.path;
     description = "Kaleb Elwert";
     extraGroups = [
+      "cdrom"
       "wheel"
       "dialout"
     ]
