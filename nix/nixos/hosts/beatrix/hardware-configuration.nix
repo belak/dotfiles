@@ -13,9 +13,15 @@
     "usb_storage"
     "sd_mod"
     "rtsx_pci_sdmmc"
+
   ];
   boot.initrd.kernelModules = [ ];
-  boot.kernelModules = [ "kvm-intel" ];
+  boot.kernelModules = [
+    "kvm-intel"
+
+    # For some reason makemkv needs this to detect the disk drive we use
+    "sg"
+  ];
   boot.extraModulePackages = [ ];
 
   swapDevices = [ ];
