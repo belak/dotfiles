@@ -36,7 +36,6 @@ in
       ".config/swayidle" = mkSource "config/swayidle";
       ".config/tmux" = mkSource "config/tmux";
       ".config/waybar" = mkSource "config/waybar";
-      ".config/wezterm" = mkSource "config/wezterm";
 
       ".editorconfig" = mkSource "editorconfig";
       ".hammerspoon" = mkSource "hammerspoon";

@@ -54,7 +54,6 @@
       "prismlauncher"
       "prusaslicer"
       "textual"
-      "wezterm"
 
       # Stuff I'm trying out.
       "pinta"

@@ -33,8 +33,6 @@ in
       monaspace
       wl-clipboard
 
-      my.wezterm-bin
-
       # Packages I want more up to date
       unstable.obsidian
       unstable.prusa-slicer
