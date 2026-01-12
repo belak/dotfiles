@@ -99,6 +99,7 @@
       autohide = true;
       show-recents = false;
       minimize-to-application = true;
+      mru-spaces = false;
       tilesize = 48;
       persistent-apps = [
         "/Applications/Firefox.app"
