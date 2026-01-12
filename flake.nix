@@ -197,6 +197,13 @@
             ./nix/home/users/belak/baku.nix
           ];
         };
+        "belak@beatrix" = lib.mkHome {
+          system = "x86_64-linux";
+          modules = [
+            ./nix/home/users/belak
+            ./nix/home/users/belak/beatrix.nix
+          ];
+        };
         "belak@eiko" = lib.mkHome {
           system = "x86_64-linux";
           modules = [

@@ -19,6 +19,8 @@ in
       "obsidian"
     ];
 
+    fonts.fontconfig.enable = true;
+
     home.packages = with pkgs; [
       _1password-gui
       calibre
@@ -27,6 +29,7 @@ in
       foot
       ghostty
       gimp
+      gnome-tweaks
       monaspace
       wl-clipboard
 
@@ -43,6 +46,14 @@ in
       resources
     ];
 
+    #home.pointerCursor = {
+    #  enable = true;
+    #  gtk.enable = true;
+    #
+    #  name = "Papirus";
+    #  package = pkgs.papirus-icon-theme;
+    #};
+
     # This section is in gui rather than gnome because most of the applications I
     # use are gtk based and it's nice to configure them separately from gnome.
     gtk = {
@@ -58,17 +69,12 @@ in
         package = pkgs.adw-gtk3;
       };
 
-      # In the future, this can replace the manual `extraConfig` sections below,
-      # but it's only on unstable home-manager for now.
-      #colorScheme = "dark";
+      #cursorTheme = {
+      #  name = "Papirus";
+      #  package = pkgs.papirus-icon-theme;
+      #};
 
-      gtk3.extraConfig = {
-        gtk-application-prefer-dark-theme = true;
-      };
-
-      gtk4.extraConfig = {
-        gtk-application-prefer-dark-theme = true;
-      };
+      colorScheme = "dark";
     };
 
     dconf = {
@@ -76,8 +82,6 @@ in
 
       settings = {
         "org/gnome/desktop/interface" = {
-          cursor-theme = "Papirus";
-          color-scheme = "prefer-dark";
           font-antialiasing = "rgba";
         };
       };

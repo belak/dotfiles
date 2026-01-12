@@ -19,6 +19,12 @@ in
       gnome-tweaks
     ];
 
+    # TODO: this seems to be broken
+    programs.gnome-shell.extensions = with pkgs.gnomeExtensions; [
+      { package = unite; }
+      { package = user-themes; }
+    ];
+
     dconf = {
       enable = true;
 
@@ -32,13 +38,9 @@ in
         };
         "org/gnome/shell" = {
           disable-user-extensions = false;
-          enabled-extensions = with pkgs.gnomeExtensions; [
-            unite.extensionUuid
-            "user-theme@gnome-shell-extensions.gcampax.github.com"
-          ];
           favorite-apps = [
             "firefox.desktop"
-            "org.wezfurlong.wezterm.desktop"
+            "com.mitchellh.ghostty.desktop"
             "discord.desktop"
           ];
         };
