@@ -38,13 +38,15 @@ in
   };
 
   fileSystems = {
-    "/mnt/garnet" = {
-      device = "garnet.elwert.dev:/volume1/Media";
+    # Base network filesystems
+    "/mnt/amarant/media" = {
+      device = "amarant.elwert.dev:/var/nfs/shared/Media";
       fsType = "nfs";
     };
 
+    # Bind mounts to make some things more flexible
     "/mnt/media/Movies" = {
-      device = "/mnt/garnet/Movies";
+      device = "/mnt/amarant/media/Movies";
       options = [
         "bind"
         "ro"
@@ -52,7 +54,7 @@ in
     };
 
     "/mnt/media/TV" = {
-      device = "/mnt/garnet/TV";
+      device = "/mnt/amarant/media/TV";
       options = [
         "bind"
         "ro"
@@ -60,7 +62,7 @@ in
     };
 
     "/mnt/plex/Movies" = {
-      device = "/mnt/garnet/Movies";
+      device = "/mnt/amarant/media/Movies";
       options = [
         "bind"
         "ro"
@@ -68,38 +70,13 @@ in
     };
 
     "/mnt/plex/TV" = {
-      device = "/mnt/garnet/TV";
+      device = "/mnt/amarant/media/TV";
       options = [
         "bind"
         "ro"
       ];
     };
 
-    # Temporary during migration off synology
-    "/mnt/synology/p1" = {
-      device = "garnet.elwert.dev:/volume1/Media";
-      fsType = "nfs";
-    };
-
-    "/mnt/synology/p2" = {
-      device = "garnet-2.elwert.dev:/volume1/Media";
-      fsType = "nfs";
-    };
-
-    "/mnt/synology/p3" = {
-      device = "garnet-3.elwert.dev:/volume1/Media";
-      fsType = "nfs";
-    };
-
-    "/mnt/synology/p4" = {
-      device = "garnet-4.elwert.dev:/volume1/Media";
-      fsType = "nfs";
-    };
-
-    "/mnt/unas/media" = {
-      device = "armarant.elwert.dev:/var/nfs/shared/Media";
-      fsType = "nfs";
-    };
   };
 
   users.users.minecraft-all-the-calzones = {
