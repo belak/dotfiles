@@ -13,6 +13,7 @@ let
     user-belak-zorn
   ];
 
+  system-beatrix = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIJ8DedpQ6Q+OqlMeiQydzu89Q2xIGGAIIl4+tyXy584v";
   system-eiko = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIGFpH5p7ODkUq0kLqda1/fghcCo+MxvCZLdKOfhZCtK+";
   system-freya = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIDU1rGovd901nTi60c/WTDtTrkWSJ8V2lDMJr6MusKWS";
   system-hades = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAINB84SBcMThfhBWlPiW1ySels6Ri17TDoDSjuuoX4tfF";
@@ -21,6 +22,7 @@ let
   system-zorn = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIIl/rte7VsiKLVGhRLz3eSYh4Ln3YO9h/CQEOrib4xKe";
 
   systems = [
+    system-beatrix
     system-eiko
     system-freya
     system-hades
