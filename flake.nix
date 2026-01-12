@@ -126,6 +126,14 @@
       };
 
       nixosConfigurations = {
+        # Thinkpad T14 (i5)
+        "beatrix" = lib.mkNixosSystem {
+          modules = [
+            ./nix/nixos/hosts/beatrix
+            ./nix/nixos/users/belak
+          ];
+        };
+
         # ThinkCentre M93p
         "eiko" = lib.mkNixosSystem {
           modules = [
