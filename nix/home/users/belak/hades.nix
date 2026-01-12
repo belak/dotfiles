@@ -13,12 +13,12 @@
   ];
 
   home.packages = with pkgs; [
+    ghostty
     libation
     nix-init
     typst
     typstyle
     tinymist
     senpai
-    wezterm
   ];
 }
