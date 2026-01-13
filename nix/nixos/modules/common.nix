@@ -29,7 +29,13 @@
     git
     sysbench
     vim
+
+    ghostty.terminfo
+    tmux.terminfo
   ];
+
+  # This installs some extra TERMINFO files
+  #environment.enableAllTerminfo = true;
 
   i18n.defaultLocale = "en_US.UTF-8";
 
