@@ -1,3 +1,8 @@
+if type -q starship
+    starship init fish | source
+    return
+end
+
 function fish_prompt
     set -l last_status $status
 
