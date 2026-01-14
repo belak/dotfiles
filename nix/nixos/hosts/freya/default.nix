@@ -98,6 +98,7 @@ in
       ExecStart = "${pkgs.bash}/bin/bash /var/lib/minecraft/all-the-calzones/run.sh";
       WorkingDirectory = "/var/lib/minecraft/all-the-calzones";
       StateDirectory = "minecraft/all-the-calzones";
+      CacheDirectory = "minecraft/all-the-calzones";
       ExecStop = "${mc-calzone-rcon}/bin/mc-calzone-rcon stop";
       User = "minecraft-all-the-calzones";
       Group = "minecraft-all-the-calzones";
