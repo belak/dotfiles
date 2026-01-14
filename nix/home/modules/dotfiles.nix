@@ -33,6 +33,7 @@ in
       ".config/git" = mkSource "config/git";
       ".config/niri" = mkSource "config/niri";
       ".config/nvim" = mkSource "config/nvim";
+      ".config/starship.toml" = mkSource "config/starship.toml";
       ".config/swayidle" = mkSource "config/swayidle";
       ".config/tmux" = mkSource "config/tmux";
       ".config/waybar" = mkSource "config/waybar";

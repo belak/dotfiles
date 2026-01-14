@@ -77,6 +77,8 @@
     };
   };
 
+  environment.shells = with pkgs; [ fish zsh ];
+
   # Until https://github.com/NixOS/nix/issues/7273 is fixed,
   # auto-optimize-store should be left off. We can approximate it by using
   # nix.optimize.automatic to run `nix store optimize` on a schedule.
