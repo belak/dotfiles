@@ -45,6 +45,14 @@ in
     };
 
     # Bind mounts to make some things more flexible
+    "/mnt/media/Home Videos" = {
+      device = "/mnt/amarant/media/Home Videos";
+      options = [
+        "bind"
+        "ro"
+      ];
+    };
+
     "/mnt/media/Movies" = {
       device = "/mnt/amarant/media/Movies";
       options = [
@@ -55,6 +63,14 @@ in
 
     "/mnt/media/TV" = {
       device = "/mnt/amarant/media/TV";
+      options = [
+        "bind"
+        "ro"
+      ];
+    };
+
+    "/mnt/plex/Home Videos" = {
+      device = "/mnt/amarant/media/Home Videos";
       options = [
         "bind"
         "ro"
