@@ -9,16 +9,16 @@
 
 buildGoModule rec {
   pname = "senpai";
-  version = "0.4.1";
+  version = "d89304820f80822c378b025afcf20b18a4fff8a3";
 
   src = fetchFromSourcehut {
     owner = "~delthas";
     repo = "senpai";
-    rev = "v${version}";
-    sha256 = "sha256-lwfhRnaHGOIp6NyugPEu6P+3WXkVgQEWaz7DUfHiJrQ=";
+    rev = version;
+    sha256 = "sha256-9Y1TqE9eLpNIcbSvgIN2THwj6BYvXZdBBB45G+E060E=";
   };
 
-  vendorHash = "sha256-6glslBPjJr0TmrAkDGbOQ4sDzvODlavVeTugs6RXsCU=";
+  vendorHash = "sha256-puZvUF4y9bYVBy8EEqDIkdJbJps3CsoasGsMqTrhaFQ=";
 
   subPackages = [
     "cmd/senpai"
