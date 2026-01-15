@@ -44,6 +44,7 @@
       "hammerspoon"
       "jordanbaird-ice@beta" # TODO: we need to use "Beta" for now to support Tahoe.
       "intellij-idea-ce"
+      "mediamate"
       "modrinth"
       "monodraw"
       "mos"
@@ -77,7 +78,10 @@
     };
   };
 
-  environment.shells = with pkgs; [ fish zsh ];
+  environment.shells = with pkgs; [
+    fish
+    zsh
+  ];
 
   # Until https://github.com/NixOS/nix/issues/7273 is fixed,
   # auto-optimize-store should be left off. We can approximate it by using
