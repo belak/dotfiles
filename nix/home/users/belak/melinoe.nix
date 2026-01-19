@@ -23,12 +23,8 @@
     typst
     typstyle
     tinymist
-    senpai
 
-    # The Spotify package is currently broken, so we install it using homebrew
-    # instead.
-    #spotify
-    templ
+    my.senpai
 
     unstable.claude-code
   ];
