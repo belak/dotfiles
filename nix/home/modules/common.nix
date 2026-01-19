@@ -46,6 +46,7 @@ in
       openssl
       pwgen
       ripgrep
+      scc
       starship
       tmux
       tree
