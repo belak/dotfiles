@@ -27,7 +27,11 @@ format = '@$hostname '
 
 [directory]
 style = 'bold green'
-truncate_to_repo = false
+
+# These two options together are a fun trick which doesn't truncate unless
+# you're in a repo, in which case it truncates to the repo root.
+fish_style_pwd_dir_length = 1
+truncation_length = 0
 
 [python]
 format = '[\[${pyenv_prefix}(${version})( \($virtualenv\))\] ]($style)'
