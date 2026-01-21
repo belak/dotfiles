@@ -40,3 +40,10 @@ end
 set -g fish_autosuggestion_enabled 0
 set fish_greeting
 
+#
+# Local settings
+#
+
+if test -f ~/.config/fish/config.local.fish
+    source ~/.config/fish/config.local.fish
+end

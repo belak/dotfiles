@@ -1,5 +1,9 @@
 # PATH additions
 
+# Personal utils and scripts
+fish_add_path --prepend \
+    $HOME/bin
+
 # Application binaries
 fish_add_path --prepend \
     /Applications/Ghostty.app/Contents/MacOS \
