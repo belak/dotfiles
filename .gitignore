@@ -38,5 +38,6 @@ config/fish/completions
 config/fish/fish_variables
 config/fish/functions
 config/fish/themes
+config/fish/config.local.fish
 
 .direnv
