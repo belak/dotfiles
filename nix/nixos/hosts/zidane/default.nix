@@ -93,6 +93,8 @@
     };
   };
 
+  home-manager.users.belak = ../../../home/users/belak/zidane.nix;
+
   networking = {
     hostName = "zidane";
     domain = "elwert.dev";

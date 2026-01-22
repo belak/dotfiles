@@ -28,18 +28,19 @@
       modules,
     }:
     nixpkgs.lib.nixosSystem {
+      specialArgs = {
+        inherit self;
+        inherit agenix;
+      };
+
       modules = [
         self.nixosModules.default
         agenix.nixosModules.default
         disko.nixosModules.disko
+        home-manager.nixosModules.default
         nixos-x13s.nixosModules.default
       ]
       ++ modules;
-
-      # Pass extra inputs through to all modules.
-      specialArgs = {
-        inherit self;
-      };
     };
 
   # mkDarwinSystem is a convenience function for declaring a nix-darwin system.

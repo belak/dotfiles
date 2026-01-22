@@ -202,13 +202,6 @@
               ./nix/home/users/belak/quina.nix
             ];
           };
-          "belak@zidane" = myLib.mkHome {
-            system = "x86_64-linux";
-            modules = [
-              ./nix/home/users/belak
-              ./nix/home/users/belak/zidane.nix
-            ];
-          };
           "belak@zorn" = myLib.mkHome {
             system = "x86_64-linux";
             modules = [
@@ -242,10 +235,8 @@
           zidane = {
             hostname = "zidane.elwert.dev";
             profilesOrder = [
-              "belak"
               "system"
             ];
-            profiles.belak = myLib.mkHomeDeploy self.homeConfigurations."belak@zidane";
             profiles.system = myLib.mkNixosDeploy self.nixosConfigurations.zidane;
           };
         };
