@@ -136,66 +136,26 @@
         # There are some things nixos and nix-darwin can't provide; for everything
         # else there's home-manager.
         #
-        # It's better for these to be host-specific configs, so we can still have
-        # host-specific configuration, but we provide a default "belak" fallback
-        # for the most common cases.
-        homeConfigurations = {
-          "belak@beatrix" = myLib.mkHome {
-            system = "x86_64-linux";
-            modules = [
-              ./nix/home/users/belak
-              ./nix/home/users/belak/beatrix.nix
-            ];
-          };
-          "belak@eiko" = myLib.mkHome {
-            system = "x86_64-linux";
-            modules = [
-              ./nix/home/users/belak
-              ./nix/home/users/belak/eiko.nix
-            ];
-          };
-          "belak@freya" = myLib.mkHome {
-            system = "x86_64-linux";
-            modules = [
-              ./nix/home/users/belak
-              ./nix/home/users/belak/freya.nix
-            ];
-          };
-          "belak@quina" = myLib.mkHome {
-            system = "aarch64-linux";
-            modules = [
-              ./nix/home/users/belak
-              ./nix/home/users/belak/quina.nix
-            ];
-          };
-        };
+        # Note that this is no longer used - it is left around in case it's
+        # needed in the future.
+        homeConfigurations = { };
 
         deploy.nodes = {
           eiko = {
             hostname = "eiko.elwert.dev";
-            profilesOrder = [
-              "belak"
-              "system"
-            ];
-            profiles.belak = myLib.mkHomeDeploy self.homeConfigurations."belak@eiko";
+            profilesOrder = [ "system" ];
             profiles.system = myLib.mkNixosDeploy self.nixosConfigurations.eiko;
           };
 
           freya = {
             hostname = "freya.elwert.dev";
-            profilesOrder = [
-              "belak"
-              "system"
-            ];
-            profiles.belak = myLib.mkHomeDeploy self.homeConfigurations."belak@freya";
+            profilesOrder = [ "system" ];
             profiles.system = myLib.mkNixosDeploy self.nixosConfigurations.freya;
           };
 
           zidane = {
             hostname = "zidane.elwert.dev";
-            profilesOrder = [
-              "system"
-            ];
+            profilesOrder = [ "system" ];
             profiles.system = myLib.mkNixosDeploy self.nixosConfigurations.zidane;
           };
         };
