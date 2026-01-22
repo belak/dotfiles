@@ -116,14 +116,6 @@
             ];
           };
 
-          # MacBook UTM Instance
-          "hades" = myLib.mkNixosSystem {
-            modules = [
-              ./nix/nixos/hosts/hades
-              ./nix/nixos/users/belak
-            ];
-          };
-
           # ThinkPad X13s Gen 1
           "quina" = myLib.mkNixosSystem {
             modules = [
@@ -136,14 +128,6 @@
           "zidane" = myLib.mkNixosSystem {
             modules = [
               ./nix/nixos/hosts/zidane
-              ./nix/nixos/users/belak
-            ];
-          };
-
-          # Primary Desktop
-          "zorn" = myLib.mkNixosSystem {
-            modules = [
-              ./nix/nixos/hosts/zorn
               ./nix/nixos/users/belak
             ];
           };
@@ -177,25 +161,11 @@
               ./nix/home/users/belak/freya.nix
             ];
           };
-          "belak@hades" = myLib.mkHome {
-            system = "aarch64-linux";
-            modules = [
-              ./nix/home/users/belak
-              ./nix/home/users/belak/hades.nix
-            ];
-          };
           "belak@quina" = myLib.mkHome {
             system = "aarch64-linux";
             modules = [
               ./nix/home/users/belak
               ./nix/home/users/belak/quina.nix
-            ];
-          };
-          "belak@zorn" = myLib.mkHome {
-            system = "x86_64-linux";
-            modules = [
-              ./nix/home/users/belak
-              ./nix/home/users/belak/zorn.nix
             ];
           };
         };
