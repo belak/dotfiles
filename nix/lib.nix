@@ -26,6 +26,7 @@
   mkNixosSystem =
     {
       modules,
+      homeUsers ? {},
     }:
     nixpkgs.lib.nixosSystem {
       specialArgs = {
@@ -39,6 +40,7 @@
         disko.nixosModules.disko
         home-manager.nixosModules.default
         nixos-x13s.nixosModules.default
+        { home-manager.users = homeUsers; }
       ]
       ++ modules;
     };
@@ -47,6 +49,7 @@
   mkDarwinSystem =
     {
       modules,
+      homeUsers ? {},
     }:
     darwin.lib.darwinSystem {
       # We sometimes turn this on when testing against the nix-darwin master
@@ -64,6 +67,7 @@
         self.darwinModules.default
         agenix.darwinModules.default
         home-manager.darwinModules.default
+        { home-manager.users = homeUsers; }
       ]
       ++ modules;
     };

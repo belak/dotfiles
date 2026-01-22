@@ -88,6 +88,9 @@
               ./nix/darwin/hosts/melinoe.nix
               ./nix/darwin/users/belak
             ];
+            homeUsers = {
+              belak = ./nix/home/users/belak/melinoe.nix;
+            };
           };
         };
 
@@ -98,6 +101,9 @@
               ./nix/nixos/hosts/beatrix
               ./nix/nixos/users/belak
             ];
+            homeUsers = {
+              belak = ./nix/home/users/belak/beatrix.nix;
+            };
           };
 
           # ThinkCentre M93p
@@ -106,6 +112,9 @@
               ./nix/nixos/hosts/eiko
               ./nix/nixos/users/belak
             ];
+            homeUsers = {
+              belak = ./nix/home/users/belak/eiko.nix;
+            };
           };
 
           # Beelink Mini S12 Pro
@@ -114,6 +123,9 @@
               ./nix/nixos/hosts/freya
               ./nix/nixos/users/belak
             ];
+            homeUsers = {
+              belak = ./nix/home/users/belak/freya.nix;
+            };
           };
 
           # ThinkPad X13s Gen 1
@@ -122,6 +134,9 @@
               ./nix/nixos/hosts/quina
               ./nix/nixos/users/belak
             ];
+            homeUsers = {
+              belak = ./nix/home/users/belak/quina.nix;
+            };
           };
 
           # ThinkPad T460
@@ -130,6 +145,9 @@
               ./nix/nixos/hosts/zidane
               ./nix/nixos/users/belak
             ];
+            homeUsers = {
+              belak = ./nix/home/users/belak/zidane.nix;
+            };
           };
         };
 

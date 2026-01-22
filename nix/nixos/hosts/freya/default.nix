@@ -37,8 +37,6 @@ in
     services.plex.enable = true;
   };
 
-  home-manager.users.belak = ../../../home/users/belak/freya.nix;
-
   fileSystems = {
     # Base network filesystems
     "/mnt/amarant/media" = {
