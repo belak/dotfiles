@@ -32,30 +32,34 @@
 
   services.fwupd.enable = true;
   services.openssh.enable = true;
-  services.pulseaudio.enable = true;
+  #services.pulseaudio.enable = true;
 
   # Because we use a GUI on this computer but aren't using a full DE, we need to
   # enable a few things that the Gnome module would otherwise do for us.
   hardware.graphics.enable = true;
   programs.dconf.enable = true;
+  services.system76-scheduler.enable = true;
 
   environment.systemPackages = with pkgs; [
     solaar
-    swayidle
+    #swayidle
   ];
 
-  programs.gtklock = {
-    enable = true;
-    modules = with pkgs; [
-      gtklock-powerbar-module
-    ];
-  };
+  #programs.gtklock = {
+  #  enable = true;
+  #  modules = with pkgs; [
+  #    gtklock-powerbar-module
+  #  ];
+  #};
 
   #xdg.portal = {
   #  enable = true;
   #  extraPortals = [ pkgs.xdg-desktop-portal-gnome ];
   #  configPackages = [ pkgs.niri ];
   #};
+
+  services.displayManager.cosmic-greeter.enable = true;
+  services.desktopManager.cosmic.enable = true;
 
   # This value determines the NixOS release from which the default
   # settings for stateful data, like file locations and database versions

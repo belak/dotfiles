@@ -42,6 +42,10 @@
   # Default to US Pacific, but allow it to be overridden, such as in server.nix
   time.timeZone = lib.mkDefault "US/Pacific";
 
+  programs.fish = {
+    enable = true;
+  };
+
   programs.zsh = {
     enable = true;
 

@@ -15,7 +15,7 @@ in
       "dialout"
     ]
     ++ extraGroups;
-    shell = pkgs.zsh;
+    shell = pkgs.fish;
 
     # subuid and subgid allows podman to work as expected.
     subUidRanges = [
