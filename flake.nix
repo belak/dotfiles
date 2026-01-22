@@ -83,10 +83,6 @@
         overlays = import ./nix/overlays.nix inputs;
 
         darwinConfigurations = {
-          "baku" = myLib.mkDarwinSystem {
-            modules = [ ./nix/darwin/hosts/baku.nix ];
-          };
-
           "melinoe" = myLib.mkDarwinSystem {
             modules = [
               ./nix/darwin/hosts/melinoe.nix
@@ -160,13 +156,6 @@
         # host-specific configuration, but we provide a default "belak" fallback
         # for the most common cases.
         homeConfigurations = {
-          "belak@baku" = myLib.mkHome {
-            system = "x86_64-darwin";
-            modules = [
-              ./nix/home/users/belak
-              ./nix/home/users/belak/baku.nix
-            ];
-          };
           "belak@beatrix" = myLib.mkHome {
             system = "x86_64-linux";
             modules = [
