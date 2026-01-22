@@ -35,8 +35,6 @@
     };
   };
 
-  home-manager.users.belak = ../../home/users/belak/melinoe.nix;
-
   # Used for backwards compatibility, please read the changelog before changing.
   # $ darwin-rebuild changelog
   system.stateVersion = 5;

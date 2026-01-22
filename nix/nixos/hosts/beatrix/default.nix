@@ -23,8 +23,6 @@
     laptop.enable = true;
   };
 
-  home-manager.users.belak = ../../../home/users/belak/beatrix.nix;
-
   networking.networkmanager.enable = true;
 
   services.fwupd.enable = true;

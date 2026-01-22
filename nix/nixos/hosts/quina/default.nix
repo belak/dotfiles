@@ -21,8 +21,6 @@
     };
   };
 
-  home-manager.users.belak = ../../../home/users/belak/quina.nix;
-
   fonts = {
     enableDefaultPackages = true;
     packages = with pkgs; [

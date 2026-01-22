@@ -29,8 +29,6 @@
     };
   };
 
-  home-manager.users.belak = ../../../home/users/belak/eiko.nix;
-
   networking = {
     hostName = "eiko";
     domain = "elwert.dev";
