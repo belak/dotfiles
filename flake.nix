@@ -170,6 +170,9 @@
           ...
         }:
         {
+          # Normally we'd use the default nixpkgs here, but unfortunately we
+          # want to prefer deploy-rs from our overlay to avoid long install
+          # times from source.
           _module.args.pkgs = import inputs.nixpkgs {
             inherit system;
             overlays = builtins.attrValues self.overlays;
