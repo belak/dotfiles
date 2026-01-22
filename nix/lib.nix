@@ -56,11 +56,13 @@
 
       specialArgs = {
         inherit self;
+        inherit agenix;
       };
 
       modules = [
         self.darwinModules.default
         agenix.darwinModules.default
+        home-manager.darwinModules.default
       ]
       ++ modules;
     };

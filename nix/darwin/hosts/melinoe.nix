@@ -1,4 +1,6 @@
 {
+  self,
+  agenix,
   config,
   lib,
   pkgs,
@@ -32,6 +34,8 @@
       "Mp3tag" = 1532597159;
     };
   };
+
+  home-manager.users.belak = ../../home/users/belak/melinoe.nix;
 
   # Used for backwards compatibility, please read the changelog before changing.
   # $ darwin-rebuild changelog

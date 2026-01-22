@@ -90,6 +90,7 @@
           "melinoe" = myLib.mkDarwinSystem {
             modules = [
               ./nix/darwin/hosts/melinoe.nix
+              ./nix/darwin/users/belak
             ];
           };
         };
@@ -199,13 +200,6 @@
             modules = [
               ./nix/home/users/belak
               ./nix/home/users/belak/quina.nix
-            ];
-          };
-          "belak@melinoe" = myLib.mkHome {
-            system = "aarch64-darwin";
-            modules = [
-              ./nix/home/users/belak
-              ./nix/home/users/belak/melinoe.nix
             ];
           };
           "belak@zidane" = myLib.mkHome {
