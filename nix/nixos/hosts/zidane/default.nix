@@ -26,6 +26,9 @@
 
       virtualHosts = {
         # Hosted on eiko
+        "files.elwert.cloud" = {
+          backend = "http://eiko.elwert.dev";
+        };
         "git.elwert.cloud" = {
           backend = "http://eiko.elwert.dev";
         };
@@ -69,7 +72,6 @@
             "www.elwert.cloud"
             "old-git.elwert.cloud"
             "cloud.elwert.cloud"
-            "files.elwert.cloud"
             "emby.elwert.cloud"
             "btta-api.elwert.cloud"
             "btta-media.elwert.cloud"

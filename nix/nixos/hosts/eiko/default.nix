@@ -23,6 +23,7 @@
       forgejo.enable = true;
       miniflux.enable = true;
       nginx.enable = true;
+      opencloud.enable = true;
       pocket-id.enable = true;
       postgres.enable = true;
       soju.enable = true;
@@ -36,29 +37,18 @@
 
   # Temporary during migration off synology
   fileSystems = {
-    "/mnt/synology/p1" = {
-      device = "garnet.elwert.dev:/volume1/Media";
+    # Base network filesystems
+    "/mnt/amarant/media" = {
+      device = "amarant.elwert.dev:/var/nfs/shared/Media";
       fsType = "nfs";
     };
 
-    "/mnt/synology/p2" = {
-      device = "garnet-2.elwert.dev:/volume1/Media";
-      fsType = "nfs";
-    };
-
-    "/mnt/synology/p3" = {
-      device = "garnet-3.elwert.dev:/volume1/Media";
-      fsType = "nfs";
-    };
-
-    "/mnt/synology/p4" = {
-      device = "garnet-4.elwert.dev:/volume1/Media";
-      fsType = "nfs";
-    };
-
-    "/mnt/unas/media" = {
-      device = "armarant.elwert.dev:/var/nfs/shared/Media";
-      fsType = "nfs";
+    "/mnt/media" = {
+      device = "/mnt/amarant/media";
+      options = [
+        "bind"
+        "ro"
+      ];
     };
   };
 
