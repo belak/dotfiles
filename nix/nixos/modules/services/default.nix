@@ -6,6 +6,7 @@
     ./jellyfin.nix
     ./miniflux.nix
     ./nginx.nix
+    ./opencloud.nix
     ./pocket-id.nix
     ./plex.nix
     ./postgres.nix
