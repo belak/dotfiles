@@ -16,21 +16,28 @@ in
 
   config = lib.mkIf cfg.enable {
     services.opencloud = {
-      enable = false;
+      enable = true;
       url = "https://${cfg.domain}";
       environment = {
-        PROXY_TLS = "true";
+        PROXY_TLS = "false";
+        OC_DOMAIN = cfg.domain;
+        #OC_INSECURE = "true";
       };
       environmentFile = config.age.secrets.opencloud-env.path;
     };
 
     age.secrets.opencloud-env = {
       file = ../../../../secrets/opencloud-env.age;
-      #owner = opencloudConfig.user;
     };
 
     services.nginx.virtualHosts."${cfg.domain}" = {
-      locations."/".proxyPass = "http://localhost:${toString opencloudConfig.port}";
+      locations."/" = {
+        proxyPass = "https://localhost:${toString opencloudConfig.port}";
+        extraConfig = ''
+          proxy_ssl_verify off;
+        '';
+        recommendedProxySettings = true;
+      };
     };
   };
 }

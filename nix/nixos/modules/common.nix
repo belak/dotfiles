@@ -27,6 +27,7 @@
   environment.systemPackages = with pkgs; [
     dig
     git
+    net-tools
     sysbench
     vim
 
