@@ -16,6 +16,11 @@
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
 
+  networking = {
+    hostName = "eiko";
+    domain = "elwert.dev";
+  };
+
   belak = {
     server.enable = true;
 
@@ -23,19 +28,13 @@
       forgejo.enable = true;
       miniflux.enable = true;
       nginx.enable = true;
-      opencloud.enable = true;
+      #opencloud.enable = true;
       pocket-id.enable = true;
       postgres.enable = true;
       soju.enable = true;
     };
   };
 
-  networking = {
-    hostName = "eiko";
-    domain = "elwert.dev";
-  };
-
-  # Temporary during migration off synology
   fileSystems = {
     # Base network filesystems
     "/mnt/amarant/media" = {
@@ -43,6 +42,7 @@
       fsType = "nfs";
     };
 
+    # Bind mounts for a bit more control
     "/mnt/media" = {
       device = "/mnt/amarant/media";
       options = [
