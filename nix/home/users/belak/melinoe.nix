@@ -9,7 +9,6 @@
   };
 
   nixpkgs.allowedUnfree = [
-    "claude-code"
     "discord"
     "obsidian"
     #"spotify"
@@ -25,8 +24,6 @@
     tinymist
 
     my.senpai
-
-    unstable.claude-code
   ];
 
   programs.starship = {
