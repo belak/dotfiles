@@ -22,10 +22,16 @@
   };
 
   homebrew = {
+    brews = [
+      "ccusage"
+    ];
+
     casks = [
+      "adobe-digital-editions"
       "blackhole-2ch"
       "inkscape"
       "spotify"
+      "claude-code"
     ];
 
     masApps = {
