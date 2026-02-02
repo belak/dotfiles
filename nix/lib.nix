@@ -22,11 +22,19 @@
 
   optionalFile = path: if builtins.pathExists path then [ path ] else [ ];
 
+  # importModulesRecursive recursively imports all .nix files from a directory
+  # and returns them as a list of modules.
+  importModulesRecursive =
+    dir:
+    builtins.filter (path: nixpkgs.lib.hasSuffix ".nix" (toString path)) (
+      nixpkgs.lib.filesystem.listFilesRecursive dir
+    );
+
   # mkNixosSystem is a convenience function for declaring a nixos system.
   mkNixosSystem =
     {
       modules,
-      homeUsers ? {},
+      homeUsers ? { },
     }:
     nixpkgs.lib.nixosSystem {
       specialArgs = {
@@ -49,7 +57,7 @@
   mkDarwinSystem =
     {
       modules,
-      homeUsers ? {},
+      homeUsers ? { },
     }:
     darwin.lib.darwinSystem {
       # We sometimes turn this on when testing against the nix-darwin master
