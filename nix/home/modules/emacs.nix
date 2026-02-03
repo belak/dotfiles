@@ -31,6 +31,7 @@ in
             epkgs.elpaPackages.undo-tree
 
             epkgs.melpaPackages.ace-window
+            epkgs.melpaPackages.agent-shell
             epkgs.melpaPackages.bazel
             epkgs.melpaPackages.blacken
             epkgs.melpaPackages.blackout
