@@ -24,6 +24,8 @@ in
         emacsWithPackages = (emacsPackagesFor myEmacs).emacsWithPackages;
       in
       [
+        claude-code-acp
+
         (emacsWithPackages (
           epkgs:
           [

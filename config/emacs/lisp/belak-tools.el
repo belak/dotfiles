@@ -65,7 +65,13 @@
   :bind ("C-c s c" . agent-shell)
   :config
   (setq agent-shell-preferred-agent-config
-        (agent-shell-anthropic-make-claude-code-config)))
+        (agent-shell-anthropic-make-claude-code-config))
+
+  ;; Use text header instead of graphical header
+  (setq agent-shell-header-style 'text)
+
+  ;; Open in current frame instead of new frame
+  (setq agent-shell-display-action '(display-buffer-same-window)))
 
 (use-package envrc
   :demand t
