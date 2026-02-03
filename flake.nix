@@ -76,15 +76,9 @@
       flake = {
         lib = myLib;
 
-        darwinModules.default = {
-          imports = myLib.importModulesRecursive ./nix/darwin/modules;
-        };
-        homeModules.default = {
-          imports = myLib.importModulesRecursive ./nix/home/modules;
-        };
-        nixosModules.default = {
-          imports = myLib.importModulesRecursive ./nix/nixos/modules;
-        };
+        darwinModules.default = import ./nix/darwin/modules;
+        homeModules.default = import ./nix/home/modules;
+        nixosModules.default = import ./nix/nixos/modules;
 
         overlays = import ./nix/overlays.nix inputs;
 
