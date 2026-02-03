@@ -2,6 +2,7 @@
   nixpkgs-unstable,
   agenix,
   deploy-rs,
+  emacs-overlay,
   nix-vscode-extensions,
   ...
 }:
@@ -16,6 +17,8 @@
   agenix = agenix.overlays.default;
 
   deploy-rs-overlay = deploy-rs.overlays.default;
+
+  emacs = emacs-overlay.overlays.default;
 
   # This is a modified version of what's in the deploy-rs readme. For some
   # reason overriding deploy-rs entirely seems to clobber the needed `lib` attr,
