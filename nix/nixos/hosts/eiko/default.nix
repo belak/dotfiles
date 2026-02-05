@@ -32,6 +32,7 @@
       pocket-id.enable = true;
       postgres.enable = true;
       soju.enable = true;
+      syncthing.enable = true;
     };
   };
 
@@ -48,6 +49,14 @@
       options = [
         "bind"
         "ro"
+      ];
+    };
+
+    "/mnt/syncthing" = {
+      device = "/mnt/amarant/media/Sync";
+      options = [
+        "bind"
+        "rw"
       ];
     };
   };
