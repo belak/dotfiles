@@ -11,5 +11,6 @@
     ./plex.nix
     ./postgres.nix
     ./soju.nix
+    ./syncthing.nix
   ];
 }

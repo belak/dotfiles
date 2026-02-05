@@ -39,6 +39,7 @@ let
   service-miniflux = [ system-eiko ];
   service-opencloud = [ system-eiko ];
   service-pocket-id = [ system-eiko ];
+  service-syncthing = [ system-eiko ];
 in
 {
   "acme-cloudflare-env.age".publicKeys = users ++ [
@@ -59,4 +60,6 @@ in
   "forgejo-oidc-client-id.age".publicKeys = service-forgejo ++ users;
   "forgejo-oidc-client-secret.age".publicKeys = service-forgejo ++ users;
   "forgejo-smtp-password.age".publicKeys = service-forgejo ++ users;
+
+  "syncthing-gui-password.age".publicKeys = service-syncthing ++ users;
 }
