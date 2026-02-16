@@ -201,7 +201,7 @@
           # and nixfmt-rfc-style. As rfc-style is the "up-and-coming" format, we use
           # that rather than stock nixfmt.
           formatter = pkgs.treefmt.withConfig {
-            runtimeInputs = [ pkgs.nixfmt-rfc-style ];
+            runtimeInputs = [ pkgs.nixfmt ];
 
             settings = {
               # Log level for files treefmt won't format

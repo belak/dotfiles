@@ -64,7 +64,7 @@ in
       unstable.nix-index
       unstable.nix-tree
       unstable.nixd
-      unstable.nixfmt-rfc-style
+      unstable.nixfmt
       unstable.nixos-anywhere
       unstable.statix
 
