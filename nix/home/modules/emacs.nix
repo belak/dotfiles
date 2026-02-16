@@ -89,9 +89,7 @@ in
             epkgs.melpaPackages.ob-restclient
             epkgs.melpaPackages.orderless
             # org
-            # org-contrib
-            # org-roam
-            #epkgs.melpaPackages.org-gtd
+            epkgs.melpaPackages.org-ql
             epkgs.melpaPackages.package-lint
             epkgs.melpaPackages.page-break-lines
             epkgs.melpaPackages.php-mode
