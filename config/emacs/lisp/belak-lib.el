@@ -29,9 +29,11 @@
 ;;
 ;;; Constants
 
-(defconst IS-MAC   (eq system-type 'darwin))
-(defconst IS-LINUX (eq system-type 'gnu/linux))
-(defconst IS-GUI   (display-graphic-p))
+(defconst IS-MAC      (eq system-type 'darwin))
+(defconst IS-LINUX    (eq system-type 'gnu/linux))
+(defconst IS-GUI      (display-graphic-p))
+(defconst IS-PERSONAL (string-suffix-p ".elwert.dev" (system-name)))
+(defconst IS-WORK     (not IS-PERSONAL))
 
 
 ;;
