@@ -19,6 +19,7 @@
     libation
     neomutt
     nix-init
+    pandoc
     typst
     typstyle
     tinymist
