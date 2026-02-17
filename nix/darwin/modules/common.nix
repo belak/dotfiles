@@ -42,7 +42,6 @@
       "font-symbols-only-nerd-font"
       "ghostty"
       "hammerspoon"
-      "jordanbaird-ice@beta" # TODO: we need to use "Beta" for now to support Tahoe.
       "intellij-idea-ce"
       "mediamate"
       "modrinth"
@@ -55,6 +54,7 @@
       "prismlauncher"
       "prusaslicer"
       "textual"
+      "thaw"
 
       # Stuff I'm trying out.
       "pinta"
