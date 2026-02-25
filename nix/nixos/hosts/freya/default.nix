@@ -85,6 +85,14 @@ in
       ];
     };
 
+    "/mnt/plex/Music" = {
+      device = "/mnt/amarant/media/Music";
+      options = [
+        "bind"
+        "ro"
+      ];
+    };
+
     "/mnt/plex/TV" = {
       device = "/mnt/amarant/media/TV";
       options = [
