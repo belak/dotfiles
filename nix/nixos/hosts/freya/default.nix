@@ -61,31 +61,7 @@ in
       ];
     };
 
-    "/mnt/media/TV" = {
-      device = "/mnt/amarant/media/TV";
-      options = [
-        "bind"
-        "ro"
-      ];
-    };
-
-    "/mnt/plex/Home Videos" = {
-      device = "/mnt/amarant/media/Home Videos";
-      options = [
-        "bind"
-        "ro"
-      ];
-    };
-
-    "/mnt/plex/Movies" = {
-      device = "/mnt/amarant/media/Movies";
-      options = [
-        "bind"
-        "ro"
-      ];
-    };
-
-    "/mnt/plex/Music" = {
+    "/mnt/media/Music" = {
       device = "/mnt/amarant/media/Music";
       options = [
         "bind"
@@ -93,14 +69,13 @@ in
       ];
     };
 
-    "/mnt/plex/TV" = {
+    "/mnt/media/TV" = {
       device = "/mnt/amarant/media/TV";
       options = [
         "bind"
         "ro"
       ];
     };
-
   };
 
   users.users.minecraft-all-the-calzones = {
