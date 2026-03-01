@@ -21,22 +21,17 @@ in
 
   config = lib.mkIf cfg.enable {
     home.file = {
-      ".config/alacritty" = mkSource "config/alacritty";
       ".config/belak" = mkSource "config/belak";
       ".config/direnv/direnv.toml" = mkSource "config/direnv/direnv.toml";
       ".config/doom" = mkSource "config/doom";
       ".config/emacs" = mkSource "config/emacs";
       ".config/finicky" = mkSource "config/finicky";
       ".config/fish" = mkSource "config/fish";
-      ".config/foot" = mkSource "config/foot";
       ".config/ghostty" = mkSource "config/ghostty";
       ".config/git" = mkSource "config/git";
-      ".config/niri" = mkSource "config/niri";
       ".config/nvim" = mkSource "config/nvim";
       ".config/starship.toml" = mkSource "config/starship.toml";
-      ".config/swayidle" = mkSource "config/swayidle";
       ".config/tmux" = mkSource "config/tmux";
-      ".config/waybar" = mkSource "config/waybar";
 
       ".editorconfig" = mkSource "editorconfig";
       ".hammerspoon" = mkSource "hammerspoon";
