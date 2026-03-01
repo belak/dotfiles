@@ -17,6 +17,7 @@ font-thicken = true
 
 # A few UI tweaks
 cursor-style-blink = false
+gtk-titlebar-style = "tabs"
 macos-icon = blueprint
 
 # Behavior tweaks
