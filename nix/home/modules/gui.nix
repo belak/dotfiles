@@ -26,7 +26,6 @@ in
       calibre
       #discord
       firefox
-      foot
       ghostty
       gimp
       gnome-tweaks
