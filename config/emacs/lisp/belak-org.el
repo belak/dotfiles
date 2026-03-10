@@ -23,6 +23,25 @@
   "Current org context filter: 'work, 'home, or nil.
 When nil, no filter is applied and all directories are included in agenda.")
 
+(defvar belak-org-weekly-template
+  "#+TITLE: %s
+#+STARTUP: content
+
+* Weekly Priorities
+
+* Monday
+* Tuesday
+* Wednesday
+* Thursday
+* Friday
+
+* Review
+** What went well
+
+** What could improve
+"
+  "Template for new weekly org files. %s is replaced with the week title (e.g. 2026-W10).")
+
 
 ;;
 ;;; Functions
@@ -75,6 +94,27 @@ When context is nil, uses IS-WORK to determine directory."
 (defun belak/org-current-inbox-file ()
   "Return path to inbox file based on context filter."
   (belak/org-context-file "inbox.org"))
+
+(defun belak/org-open-current-weekly ()
+  "Open the current week's org file, creating it from template if it doesn't exist."
+  (interactive)
+  (let* ((file (belak/org-current-weekly-file))
+         (title (format-time-string "%G-W%V")))
+    (unless (file-exists-p file)
+      (make-directory (file-name-directory file) t)
+      (with-temp-file file
+        (insert (format belak-org-weekly-template title))))
+    (find-file file)))
+
+(defun belak/org-goto-current-day-heading ()
+  "In the current weekly file, move point to end of today's heading.
+Creates the heading if it does not exist."
+  (let ((day (format-time-string "%A")))
+    (goto-char (point-min))
+    (if (re-search-forward (concat "^\\* " (regexp-quote day) "$") nil t)
+        (org-end-of-subtree t)
+      (goto-char (point-max))
+      (insert (format "\n* %s\n" day)))))
 
 
 ;;
