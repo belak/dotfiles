@@ -87,10 +87,6 @@ When context is nil, uses IS-WORK to determine directory."
   (belak/org-context-file
    (format-time-string "weekly/%G-W%V.org")))
 
-(defun belak/org-current-meetings-file ()
-  "Return path to meetings file based on context filter."
-  (belak/org-context-file "meetings.org"))
-
 (defun belak/org-current-inbox-file ()
   "Return path to inbox file based on context filter."
   (belak/org-context-file "inbox.org"))
@@ -128,6 +124,7 @@ Creates the heading if it does not exist."
          ("C-c l" . org-store-link)
          ("C-c j" . org-clock-goto)
          ("C-c t" . belak/org-toggle-context)
+         ("C-c w" . belak/org-open-current-weekly)
          (:map org-mode-map
                ("C-c C-r" . org-refile)
                ("C-c v"   . org-show-todo-tree)))
@@ -202,9 +199,15 @@ Creates the heading if it does not exist."
       "* TODO %?\n"
       :empty-lines 1)
 
+     ("T" "Weekly Priority" entry
+      (file+headline belak/org-current-weekly-file "Weekly Priorities")
+      "** TODO %?\n"
+      :empty-lines 1)
+
      ("m" "Meeting" entry
-      (file+headline belak/org-current-meetings-file "Meetings")
-      "* %<%Y-%m-%d %H:%M> - %?\n** Attendees\n- \n\n** Notes\n\n** Action Items\n- [ ] \n"
+      (file+function belak/org-current-weekly-file
+                     belak/org-goto-current-day-heading)
+      "** %<%H:%M> - %?\n*** Notes\n\n*** Action Items\n- [ ] \n"
       :empty-lines 1)
 
      ("n" "Note" entry
