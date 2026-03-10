@@ -66,7 +66,7 @@ When context is nil, uses IS-WORK to determine directory."
 (defun belak/org-current-weekly-file ()
   "Return path to current week's org file based on context filter."
   (belak/org-context-file
-   (format-time-string "weekly/%Y-W%V.org")))
+   (format-time-string "weekly/%G-W%V.org")))
 
 (defun belak/org-current-meetings-file ()
   "Return path to meetings file based on context filter."
