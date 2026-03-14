@@ -14,7 +14,7 @@ stdenv.mkDerivation rec {
     hash = "sha256-qeSBulxb9JcJuC1fnw5haf7b2QSDm1qnHC3ZHdxwsDI=";
   };
 
-  buildPhase = '':'';
+  buildPhase = ":";
 
   installPhase = ''
     mkdir -p "$out"

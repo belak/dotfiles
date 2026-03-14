@@ -57,7 +57,7 @@ in
         commonHeaders = [
           ''http-response add-header X-Clacks-Overhead "GNU Douglas Adams"''
           ''http-response add-header X-Clacks-Overhead "GNU Robert Asprin"''
-          ''http-response add-header X-Backend-Hostname %[hostname]''
+          "http-response add-header X-Backend-Hostname %[hostname]"
         ];
 
         backendMatchers = lib.flatten (

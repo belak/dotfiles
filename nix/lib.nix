@@ -26,7 +26,7 @@
   mkNixosSystem =
     {
       modules,
-      homeUsers ? {},
+      homeUsers ? { },
     }:
     nixpkgs.lib.nixosSystem {
       specialArgs = {
@@ -49,7 +49,7 @@
   mkDarwinSystem =
     {
       modules,
-      homeUsers ? {},
+      homeUsers ? { },
     }:
     darwin.lib.darwinSystem {
       # We sometimes turn this on when testing against the nix-darwin master
