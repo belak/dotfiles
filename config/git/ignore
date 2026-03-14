@@ -3,6 +3,7 @@
 .python-version
 .direnv
 CLAUDE.md
+CLAUDE.local.md
 .DS_Store
 
 **/.claude/settings.local.json
