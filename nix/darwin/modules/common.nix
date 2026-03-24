@@ -50,7 +50,7 @@
       "obsidian"
       "openscad"
       "orcaslicer"
-      "postgres-unofficial"
+      "postgres-app"
       "prismlauncher"
       "prusaslicer"
       "textual"
