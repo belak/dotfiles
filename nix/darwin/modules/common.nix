@@ -138,6 +138,8 @@
       NSAutomaticPeriodSubstitutionEnabled = false;
       NSAutomaticQuoteSubstitutionEnabled = false;
 
+      NSWindowShouldDragOnGesture = true;
+
       AppleInterfaceStyle = "Dark";
     };
 
