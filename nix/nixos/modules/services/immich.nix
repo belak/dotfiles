@@ -57,6 +57,10 @@ in
     };
 
     services.nginx.virtualHosts."${cfg.domain}" = {
+      extraConfig = ''
+        client_max_body_size 1G;
+      '';
+
       locations."/" = {
         proxyPass = "http://localhost:${toString config.services.immich.port}";
         proxyWebsockets = true;
