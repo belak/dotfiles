@@ -38,6 +38,7 @@ in
       findutils
       fzf
       git
+      git-filter-repo
       htop
       jq
       jump
