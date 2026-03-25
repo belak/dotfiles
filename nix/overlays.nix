@@ -4,6 +4,7 @@
   deploy-rs,
   emacs-overlay,
   nix-vscode-extensions,
+  belak-blog,
   ...
 }:
 {
@@ -12,6 +13,8 @@
       callPackage = final.callPackage;
       directory = ./pkgs;
     };
+
+    belak-blog = belak-blog.packages.${final.stdenv.hostPlatform.system}.default;
   };
 
   agenix = agenix.overlays.default;

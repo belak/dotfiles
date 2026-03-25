@@ -11,6 +11,11 @@
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
 
+  networking = {
+    hostName = "zidane";
+    domain = "elwert.dev";
+  };
+
   environment.systemPackages = with pkgs; [
     sqlite
   ];
@@ -25,6 +30,21 @@
       enable = true;
 
       virtualHosts = {
+        # Hosted here (zidane)
+        "belak.io" = {
+          backend = "http://localhost:8081";
+          useACMEHost = "blog";
+        };
+        "beta.belak.io" = {
+          backend = "http://localhost:8081";
+          useACMEHost = "blog";
+        };
+        "www.belak.io" = {
+          backend = "http://localhost:8081";
+          useACMEHost = "blog";
+        };
+
+
         # Hosted on eiko
         "files.elwert.cloud" = {
           backend = "http://eiko.elwert.dev";
@@ -98,15 +118,27 @@
     };
   };
 
-  networking = {
-    hostName = "zidane";
-    domain = "elwert.dev";
+  systemd.services.belak-blog = {
+    wantedBy = [ "multi-user.target" ];
+    wants = [ "network-online.target" ];
+    after = [ "network-online.target" ];
+    serviceConfig = {
+      Restart = "always";
+      ExecStart = "${pkgs.belak-blog}/bin/belak-blog -addr :8081";
+    };
   };
 
   security.acme.certs.primary = {
     domain = "elwert.cloud";
     extraDomainNames = [
       "*.elwert.cloud"
+    ];
+  };
+
+  security.acme.certs.blog = {
+    domain = "belak.io";
+    extraDomainNames = [
+      "*.belak.io"
     ];
   };
 
