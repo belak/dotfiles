@@ -60,7 +60,7 @@
       ];
     };
 
-    "/mnt/immich/upload" = {
+    "/mnt/photos" = {
       device = "/mnt/amarant/media/Photos";
       options = [
         "bind"
