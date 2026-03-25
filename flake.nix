@@ -57,6 +57,12 @@
       url = "github:BrainWart/x13s-nixos";
       inputs.nixpkgs.follows = "nixpkgs-unstable";
     };
+
+    belak-blog = {
+      url = "github:belak/blog";
+      inputs.nixpkgs.follows = "nixpkgs";
+      inputs.flake-parts.follows = "flake-parts";
+    };
   };
 
   outputs =
