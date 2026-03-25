@@ -52,7 +52,15 @@
       ];
     };
 
-    "/mnt/photos" = {
+    "/mnt/immich" = {
+      device = "/mnt/amarant/media/Apps/Immich";
+      options = [
+        "bind"
+        "rw"
+      ];
+    };
+
+    "/mnt/immich/upload" = {
       device = "/mnt/amarant/media/Photos";
       options = [
         "bind"

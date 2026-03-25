@@ -14,7 +14,7 @@ in
     services.immich = {
       enable = true;
 
-      mediaLocation = "/mnt/photos";
+      mediaLocation = "/mnt/immich";
 
       settings = {
         server.externalDomain = "https://${cfg.domain}";
