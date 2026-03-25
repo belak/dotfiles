@@ -36,6 +36,7 @@ let
   ];
 
   service-forgejo = [ system-eiko ];
+  service-immich = [ system-eiko ];
   service-miniflux = [ system-eiko ];
   service-opencloud = [ system-eiko ];
   service-pocket-id = [ system-eiko ];
@@ -48,6 +49,14 @@ in
   ];
   "belak-password.age".publicKeys = users ++ systems;
 
+  "forgejo-oidc-client-id.age".publicKeys = service-forgejo ++ users;
+  "forgejo-oidc-client-secret.age".publicKeys = service-forgejo ++ users;
+  "forgejo-smtp-password.age".publicKeys = service-forgejo ++ users;
+
+  "immich-smtp-password.age".publicKeys = service-immich ++ users;
+  "immich-oidc-client-id.age".publicKeys = service-immich ++ users;
+  "immich-oidc-client-secret.age".publicKeys = service-immich ++ users;
+
   "miniflux-admin-credentials.age".publicKeys = service-miniflux ++ users;
   "miniflux-oidc-client-id.age".publicKeys = service-miniflux ++ users;
   "miniflux-oidc-client-secret.age".publicKeys = service-miniflux ++ users;
@@ -56,10 +65,6 @@ in
 
   "pocket-id-encryption-key.age".publicKeys = service-pocket-id ++ users;
   "pocket-id-smtp-password.age".publicKeys = service-pocket-id ++ users;
-
-  "forgejo-oidc-client-id.age".publicKeys = service-forgejo ++ users;
-  "forgejo-oidc-client-secret.age".publicKeys = service-forgejo ++ users;
-  "forgejo-smtp-password.age".publicKeys = service-forgejo ++ users;
 
   "syncthing-gui-password.age".publicKeys = service-syncthing ++ users;
 }

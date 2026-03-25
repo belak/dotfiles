@@ -28,7 +28,7 @@
       forgejo.enable = true;
       miniflux.enable = true;
       nginx.enable = true;
-      #opencloud.enable = true;
+      immich.enable = true;
       pocket-id.enable = true;
       postgres.enable = true;
       soju.enable = true;
@@ -49,6 +49,14 @@
       options = [
         "bind"
         "ro"
+      ];
+    };
+
+    "/mnt/photos" = {
+      device = "/mnt/amarant/media/Photos";
+      options = [
+        "bind"
+        "rw"
       ];
     };
 

@@ -35,6 +35,9 @@
         "irc.elwert.cloud" = {
           backend = "http://eiko.elwert.dev";
         };
+        "photos.elwert.cloud" = {
+          backend = "http://eiko.elwert.dev";
+        };
         "pocket-id.elwert.cloud" = {
           backend = "http://eiko.elwert.dev";
         };
