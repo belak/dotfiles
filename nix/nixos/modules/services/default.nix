@@ -3,6 +3,7 @@
     ./caddy.nix
     ./forgejo.nix
     ./haproxy.nix
+    ./immich.nix
     ./jellyfin.nix
     ./miniflux.nix
     ./nginx.nix
