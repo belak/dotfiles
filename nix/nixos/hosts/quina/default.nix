@@ -15,11 +15,11 @@
 
   belak = {
     dev.enable = true;
-    gnome.enable = true;
     laptop = {
       enable = true;
       consoleFont = "ter-124n";
     };
+    xfce.enable = true;
   };
 
   fonts = {
