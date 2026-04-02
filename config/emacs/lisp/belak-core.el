@@ -83,28 +83,6 @@
 
 
 ;;
-;;; System Variables
-
-;; Because we use a number of programs that are installed at the user level in
-;; some instances (`rustup', `pyenv', `rbenv', etc) we need to make sure we load
-;; the path changes from the shell environment. We only need to do this when in
-;; a GUI on macOS and Linux because otherwise we should inherit the correct
-;; environment.
-;;
-;; Note that we do this first just in case any other packages need values from
-;; here.
-(use-package exec-path-from-shell
-  :demand t
-  :if (and IS-GUI (or IS-MAC IS-LINUX))
-  :config
-  ;; Setting `exec-path-from-shell-arguments' to nil makes it use a
-  ;; non-interactive shell which makes startup *much* quicker. This drops
-  ;; startup time from 6s to a few ms in some cases.
-  (setq exec-path-from-shell-arguments nil)
-  (exec-path-from-shell-initialize))
-
-
-;;
 ;;; Tweaks
 
 ;; This "fixes" any customizations we make so they don't polute the init.el. It

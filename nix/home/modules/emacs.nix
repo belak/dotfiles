@@ -57,7 +57,6 @@ in
             epkgs.melpaPackages.evil-leader
             epkgs.melpaPackages.evil-rsi
             epkgs.melpaPackages.evil-surround
-            epkgs.melpaPackages.exec-path-from-shell
             epkgs.melpaPackages.expand-region
             epkgs.melpaPackages.flycheck
             epkgs.melpaPackages.flycheck-golangci-lint
