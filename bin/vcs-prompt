@@ -35,7 +35,7 @@ jj_prompt() {
   local info
   info=$(jj log --no-graph -r @ -T '
     if(conflict, "conflict") ++ "\n"
-    ++ if(!description, "nodesc") ++ "\n"
+    ++ if(!description && !empty, "nodesc") ++ "\n"
     ++ change_id.shortest(4).prefix() ++ "\n"
     ++ change_id.shortest(4).rest() ++ "\n"
     ++ local_bookmarks.map(|b| b.name() ++ if(!b.synced(), "*")).join(", ")
