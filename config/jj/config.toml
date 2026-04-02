@@ -1,0 +1,8 @@
+[user]
+name = "Kaleb Elwert"
+email = "belak@coded.io"
+
+[[--scope]]
+--when.repositories = ["~/dd/"]
+[--scope.user]
+email = "kaleb.elwert@datadoghq.com"

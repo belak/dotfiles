@@ -31,6 +31,7 @@ in
       ".config/fish" = mkSource "config/fish";
       ".config/ghostty" = mkSource "config/ghostty";
       ".config/git" = mkSource "config/git";
+      ".config/jj/config.toml" = mkSource "config/jj/config.toml";
       ".config/nvim" = mkSource "config/nvim";
       ".config/starship.toml" = mkSource "config/starship.toml";
       ".config/tmux" = mkSource "config/tmux";
