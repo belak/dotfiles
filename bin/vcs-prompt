@@ -1,0 +1,114 @@
+#!/usr/bin/env bash
+# vcs-prompt: output VCS status for use in a shell prompt.
+# Handles jj and git repos, producing a consistent output style.
+#
+# jj output (matches jj log style):
+#   change_id bookmark ?
+#   - Change ID: bold bright magenta prefix, subdued white rest
+#   - Bookmarks: magenta, with * suffix when unsynced
+#   - Conflict: bold magenta "conflict" marker
+#   - No description: bold yellow "?"
+#
+# git output:
+#   [ahead/behind] [indicators] branch[:remote]
+#   Indicators: * (green) staged, * (yellow) modified, * (red) untracked,
+#               * (magenta) conflicted
+
+# ANSI color helpers
+reset='\033[0m'
+bold='\033[1m'
+
+red='\033[31m'
+green='\033[32m'
+yellow='\033[33m'
+magenta='\033[35m'
+white='\033[37m'
+bright_magenta='\033[95m'
+
+bold_red="${bold}\033[31m"
+bold_green="${bold}\033[32m"
+bold_yellow="${bold}\033[33m"
+bold_magenta="${bold}\033[35m"
+bold_bright_magenta="${bold}\033[95m"
+
+jj_prompt() {
+  local info
+  info=$(jj log --no-graph -r @ -T '
+    if(conflict, "conflict") ++ "\n"
+    ++ if(!description, "nodesc") ++ "\n"
+    ++ change_id.shortest(4).prefix() ++ "\n"
+    ++ change_id.shortest(4).rest() ++ "\n"
+    ++ local_bookmarks.map(|b| b.name() ++ if(!b.synced(), "*")).join(", ")
+  ' 2>/dev/null) || return 1
+
+  local conflict nodesc id_prefix id_rest bookmarks
+  {
+    read -r conflict
+    read -r nodesc
+    read -r id_prefix
+    read -r id_rest
+    read -r bookmarks
+  } <<< "$info"
+
+  local output=""
+
+  [[ "$conflict" == "conflict" ]] && output+="${bold_magenta}conflict ${reset}"
+  output+="${bold_bright_magenta}${id_prefix}${reset}${white}${id_rest}${reset}"
+  [[ -n "$bookmarks" ]] && output+=" ${magenta}${bookmarks}${reset}"
+  [[ "$nodesc" == "nodesc" ]] && output+=" ${bold_yellow}?${reset}"
+
+  printf '%b' "$output"
+}
+
+git_prompt() {
+  git rev-parse --is-inside-work-tree &>/dev/null || return 1
+
+  local branch
+  branch=$(git symbolic-ref --short HEAD 2>/dev/null \
+    || git rev-parse --short HEAD 2>/dev/null) || return 1
+
+  local remote_branch="" ab=""
+  local upstream
+  upstream=$(git rev-parse --abbrev-ref '@{upstream}' 2>/dev/null)
+  if [[ -n "$upstream" ]]; then
+    local remote_ref="${upstream#*/}"
+    [[ "$remote_ref" != "$branch" ]] && remote_branch=":${remote_ref}"
+
+    local ahead behind
+    ahead=$(git rev-list --count '@{upstream}..HEAD' 2>/dev/null)
+    behind=$(git rev-list --count 'HEAD..@{upstream}' 2>/dev/null)
+
+    if [[ "$ahead" -gt 0 && "$behind" -gt 0 ]]; then
+      ab="${bold_green}+${ahead}${reset}${bold_red}-${behind}${reset}"
+    elif [[ "$ahead" -gt 0 ]]; then
+      ab="${green}+${ahead}${reset}"
+    elif [[ "$behind" -gt 0 ]]; then
+      ab="${red}-${behind}${reset}"
+    fi
+  fi
+
+  local indicators=""
+  local status
+  status=$(git status --porcelain 2>/dev/null)
+
+  if [[ -n "$status" ]]; then
+    echo "$status" | grep -q '^UU\|^AA\|^DD' && indicators+="${bold_magenta}*${reset}"
+    echo "$status" | grep -q '^?' && indicators+="${bold_red}*${reset}"
+    echo "$status" | grep -q '^.[MD]' && indicators+="${bold_yellow}*${reset}"
+    echo "$status" | grep -q '^[MADRC]' && indicators+="${bold_green}*${reset}"
+  fi
+
+  local output=""
+  [[ -n "$ab" ]] && output+="${ab} "
+  [[ -n "$indicators" ]] && output+="${indicators} "
+  output+="${branch}${remote_branch}"
+
+  printf '%b' "$output"
+}
+
+# Prefer jj if available, fall back to git
+if jj root --quiet &>/dev/null; then
+  jj_prompt
+elif git rev-parse --is-inside-work-tree &>/dev/null; then
+  git_prompt
+fi

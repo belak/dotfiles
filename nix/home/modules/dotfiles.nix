@@ -21,6 +21,8 @@ in
 
   config = lib.mkIf cfg.enable {
     home.file = {
+      "bin" = mkSource "bin";
+
       ".config/belak" = mkSource "config/belak";
       ".config/direnv/direnv.toml" = mkSource "config/direnv/direnv.toml";
       ".config/doom" = mkSource "config/doom";
