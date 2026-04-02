@@ -12,6 +12,7 @@ $character
 right_format = '${custom.vcs}'
 
 add_newline = false
+command_timeout = 2000
 
 [username]
 format = '[$user]($style)'
