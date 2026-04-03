@@ -1,0 +1,23 @@
+#!/bin/bash
+set -euo pipefail
+
+for file in "$@"
+do
+  target=out/$(basename "${file% Numbers.pdf}.pdf")
+
+  echo Converting from $file to $target
+
+  # Invert colors
+  gs -o /tmp/invert-step1.pdf -sDEVICE=pdfwrite -dPDFFitPage -c "{1 exch sub}{1 exch sub}{1 exch sub}{1 exch sub} setcolortransfer" -f "$file"
+
+  # Rasterize and convert to greyscale
+  gs -sDEVICE=pdfimage8 -r1200 -dPDFFitPage -dDownScaleFactor=2 -o "$target" -f /tmp/invert-step1.pdf
+
+  # Invert file
+  #convert -background Black -density 300 -set colorspace Gray -channel RGB -negate -trim +repage "$file" "$target"
+
+  echo Clearing extra exif tags
+
+  # Clearing extra exif tags
+  exiftool -overwrite_original -all= -TagsFromFile @ -Title "$target"
+done
