@@ -5,6 +5,7 @@
     dotfiles.symlink = true;
     dev.enable = true;
     emacs.enable = true;
+    ghostty.enable = true;
     vscode.enable = true;
   };
 

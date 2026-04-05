@@ -11,6 +11,7 @@
     ./dev.nix
     ./dotfiles.nix
     ./emacs.nix
+    ./ghostty.nix
     ./gnome.nix
     ./gui.nix
     ./vscode.nix

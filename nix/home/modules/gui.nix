@@ -26,7 +26,6 @@ in
       calibre
       #discord
       firefox
-      ghostty
       gimp
       gnome-tweaks
       monaspace

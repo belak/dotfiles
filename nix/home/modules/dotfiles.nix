@@ -29,7 +29,6 @@ in
       ".config/emacs" = mkSource "config/emacs";
       ".config/finicky" = mkSource "config/finicky";
       ".config/fish" = mkSource "config/fish";
-      ".config/ghostty" = mkSource "config/ghostty";
       ".config/git" = mkSource "config/git";
       ".config/jj/config.toml" = mkSource "config/jj/config.toml";
       ".config/nvim" = mkSource "config/nvim";
