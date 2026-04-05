@@ -16,6 +16,7 @@
 
   programs.ghostty.settings = {
     window-decoration = "none";
+    gtk-titlebar-style = "native";
   };
 
   nixpkgs.allowedUnfree = [
