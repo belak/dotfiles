@@ -7,14 +7,27 @@
     };
     dev.enable = true;
     emacs.enable = true;
+    ghostty.enable = true;
     gui.enable = true;
+    niri.enable = true;
     vscode.enable = true;
-    xfce.enable = true;
+    #xfce.enable = true;
   };
+
+  programs.ghostty.settings = {
+    window-decoration = "none";
+  };
+
+  nixpkgs.allowedUnfree = [
+    "claude-code"
+  ];
 
   home.packages = with pkgs; [
     pavucontrol
     senpai
+    yubioath-flutter
+
+    unstable.claude-code
   ];
 
   # This value determines the Home Manager release that your configuration is

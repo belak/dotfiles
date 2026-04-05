@@ -14,6 +14,7 @@
     ./ghostty.nix
     ./gnome.nix
     ./gui.nix
+    ./niri.nix
     ./vscode.nix
     ./xfce.nix
   ];

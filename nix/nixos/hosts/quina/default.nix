@@ -19,7 +19,7 @@
       enable = true;
       consoleFont = "ter-124n";
     };
-    xfce.enable = true;
+    #xfce.enable = true;
   };
 
   fonts = {
@@ -33,12 +33,14 @@
 
   services.fwupd.enable = true;
   services.openssh.enable = true;
-  #services.pulseaudio.enable = true;
+  services.pipewire.enable = true;
+
+  services.pcscd.enable = true;
 
   # Because we use a GUI on this computer but aren't using a full DE, we need to
   # enable a few things that the Gnome module would otherwise do for us.
-  #hardware.graphics.enable = true;
-  #programs.dconf.enable = true;
+  hardware.graphics.enable = true;
+  programs.dconf.enable = true;
   #services.system76-scheduler.enable = true;
 
   environment.systemPackages = with pkgs; [

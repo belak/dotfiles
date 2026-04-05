@@ -1,6 +1,7 @@
 {
   self,
   nixpkgs,
+  niri,
   nixos-x13s,
   agenix,
   disko,
@@ -31,7 +32,7 @@
     nixpkgs.lib.nixosSystem {
       specialArgs = {
         inherit self;
-        inherit agenix;
+        inherit agenix niri;
       };
 
       modules = [
