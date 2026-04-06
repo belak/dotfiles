@@ -73,16 +73,24 @@ in
       device = "/mnt/amarant/media/TV";
       options = [
         "bind"
-        "ro"
+        "rw"
       ];
     };
 
     # The sshfs chroot for incoming media
+    "/mnt/remote-thorn/Books" = {
+      device = "/mnt/amarant/media/Books";
+      options = [
+        "bind"
+        "rw"
+      ];
+    };
+
     "/mnt/remote-thorn/Movies" = {
       device = "/mnt/amarant/media/Movies";
       options = [
         "bind"
-        "ro"
+        "rw"
       ];
     };
 
@@ -90,7 +98,7 @@ in
       device = "/mnt/amarant/media/Music";
       options = [
         "bind"
-        "ro"
+        "rw"
       ];
     };
 
@@ -98,7 +106,7 @@ in
       device = "/mnt/amarant/media/TV";
       options = [
         "bind"
-        "ro"
+        "rw"
       ];
     };
 
