@@ -9,7 +9,12 @@ $python\
 $character
 """
 
-right_format = '${custom.vcs}'
+right_format = """
+$git_status\
+$git_state\
+$git_branch\
+$git_commit
+"""
 
 add_newline = false
 command_timeout = 2000
@@ -37,8 +42,20 @@ style = ''
 success_symbol = '[>](bold blue)'
 error_symbol = '[>](bold red)'
 
-[custom.vcs]
-command = 'vcs-prompt'
-when = true
-format = '$output'
-description = 'VCS status (jj or git)'
+[git_status]
+format = '((${ahead_behind} )($conflicted$untracked$modified$staged ))'
+style = ''
+
+ahead = '[+$count](green)'
+behind = '[-$count](red)'
+diverged = '[+$ahead_count](bold green)[-$behind_count](bold red)'
+
+stashed = ''
+staged = '[*](bold green)'
+modified = '[*](bold yellow)'
+untracked = '[*](bold red)'
+conflicted = '[*](bold magenta)'
+
+[git_branch]
+format = '[$branch(:$remote_branch)]($style)'
+style = ''
