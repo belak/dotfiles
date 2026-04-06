@@ -53,7 +53,7 @@ in
       # Packages I'm trying out
       codeowners
       nix-update
-      my.selkie
+      #my.selkie
       unstable.helix
       unstable.jujutsu
       unstable.mdcat
