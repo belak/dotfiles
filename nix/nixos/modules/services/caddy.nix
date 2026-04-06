@@ -37,6 +37,11 @@ in
                   type = lib.types.str;
                   default = "primary";
                 };
+
+                extraConfig = lib.mkOption {
+                  type = lib.types.lines;
+                  default = "";
+                };
               };
             }
           )
@@ -65,6 +70,8 @@ in
             header +X-Clacks-Overhead "GNU Robert Asprin"
 
             reverse_proxy ${value.backend}
+
+            ${value.extraConfig}
           '';
         };
       }) cfg.virtualHosts;
