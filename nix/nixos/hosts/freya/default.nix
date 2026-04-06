@@ -76,7 +76,60 @@ in
         "ro"
       ];
     };
+
+    # The sshfs chroot for incoming media
+    "/mnt/remote-thorn/Movies" = {
+      device = "/mnt/amarant/media/Movies";
+      options = [
+        "bind"
+        "ro"
+      ];
+    };
+
+    "/mnt/remote-thorn/Music" = {
+      device = "/mnt/amarant/media/Music";
+      options = [
+        "bind"
+        "ro"
+      ];
+    };
+
+    "/mnt/remote-thorn/TV" = {
+      device = "/mnt/amarant/media/TV";
+      options = [
+        "bind"
+        "ro"
+      ];
+    };
+
+    "/mnt/remote-thorn/Incoming" = {
+      device = "/mnt/amarant/media/Incoming";
+      options = [
+        "bind"
+        "rw"
+      ];
+    };
   };
+
+  users.users.sshfs-thorn = {
+    isSystemUser = true;
+    group = "sshfs-thorn";
+    home = "/mnt/remote-thorn";
+    shell = "${pkgs.shadow}/bin/nologin";
+    openssh.authorizedKeys.keys = [
+      "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIBYe9/o1vZsWsoTqMId3Fy+GLT06/SoKbxN5hay+a/fe thorn-sshfs"
+    ];
+  };
+
+  users.groups.sshfs-thorn = { };
+
+  services.openssh.extraConfig = ''
+    Match User sshfs-thorn
+      ForceCommand internal-sftp
+      ChrootDirectory /mnt/remote-thorn
+      AllowTcpForwarding no
+      X11Forwarding no
+  '';
 
   users.users.minecraft-all-the-calzones = {
     group = "minecraft-all-the-calzones";
