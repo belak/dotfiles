@@ -30,6 +30,7 @@ in
         SMTP_USER = "homelab@elwert.cloud";
         SMTP_PASSWORD_FILE = config.age.secrets.pocket-id-smtp-password.path;
 
+        EMAILS_VERIFIED = true;
         EMAIL_ONE_TIME_ACCESS_AS_ADMIN_ENABLED = true;
         # TODO: switch to UNIX_SOCKET
       };
