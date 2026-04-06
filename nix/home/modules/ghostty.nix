@@ -17,7 +17,7 @@ in
       enable = true;
 
       # On Darwin, ghostty is installed via homebrew cask.
-      package = if pkgs.stdenv.hostPlatform.isDarwin then null else pkgs.ghostty;
+      package = if pkgs.stdenv.hostPlatform.isDarwin then null else pkgs.unstable.ghostty;
 
       settings = {
         theme = lib.mkDefault "Modus Vivendi";
