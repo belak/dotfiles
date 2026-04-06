@@ -35,6 +35,7 @@
   services.openssh.enable = true;
   services.pipewire.enable = true;
 
+  services.fprintd.enable = true;
   services.pcscd.enable = true;
 
   # Because we use a GUI on this computer but aren't using a full DE, we need to
