@@ -40,6 +40,7 @@ in
         gtk-titlebar-style = lib.mkDefault "tabs";
         macos-icon = lib.mkDefault "blueprint";
 
+        working-directory = lib.mkDefault "home";
         window-inherit-working-directory = lib.mkDefault false;
 
         keybind = lib.mkDefault [
