@@ -52,10 +52,10 @@ in
 
         border = {
           enable = true;
-          width = 1;
-          active.color = "#ffc87f";
-          inactive.color = "#505050";
-          urgent.color = "#9b0000";
+          width = 2;
+          active.color = "#535353";
+          inactive.color = "#303030";
+          urgent.color = "#ff5f59";
         };
       };
 
