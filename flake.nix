@@ -64,6 +64,11 @@
       inputs.nixpkgs.follows = "nixpkgs-unstable";
     };
 
+    claude-code = {
+      url = "github:sadjow/claude-code-nix";
+      inputs.nixpkgs.follows = "nixpkgs-unstable";
+    };
+
     belak-blog = {
       url = "github:belak/blog";
       inputs.nixpkgs.follows = "nixpkgs";

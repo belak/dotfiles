@@ -10,12 +10,14 @@
   };
 
   nixpkgs.allowedUnfree = [
+    "claude-code"
     "discord"
     "obsidian"
     #"spotify"
   ];
 
   home.packages = with pkgs; [
+    claude-code
     discord
     libation
     neomutt

@@ -1,6 +1,7 @@
 {
   nixpkgs-unstable,
   agenix,
+  claude-code,
   deploy-rs,
   emacs-overlay,
   nix-vscode-extensions,
@@ -18,6 +19,8 @@
   };
 
   agenix = agenix.overlays.default;
+
+  claude-code = claude-code.overlays.default;
 
   deploy-rs-overlay = deploy-rs.overlays.default;
 
