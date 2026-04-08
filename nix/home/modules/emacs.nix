@@ -47,12 +47,6 @@ in
             epkgs.melpaPackages.doom-modeline
             epkgs.melpaPackages.editorconfig
             epkgs.melpaPackages.envrc
-            epkgs.melpaPackages.evil
-            epkgs.melpaPackages.evil-collection
-            epkgs.melpaPackages.evil-commentary
-            epkgs.melpaPackages.evil-leader
-            epkgs.melpaPackages.evil-rsi
-            epkgs.melpaPackages.evil-surround
             epkgs.melpaPackages.expand-region
             epkgs.melpaPackages.flycheck
             epkgs.melpaPackages.flycheck-golangci-lint
