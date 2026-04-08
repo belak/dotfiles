@@ -45,7 +45,15 @@
     "phy-qcom-usb-hs"
   ];
 
-  boot.initrd.kernelModules = [ ];
+  # Load the MSM GPU driver in the initrd to speed up initialization, and
+  # re-set the console font via udev when the DRM device appears, since the
+  # driver takeover from simpledrm resets it.
+  boot.initrd.kernelModules = [ "msm" ];
+  # When the MSM GPU driver takes over fb0 from simpledrm, the console font
+  # is reset. Re-run vconsole-setup when the new fb device appears.
+  services.udev.extraRules = ''
+    ACTION=="add", SUBSYSTEM=="graphics", KERNEL=="fb[0-9]*", RUN+="${pkgs.systemd}/bin/systemctl --no-block restart systemd-vconsole-setup.service"
+  '';
   boot.kernelModules = [ ];
   boot.extraModulePackages = [ ];
 
