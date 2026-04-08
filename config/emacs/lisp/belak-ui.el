@@ -260,6 +260,9 @@
 ;; easier to quit them when we're done.
 (setq help-window-select t)
 
+;; Focus follows mouse between windows.
+(setq mouse-autoselect-window t)
+
 ;; Make Emacs split windows in a more sane way.
 (setq window-combination-resize t)
 
