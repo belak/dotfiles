@@ -29,6 +29,8 @@ in
         (emacsWithPackages (
           epkgs:
           [
+            epkgs.treesit-grammars.with-all-grammars
+
             epkgs.elpaPackages.rainbow-mode
 
             epkgs.melpaPackages.ace-window
@@ -40,8 +42,8 @@ in
             epkgs.melpaPackages.consult
             epkgs.melpaPackages.corfu
             epkgs.melpaPackages.dashboard
-            epkgs.melpaPackages.diff-hl
             epkgs.melpaPackages.auto-dim-other-buffers
+            epkgs.melpaPackages.diff-hl
             epkgs.melpaPackages.dockerfile-mode
             epkgs.melpaPackages.doom-modeline
             epkgs.melpaPackages.editorconfig
@@ -71,6 +73,7 @@ in
             epkgs.melpaPackages.terraform-mode
             epkgs.melpaPackages.toml-mode
             epkgs.melpaPackages.transient
+            epkgs.melpaPackages.treesit-auto
             epkgs.melpaPackages.typescript-mode
             epkgs.melpaPackages.vertico
             epkgs.melpaPackages.vterm

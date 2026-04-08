@@ -76,15 +76,7 @@
   :hook (after-init . global-corfu-mode)
   :custom
   (corfu-auto t)
-  (corfu-auto-delay 0.25)
-  :config
-  (after! dimmer
-    ;; Avoid dimming the window when corfu is opened. This is based on some code
-    ;; from https://github.com/gonewest818/dimmer.el/issues/62.
-    (defun belak--corfu-frame-p ()
-      "Check if the buffer is a corfu frame buffer."
-      (string-match-p "\\` \\*corfu" (buffer-name)))
-    (add-to-list 'dimmer-prevent-dimming-predicates #'belak--corfu-frame-p)))
+  (corfu-auto-delay 0.25))
 
 (use-package corfu-history
   :hook (after-init . corfu-history-mode))
@@ -95,9 +87,15 @@
   (corfu-popupinfo-delay '(0.5 . 0.2)))
 
 
-;; Between `eglot' and `lsp-mode' I've had better experiences with eglot because
-;; it tries to do less. That being said lsp-mode has improved quite a bit in the
-;; last few years, so I need to take another look.
+;; Automatically remap major modes to their tree-sitter equivalents when
+;; grammars are available.
+(use-package treesit-auto
+  :demand t
+  :config
+  (setq treesit-auto-install nil)
+  (treesit-auto-add-to-auto-mode-alist 'all)
+  (global-treesit-auto-mode))
+
 (use-package eglot
   :commands (eglot eglot-ensure))
 
