@@ -12,7 +12,8 @@
   (setq dashboard-startup-banner 'logo
         dashboard-set-navigator t
         dashboard-set-footer nil
-        dashboard-center-content t)
+        dashboard-center-content t
+        dashboard-projects-backend 'project-el)
 
   (setq dashboard-items '((recents   . 5)
                           (bookmarks . 5)

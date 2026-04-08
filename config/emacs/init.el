@@ -18,6 +18,7 @@
   (require 'belak-core)                 ; low level setup
   (require 'belak-ui)                   ; make things pretty... well, prettier
   (require 'belak-editor)               ; the text editing portion of this OS
+
   (when IS-MAC
     (require 'belak-os-macos))          ; macOS specific tweaks
 

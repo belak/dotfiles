@@ -34,39 +34,12 @@
   (setq eldoc-idle-delay 0.1
         eldoc-echo-area-use-multiline-p nil))
 
-;; `flycheck-mode' is used for linters and catching compilation errors.
-(use-package flycheck
-  :blackout
-  :hook (prog-mode . flycheck-mode)
+;; `flymake' provides on-the-fly syntax checking. eglot enables it
+;; automatically for LSP-backed modes.
+(use-package flymake
+  :hook (prog-mode . flymake-mode)
   :config
-  ;; The default flycheck settings are a bit too agressive - we really only want
-  ;; to check when the file is loaded or saved.
-  (setq flycheck-check-syntax-automatically '(mode-enabled save idle-buffer-switch))
-
-  ;; Because we check much less often, we need to re-check buffers when a small
-  ;; change was made in another buffer, ignoring the delay. This allows fast
-  ;; changes to things like configuration files.
-  (setq flycheck-buffer-switch-check-intermediate-buffers t)
-
-  ;; Display errors a little quicker (default is 0.9s)
-  (setq flycheck-display-errors-delay 0.25)
-
-  ;; We change the double arrow to be a triangle because it looks cleaner.
-  (when (fboundp 'define-fringe-bitmap)
-    (define-fringe-bitmap 'flycheck-fringe-bitmap-double-arrow
-      [16 48 112 240 112 48 16] nil nil 'center))
-
-  ;; Because we have diff-hl in the left fringe, we want flycheck in the right
-  ;; fringe.
-  (setq flycheck-indication-mode 'right-fringe)
-
-  ;; Don't display flycheck errors in the minibuffer
-  (setq flycheck-display-errors-function 'ignore)
-
-  ;; When we use the error list, we want to make sure shackle puts it somewhere
-  ;; better.
-  (add-shackle-rule! '(flycheck-error-list-mode :noselect t :align 'below :size 7))
-  (add-winner-boring-buffer! "*Flycheck errors*"))
+  (setq flymake-fringe-indicator-position 'right-fringe))
 
 (use-package highlight-escape-sequences
   :hook (prog-mode . hes-mode))
@@ -87,19 +60,10 @@
 
   (add-shackle-rule! '(magit-diff-mode :noselect t)))
 
-(use-package projectile
-  :blackout
-  :bind-keymap ("C-c p" . projectile-command-map)
-  :hook (after-init . projectile-mode)
-  :config
-  ;; Strangely the default for projectile is `ido', not `default' as the name
-  ;; would imply. We tame this so we can use it with whatever completing-read
-  ;; function we want.
-  (setq projectile-completion-system 'default)
-
-  ;; Ignore all projects from the go module cache, as it's read only and we
-  ;; primarily use `find-function-at-point' to navigate there.
-  (setq projectile-ignored-projects '("~/go/pkg/")))
+;; `project.el' is the built-in project management package. It auto-detects
+;; projects via VCS roots.
+(use-package project
+  :bind-keymap ("C-c p" . project-prefix-map))
 
 
 ;;

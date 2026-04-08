@@ -40,17 +40,6 @@
       (with-current-buffer buf
         (belak--auto-revert-buffer-h)))))
 
-(use-package ctrlf
-  :bind
-  ([remap isearch-forward]         . ctrlf-forward-literal)
-  ([remap isearch-backward]        . ctrlf-backward-literal)
-  ([remap isearch-forward-regexp]  . ctrlf-forward-regexp)
-  ([remap isearch-backward-regexp] . ctrlf-backward-regexp)
-  :config
-  ;; Clear out the bindings because we've already defined them.
-  (setq ctrlf-mode-bindings '())
-  (ctrlf-mode +1))
-
 ;; Allow C-c C-g to always quit the minibuffer.
 (use-package delsel
   :hook (after-init . delete-selection-mode))

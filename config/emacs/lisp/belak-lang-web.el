@@ -50,11 +50,5 @@
   :config
   (setq json-reformat:indent-width 2))
 
-;;
-;;; Tweaks
-
-(after! projectile
-  (add-to-list 'projectile-globally-ignored-directories "node_modules"))
-
 (provide 'belak-lang-web)
 ;;; belak-lang-web.el ends here

@@ -39,7 +39,6 @@ in
             epkgs.melpaPackages.cmake-mode
             epkgs.melpaPackages.consult
             epkgs.melpaPackages.corfu
-            epkgs.melpaPackages.ctrlf
             epkgs.melpaPackages.dashboard
             epkgs.melpaPackages.diff-hl
             epkgs.melpaPackages.dimmer
@@ -48,9 +47,6 @@ in
             epkgs.melpaPackages.editorconfig
             epkgs.melpaPackages.envrc
             epkgs.melpaPackages.expand-region
-            epkgs.melpaPackages.flycheck
-            epkgs.melpaPackages.flycheck-golangci-lint
-            epkgs.melpaPackages.flycheck-rust
             epkgs.melpaPackages.gcmh
             epkgs.melpaPackages.git-link
             epkgs.melpaPackages.git-modes
@@ -72,7 +68,6 @@ in
             epkgs.melpaPackages.orderless
             epkgs.melpaPackages.package-lint
             epkgs.melpaPackages.page-break-lines
-            epkgs.melpaPackages.projectile
             epkgs.melpaPackages.protobuf-mode
             epkgs.melpaPackages.rg
             epkgs.melpaPackages.rust-mode

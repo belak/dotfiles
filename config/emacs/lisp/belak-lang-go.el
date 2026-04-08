@@ -23,11 +23,6 @@
   (defun belak--go-mode-hook ()
     (add-hook 'before-save-hook 'gofmt-before-save nil t)))
 
-(use-package flycheck-golangci-lint
-  :hook (go-mode . flycheck-golangci-lint-setup)
-  :config
-  (setq flycheck-golangci-lint-tests t))
-
 (use-package go-tag
   :commands
   go-tag-add
@@ -35,12 +30,6 @@
   go-tag-remove
   :config
   (setq go-tag-args (list "-transform" "camelcase")))
-
-;;
-;;; Tweaks
-
-(after! projectile
-  (add-to-list 'projectile-project-root-files "go.mod"))
 
 (provide 'belak-lang-go)
 ;;; belak-lang-go.el ends here
