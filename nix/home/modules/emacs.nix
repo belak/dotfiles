@@ -50,7 +50,6 @@ in
             epkgs.melpaPackages.git-link
             epkgs.melpaPackages.git-modes
             epkgs.melpaPackages.go-mode
-            epkgs.melpaPackages.go-tag
             epkgs.melpaPackages.haskell-mode
             epkgs.melpaPackages.highlight-escape-sequences
             epkgs.melpaPackages.hl-todo
