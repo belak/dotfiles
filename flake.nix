@@ -5,6 +5,9 @@
     nixpkgs.url = "github:nixos/nixpkgs/nixos-25.11";
     nixpkgs-unstable.url = "github:nixos/nixpkgs/nixpkgs-unstable";
 
+    # NixOS/nix#6065 - pinned before libarchive 3.8.6 broke Mach-O codesigning
+    nixpkgs-darwin-fish.url = "github:nixos/nixpkgs/bcd464ccd2a1a7cd09aa2f8d4ffba83b761b1d0e";
+
     flake-parts = {
       url = "github:hercules-ci/flake-parts";
       inputs.nixpkgs-lib.follows = "nixpkgs";

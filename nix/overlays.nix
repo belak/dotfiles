@@ -1,5 +1,6 @@
 {
   nixpkgs-unstable,
+  nixpkgs-darwin-fish,
   agenix,
   claude-code,
   deploy-rs,
@@ -56,5 +57,15 @@
   # libarchive 3.8.6 update.
   direnv-darwin-fix = _final: prev: prev.lib.optionalAttrs prev.stdenv.hostPlatform.isDarwin {
     direnv = prev.direnv.overrideAttrs (_: { doCheck = false; });
+  };
+
+  # NixOS/nix#6065 / NixOS/nix#15638 - Nix daemon corrupts Mach-O code
+  # signatures during store path rewriting after the libarchive 3.8.6 bump,
+  # causing fish to get SIGKILL'd on darwin.
+  fish-darwin-fix = final: prev: prev.lib.optionalAttrs prev.stdenv.hostPlatform.isDarwin {
+    fish = (import nixpkgs-darwin-fish {
+      inherit (final) config;
+      inherit (final.stdenv.hostPlatform) system;
+    }).fish;
   };
 }
