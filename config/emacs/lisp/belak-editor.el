@@ -62,15 +62,6 @@
   ("C-="   . er/expand-region)
   ("C-S-=" . er/contract-region))
 
-;; It's more standard to use C-n/C-p in Emacs rather than Up and Down, so we
-;; warn whenever we use a key bind which has a more Emacs-y alternative.
-(use-package guru-mode
-  :disabled t
-  :blackout
-  :hook (prog-mode . guru-mode)
-  :config
-  (setq guru-warn-only t))
-
 ;; Automatically clean up old buffers. This also provides a midnight-hook which
 ;; makes it possible to define cleanup functions.
 (use-package midnight
@@ -106,17 +97,6 @@
 ;; We use subword mode in a few `prog-mode' major modes like Go, but we want it
 ;; hidden, so we black it out here.
 (use-package subword :blackout)
-
-(use-package undo-tree
-  :disabled t
-  :defer nil
-  :blackout
-  :bind
-  ("C-c u" . undo-tree-visualize)
-  :config
-  (setq undo-tree-visualizer-diff t
-        undo-tree-visualizer-timestamps t)
-  (global-undo-tree-mode))
 
 (use-package yasnippet
   :blackout yas-minor-mode

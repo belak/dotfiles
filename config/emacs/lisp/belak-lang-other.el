@@ -47,6 +47,16 @@
 (use-package protobuf-mode
   :mode "\\.proto\\'")
 
+(use-package python
+  :mode ("\\.py\\'" . python-mode)
+  :interpreter
+  ("python"  . python-mode)
+  ("python2" . python-mode)
+  ("python3" . python-mode)
+  :hook (python-mode . subword-mode)
+  :config
+  (setq python-fill-docstring-style 'django))
+
 (use-package ruby-mode
   :mode "\\.rb\\'"
   :config
