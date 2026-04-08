@@ -55,7 +55,9 @@
 ;; Dim the non-active window to make it a little easier to focus on the
 ;; currently active window.
 (use-package auto-dim-other-buffers
-  :hook (after-init . auto-dim-other-buffers-mode))
+  :hook (after-init . auto-dim-other-buffers-mode)
+  :config
+  (setq auto-dim-other-buffers-dim-on-focus-out nil))
 
 ;; We want line numbers to make it easier when using prefix commands.
 (use-package display-line-numbers
