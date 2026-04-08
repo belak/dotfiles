@@ -329,11 +329,6 @@
 (add-hook 'prog-mode-hook (setq show-trailing-whitespace t))
 (add-hook 'text-mode-hook (setq show-trailing-whitespace t))
 
-;; Don't tell me about keybindings when I run a command with M-x. If I run a
-;; command enough, I'll look up or make a keybind.
-;;(setq suggest-key-bindings nil)
-
-
 ;;
 ;;; Disable certain error messages and behaviors.
 

@@ -79,14 +79,9 @@
 (load custom-file :no-error-if-file-is-missing)
 
 ;; UTF-8 as the default encoding
-(when (fboundp 'set-charset-priority)
-  (set-charset-priority 'unicode))
+(set-charset-priority 'unicode)
 (prefer-coding-system 'utf-8)
 (setq locale-coding-system 'utf-8)
-
-;; Resolve symlinks when opening files - this is disabled until
-;; https://github.com/raxod502/straight.el/issues/944 is resolved.
-;;(setq find-file-visit-truename t)
 
 (setq vc-follow-symlinks t)
 
@@ -113,7 +108,6 @@
 
 ;; Make M-z zap-up-to-char (doesn't include char) rather than
 ;; zap-to-char and make M-Z zap in reverse.
-(autoload 'zap-up-to-char "misc" "" 'interactive)
 (global-set-key [remap zap-to-char] 'zap-up-to-char)
 
 (defun reverse-zap-up-to-char (char)
