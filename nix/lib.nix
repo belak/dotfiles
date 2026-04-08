@@ -61,7 +61,7 @@
 
       specialArgs = {
         inherit self;
-        inherit agenix;
+        inherit agenix niri;
       };
 
       modules = [
