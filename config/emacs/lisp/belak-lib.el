@@ -5,11 +5,6 @@
 ;;
 ;;; Functions
 
-(defun belak-disable-all-themes ()
-  (interactive)
-  (mapc #'disable-theme custom-enabled-themes))
-
-
 ;;
 ;;; External Packages
 ;;
