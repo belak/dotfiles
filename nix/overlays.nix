@@ -51,4 +51,10 @@
   vscode = final: _prev: {
     community-vscode-extensions = nix-vscode-extensions.extensions.${final.stdenv.hostPlatform.system};
   };
+
+  # NixOS/nixpkgs#507531 - direnv test-fish gets Killed: 9 on darwin after
+  # libarchive 3.8.6 update.
+  direnv-darwin-fix = _final: prev: prev.lib.optionalAttrs prev.stdenv.hostPlatform.isDarwin {
+    direnv = prev.direnv.overrideAttrs (_: { doCheck = false; });
+  };
 }
