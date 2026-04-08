@@ -117,7 +117,7 @@
 (global-set-key "\M-Z" 'reverse-zap-up-to-char)
 
 ;; Typing yes/no is obnoxious when y/n will do
-(advice-add #'yes-or-no-p :override #'y-or-n-p)
+(setopt use-short-answers t)
 
 ;; Try really hard to keep the cursor from getting stuck in the read-only prompt
 ;; portion of the minibuffer.
