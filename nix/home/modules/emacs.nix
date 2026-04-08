@@ -41,7 +41,7 @@ in
             epkgs.melpaPackages.corfu
             epkgs.melpaPackages.dashboard
             epkgs.melpaPackages.diff-hl
-            epkgs.melpaPackages.dimmer
+            epkgs.melpaPackages.auto-dim-other-buffers
             epkgs.melpaPackages.dockerfile-mode
             epkgs.melpaPackages.doom-modeline
             epkgs.melpaPackages.editorconfig
@@ -68,7 +68,6 @@ in
             epkgs.melpaPackages.page-break-lines
             epkgs.melpaPackages.protobuf-mode
             epkgs.melpaPackages.rust-mode
-            epkgs.melpaPackages.shackle
             epkgs.melpaPackages.terraform-mode
             epkgs.melpaPackages.toml-mode
             epkgs.melpaPackages.transient

@@ -54,23 +54,8 @@
 
 ;; Dim the non-active window to make it a little easier to focus on the
 ;; currently active window.
-(use-package dimmer
-  :defer nil
-  :custom (dimmer-fraction 0.1)
-  :hook (after-init . dimmer-mode)
-  :config
-  ;; Modify the dimmer-config-change-handler to only call dimmer-process-all if
-  ;; no dimming predicates are truthy. This fixes an issue with corfu. Based on
-  ;; code from https://github.com/gonewest818/dimmer.el/issues/62.
-  (defun belak--advise-dimmer-config-change-handler ()
-    "Advise to only force process if no predicate is truthy."
-    (let ((ignore (cl-some (lambda (f) (and (fboundp f) (funcall f)))
-                           dimmer-prevent-dimming-predicates)))
-      (unless ignore
-        (when (fboundp 'dimmer-process-all)
-          (dimmer-process-all t)))))
-
-  (advice-add 'dimmer-config-change-handler :override 'belak--advise-dimmer-config-change-handler))
+(use-package auto-dim-other-buffers
+  :hook (after-init . auto-dim-other-buffers-mode))
 
 ;; We want line numbers to make it easier when using prefix commands.
 (use-package display-line-numbers
@@ -114,25 +99,16 @@
 ;; the minor-modes display so we hide it.
 (use-package page-break-lines :blackout)
 
-;; We want to make it easier to tame random windows and popups that show up.
-;; Most of the configuration for this happens in other packages and will call
-;; `add-shackle-rule!'.
-(use-package shackle
-  :hook (pre-command . shackle-mode)
-  :preface
-  (defmacro add-shackle-rule! (rule)
-    ;; NOTE: this is much easier as a macro because otherwise, expanding `rule'
-    ;; to the inner scope isn't possible.
-    `(after! shackle
-       (appendq! shackle-rules (list ,rule))))
-  :config
-  (setq shackle-rules
-        '(("*Help*" :align t :select t)
-          ("*Warnings*" :popup t)
-          (("*shell*" "*eshell*") :popup t))
-        shackle-default-rule '(:select t)
-        shackle-default-size 0.4
-        shackle-inhibit-window-quit-on-same-windows t))
+;; Control where certain buffers are displayed.
+(setq display-buffer-alist
+      '(("\\*Help\\*"
+         (display-buffer-reuse-window display-buffer-below-selected)
+         (window-height . 0.4))
+        ("\\*Warnings\\*"
+         (display-buffer-no-window))
+        ("\\*\\(?:shell\\|eshell\\)\\*"
+         (display-buffer-below-selected)
+         (window-height . 0.4))))
 
 ;; Package `transient' is the interface used by Magit to display popups.
 (use-package transient
@@ -175,22 +151,7 @@
 ;; undo/redo changes to Emacs' window layout
 (use-package winner
   :demand t
-  :preface
-  (defmacro add-winner-boring-buffer! (boring-buffer-name)
-    `(after! winner
-       (appendq! winner-boring-buffers (list ,boring-buffer-name))))
   :config
-  (setq winner-boring-buffers
-        '("*Apropos*"
-          "*Buffer List*"
-          "*Compile-Log*"
-          "*Completions*"
-          "*Fuzzy Completions*"
-          "*Help*"
-          "*Ibuffer*"
-          "*cvs*"
-          "*esh command on file*"
-          "*inferior-lisp*"))
   (winner-mode +1))
 
 

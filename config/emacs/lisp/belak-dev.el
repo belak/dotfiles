@@ -58,7 +58,10 @@
   ;; which I often run into at my job, it's just easier to disable this.
   (magit-auto-revert-mode -1)
 
-  (add-shackle-rule! '(magit-diff-mode :noselect t)))
+  (add-to-list 'display-buffer-alist
+               '("\\*Magit Diff\\*"
+                 (display-buffer-reuse-window display-buffer-below-selected)
+                 (inhibit-same-window . t))))
 
 ;; `project.el' is the built-in project management package. It auto-detects
 ;; projects via VCS roots.

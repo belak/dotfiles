@@ -54,10 +54,6 @@
          ,body
        (eval-after-load ',package ',body))))
 
-(defmacro appendq! (sym &rest lists)
-  "Append LISTS to SYM in-place."
-  `(setq ,sym (append ,sym ,@lists)))
-
 (defmacro delq! (elt list &optional fetcher)
   "`delq' ELT from LIST in-place.
 
