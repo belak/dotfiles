@@ -20,6 +20,7 @@
       consoleFont = "ter-124n";
     };
     #xfce.enable = true;
+    greetd.enable = true;
   };
 
   fonts = {
