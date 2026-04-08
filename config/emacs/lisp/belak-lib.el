@@ -5,9 +5,6 @@
 ;;
 ;;; Functions
 
-(defun belak-visible-buffers ()
-  (delete-dups (mapcar #'window-buffer (window-list))))
-
 (defun belak-disable-all-themes ()
   (interactive)
   (mapc #'disable-theme custom-enabled-themes))
@@ -75,30 +72,6 @@ If FETCHER is a function, ELT is used as the key in LIST (an alist)."
                     `(funcall ,fetcher ,elt ,list)
                   elt)
                ,list)))
-
-
-;;
-;;; Hooks
-
-(defvar belak-switch-buffer-hook
-  nil
-  "A list of functions to be called when the current buffer has been changed.")
-
-(defvar belak-switch-buffer-hook--last-buffer
-  nil
-  "The last current buffer.")
-
-(defun run-belak-switch-buffer-hook ()
-  (unless (eq (current-buffer)
-              belak-switch-buffer-hook--last-buffer)
-    (let ((current (current-buffer)))
-      ;;(previous belak-switch-buffer-hook--last-buffer)
-      (setq belak-switch-buffer-hook--last-buffer
-            current)
-      (run-hooks 'belak-switch-buffer-hook))))
-
-(add-hook 'post-command-hook
-          'run-belak-switch-buffer-hook)
 
 
 ;;

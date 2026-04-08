@@ -7,38 +7,13 @@
 
 ;; TODO: take a look at bufler
 
-;; Revert buffers to their state on disk when they change. Note that this is a
-;; tweaked version of what ships with doom-emacs to simplify a number of things.
 (use-package autorevert
   :blackout
-  ;; revert buffers when their files/state have changed
-  :hook (focus-in            . belak--auto-revert-buffers-h)
-  :hook (after-save          . belak--auto-revert-buffers-h)
-  :hook (belak-switch-buffer . belak--auto-revert-buffer-h)
+  :hook (after-init . global-auto-revert-mode)
   :config
-  (setq auto-revert-verbose t ; let us know when it happens
-        auto-revert-use-notify nil
+  (setq auto-revert-verbose t
         auto-revert-stop-on-user-input nil
-        ;; Only prompts for confirmation when buffer is unsaved.
-        revert-without-query (list "."))
-
-  ;; Instead of using `auto-revert-mode' or `global-auto-revert-mode', we employ
-  ;; lazy auto reverting on `focus-in-hook' and `belak-switch-buffer-hook'.
-  ;;
-  ;; This is because autorevert abuses the heck out of inotify handles which can
-  ;; grind Emacs to a halt if you do expensive IO (outside of Emacs) on the
-  ;; files you have open (like compression). We only really need to revert
-  ;; changes when we switch to a buffer or when we focus the Emacs frame.
-  (defun belak--auto-revert-buffer-h ()
-    "Auto revert current buffer, if necessary."
-    (unless (or auto-revert-mode (active-minibuffer-window))
-      (auto-revert-handler)))
-
-  (defun belak--auto-revert-buffers-h ()
-    "Auto revert stale buffers in visible windows, if necessary."
-    (dolist (buf (belak-visible-buffers))
-      (with-current-buffer buf
-        (belak--auto-revert-buffer-h)))))
+        revert-without-query (list ".")))
 
 ;; Allow C-c C-g to always quit the minibuffer.
 (use-package delsel
