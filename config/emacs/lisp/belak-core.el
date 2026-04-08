@@ -55,18 +55,6 @@
 ;;
 ;;; Optimizations
 
-;; `gcmh-mode' is a long standing hack which tweaks the garbage collection to be
-;; more performant in normal scenarios. We also add a hook to focus-out so Emacs
-;; can GC in the background.
-(use-package gcmh
-  :blackout
-  :commands gcmh-mode
-  :hook (focus-out  . gcmh-idle-garbage-collect)
-  :hook (after-init . gcmh-mode)
-  :config
-  (setq gcmh-idle-delay 10
-        gcmh-high-cons-threshold (* 100 1024 1024))) ; 100MB
-
 ;; So Long mitigates slowness due to extremely long lines.
 (use-package so-long
   :hook (after-init . global-so-long-mode))
@@ -112,7 +100,6 @@
 (setq inhibit-startup-message t
       inhibit-startup-echo-area-message user-login-name
       inhibit-default-init t)
-(fset #'display-startup-echo-area-message #'ignore)
 
 ;; Leave the scratch buffer blank. We used to switch to `emacs-lisp-mode', but
 ;; then all the `prog-mode' deferred setup functions are run, so we stick to

@@ -47,7 +47,6 @@ in
             epkgs.melpaPackages.editorconfig
             epkgs.melpaPackages.envrc
             epkgs.melpaPackages.expand-region
-            epkgs.melpaPackages.gcmh
             epkgs.melpaPackages.git-link
             epkgs.melpaPackages.git-modes
             epkgs.melpaPackages.go-mode
