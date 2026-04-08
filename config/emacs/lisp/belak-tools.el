@@ -47,19 +47,10 @@
   ;; Use the commit hash rather than the branch name in the URL.
   (setq git-link-use-commit t))
 
-(use-package nov
-  :mode ("\\.epub\\'" . nov-mode))
-
 ;; rainbow-mode makes it easier to see colors, but it's a bit
 ;; overwhelming so it's left to be called when needed.
 (use-package rainbow-mode
   :commands rainbow-mode)
-
-;; Restclient gives us something similar to Postman, but in Emacs.
-(use-package restclient
-  :mode ("\\.rest\\'" . restclient-mode)
-  :config
-  (setq restclient-log-request t))
 
 ;; Package `rg' just provides an interactive command `rg' to run the search tool
 ;; of the same name.

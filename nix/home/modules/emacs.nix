@@ -69,13 +69,11 @@ in
             epkgs.melpaPackages.multiple-cursors
             epkgs.melpaPackages.nix-mode
             epkgs.melpaPackages.no-littering
-            epkgs.melpaPackages.nov
             epkgs.melpaPackages.orderless
             epkgs.melpaPackages.package-lint
             epkgs.melpaPackages.page-break-lines
             epkgs.melpaPackages.projectile
             epkgs.melpaPackages.protobuf-mode
-            epkgs.melpaPackages.restclient
             epkgs.melpaPackages.rg
             epkgs.melpaPackages.rust-mode
             epkgs.melpaPackages.shackle
