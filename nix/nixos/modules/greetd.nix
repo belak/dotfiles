@@ -22,7 +22,7 @@ in
     services.greetd = {
       enable = true;
       settings.default_session.command =
-        "${pkgs.greetd.greetd}/bin/agreety --cmd ${cfg.command}";
+        "${pkgs.greetd}/bin/agreety --cmd ${cfg.command}";
     };
   };
 }
