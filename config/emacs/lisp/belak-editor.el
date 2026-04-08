@@ -5,8 +5,6 @@
 ;;
 ;;; Packages
 
-;; TODO: take a look at bufler
-
 (use-package autorevert
   :blackout
   :hook (after-init . global-auto-revert-mode)
@@ -74,9 +72,6 @@
 	           ("<tab>" . nil)
 	           ("TAB"   . nil)))
   :config
-  ;; TODO: look at yas/hippie-expand integration
-  ;; TODO: look at Sacha's change-cursor-color-when-can-expand
-
   ;; `no-littering' overrides the snippets dir and makes it harder to find, so
   ;; we change it back.
   (setq yas-snippet-dirs

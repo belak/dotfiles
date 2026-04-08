@@ -1,7 +1,5 @@
 ;;; belak-lang-rust.el -*- lexical-binding: t; -*-
 
-;; TODO: look into rustic
-
 (require 'belak-lib)
 (require 'belak-dev)
 

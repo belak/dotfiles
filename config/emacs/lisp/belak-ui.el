@@ -20,7 +20,6 @@
 ;;
 ;;; Fonts
 
-;; TODO: (set-face-font 'variable-pitch "")
 (cond
  (IS-MAC
   (set-face-font 'default        "Monaspace Neon")
@@ -94,9 +93,7 @@
   (line-number-mode 1)
   (size-indication-mode 1)
 
-  ;; HACK: These two settings need to be set in order to remove what looks like
-  ;; padding from the modeline. Thankfully, `doom-modeline' will helpfully
-  ;; recalculate the height when set to 0.
+  ;; Setting height to 0 lets doom-modeline recalculate it without extra padding.
   (setq doom-modeline-icon nil
         doom-modeline-height 0)
 
@@ -159,20 +156,10 @@
         which-key-min-display-lines 6
         which-key-side-window-slot -10)
 
-  ;; TODO: add support for `which-key-enable-extended-define-key'
-
-  ;; Set up which-key to only display when C-h is pressed.
-  ;; (setq which-key-show-early-on-C-h t
-  ;;       which-key-idle-delay most-positive-fixnum
-  ;;       which-key-idle-secondary-delay 1e-100)
-
   (setq which-key-idle-delay 0.5)
 
   (which-key-setup-side-window-bottom))
 
-;; TODO: doom uses some hacks to approximate this, potentially faster.
-;; TODO: prelude has a nice way of optionally enabling `whitespace' for certain modes
-;; TODO: is there a way to only display things like spaces/tabs when selected?
 (use-package whitespace
   :blackout global-whitespace-mode
   :demand t
