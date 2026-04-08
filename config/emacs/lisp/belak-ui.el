@@ -22,11 +22,11 @@
 
 (cond
  (IS-MAC
-  (set-face-font 'default        "Monaspace Neon")
-  (set-face-font 'fixed-pitch    "Monaspace Neon"))
+  (set-face-font 'default     "Monaspace Neon")
+  (set-face-font 'fixed-pitch "Monaspace Neon"))
  (IS-LINUX
-  (set-face-font 'default        "Terminus 12")
-  (set-face-font 'fixed-pitch    "Terminus 12")))
+  (set-face-font 'default     "Monaspace Neon 12")
+  (set-face-font 'fixed-pitch "Monaspace Neon 12")))
 
 
 ;;
