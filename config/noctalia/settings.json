@@ -364,7 +364,7 @@
         "allowPasswordWithFprintd": true,
         "animationDisabled": false,
         "animationSpeed": 1,
-        "autoStartAuth": false,
+        "autoStartAuth": true,
         "avatarImage": "/home/belak/.face",
         "boxRadiusRatio": 1,
         "clockFormat": "hh\\nmm",
