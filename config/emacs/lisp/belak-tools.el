@@ -53,21 +53,6 @@
 (use-package rainbow-mode
   :commands rainbow-mode)
 
-;; Package `rg' just provides an interactive command `rg' to run the search tool
-;; of the same name.
-(use-package rg
-  :bind (("C-c k" . #'belak--rg))
-  :commands (rg rg-run)
-  :init
-  (defun belak--rg (&optional only-current-type)
-    "Search for string in current project.
-With ONLY-CURRENT-TYPE non-nil, or interactively with prefix
-argument, search only in files matching current type."
-    (interactive "P")
-    (rg-run (rg-read-pattern nil)
-            (if only-current-type (car (rg-default-alias)) "*")
-            (rg-project-root buffer-file-name))))
-
 ;; vterm is like all the built-in terminals, but even better because
 ;; it uses libvterm which is pretty solid and handles most control
 ;; sequences really well.

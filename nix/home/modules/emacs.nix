@@ -67,7 +67,6 @@ in
             epkgs.melpaPackages.package-lint
             epkgs.melpaPackages.page-break-lines
             epkgs.melpaPackages.protobuf-mode
-            epkgs.melpaPackages.rg
             epkgs.melpaPackages.rust-mode
             epkgs.melpaPackages.shackle
             epkgs.melpaPackages.terraform-mode
