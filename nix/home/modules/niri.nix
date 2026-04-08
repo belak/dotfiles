@@ -23,6 +23,8 @@ in
     programs.niri.package = pkgs.unstable.niri;
 
     programs.niri.settings = {
+      prefer-no-csd = true;
+
       input = {
         keyboard.numlock = true;
 
