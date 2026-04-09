@@ -31,7 +31,6 @@
       "blackhole-2ch"
       "inkscape"
       "spotify"
-      "claude-code"
     ];
 
     masApps = {
