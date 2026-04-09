@@ -57,7 +57,13 @@
 (use-package auto-dim-other-buffers
   :hook (after-init . auto-dim-other-buffers-mode)
   :config
-  (setq auto-dim-other-buffers-dim-on-focus-out nil))
+  (setq auto-dim-other-buffers-dim-on-focus-out nil)
+
+  ;; Pull bg-dim from the current modus theme's palette rather than
+  ;; hard-coding a color. If the theme changes, this will need to be re-evaluated.
+  (after! modus-themes
+    (modus-themes-with-colors
+      (set-face-background 'auto-dim-other-buffers-face bg-dim))))
 
 ;; We want line numbers to make it easier when using prefix commands.
 (use-package display-line-numbers
