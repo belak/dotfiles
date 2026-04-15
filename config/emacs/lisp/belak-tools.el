@@ -63,6 +63,15 @@
 (use-package rainbow-mode
   :commands rainbow-mode)
 
+;; verb is an http client which integrates with org-mode. However because we use
+;; it with org-tangle rather than the direct integration, we don't need any
+;; extra setup.
+(use-package verb)
+
+(use-package ob-verb
+  :ensure nil
+  :commands (org-babel-execute:verb))
+
 ;; vterm is like all the built-in terminals, but even better because
 ;; it uses libvterm which is pretty solid and handles most control
 ;; sequences really well.

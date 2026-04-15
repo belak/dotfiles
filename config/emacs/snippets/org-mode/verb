@@ -1,0 +1,7 @@
+# -*- mode: snippet -*-
+# name: verb
+# key: verb
+# --
+#+begin_src verb :op ${1:get} ${2:http://}
+$0
+#+end_src

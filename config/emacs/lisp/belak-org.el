@@ -67,7 +67,8 @@
                               (calc . t)
                               (python . t)
                               (shell . t)
-                              (ruby . t))
+                              (ruby . t)
+                              (verb . t))
 
    ;; Show headlines but not content by default.
    org-startup-folded 'content))

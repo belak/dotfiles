@@ -75,6 +75,7 @@ in
             epkgs.melpaPackages.transient
             epkgs.melpaPackages.treesit-auto
             epkgs.melpaPackages.typescript-mode
+            epkgs.melpaPackages.verb
             epkgs.melpaPackages.vertico
             epkgs.melpaPackages.vterm
             epkgs.melpaPackages.web-mode
