@@ -53,6 +53,7 @@ in
       # Packages I'm trying out
       codeowners
       nix-update
+      my.forgejo-cli
       #my.selkie
       unstable.helix
       unstable.jujutsu
