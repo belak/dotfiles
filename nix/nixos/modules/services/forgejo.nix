@@ -29,6 +29,10 @@ in
           PROTOCOL = "http+unix";
         };
 
+        actions = {
+          ENABLED = true;
+        };
+
         service = {
           DISABLE_REGISTRATION = true;
         };

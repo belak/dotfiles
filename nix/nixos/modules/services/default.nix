@@ -2,6 +2,7 @@
   imports = [
     ./caddy.nix
     ./forgejo.nix
+    ./forgejo-runner.nix
     ./haproxy.nix
     ./immich.nix
     ./jellyfin.nix

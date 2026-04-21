@@ -26,6 +26,7 @@
 
     services = {
       forgejo.enable = true;
+      forgejo-runner.enable = true;
       miniflux.enable = true;
       nginx.enable = true;
       immich.enable = true;
