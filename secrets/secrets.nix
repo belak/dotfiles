@@ -36,6 +36,7 @@ let
   ];
 
   service-atticd = [ system-eiko ];
+  service-buildbot = [ system-eiko ];
   service-forgejo = [ system-eiko ];
   service-forgejo-runner = [ system-eiko ];
   service-immich = [ system-eiko ];
@@ -46,6 +47,13 @@ let
 in
 {
   "atticd-env.age".publicKeys = service-atticd ++ users;
+
+  "buildbot-workers.age".publicKeys = service-buildbot ++ users;
+  "buildbot-worker-password.age".publicKeys = service-buildbot ++ users;
+  "buildbot-forgejo-token.age".publicKeys = service-buildbot ++ users;
+  "buildbot-forgejo-webhook-secret.age".publicKeys = service-buildbot ++ users;
+  "buildbot-oidc-secret.age".publicKeys = service-buildbot ++ users;
+  "buildbot-attic-token.age".publicKeys = service-buildbot ++ users;
 
   "acme-cloudflare-env.age".publicKeys = users ++ [
     system-eiko

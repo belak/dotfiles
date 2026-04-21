@@ -4,6 +4,7 @@
   niri,
   nixos-x13s,
   agenix,
+  buildbot-nix,
   disko,
   home-manager,
   darwin,
@@ -32,7 +33,7 @@
     nixpkgs.lib.nixosSystem {
       specialArgs = {
         inherit self;
-        inherit agenix niri;
+        inherit agenix niri buildbot-nix;
       };
 
       modules = [
