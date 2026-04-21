@@ -6,6 +6,47 @@
 }:
 let
   cfg = config.belak.services.forgejo-runner;
+
+  # Custom image: nix + node in one place so actions/checkout (JS) and
+  # nix builds can coexist in the same job.
+  nixCiImage = pkgs.dockerTools.buildLayeredImage {
+    name = "localhost/nix-ci";
+    tag = "latest";
+    contents = with pkgs; [
+      nix
+      nodejs
+      attic-client
+      bashInteractive
+      coreutils
+      gnutar
+      gzip
+      gitMinimal
+      cacert
+      (dockerTools.fakeNss.override {
+        extraPasswdLines = map (
+          n: "nixbld${toString n}:x:${toString (30000 + n)}:30000:Nix build user ${toString n}:/var/empty:/run/current-system/sw/bin/nologin"
+        ) (lib.range 1 32);
+        extraGroupLines = [
+          "nixbld:!:30000:${
+            lib.concatStringsSep "," (map (n: "nixbld${toString n}") (lib.range 1 32))
+          }"
+        ];
+      })
+      (writeTextDir "etc/nix/nix.conf" ''
+        experimental-features = nix-command flakes
+        build-users-group = nixbld
+        sandbox = true
+      '')
+      (writeTextDir "root/.keep" "")
+    ];
+    config.Env = [
+      "PATH=/bin"
+      "USER=root"
+      "HOME=/root"
+      "SSL_CERT_FILE=${pkgs.cacert}/etc/ssl/certs/ca-bundle.crt"
+      "NIX_SSL_CERT_FILE=${pkgs.cacert}/etc/ssl/certs/ca-bundle.crt"
+    ];
+  };
 in
 {
   options.belak.services.forgejo-runner = {
@@ -27,19 +68,53 @@ in
         tokenFile = config.age.secrets.forgejo-runner-token.path;
         labels = [
           "ubuntu-latest:docker://node:22-bookworm"
-          "nix:docker://nixos/nix"
+          "nix:docker://localhost/nix-ci:latest"
         ];
+        # Give nix's user-namespace sandbox what it needs inside jobs.
+        settings.container.options = "--privileged";
       };
     };
 
-    # When the runner and Forgejo are on the same host, ensure the runner
-    # starts after Forgejo to avoid 502s during registration.
-    systemd.services."gitea-runner-main" = lib.mkIf config.belak.services.forgejo.enable {
+    # Static user so agenix can chown the token secret. Upstream module
+    # defaults to DynamicUser, which doesn't exist at activation time.
+    users.users.gitea-runner = {
+      isSystemUser = true;
+      group = "gitea-runner";
+    };
+    users.groups.gitea-runner = { };
+
+    systemd.services."gitea-runner-main" = {
+      # Runner needs node on PATH so act can bind-mount it into job
+      # containers for JS-based actions.
+      path = [ pkgs.nodejs ];
+      serviceConfig = {
+        DynamicUser = lib.mkForce false;
+        User = "gitea-runner";
+        Group = "gitea-runner";
+      };
+    } // lib.optionalAttrs config.belak.services.forgejo.enable {
+      # When the runner and Forgejo are on the same host, ensure the runner
+      # starts after Forgejo to avoid 502s during registration.
       after = [ "forgejo.service" ];
       wants = [ "forgejo.service" ];
     };
 
     virtualisation.podman.enable = true;
+
+    # Load the nix-ci image into the system (rootful) podman storage
+    # that the runner talks to via /run/podman/podman.sock.
+    systemd.services.load-nix-ci-image = {
+      description = "Load nix-ci container image into rootful podman storage";
+      wantedBy = [ "gitea-runner-main.service" ];
+      before = [ "gitea-runner-main.service" ];
+      after = [ "podman.service" ];
+      requires = [ "podman.service" ];
+      serviceConfig = {
+        Type = "oneshot";
+        RemainAfterExit = true;
+        ExecStart = "${pkgs.podman}/bin/podman load -i ${nixCiImage}";
+      };
+    };
 
     age.secrets.forgejo-runner-token = {
       file = ../../../../secrets/forgejo-runner-token.age;
