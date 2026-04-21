@@ -23,10 +23,13 @@ let
       gitMinimal
       cacert
       (dockerTools.fakeNss.override {
-        extraPasswdLines = map (
-          n: "nixbld${toString n}:x:${toString (30000 + n)}:30000:Nix build user ${toString n}:/var/empty:/run/current-system/sw/bin/nologin"
-        ) (lib.range 1 32);
+        extraPasswdLines =
+          [ "ci:x:1001:1001:CI user:/home/ci:/bin/bash" ]
+          ++ map (
+            n: "nixbld${toString n}:x:${toString (30000 + n)}:30000:Nix build user ${toString n}:/var/empty:/run/current-system/sw/bin/nologin"
+          ) (lib.range 1 32);
         extraGroupLines = [
+          "ci:!:1001:"
           "nixbld:!:30000:${
             lib.concatStringsSep "," (map (n: "nixbld${toString n}") (lib.range 1 32))
           }"
@@ -37,12 +40,21 @@ let
         build-users-group = nixbld
         sandbox = true
       '')
-      (writeTextDir "root/.keep" "")
+      (writeTextDir "home/ci/.keep" "")
     ];
+    # Jobs run as non-root `ci` user so tools that refuse root
+    # (initdb, elasticsearch, etc.) work out of the box.
+    fakeRootCommands = ''
+      chown -R 1001:1001 home/ci
+      mkdir -p tmp
+      chmod 1777 tmp
+    '';
+    enableFakechroot = true;
+    config.User = "ci";
     config.Env = [
       "PATH=/bin"
-      "USER=root"
-      "HOME=/root"
+      "USER=ci"
+      "HOME=/home/ci"
       "SSL_CERT_FILE=${pkgs.cacert}/etc/ssl/certs/ca-bundle.crt"
       "NIX_SSL_CERT_FILE=${pkgs.cacert}/etc/ssl/certs/ca-bundle.crt"
     ];
