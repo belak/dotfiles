@@ -35,6 +35,7 @@ let
     system-zorn
   ];
 
+  service-atticd = [ system-eiko ];
   service-forgejo = [ system-eiko ];
   service-forgejo-runner = [ system-eiko ];
   service-immich = [ system-eiko ];
@@ -44,6 +45,8 @@ let
   service-syncthing = [ system-eiko ];
 in
 {
+  "atticd-env.age".publicKeys = service-atticd ++ users;
+
   "acme-cloudflare-env.age".publicKeys = users ++ [
     system-eiko
     system-zidane

@@ -25,6 +25,7 @@
     server.enable = true;
 
     services = {
+      atticd.enable = true;
       forgejo.enable = true;
       forgejo-runner.enable = true;
       miniflux.enable = true;

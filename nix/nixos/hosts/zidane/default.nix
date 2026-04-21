@@ -46,6 +46,9 @@
 
 
         # Hosted on eiko
+        "attic.elwert.cloud" = {
+          backend = "http://eiko.elwert.dev";
+        };
         "files.elwert.cloud" = {
           backend = "http://eiko.elwert.dev";
         };

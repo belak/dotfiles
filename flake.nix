@@ -239,6 +239,7 @@
             default = pkgs.mkShell {
               packages = with pkgs; [
                 inputs.agenix.packages.${system}.agenix
+                attic-client
                 deploy-rs
                 nixos-anywhere
               ];
