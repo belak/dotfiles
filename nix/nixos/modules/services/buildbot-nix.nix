@@ -36,9 +36,12 @@ in
     services.buildbot-nix.master = {
       enable = true;
       domain = cfg.domain;
+      # TLS terminates at zidane, so the local vhost is plain HTTP
+      # but the public URL is still https://.
+      useHTTPS = true;
       admins = [ "belak" ];
       authBackend = "oidc";
-      workersFile = config.age.secrets.buildbot-workers.path;
+      workersFile = config.age.secrets."buildbot-worker-${config.networking.hostName}".path;
 
       oidc = {
         name = "pocket-id";
@@ -84,13 +87,13 @@ in
         set -eu
         ATTIC_TOKEN=$(< "$CREDENTIALS_DIRECTORY/token")
         attic login elwert https://attic.elwert.cloud "$ATTIC_TOKEN"
-        attic use elwert:bfiles
-        exec attic watch-store elwert:bfiles
+        attic use elwert:buildbot
+        exec attic watch-store elwert:buildbot
       '';
     };
 
-    age.secrets.buildbot-workers = {
-      file = ../../../../secrets/buildbot-workers.age;
+    age.secrets."buildbot-worker-${config.networking.hostName}" = {
+      file = ../../../../secrets/buildbot-worker-${config.networking.hostName}.age;
       owner = "buildbot";
     };
     age.secrets.buildbot-worker-password = {

@@ -48,7 +48,7 @@ in
 {
   "atticd-env.age".publicKeys = service-atticd ++ users;
 
-  "buildbot-workers.age".publicKeys = service-buildbot ++ users;
+  "buildbot-worker-eiko.age".publicKeys = service-buildbot ++ users;
   "buildbot-worker-password.age".publicKeys = service-buildbot ++ users;
   "buildbot-forgejo-token.age".publicKeys = service-buildbot ++ users;
   "buildbot-forgejo-webhook-secret.age".publicKeys = service-buildbot ++ users;
