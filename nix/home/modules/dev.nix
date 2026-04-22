@@ -46,6 +46,9 @@ in
       my.rbenv
       my.ruby-build
 
+      # Javascript
+      volta
+
       # Podman
       podman
       podman-compose

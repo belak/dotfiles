@@ -33,6 +33,17 @@ if type -q rbenv
     rbenv init - --no-rehash fish | source
 end
 
+if type -q volta
+    set -gx VOLTA_HOME $HOME/.volta
+    fish_add_path $VOLTA_HOME/bin
+end
+
+# yarn-switch isn't in nixpkgs but is required for work, so if it's
+# installed, we load it.
+if test -f $HOME/.yarn/switch/env.fish
+    source $HOME/.yarn/switch/env.fish
+end
+
 #
 # Settings
 #
