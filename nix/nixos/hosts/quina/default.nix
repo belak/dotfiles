@@ -14,13 +14,15 @@
   };
 
   belak = {
-    dev.enable = true;
     laptop = {
       enable = true;
       consoleFont = "ter-124n";
     };
     #xfce.enable = true;
     greetd.enable = true;
+
+    dev.enable = true;
+    services.postgres.enable = true;
   };
 
   fonts = {
