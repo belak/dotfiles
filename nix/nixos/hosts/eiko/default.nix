@@ -26,10 +26,6 @@
 
     services = {
       atticd.enable = true;
-      buildbot-nix = {
-        enable = true;
-        oidcClientId = "658135e5-6323-4cfb-a566-37d134dc2737";
-      };
       forgejo.enable = true;
       forgejo-runner.enable = true;
       miniflux.enable = true;
