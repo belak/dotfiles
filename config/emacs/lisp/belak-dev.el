@@ -5,6 +5,11 @@
 ;;
 ;;; Packages
 
+;; Display breadcrumbs at the top of windows, for some specific modes where it
+;; makes sense to track the structure (like markdown)
+(use-package breadcrumb
+  :hook (markdown-mode . breadcrumb-mode))
+
 ;; Display changed/removed lines in the fringe.
 (use-package diff-hl
   ;; Enable `diff-hl' for programming, text, and `dired-mode'.
@@ -48,6 +53,9 @@
   :hook (prog-mode . hl-todo-mode)
   :config
   (setq hl-todo-highlight-punctuation ":"))
+
+(use-package idle-highlight-mode
+  :hook (prog-mode . idle-highlight-mode))
 
 ;; `magit' is one of the best git interfaces I've ever used.
 (use-package magit

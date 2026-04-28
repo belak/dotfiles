@@ -31,6 +31,7 @@ in
           [
             epkgs.treesit-grammars.with-all-grammars
 
+            epkgs.elpaPackages.breadcrumb
             epkgs.elpaPackages.rainbow-mode
 
             epkgs.melpaPackages.ace-window
@@ -55,6 +56,7 @@ in
             epkgs.melpaPackages.haskell-mode
             epkgs.melpaPackages.highlight-escape-sequences
             epkgs.melpaPackages.hl-todo
+            epkgs.melpaPackages.idle-highlight-mode
             epkgs.melpaPackages.json-mode
             epkgs.melpaPackages.lua-mode
             epkgs.melpaPackages.macrostep
