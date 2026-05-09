@@ -58,6 +58,10 @@
   :hook (after-init . auto-dim-other-buffers-mode)
   :config
   (setq auto-dim-other-buffers-dim-on-focus-out nil)
+  (add-hook 'auto-dim-other-buffers-never-dim-buffer-functions
+            (lambda (buf)
+              (with-current-buffer buf
+                (apply #'derived-mode-p '(dired-sidebar-mode)))))
 
   ;; Pull bg-dim from the current modus theme's palette rather than
   ;; hard-coding a color. If the theme changes, this will need to be re-evaluated.

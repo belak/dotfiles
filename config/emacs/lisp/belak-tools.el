@@ -47,10 +47,24 @@
   ;; Open in current frame instead of new frame
   (setq agent-shell-display-action '(display-buffer-same-window)))
 
+(use-package dired-x
+  :after dired
+  :config
+  (setq dired-omit-files (concat dired-omit-files "\\|^\\..+")))
+
+(use-package dired-sidebar
+  :bind ("C-c t" . dired-sidebar-toggle-sidebar)
+  :hook (dired-sidebar-mode . dired-omit-mode))
+
 (use-package envrc
   :demand t
   :config
-  (envrc-global-mode))
+  (envrc-global-mode)
+  ;; The default summary lists every loaded variable, which is too verbose for
+  ;; large envrc files and nix flakes. Override to show a single line instead.
+  (advice-add 'envrc--show-summary :override
+              (lambda (_summary dir)
+                (message "direnv: loaded %s" (abbreviate-file-name dir)))))
 
 (use-package git-link
   :commands git-link

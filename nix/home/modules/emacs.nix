@@ -43,6 +43,7 @@ in
             epkgs.melpaPackages.consult
             epkgs.melpaPackages.corfu
             epkgs.melpaPackages.dashboard
+            epkgs.melpaPackages.dired-sidebar
             epkgs.melpaPackages.auto-dim-other-buffers
             epkgs.melpaPackages.diff-hl
             epkgs.melpaPackages.dockerfile-mode
@@ -52,7 +53,6 @@ in
             epkgs.melpaPackages.expand-region
             epkgs.melpaPackages.git-link
             epkgs.melpaPackages.git-modes
-            epkgs.melpaPackages.go-mode
             epkgs.melpaPackages.haskell-mode
             epkgs.melpaPackages.highlight-escape-sequences
             epkgs.melpaPackages.hl-todo
@@ -71,7 +71,6 @@ in
             epkgs.melpaPackages.package-lint
             epkgs.melpaPackages.page-break-lines
             epkgs.melpaPackages.protobuf-mode
-            epkgs.melpaPackages.rust-mode
             epkgs.melpaPackages.terraform-mode
             epkgs.melpaPackages.toml-mode
             epkgs.melpaPackages.transient

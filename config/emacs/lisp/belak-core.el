@@ -53,6 +53,19 @@
 
 
 ;;
+;;; Environment
+
+;; GUI Emacs doesn't inherit the shell PATH, so Nix-installed tools like direnv
+;; (required by envrc) won't be found without this.
+(dolist (path (list (concat "/etc/profiles/per-user/" (user-login-name) "/bin")
+                    "/run/current-system/sw/bin"
+                    (expand-file-name "~/.nix-profile/bin")))
+  (when (file-directory-p path)
+    (add-to-list 'exec-path path)
+    (setenv "PATH" (concat path ":" (getenv "PATH")))))
+
+
+;;
 ;;; Optimizations
 
 ;; So Long mitigates slowness due to extremely long lines.

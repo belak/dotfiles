@@ -52,22 +52,16 @@ http://stackoverflow.com/questions/3312114/how-to-tell-emacs-to-open-h-file-in-c
 ;;
 ;;; Go
 
-(use-package go-mode
-  :mode "\\.go\\'"
-  :hook ((go-mode . belak--go-mode-hook)
-         (go-mode . subword-mode)
-         (go-mode . eglot-ensure))
+(use-package go-ts-mode
+  :hook ((go-ts-mode . belak--go-ts-mode-hook)
+         (go-ts-mode . subword-mode)
+         (go-ts-mode . eglot-ensure))
   :config
   ;; Ignore go test -c output files
   (add-to-list 'completion-ignored-extensions ".test")
 
-  ;; Prefer goimports to gofmt if installed
-  (let ((goimports (executable-find "goimports")))
-    (when goimports
-      (setq gofmt-command goimports)))
-
-  (defun belak--go-mode-hook ()
-    (add-hook 'before-save-hook 'gofmt-before-save nil t)))
+  (defun belak--go-ts-mode-hook ()
+    (add-hook 'before-save-hook 'eglot-format nil t)))
 
 
 ;;
@@ -85,21 +79,17 @@ http://stackoverflow.com/questions/3312114/how-to-tell-emacs-to-open-h-file-in-c
 ;;
 ;;; Rust
 
-(use-package rust-mode
-  :mode "\\.rs\\'"
-  :hook ((rust-mode . belak--rust-mode-hook)
-         (rust-mode . subword-mode)
-         (rust-mode . eglot-ensure))
+(use-package rust-ts-mode
+  :hook ((rust-ts-mode . belak--rust-ts-mode-hook)
+         (rust-ts-mode . subword-mode)
+         (rust-ts-mode . eglot-ensure))
   :config
-  (after! eglot
-    (add-to-list 'eglot-server-programs '(rust-mode "rust-analyzer")))
-
-  (defun belak--rust-mode-hook ()
+  (defun belak--rust-ts-mode-hook ()
     (add-hook 'before-save-hook 'eglot-format nil t)))
 
 (use-package cargo
   :blackout cargo-minor-mode
-  :hook (rust-mode . cargo-minor-mode))
+  :hook (rust-ts-mode . cargo-minor-mode))
 
 
 ;;

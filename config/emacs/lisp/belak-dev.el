@@ -16,9 +16,6 @@
   :hook (prog-mode          . diff-hl-mode)
   :hook (text-mode          . diff-hl-mode)
   :hook (dired-mode         . diff-hl-mode)
-  ;; `diff-hl' provides some convenience hooks so we enable the ones we want to
-  ;; use.
-  :hook (dired-mode         . diff-hl-dired-mode)
   :hook (magit-post-refresh . diff-hl-magit-post-refresh)
   :config
   ;; When we're not in a GUI, we want to use `diff-hl-margin-mode' so it will
