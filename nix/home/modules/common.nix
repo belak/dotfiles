@@ -33,7 +33,6 @@ in
       age
       agenix
       curl
-      fd
       file
       findutils
       fzf
@@ -46,7 +45,6 @@ in
       lftp
       openssl
       pwgen
-      ripgrep
       scc
       starship
       tmux
@@ -54,20 +52,18 @@ in
       vim
       wget
       yq
+      unstable.neovim
+
+      # Rust tools
+      fd
+      procs
+      ripgrep
 
       # Nix tools
       #unstable.rippkgs
       #unstable.rnix-lsp
-      unstable.alejandra
-      unstable.deadnix
-      unstable.manix
-      unstable.nil
-      unstable.nix-index
       unstable.nix-tree
-      unstable.nixd
       unstable.nixfmt
-      unstable.nixos-anywhere
-      unstable.statix
 
       # Archive Formats
       p7zip
@@ -76,7 +72,7 @@ in
 
       # Stuff to try
       #gitui
-      unstable.neovim
+      zellij
     ];
 
     programs.direnv = {
