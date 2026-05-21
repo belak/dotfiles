@@ -40,7 +40,6 @@ in
             epkgs.melpaPackages.cargo
             epkgs.melpaPackages.consult
             epkgs.melpaPackages.corfu
-            epkgs.melpaPackages.dashboard
             epkgs.melpaPackages.dired-sidebar
             epkgs.melpaPackages.auto-dim-other-buffers
             epkgs.melpaPackages.diff-hl

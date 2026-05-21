@@ -5,33 +5,6 @@
 ;;
 ;;; Various Tools
 
-;; Provide something useful to make it easier to jump to other files at startup.
-(use-package dashboard
-  :demand t
-  :config
-  (setq dashboard-startup-banner 'logo
-        dashboard-set-navigator t
-        dashboard-center-content t
-        dashboard-projects-backend 'project-el
-        dashboard-footer-messages
-        '(;; Douglas Adams
-          "I love deadlines.\nI love the whooshing noise they make as they go by."
-          "Don't panic."
-          "A common mistake that people make when trying to design something\ncompletely foolproof is to underestimate the ingenuity of complete fools."
-          "The ships hung in the sky in much the same way that bricks don't."
-          "Would it save you a lot of time if I just gave up and went mad now?"
-          ;; Terry Pratchett
-          "Real stupidity beats artificial intelligence every time."
-          ;; Robert Asprin
-          "Just because something doesn't do what you planned it to do doesn't mean it's useless."))
-
-  (setq dashboard-items '((recents   . 5)
-                          (bookmarks . 5)
-                          (projects  . 5)
-                          (registers . 5)))
-
-  (dashboard-setup-startup-hook))
-
 ;; agent-shell provides an Emacs interface to ACP-compatible AI agents like
 ;; Claude Code, allowing direct interaction from within Emacs.
 (use-package agent-shell
