@@ -9,3 +9,4 @@ CLAUDE.local.md
 **/.claude/settings.local.json
 .superpowers/
 .impeccable.md
+.worktrees/
