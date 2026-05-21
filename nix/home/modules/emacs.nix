@@ -59,7 +59,6 @@ in
             epkgs.melpaPackages.magit
             epkgs.melpaPackages.marginalia
             epkgs.melpaPackages.markdown-mode
-            epkgs.melpaPackages.modus-themes
             epkgs.melpaPackages.multiple-cursors
             epkgs.melpaPackages.nix-mode
             epkgs.melpaPackages.no-littering
@@ -73,7 +72,6 @@ in
             epkgs.melpaPackages.vertico
             epkgs.melpaPackages.vterm
             epkgs.melpaPackages.web-mode
-            epkgs.melpaPackages.which-key
             epkgs.melpaPackages.yasnippet
             epkgs.melpaPackages.yasnippet-snippets
           ]
