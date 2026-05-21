@@ -5,11 +5,6 @@
 ;;
 ;;; Packages
 
-;; Display breadcrumbs at the top of windows, for some specific modes where it
-;; makes sense to track the structure (like markdown)
-(use-package breadcrumb
-  :hook (markdown-mode . breadcrumb-mode))
-
 ;; Display changed/removed lines in the fringe.
 (use-package diff-hl
   ;; Enable `diff-hl' for programming, text, and `dired-mode'.
@@ -39,6 +34,7 @@
 ;; `flymake' provides on-the-fly syntax checking. eglot enables it
 ;; automatically for LSP-backed modes.
 (use-package flymake
+  :blackout
   :hook (prog-mode . flymake-mode)
   :config
   (setq flymake-fringe-indicator-position 'right-fringe))

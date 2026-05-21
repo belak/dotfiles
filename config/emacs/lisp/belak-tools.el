@@ -57,6 +57,7 @@
   :hook (dired-sidebar-mode . dired-omit-mode))
 
 (use-package envrc
+  :blackout envrc-mode
   :demand t
   :config
   (envrc-global-mode)

@@ -56,9 +56,7 @@
         history-delete-duplicates t
         savehist-save-minibuffer-history 1))
 
-;; We use subword mode in a few `prog-mode' major modes like Go, but we want it
-;; hidden, so we black it out here.
-(use-package subword :blackout)
+(use-package subword :blackout " sw")
 
 (use-package yasnippet
   :blackout yas-minor-mode

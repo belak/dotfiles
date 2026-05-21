@@ -31,7 +31,6 @@ in
           [
             epkgs.treesit-grammars.with-all-grammars
 
-            epkgs.elpaPackages.breadcrumb
             epkgs.elpaPackages.rainbow-mode
 
             epkgs.melpaPackages.ace-window
@@ -45,7 +44,6 @@ in
             epkgs.melpaPackages.dired-sidebar
             epkgs.melpaPackages.auto-dim-other-buffers
             epkgs.melpaPackages.diff-hl
-            epkgs.melpaPackages.doom-modeline
             epkgs.melpaPackages.editorconfig
             epkgs.melpaPackages.envrc
             epkgs.melpaPackages.expand-region

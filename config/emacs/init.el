@@ -1,7 +1,7 @@
 ;;; init.el -*- lexical-binding: t; -*-
 
-(when (version< emacs-version "29")
-  (error "Detected Emacs %s but only 29 and higher is supported"
+(when (version< emacs-version "30")
+  (error "Detected Emacs %s but only 30 and higher is supported"
 	 emacs-version))
 
 (add-to-list 'load-path (concat user-emacs-directory "lisp"))

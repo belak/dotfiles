@@ -214,9 +214,9 @@ http://stackoverflow.com/questions/3312114/how-to-tell-emacs-to-open-h-file-in-c
 (blackout 'lisp-mode "λ")
 
 ;; Some extra files to support with basic modes
-(push '("LICENSE\\'"   . text-mode)      auto-mode-alist)
-(push '("\\.log\\'"    . text-mode)      auto-mode-alist)
-(push '("\\.env\\'"    . sh-mode)        auto-mode-alist)
+(push '("LICENSE\\'" . text-mode) auto-mode-alist)
+(push '("\\.log\\'"  . text-mode) auto-mode-alist)
+(push '("\\.env\\'"  . sh-mode)   auto-mode-alist)
 
 (provide 'belak-lang)
 ;;; belak-lang.el ends here
