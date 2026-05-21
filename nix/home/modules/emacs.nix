@@ -54,6 +54,10 @@ in
             epkgs.melpaPackages.macrostep
             epkgs.melpaPackages.marginalia
             epkgs.melpaPackages.markdown-mode
+            # modus-themes.el lands in etc/themes/ in the Nix Emacs build (added
+            # to custom-theme-load-path, not load-path), so require 'modus-themes
+            # fails without an explicit package entry.
+            epkgs.elpaPackages.modus-themes
             epkgs.melpaPackages.multiple-cursors
             epkgs.melpaPackages.nix-mode
             epkgs.melpaPackages.no-littering
