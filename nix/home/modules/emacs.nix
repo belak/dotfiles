@@ -33,7 +33,6 @@ in
 
             epkgs.elpaPackages.rainbow-mode
 
-            epkgs.melpaPackages.ace-window
             epkgs.melpaPackages.agent-shell
             epkgs.melpaPackages.bazel
             epkgs.melpaPackages.blackout
@@ -60,7 +59,6 @@ in
             epkgs.melpaPackages.no-littering
             epkgs.melpaPackages.orderless
             epkgs.melpaPackages.package-lint
-            epkgs.melpaPackages.page-break-lines
             epkgs.melpaPackages.protobuf-mode
             epkgs.melpaPackages.terraform-mode
             epkgs.melpaPackages.verb

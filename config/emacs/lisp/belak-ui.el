@@ -32,25 +32,11 @@
 ;;
 ;;; Packages
 
-;; Make it clearer which window you're switching to when using C-x o.
-(use-package ace-window
-  :defer nil
-  :bind
-  ("C-x o" . ace-window)
-  ("M-o"   . ace-window)
+(use-package windmove
+  :demand t
   :config
-  ;; Don't dim the background and use easy-to-type letters rather than numbers
-  ;; for the jump keys.
-  (setq aw-background nil
-        aw-keys       '(?a ?s ?d ?f ?g ?h ?j ?k ?l))
-
-  ;; Advise ace-window so no cursors display while it is active.
-  (defun belak--ace-window (orig-fun &rest args)
-    (let ((cursor-type nil)
-          (cursor-in-non-selected-windows nil))
-      (apply orig-fun args)))
-
-  (advice-add 'ace-window :around #'belak--ace-window))
+  (windmove-default-keybindings)
+  (windmove-swap-states-default-keybindings))
 
 ;; Dim the non-active window to make it a little easier to focus on the
 ;; currently active window.
@@ -149,10 +135,6 @@
   ;; buffer.
   (setq hl-line-sticky-flag nil
         global-hl-line-sticky-flag nil))
-
-;; This package is required by `dashboard', but we don't want it to display in
-;; the minor-modes display so we hide it.
-(use-package page-break-lines :blackout)
 
 ;; Control where certain buffers are displayed.
 (setq display-buffer-alist
