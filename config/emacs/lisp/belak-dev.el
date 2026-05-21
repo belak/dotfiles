@@ -35,7 +35,12 @@
 ;; automatically for LSP-backed modes.
 (use-package flymake
   :blackout
-  :hook (prog-mode . flymake-mode)
+  :preface
+  (defun belak--maybe-enable-flymake ()
+    "Enable flymake unless we're in the scratch buffer."
+    (unless (equal (buffer-name) "*scratch*")
+      (flymake-mode 1)))
+  :hook (prog-mode . belak--maybe-enable-flymake)
   :config
   (setq flymake-fringe-indicator-position 'right-fringe))
 

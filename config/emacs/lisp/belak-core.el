@@ -49,7 +49,8 @@
   :config
   (add-to-list 'recentf-exclude no-littering-var-directory)
   (add-to-list 'recentf-exclude no-littering-etc-directory)
-  (recentf-mode +1))
+  (let ((inhibit-message t))
+    (recentf-mode +1)))
 
 
 ;;
@@ -106,14 +107,37 @@
 ;; Disable the startup screen and messages - more often than not we really just
 ;; want to get into a file.
 (setq inhibit-startup-message t
-      inhibit-startup-echo-area-message user-login-name
       inhibit-default-init t)
 
-;; Leave the scratch buffer blank. We used to switch to `emacs-lisp-mode', but
-;; then all the `prog-mode' deferred setup functions are run, so we stick to
-;; `fundamental-mode'.
-(setq initial-scratch-message nil
-      initial-major-mode 'fundamental-mode)
+;; Emacs scans the init file for a literal (setq inhibit-startup-echo-area-message
+;; "username") string, which isn't portable. Setting the `saved-value' property
+;; tricks it into thinking the customization interface was used instead.
+;;
+;; See: https://yrh.dev/blog/rant-obfuscation-in-emacs/
+(put 'inhibit-startup-echo-area-message 'saved-value
+     (setq inhibit-startup-echo-area-message (user-login-name)))
+
+;; Leave the scratch buffer blank except for a random quote. We used to switch
+;; to `emacs-lisp-mode', but then all the `prog-mode' deferred setup functions
+;; are run, so we stick to `fundamental-mode'.
+(defvar belak--scratch-quotes
+  '(;; Douglas Adams
+    "I love deadlines. I love the whooshing noise they make as they go by."
+    "Don't panic."
+    "A common mistake that people make when trying to design something completely foolproof is to underestimate the ingenuity of complete fools."
+    "The ships hung in the sky in much the same way that bricks don't."
+    "Would it save you a lot of time if I just gave up and went mad now?"
+    ;; Terry Pratchett
+    "Real stupidity beats artificial intelligence every time."
+    ;; Robert Asprin
+    "Just because something doesn't do what you planned it to do doesn't mean it's useless.")
+  "Quotes to display in the scratch buffer.")
+
+(setq initial-scratch-message
+      (concat (replace-regexp-in-string "^" ";; " (nth (random (length belak--scratch-quotes)) belak--scratch-quotes))
+              "\n\n")
+      initial-major-mode 'lisp-interaction-mode)
+
 
 ;; It's alright if Emacs updates the UI a little less often than the
 ;; default of 0.5s.
