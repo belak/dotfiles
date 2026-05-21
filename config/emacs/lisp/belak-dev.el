@@ -50,24 +50,13 @@
 (use-package idle-highlight-mode
   :hook (prog-mode . idle-highlight-mode))
 
-;; `magit' is one of the best git interfaces I've ever used.
-(use-package magit
-  :bind
-  ("C-c g" . magit-status)
-  :config
-  ;; Unfortunately, as this causes major performance issues in large repos,
-  ;; which I often run into at my job, it's just easier to disable this.
-  (magit-auto-revert-mode -1)
-
-  (add-to-list 'display-buffer-alist
-               '("\\*Magit Diff\\*"
-                 (display-buffer-reuse-window display-buffer-below-selected)
-                 (inhibit-same-window . t))))
-
 ;; `project.el' is the built-in project management package. It auto-detects
 ;; projects via VCS roots.
 (use-package project
   :bind-keymap ("C-c p" . project-prefix-map))
+
+(use-package vc
+  :bind ("C-c g" . vc-dir))
 
 
 ;;
@@ -95,9 +84,6 @@
 ;;
 ;;; Performance
 
-;; Normally, we'd disable all the VC backends as we use Magit to interface with
-;; Git. However, `diff-hl' requires the VC backends to be enabled to work, so we
-;; disable everything other than git.
 (use-package vc-hooks
   :config
   (setq vc-handled-backends '(Git)))

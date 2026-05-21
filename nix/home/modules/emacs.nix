@@ -54,7 +54,6 @@ in
             epkgs.melpaPackages.hl-todo
             epkgs.melpaPackages.idle-highlight-mode
             epkgs.melpaPackages.macrostep
-            epkgs.melpaPackages.magit
             epkgs.melpaPackages.marginalia
             epkgs.melpaPackages.markdown-mode
             epkgs.melpaPackages.multiple-cursors
@@ -65,7 +64,6 @@ in
             epkgs.melpaPackages.page-break-lines
             epkgs.melpaPackages.protobuf-mode
             epkgs.melpaPackages.terraform-mode
-            epkgs.melpaPackages.transient
             epkgs.melpaPackages.verb
             epkgs.melpaPackages.vertico
             epkgs.melpaPackages.vterm
