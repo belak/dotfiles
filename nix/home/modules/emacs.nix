@@ -39,14 +39,12 @@ in
             epkgs.melpaPackages.bazel
             epkgs.melpaPackages.blackout
             epkgs.melpaPackages.cargo
-            epkgs.melpaPackages.cmake-mode
             epkgs.melpaPackages.consult
             epkgs.melpaPackages.corfu
             epkgs.melpaPackages.dashboard
             epkgs.melpaPackages.dired-sidebar
             epkgs.melpaPackages.auto-dim-other-buffers
             epkgs.melpaPackages.diff-hl
-            epkgs.melpaPackages.dockerfile-mode
             epkgs.melpaPackages.doom-modeline
             epkgs.melpaPackages.editorconfig
             epkgs.melpaPackages.envrc
@@ -57,8 +55,6 @@ in
             epkgs.melpaPackages.highlight-escape-sequences
             epkgs.melpaPackages.hl-todo
             epkgs.melpaPackages.idle-highlight-mode
-            epkgs.melpaPackages.json-mode
-            epkgs.melpaPackages.lua-mode
             epkgs.melpaPackages.macrostep
             epkgs.melpaPackages.magit
             epkgs.melpaPackages.marginalia
@@ -72,16 +68,12 @@ in
             epkgs.melpaPackages.page-break-lines
             epkgs.melpaPackages.protobuf-mode
             epkgs.melpaPackages.terraform-mode
-            epkgs.melpaPackages.toml-mode
             epkgs.melpaPackages.transient
-            epkgs.melpaPackages.treesit-auto
-            epkgs.melpaPackages.typescript-mode
             epkgs.melpaPackages.verb
             epkgs.melpaPackages.vertico
             epkgs.melpaPackages.vterm
             epkgs.melpaPackages.web-mode
             epkgs.melpaPackages.which-key
-            epkgs.melpaPackages.yaml-mode
             epkgs.melpaPackages.yasnippet
             epkgs.melpaPackages.yasnippet-snippets
           ]

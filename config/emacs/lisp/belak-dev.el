@@ -92,15 +92,6 @@
   (corfu-popupinfo-delay '(0.5 . 0.2)))
 
 
-;; Automatically remap major modes to their tree-sitter equivalents when
-;; grammars are available.
-(use-package treesit-auto
-  :demand t
-  :config
-  (setq treesit-auto-install nil)
-  (treesit-auto-add-to-auto-mode-alist 'all)
-  (global-treesit-auto-mode))
-
 (use-package eglot
   :commands (eglot eglot-ensure))
 

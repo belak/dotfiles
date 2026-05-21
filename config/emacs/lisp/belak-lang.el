@@ -95,9 +95,11 @@ http://stackoverflow.com/questions/3312114/how-to-tell-emacs-to-open-h-file-in-c
 ;;
 ;;; Web
 
-(use-package typescript-mode
-  :blackout "Typescript"
-  :mode ("\\.tsx?\\'" . typescript-mode))
+(use-package typescript-ts-mode
+  :blackout "TypeScript"
+  :mode
+  ("\\.ts\\'"  . typescript-ts-mode)
+  ("\\.tsx\\'" . tsx-ts-mode))
 
 (use-package css-mode
   :mode "\\.css\\'")
@@ -126,10 +128,8 @@ http://stackoverflow.com/questions/3312114/how-to-tell-emacs-to-open-h-file-in-c
         web-mode-enable-auto-closing t
         web-mode-enable-current-element-highlight t))
 
-(use-package json-mode
-  :mode "\\.json\\'"
-  :config
-  (setq json-reformat:indent-width 2))
+(use-package json-ts-mode
+  :mode "\\.json\\'")
 
 
 ;;
@@ -141,12 +141,12 @@ http://stackoverflow.com/questions/3312114/how-to-tell-emacs-to-open-h-file-in-c
   ("\\.bazel\\'" . bazel-mode)
   ("WORKSPACE"   . bazel-mode))
 
-(use-package cmake-mode
+(use-package cmake-ts-mode
   :mode
   "CMakeLists\\.txt\\'"
   "\\.cmake\\'")
 
-(use-package dockerfile-mode
+(use-package dockerfile-ts-mode
   :mode "Dockerfile")
 
 (use-package git-modes
@@ -160,7 +160,7 @@ http://stackoverflow.com/questions/3312114/how-to-tell-emacs-to-open-h-file-in-c
 (use-package haskell-mode
   :mode "\\.hs\\'")
 
-(use-package lua-mode
+(use-package lua-ts-mode
   :mode "\\.lua\\'")
 
 (use-package markdown-mode
@@ -195,14 +195,14 @@ http://stackoverflow.com/questions/3312114/how-to-tell-emacs-to-open-h-file-in-c
 (use-package terraform-mode
   :mode "\\.tf\\'")
 
-(use-package toml-mode
+(use-package toml-ts-mode
   :mode
   "\\.toml\\'"
   "Pipfile\\'")
 
-(use-package yaml-mode
+(use-package yaml-ts-mode
   :mode "\\.ya?ml\\'"
-  :hook (yaml-mode . subword-mode))
+  :hook (yaml-ts-mode . subword-mode))
 
 
 ;;
