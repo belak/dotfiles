@@ -33,7 +33,9 @@
       "spotify"
     ];
 
-    masApps = {
+    # See nix/darwin/modules/common.nix — disabled until
+    # nix-darwin/nix-darwin#1668 lands.
+    masApps = lib.mkIf false {
       "Logic Pro" = 634148309;
       "Meta" = 558317092;
       "Mp3tag" = 1532597159;

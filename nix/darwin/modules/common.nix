@@ -1,4 +1,4 @@
-{ pkgs, ... }:
+{ lib, pkgs, ... }:
 {
   environment.systemPackages = with pkgs; [
     mas
@@ -63,7 +63,11 @@
       "zotero"
     ];
 
-    masApps = {
+    # Disabled until nix-darwin/nix-darwin#1668 lands — current mas
+    # re-installs every app on each activation, which is painful for large
+    # apps like Xcode. Flip to `true` during bootstrapping when we actually
+    # want these reconciled.
+    masApps = lib.mkIf false {
       "CARROT Weather" = 993487541;
       "Dark Noise" = 1465439395;
       MediaInfo = 510620098;
