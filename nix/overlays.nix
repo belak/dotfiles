@@ -68,4 +68,10 @@
       inherit (final.stdenv.hostPlatform) system;
     }).fish;
   };
+
+  # nix-darwin/nix-darwin#1722 - mas in stable nixpkgs is broken on recent
+  # macOS; pull it from unstable until the fix lands in our channel.
+  mas-darwin-bump = final: prev: {
+    mas = final.unstable.mas;
+  };
 }
