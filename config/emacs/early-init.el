@@ -13,8 +13,13 @@
 ;; possible to try and catch everything.
 (setq warning-minimum-level :error)
 
-;; Defer garbage collection further back in the startup process
+;; Defer garbage collection further back in the startup process. We restore
+;; a sane value once startup completes so we don't see multi-second GC pauses
+;; during normal interactive use.
 (setq gc-cons-threshold most-positive-fixnum)
+(defun belak--restore-gc-cons-threshold ()
+  (setq gc-cons-threshold (* 16 1024 1024)))
+(add-hook 'emacs-startup-hook #'belak--restore-gc-cons-threshold)
 
 ;; In Emacs 27+, package initialization occurs before `user-init-file' is
 ;; loaded, but after `early-init-file'. We handle package initialization, so we
