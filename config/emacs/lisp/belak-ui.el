@@ -34,9 +34,20 @@
 
 (use-package windmove
   :demand t
+  :bind ("C-c w" . belak--windmove-transient)
   :config
-  (windmove-default-keybindings)
-  (windmove-swap-states-default-keybindings))
+  (cond (IS-MAC   (windmove-default-keybindings 'super))
+        (IS-LINUX (windmove-default-keybindings 'control)))
+  (defun belak--windmove-transient ()
+    (interactive)
+    (let ((map (make-sparse-keymap)))
+      (define-key map (kbd "<up>")    #'windmove-swap-states-up)
+      (define-key map (kbd "<down>")  #'windmove-swap-states-down)
+      (define-key map (kbd "<left>")  #'windmove-swap-states-left)
+      (define-key map (kbd "<right>") #'windmove-swap-states-right)
+      (let ((disable-fn (set-transient-map map t)))
+        (define-key map (kbd "q")
+          (lambda () (interactive) (funcall disable-fn)))))))
 
 ;; Dim the non-active window to make it a little easier to focus on the
 ;; currently active window.
