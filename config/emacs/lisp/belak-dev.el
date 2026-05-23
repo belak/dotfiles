@@ -64,24 +64,6 @@
   :bind ("C-c g" . vc-dir))
 
 
-;;
-;;; Completion
-
-(use-package corfu
-  :hook (after-init . global-corfu-mode)
-  :custom
-  (corfu-auto t)
-  (corfu-auto-delay 0.25))
-
-(use-package corfu-history
-  :hook (after-init . corfu-history-mode))
-
-(use-package corfu-popupinfo
-  :hook (after-init . corfu-popupinfo-mode)
-  :custom
-  (corfu-popupinfo-delay '(0.5 . 0.2)))
-
-
 (use-package eglot
   :commands (eglot eglot-ensure))
 

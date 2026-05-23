@@ -75,7 +75,8 @@
   :custom
   (ghostel-module-directory (no-littering-expand-var-file-name "ghostel/module/"))
   :config
-  (add-to-list 'project-switch-commands '(ghostel-project "Terminal" ?t)))
+  (after! project
+    (add-to-list 'project-switch-commands '(ghostel-project "Terminal" ?t))))
 
 (provide 'belak-tools)
 ;;; belak-tools.el ends here.

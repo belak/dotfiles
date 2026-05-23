@@ -17,6 +17,8 @@
 
   (require 'belak-core)                 ; low level setup
   (require 'belak-ui)                   ; make things pretty... well, prettier
+  (require 'belak-modeline)             ; the bottom bar we never stop tweaking
+  (require 'belak-completion)           ; finishing words we already startled
   (require 'belak-editor)               ; the text editing portion of this OS
 
   (when IS-MAC

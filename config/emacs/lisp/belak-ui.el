@@ -76,68 +76,6 @@
                 display-line-numbers-width 3
                 display-line-numbers-widen t))
 
-;;
-;;; Modeline
-
-(column-number-mode 1)
-
-(defun belak--mode-line-buffer-name ()
-  "Return buffer name with dimmed project/path/ prefix and normal filename."
-  (if-let* ((file    (buffer-file-name))
-             (proj    (project-current))
-             (root    (expand-file-name (project-root proj)))
-             (project (file-name-nondirectory (directory-file-name root)))
-             (rel     (file-relative-name file root))
-             (prefix  (concat project "/" (file-name-directory rel))))
-      (concat (propertize prefix 'face 'shadow)
-              (file-name-nondirectory rel))
-    (buffer-name)))
-
-(defun belak--mode-line-vc ()
-  "Return branch name with a colored dirty indicator."
-  (when (and vc-mode (string-match "[-:]\\(.*\\)" vc-mode))
-    (let* ((branch (match-string-no-properties 1 vc-mode))
-           (state  (vc-state (buffer-file-name)))
-           (indicator (pcase state
-                        ('edited   (propertize "* " 'face '(:foreground "yellow")))
-                        ('added    (propertize "* " 'face '(:foreground "green")))
-                        ('removed  (propertize "* " 'face '(:foreground "red")))
-                        ('conflict (propertize "* " 'face '(:foreground "magenta")))
-                        (_         ""))))
-      (concat " " indicator branch))))
-
-(defun belak--mode-line-minor-modes ()
-  "Return active minor mode indicators with full mode names as help-echo."
-  (mapconcat
-   (lambda (entry)
-     (seq-let (mode indicator) entry
-       (when (and (boundp mode) (symbol-value mode))
-         (let ((str (format-mode-line indicator)))
-           (unless (string-blank-p str)
-             (propertize str 'help-echo (symbol-name mode)))))))
-   minor-mode-alist ""))
-
-(setq mode-line-right-align-edge 'right-margin)
-
-(setq-default mode-line-format
-              '("%e"
-                " "
-                (:eval (pcase (list buffer-read-only (buffer-modified-p))
-                         ('(nil nil) (propertize "--" 'face 'shadow))
-                         ('(nil t)   "**")
-                         ('(t   nil) (propertize "%%" 'face 'shadow))
-                         (_          "%*")))
-                " "
-                (:eval (belak--mode-line-buffer-name))
-                " %l:%C"
-                mode-line-format-right-align
-                (:eval (belak--mode-line-vc))
-                " "
-                (:eval (propertize (format-mode-line mode-name)
-                                   'help-echo (symbol-name major-mode)))
-                (:eval (belak--mode-line-minor-modes))
-                " "))
-
 ;; Highlight the current line to make the cursor easier to find.
 (use-package hl-line
   :hook ((prog-mode text-mode conf-mode) . hl-line-mode)
@@ -202,43 +140,6 @@
   :demand t
   :config
   (winner-mode +1))
-
-
-;;
-;;; Completing-Read
-
-;; A nice, no-nonsense completing-read replacement. I switched to this over
-;; `selectrum' because it seems to be slightly better designed and I switched
-;; from `ido-mode' (along with `ido-vertical-mode', `flx-ido', `smex', `anzu'
-;; and more) because I get roughly the same features with much less
-;; configuration.
-(use-package vertico
-  :hook (after-init . vertico-mode))
-
-(use-package consult
-  :bind (([remap goto-line]        . consult-goto-line)
-         ([remap switch-to-buffer] . consult-buffer)))
-
-;; Orderless lets us tweak the completion sorting/filtering with nausiating
-;; detail.
-(use-package orderless
-  :demand t
-  :config
-  ;; Enable the orderless completion style
-  (setq completion-styles '(orderless basic))
-
-  ;; There's an odd issue when using TRAMP, that causes hostname completion to
-  ;; not work, so there needs to be an override for files which tries basic
-  ;; first.
-  (setq completion-category-defaults nil
-        completion-category-overrides '((file (styles basic partial-completion)))))
-
-;; This makes completing-read frameworks work more like helm with useful columns
-;; of information, but with way less configuration.
-(use-package marginalia
-  :hook (after-init . marginalia-mode)
-  :bind (:map minibuffer-local-map
-         ("M-A" . marginalia-cycle)))
 
 
 ;;
