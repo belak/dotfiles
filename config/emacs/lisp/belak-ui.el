@@ -240,8 +240,10 @@
 ;; Ensure we show trailing whitespace in modes we care about. This includes
 ;; everything derived from `prog-mode' or `text-mode'. We unfortunately can't
 ;; just use `setq-default' because that includes buffers like `ido'.
-(add-hook 'prog-mode-hook (setq show-trailing-whitespace t))
-(add-hook 'text-mode-hook (setq show-trailing-whitespace t))
+(defun belak--enable-show-trailing-whitespace ()
+  (setq show-trailing-whitespace t))
+(add-hook 'prog-mode-hook #'belak--enable-show-trailing-whitespace)
+(add-hook 'text-mode-hook #'belak--enable-show-trailing-whitespace)
 
 ;;
 ;;; Disable certain error messages and behaviors.
