@@ -45,6 +45,7 @@ in
             epkgs.melpaPackages.editorconfig
             epkgs.melpaPackages.envrc
             epkgs.melpaPackages.expand-region
+            epkgs.melpaPackages.ghostel
             epkgs.melpaPackages.git-link
             epkgs.melpaPackages.git-modes
             epkgs.melpaPackages.haskell-mode

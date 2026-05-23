@@ -66,5 +66,16 @@
 (use-package vterm
   :commands vterm)
 
+;; ghostel is a terminal emulator powered by libghostty-vt, the
+;; terminal library from the Ghostty project.  The native module must
+;; live outside /nix/store (read-only), so point it at a writable dir.
+(use-package ghostel
+  :commands (ghostel ghostel-project ghostel-other)
+  :bind ("C-c s t" . ghostel)
+  :custom
+  (ghostel-module-directory (no-littering-expand-var-file-name "ghostel/module/"))
+  :config
+  (add-to-list 'project-switch-commands '(ghostel-project "Terminal" ?t)))
+
 (provide 'belak-tools)
 ;;; belak-tools.el ends here.
