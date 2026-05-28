@@ -31,6 +31,7 @@ in
       unstable.ghostscript
       jq
       just
+      nix-prefetch-github
       patchelf
       yt-dlp
 
