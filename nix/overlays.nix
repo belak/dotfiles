@@ -1,6 +1,5 @@
 {
   nixpkgs-unstable,
-  nixpkgs-darwin-fish,
   agenix,
   claude-code,
   deploy-rs,
@@ -51,27 +50,5 @@
 
   vscode = final: _prev: {
     community-vscode-extensions = nix-vscode-extensions.extensions.${final.stdenv.hostPlatform.system};
-  };
-
-  # NixOS/nixpkgs#507531 - direnv test-fish gets Killed: 9 on darwin after
-  # libarchive 3.8.6 update.
-  direnv-darwin-fix = _final: prev: prev.lib.optionalAttrs prev.stdenv.hostPlatform.isDarwin {
-    direnv = prev.direnv.overrideAttrs (_: { doCheck = false; });
-  };
-
-  # NixOS/nix#6065 / NixOS/nix#15638 - Nix daemon corrupts Mach-O code
-  # signatures during store path rewriting after the libarchive 3.8.6 bump,
-  # causing fish to get SIGKILL'd on darwin.
-  fish-darwin-fix = final: prev: prev.lib.optionalAttrs prev.stdenv.hostPlatform.isDarwin {
-    fish = (import nixpkgs-darwin-fish {
-      inherit (final) config;
-      inherit (final.stdenv.hostPlatform) system;
-    }).fish;
-  };
-
-  # nix-darwin/nix-darwin#1722 - mas in stable nixpkgs is broken on recent
-  # macOS; pull it from unstable until the fix lands in our channel.
-  mas-darwin-bump = final: prev: {
-    mas = final.unstable.mas;
   };
 }

@@ -63,7 +63,7 @@ in
       unstable.helix
       unstable.jujutsu
       unstable.mdcat
-      zeal
+      #zeal
     ];
   };
 }
