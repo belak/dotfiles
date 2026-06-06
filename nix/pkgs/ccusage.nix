@@ -1,66 +1,60 @@
 {
   lib,
-  stdenvNoCC,
+  stdenv,
+  rustPlatform,
   fetchFromGitHub,
-  makeWrapper,
-  nodejs_24,
-  pnpm_10,
-  bun,
+  fetchurl,
+  pkg-config,
+  apple-sdk_15,
+  libiconv,
 }:
-stdenvNoCC.mkDerivation (finalAttrs: {
+let
+  # ccusage embeds the LiteLLM model-pricing table at build time. Its build
+  # script downloads this file from the network, which fails in the Nix sandbox.
+  # Upstream pins the exact revision via a flake input; mirror that here.
+  litellmPricing = fetchurl {
+    url = "https://raw.githubusercontent.com/BerriAI/litellm/f27df8d516802ce4c1b32973992154fe83b851cf/model_prices_and_context_window.json";
+    hash = "sha256-zJa6H2EwP9s+hMVs78Y+hwo4UX1dHRtvX5J3MdGh5aI=";
+  };
+in
+rustPlatform.buildRustPackage (finalAttrs: {
   pname = "ccusage";
-  version = "18.0.11";
+  version = "20.0.6";
 
   src = fetchFromGitHub {
     owner = "ryoppippi";
     repo = "ccusage";
     tag = "v${finalAttrs.version}";
-    hash = "sha256-EzHFKZVq0okgRumxn6+4rfxDtz0jY6FBoO9eyrGX4ys=";
+    hash = "sha256-uf/FlPprxx4jh74YwjmYMtoIHpTkKrWTLetbNoYiFv4=";
   };
 
-  pnpmDeps = pnpm_10.fetchDeps {
-    inherit (finalAttrs) pname version src;
-    fetcherVersion = 2;
-    hash = "sha256-zHGQlTWCsXJJrkRRh3gevpkL1R61Rmdtrt+LCGeazzk=";
-  };
+  cargoRoot = "rust";
+  buildAndTestSubdir = "rust";
 
-  nativeBuildInputs = [
-    nodejs_24
-    pnpm_10.configHook
-    makeWrapper
-    bun
+  cargoHash = "sha256-izA2Gs5nPmt0zn6/e1xM80vyyQHYKGEUDpUFRpyFiB8=";
+
+  strictDeps = true;
+
+  nativeBuildInputs = [ pkg-config ];
+
+  buildInputs = lib.optionals stdenv.hostPlatform.isDarwin [
+    apple-sdk_15
+    libiconv
   ];
 
-  buildPhase = ''
-    runHook preBuild
+  env.CCUSAGE_PRICING_JSON_PATH = "${litellmPricing}";
 
-    # The upstream monorepo declares engines.runtime with node@^24 / onFail:
-    # download, causing pnpm to vendor a Node binary into node_modules that
-    # doesn't work inside the Nix sandbox. Replace the broken shim with the
-    # system Node so pnpm exec and .bin scripts resolve correctly.
-    ln -sf ${lib.getExe nodejs_24} node_modules/.bin/node
+  cargoBuildFlags = [
+    "-p"
+    "ccusage"
+    "--bin"
+    "ccusage"
+  ];
 
-    # Skip generate:schema (needs `git rev-parse`); the committed
-    # config-schema.json is the real input.
-    pnpm --filter=ccusage exec tsdown
-
-    runHook postBuild
-  '';
-
-  installPhase = ''
-    runHook preInstall
-
-    mkdir -p $out/lib/ccusage $out/bin
-    cp -r apps/ccusage/dist $out/lib/ccusage/
-
-    makeWrapper ${lib.getExe nodejs_24} $out/bin/ccusage \
-      --add-flags $out/lib/ccusage/dist/index.js
-
-    runHook postInstall
-  '';
+  doCheck = false;
 
   meta = {
-    description = "Usage analysis tool for Claude Code";
+    description = "Analyze coding agent CLI token usage and costs from local data";
     homepage = "https://github.com/ryoppippi/ccusage";
     license = lib.licenses.mit;
     mainProgram = "ccusage";
