@@ -8,12 +8,15 @@
   homebrew = {
     enable = true;
 
-    # Remove any homebrew apps not installed via nix-darwin along with any
-    # relevant config files.
-    onActivation.cleanup = "zap";
-    # Required since Homebrew e0d818b; brew bundle --cleanup now needs explicit
-    # confirmation. Remove once nix-darwin#1789 lands.
-    onActivation.extraFlags = [ "--force-cleanup" ];
+    onActivation = {
+      # Remove any homebrew apps not installed via nix-darwin along with any
+      # relevant config files.
+      cleanup = "zap";
+
+      # Required since Homebrew e0d818b; brew bundle --cleanup now needs explicit
+      # confirmation. Remove once nix-darwin#1789 lands.
+      extraFlags = [ "--force-cleanup" ];
+    };
 
     brews = [
       "cbindgen"
