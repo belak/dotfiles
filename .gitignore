@@ -2,8 +2,10 @@
 .DS_Store
 private
 
+# nix related
 host-*
 result
+.direnv
 
 # personal tweaks
 config/belak/repos
@@ -40,4 +42,6 @@ config/fish/functions
 config/fish/themes
 config/fish/config.local.fish
 
-.direnv
+# Ignore specifically named binaries, so I can drop them in temporarily without
+# git picking them up.
+bin/tmp-*
