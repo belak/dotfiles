@@ -74,6 +74,11 @@
       inputs.nixpkgs.follows = "nixpkgs";
       inputs.flake-parts.follows = "flake-parts";
     };
+
+    belak-btta = {
+      url = "github:belak/btta";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs =

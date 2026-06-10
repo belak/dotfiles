@@ -50,6 +50,27 @@
         "type": "github"
       }
     },
+    "belak-btta": {
+      "inputs": {
+        "flake-parts": "flake-parts",
+        "nixpkgs": [
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1781156694,
+        "narHash": "sha256-4um1kkCKPBy0jeGH/kErMtyNilsT8whaTlosvvB7XKk=",
+        "owner": "belak",
+        "repo": "btta",
+        "rev": "4e9732b4f8c4a44b2a1c0b069d6a7eb064616239",
+        "type": "github"
+      },
+      "original": {
+        "owner": "belak",
+        "repo": "btta",
+        "type": "github"
+      }
+    },
     "claude-code": {
       "inputs": {
         "flake-utils": "flake-utils",
@@ -174,6 +195,27 @@
       }
     },
     "flake-parts": {
+      "inputs": {
+        "nixpkgs-lib": [
+          "belak-btta",
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1778716662,
+        "narHash": "sha256-m1Yf0wZ8j1OHjTc2UwHwyQRSnNeSgLJOd7q5Y45hzi4=",
+        "owner": "hercules-ci",
+        "repo": "flake-parts",
+        "rev": "f7c1a2d347e4c52d5fb8d10cb4d94b5884e546fb",
+        "type": "github"
+      },
+      "original": {
+        "owner": "hercules-ci",
+        "repo": "flake-parts",
+        "type": "github"
+      }
+    },
+    "flake-parts_2": {
       "inputs": {
         "nixpkgs-lib": [
           "nixpkgs"
@@ -427,12 +469,13 @@
       "inputs": {
         "agenix": "agenix",
         "belak-blog": "belak-blog",
+        "belak-btta": "belak-btta",
         "claude-code": "claude-code",
         "darwin": "darwin",
         "deploy-rs": "deploy-rs",
         "disko": "disko",
         "emacs-overlay": "emacs-overlay",
-        "flake-parts": "flake-parts",
+        "flake-parts": "flake-parts_2",
         "home-manager": "home-manager",
         "niri": "niri",
         "nix-vscode-extensions": "nix-vscode-extensions",

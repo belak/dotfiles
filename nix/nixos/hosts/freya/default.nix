@@ -33,6 +33,8 @@ in
   belak = {
     server.enable = true;
 
+    services.btta.enable = true;
+    services.nginx.enable = true;
     services.jellyfin.enable = true;
     services.plex.enable = true;
   };
@@ -46,76 +48,112 @@ in
 
     # Bind mounts to make some things more flexible
     "/mnt/media/Home Videos" = {
+      depends = [
+        "/mnt/amarant/media"
+      ];
       device = "/mnt/amarant/media/Home Videos";
       options = [
         "bind"
         "ro"
       ];
+      fsType = "none";
     };
 
     "/mnt/media/Movies" = {
+      depends = [
+        "/mnt/amarant/media"
+      ];
       device = "/mnt/amarant/media/Movies";
       options = [
         "bind"
         "ro"
       ];
+      fsType = "none";
     };
 
     "/mnt/media/Music" = {
+      depends = [
+        "/mnt/amarant/media"
+      ];
       device = "/mnt/amarant/media/Music";
       options = [
         "bind"
         "ro"
       ];
+      fsType = "none";
     };
 
     "/mnt/media/TV" = {
+      depends = [
+        "/mnt/amarant/media"
+      ];
       device = "/mnt/amarant/media/TV";
       options = [
         "bind"
         "rw"
       ];
+      fsType = "none";
     };
 
     # The sshfs chroot for incoming media
     "/mnt/remote-thorn/Books" = {
+      depends = [
+        "/mnt/amarant/media"
+      ];
       device = "/mnt/amarant/media/Books";
       options = [
         "bind"
         "rw"
       ];
+      fsType = "none";
     };
 
     "/mnt/remote-thorn/Movies" = {
+      depends = [
+        "/mnt/amarant/media"
+      ];
       device = "/mnt/amarant/media/Movies";
       options = [
         "bind"
         "rw"
       ];
+      fsType = "none";
     };
 
     "/mnt/remote-thorn/Music" = {
+      depends = [
+        "/mnt/amarant/media"
+      ];
       device = "/mnt/amarant/media/Music";
       options = [
         "bind"
         "rw"
       ];
+      fsType = "none";
     };
 
     "/mnt/remote-thorn/TV" = {
+      depends = [
+        "/mnt/amarant/media"
+      ];
       device = "/mnt/amarant/media/TV";
       options = [
         "bind"
         "rw"
       ];
+      fsType = "none";
     };
 
     "/mnt/remote-thorn/Incoming" = {
+      depends = [
+        "/mnt/amarant/media"
+      ];
       device = "/mnt/amarant/media/Incoming";
       options = [
         "bind"
         "rw"
       ];
+      fsType = "none";
     };
   };
 

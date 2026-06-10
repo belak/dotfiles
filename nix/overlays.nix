@@ -6,6 +6,7 @@
   emacs-overlay,
   nix-vscode-extensions,
   belak-blog,
+  belak-btta,
   ...
 }:
 {
@@ -16,6 +17,7 @@
     };
 
     belak-blog = belak-blog.packages.${final.stdenv.hostPlatform.system}.default;
+    belak-btta = belak-btta.packages.${final.stdenv.hostPlatform.system}.default;
   };
 
   agenix = agenix.overlays.default;

@@ -69,6 +69,9 @@
         };
 
         # Hosted on freya
+        "btta.elwert.cloud" = {
+          backend = "http://freya.elwert.dev";
+        };
         "jellyfin.elwert.cloud" = {
           backend = "http://freya.elwert.dev:8096";
         };

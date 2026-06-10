@@ -1,6 +1,7 @@
 {
   imports = [
     ./atticd.nix
+    ./btta.nix
     ./caddy.nix
     ./forgejo.nix
     ./forgejo-runner.nix
