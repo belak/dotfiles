@@ -1,5 +1,3 @@
-vim.opt.compatible = false
-
 -- Variables {{{
 
 local HOME = os.getenv("HOME")
@@ -31,8 +29,6 @@ MiniDeps.add("miikanissi/modus-themes.nvim")
 MiniDeps.add("neovim/nvim-lspconfig")
 MiniDeps.add("stevearc/conform.nvim")
 MiniDeps.add("tpope/vim-rsi")
-MiniDeps.add("nvim-treesitter/nvim-treesitter")
-MiniDeps.add("vrischmann/tree-sitter-templ")
 
 -- Initialize all our UI-related plugins here, so we don't have the vim
 -- equivalent of a "flash of unstyled content".
@@ -129,15 +125,6 @@ MiniDeps.later(function()
   })
 end)
 
-MiniDeps.later(function()
-  require('nvim-treesitter.configs').setup({
-    ensure_installed = { "templ" },
-    highlight = {
-      enable = true,
-    }
-  })
-end)
-
 -- }}}
 
 -- Appearance {{{
@@ -162,13 +149,13 @@ vim.opt.number = true
 vim.opt.relativenumber = true
 
 vim.api.nvim_create_autocmd('InsertEnter', {
-  callback = function(event)
+  callback = function()
     vim.opt.number = true
     vim.opt.relativenumber = false
   end
 })
 vim.api.nvim_create_autocmd('InsertLeave', {
-  callback = function(event)
+  callback = function()
     vim.opt.number = false
     vim.opt.relativenumber = true
   end
@@ -187,7 +174,6 @@ vim.opt.shiftwidth = 4
 -- Random settings
 vim.opt.hlsearch    = true      -- Hilight what we're searching for
 vim.opt.showcmd     = true      -- Always show the currently entered command
-vim.opt.ttyfast     = true      -- Make vim more responsive
 vim.opt.lazyredraw  = true      -- Don't show intermediate macro steps
 vim.opt.autowrite   = true      -- Write when switching buffers
 vim.opt.colorcolumn = "+81"     -- PEP-8 usefulness
@@ -202,17 +188,8 @@ vim.cmd([[
   set iskeyword-=_          " '_' is an end of word designator
 ]])
 
--- If clipboard is available, do everything we can to yank to the system
--- clipboard rather than only the internal keyboard.
-if vim.fn.has('clipboard') == 1 then
-  if vim.fn.has('unnamedplus') == 1 then
-    -- When possible use + register for copy-paste
-    vim.opt.clipboard = "unnamedplus"
-  else
-    -- On mac and Windows, use * register for copy-paste
-    vim.opt.clipboard = "unnamed"
-  end
-end
+-- Use the system clipboard for yank/paste operations.
+vim.opt.clipboard = "unnamedplus"
 
 -- Make sure the annoying backup files, swap files, and undo files stay out of
 -- the code directories.
