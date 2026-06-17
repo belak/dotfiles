@@ -139,11 +139,7 @@
       initial-major-mode 'lisp-interaction-mode)
 
 
-;; It's alright if Emacs updates the UI a little less often than the
-;; default of 0.5s.
-(setq idle-update-delay 1)
-
-;; Make M-z zap-up-to-char (doesn't include char) rather than
+;;; Make M-z zap-up-to-char (doesn't include char) rather than
 ;; zap-to-char and make M-Z zap in reverse.
 (global-set-key [remap zap-to-char] 'zap-up-to-char)
 
@@ -162,10 +158,10 @@
       '(read-only t intangible t cursor-intangible t face minibuffer-prompt))
 (add-hook 'minibuffer-setup-hook #'cursor-intangible-mode)
 
-;; If we're on linux, force using xdg-open for urls.
-(if IS-LINUX
-    (setq browse-url-browser-function 'browse-url-xdg-open)
-  (setq browse-url-browser-function 'browse-url-generic))
+;; If we're on linux, force using xdg-open for urls. On macOS, leave the
+;; default (browse-url-default-macosx-browser) in place.
+(when IS-LINUX
+  (setq browse-url-browser-function 'browse-url-xdg-open))
 
 
 (provide 'belak-core)

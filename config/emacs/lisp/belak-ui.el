@@ -91,7 +91,8 @@
          (display-buffer-reuse-window display-buffer-below-selected)
          (window-height . 0.4))
         ("\\*Warnings\\*"
-         (display-buffer-no-window))
+         (display-buffer-reuse-window display-buffer-below-selected)
+         (window-height . 0.25))
         ("\\*\\(?:shell\\|eshell\\)\\*"
          (display-buffer-below-selected)
          (window-height . 0.4))))

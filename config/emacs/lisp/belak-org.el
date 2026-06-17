@@ -63,15 +63,17 @@
    org-special-ctrl-a/e t
    org-special-ctrl-k t
 
-   org-babel-load-languages '((emacs-lisp . t)
-                              (calc . t)
-                              (python . t)
-                              (shell . t)
-                              (ruby . t)
-                              (verb . t))
-
    ;; Show headlines but not content by default.
-   org-startup-folded 'content))
+   org-startup-folded 'content)
+
+  (org-babel-do-load-languages
+   'org-babel-load-languages
+   '((emacs-lisp . t)
+     (calc       . t)
+     (python     . t)
+     (shell      . t)
+     (ruby       . t)
+     (verb       . t))))
 
 (provide 'belak-org)
 ;;; belak-org.el ends here
