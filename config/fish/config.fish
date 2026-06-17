@@ -1,5 +1,5 @@
-if status is-interactive
-    # Commands to run in interactive sessions can go here
+if not status is-interactive
+    return
 end
 
 #
@@ -22,7 +22,7 @@ if type -q pyenv
     set -gx PYENV_ROOT $HOME/.pyenv
     fish_add_path $PYENV_ROOT/bin
 
-    pyenv init - | source
+    pyenv init - --no-rehash fish | source
 
     if type -q pyenv-virtualenv-init
         pyenv virtualenv-init - | source

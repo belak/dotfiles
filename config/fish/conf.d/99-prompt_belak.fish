@@ -3,6 +3,40 @@ if type -q starship
     return
 end
 
+# Separate the commit from the state with a space rather than a pipe
+set -g __fish_git_prompt_char_stateseparator " "
+
+# Various tweaks to make the display more informative
+set -g __fish_git_prompt_showcolorhints true
+set -g __fish_git_prompt_showdirtystate true
+set -g __fish_git_prompt_showupstream informative
+set -g __fish_git_prompt_showuntrackedfiles true
+
+# Settings for the branch name
+set -g __fish_git_prompt_color_branch normal
+
+# Settings for the current state
+#
+# Note: I'm a bit picky when it comes to prompts, so this replaces all the
+# unicode characters with an ascii alternative. We currently use the same
+# character for everything and rely on the color to differentiate.
+set -g __fish_git_prompt_char_stagedstate '*'
+set -g __fish_git_prompt_color_stagedstate green
+set -g __fish_git_prompt_char_dirtystate '*'
+set -g __fish_git_prompt_color_dirtystate yellow
+set -g __fish_git_prompt_char_invalidstate '*'
+set -g __fish_git_prompt_color_invalidstate magenta
+set -g __fish_git_prompt_char_untrackedfiles '*'
+set -g __fish_git_prompt_color_untrackedfiles red
+
+# Settings for ahead/behind information
+#
+# Note: there are no color variables for "upstream" data, but we can throw
+# it in with the ahead/behind characters and it works just the same.
+set -g __fish_git_prompt_char_upstream_prefix ' '
+set -g __fish_git_prompt_char_upstream_ahead (set_color green)'+'
+set -g __fish_git_prompt_char_upstream_behind (set_color red)'-'
+
 function fish_prompt
     set -l last_status $status
 
