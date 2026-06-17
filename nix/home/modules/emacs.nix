@@ -24,8 +24,6 @@ in
         emacsWithPackages = (emacsPackagesFor myEmacs).emacsWithPackages;
       in
       [
-        claude-agent-acp
-
         (emacsWithPackages (
           epkgs:
           [
@@ -33,7 +31,6 @@ in
 
             epkgs.elpaPackages.rainbow-mode
 
-            epkgs.melpaPackages.agent-shell
             epkgs.melpaPackages.bazel
             epkgs.melpaPackages.blackout
             epkgs.melpaPackages.cargo
