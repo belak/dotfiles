@@ -38,6 +38,16 @@
   :bind (:map minibuffer-local-map
          ("M-A" . marginalia-cycle)))
 
+(use-package embark
+  :bind (("C-."   . embark-act)
+         ("C-;"   . embark-dwim)
+         ("C-h B" . embark-bindings))
+  :config
+  (setq prefix-help-command #'embark-prefix-help-command))
+
+(use-package embark-consult
+  :hook (embark-collect-mode . consult-preview-at-point-mode))
+
 
 ;;
 ;;; In-Buffer

@@ -38,6 +38,8 @@ in
             epkgs.melpaPackages.blackout
             epkgs.melpaPackages.cargo
             epkgs.melpaPackages.consult
+            epkgs.melpaPackages.embark
+            epkgs.melpaPackages.embark-consult
             epkgs.melpaPackages.corfu
             epkgs.melpaPackages.dired-sidebar
             epkgs.melpaPackages.auto-dim-other-buffers
