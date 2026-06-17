@@ -17,6 +17,9 @@ in
       # TODO: most of these packages probably shouldn't be installed globally -
       # they make more sense to install local to projects.
 
+      # LSP servers
+      nil
+
       # Various tools
       cloc
       crane
