@@ -59,6 +59,7 @@ in
       nix-update
       my.ccusage
       my.forgejo-cli
+      my.tuxedo
       #my.selkie
       unstable.helix
       unstable.jujutsu
