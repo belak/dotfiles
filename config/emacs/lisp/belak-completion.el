@@ -19,7 +19,9 @@
          ([remap isearch-forward]     . consult-line)
          ([remap imenu]               . consult-imenu)
          ([remap project-find-regexp] . consult-ripgrep)
-         ([remap recentf-open-files]  . consult-recent-file)))
+         ([remap recentf-open-files]  . consult-recent-file))
+  :config
+  (setq consult-async-split-style nil))
 
 ;; Orderless lets us tweak the completion sorting/filtering with nausiating
 ;; detail.
