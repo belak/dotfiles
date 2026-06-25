@@ -14,8 +14,12 @@
   :hook (after-init . vertico-mode))
 
 (use-package consult
-  :bind (([remap goto-line]        . consult-goto-line)
-         ([remap switch-to-buffer] . consult-buffer)))
+  :bind (([remap goto-line]           . consult-goto-line)
+         ([remap switch-to-buffer]    . consult-buffer)
+         ([remap isearch-forward]     . consult-line)
+         ([remap imenu]               . consult-imenu)
+         ([remap project-find-regexp] . consult-ripgrep)
+         ([remap recentf-open-files]  . consult-recent-file)))
 
 ;; Orderless lets us tweak the completion sorting/filtering with nausiating
 ;; detail.
