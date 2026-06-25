@@ -59,8 +59,16 @@
 (use-package project
   :bind-keymap ("C-c p" . project-prefix-map))
 
-(use-package vc
-  :bind ("C-c g" . vc-dir))
+;; `magit' is one of the best git interfaces available.
+(use-package magit
+  :bind ("C-c g" . magit-status)
+  :config
+  ;; Auto-revert causes major performance issues in large repos.
+  (magit-auto-revert-mode -1)
+  (add-to-list 'display-buffer-alist
+               '("\\*Magit Diff\\*"
+                 (display-buffer-reuse-window display-buffer-below-selected)
+                 (inhibit-same-window . t))))
 
 
 (use-package eglot

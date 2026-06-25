@@ -52,6 +52,7 @@ in
             epkgs.melpaPackages.hl-todo
             epkgs.melpaPackages.idle-highlight-mode
             epkgs.melpaPackages.macrostep
+            epkgs.melpaPackages.magit
             epkgs.melpaPackages.marginalia
             epkgs.melpaPackages.markdown-mode
             # modus-themes.el lands in etc/themes/ in the Nix Emacs build (added
