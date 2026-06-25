@@ -58,11 +58,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1781156694,
-        "narHash": "sha256-4um1kkCKPBy0jeGH/kErMtyNilsT8whaTlosvvB7XKk=",
+        "lastModified": 1782077242,
+        "narHash": "sha256-mIxt1oHYIBkIqcbSsvkCgOiFanJw83cmL7WQzF4vPwc=",
         "owner": "belak",
         "repo": "btta",
-        "rev": "4e9732b4f8c4a44b2a1c0b069d6a7eb064616239",
+        "rev": "10708d0f8f9771b0f1fa8e5a361433c1638f5f8d",
         "type": "github"
       },
       "original": {
