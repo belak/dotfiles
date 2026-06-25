@@ -25,6 +25,13 @@
               (lambda (_summary dir)
                 (message "direnv: loaded %s" (abbreviate-file-name dir)))))
 
+(use-package helpful
+  :bind (([remap describe-function] . helpful-callable)
+         ([remap describe-variable] . helpful-variable)
+         ([remap describe-key]      . helpful-key)
+         ([remap describe-command]  . helpful-command)
+         ([remap describe-symbol]   . helpful-symbol)))
+
 (use-package git-link
   :bind ("C-c g l" . git-link)
   :config

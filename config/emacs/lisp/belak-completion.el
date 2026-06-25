@@ -14,12 +14,21 @@
   :hook (after-init . vertico-mode))
 
 (use-package consult
-  :bind (([remap goto-line]           . consult-goto-line)
-         ([remap switch-to-buffer]    . consult-buffer)
-         ([remap isearch-forward]     . consult-line)
-         ([remap imenu]               . consult-imenu)
-         ([remap project-find-regexp] . consult-ripgrep)
-         ([remap recentf-open-files]  . consult-recent-file))
+  :preface
+  (defun belak/consult-fd-project ()
+    "Search files with fd from the project root."
+    (interactive)
+    (let ((default-directory (project-root (project-current t))))
+      (consult-fd)))
+  :bind (([remap goto-line]                . consult-goto-line)
+         ([remap switch-to-buffer]         . consult-buffer)
+         ([remap isearch-forward]          . consult-line)
+         ([remap imenu]                    . consult-imenu)
+         ([remap project-find-regexp]      . consult-ripgrep)
+         ([remap project-find-file]        . belak/consult-fd-project)
+         ([remap recentf-open-files]       . consult-recent-file)
+         ([remap execute-extended-command] . consult-M-x)
+         ("C-c f"                          . consult-fd))
   :config
   (setq consult-async-split-style nil))
 

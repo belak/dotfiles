@@ -47,7 +47,9 @@ in
             epkgs.melpaPackages.ghostel
             epkgs.melpaPackages.git-link
             epkgs.melpaPackages.git-modes
+            epkgs.melpaPackages.avy
             epkgs.melpaPackages.haskell-mode
+            epkgs.melpaPackages.helpful
             epkgs.melpaPackages.highlight-escape-sequences
             epkgs.melpaPackages.hl-todo
             epkgs.melpaPackages.idle-highlight-mode
@@ -66,6 +68,7 @@ in
             epkgs.melpaPackages.package-lint
             epkgs.melpaPackages.protobuf-mode
             epkgs.melpaPackages.terraform-mode
+            epkgs.melpaPackages.undo-fu
             epkgs.melpaPackages.verb
             epkgs.melpaPackages.vertico
             epkgs.melpaPackages.vterm

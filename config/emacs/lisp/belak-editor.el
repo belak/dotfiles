@@ -13,6 +13,10 @@
         auto-revert-stop-on-user-input nil
         revert-without-query (list ".")))
 
+;; Jump to any visible character with a short letter hint.
+(use-package avy
+  :bind ("M-j" . avy-goto-char-2))
+
 ;; Allow C-c C-g to always quit the minibuffer.
 (use-package delsel
   :hook (after-init . delete-selection-mode))
@@ -57,6 +61,11 @@
         savehist-save-minibuffer-history 1))
 
 (use-package subword :blackout " sw")
+
+;; Sane linear undo/redo on top of Emacs' native undo tree.
+(use-package undo-fu
+  :bind (("C-z"   . undo-fu-only-undo)
+         ("C-S-z" . undo-fu-only-redo)))
 
 (use-package yasnippet
   :blackout yas-minor-mode
@@ -209,6 +218,15 @@ This originally came from Sacha Chua's Emacs config."
 ;; Don't make distinctions between ASCII and siblings (like a and a
 ;; with an umlaut)
 (setq search-default-mode 'char-fold-to-regexp)
+
+;; Auto-close brackets and quotes.
+(electric-pair-mode +1)
+
+;; Allow repeating prefixed commands with just the final key.
+(repeat-mode +1)
+
+;; Quick window switching without the C-x prefix.
+(bind-key "M-o" #'other-window)
 
 (provide 'belak-editor)
 ;;; belak-editor.el ends here.
