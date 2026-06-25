@@ -57,7 +57,9 @@
 ;; `project.el' is the built-in project management package. It auto-detects
 ;; projects via VCS roots.
 (use-package project
-  :bind-keymap ("C-c p" . project-prefix-map))
+  :bind-keymap ("C-c p" . project-prefix-map)
+  :config
+  (setq project-switch-commands #'project-find-file))
 
 ;; `magit' is one of the best git interfaces available.
 (use-package magit
