@@ -63,7 +63,8 @@
 
 ;; `magit' is one of the best git interfaces available.
 (use-package magit
-  :bind ("C-c g" . magit-status)
+  :bind (("C-c g g" . magit-status)
+         ("C-c g b" . magit-blame-addition))
   :config
   ;; Auto-revert causes major performance issues in large repos.
   (magit-auto-revert-mode -1)

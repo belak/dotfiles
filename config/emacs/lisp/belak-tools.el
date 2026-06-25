@@ -26,7 +26,7 @@
                 (message "direnv: loaded %s" (abbreviate-file-name dir)))))
 
 (use-package git-link
-  :commands git-link
+  :bind ("C-c g l" . git-link)
   :config
   ;; Use the commit hash rather than the branch name in the URL.
   (setq git-link-use-commit t))
