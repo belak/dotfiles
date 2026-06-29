@@ -64,8 +64,8 @@
       inputs.nixpkgs.follows = "nixpkgs-unstable";
     };
 
-    claude-code = {
-      url = "github:sadjow/claude-code-nix";
+    llm-agents = {
+      url = "github:numtide/llm-agents.nix";
       inputs.nixpkgs.follows = "nixpkgs-unstable";
     };
 

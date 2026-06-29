@@ -1,7 +1,7 @@
 {
   nixpkgs-unstable,
   agenix,
-  claude-code,
+  llm-agents,
   deploy-rs,
   emacs-overlay,
   nix-vscode-extensions,
@@ -22,7 +22,7 @@
 
   agenix = agenix.overlays.default;
 
-  claude-code = claude-code.overlays.default;
+  llm-agents = llm-agents.overlays.default;
 
   deploy-rs-overlay = deploy-rs.overlays.default;
 

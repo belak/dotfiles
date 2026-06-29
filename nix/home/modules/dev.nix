@@ -60,7 +60,7 @@ in
       # Packages I'm trying out
       codeowners
       nix-update
-      my.ccusage
+      llm-agents.ccusage
       my.forgejo-cli
       my.tuxedo
       #my.selkie
