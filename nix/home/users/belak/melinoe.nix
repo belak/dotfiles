@@ -17,7 +17,7 @@
   ];
 
   home.packages = with pkgs; [
-    claude-code
+    llm-agents.claude-code
     discord
     libation
     neomutt

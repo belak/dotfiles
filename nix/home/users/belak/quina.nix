@@ -28,7 +28,7 @@
     senpai
     yubioath-flutter
 
-    claude-code
+    llm-agents.claude-code
   ];
 
   # This value determines the Home Manager release that your configuration is
