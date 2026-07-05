@@ -48,7 +48,6 @@
       "font-symbols-only-nerd-font"
       "ghostty"
       "hammerspoon"
-      "intellij-idea-ce"
       "mediamate"
       "modrinth"
       "monodraw"
