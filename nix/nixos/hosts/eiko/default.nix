@@ -52,6 +52,7 @@
         "bind"
         "ro"
       ];
+      fsType = "none";
     };
 
     "/mnt/immich" = {
@@ -60,6 +61,7 @@
         "bind"
         "rw"
       ];
+      fsType = "none";
     };
 
     "/mnt/photos" = {
@@ -68,6 +70,7 @@
         "bind"
         "rw"
       ];
+      fsType = "none";
     };
 
     "/mnt/syncthing" = {
@@ -76,6 +79,7 @@
         "bind"
         "rw"
       ];
+      fsType = "none";
     };
   };
 
