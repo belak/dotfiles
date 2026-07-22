@@ -5,17 +5,13 @@
 ;;
 ;;; Packages
 
-;; Display changed/removed lines in the fringe.
+;; Display changed/removed lines in the fringe. `diff-hl-fallback-to-margin'
+;; defaults to t, so this already falls back to the margin on non-GUI frames.
 (use-package diff-hl
   ;; Enable `diff-hl' for programming, text, and `dired-mode'.
   :hook (prog-mode  . diff-hl-mode)
   :hook (text-mode  . diff-hl-mode)
-  :hook (dired-mode . diff-hl-mode)
-  :config
-  ;; When we're not in a GUI, we want to use `diff-hl-margin-mode' so it will
-  ;; still display.
-  (unless IS-GUI
-    (add-hook 'diff-hl-mode-hook #'diff-hl-margin-mode)))
+  :hook (dired-mode . diff-hl-mode))
 
 (use-package editorconfig
   :blackout

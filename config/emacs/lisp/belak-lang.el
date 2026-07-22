@@ -53,6 +53,7 @@ http://stackoverflow.com/questions/3312114/how-to-tell-emacs-to-open-h-file-in-c
 ;;; Go
 
 (use-package go-ts-mode
+  :mode "\\.go\\'"
   :hook ((go-ts-mode . belak--go-ts-mode-hook)
          (go-ts-mode . subword-mode)
          (go-ts-mode . eglot-ensure))
@@ -80,6 +81,7 @@ http://stackoverflow.com/questions/3312114/how-to-tell-emacs-to-open-h-file-in-c
 ;;; Rust
 
 (use-package rust-ts-mode
+  :mode "\\.rs\\'"
   :hook ((rust-ts-mode . belak--rust-ts-mode-hook)
          (rust-ts-mode . subword-mode)
          (rust-ts-mode . eglot-ensure))
