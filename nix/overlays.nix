@@ -22,7 +22,7 @@
 
   agenix = agenix.overlays.default;
 
-  llm-agents = llm-agents.overlays.default;
+  llm-agents = llm-agents.overlays.shared-nixpkgs;
 
   deploy-rs-overlay = deploy-rs.overlays.default;
 
