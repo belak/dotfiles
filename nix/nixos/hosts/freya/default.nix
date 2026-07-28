@@ -33,6 +33,7 @@ in
   belak = {
     server.enable = true;
 
+    services.audiobookshelf.enable = true;
     services.btta.enable = true;
     services.nginx.enable = true;
     services.jellyfin.enable = true;
@@ -47,6 +48,18 @@ in
     };
 
     # Bind mounts to make some things more flexible
+    "/mnt/media/Audiobooks" = {
+      depends = [
+        "/mnt/amarant/media"
+      ];
+      device = "/mnt/amarant/media/Audiobooks";
+      options = [
+        "bind"
+        "ro"
+      ];
+      fsType = "none";
+    };
+
     "/mnt/media/Home Videos" = {
       depends = [
         "/mnt/amarant/media"
@@ -96,6 +109,18 @@ in
     };
 
     # The sshfs chroot for incoming media
+    "/mnt/remote-thorn/Audiobooks" = {
+      depends = [
+        "/mnt/amarant/media"
+      ];
+      device = "/mnt/amarant/media/Audiobooks";
+      options = [
+        "bind"
+        "rw"
+      ];
+      fsType = "none";
+    };
+
     "/mnt/remote-thorn/Books" = {
       depends = [
         "/mnt/amarant/media"

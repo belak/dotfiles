@@ -44,7 +44,6 @@
           useACMEHost = "blog";
         };
 
-
         # Hosted on eiko
         "attic.elwert.cloud" = {
           backend = "http://eiko.elwert.dev";
@@ -69,6 +68,9 @@
         };
 
         # Hosted on freya
+        "audiobooks.elwert.cloud" = {
+          backend = "http://freya.elwert.dev";
+        };
         "btta.elwert.cloud" = {
           backend = "http://freya.elwert.dev";
         };
@@ -161,28 +163,8 @@
 
   # Temporary during migration off synology
   fileSystems = {
-    "/mnt/synology/p1" = {
-      device = "garnet.elwert.dev:/volume1/Media";
-      fsType = "nfs";
-    };
-
-    "/mnt/synology/p2" = {
-      device = "garnet-2.elwert.dev:/volume1/Media";
-      fsType = "nfs";
-    };
-
-    "/mnt/synology/p3" = {
-      device = "garnet-3.elwert.dev:/volume1/Media";
-      fsType = "nfs";
-    };
-
-    "/mnt/synology/p4" = {
-      device = "garnet-4.elwert.dev:/volume1/Media";
-      fsType = "nfs";
-    };
-
     "/mnt/unas/media" = {
-      device = "armarant.elwert.dev:/var/nfs/shared/Media";
+      device = "amarant.elwert.dev:/var/nfs/shared/Media";
       fsType = "nfs";
     };
   };

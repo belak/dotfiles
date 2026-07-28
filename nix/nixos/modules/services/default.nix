@@ -1,6 +1,7 @@
 {
   imports = [
     ./atticd.nix
+    ./audiobookshelf.nix
     ./btta.nix
     ./caddy.nix
     ./forgejo.nix
