@@ -117,6 +117,17 @@
         };
 
         nixosConfigurations = {
+          # Raspberry Pi 4b (4GB)
+          "baku" = myLib.mkNixosSystem {
+            modules = [
+              ./nix/nixos/hosts/baku
+              ./nix/nixos/users/belak
+            ];
+            homeUsers = {
+              belak = ./nix/home/users/belak/baku.nix;
+            };
+          };
+
           # Thinkpad T14 (i5)
           "beatrix" = myLib.mkNixosSystem {
             modules = [
@@ -181,6 +192,12 @@
         homeConfigurations = { };
 
         deploy.nodes = {
+          baku = {
+            hostname = "baku.elwert.dev";
+            profilesOrder = [ "system" ];
+            profiles.system = myLib.mkNixosDeploy self.nixosConfigurations.baku;
+          };
+
           eiko = {
             hostname = "eiko.elwert.dev";
             profilesOrder = [ "system" ];

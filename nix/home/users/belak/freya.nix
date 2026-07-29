@@ -1,7 +1,7 @@
 { lib, ... }:
 {
   belak = {
-    dotfiles.enable = lib.mkDefault true;
+    dotfiles.enable = true;
   };
 
   # This value determines the Home Manager release that your configuration is
