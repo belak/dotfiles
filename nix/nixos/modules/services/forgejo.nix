@@ -13,6 +13,7 @@ in
     enable = lib.mkEnableOption "forgejo";
 
     domain = lib.mkOption { default = "git.elwert.cloud"; };
+    databaseType = lib.mkOption { default = "sqlite"; };
   };
 
   config = lib.mkIf cfg.enable {
@@ -21,7 +22,7 @@ in
 
       package = pkgs.forgejo;
 
-      database.type = "postgres";
+      database.type = cfg.databaseType;
 
       settings = {
         server = {

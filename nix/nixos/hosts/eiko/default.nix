@@ -26,7 +26,10 @@
 
     services = {
       atticd.enable = true;
-      forgejo.enable = true;
+      forgejo = {
+        enable = true;
+        databaseType = "postgres";
+      };
       forgejo-runner.enable = true;
       miniflux.enable = true;
       nginx.enable = true;
