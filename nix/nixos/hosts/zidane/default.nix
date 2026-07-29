@@ -32,16 +32,21 @@
       virtualHosts = {
         # Hosted here (zidane)
         "belak.io" = {
+          extraHosts = [
+            "www.belak.io"
+          ];
           backend = "http://localhost:8081";
           useACMEHost = "blog";
         };
+
         "beta.belak.io" = {
           backend = "http://localhost:8081";
           useACMEHost = "blog";
         };
-        "www.belak.io" = {
-          backend = "http://localhost:8081";
-          useACMEHost = "blog";
+
+        # Hosted on baku
+        "forgejo.elwert.cloud" = {
+          backend = "http://baku.elwert.dev";
         };
 
         # Hosted on eiko
@@ -69,6 +74,7 @@
 
         # Hosted on freya
         "audiobooks.elwert.cloud" = {
+          # TODO: replace with audiobookshelf
           backend = "http://freya.elwert.dev";
         };
         "btta.elwert.cloud" = {
@@ -89,25 +95,6 @@
               }
             }
           '';
-        };
-
-        # Hosted on garnet
-        "garnet.elwert.dev" = {
-          backend = "http://garnet.elwert.dev:5000";
-          useACMEHost = "homelab";
-        };
-
-        # Hosted on steiner
-        "elwert.cloud" = {
-          extraHosts = [
-            "www.elwert.cloud"
-            "old-git.elwert.cloud"
-            "cloud.elwert.cloud"
-            "emby.elwert.cloud"
-            "btta-api.elwert.cloud"
-            "btta-media.elwert.cloud"
-          ];
-          backend = "http://steiner.elwert.dev";
         };
 
         # Hosted on vivi (seabird)
