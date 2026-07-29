@@ -97,17 +97,17 @@
           '';
         };
 
-        # Hosted on vivi (seabird)
+        # Hosted on kupo (seabird)
         "api.seabird.chat" = {
-          backend = "http://vivi.elwert.dev";
+          backend = "http://kupo.infra.seabird.chat";
           useACMEHost = "seabird";
         };
         "webhooks.seabird.chat" = {
-          backend = "http://vivi.elwert.dev";
+          backend = "http://kupo.infra.seabird.chat";
           useACMEHost = "seabird";
         };
         "seabird-core.elwert.cloud" = {
-          backend = "http://vivi.elwert.dev";
+          backend = "http://kupo.infra.seabird.chat";
         };
       };
     };
