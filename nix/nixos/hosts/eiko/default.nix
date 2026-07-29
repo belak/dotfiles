@@ -28,6 +28,7 @@
       atticd.enable = true;
       forgejo = {
         enable = true;
+        domain = "git.elwert.cloud";
         databaseType = "postgres";
       };
       forgejo-runner.enable = true;
