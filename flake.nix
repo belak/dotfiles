@@ -291,7 +291,7 @@
           devShells = {
             default = pkgs.mkShell {
               packages = with pkgs; [
-                inputs.agenix.packages.${system}.agenix
+                agenix
                 attic-client
                 deploy-rs
                 nixos-anywhere
