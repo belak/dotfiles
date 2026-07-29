@@ -9,6 +9,14 @@
     domain = "elwert.dev";
   };
 
+  belak = {
+    server.enable = true;
+    services = {
+      forgejo.enable = true;
+      nginx.enable = true;
+    };
+  };
+
   security.sudo.enable = true;
   services.openssh.enable = true;
 
