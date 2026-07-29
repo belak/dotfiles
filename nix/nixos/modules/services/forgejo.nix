@@ -12,8 +12,8 @@ in
   options.belak.services.forgejo = {
     enable = lib.mkEnableOption "forgejo";
 
-    domain = lib.mkOption { default = "git.elwert.cloud"; };
-    databaseType = lib.mkOption { default = "sqlite"; };
+    domain = lib.mkOption { default = "forgejo.elwert.cloud"; };
+    databaseType = lib.mkOption { default = "sqlite3"; };
   };
 
   config = lib.mkIf cfg.enable {
@@ -58,8 +58,6 @@ in
       file = ../../../../secrets/forgejo-smtp-password.age;
       owner = config.services.forgejo.user;
     };
-
-    belak.acme.enable = true;
 
     services.nginx.virtualHosts."${cfg.domain}" = {
       locations."/".proxyPass = "http://unix:${forgejoConfig.HTTP_ADDR}";

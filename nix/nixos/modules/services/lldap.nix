@@ -56,8 +56,6 @@ in
       owner = "lldap";
     };
 
-    belak.acme.enable = true;
-
     services.nginx.virtualHosts."${cfg.domain}" = {
       locations."/".proxyPass = "http://localhost:${toString lldapSettings.http_port}";
     };

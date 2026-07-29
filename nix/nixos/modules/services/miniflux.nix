@@ -5,6 +5,7 @@ in
 {
   options.belak.services.miniflux = {
     enable = lib.mkEnableOption "miniflux";
+    # TODO: change to miniflux.elwert.cloud
     domain = lib.mkOption { default = "rss.elwert.cloud"; };
   };
 
@@ -23,8 +24,6 @@ in
       };
       adminCredentialsFile = config.age.secrets.miniflux-admin-credentials.path;
     };
-
-    belak.acme.enable = true;
 
     users.users.miniflux = {
       group = "miniflux";
