@@ -6,12 +6,10 @@
     ./caddy.nix
     ./forgejo.nix
     ./forgejo-runner.nix
-    ./haproxy.nix
     ./immich.nix
     ./jellyfin.nix
     ./miniflux.nix
     ./nginx.nix
-    ./opencloud.nix
     ./pocket-id.nix
     ./plex.nix
     ./podman.nix

@@ -46,7 +46,6 @@ let
   service-forgejo-runner = [ system-eiko ];
   service-immich = [ system-eiko ];
   service-miniflux = [ system-eiko ];
-  service-opencloud = [ system-eiko ];
   service-pocket-id = [ system-zidane ];
   service-syncthing = [ system-eiko ];
   service-woodpecker = [ system-baku ];
@@ -77,8 +76,6 @@ in
   "miniflux-admin-credentials.age".publicKeys = service-miniflux ++ users;
   "miniflux-oidc-client-id.age".publicKeys = service-miniflux ++ users;
   "miniflux-oidc-client-secret.age".publicKeys = service-miniflux ++ users;
-
-  "opencloud-env.age".publicKeys = service-opencloud ++ users;
 
   "pocket-id-encryption-key.age".publicKeys = service-pocket-id ++ users;
   "pocket-id-smtp-password.age".publicKeys = service-pocket-id ++ users;
