@@ -35,7 +35,6 @@
       miniflux.enable = true;
       nginx.enable = true;
       immich.enable = true;
-      pocket-id.enable = true;
       postgres.enable = true;
       soju.enable = true;
       syncthing.enable = true;

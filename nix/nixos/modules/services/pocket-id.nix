@@ -17,7 +17,6 @@ in
         TRUST_PROXY = true;
         APP_URL = "https://${cfg.domain}";
         ENCRYPTION_KEY_FILE = config.age.secrets.pocket-id-encryption-key.path;
-        KEYS_STORAGE = "database";
         UI_CONFIG_DISABLED = true;
         APP_NAME = "Elwert Auth";
 

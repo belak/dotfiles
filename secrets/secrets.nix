@@ -47,7 +47,7 @@ let
   service-immich = [ system-eiko ];
   service-miniflux = [ system-eiko ];
   service-opencloud = [ system-eiko ];
-  service-pocket-id = [ system-eiko ];
+  service-pocket-id = [ system-zidane ];
   service-syncthing = [ system-eiko ];
   service-woodpecker = [ system-baku ];
   service-woodpecker-agent = [

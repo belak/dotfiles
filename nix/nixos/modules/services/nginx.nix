@@ -5,6 +5,16 @@ in
 {
   options.belak.services.nginx = {
     enable = lib.mkEnableOption "nginx";
+
+    port = lib.mkOption {
+      type = lib.types.port;
+      default = 80;
+      description = ''
+        Port nginx listens on for its virtual hosts. Only needs to be
+        overridden on hosts where something else (e.g. Caddy) already
+        owns port 80.
+      '';
+    };
   };
 
   config = lib.mkIf cfg.enable {
@@ -12,6 +22,8 @@ in
       enable = true;
 
       recommendedOptimisation = true;
+
+      defaultHTTPListenPort = cfg.port;
 
       # Note that we actually cannot use recommendedProxySettings as it will
       # nuke headers set by our haproxy instance, causing X-Forwarded-* headers
@@ -27,7 +39,7 @@ in
     users.groups.nginx = { };
 
     networking.firewall.allowedTCPPorts = [
-      80
+      cfg.port
     ];
 
     # Hacks - disable ProtectHome so we can access sockets outside our home.
