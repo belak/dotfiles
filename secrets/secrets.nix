@@ -49,6 +49,11 @@ let
   service-opencloud = [ system-eiko ];
   service-pocket-id = [ system-eiko ];
   service-syncthing = [ system-eiko ];
+  service-woodpecker = [ system-baku ];
+  service-woodpecker-agent = [
+    system-eiko
+    system-marcus
+  ];
 in
 {
   "atticd-env.age".publicKeys = service-atticd ++ users;
@@ -79,4 +84,9 @@ in
   "pocket-id-smtp-password.age".publicKeys = service-pocket-id ++ users;
 
   "syncthing-gui-password.age".publicKeys = service-syncthing ++ users;
+
+  "woodpecker-agent-secret.age".publicKeys =
+    service-woodpecker ++ service-woodpecker-agent ++ users;
+  "woodpecker-forgejo-client-id.age".publicKeys = service-woodpecker ++ users;
+  "woodpecker-forgejo-client-secret.age".publicKeys = service-woodpecker ++ users;
 }

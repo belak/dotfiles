@@ -14,8 +14,11 @@
     ./opencloud.nix
     ./pocket-id.nix
     ./plex.nix
+    ./podman.nix
     ./postgres.nix
     ./soju.nix
     ./syncthing.nix
+    ./woodpecker.nix
+    ./woodpecker-agent.nix
   ];
 }

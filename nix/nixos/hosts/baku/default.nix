@@ -14,6 +14,18 @@
     services = {
       forgejo.enable = true;
       nginx.enable = true;
+      woodpecker = {
+        enable = true;
+        open = true;
+        admins = [
+          "forgejo-admin"
+          "belak"
+        ];
+        repoOwners = [
+          "belak"
+          "seabird-chat"
+        ];
+      };
     };
   };
 

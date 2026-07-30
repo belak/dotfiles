@@ -39,6 +39,7 @@
       postgres.enable = true;
       soju.enable = true;
       syncthing.enable = true;
+      woodpecker-agent.enable = true;
     };
   };
 

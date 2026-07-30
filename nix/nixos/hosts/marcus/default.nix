@@ -11,6 +11,11 @@
 
   belak = {
     server.enable = true;
+
+    services.woodpecker-agent = {
+      enable = true;
+      maxWorkflows = 4;
+    };
   };
 
   security.sudo.enable = true;

@@ -48,6 +48,9 @@
         "forgejo.elwert.cloud" = {
           backend = "http://baku.elwert.dev";
         };
+        "woodpecker.elwert.cloud" = {
+          backend = "http://baku.elwert.dev";
+        };
 
         # Hosted on eiko
         "attic.elwert.cloud" = {
