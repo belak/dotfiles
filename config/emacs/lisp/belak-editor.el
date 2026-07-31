@@ -222,8 +222,11 @@ This originally came from Sacha Chua's Emacs config."
 ;; Auto-close brackets and quotes.
 (electric-pair-mode +1)
 
-;; Allow repeating prefixed commands with just the final key.
-(repeat-mode +1)
+;; Allow repeating prefixed commands with just the final key. Suppress
+;; the "Repeat mode is enabled for N commands..." message it prints on
+;; startup.
+(let ((inhibit-message t))
+  (repeat-mode +1))
 
 ;; Quick window switching without the C-x prefix.
 (bind-key "M-o" #'other-window)
