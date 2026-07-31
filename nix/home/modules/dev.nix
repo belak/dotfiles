@@ -37,6 +37,7 @@ in
       nix-prefetch-github
       patchelf
       yt-dlp
+      zstd
 
       # Python
       poetry
