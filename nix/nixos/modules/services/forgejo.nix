@@ -14,6 +14,10 @@ in
 
     domain = lib.mkOption { default = "forgejo.elwert.cloud"; };
     databaseType = lib.mkOption { default = "sqlite3"; };
+    actions = lib.mkOption {
+      type = lib.types.bool;
+      default = false;
+    };
   };
 
   config = lib.mkIf cfg.enable {
@@ -31,7 +35,7 @@ in
         };
 
         actions = {
-          ENABLED = true;
+          ENABLED = cfg.actions;
         };
 
         service = {

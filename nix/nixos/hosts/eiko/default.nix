@@ -30,6 +30,7 @@
         enable = true;
         domain = "git.elwert.cloud";
         databaseType = "postgres";
+        actions = true;
       };
       forgejo-runner.enable = true;
       miniflux.enable = true;
