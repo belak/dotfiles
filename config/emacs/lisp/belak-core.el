@@ -134,7 +134,12 @@
   "Quotes to display in the scratch buffer.")
 
 (setq initial-scratch-message
-      (concat (replace-regexp-in-string "^" ";; " (nth (random (length belak--scratch-quotes)) belak--scratch-quotes))
+      (concat (replace-regexp-in-string
+               "^" ";; "
+               (with-temp-buffer
+                 (insert (nth (random (length belak--scratch-quotes)) belak--scratch-quotes))
+                 (fill-region (point-min) (point-max))
+                 (buffer-string)))
               "\n\n")
       initial-major-mode 'lisp-interaction-mode)
 
