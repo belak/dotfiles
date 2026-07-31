@@ -58,6 +58,7 @@
       "postgres-app"
       "prismlauncher"
       "prusaslicer"
+      "soundsource"
       "textual"
       "thaw"
 
