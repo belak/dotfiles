@@ -104,6 +104,11 @@ in
         User = "gitea-runner";
         Group = "gitea-runner";
       };
+
+      # tokenFile points at a stable /run/agenix path, so
+      # switch-to-configuration won't restart the service on its own when
+      # the secret's content changes.
+      restartTriggers = [ config.age.secrets.forgejo-runner-token.file ];
     } // lib.optionalAttrs config.belak.services.forgejo.enable {
       # When the runner and Forgejo are on the same host, ensure the runner
       # starts after Forgejo to avoid 502s during registration.

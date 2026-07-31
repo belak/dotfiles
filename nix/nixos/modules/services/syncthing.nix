@@ -26,5 +26,10 @@ in
       file = ../../../../secrets/syncthing-gui-password.age;
       group = syncthingCfg.group;
     };
+
+    # guiPasswordFile points at a stable /run/agenix path, so
+    # switch-to-configuration won't restart the service on its own when
+    # the secret's content changes.
+    systemd.services.syncthing.restartTriggers = [ config.age.secrets.syncthing-gui-password.file ];
   };
 }

@@ -47,10 +47,17 @@ in
     };
     users.groups.atticd = { };
 
-    systemd.services.atticd.serviceConfig = {
-      DynamicUser = lib.mkForce false;
-      User = "atticd";
-      Group = "atticd";
+    systemd.services.atticd = {
+      serviceConfig = {
+        DynamicUser = lib.mkForce false;
+        User = "atticd";
+        Group = "atticd";
+      };
+
+      # EnvironmentFile points at a stable /run/agenix path, so
+      # switch-to-configuration won't restart the service on its own when
+      # the secret's content changes.
+      restartTriggers = [ config.age.secrets.atticd-env.file ];
     };
 
     age.secrets.atticd-env = {

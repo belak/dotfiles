@@ -45,6 +45,14 @@ in
       owner = config.services.pocket-id.user;
     };
 
+    # The _FILE settings point at stable /run/agenix paths, so
+    # switch-to-configuration won't restart the service on its own when a
+    # secret's content changes.
+    systemd.services.pocket-id.restartTriggers = [
+      config.age.secrets.pocket-id-encryption-key.file
+      config.age.secrets.pocket-id-smtp-password.file
+    ];
+
     services.nginx.virtualHosts."${cfg.domain}" = {
       # TODO: make this use a unix socket
       locations."/".proxyPass = "http://localhost:1411";

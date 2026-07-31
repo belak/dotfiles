@@ -59,6 +59,11 @@ in
       owner = config.services.forgejo.user;
     };
 
+    # PASSWD_URI points at a stable /run/agenix path, so
+    # switch-to-configuration won't restart the service on its own when
+    # the secret's content changes.
+    systemd.services.forgejo.restartTriggers = [ config.age.secrets.forgejo-smtp-password.file ];
+
     services.nginx.virtualHosts."${cfg.domain}" = {
       locations."/".proxyPass = "http://unix:${forgejoConfig.HTTP_ADDR}";
     };
