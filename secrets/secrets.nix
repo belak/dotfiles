@@ -42,8 +42,12 @@ let
   ];
 
   service-atticd = [ system-eiko ];
-  service-forgejo = [ system-baku system-eiko ];
+  service-forgejo = [
+    system-baku
+    system-eiko
+  ];
   service-immich = [ system-eiko ];
+  service-kavita = [ system-freya ];
   service-miniflux = [ system-eiko ];
   service-pocket-id = [ system-zidane ];
   service-syncthing = [ system-eiko ];
@@ -70,6 +74,9 @@ in
   "immich-oidc-client-id.age".publicKeys = service-immich ++ users;
   "immich-oidc-client-secret.age".publicKeys = service-immich ++ users;
 
+  "kavita-token-key.age".publicKeys = service-kavita ++ users;
+  "kavita-oidc-client-secret.age".publicKeys = service-kavita ++ users;
+
   "miniflux-admin-credentials.age".publicKeys = service-miniflux ++ users;
   "miniflux-oidc-client-id.age".publicKeys = service-miniflux ++ users;
   "miniflux-oidc-client-secret.age".publicKeys = service-miniflux ++ users;
@@ -79,8 +86,7 @@ in
 
   "syncthing-gui-password.age".publicKeys = service-syncthing ++ users;
 
-  "woodpecker-agent-secret.age".publicKeys =
-    service-woodpecker ++ service-woodpecker-agent ++ users;
+  "woodpecker-agent-secret.age".publicKeys = service-woodpecker ++ service-woodpecker-agent ++ users;
   "woodpecker-forgejo-client-id.age".publicKeys = service-woodpecker ++ users;
   "woodpecker-forgejo-client-secret.age".publicKeys = service-woodpecker ++ users;
 }

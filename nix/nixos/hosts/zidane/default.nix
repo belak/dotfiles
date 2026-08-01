@@ -77,16 +77,21 @@
         "photos.elwert.cloud" = {
           backend = "http://eiko.elwert.dev";
         };
-        "rss.elwert.cloud" = {
+        "miniflux.elwert.cloud" = {
           backend = "http://eiko.elwert.dev";
         };
 
         # Hosted on freya
-        "audiobooks.elwert.cloud" = {
-          # TODO: replace with audiobookshelf
+        "audiobookshelf.elwert.cloud" = {
+          extraHosts = [
+            "audiobooks.elwert.cloud"
+          ];
           backend = "http://freya.elwert.dev";
         };
         "btta.elwert.cloud" = {
+          backend = "http://freya.elwert.dev";
+        };
+        "kavita.elwert.cloud" = {
           backend = "http://freya.elwert.dev";
         };
         "jellyfin.elwert.cloud" = {

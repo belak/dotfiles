@@ -7,6 +7,7 @@
     ./forgejo.nix
     ./immich.nix
     ./jellyfin.nix
+    ./kavita.nix
     ./miniflux.nix
     ./nginx.nix
     ./pocket-id.nix

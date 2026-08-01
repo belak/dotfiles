@@ -35,6 +35,13 @@ in
 
     services.audiobookshelf.enable = true;
     services.btta.enable = true;
+    services.kavita = {
+      enable = true;
+      oidc = {
+        enable = true;
+        clientId = "6c3079c2-c197-4365-ab75-05e33db99a86";
+      };
+    };
     services.nginx.enable = true;
     services.jellyfin.enable = true;
     services.plex.enable = true;

@@ -6,7 +6,12 @@ in
   options.belak.services.audiobookshelf = {
     enable = lib.mkEnableOption "audiobookshelf";
 
-    domain = lib.mkOption { default = "audiobooks.elwert.cloud"; };
+    domain = lib.mkOption { default = "audiobookshelf.elwert.cloud"; };
+
+    extraDomains = lib.mkOption {
+      type = lib.types.listOf lib.types.str;
+      default = [ "audiobooks.elwert.cloud" ];
+    };
   };
 
   config = lib.mkIf cfg.enable {
@@ -15,6 +20,8 @@ in
     };
 
     services.nginx.virtualHosts."${cfg.domain}" = {
+      serverAliases = cfg.extraDomains;
+
       locations."/" = {
         # We can't use recommendedProxySettings (see the nginx module), but
         # nginx defaults Host to $proxy_host, so it has to be set explicitly.
