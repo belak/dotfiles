@@ -43,7 +43,6 @@ let
 
   service-atticd = [ system-eiko ];
   service-forgejo = [ system-baku system-eiko ];
-  service-forgejo-runner = [ system-eiko ];
   service-immich = [ system-eiko ];
   service-miniflux = [ system-eiko ];
   service-pocket-id = [ system-zidane ];
@@ -66,8 +65,6 @@ in
   "forgejo-oidc-client-id.age".publicKeys = service-forgejo ++ users;
   "forgejo-oidc-client-secret.age".publicKeys = service-forgejo ++ users;
   "forgejo-smtp-password.age".publicKeys = service-forgejo ++ users;
-
-  "forgejo-runner-token.age".publicKeys = service-forgejo-runner ++ users;
 
   "immich-smtp-password.age".publicKeys = service-immich ++ users;
   "immich-oidc-client-id.age".publicKeys = service-immich ++ users;

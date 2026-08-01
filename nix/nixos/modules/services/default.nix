@@ -5,7 +5,6 @@
     ./btta.nix
     ./caddy.nix
     ./forgejo.nix
-    ./forgejo-runner.nix
     ./immich.nix
     ./jellyfin.nix
     ./miniflux.nix

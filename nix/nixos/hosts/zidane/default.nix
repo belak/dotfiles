@@ -71,9 +71,6 @@
         "files.elwert.cloud" = {
           backend = "http://eiko.elwert.dev";
         };
-        "git.elwert.cloud" = {
-          backend = "http://eiko.elwert.dev";
-        };
         "irc.elwert.cloud" = {
           backend = "http://eiko.elwert.dev";
         };

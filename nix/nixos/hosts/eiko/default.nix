@@ -26,13 +26,6 @@
 
     services = {
       atticd.enable = true;
-      forgejo = {
-        enable = true;
-        domain = "git.elwert.cloud";
-        databaseType = "postgres";
-        actions = true;
-      };
-      forgejo-runner.enable = true;
       miniflux.enable = true;
       nginx.enable = true;
       immich.enable = true;
