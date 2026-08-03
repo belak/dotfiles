@@ -27,7 +27,6 @@
          ([remap project-find-regexp]      . consult-ripgrep)
          ([remap project-find-file]        . belak/consult-fd-project)
          ([remap recentf-open-files]       . consult-recent-file)
-         ([remap execute-extended-command] . consult-M-x)
          ("C-c f"                          . consult-fd))
   :config
   (setq consult-async-split-style nil))
