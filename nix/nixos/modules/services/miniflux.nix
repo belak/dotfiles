@@ -51,5 +51,14 @@ in
       file = ../../../../secrets/miniflux-oidc-client-secret.age;
       owner = "miniflux";
     };
+
+    # The _FILE settings point at stable /run/agenix paths, so
+    # switch-to-configuration won't restart the service on its own when a
+    # secret's content changes.
+    systemd.services.miniflux.restartTriggers = [
+      config.age.secrets.miniflux-admin-credentials.file
+      config.age.secrets.miniflux-oidc-client-id.file
+      config.age.secrets.miniflux-oidc-client-secret.file
+    ];
   };
 }

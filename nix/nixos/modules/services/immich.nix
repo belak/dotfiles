@@ -56,6 +56,15 @@ in
       owner = config.services.immich.user;
     };
 
+    # The _secret settings point at stable /run/agenix paths, so
+    # switch-to-configuration won't restart the service on its own when a
+    # secret's content changes.
+    systemd.services.immich-server.restartTriggers = [
+      config.age.secrets.immich-smtp-password.file
+      config.age.secrets.immich-oidc-client-id.file
+      config.age.secrets.immich-oidc-client-secret.file
+    ];
+
     services.nginx.virtualHosts."${cfg.domain}" = {
       extraConfig = ''
         client_max_body_size 1G;
