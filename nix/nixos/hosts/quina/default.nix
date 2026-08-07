@@ -18,38 +18,11 @@
       enable = true;
       consoleFont = "ter-124n";
     };
-    #xfce.enable = true;
-    greetd.enable = true;
-
-    dev.enable = true;
-    services.postgres.enable = true;
-  };
-
-  fonts = {
-    enableDefaultPackages = true;
-    packages = with pkgs; [
-      nerd-fonts.symbols-only
-    ];
+    server.enable = true;
   };
 
   networking.networkmanager.enable = true;
-
-  services.fwupd.enable = true;
   services.openssh.enable = true;
-  services.pipewire.enable = true;
-
-  services.fprintd.enable = true;
-  services.pcscd.enable = true;
-
-  # Because we use a GUI on this computer but aren't using a full DE, we need to
-  # enable a few things that the Gnome module would otherwise do for us.
-  hardware.graphics.enable = true;
-  programs.dconf.enable = true;
-  #services.system76-scheduler.enable = true;
-
-  environment.systemPackages = with pkgs; [
-    solaar
-  ];
 
   # This value determines the NixOS release from which the default
   # settings for stateful data, like file locations and database versions
@@ -57,5 +30,5 @@
   # this value at the release version of the first install of this system.
   # Before changing this value read the documentation for this option
   # (e.g. man configuration.nix or on https://nixos.org/nixos/options.html).
-  system.stateVersion = "25.04"; # Did you read the comment?
+  system.stateVersion = "26.05"; # Did you read the comment?
 }
