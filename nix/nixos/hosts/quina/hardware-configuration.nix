@@ -57,11 +57,16 @@
   boot.kernelModules = [ ];
   boot.extraModulePackages = [ ];
 
-  # There's a bug somewhere which causes the firmware to report a TPM2.0 chip
-  # being available (which should be true based on the docs) but for some reason
-  # the kernel can't use it. This disables the TPM which isn't even working
-  # properly and stops it from hanging systemd for 90s on startup.
+  # The X13s has a TPM in hardware, but Linux has no way to reach it: the device
+  # tree has no TPM node, and the ACPI/FF-A path the tpm_crb_ffa driver needs
+  # isn't available here. UEFI still measures boot and hands over an event log,
+  # so systemd assumes a TPM exists and waits 90s for /dev/tpm0.
+  #
+  # Both stages need turning off. Leaving stage 1 enabled delays the switch to
+  # stage 2 past the kernel's 10s deferred probe timeout, which permanently
+  # fails the Adreno SMMU and takes the display controller down with it.
   systemd.tpm2.enable = false;
+  boot.initrd.systemd.tpm2.enable = false;
 
   swapDevices = [ ];
 
