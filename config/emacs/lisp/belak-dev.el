@@ -79,7 +79,9 @@
 
 (use-package vc-hooks
   :config
-  (setq vc-handled-backends '(Git)))
+  ;; `JJ' has to come before `Git' because colocated jj repos also contain a
+  ;; .git dir, and vc uses the first backend which claims the file.
+  (setq vc-handled-backends '(JJ Git)))
 
 (provide 'belak-dev)
 ;;; belak-dev.el ends here

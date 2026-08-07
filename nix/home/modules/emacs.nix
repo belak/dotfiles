@@ -69,6 +69,7 @@ in
             epkgs.melpaPackages.protobuf-mode
             epkgs.melpaPackages.terraform-mode
             epkgs.melpaPackages.undo-fu
+            epkgs.elpaPackages.vc-jj
             epkgs.melpaPackages.verb
             epkgs.melpaPackages.vertico
             epkgs.melpaPackages.vterm
