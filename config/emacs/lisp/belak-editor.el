@@ -60,7 +60,7 @@
         history-delete-duplicates t
         savehist-save-minibuffer-history 1))
 
-(use-package subword :blackout " sw")
+(use-package subword :blackout)
 
 ;; Sane linear undo/redo on top of Emacs' native undo tree.
 (use-package undo-fu
