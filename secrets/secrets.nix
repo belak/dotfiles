@@ -41,7 +41,7 @@ let
     system-zorn
   ];
 
-  service-atticd = [ system-eiko ];
+  service-atticd = [ system-quina ];
   service-forgejo = [
     system-baku
     system-eiko

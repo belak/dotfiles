@@ -25,7 +25,6 @@
     server.enable = true;
 
     services = {
-      atticd.enable = true;
       miniflux.enable = true;
       nginx.enable = true;
       immich.enable = true;

@@ -19,6 +19,11 @@
       consoleFont = "ter-124n";
     };
     server.enable = true;
+
+    services = {
+      atticd.enable = true;
+      nginx.enable = true;
+    };
   };
 
   networking.networkmanager.enable = true;
