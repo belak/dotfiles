@@ -16,5 +16,14 @@ in
       enable = true;
       openFirewall = true;
     };
+
+    # Hardware transcoding needs /dev/dri to exist and to be readable by plex.
+    # The matching drivers are per-host, so they live in the host config.
+    hardware.graphics.enable = true;
+
+    users.users.plex.extraGroups = [
+      "video"
+      "render"
+    ];
   };
 }

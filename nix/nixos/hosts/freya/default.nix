@@ -25,8 +25,20 @@ in
     domain = "elwert.dev";
   };
 
+  # QuickSync drivers, used for Plex and Jellyfin hardware transcoding.
+  hardware.graphics.extraPackages = with pkgs; [
+    intel-media-driver
+    vpl-gpu-rt
+  ];
+
   environment.systemPackages = with pkgs; [
+    ffmpeg-headless
+    iperf3
+    jq
+    libva-utils
+    libxml2
     nfs-utils
+    speedtest-cli
     mc-calzone-rcon
   ];
 
