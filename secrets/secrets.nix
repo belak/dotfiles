@@ -55,6 +55,7 @@ let
   service-woodpecker-agent = [
     system-eiko
     system-marcus
+    system-quina
   ];
 in
 {

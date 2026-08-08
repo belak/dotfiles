@@ -239,6 +239,12 @@
             profiles.system = myLib.mkNixosDeploy self.nixosConfigurations.marcus;
           };
 
+          quina = {
+            hostname = "quina.elwert.dev";
+            profilesOrder = [ "system" ];
+            profiles.system = myLib.mkNixosDeploy self.nixosConfigurations.quina;
+          };
+
           zidane = {
             hostname = "zidane.elwert.dev";
             profilesOrder = [ "system" ];

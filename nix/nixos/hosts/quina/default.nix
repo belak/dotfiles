@@ -23,6 +23,10 @@
     services = {
       atticd.enable = true;
       nginx.enable = true;
+      woodpecker-agent = {
+        enable = true;
+        maxWorkflows = 4;
+      };
     };
   };
 
