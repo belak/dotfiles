@@ -2,6 +2,8 @@
 .envrc
 .python-version
 .direnv
+AGENTS.md
+AGENTS.local.md
 CLAUDE.md
 CLAUDE.local.md
 .DS_Store
