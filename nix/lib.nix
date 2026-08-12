@@ -7,6 +7,7 @@
   disko,
   home-manager,
   darwin,
+  microvm,
   ...
 }:
 {
@@ -32,7 +33,7 @@
     nixpkgs.lib.nixosSystem {
       specialArgs = {
         inherit self;
-        inherit agenix niri;
+        inherit agenix niri microvm;
       };
 
       modules = [
