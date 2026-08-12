@@ -5,12 +5,15 @@
   lib,
   config,
   pkgs,
+  microvm,
   ...
 }:
 {
   imports = [
     # Include the results of the hardware scan.
     ./hardware-configuration.nix
+
+    microvm.nixosModules.host
   ];
 
   boot.loader.systemd-boot.enable = true;
@@ -19,7 +22,33 @@
   networking = {
     hostName = "eiko";
     domain = "elwert.dev";
+
+    # systemd-networkd makes it much easier to attach microvm interfaces to
+    # a bridge.
+    useNetworkd = true;
+
+    # Note that we need to disable the global DHCP client to avoid requesting
+    # leases for bridges which end up blackholing guest traffic.
+    useDHCP = false;
+    interfaces.eno1.useDHCP = true;
+
+    bridges.br-seabird.interfaces = [ "eno1" ];
+    interfaces.br-seabird.useDHCP = false;
   };
+
+  # The bridge doesn't have an address, but we don't want it to hold up
+  # network-online.target.
+  systemd.network.networks."40-br-seabird".linkConfig.RequiredForOnline = "no";
+
+  # Guest taps are created by the guest's own runner, so match on the name
+  # prefix rather than naming each VM here.
+  systemd.network.networks."11-microvm-seabird" = {
+    matchConfig.Name = "vm-*";
+    networkConfig.Bridge = "br-seabird";
+    linkConfig.RequiredForOnline = "no";
+  };
+
+  microvm.autostart = [ ];
 
   belak = {
     server.enable = true;
