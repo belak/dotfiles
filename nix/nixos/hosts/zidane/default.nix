@@ -34,6 +34,8 @@
 
     services.pocket-id.enable = true;
 
+    services.soju.enable = true;
+
     services.caddy = {
       enable = true;
 
@@ -55,6 +57,9 @@
         "pocket-id.elwert.cloud" = {
           backend = "http://localhost:8080";
         };
+        "irc.elwert.cloud" = {
+          backend = "http://localhost:8080";
+        };
 
         # Hosted on baku
         "forgejo.elwert.cloud" = {
@@ -66,9 +71,6 @@
 
         # Hosted on eiko
         "files.elwert.cloud" = {
-          backend = "http://eiko.elwert.dev";
-        };
-        "irc.elwert.cloud" = {
           backend = "http://eiko.elwert.dev";
         };
 
