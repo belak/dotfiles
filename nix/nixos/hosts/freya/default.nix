@@ -63,6 +63,7 @@ in
     services.nginx.enable = true;
     services.jellyfin.enable = true;
     services.plex.enable = true;
+    services.syncthing.enable = true;
   };
 
   # stateVersion 24.11 would pick postgresql 16. Immich supports >= 14 and
@@ -142,6 +143,18 @@ in
         "/mnt/amarant/media"
       ];
       device = "/mnt/amarant/media/Apps/Immich";
+      options = [
+        "bind"
+        "rw"
+      ];
+      fsType = "none";
+    };
+
+    "/mnt/syncthing" = {
+      depends = [
+        "/mnt/amarant/media"
+      ];
+      device = "/mnt/amarant/media/Sync";
       options = [
         "bind"
         "rw"
