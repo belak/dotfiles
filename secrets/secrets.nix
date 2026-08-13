@@ -51,7 +51,10 @@ let
     system-freya
   ];
   service-kavita = [ system-freya ];
-  service-miniflux = [ system-eiko ];
+  service-miniflux = [
+    system-eiko
+    system-freya
+  ];
   service-pocket-id = [ system-zidane ];
   service-syncthing = [ system-eiko ];
   service-woodpecker = [ system-baku ];
