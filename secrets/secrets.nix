@@ -46,20 +46,13 @@ let
     system-baku
     system-eiko
   ];
-  service-immich = [
-    system-eiko
-    system-freya
-  ];
+  service-immich = [ system-freya ];
   service-kavita = [ system-freya ];
-  service-miniflux = [
-    system-eiko
-    system-freya
-  ];
+  service-miniflux = [ system-freya ];
   service-pocket-id = [ system-zidane ];
-  service-syncthing = [ system-eiko ];
+  service-syncthing = [ system-freya ];
   service-woodpecker = [ system-baku ];
   service-woodpecker-agent = [
-    system-eiko
     system-marcus
     system-quina
   ];
