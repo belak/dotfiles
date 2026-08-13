@@ -139,17 +139,6 @@
             };
           };
 
-          # Raspberry Pi 4b (8GB)
-          "blank" = myLib.mkNixosSystem {
-            modules = [
-              ./nix/nixos/hosts/blank
-              ./nix/nixos/users/belak
-            ];
-            homeUsers = {
-              belak = ./nix/home/users/belak/blank.nix;
-            };
-          };
-
           # Beelink Mini S12 Pro
           "freya" = myLib.mkNixosSystem {
             modules = [
@@ -158,17 +147,6 @@
             ];
             homeUsers = {
               belak = ./nix/home/users/belak/freya.nix;
-            };
-          };
-
-          # Raspberry Pi 4b (8GB)
-          "marcus" = myLib.mkNixosSystem {
-            modules = [
-              ./nix/nixos/hosts/marcus
-              ./nix/nixos/users/belak
-            ];
-            homeUsers = {
-              belak = ./nix/home/users/belak/marcus.nix;
             };
           };
 
@@ -203,12 +181,6 @@
         homeConfigurations = { };
 
         deploy.nodes = {
-          blank = {
-            hostname = "blank.elwert.dev";
-            profilesOrder = [ "system" ];
-            profiles.system = myLib.mkNixosDeploy self.nixosConfigurations.blank;
-          };
-
           baku = {
             hostname = "baku.elwert.dev";
             profilesOrder = [ "system" ];
@@ -219,12 +191,6 @@
             hostname = "freya.elwert.dev";
             profilesOrder = [ "system" ];
             profiles.system = myLib.mkNixosDeploy self.nixosConfigurations.freya;
-          };
-
-          marcus = {
-            hostname = "marcus.elwert.dev";
-            profilesOrder = [ "system" ];
-            profiles.system = myLib.mkNixosDeploy self.nixosConfigurations.marcus;
           };
 
           quina = {

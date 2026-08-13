@@ -19,10 +19,8 @@ let
 
   system-baku = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIFUhTjBux/Puqhpa4TgphZYsXIClhMWF0iOTZugc0k6a";
   system-beatrix = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIJ8DedpQ6Q+OqlMeiQydzu89Q2xIGGAIIl4+tyXy584v";
-  system-blank = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAILdUwE+3rTXY56282tCBejiwjCQRlpk4XUWwhJhP9F1V";
   system-freya = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIDU1rGovd901nTi60c/WTDtTrkWSJ8V2lDMJr6MusKWS";
   system-hades = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAINB84SBcMThfhBWlPiW1ySels6Ri17TDoDSjuuoX4tfF";
-  system-marcus = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIHpl5X3SrKW1tOkqBl9w+ZpopJXLkZPJo9cl5rhJRCSc";
   system-quina = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIBZ06jS8rephEg8IZgqkwBJ7QRPH7Osh+HE0LU6q2YvC";
   system-zidane = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIL8pkaoi6ASLpjFP+9v/frMX6wAiWrM3LTMvkdnU8Rd0";
   system-zorn = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIIl/rte7VsiKLVGhRLz3eSYh4Ln3YO9h/CQEOrib4xKe";
@@ -30,10 +28,8 @@ let
   systems = [
     system-baku
     system-beatrix
-    system-blank
     system-freya
     system-hades
-    system-marcus
     system-quina
     system-zidane
     system-zorn
@@ -47,10 +43,7 @@ let
   service-pocket-id = [ system-zidane ];
   service-syncthing = [ system-freya ];
   service-woodpecker = [ system-baku ];
-  service-woodpecker-agent = [
-    system-marcus
-    system-quina
-  ];
+  service-woodpecker-agent = [ system-quina ];
 in
 {
   "atticd-env.age".publicKeys = service-atticd ++ users;
