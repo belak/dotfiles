@@ -31,5 +31,10 @@ in
     # switch-to-configuration won't restart the service on its own when
     # the secret's content changes.
     systemd.services.syncthing.restartTriggers = [ config.age.secrets.syncthing-gui-password.file ];
+
+    # Without this, syncthing can start before dataDir is mounted and create
+    # folder markers in the empty mountpoint, which then shadow the real
+    # folders once the mount appears.
+    systemd.services.syncthing.unitConfig.RequiresMountsFor = syncthingCfg.dataDir;
   };
 }
