@@ -52,58 +52,6 @@
 
   belak = {
     server.enable = true;
-
-    services = {
-      nginx.enable = true;
-      postgres.enable = true;
-      syncthing.enable = true;
-      woodpecker-agent.enable = true;
-    };
-  };
-
-  fileSystems = {
-    # Base network filesystems
-    "/mnt/amarant/media" = {
-      device = "amarant.elwert.dev:/var/nfs/shared/Media";
-      fsType = "nfs";
-    };
-
-    # Bind mounts for a bit more control
-    "/mnt/media" = {
-      device = "/mnt/amarant/media";
-      options = [
-        "bind"
-        "ro"
-      ];
-      fsType = "none";
-    };
-
-    "/mnt/immich" = {
-      device = "/mnt/amarant/media/Apps/Immich";
-      options = [
-        "bind"
-        "rw"
-      ];
-      fsType = "none";
-    };
-
-    "/mnt/photos" = {
-      device = "/mnt/amarant/media/Photos";
-      options = [
-        "bind"
-        "rw"
-      ];
-      fsType = "none";
-    };
-
-    "/mnt/syncthing" = {
-      device = "/mnt/amarant/media/Sync";
-      options = [
-        "bind"
-        "rw"
-      ];
-      fsType = "none";
-    };
   };
 
   # This value determines the NixOS release from which the default
