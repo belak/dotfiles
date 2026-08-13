@@ -25,7 +25,8 @@ in
                 };
 
                 backend = lib.mkOption {
-                  type = lib.types.str;
+                  type = lib.types.nullOr lib.types.str;
+                  default = null;
                 };
 
                 extraHosts = lib.mkOption {
@@ -69,7 +70,7 @@ in
             header +X-Clacks-Overhead "GNU Douglas Adams"
             header +X-Clacks-Overhead "GNU Robert Asprin"
 
-            reverse_proxy ${value.backend}
+            ${lib.optionalString (value.backend != null) "reverse_proxy ${value.backend}"}
 
             ${value.extraConfig}
           '';
