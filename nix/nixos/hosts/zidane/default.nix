@@ -71,9 +71,6 @@
         "irc.elwert.cloud" = {
           backend = "http://eiko.elwert.dev";
         };
-        "miniflux.elwert.cloud" = {
-          backend = "http://eiko.elwert.dev";
-        };
 
         # Hosted on freya
         "audiobookshelf.elwert.cloud" = {
@@ -89,6 +86,9 @@
           backend = "http://freya.elwert.dev";
         };
         "photos.elwert.cloud" = {
+          backend = "http://freya.elwert.dev";
+        };
+        "miniflux.elwert.cloud" = {
           backend = "http://freya.elwert.dev";
         };
         "kavita.elwert.cloud" = {
