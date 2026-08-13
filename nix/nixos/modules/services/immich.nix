@@ -1,4 +1,3 @@
-
 { config, lib, ... }:
 let
   cfg = config.belak.services.immich;
@@ -8,6 +7,11 @@ in
     enable = lib.mkEnableOption "immich";
 
     domain = lib.mkOption { default = "photos.elwert.cloud"; };
+
+    extraDomains = lib.mkOption {
+      type = lib.types.listOf lib.types.str;
+      default = [ ];
+    };
   };
 
   config = lib.mkIf cfg.enable {
@@ -66,6 +70,8 @@ in
     ];
 
     services.nginx.virtualHosts."${cfg.domain}" = {
+      serverAliases = cfg.extraDomains;
+
       extraConfig = ''
         client_max_body_size 1G;
       '';
