@@ -20,7 +20,6 @@ let
   system-baku = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIFUhTjBux/Puqhpa4TgphZYsXIClhMWF0iOTZugc0k6a";
   system-beatrix = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIJ8DedpQ6Q+OqlMeiQydzu89Q2xIGGAIIl4+tyXy584v";
   system-blank = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAILdUwE+3rTXY56282tCBejiwjCQRlpk4XUWwhJhP9F1V";
-  system-eiko = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIGFpH5p7ODkUq0kLqda1/fghcCo+MxvCZLdKOfhZCtK+";
   system-freya = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIDU1rGovd901nTi60c/WTDtTrkWSJ8V2lDMJr6MusKWS";
   system-hades = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAINB84SBcMThfhBWlPiW1ySels6Ri17TDoDSjuuoX4tfF";
   system-marcus = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIHpl5X3SrKW1tOkqBl9w+ZpopJXLkZPJo9cl5rhJRCSc";
@@ -32,7 +31,6 @@ let
     system-baku
     system-beatrix
     system-blank
-    system-eiko
     system-freya
     system-hades
     system-marcus
@@ -42,10 +40,7 @@ let
   ];
 
   service-atticd = [ system-quina ];
-  service-forgejo = [
-    system-baku
-    system-eiko
-  ];
+  service-forgejo = [ system-baku ];
   service-immich = [ system-freya ];
   service-kavita = [ system-freya ];
   service-miniflux = [ system-freya ];
@@ -60,10 +55,7 @@ in
 {
   "atticd-env.age".publicKeys = service-atticd ++ users;
 
-  "acme-cloudflare-env.age".publicKeys = users ++ [
-    system-eiko
-    system-zidane
-  ];
+  "acme-cloudflare-env.age".publicKeys = users ++ [ system-zidane ];
   "belak-password.age".publicKeys = users ++ systems;
 
   "forgejo-oidc-client-id.age".publicKeys = service-forgejo ++ users;

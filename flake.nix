@@ -150,17 +150,6 @@
             };
           };
 
-          # ThinkCentre M93p
-          "eiko" = myLib.mkNixosSystem {
-            modules = [
-              ./nix/nixos/hosts/eiko
-              ./nix/nixos/users/belak
-            ];
-            homeUsers = {
-              belak = ./nix/home/users/belak/eiko.nix;
-            };
-          };
-
           # Beelink Mini S12 Pro
           "freya" = myLib.mkNixosSystem {
             modules = [
@@ -224,12 +213,6 @@
             hostname = "baku.elwert.dev";
             profilesOrder = [ "system" ];
             profiles.system = myLib.mkNixosDeploy self.nixosConfigurations.baku;
-          };
-
-          eiko = {
-            hostname = "eiko.elwert.dev";
-            profilesOrder = [ "system" ];
-            profiles.system = myLib.mkNixosDeploy self.nixosConfigurations.eiko;
           };
 
           freya = {
