@@ -69,11 +69,6 @@
           backend = "http://baku.elwert.dev";
         };
 
-        # Hosted on eiko
-        "files.elwert.cloud" = {
-          backend = "http://eiko.elwert.dev";
-        };
-
         # Hosted on freya
         "audiobookshelf.elwert.cloud" = {
           extraHosts = [
