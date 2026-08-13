@@ -71,9 +71,6 @@
         "irc.elwert.cloud" = {
           backend = "http://eiko.elwert.dev";
         };
-        "photos.elwert.cloud" = {
-          backend = "http://eiko.elwert.dev";
-        };
         "miniflux.elwert.cloud" = {
           backend = "http://eiko.elwert.dev";
         };
@@ -86,6 +83,12 @@
           backend = "http://freya.elwert.dev";
         };
         "btta.elwert.cloud" = {
+          backend = "http://freya.elwert.dev";
+        };
+        "immich.elwert.cloud" = {
+          backend = "http://freya.elwert.dev";
+        };
+        "photos.elwert.cloud" = {
           backend = "http://freya.elwert.dev";
         };
         "kavita.elwert.cloud" = {
