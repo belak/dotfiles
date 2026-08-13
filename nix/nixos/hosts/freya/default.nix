@@ -47,6 +47,11 @@ in
 
     services.audiobookshelf.enable = true;
     services.btta.enable = true;
+    services.immich = {
+      enable = true;
+      domain = "immich.elwert.cloud";
+      extraDomains = [ "photos.elwert.cloud" ];
+    };
     services.kavita = {
       enable = true;
       oidc = {
@@ -58,6 +63,10 @@ in
     services.jellyfin.enable = true;
     services.plex.enable = true;
   };
+
+  # stateVersion 24.11 would pick postgresql 16. Immich supports >= 14 and
+  # < 20, so start on 17 to put off the next major upgrade.
+  services.postgresql.package = pkgs.postgresql_17;
 
   fileSystems = {
     # Base network filesystems
@@ -120,6 +129,18 @@ in
         "/mnt/amarant/media"
       ];
       device = "/mnt/amarant/media/TV";
+      options = [
+        "bind"
+        "rw"
+      ];
+      fsType = "none";
+    };
+
+    "/mnt/immich" = {
+      depends = [
+        "/mnt/amarant/media"
+      ];
+      device = "/mnt/amarant/media/Apps/Immich";
       options = [
         "bind"
         "rw"
