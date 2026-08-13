@@ -54,9 +54,7 @@
     server.enable = true;
 
     services = {
-      miniflux.enable = true;
       nginx.enable = true;
-      immich.enable = true;
       postgres.enable = true;
       soju.enable = true;
       syncthing.enable = true;
