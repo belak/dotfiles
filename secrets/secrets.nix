@@ -46,7 +46,10 @@ let
     system-baku
     system-eiko
   ];
-  service-immich = [ system-eiko ];
+  service-immich = [
+    system-eiko
+    system-freya
+  ];
   service-kavita = [ system-freya ];
   service-miniflux = [ system-eiko ];
   service-pocket-id = [ system-zidane ];
