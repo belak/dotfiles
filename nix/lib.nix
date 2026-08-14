@@ -1,7 +1,6 @@
 {
   self,
   nixpkgs,
-  niri,
   agenix,
   disko,
   home-manager,
@@ -31,7 +30,7 @@
     nixpkgs.lib.nixosSystem {
       specialArgs = {
         inherit self;
-        inherit agenix niri;
+        inherit agenix;
       };
 
       modules = [
@@ -59,7 +58,7 @@
 
       specialArgs = {
         inherit self;
-        inherit agenix niri;
+        inherit agenix;
       };
 
       modules = [

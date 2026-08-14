@@ -1,7 +1,6 @@
 {
   self,
   agenix,
-  niri,
   ...
 }:
 {
@@ -21,11 +20,6 @@
       sharedModules = [
         self.homeModules.default
         agenix.homeManagerModules.default
-
-        # Use config rather than default to avoid building niri from source.
-        # The config module only provides typed settings and build-time
-        # validation.
-        niri.homeModules.config
       ];
     };
   };
