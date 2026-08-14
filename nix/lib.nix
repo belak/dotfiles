@@ -2,7 +2,6 @@
   self,
   nixpkgs,
   niri,
-  nixos-x13s,
   agenix,
   disko,
   home-manager,
@@ -41,7 +40,6 @@
         agenix.nixosModules.default
         disko.nixosModules.disko
         home-manager.nixosModules.default
-        nixos-x13s.nixosModules.default
         { home-manager.users = homeUsers; }
       ]
       ++ modules;

@@ -54,11 +54,6 @@
       inputs.nixpkgs-stable.follows = "nixpkgs";
     };
 
-    nixos-x13s = {
-      url = "github:BrainWart/x13s-nixos";
-      inputs.nixpkgs.follows = "nixpkgs-unstable";
-    };
-
     microvm = {
       url = "github:microvm-nix/microvm.nix";
       inputs.nixpkgs.follows = "nixpkgs";
