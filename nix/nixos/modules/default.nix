@@ -8,7 +8,6 @@
     ./laptop.nix
     ./nixpkgs.nix
     ./server.nix
-    ./xfce.nix
 
     ./services
   ];
