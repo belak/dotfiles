@@ -16,7 +16,6 @@
   home.packages = with pkgs; [
     makemkv
     handbrake
-    my.rubyripper
 
     flac
     lame

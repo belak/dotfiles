@@ -62,9 +62,6 @@ in
       codeowners
       nix-update
       llm-agents.ccusage
-      my.forgejo-cli
-      my.tuxedo
-      #my.selkie
       unstable.helix
       unstable.jujutsu
       unstable.mdcat
