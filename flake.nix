@@ -101,17 +101,6 @@
         };
 
         nixosConfigurations = {
-          # Raspberry Pi 4b (4GB)
-          "baku" = myLib.mkNixosSystem {
-            modules = [
-              ./nix/nixos/hosts/baku
-              ./nix/nixos/users/belak
-            ];
-            homeUsers = {
-              belak = ./nix/home/users/belak/baku.nix;
-            };
-          };
-
           # Beelink Mini S12 Pro
           "freya" = myLib.mkNixosSystem {
             modules = [
@@ -165,12 +154,6 @@
         homeConfigurations = { };
 
         deploy.nodes = {
-          baku = {
-            hostname = "baku.elwert.dev";
-            profilesOrder = [ "system" ];
-            profiles.system = myLib.mkNixosDeploy self.nixosConfigurations.baku;
-          };
-
           freya = {
             hostname = "freya.elwert.dev";
             profilesOrder = [ "system" ];
