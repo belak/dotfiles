@@ -114,12 +114,18 @@
         };
 
         # Hosted on kupo (seabird)
-        "api.seabird.chat" = {
+        "seabird.chat" = {
+          extraHosts = [
+            "*.seabird.chat"
+          ];
           backend = "http://kupo.infra.seabird.chat";
           useACMEHost = "seabird";
         };
-        "webhooks.seabird.chat" = {
-          backend = "http://kupo.infra.seabird.chat";
+        "staging.seabird.chat" = {
+          extraHosts = [
+            "*.staging.seabird.chat"
+          ];
+          backend = "http://stiltzkin.infra.seabird.chat";
           useACMEHost = "seabird";
         };
         "seabird-core.elwert.cloud" = {
@@ -161,6 +167,7 @@
     domain = "seabird.chat";
     extraDomainNames = [
       "*.seabird.chat"
+      "*.staging.seabird.chat"
     ];
   };
 
