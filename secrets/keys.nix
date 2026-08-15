@@ -15,7 +15,6 @@ rec {
     user-belak-work
   ];
 
-  system-baku = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIFUhTjBux/Puqhpa4TgphZYsXIClhMWF0iOTZugc0k6a";
   system-freya = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIDU1rGovd901nTi60c/WTDtTrkWSJ8V2lDMJr6MusKWS";
   system-quina = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIBZ06jS8rephEg8IZgqkwBJ7QRPH7Osh+HE0LU6q2YvC";
   system-vivi = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIDx5Y7VvA9CUdrsiVpNbRufBdJdvJZEfRQXIGnPgqynH";
@@ -23,7 +22,6 @@ rec {
   system-zorn = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIIl/rte7VsiKLVGhRLz3eSYh4Ln3YO9h/CQEOrib4xKe";
 
   systems = [
-    system-baku
     system-freya
     system-quina
     system-vivi

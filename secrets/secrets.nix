@@ -2,36 +2,21 @@ let
   keys = import ./keys.nix;
   inherit (keys) users systems;
 
-  # atticd, forgejo, and the woodpecker server are moving to vivi. baku keeps
-  # access until it is decommissioned, so it can still be deployed to during
-  # the cutover. quina stays on as the arm64 woodpecker agent and needs nothing
-  # but the agent secret.
+  # atticd, forgejo, and the woodpecker server all run on vivi. quina stays on
+  # as the arm64 woodpecker agent and needs nothing but the agent secret.
   service-atticd = [ keys.system-vivi ];
-  service-forgejo = [
-    keys.system-vivi
-    keys.system-baku
-  ];
+  service-forgejo = [ keys.system-vivi ];
   service-immich = [ keys.system-freya ];
   service-kavita = [ keys.system-freya ];
   service-miniflux = [ keys.system-freya ];
   service-pocket-id = [ keys.system-zidane ];
   service-syncthing = [ keys.system-freya ];
-  service-woodpecker = [
-    keys.system-vivi
-    keys.system-baku
-  ];
+  service-woodpecker = [ keys.system-vivi ];
+
+  # The server and its agents share one secret, and vivi runs both, so this
+  # covers the server's copy as well as each agent's.
   service-woodpecker-agent = [
     keys.system-vivi
-    keys.system-quina
-  ];
-
-  # The agent secret is shared between the server and its agents, and vivi runs
-  # both, so it is listed once here rather than as the union of the two service
-  # lists above. Duplicate recipients are a warning from age, not an error, but
-  # they do write a redundant stanza.
-  service-woodpecker-any = [
-    keys.system-vivi
-    keys.system-baku
     keys.system-quina
   ];
 in
@@ -61,7 +46,7 @@ in
 
   "syncthing-gui-password.age".publicKeys = service-syncthing ++ users;
 
-  "woodpecker-agent-secret.age".publicKeys = service-woodpecker-any ++ users;
+  "woodpecker-agent-secret.age".publicKeys = service-woodpecker-agent ++ users;
   "woodpecker-forgejo-client-id.age".publicKeys = service-woodpecker ++ users;
   "woodpecker-forgejo-client-secret.age".publicKeys = service-woodpecker ++ users;
 }
