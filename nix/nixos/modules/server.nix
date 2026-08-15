@@ -6,6 +6,10 @@
 }:
 let
   cfg = config.belak.server;
+
+  # The same keys that are agenix recipients in secrets/secrets.nix are used for
+  # root ssh access.
+  keys = import ../../../secrets/keys.nix;
 in
 {
   options.belak.server = {
@@ -16,6 +20,8 @@ in
     environment.systemPackages = with pkgs; [ molly-guard ];
 
     services.openssh.enable = true;
+
+    users.users.root.openssh.authorizedKeys.keys = keys.users;
 
     # We use mkForce because we want to override the default values.
     time.timeZone = lib.mkForce "Etc/UTC";
