@@ -1,4 +1,9 @@
-{ config, lib, pkgs, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 let
   cfg = config.belak.services.btta;
   socket = "/run/btta/btta.sock";
@@ -26,7 +31,10 @@ in
       members = [ "nginx" ];
     };
 
-    environment.systemPackages = [ bttactl pkgs.sqlite ];
+    environment.systemPackages = [
+      bttactl
+      pkgs.sqlite
+    ];
 
     systemd.services.btta = {
       wantedBy = [ "multi-user.target" ];
