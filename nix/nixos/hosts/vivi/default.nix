@@ -12,6 +12,35 @@
 
   belak = {
     server.enable = true;
+
+    services = {
+      atticd.enable = true;
+      forgejo.enable = true;
+      nginx.enable = true;
+
+      woodpecker = {
+        enable = true;
+        open = true;
+        admins = [
+          "forgejo-admin"
+          "belak"
+        ];
+        repoOwners = [
+          "belak"
+          "seabird-chat"
+        ];
+      };
+
+      # Server and agent share the host; the agent still goes over gRPC so the
+      # setup matches quina's remote agent.
+      #
+      # Two workflows rather than four: the undervolt holds this box to a 15W
+      # PL1, so more parallel nix builds mostly buys throttling.
+      woodpecker-agent = {
+        enable = true;
+        maxWorkflows = 2;
+      };
+    };
   };
 
   security.sudo.enable = true;

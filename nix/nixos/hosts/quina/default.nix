@@ -20,13 +20,12 @@
     };
     server.enable = true;
 
-    services = {
-      atticd.enable = true;
-      nginx.enable = true;
-      woodpecker-agent = {
-        enable = true;
-        maxWorkflows = 4;
-      };
+    # Kept on solely as the arm64 woodpecker agent, so that decommissioning it
+    # later costs nothing but CI capacity. atticd moved to vivi, and nginx was
+    # only ever here to front it.
+    services.woodpecker-agent = {
+      enable = true;
+      maxWorkflows = 4;
     };
   };
 

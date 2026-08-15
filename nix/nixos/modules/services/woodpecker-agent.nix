@@ -8,7 +8,7 @@ in
 
     server = lib.mkOption {
       type = lib.types.str;
-      default = "baku.elwert.dev:9000";
+      default = "vivi.elwert.dev:9000";
       description = "host:port of the woodpecker-server gRPC endpoint";
     };
 

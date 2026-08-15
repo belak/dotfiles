@@ -61,12 +61,15 @@
           backend = "http://localhost:8080";
         };
 
-        # Hosted on baku
+        # Hosted on vivi
         "forgejo.elwert.cloud" = {
-          backend = "http://baku.elwert.dev";
+          backend = "http://vivi.elwert.dev";
         };
         "woodpecker.elwert.cloud" = {
-          backend = "http://baku.elwert.dev";
+          backend = "http://vivi.elwert.dev";
+        };
+        "attic.elwert.cloud" = {
+          backend = "http://vivi.elwert.dev";
         };
 
         # Hosted on freya
@@ -106,11 +109,6 @@
               }
             }
           '';
-        };
-
-        # Hosted on quina
-        "attic.elwert.cloud" = {
-          backend = "http://quina.elwert.dev";
         };
 
         # Hosted on kupo (seabird)
