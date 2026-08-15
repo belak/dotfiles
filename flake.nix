@@ -112,17 +112,6 @@
             };
           };
 
-          # Thinkpad T14 (i5)
-          "beatrix" = myLib.mkNixosSystem {
-            modules = [
-              ./nix/nixos/hosts/beatrix
-              ./nix/nixos/users/belak
-            ];
-            homeUsers = {
-              belak = ./nix/home/users/belak/beatrix.nix;
-            };
-          };
-
           # Beelink Mini S12 Pro
           "freya" = myLib.mkNixosSystem {
             modules = [
