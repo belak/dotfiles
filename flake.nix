@@ -145,6 +145,17 @@
             };
           };
 
+          # Intel NUC (i7-8650U, 32GB), power-capped: see services.undervolt
+          "vivi" = myLib.mkNixosSystem {
+            modules = [
+              ./nix/nixos/hosts/vivi
+              ./nix/nixos/users/belak
+            ];
+            homeUsers = {
+              belak = ./nix/home/users/belak/vivi.nix;
+            };
+          };
+
           # ThinkPad T460
           "zidane" = myLib.mkNixosSystem {
             modules = [
@@ -181,6 +192,12 @@
             hostname = "quina.elwert.dev";
             profilesOrder = [ "system" ];
             profiles.system = myLib.mkNixosDeploy self.nixosConfigurations.quina;
+          };
+
+          vivi = {
+            hostname = "vivi.elwert.dev";
+            profilesOrder = [ "system" ];
+            profiles.system = myLib.mkNixosDeploy self.nixosConfigurations.vivi;
           };
 
           zidane = {
