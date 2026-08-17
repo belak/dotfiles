@@ -27,8 +27,10 @@
   environment.systemPackages = with pkgs; [
     dig
     git
+    htop
     net-tools
     sysbench
+    tmux
     vim
 
     ghostty.terminfo
