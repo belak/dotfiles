@@ -29,6 +29,7 @@
     git
     htop
     net-tools
+    sqlite
     sysbench
     tmux
     vim
