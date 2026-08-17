@@ -17,7 +17,10 @@ in
   };
 
   config = lib.mkIf cfg.enable {
-    environment.systemPackages = with pkgs; [ molly-guard ];
+    environment.systemPackages = with pkgs; [
+      lm_sensors
+      molly-guard
+    ];
 
     services.openssh.enable = true;
 
