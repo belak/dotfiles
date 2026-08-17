@@ -31,7 +31,6 @@ in
     home.packages = with pkgs; [
       _1password-cli
       age
-      agenix
       curl
       file
       findutils
@@ -52,6 +51,8 @@ in
       vim
       wget
       yq
+      zstd
+
       unstable.neovim
 
       # Rust tools
@@ -72,7 +73,11 @@ in
 
       # Stuff to try
       #gitui
+      yt-dlp
       zellij
+      unstable.helix
+      unstable.jujutsu
+      unstable.mdcat
     ];
 
     programs.direnv = {

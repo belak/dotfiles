@@ -21,7 +21,6 @@ in
       nil
 
       # Various tools
-      cloc
       crane
       dos2unix
       editorconfig-core-c
@@ -32,12 +31,11 @@ in
       gnumake
       unstable.imagemagick
       unstable.ghostscript
-      jq
       just
       nix-prefetch-github
       patchelf
-      yt-dlp
-      zstd
+      sops
+      woodpecker-cli
 
       # Python
       poetry
@@ -59,13 +57,7 @@ in
       podman-compose
 
       # Packages I'm trying out
-      codeowners
       nix-update
-      llm-agents.ccusage
-      unstable.helix
-      unstable.jujutsu
-      unstable.mdcat
-      #zeal
     ];
   };
 }
