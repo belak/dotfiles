@@ -28,7 +28,10 @@
     dig
     git
     htop
+    iperf3
+    jq
     net-tools
+    speedtest-cli
     sqlite
     sysbench
     tmux

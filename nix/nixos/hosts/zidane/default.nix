@@ -16,10 +16,6 @@
     domain = "elwert.dev";
   };
 
-  environment.systemPackages = with pkgs; [
-    sqlite
-  ];
-
   belak = {
     laptop.enable = true;
     server.enable = true;

@@ -20,6 +20,7 @@ in
     environment.systemPackages = with pkgs; [
       lm_sensors
       molly-guard
+      nfs-utils
     ];
 
     services.openssh.enable = true;

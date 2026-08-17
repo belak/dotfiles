@@ -33,12 +33,8 @@ in
 
   environment.systemPackages = with pkgs; [
     ffmpeg-headless
-    iperf3
-    jq
     libva-utils
     libxml2
-    nfs-utils
-    speedtest-cli
     mc-calzone-rcon
   ];
 
