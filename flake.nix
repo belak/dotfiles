@@ -123,7 +123,7 @@
             };
           };
 
-          # Intel NUC (i7-8650U, 32GB), power-capped: see services.undervolt
+          # Intel NUC (i7-8650U, 32GB)
           "vivi" = myLib.mkNixosSystem {
             modules = [
               ./nix/nixos/hosts/vivi
