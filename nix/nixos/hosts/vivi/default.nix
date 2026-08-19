@@ -31,14 +31,9 @@
         ];
       };
 
-      # Server and agent share the host; the agent still goes over gRPC so the
-      # setup matches quina's remote agent.
-      #
-      # Two workflows rather than four: this is a 15W mobile part, so more
-      # parallel nix builds mostly buys throttling.
       woodpecker-agent = {
         enable = true;
-        maxWorkflows = 2;
+        maxWorkflows = 4;
       };
     };
   };
