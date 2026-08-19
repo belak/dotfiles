@@ -43,6 +43,14 @@
 (use-package rainbow-mode
   :commands rainbow-mode)
 
+;; sops decrypts sops encrypted files on open and re-encrypts them on
+;; save, so they can be edited like any other file. It shells out to the
+;; sops binary, which comes from the dev module.
+(use-package sops
+  :demand t
+  :config
+  (global-sops-mode 1))
+
 ;; verb is an http client which integrates with org-mode. However because we use
 ;; it with org-tangle rather than the direct integration, we don't need any
 ;; extra setup.

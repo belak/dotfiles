@@ -67,6 +67,7 @@ in
             epkgs.melpaPackages.orderless
             epkgs.melpaPackages.package-lint
             epkgs.melpaPackages.protobuf-mode
+            epkgs.melpaPackages.sops
             epkgs.melpaPackages.terraform-mode
             epkgs.melpaPackages.undo-fu
             epkgs.elpaPackages.vc-jj
