@@ -2,8 +2,7 @@ let
   keys = import ./keys.nix;
   inherit (keys) users systems;
 
-  # atticd, forgejo, and the woodpecker server all run on vivi. quina stays on
-  # as the arm64 woodpecker agent and needs nothing but the agent secret.
+  # atticd, forgejo, and the woodpecker server and agent all run on vivi.
   service-atticd = [ keys.system-vivi ];
   service-forgejo = [ keys.system-vivi ];
   service-immich = [ keys.system-freya ];
@@ -15,10 +14,7 @@ let
 
   # The server and its agents share one secret, and vivi runs both, so this
   # covers the server's copy as well as each agent's.
-  service-woodpecker-agent = [
-    keys.system-vivi
-    keys.system-quina
-  ];
+  service-woodpecker-agent = [ keys.system-vivi ];
 in
 {
   "atticd-env.age".publicKeys = service-atticd ++ users;
