@@ -31,8 +31,8 @@
         ];
       };
 
-      # Server and agent share the host; the agent still goes over gRPC so the
-      # setup matches quina's remote agent.
+      # Server and agent share the host, but the agent still goes over gRPC so
+      # that adding a remote agent later needs no server-side changes.
       #
       # Two workflows rather than four: this is a 15W mobile part, so more
       # parallel nix builds mostly buys throttling, and four was enough to

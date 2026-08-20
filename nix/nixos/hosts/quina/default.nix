@@ -1,7 +1,7 @@
 # Edit this configuration file to define what should be installed on
 # your system.  Help is available in the configuration.nix(5) man page
 # and in the NixOS manual (accessible by running `nixos-help`).
-{ config, pkgs, ... }:
+{ ... }:
 {
   imports = [
     ./hardware-configuration.nix
@@ -19,14 +19,6 @@
       consoleFont = "ter-124n";
     };
     server.enable = true;
-
-    # Kept on solely as the arm64 woodpecker agent, so that decommissioning it
-    # later costs nothing but CI capacity. atticd moved to vivi, and nginx was
-    # only ever here to front it.
-    services.woodpecker-agent = {
-      enable = true;
-      maxWorkflows = 4;
-    };
   };
 
   services.openssh.enable = true;
