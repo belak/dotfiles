@@ -101,6 +101,17 @@
         };
 
         nixosConfigurations = {
+          # SFF desktop (i5-8500T, 16GB)
+          "garnet" = myLib.mkNixosSystem {
+            modules = [
+              ./nix/nixos/hosts/garnet
+              ./nix/nixos/users/belak
+            ];
+            homeUsers = {
+              belak = ./nix/home/users/belak/garnet.nix;
+            };
+          };
+
           # Beelink Mini S12 Pro
           "freya" = myLib.mkNixosSystem {
             modules = [
@@ -154,6 +165,12 @@
         homeConfigurations = { };
 
         deploy.nodes = {
+          garnet = {
+            hostname = "garnet.elwert.dev";
+            profilesOrder = [ "system" ];
+            profiles.system = myLib.mkNixosDeploy self.nixosConfigurations.garnet;
+          };
+
           freya = {
             hostname = "freya.elwert.dev";
             profilesOrder = [ "system" ];
