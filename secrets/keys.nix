@@ -15,6 +15,7 @@ rec {
     user-belak-work
   ];
 
+  system-garnet = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAINWG8LZ+epXNdE/gpZXE1YId/GKZ3y5lL7u7dPoSiJQa";
   system-freya = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIDU1rGovd901nTi60c/WTDtTrkWSJ8V2lDMJr6MusKWS";
   system-quina = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIBZ06jS8rephEg8IZgqkwBJ7QRPH7Osh+HE0LU6q2YvC";
   system-vivi = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIDx5Y7VvA9CUdrsiVpNbRufBdJdvJZEfRQXIGnPgqynH";
@@ -23,6 +24,7 @@ rec {
 
   systems = [
     system-freya
+    system-garnet
     system-quina
     system-vivi
     system-zidane
