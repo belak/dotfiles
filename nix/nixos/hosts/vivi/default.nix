@@ -67,8 +67,5 @@
     RebootWatchdogSec = "3m";
   };
 
-  # Keep memtest a boot menu entry away rather than needing a USB stick.
-  boot.loader.systemd-boot.memtest86.enable = true;
-
   system.stateVersion = "26.05";
 }
