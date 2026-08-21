@@ -43,6 +43,11 @@ in
     # smartd rather than relying on manual smartctl runs.
     services.smartd.enable = true;
 
+    # Firmware updates without a USB stick or a Windows install. This only runs
+    # the daemon and the metadata refresh; applying an update still needs an
+    # explicit fwupdmgr run and a reboot.
+    services.fwupd.enable = true;
+
     # Keep memtest a boot menu entry away rather than needing a USB stick.
     # memtest86+ only builds for x86, so aarch64 hosts have to go without.
     boot.loader.systemd-boot.memtest86.enable = pkgs.stdenv.hostPlatform.isx86;
