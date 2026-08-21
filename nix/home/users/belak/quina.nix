@@ -1,7 +1,16 @@
 { pkgs, ... }:
 {
   belak = {
-    dotfiles.enable = true;
+    dotfiles = {
+      enable = true;
+      symlink = true;
+    };
+
+    dev.enable = true;
+    emacs.enable = true;
+    ghostty.enable = true;
+    gnome.enable = true;
+    gui.enable = true;
   };
 
   # This value determines the Home Manager release that your configuration is

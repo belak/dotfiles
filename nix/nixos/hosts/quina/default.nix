@@ -18,7 +18,8 @@
       enable = true;
       consoleFont = "ter-124n";
     };
-    server.enable = true;
+
+    gnome.enable = true;
   };
 
   services.openssh.enable = true;
