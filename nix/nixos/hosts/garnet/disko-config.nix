@@ -4,7 +4,7 @@
       main = {
         # By id rather than /dev/sda, so installing with USB media attached
         # can't shift the sd* names around.
-        device = "/dev/disk/by-id/ata-CT240BX500SSD1_1911E1783EE2";
+        device = "/dev/disk/by-id/ata-Samsung_SSD_860_EVO_M.2_250GB_S5GFNG0M905357B";
         type = "disk";
         content = {
           type = "gpt";
