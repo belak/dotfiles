@@ -9,16 +9,16 @@
 
 buildGoModule rec {
   pname = "senpai";
-  version = "d89304820f80822c378b025afcf20b18a4fff8a3";
+  version = "0.5.0";
 
   src = fetchFromSourcehut {
     owner = "~delthas";
     repo = "senpai";
-    rev = version;
-    sha256 = "sha256-9Y1TqE9eLpNIcbSvgIN2THwj6BYvXZdBBB45G+E060E=";
+    rev = "v${version}";
+    hash = "sha256-VjXgKdy4IpBhAP6uw/NtlexPki7nJzQi/HuY/+5lE/o=";
   };
 
-  vendorHash = "sha256-puZvUF4y9bYVBy8EEqDIkdJbJps3CsoasGsMqTrhaFQ=";
+  vendorHash = "sha256-4Ax9YVa9z1Unk3Z2iy9ZEqKjNmdgK0aF4GrD9ucXtjk=";
 
   subPackages = [
     "cmd/senpai"
@@ -27,7 +27,7 @@ buildGoModule rec {
   ldflags = [
     "-s"
     "-w"
-    #"-X=main.Version=${version}-nix"
+    "-X=git.sr.ht/~delthas/senpai.version=${version}-nix"
   ];
 
   nativeBuildInputs = [
