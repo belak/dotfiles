@@ -17,7 +17,7 @@ let
     hostname soju.elwert.cloud
     tls ${certCfg.directory}/fullchain.pem ${certCfg.directory}/key.pem
     db sqlite3 ${stateDir}/soju.db
-    log fs ${stateDir}/logs
+    message-store db
   '';
 
   sojuctl = pkgs.writeShellScriptBin "sojuctl" ''
