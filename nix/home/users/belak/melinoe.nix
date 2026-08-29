@@ -18,6 +18,7 @@
 
   home.packages = with pkgs; [
     llm-agents.claude-code
+
     discord
     neomutt
     pandoc

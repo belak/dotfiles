@@ -18,17 +18,10 @@ in
       # These packages are focused on linux-only features so there's no point
       # installing them on macOS.
       dmidecode
-      powertop
 
       # Terminus needs to be installed from a homebrew cask on macOS to pick it
       # up so we install it for Linux here.
       terminus_font
-
-      # Various additional fonts which improve the Linux experience. Normally
-      # nerdfonts would be included here so Doom Emacs wouldn't need to download
-      # them, but it's an 8Gb package.
-      dejavu_fonts
-      noto-fonts-color-emoji
     ];
   };
 }

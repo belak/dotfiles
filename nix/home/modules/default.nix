@@ -8,12 +8,13 @@
     ./linux.nix
 
     # Feature Modules
+    ./apps.nix
     ./dev.nix
     ./dotfiles.nix
     ./emacs.nix
     ./ghostty.nix
     ./gnome.nix
-    ./gui.nix
+    ./gtk.nix
     ./vscode.nix
   ];
 }

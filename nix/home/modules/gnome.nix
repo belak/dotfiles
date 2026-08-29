@@ -13,6 +13,9 @@ in
   };
 
   config = lib.mkIf cfg.enable {
+    # Gnome is gtk based, so enable our gtk tweaks by default.
+    belak.gtk.enable = lib.mkDefault true;
+
     home.packages = with pkgs; [
       dconf-editor
       gnome-firmware
