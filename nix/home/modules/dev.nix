@@ -13,51 +13,24 @@ in
   };
 
   config = lib.mkIf cfg.enable {
+    # Anything language- or project-specific belongs in a devshell rather than
+    # here. This list is for tools worth having on PATH in every checkout.
     home.packages = with pkgs; [
-      # TODO: most of these packages probably shouldn't be installed globally -
-      # they make more sense to install local to projects.
-
-      # LSP servers
-      nil
-
-      # Various tools
-      crane
       dos2unix
       editorconfig-core-c
-      exiftool
-      ffmpeg
       fswatch
-      grpcurl
       gnumake
-      unstable.imagemagick
-      unstable.ghostscript
+      grpcurl
       just
-      nix-prefetch-github
-      patchelf
       sops
       woodpecker-cli
 
+      # Nix
+      nix-update
+
       # Python
-      poetry
       ruff
       uv
-      virtualenv
-      my.pyenv
-      my.pyenv-virtualenv
-
-      # Ruby
-      my.rbenv
-      my.ruby-build
-
-      # Javascript
-      volta
-
-      # Podman
-      podman
-      podman-compose
-
-      # Packages I'm trying out
-      nix-update
     ];
   };
 }

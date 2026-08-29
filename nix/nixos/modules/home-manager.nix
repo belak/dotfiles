@@ -1,3 +1,5 @@
+# A near-copy of this file lives in the other of nix/darwin/modules and
+# nix/nixos/modules. Check both when changing this one.
 {
   self,
   agenix,

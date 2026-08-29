@@ -71,10 +71,12 @@ in
       #rar # Note that confusingly rar includes unrar, but not vice versa
       unzip
 
+      # Media
+      ffmpeg
+      yt-dlp
+
       # Stuff to try
       #gitui
-      yt-dlp
-      zellij
       unstable.helix
       unstable.jujutsu
       unstable.mdcat

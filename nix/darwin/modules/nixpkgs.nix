@@ -1,3 +1,7 @@
+# Near-copies of this file live in nix/darwin/modules, nix/home/modules and
+# nix/nixos/modules. They are identical today, but each one configures a
+# different module system, so they are kept separate rather than shared. Check
+# the other two when changing this one.
 {
   self,
   config,
