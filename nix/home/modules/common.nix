@@ -74,6 +74,7 @@ in
       # Media
       ffmpeg
       yt-dlp
+      my.invert-pdfs
 
       # Stuff to try
       #gitui
