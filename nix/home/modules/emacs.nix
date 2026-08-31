@@ -20,7 +20,7 @@ in
         #
         # XXX: unfortunately there are some issues with the pgtk build on macOS,
         # so we just use the normal emacs build there.
-        myEmacs = if pkgs.stdenv.isDarwin then pkgs.emacs-unstable else pkgs.emacs-unstable-pgtk;
+        myEmacs = if pkgs.stdenv.isDarwin then pkgs.unstable.emacs else pkgs.unstable.emacs-pgtk;
         emacsWithPackages = (emacsPackagesFor myEmacs).emacsWithPackages;
       in
       [
