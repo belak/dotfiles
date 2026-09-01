@@ -60,7 +60,13 @@ in
       # EnvironmentFile points at a stable /run/agenix path, so
       # switch-to-configuration won't restart the service on its own when the
       # secret's content changes.
-      restartTriggers = [ config.age.secrets.woodpecker-agent-secret.file ];
+      #
+      # The trigger hashes the file rather than pointing at it: inside a flake a
+      # path is a subpath of the whole source tree, so its store hash moves on any
+      # repo change, not just this secret.
+      restartTriggers = [
+        (builtins.hashFile "sha256" config.age.secrets.woodpecker-agent-secret.file)
+      ];
     };
 
     age.secrets.woodpecker-agent-secret = {

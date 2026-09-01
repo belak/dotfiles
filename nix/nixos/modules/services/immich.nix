@@ -63,10 +63,14 @@ in
     # The _secret settings point at stable /run/agenix paths, so
     # switch-to-configuration won't restart the service on its own when a
     # secret's content changes.
+    #
+    # The trigger hashes the file rather than pointing at it: inside a flake a
+    # path is a subpath of the whole source tree, so its store hash moves on any
+    # repo change, not just this secret.
     systemd.services.immich-server.restartTriggers = [
-      config.age.secrets.immich-smtp-password.file
-      config.age.secrets.immich-oidc-client-id.file
-      config.age.secrets.immich-oidc-client-secret.file
+      (builtins.hashFile "sha256" config.age.secrets.immich-smtp-password.file)
+      (builtins.hashFile "sha256" config.age.secrets.immich-oidc-client-id.file)
+      (builtins.hashFile "sha256" config.age.secrets.immich-oidc-client-secret.file)
     ];
 
     services.nginx.virtualHosts."${cfg.domain}" = {

@@ -55,10 +55,14 @@ in
     # The _FILE settings point at stable /run/agenix paths, so
     # switch-to-configuration won't restart the service on its own when a
     # secret's content changes.
+    #
+    # The trigger hashes the file rather than pointing at it: inside a flake a
+    # path is a subpath of the whole source tree, so its store hash moves on any
+    # repo change, not just this secret.
     systemd.services.miniflux.restartTriggers = [
-      config.age.secrets.miniflux-admin-credentials.file
-      config.age.secrets.miniflux-oidc-client-id.file
-      config.age.secrets.miniflux-oidc-client-secret.file
+      (builtins.hashFile "sha256" config.age.secrets.miniflux-admin-credentials.file)
+      (builtins.hashFile "sha256" config.age.secrets.miniflux-oidc-client-id.file)
+      (builtins.hashFile "sha256" config.age.secrets.miniflux-oidc-client-secret.file)
     ];
   };
 }

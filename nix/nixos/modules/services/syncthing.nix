@@ -30,7 +30,13 @@ in
     # guiPasswordFile points at a stable /run/agenix path, so
     # switch-to-configuration won't restart the service on its own when
     # the secret's content changes.
-    systemd.services.syncthing.restartTriggers = [ config.age.secrets.syncthing-gui-password.file ];
+    #
+    # The trigger hashes the file rather than pointing at it: inside a flake a
+    # path is a subpath of the whole source tree, so its store hash moves on any
+    # repo change, not just this secret.
+    systemd.services.syncthing.restartTriggers = [
+      (builtins.hashFile "sha256" config.age.secrets.syncthing-gui-password.file)
+    ];
 
     # Without this, syncthing can start before dataDir is mounted and create
     # folder markers in the empty mountpoint, which then shadow the real

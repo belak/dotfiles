@@ -66,7 +66,13 @@ in
     # PASSWD_URI points at a stable /run/agenix path, so
     # switch-to-configuration won't restart the service on its own when
     # the secret's content changes.
-    systemd.services.forgejo.restartTriggers = [ config.age.secrets.forgejo-smtp-password.file ];
+    #
+    # The trigger hashes the file rather than pointing at it: inside a flake a
+    # path is a subpath of the whole source tree, so its store hash moves on any
+    # repo change, not just this secret.
+    systemd.services.forgejo.restartTriggers = [
+      (builtins.hashFile "sha256" config.age.secrets.forgejo-smtp-password.file)
+    ];
 
     services.nginx.virtualHosts."${cfg.domain}" = {
       locations."/".proxyPass = "http://unix:${forgejoConfig.HTTP_ADDR}";
