@@ -36,7 +36,9 @@ in
         pinta
         resources
 
+        unstable.lapce
         unstable.obsidian
+        unstable.zed-editor
       ]
       ++ lib.optional discordAvailable discord;
   };
