@@ -1,7 +1,17 @@
-{ lib, ... }:
+{ ... }:
 {
   belak = {
     dotfiles.enable = true;
+
+    # Beets runs here rather than on a workstation so moves and renames stay
+    # local to the NFS server instead of crossing the network. These are the
+    # storage paths: /mnt/media/* is the read-only view Plex and Jellyfin
+    # index, and /mnt/remote-thorn is a sandbox for another machine.
+    beets = {
+      enable = true;
+      directory = "/mnt/amarant/media/Music Lossless";
+      derivedDirectory = "/mnt/amarant/media/Music";
+    };
   };
 
   # This value determines the Home Manager release that your configuration is

@@ -1,0 +1,267 @@
+# Everything except the per-host paths. `directory`, `library`, and the
+# derived tree's location come from the belak.beets home-manager module, which
+# generates a config.yaml that includes this file.
+#
+# The master tree holds the best copy of each album, normally FLAC. Every
+# tagging and organization decision happens there; the derived MP3 tree is
+# regenerated from it and is never edited directly.
+
+plugins:
+  # Library shape.
+  - inline
+  - zero
+
+  # Editing. Tags are hand-owned, so these are the primary interface.
+  - edit
+  - fromfilename
+  - ftintitle
+  - titlecase
+
+  # Derived MP3 tree.
+  - alternatives
+  - convert
+
+  # Art and sidecar files.
+  - fetchart
+  - embedart
+  - filetote
+
+  # Audio analysis.
+  - replaygain
+
+  # Metadata sources. Discogs is weighted as primary below.
+  - discogs
+  - bandcamp
+  - chroma
+
+  # Library maintenance and querying.
+  - mbsync
+  - duplicates
+  - missing
+  - badfiles
+  - fuzzy
+  - info
+
+import:
+  # Autotagger on: composer-in-artist is acceptable as long as COMPOSER is also
+  # populated, which both Discogs and MusicBrainz do. timid means every change
+  # still needs an explicit approval, so nothing is applied unreviewed.
+  autotag: yes
+  timid: yes
+
+  copy: yes
+  move: no
+  write: yes
+  incremental: yes
+
+# Track numbers restart per disc, so the disc prefix below is what
+# distinguishes 2.01 from 1.01.
+per_disc_numbering: yes
+
+# Prefer the pressing actually owned. media and countries are ordered regex
+# lists scored by position, so earlier entries win.
+#
+# original_year is deliberately off. It biases matching toward the earliest
+# release, which is wrong for a library built from ripping specific physical
+# discs - a 2013 remaster should match the 2013 release, not the 1959 original.
+# It would also fight the "(year)" in the path scheme, whose whole job is
+# telling a reissue apart from the original.
+match:
+  preferred:
+    media: ['CD', 'Digital Media|File', 'Vinyl']
+    countries: ['US', 'GB|UK', 'Europe']
+    original_year: no
+
+# Featured artists belong in the title, not the artist field: "Gold Digger
+# (feat. Jamie Foxx)" rather than an ARTIST of "Kanye West Feat. Jamie Foxx".
+# Keeping ARTIST clean means the device's artist browser groups every track by
+# the same performer instead of one entry per guest combination.
+# Not automatic. Discogs tracklists are submitter-entered, so casing is
+# inconsistent ("MESS OF ME", "Big Giant Sea For A Dream") - but normalising
+# every import would also rewrite classical key names and tempo markings, which
+# are conventionally lowercase. Run `beet titlecase <query>` on the albums that
+# need it instead.
+#
+# preserve entries need a trailing space: anything containing a space becomes a
+# case-insensitive regex, while a bare word becomes an uppercase lookup that
+# adjacent punctuation defeats.
+titlecase:
+  auto: no
+  preserve: ['feat. ', 'featuring ']
+
+ftintitle:
+  auto: yes
+  format: '(feat. {0})'
+
+# beets has no numeric comparison in path templates and no built-in
+# "multidisc" field, so compute the prefix here. Single-disc albums get an
+# empty string; multi-disc albums get "2." and so on.
+# NOTE: not nested under `inline:` - that plugin reads the global config, so
+# this has to sit at the top level or it is silently ignored.
+#
+# $track is already zero-padded, so only the disc prefix needs computing.
+item_fields:
+  disc_prefix: |
+    return '%d.' % disc if disctotal and disctotal > 1 else ''
+
+# <album artist>/<album> (<year>)/[<disc>.]<track>. <title>[ (<track artist>)]
+#
+# Two levels always, no per-disc subdirectories, no codec token. %aunique{}
+# only expands when two albums would otherwise collide.
+#
+# The track-artist suffix is matched two ways. `comp:` is beets' own
+# compilation flag, which the autotagger sets from the release data. The
+# albumartist key catches albums imported as-is, where nothing sets that flag.
+paths:
+  default: $albumartist/$album ($year)%aunique{}/$disc_prefix$track. $title
+  'albumartist:Various Artists': $albumartist/$album ($year)%aunique{}/$disc_prefix$track. $title ($artist)
+  comp: $albumartist/$album ($year)%aunique{}/$disc_prefix$track. $title ($artist)
+  singleton: $artist/Non-Album/$title
+
+# The derived tree must survive FAT32/exFAT, so ":" becomes " - " rather than
+# the default "_". Redefined wholesale because the stock rules would otherwise
+# catch ":" first and turn it into an underscore.
+replace:
+  # Collapse the surrounding spaces too, so "Op. 67: I. Allegro" becomes
+  # "Op. 67 - I. Allegro" rather than picking up a double space.
+  '\s*:\s*': ' - '
+  '[<>\?\*\|]': _
+  '\"': _
+  '[\\/]': _
+  '^\.': _
+  '\.$': _
+  '[\x00-\x1f]': _
+  '\s+$': ''
+
+# Target hardware caps the full path near 260 characters; budget under 240.
+max_filename_length: 200
+
+# Whitelist, not blacklist - every field not listed is cleared. A blacklist
+# never converges because each ripper and store invents new junk fields.
+#
+# NOTE: zero hooks the `write` event. Autotagged imports write on their own, so
+# this applies at import. Anything imported as-is with -A needs an explicit
+# `beet write -f <query>` afterwards.
+#
+# `images` MUST stay in this list. Embedded album art is a field like any
+# other, so omitting it makes every write silently strip the art that embedart
+# just added.
+zero:
+  keep_fields: >
+    title artist album albumartist albumartist_sort composer composer_sort
+    conductor genre track tracktotal disc disctotal year date originaldate
+    lyrics rg_track_gain rg_track_peak rg_album_gain rg_album_peak
+    mb_trackid mb_albumid mb_artistid mb_albumartistid mb_releasegroupid
+    images
+  update_database: yes
+
+# Defaults omit albumartist and composer, the two fields this library turns on.
+edit:
+  itemfields: track title artist albumartist composer
+  albumfields: album albumartist albumartist_sort genre
+
+# Both embedded art and a cover.jpg sidecar - they fail differently. The
+# sidecar survives format conversion; the embedded copy survives a single file
+# being copied out of its directory.
+fetchart:
+  auto: yes
+  art_filename: cover
+  maxwidth: 1200
+
+  # Baseline rather than progressive JPEG, which the target hardware cannot
+  # decode. Deliberately NOT cover_format: JPEG - that converts the art in
+  # place in the *source* directory, destroying the original PNG even with
+  # import.copy set. It also re-encodes lossless art into a lossy master. The
+  # master tree keeps whatever the source shipped; only the derived tree is
+  # JPEG-only, and it converts on its own.
+  deinterlace: yes
+
+  # Capitalised duplicates are load-bearing, not redundant. fetchart ranks
+  # candidates with a case-SENSITIVE check but decides eligibility with a
+  # case-INSENSITIVE regex, and a file matching no keyword sorts ahead of one
+  # that does. So "Digital Back Cover.png" outranks "cover.png" unless
+  # "Cover" is listed too.
+  cover_names: [cover, Cover, front, Front, art, Art, album, Album, folder, Folder]
+
+  sources:
+    - filesystem
+    - coverart
+    - itunes
+    - albumart
+
+embedart:
+  auto: yes
+  maxwidth: 500
+  ifempty: no
+  # Baseline JPEG only; the target hardware cannot decode progressive.
+  quality: 90
+
+# Master-tree sidecars. These are import-time only and are never carried into
+# the derived tree - beets-alternatives copies audio and album art, nothing
+# else, so extras stay with the FLACs automatically.
+#
+# .m3u is deliberately excluded: EAC writes them with relative filenames that
+# break the moment beets renames anything.
+# cover.jpg is deliberately NOT listed under filenames: fetchart already writes
+# it at the configured size, and having filetote copy the source file too makes
+# the two collide, leaving a full-resolution cover.1.jpg behind.
+filetote:
+  extensions: .cue .log .txt .pdf
+  pairing:
+    enabled: yes
+    extensions: .lrc
+  print_ignored: yes
+
+# metaflac writes native FLAC ReplayGain tags and is faster than decoding
+# through ffmpeg. It only understands FLAC, which is fine here: analysis runs
+# on import into the master tree, and the derived MP3s inherit the resulting
+# tags rather than being re-analysed.
+replaygain:
+  auto: yes
+  backend: metaflac
+  # Misleading name: this is force-on-import. On, because incoming ReplayGain
+  # tags are of unknown provenance and reference level - recomputing is cheap
+  # relative to trusting a value that might be from a different standard.
+  overwrite: yes
+
+# The derived tree. Same relative paths as the master, differing only in root
+# and extension, so the two can be diffed to confirm completeness.
+#
+# Lives on the NAS; the whole library is converted. Run `beet alt update
+# derived` after importing.
+alternatives:
+  derived:
+    formats: mp3
+    removable: no
+    # Derived tree gets audio plus a cover.jpg sidecar and nothing else.
+    # The format conversion belongs here rather than in fetchart: this is the
+    # only tree the portable hardware reads, and it is the only one that cannot
+    # cope with PNG or progressive JPEG.
+    album_art_copy: yes
+    album_art_embed: yes
+    album_art_maxwidth: 500
+    album_art_format: JPEG
+    album_art_deinterlace: yes
+
+convert:
+  # Only the derived tree is ever converted, so no format token in any path.
+  format: mp3
+  album_art_maxwidth: 500
+  embed: yes
+  formats:
+    mp3:
+      command: ffmpeg -i $source -y -vn -acodec libmp3lame -q:a 0 $dest
+      extension: mp3
+
+# Discogs as the primary source: a zero penalty leaves its candidates competing
+# on match quality alone, while MusicBrainz results carry a penalty. This biases
+# the ranking rather than disabling either source, so MusicBrainz still wins
+# where Discogs has nothing.
+discogs:
+  data_source_mismatch_penalty: 0.0
+
+musicbrainz:
+  data_source_mismatch_penalty: 0.5
+
+ui:
+  color: yes

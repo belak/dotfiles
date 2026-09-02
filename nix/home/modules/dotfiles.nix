@@ -23,6 +23,9 @@ in
     home.file = {
       "bin" = mkSource "bin";
 
+      # Installed as base.yaml, not config.yaml: the belak.beets module
+      # generates config.yaml with the per-host paths and includes this.
+      ".config/beets/base.yaml" = mkSource "config/beets/config.yaml";
       ".config/belak" = mkSource "config/belak";
       ".config/direnv/direnv.toml" = mkSource "config/direnv/direnv.toml";
       ".config/doom" = mkSource "config/doom";

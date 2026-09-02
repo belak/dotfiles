@@ -1,24 +1,4 @@
 { pkgs, ... }:
-let
-  # All builtin beets plugins are already enabled by the nixpkgs derivation, so
-  # this only wires up the third-party ones.
-  beetsWithPlugins = pkgs.python3Packages.beets.override {
-    pluginOverrides = {
-      alternatives = {
-        enable = true;
-        propagatedBuildInputs = [ pkgs.python3Packages.beets-alternatives ];
-      };
-      bandcamp = {
-        enable = true;
-        propagatedBuildInputs = [ pkgs.python3Packages.beetcamp ];
-      };
-      filetote = {
-        enable = true;
-        propagatedBuildInputs = [ pkgs.python3Packages.beets-filetote ];
-      };
-    };
-  };
-in
 {
   belak = {
     dotfiles.enable = true;
@@ -26,6 +6,9 @@ in
     dev.enable = true;
     emacs.enable = true;
     ghostty.enable = true;
+
+    # Scratch library for trying config changes before they reach freya.
+    beets.enable = true;
     vscode.enable = true;
   };
 
@@ -38,8 +21,6 @@ in
 
   home.packages = with pkgs; [
     llm-agents.claude-code
-
-    beetsWithPlugins
 
     discord
     neomutt

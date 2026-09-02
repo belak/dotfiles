@@ -9,6 +9,7 @@
 
     # Feature Modules
     ./apps.nix
+    ./beets.nix
     ./dev.nix
     ./dotfiles.nix
     ./emacs.nix
