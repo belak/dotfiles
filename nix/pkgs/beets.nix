@@ -8,10 +8,6 @@ python3Packages.beets.override {
       enable = true;
       propagatedBuildInputs = [ python3Packages.beets-alternatives ];
     };
-    bandcamp = {
-      enable = true;
-      propagatedBuildInputs = [ python3Packages.beetcamp ];
-    };
     filetote = {
       enable = true;
       propagatedBuildInputs = [ python3Packages.beets-filetote ];
