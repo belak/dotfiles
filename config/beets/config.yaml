@@ -112,10 +112,16 @@ item_fields:
 # The track-artist suffix is keyed two ways: `comp:` is beets' own compilation
 # flag, and the albumartist key catches albums imported as-is where nothing sets
 # it.
+#
+# aunique keys on mb_albumartistid, not albumartist: rewrite turns albumartist
+# into a computed field, so aunique's self-match query compares that rewritten
+# value against the raw column and never matches - even against itself - for
+# any album whose rewrite rule changes the string. mb_albumartistid isn't
+# touched by rewrite, so it matches.
 paths:
-  default: $albumartist/$album ($year)%aunique{}/$disc_prefix$track. $title
-  'albumartist:Various Artists': $albumartist/$album ($year)%aunique{}/$disc_prefix$track. $title ($artist)
-  comp: $albumartist/$album ($year)%aunique{}/$disc_prefix$track. $title ($artist)
+  default: $albumartist/$album ($year)%aunique{mb_albumartistid album}/$disc_prefix$track. $title
+  'albumartist:Various Artists': $albumartist/$album ($year)%aunique{mb_albumartistid album}/$disc_prefix$track. $title ($artist)
+  comp: $albumartist/$album ($year)%aunique{mb_albumartistid album}/$disc_prefix$track. $title ($artist)
   singleton: $artist/Non-Album/$title
 
 # Paths must survive FAT32/exFAT. These merge with the stock rules and win where
@@ -125,6 +131,11 @@ replace:
   # straight-quote rule below and become underscores.
   '[\u2018\u2019]': "'"
   '[\u201c\u201d]': _
+
+  # Double colons ($the fed hop :: extras$) need their own rule - the single-
+  # colon rule below fires on each colon independently, so "::" ends up as
+  # " -  - " instead of one separator. This must come first.
+  '\s*::\s*': ' - '
 
   # Collapse the surrounding spaces too, so "Op. 67: I. Allegro" becomes
   # "Op. 67 - I. Allegro" rather than picking up a double space.
