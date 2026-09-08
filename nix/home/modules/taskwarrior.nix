@@ -12,6 +12,7 @@ in
     programs.taskwarrior = {
       enable = true;
       package = pkgs.taskwarrior3;
+      colorTheme = "dark-16";
 
       # Include a local, unmanaged taskrc for secrets.
       # Because Nix flakes are evaluated purely, any client ID or sync URL
