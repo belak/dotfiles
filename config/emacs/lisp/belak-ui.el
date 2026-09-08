@@ -105,24 +105,6 @@
   ;; for discussion.
   (transient-bind-q-to-quit))
 
-;; Improve usability by showing key binds when we stop typing for long enough.
-(use-package which-key
-  :blackout
-  ;; Unbind C-h C-h so our manual trigger will work properly.
-  :bind ("C-h C-h" . nil)
-  :hook (after-init . which-key-mode)
-  :config
-  (setq which-key-sort-order 'which-key-prefix-then-key-order
-        which-key-sort-uppercase-first nil
-        which-key-add-column-padding 1
-        which-key-max-display-columns nil
-        which-key-min-display-lines 6
-        which-key-side-window-slot -10)
-
-  (setq which-key-idle-delay 0.5)
-
-  (which-key-setup-side-window-bottom))
-
 (use-package whitespace
   :blackout ((global-whitespace-mode . nil)
              (whitespace-mode . nil))

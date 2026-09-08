@@ -13,6 +13,12 @@
 (use-package vertico
   :hook (after-init . vertico-mode))
 
+;; Display Embark's keybinding prompter as a grid, like `which-key'.
+(use-package vertico-multiform
+  :hook (after-init . vertico-multiform-mode)
+  :config
+  (add-to-list 'vertico-multiform-categories '(embark-keybinding grid)))
+
 (use-package consult
   :preface
   (defun belak/consult-fd-project ()
@@ -56,8 +62,12 @@
   :bind (("C-."   . embark-act)
          ("C-;"   . embark-dwim)
          ("C-h B" . embark-bindings))
+  :custom
+  ;; Show Embark's prefix help after a short idle delay, like `which-key'.
+  ;; This also sets `prefix-help-command' for us.
+  (embark-auto-prefix-help-delay 0.5)
   :config
-  (setq prefix-help-command #'embark-prefix-help-command))
+  (embark-auto-prefix-help-mode 1))
 
 (use-package embark-consult
   :hook (embark-collect-mode . consult-preview-at-point-mode))
