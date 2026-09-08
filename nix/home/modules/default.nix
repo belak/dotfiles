@@ -16,6 +16,7 @@
     ./ghostty.nix
     ./gnome.nix
     ./gtk.nix
+    ./taskwarrior.nix
     ./vscode.nix
   ];
 }

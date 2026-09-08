@@ -10,13 +10,14 @@
     ./kavita.nix
     ./miniflux.nix
     ./nginx.nix
-    ./pocket-id.nix
     ./plex.nix
+    ./pocket-id.nix
     ./podman.nix
     ./postgres.nix
     ./soju.nix
     ./syncthing.nix
-    ./woodpecker.nix
+    ./taskchampion.nix
     ./woodpecker-agent.nix
+    ./woodpecker.nix
   ];
 }

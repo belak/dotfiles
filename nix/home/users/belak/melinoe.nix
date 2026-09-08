@@ -10,6 +10,12 @@
     # Scratch library for trying config changes before they reach freya.
     beets.enable = true;
     vscode.enable = true;
+
+    # Taskwarrior
+    taskwarrior.enable = true;
+    # We do not set taskwarrior.sync.* here because that would leak the URL credentials
+    # and client ID in the public repo. All sync config goes in ~/.taskrc.local instead.
+
   };
 
   nixpkgs.allowedUnfree = [

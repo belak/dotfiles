@@ -17,6 +17,7 @@
       atticd.enable = true;
       forgejo.enable = true;
       nginx.enable = true;
+      taskchampion.enable = true;
 
       woodpecker = {
         enable = true;

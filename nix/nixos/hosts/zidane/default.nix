@@ -61,6 +61,9 @@
         "forgejo.elwert.cloud" = {
           backend = "http://vivi.elwert.dev";
         };
+        "taskwarrior.elwert.cloud" = {
+          backend = "http://vivi.elwert.dev";
+        };
         "woodpecker.elwert.cloud" = {
           backend = "http://vivi.elwert.dev";
         };

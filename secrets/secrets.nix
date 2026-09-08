@@ -10,6 +10,7 @@ let
   service-miniflux = [ keys.system-freya ];
   service-pocket-id = [ keys.system-zidane ];
   service-syncthing = [ keys.system-freya ];
+  service-taskchampion = [ keys.system-vivi ];
   service-woodpecker = [ keys.system-vivi ];
 
   # The server and its agents share one secret, and vivi runs both, so this
@@ -41,6 +42,8 @@ in
   "pocket-id-smtp-password.age".publicKeys = service-pocket-id ++ users;
 
   "syncthing-gui-password.age".publicKeys = service-syncthing ++ users;
+
+  "taskchampion-basic-auth.age".publicKeys = service-taskchampion ++ users;
 
   "woodpecker-agent-secret.age".publicKeys = service-woodpecker-agent ++ users;
   "woodpecker-forgejo-client-id.age".publicKeys = service-woodpecker ++ users;
