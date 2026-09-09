@@ -21,8 +21,7 @@ in
     home.packages = with pkgs; [
       monaspace
 
-      # Nerd fonts would normally go here too, so Doom Emacs wouldn't need to
-      # download them, but it's an 8Gb package.
+      # Nerd fonts would normally go here too, but it's an 8Gb package.
       dejavu_fonts
       noto-fonts-color-emoji
 

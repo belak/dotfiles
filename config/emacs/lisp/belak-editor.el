@@ -45,7 +45,6 @@
 ;; Highlight matching delimiters
 (use-package paren
   :demand t
-  ;;:after-call after-find-file doom-switch-buffer-hook
   :config
   (setq show-paren-delay 0.1
         show-paren-highlight-openparen t

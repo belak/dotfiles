@@ -28,7 +28,6 @@ in
       ".config/beets/base.yaml" = mkSource "config/beets/config.yaml";
       ".config/belak" = mkSource "config/belak";
       ".config/direnv/direnv.toml" = mkSource "config/direnv/direnv.toml";
-      ".config/doom" = mkSource "config/doom";
       ".config/emacs" = mkSource "config/emacs";
       ".config/finicky" = mkSource "config/finicky";
       ".config/fish" = mkSource "config/fish";
