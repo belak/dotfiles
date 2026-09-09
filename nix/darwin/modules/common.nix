@@ -32,10 +32,14 @@
 
     casks = [
       "1password"
-      "1password-cli"
       "airbuddy"
       "alfred"
       "calibre"
+
+      # Discord refuses to launch until it has updated itself, which a
+      # read-only store path can't do, so it comes from a cask on macOS.
+      "discord"
+
       "finicky"
       "firefox"
       "font-jetbrains-mono"

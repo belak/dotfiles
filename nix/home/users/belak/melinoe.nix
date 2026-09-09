@@ -21,15 +21,12 @@
 
   nixpkgs.allowedUnfree = [
     "claude-code"
-    "discord"
-    "obsidian"
     #"spotify"
   ];
 
   home.packages = with pkgs; [
     llm-agents.claude-code
 
-    discord
     neomutt
     pandoc
     typst
