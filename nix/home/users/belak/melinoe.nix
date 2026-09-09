@@ -3,6 +3,7 @@
   belak = {
     dotfiles.enable = true;
     dotfiles.symlink = true;
+    apps.enable = true;
     dev.enable = true;
     emacs.enable = true;
     ghostty.enable = true;

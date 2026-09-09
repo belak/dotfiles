@@ -52,7 +52,6 @@
       "modrinth"
       "monodraw"
       "mos"
-      "obsidian"
       "openscad"
       "orcaslicer"
       "postgres-app"
@@ -117,11 +116,13 @@
       minimize-to-application = true;
       mru-spaces = false;
       tilesize = 48;
+      # The basic apps I need to launch when something else is broken.
+      # Everything else goes through a launcher. Both of these are casks from
+      # this module, so /Applications is the right path; nix-installed apps
+      # land elsewhere.
       persistent-apps = [
         "/Applications/Firefox.app"
         "/Applications/Ghostty.app"
-        "/Applications/Obsidian.app"
-        "/Applications/Things3.app"
       ];
     };
 
