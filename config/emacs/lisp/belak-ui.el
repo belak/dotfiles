@@ -261,9 +261,18 @@ Pass the rest to the default handler."
  ;; Emacs spends too much effort recentering the screen if you scroll the
  ;; cursor more than N lines past window edges (where N is the settings of
  ;; `scroll-conservatively'). This is especially slow in larger files
- ;; during large-scale scrolling commands. If kept high enough, the window
- ;; is never automatically recentered.
- scroll-conservatively 100)
+ ;; during large-scale scrolling commands. Values over 100 never recenter.
+ scroll-conservatively 101
+
+ ;; Scrolling back where you were shouldn't land on a different line.
+ scroll-preserve-screen-position t
+
+ ;; Trackpad acceleration makes it hard to land on a specific line.
+ mouse-wheel-progressive-speed nil)
+
+;; Don't enable `pixel-scroll-precision-mode' on the macport; it already
+;; smooth-scrolls via `mac-mouse-wheel-smooth-scroll' and stacking the two
+;; makes every gesture overshoot.
 
 
 ;;

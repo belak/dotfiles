@@ -16,11 +16,12 @@ in
     home.packages =
       with pkgs;
       let
-        # We use the pure GTK variant of emacs to get better Wayland support.
+        # Linux uses the pure GTK variant for better Wayland support. macOS uses
+        # the macport fork for pixel scrolling, native scrollbars and IME.
         #
-        # XXX: unfortunately there are some issues with the pgtk build on macOS,
-        # so we just use the normal emacs build there.
-        myEmacs = if pkgs.stdenv.isDarwin then pkgs.unstable.emacs else pkgs.unstable.emacs-pgtk;
+        # macport comes from stable, not unstable: only stable is in the binary
+        # cache, and unstable would build emacs and every package from source.
+        myEmacs = if pkgs.stdenv.isDarwin then pkgs.emacs-macport else pkgs.unstable.emacs-pgtk;
         emacsWithPackages = (emacsPackagesFor myEmacs).emacsWithPackages;
       in
       [
