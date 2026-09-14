@@ -41,22 +41,17 @@ in
         unstable.zed-editor
       ]
       ++ lib.optionals pkgs.stdenv.isLinux [
-        # 1password wants Touch ID, the Safari extension and biometric unlock
-        # for the CLI, all of which need the OS to trust a signed app bundle.
+        # These packages are available as both homebrew casks and nix packages,
+        # but we prefer homebrew for various reasons.
         _1password-gui
-
-        # Firefox ships security updates faster than we bump the flake.
         firefox
 
-        # papers and pinta are GTK apps whose appstream dependency doesn't
-        # compile on darwin.
+        # These packages either have dependencies that don't work well on macOS
+        # or are linux-only by nature.
+        gparted
         papers
         pinta
-
-        # resources is a GNOME system monitor, so linux-only by nature.
         resources
-
-        # textadept has no darwin build in nixpkgs.
         unstable.textadept
       ]
       # Discord refuses to launch until it has updated itself, which a

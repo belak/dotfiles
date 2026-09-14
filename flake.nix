@@ -177,6 +177,12 @@
             profiles.system = myLib.mkNixosDeploy self.nixosConfigurations.freya;
           };
 
+          quina = {
+            hostname = "quina.elwert.dev";
+            profilesOrder = [ "system" ];
+            profiles.system = myLib.mkNixosDeploy self.nixosConfigurations.quina;
+          };
+
           vivi = {
             hostname = "vivi.elwert.dev";
             profilesOrder = [ "system" ];

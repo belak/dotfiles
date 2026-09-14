@@ -19,15 +19,8 @@
       consoleFont = "ter-124n";
     };
 
-    gnome.enable = true;
+    server.enable = true;
   };
-
-  services.fprintd.enable = true;
-
-  services.pcscd.enable = true;
-  services.pcscd.plugins = with pkgs; [ ccid ];
-
-  services.openssh.enable = true;
 
   # This value determines the NixOS release from which the default
   # settings for stateful data, like file locations and database versions
