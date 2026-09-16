@@ -270,10 +270,6 @@ Pass the rest to the default handler."
  ;; Trackpad acceleration makes it hard to land on a specific line.
  mouse-wheel-progressive-speed nil)
 
-;; Don't enable `pixel-scroll-precision-mode' on the macport; it already
-;; smooth-scrolls via `mac-mouse-wheel-smooth-scroll' and stacking the two
-;; makes every gesture overshoot.
-
 
 ;;
 ;;; Improvements for terminal emacs
