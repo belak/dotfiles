@@ -41,6 +41,7 @@ in
       jq
       jump
       killall
+      lazygit
       lftp
       openssl
       pwgen
