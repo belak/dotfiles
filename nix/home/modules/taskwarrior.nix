@@ -23,6 +23,8 @@ in
       # taskrc.local to allow configuring the sync server separately.
       config = {
         # Context definitions
+        context.code.read = "project:code";
+        context.code.write = "project:code";
         context.fun.read = "project:fun or +fun";
         context.fun.write = "+fun";
         context.work.read = "project:work";
