@@ -53,9 +53,11 @@ in
           ({
             # Fix a number of nits I have with VSCode, mostly disabling features
             # and hiding things.
+            "chat.disableAIFeatures" = true;
             "editor.acceptSuggestionOnCommitCharacter" = false;
             "editor.find.seedSearchStringFromSelection" = false;
             "editor.scrollBeyondLastLine" = false;
+            "explorer.decorations.badges" = false;
             "explorer.fileNesting.expand" = false;
             "extensions.ignoreRecommendations" = true;
             "workbench.startupEditor" = "none";
