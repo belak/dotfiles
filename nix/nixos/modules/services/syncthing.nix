@@ -19,7 +19,16 @@ in
     };
 
     services.nginx.virtualHosts."${cfg.domain}" = {
-      locations."/".proxyPass = "http://127.0.0.1:8384";
+      locations."/" = {
+        proxyPass = "http://127.0.0.1:8384";
+
+        # The GUI polls /rest/events, which holds a request open for 60s when
+        # idle. That ties with nginx's default proxy_read_timeout, so the
+        # proxy wins the race and the event stream 504s instead of updating.
+        extraConfig = ''
+          proxy_read_timeout 600s;
+        '';
+      };
     };
 
     age.secrets.syncthing-gui-password = {
