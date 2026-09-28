@@ -56,7 +56,7 @@
       "modrinth"
       "monodraw"
       "mos"
-      "openscad"
+      "openscad@snapshot"
       "orcaslicer"
       "postgres-app"
       "prismlauncher"
