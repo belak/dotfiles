@@ -25,6 +25,14 @@ in
     domain = "elwert.dev";
   };
 
+  nixpkgs.config.problems.handlers = {
+    beets-filetote.broken = "warn";
+  };
+
+  nixpkgs.config.permittedInsecurePackages = [
+    "immich-2.7.5"
+  ];
+
   # QuickSync drivers, used for Plex and Jellyfin hardware transcoding.
   hardware.graphics.extraPackages = with pkgs; [
     intel-media-driver

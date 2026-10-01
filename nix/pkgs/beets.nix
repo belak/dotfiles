@@ -8,9 +8,9 @@ python3Packages.beets.override {
       enable = true;
       propagatedBuildInputs = [ python3Packages.beets-alternatives ];
     };
-    filetote = {
-      enable = true;
-      propagatedBuildInputs = [ python3Packages.beets-filetote ];
-    };
+    #filetote = {
+    #  enable = true;
+    #  propagatedBuildInputs = [ python3Packages.beets-filetote ];
+    #};
   };
 }
