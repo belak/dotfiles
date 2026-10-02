@@ -3,6 +3,7 @@
 rec {
   user-belak-melinoe = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIMzuXboQDv2VCig0+A780O0+sKs1euw+3OafnRA6z14P";
   user-belak-quina = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAINjxw57nR3VIhpVt9zYipzLqZ0ecHhDBjyP8dNhxL5mP";
+  user-belak-zidane = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIGfuFjYRYRoE754QGk6TGuG1ggad3T3mQ6v2Au32Ax/M belak@zidane";
   user-belak-zorn = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIOvdWkVKcV087KDa9e2fdaubwW8SztSo+k+lYaeEKILC";
 
   user-belak-work = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIFUSx9TTTHUq4GOkeBU4Ga03QombEBiZLqqa8KIqnnUy";
@@ -10,6 +11,7 @@ rec {
   users = [
     user-belak-melinoe
     user-belak-quina
+    user-belak-zidane
     user-belak-zorn
 
     user-belak-work
