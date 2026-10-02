@@ -32,6 +32,7 @@ in
         server = {
           ROOT_URL = "https://${cfg.domain}";
           PROTOCOL = "http+unix";
+          SSH_PORT = 2222;
         };
 
         actions = {
