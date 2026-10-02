@@ -1,0 +1,145 @@
+#!/usr/bin/env python3
+"""Point Forgejo SSH remotes at a non-default port.
+
+Finds git repos under the given directories and rewrites any remote URL
+that points at the Forgejo host (or one of its old names) to the form
+ssh://USER@HOST:PORT/owner/repo.git. Remotes that are already correct are
+left alone.
+
+This only shows what would change unless --apply is passed.
+"""
+
+import argparse
+import os
+import re
+import subprocess
+from pathlib import Path
+
+DEFAULT_DIRS = ["~/Code", "~/.dotfiles", "~/Documents/Knowledge"]
+
+# Matches both SSH remote styles git accepts:
+#   ssh://user@host[:port]/owner/repo.git
+#   user@host:owner/repo.git
+SSH_URL = re.compile(
+    r"^ssh://(?P<user>[^@/]+)@(?P<host>[^:/]+)(:(?P<port>\d+))?/(?P<path>.+)$"
+)
+SCP_URL = re.compile(r"^(?P<user>[^@/]+)@(?P<host>[^:/]+):(?P<path>[^/].*)$")
+
+
+def git(repo, *args):
+    """Run a git command in repo and return its stdout."""
+    result = subprocess.run(
+        ["git", "-C", str(repo), *args],
+        capture_output=True,
+        text=True,
+    )
+    return result.stdout if result.returncode == 0 else ""
+
+
+def find_repos(dirs):
+    """Yield the path of each git repo under dirs, once per repo.
+
+    Worktrees share their config with the main repo, so only the first
+    checkout found for each repo is returned.
+    """
+    seen = set()
+    for top in dirs:
+        for root, subdirs, files in os.walk(Path(top).expanduser()):
+            if ".git" not in subdirs and ".git" not in files:
+                continue
+            # Don't descend into .git itself.
+            if ".git" in subdirs:
+                subdirs.remove(".git")
+
+            common_dir = git(
+                root, "rev-parse", "--path-format=absolute", "--git-common-dir"
+            ).strip()
+            if common_dir and common_dir not in seen:
+                seen.add(common_dir)
+                yield Path(root)
+
+
+def remote_urls(repo):
+    """Yield (config key, url) for every remote url and pushurl in repo."""
+    output = git(repo, "config", "--get-regexp", r"^remote\..*\.(url|pushurl)$")
+    for line in output.splitlines():
+        key, url = line.split(" ", 1)
+        yield key, url
+
+
+def rewrite(url, user, hosts, new_host, new_port):
+    """Return the fixed URL, or None if url should be left alone."""
+    match = SSH_URL.match(url) or SCP_URL.match(url)
+    if not match:
+        return None
+    if match["user"] != user or match["host"] not in hosts:
+        return None
+
+    new_url = f"ssh://{user}@{new_host}:{new_port}/{match['path']}"
+    return new_url if new_url != url else None
+
+
+def main():
+    parser = argparse.ArgumentParser(
+        description=__doc__,
+        formatter_class=argparse.RawDescriptionHelpFormatter,
+    )
+    parser.add_argument(
+        "dirs",
+        nargs="*",
+        default=DEFAULT_DIRS,
+        help="directories to search (default: %(default)s)",
+    )
+    parser.add_argument(
+        "--apply",
+        action="store_true",
+        help="make the changes instead of only showing them",
+    )
+    parser.add_argument(
+        "--host",
+        default="forgejo.elwert.cloud",
+        help="Forgejo hostname (default: %(default)s)",
+    )
+    parser.add_argument(
+        "--old-host",
+        action="append",
+        default=["git.elwert.cloud"],
+        help="old hostname to replace with --host; can be repeated "
+        "(default: %(default)s)",
+    )
+    parser.add_argument(
+        "--user", default="forgejo", help="SSH user (default: %(default)s)"
+    )
+    parser.add_argument(
+        "--port", default="2222", help="SSH port (default: %(default)s)"
+    )
+    args = parser.parse_args()
+
+    hosts = {args.host, *args.old_host}
+
+    for repo in find_repos(args.dirs):
+        for key, url in remote_urls(repo):
+            new_url = rewrite(url, args.user, hosts, args.host, args.port)
+            if new_url is None:
+                continue
+
+            print(f"{repo}: {key}")
+            print(f"  - {url}")
+            print(f"  + {new_url}")
+            if args.apply:
+                git(
+                    repo,
+                    "config",
+                    "--fixed-value",
+                    "--replace-all",
+                    key,
+                    new_url,
+                    url,
+                )
+
+    if not args.apply:
+        print("(dry run; pass --apply to make changes)")
+
+
+if __name__ == "__main__":
+    main()
