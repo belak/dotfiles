@@ -168,14 +168,6 @@
     ];
   };
 
-  # Temporary during migration off synology
-  fileSystems = {
-    "/mnt/unas/media" = {
-      device = "amarant.elwert.dev:/var/nfs/shared/Media";
-      fsType = "nfs";
-    };
-  };
-
   # This value determines the NixOS release from which the default
   # settings for stateful data, like file locations and database versions
   # on your system were taken. It's perfectly fine and recommended to leave
