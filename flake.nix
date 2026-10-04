@@ -99,6 +99,10 @@
         };
 
         nixosConfigurations = {
+          "vultr-bootstrap" = nixpkgs.lib.nixosSystem {
+            modules = [ ./nix/nixos/images/vultr-bootstrap.nix ];
+          };
+
           # SFF desktop (i5-8500T, 16GB)
           "garnet" = myLib.mkNixosSystem {
             modules = [
