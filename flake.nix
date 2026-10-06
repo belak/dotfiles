@@ -1,3 +1,4 @@
+# Configures personal systems, packages, and development shells.
 {
   description = "Belak's Polyglot Nix configuration";
 
@@ -99,6 +100,10 @@
         };
 
         nixosConfigurations = {
+          "vultr-bootstrap" = nixpkgs.lib.nixosSystem {
+            modules = [ ./nix/nixos/hosts/vultr-bootstrap ];
+          };
+
           # SFF desktop (i5-8500T, 16GB)
           "garnet" = myLib.mkNixosSystem {
             modules = [
@@ -242,10 +247,14 @@
             };
           };
 
-          packages = lib.packagesFromDirectoryRecursive {
-            inherit (pkgs) callPackage;
-            directory = ./nix/pkgs;
-          };
+          packages =
+            lib.packagesFromDirectoryRecursive {
+              inherit (pkgs) callPackage;
+              directory = ./nix/pkgs;
+            }
+            // lib.optionalAttrs (system == "x86_64-linux") {
+              vultr-bootstrap-image = self.nixosConfigurations.vultr-bootstrap.config.system.build.image;
+            };
         };
     };
 }
