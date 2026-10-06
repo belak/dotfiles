@@ -1,6 +1,5 @@
-# Edit this configuration file to define what should be installed on
-# your system.  Help is available in the configuration.nix(5) man page
-# and in the NixOS manual (accessible by running `nixos-help`).
+# Configures Zidane as the public HTTPS proxy and authentication host.
+# Certificate notes: README.md.
 { config, pkgs, ... }:
 {
   imports = [
@@ -59,6 +58,12 @@
 
         # Hosted on vivi
         "forgejo.elwert.cloud" = {
+          backend = "http://vivi.elwert.dev";
+        };
+        "readeck.elwert.cloud" = {
+          backend = "http://vivi.elwert.dev";
+        };
+        "linkding.elwert.cloud" = {
           backend = "http://vivi.elwert.dev";
         };
         "taskwarrior.elwert.cloud" = {
@@ -147,6 +152,10 @@
     extraDomainNames = [
       "*.elwert.cloud"
     ];
+  };
+
+  security.acme.certs.sandbox = {
+    domain = "*.sandbox.elwert.cloud";
   };
 
   security.acme.certs.blog = {

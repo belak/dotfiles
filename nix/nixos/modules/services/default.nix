@@ -1,3 +1,4 @@
+# Imports the self-hosted service modules.
 {
   imports = [
     ./atticd.nix
@@ -8,12 +9,14 @@
     ./immich.nix
     ./jellyfin.nix
     ./kavita.nix
+    ./linkding.nix
     ./miniflux.nix
     ./nginx.nix
     ./plex.nix
     ./pocket-id.nix
     ./podman.nix
     ./postgres.nix
+    ./readeck.nix
     ./soju.nix
     ./syncthing.nix
     ./taskchampion.nix

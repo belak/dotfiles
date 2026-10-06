@@ -1,3 +1,4 @@
+# Assigns agenix recipients to each encrypted secret.
 let
   keys = import ./keys.nix;
   inherit (keys) users systems;
@@ -7,8 +8,10 @@ let
   service-forgejo = [ keys.system-vivi ];
   service-immich = [ keys.system-freya ];
   service-kavita = [ keys.system-freya ];
+  service-linkding = [ keys.system-vivi ];
   service-miniflux = [ keys.system-freya ];
   service-pocket-id = [ keys.system-zidane ];
+  service-readeck = [ keys.system-vivi ];
   service-syncthing = [ keys.system-freya ];
   service-taskchampion = [ keys.system-vivi ];
   service-woodpecker = [ keys.system-vivi ];
@@ -34,12 +37,16 @@ in
   "kavita-token-key.age".publicKeys = service-kavita ++ users;
   "kavita-oidc-client-secret.age".publicKeys = service-kavita ++ users;
 
+  "linkding-env.age".publicKeys = service-linkding ++ users;
+
   "miniflux-admin-credentials.age".publicKeys = service-miniflux ++ users;
   "miniflux-oidc-client-id.age".publicKeys = service-miniflux ++ users;
   "miniflux-oidc-client-secret.age".publicKeys = service-miniflux ++ users;
 
   "pocket-id-encryption-key.age".publicKeys = service-pocket-id ++ users;
   "pocket-id-smtp-password.age".publicKeys = service-pocket-id ++ users;
+
+  "readeck-env.age".publicKeys = service-readeck ++ users;
 
   "syncthing-gui-password.age".publicKeys = service-syncthing ++ users;
 

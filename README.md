@@ -25,6 +25,10 @@ In general, packages should be installed at the user-level unless they need to
 be installed at a system level to work properly. This includes things like
 system daemons, programs needed to set up the system, and shells.
 
+Setup and recovery notes live beside the
+[service modules](nix/nixos/modules/services) and
+[host configurations](nix/nixos/hosts).
+
 ### Work Computers
 
 Note that the Nix flake in this repo is also used as a dependency in a private

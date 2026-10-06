@@ -1,3 +1,4 @@
+# Configures Vivi's self-hosted services and hardware watchdog.
 { ... }:
 {
   imports = [
@@ -16,7 +17,9 @@
     services = {
       atticd.enable = true;
       forgejo.enable = true;
+      linkding.enable = true;
       nginx.enable = true;
+      readeck.enable = true;
       taskchampion.enable = true;
 
       woodpecker = {
