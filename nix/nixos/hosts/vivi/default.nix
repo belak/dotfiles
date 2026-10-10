@@ -19,7 +19,6 @@
       forgejo.enable = true;
       linkding.enable = true;
       nginx.enable = true;
-      readeck.enable = true;
       taskchampion.enable = true;
 
       woodpecker = {

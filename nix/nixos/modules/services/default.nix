@@ -16,7 +16,6 @@
     ./pocket-id.nix
     ./podman.nix
     ./postgres.nix
-    ./readeck.nix
     ./soju.nix
     ./syncthing.nix
     ./taskchampion.nix

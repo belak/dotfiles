@@ -11,7 +11,6 @@ let
   service-linkding = [ keys.system-vivi ];
   service-miniflux = [ keys.system-freya ];
   service-pocket-id = [ keys.system-zidane ];
-  service-readeck = [ keys.system-vivi ];
   service-syncthing = [ keys.system-freya ];
   service-taskchampion = [ keys.system-vivi ];
   service-woodpecker = [ keys.system-vivi ];
@@ -45,8 +44,6 @@ in
 
   "pocket-id-encryption-key.age".publicKeys = service-pocket-id ++ users;
   "pocket-id-smtp-password.age".publicKeys = service-pocket-id ++ users;
-
-  "readeck-env.age".publicKeys = service-readeck ++ users;
 
   "syncthing-gui-password.age".publicKeys = service-syncthing ++ users;
 

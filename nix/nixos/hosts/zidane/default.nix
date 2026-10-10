@@ -60,9 +60,6 @@
         "forgejo.elwert.cloud" = {
           backend = "http://vivi.elwert.dev";
         };
-        "readeck.elwert.cloud" = {
-          backend = "http://vivi.elwert.dev";
-        };
         "linkding.elwert.cloud" = {
           backend = "http://vivi.elwert.dev";
         };

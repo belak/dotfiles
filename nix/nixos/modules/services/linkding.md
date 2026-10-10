@@ -1,11 +1,10 @@
 # Linkding
 Or: One bookmark manager to find them
 
-Linkding runs alongside Readeck on `vivi` at
-<https://linkding.elwert.cloud>, using the native NixOS service with SQLite
-and Pocket ID sign-in. Caddy forwards to nginx on `vivi`, which proxies
-to Linkding on loopback port 9090. HTTPS uses Zidane's primary
-`*.elwert.cloud` certificate.
+Linkding runs on `vivi` at <https://linkding.elwert.cloud>, using the native
+NixOS service with SQLite and Pocket ID sign-in. Caddy forwards to nginx on
+`vivi`, which proxies to Linkding on loopback port 9090. HTTPS uses Zidane's
+primary `*.elwert.cloud` certificate.
 
 ## Authentication
 
@@ -36,5 +35,4 @@ so the Pocket ID group restriction does not apply to local-password login.
 ## Backups
 
 Back up `/var/lib/linkding`, including the SQLite databases, generated
-secret key, and saved assets. Readeck and Linkding keep separate data;
-enabling Linkding does not import bookmarks from Readeck.
+secret key, and saved assets.
