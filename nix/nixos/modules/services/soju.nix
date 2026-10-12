@@ -69,18 +69,16 @@ in
 
     belak.acme.enable = true;
 
-    services.nginx.virtualHosts."${cfg.gamjaDomain}" = {
-      locations."/".root = pkgs.gamja;
+    belak.services.caddy.virtualHosts.${cfg.gamjaDomain}.extraConfig = ''
+      handle /socket* {
+        reverse_proxy http://localhost:7001
+      }
 
-      locations."/socket" = {
-        proxyPass = "http://localhost:7001";
-        proxyWebsockets = true;
-        extraConfig = ''
-          proxy_set_header Host $host;
-          proxy_read_timeout 600s;
-        '';
-      };
-    };
+      handle {
+        root * ${pkgs.gamja}
+        file_server
+      }
+    '';
 
     security.acme.certs.soju = {
       inherit (cfg) domain;

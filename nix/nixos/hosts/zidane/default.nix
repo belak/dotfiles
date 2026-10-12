@@ -20,12 +20,6 @@
 
     acme.enable = true;
 
-    services.nginx = {
-      enable = true;
-      # Caddy already owns port 80/443 on this host.
-      port = 8080;
-    };
-
     services.pocket-id.enable = true;
 
     services.soju.enable = true;
@@ -47,13 +41,6 @@
         "beta.belak.io" = {
           backend = "http://localhost:8081";
           useACMEHost = "blog";
-        };
-
-        "pocket-id.elwert.cloud" = {
-          backend = "http://localhost:8080";
-        };
-        "irc.elwert.cloud" = {
-          backend = "http://localhost:8080";
         };
 
         # Hosted on vivi

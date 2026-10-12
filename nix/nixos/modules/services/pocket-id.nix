@@ -57,9 +57,7 @@ in
       (builtins.hashFile "sha256" config.age.secrets.pocket-id-smtp-password.file)
     ];
 
-    services.nginx.virtualHosts."${cfg.domain}" = {
-      # TODO: make this use a unix socket
-      locations."/".proxyPass = "http://localhost:1411";
-    };
+    # TODO: make this use a unix socket
+    belak.services.caddy.virtualHosts.${cfg.domain}.backend = "http://localhost:1411";
   };
 }
