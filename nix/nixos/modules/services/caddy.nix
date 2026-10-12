@@ -12,9 +12,10 @@ let
 
   # Access logs go to the journal and include the authenticated user. They need
   # their own output: the NixOS module sets the default logger to ERROR, which
-  # would drop them.
-  accessLog = ''
-    log {
+  # would drop them. Each site gets a named logger so the name stays stable when
+  # sites change; Caddy's generated names depend on site order.
+  accessLog = name: ''
+    log ${lib.replaceStrings [ "." ] [ "-" ] name} {
       output stderr
     }
   '';
@@ -88,7 +89,7 @@ in
             # The clacks headers are only added at the edge: backend responses
             # pass through it, and adding them there too would duplicate them.
             extraConfig = ''
-              ${accessLog}
+              ${accessLog value.hostName}
               ${lib.optionalString cfg.tls ''
                 header +X-Clacks-Overhead "GNU Douglas Adams"
                 header +X-Clacks-Overhead "GNU Robert Asprin"
@@ -106,7 +107,7 @@ in
           ${if cfg.tls then "https://" else "http://"} = {
             useACMEHost = if cfg.tls then "primary" else null;
             extraConfig = ''
-              ${accessLog}
+              ${accessLog "fallback"}
               respond 404
             '';
           };
