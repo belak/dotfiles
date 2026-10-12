@@ -51,11 +51,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1784490091,
-        "narHash": "sha256-PBxlSN452oJaiyO/UjnSs0dSch/QpETbuFNYVtM5zu4=",
+        "lastModified": 1791790697,
+        "narHash": "sha256-A+QFLXcDfuZbKaQUUxZIpIfCyqT8GZhvNmjtWdzadOc=",
         "owner": "belak",
         "repo": "btta",
-        "rev": "3fe0b5aea932593a24f0e4347bca336086b15437",
+        "rev": "b742b7c3fd08a26835e27d413a30a7150223cafa",
         "type": "github"
       },
       "original": {
@@ -208,11 +208,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1778716662,
-        "narHash": "sha256-m1Yf0wZ8j1OHjTc2UwHwyQRSnNeSgLJOd7q5Y45hzi4=",
+        "lastModified": 1790898470,
+        "narHash": "sha256-zTwuwezD0w3hpga6a6P8emidzAZFyWqlNeRBlpWOOl8=",
         "owner": "hercules-ci",
         "repo": "flake-parts",
-        "rev": "f7c1a2d347e4c52d5fb8d10cb4d94b5884e546fb",
+        "rev": "024633cd702b10285db5cb19b40ad48d2399ba60",
         "type": "github"
       },
       "original": {
