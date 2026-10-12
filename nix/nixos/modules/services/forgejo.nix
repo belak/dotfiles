@@ -75,8 +75,6 @@ in
       (builtins.hashFile "sha256" config.age.secrets.forgejo-smtp-password.file)
     ];
 
-    services.nginx.virtualHosts."${cfg.domain}" = {
-      locations."/".proxyPass = "http://unix:${forgejoConfig.HTTP_ADDR}";
-    };
+    belak.services.caddy.virtualHosts.${cfg.domain}.backend = "unix/${forgejoConfig.HTTP_ADDR}";
   };
 }

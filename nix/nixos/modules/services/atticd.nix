@@ -71,13 +71,6 @@ in
       owner = "atticd";
     };
 
-    services.nginx.virtualHosts."${cfg.domain}" = {
-      locations."/" = {
-        proxyPass = "http://127.0.0.1:8787";
-        extraConfig = ''
-          client_max_body_size 8G;
-        '';
-      };
-    };
+    belak.services.caddy.virtualHosts.${cfg.domain}.backend = "http://127.0.0.1:8787";
   };
 }

@@ -16,9 +16,9 @@
 
     services = {
       atticd.enable = true;
+      caddy.enable = true;
       forgejo.enable = true;
       linkding.enable = true;
-      nginx.enable = true;
       taskchampion.enable = true;
 
       woodpecker = {

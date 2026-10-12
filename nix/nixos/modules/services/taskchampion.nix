@@ -26,23 +26,33 @@ in
       enable = true;
       port = cfg.port;
       # We intentionally do not use allowClientIds so we don't leak it in the public NixOS config.
-      # Instead, we rely on Nginx basicAuth to restrict access to the server.
+      # Instead, we rely on Caddy basic auth to restrict access to the server.
     };
 
-    services.nginx.virtualHosts."${cfg.domain}" = {
-      basicAuthFile = config.age.secrets.taskchampion-basic-auth.path;
-      locations."/" = {
-        proxyPass = "http://127.0.0.1:${toString cfg.port}";
-      };
+    belak.services.caddy.virtualHosts.${cfg.domain} = {
+      backend = "http://127.0.0.1:${toString cfg.port}";
+      # Caddy's access log records the authenticated user, which is how
+      # devices are told apart.
+      extraConfig = ''
+        basic_auth {
+          import ${config.age.secrets.taskchampion-basic-auth-accounts.path}
+        }
+      '';
     };
 
-    age.secrets.taskchampion-basic-auth = {
-      file = ../../../../secrets/taskchampion-basic-auth.age;
-      owner = "nginx";
+    # One "<device> <bcrypt hash>" line per account, with hashes from
+    # `caddy hash-password`.
+    age.secrets.taskchampion-basic-auth-accounts = {
+      file = ../../../../secrets/taskchampion-basic-auth-accounts.age;
+      owner = "caddy";
     };
 
-    systemd.services.nginx.restartTriggers = [
-      (builtins.hashFile "sha256" config.age.secrets.taskchampion-basic-auth.file)
+    # Caddy reads the accounts file when it loads its config, so a change to
+    # the secret only needs a reload. The trigger hashes the file rather than
+    # pointing at it: inside a flake a path is a subpath of the whole source
+    # tree, so its store hash moves on any repo change, not just this secret.
+    systemd.services.caddy.reloadTriggers = [
+      (builtins.hashFile "sha256" config.age.secrets.taskchampion-basic-auth-accounts.file)
     ];
   };
 }

@@ -78,9 +78,7 @@ in
       };
     };
 
-    services.nginx.virtualHosts."${cfg.domain}" = {
-      locations."/".proxyPass = "http://127.0.0.1:8000";
-    };
+    belak.services.caddy.virtualHosts.${cfg.domain}.backend = "http://127.0.0.1:8000";
 
     # Agents on other hosts connect to the gRPC port over the internal
     # elwert.dev network.

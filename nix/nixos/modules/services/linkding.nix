@@ -57,16 +57,6 @@ in
           ];
         });
 
-    services.nginx.virtualHosts."${cfg.domain}" = {
-      extraConfig = ''
-        client_max_body_size 10m;
-      '';
-      locations."/" = {
-        proxyPass = "http://127.0.0.1:${toString cfg.port}";
-        extraConfig = ''
-          proxy_set_header Host $host;
-        '';
-      };
-    };
+    belak.services.caddy.virtualHosts.${cfg.domain}.backend = "http://127.0.0.1:${toString cfg.port}";
   };
 }
