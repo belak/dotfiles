@@ -42,24 +42,12 @@ in
           tokenKeyFile = config.age.secrets.kavita-token-key.path;
           settings = {
             Port = cfg.port;
-            # Only listen on loopback; nginx handles the public interface.
+            # Only listen on loopback; Caddy handles the public interface.
             IpAddresses = "127.0.0.1,::1";
           };
         };
 
-        services.nginx.virtualHosts."${cfg.domain}" = {
-          locations."/" = {
-            # We can't use recommendedProxySettings (see the nginx module), but
-            # nginx defaults Host to $proxy_host, so it has to be set explicitly.
-            # The X-Forwarded-* headers from caddy pass through untouched.
-            extraConfig = ''
-              proxy_set_header Host $host;
-            '';
-
-            proxyPass = "http://127.0.0.1:${toString cfg.port}";
-            proxyWebsockets = true;
-          };
-        };
+        belak.services.caddy.virtualHosts.${cfg.domain}.backend = "http://127.0.0.1:${toString cfg.port}";
 
         age.secrets.kavita-token-key = {
           file = ../../../../secrets/kavita-token-key.age;

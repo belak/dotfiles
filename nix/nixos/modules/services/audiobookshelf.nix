@@ -19,20 +19,9 @@ in
       enable = true;
     };
 
-    services.nginx.virtualHosts."${cfg.domain}" = {
-      serverAliases = cfg.extraDomains;
-
-      locations."/" = {
-        # We can't use recommendedProxySettings (see the nginx module), but
-        # nginx defaults Host to $proxy_host, so it has to be set explicitly.
-        # The X-Forwarded-* headers from caddy pass through untouched.
-        extraConfig = ''
-          proxy_set_header Host $host;
-        '';
-
-        proxyPass = "http://localhost:${toString config.services.audiobookshelf.port}";
-        proxyWebsockets = true;
-      };
+    belak.services.caddy.virtualHosts.${cfg.domain} = {
+      extraHosts = cfg.extraDomains;
+      backend = "http://localhost:${toString config.services.audiobookshelf.port}";
     };
   };
 }

@@ -1,4 +1,4 @@
-# Runs FileBrowser Quantum behind nginx on a unix socket with Pocket ID login.
+# Runs FileBrowser Quantum behind Caddy on a unix socket with Pocket ID login.
 # The Pocket ID client's callback URL is https://<domain>/api/auth/oidc/callback.
 # filebrowser-quantum-env.age holds FILEBROWSER_OIDC_CLIENT_ID and
 # FILEBROWSER_OIDC_CLIENT_SECRET.
@@ -28,11 +28,6 @@ in
     domain = lib.mkOption {
       type = lib.types.str;
       default = "files.elwert.cloud";
-    };
-
-    maxUploadSize = lib.mkOption {
-      type = lib.types.str;
-      default = "10G";
     };
 
     oidc = {
@@ -95,8 +90,8 @@ in
       isSystemUser = true;
     };
 
-    # nginx needs the group to connect to the socket.
-    users.groups.${name}.members = [ "nginx" ];
+    # Caddy needs the group to connect to the socket.
+    users.groups.${name}.members = [ "caddy" ];
 
     age.secrets.filebrowser-quantum-env.file = ../../../../secrets/filebrowser-quantum-env.age;
 
@@ -131,7 +126,7 @@ in
 
         User = name;
         Group = name;
-        # Group-writable so nginx can connect to the socket.
+        # Group-writable so Caddy can connect to the socket.
         UMask = "0007";
         StateDirectory = name;
         CacheDirectory = name;
@@ -168,27 +163,6 @@ in
       };
     };
 
-    services.nginx.virtualHosts."${cfg.domain}" = {
-      extraConfig = ''
-        client_max_body_size ${cfg.maxUploadSize};
-      '';
-
-      locations."/" = {
-        proxyPass = "http://unix:${socket}";
-
-        # We can't use recommendedProxySettings (see the nginx module), so
-        # Host is set explicitly. The X-Forwarded-* headers from caddy pass
-        # through untouched, which the app needs (trustProxyHeaders) to build
-        # the OIDC callback and share URLs. Buffering is off so uploads and
-        # downloads stream and the SSE connection isn't held back.
-        extraConfig = ''
-          proxy_set_header Host $host;
-          proxy_http_version 1.1;
-          proxy_buffering off;
-          proxy_request_buffering off;
-          proxy_read_timeout 600s;
-        '';
-      };
-    };
+    belak.services.caddy.virtualHosts.${cfg.domain}.backend = "unix/${socket}";
   };
 }

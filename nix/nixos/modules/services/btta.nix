@@ -28,7 +28,7 @@ in
     };
 
     users.groups.btta = {
-      members = [ "nginx" ];
+      members = [ "caddy" ];
     };
 
     environment.systemPackages = [
@@ -54,8 +54,6 @@ in
       };
     };
 
-    services.nginx.virtualHosts."${cfg.domain}" = {
-      locations."/".proxyPass = "http://unix:${socket}";
-    };
+    belak.services.caddy.virtualHosts.${cfg.domain}.backend = "unix/${socket}";
   };
 }

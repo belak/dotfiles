@@ -51,6 +51,7 @@ in
 
     services.audiobookshelf.enable = true;
     services.btta.enable = true;
+    services.caddy.enable = true;
     services.filebrowser-quantum = {
       enable = true;
       # Everyone gets all three sources. Media and Storage deny everything
@@ -107,7 +108,6 @@ in
       };
     };
     services.miniflux.enable = true;
-    services.nginx.enable = true;
     services.jellyfin.enable = true;
     services.plex.enable = true;
     services.syncthing.enable = true;

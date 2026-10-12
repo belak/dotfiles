@@ -73,17 +73,9 @@ in
       (builtins.hashFile "sha256" config.age.secrets.immich-oidc-client-secret.file)
     ];
 
-    services.nginx.virtualHosts."${cfg.domain}" = {
-      serverAliases = cfg.extraDomains;
-
-      extraConfig = ''
-        client_max_body_size 1G;
-      '';
-
-      locations."/" = {
-        proxyPass = "http://localhost:${toString config.services.immich.port}";
-        proxyWebsockets = true;
-      };
+    belak.services.caddy.virtualHosts.${cfg.domain} = {
+      extraHosts = cfg.extraDomains;
+      backend = "http://localhost:${toString config.services.immich.port}";
     };
   };
 }

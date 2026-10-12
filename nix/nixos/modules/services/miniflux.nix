@@ -30,12 +30,10 @@ in
     };
 
     users.groups.miniflux = {
-      members = [ "nginx" ];
+      members = [ "caddy" ];
     };
 
-    services.nginx.virtualHosts."${cfg.domain}" = {
-      locations."/".proxyPass = "http://unix:/run/miniflux/miniflux.sock";
-    };
+    belak.services.caddy.virtualHosts.${cfg.domain}.backend = "unix//run/miniflux/miniflux.sock";
 
     age.secrets.miniflux-admin-credentials = {
       file = ../../../../secrets/miniflux-admin-credentials.age;
