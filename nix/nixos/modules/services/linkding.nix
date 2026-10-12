@@ -1,5 +1,9 @@
 # Runs Linkding behind nginx with SQLite and Pocket ID authentication.
-# Setup and backups: linkding.md.
+# The Pocket ID client's callback URL is https://<domain>/oidc/callback/ (with
+# the trailing slash). linkding-env.age holds OIDC_RP_CLIENT_ID and
+# OIDC_RP_CLIENT_SECRET. Run `linkding-manage createsuperuser` with the email
+# Pocket ID returns before the first OIDC login; OIDC does not grant admin.
+# Back up /var/lib/linkding.
 { config, lib, ... }:
 let
   cfg = config.belak.services.linkding;
