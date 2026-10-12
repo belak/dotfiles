@@ -1,5 +1,4 @@
 # Configures Zidane as the public HTTPS proxy and authentication host.
-# Certificate notes: README.md.
 { config, pkgs, ... }:
 {
   imports = [
