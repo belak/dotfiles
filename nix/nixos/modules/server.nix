@@ -54,6 +54,13 @@ in
 
     users.users.root.openssh.authorizedKeys.keys = keys.users;
 
+    # journald caps itself at 10% of the disk (4G at most), which is far more
+    # history than a homelab needs.
+    services.journald.extraConfig = ''
+      SystemMaxUse=1G
+      MaxRetentionSec=1month
+    '';
+
     # We use mkForce because we want to override the default values.
     time.timeZone = lib.mkForce "Etc/UTC";
 
