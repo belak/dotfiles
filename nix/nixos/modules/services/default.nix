@@ -5,6 +5,7 @@
     ./audiobookshelf.nix
     ./btta.nix
     ./caddy.nix
+    ./filebrowser-quantum.nix
     ./forgejo.nix
     ./immich.nix
     ./jellyfin.nix

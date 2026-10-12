@@ -51,6 +51,49 @@ in
 
     services.audiobookshelf.enable = true;
     services.btta.enable = true;
+    services.filebrowser-quantum = {
+      enable = true;
+      # Everyone gets all three sources. Media and Storage deny everything
+      # until a group is granted a folder in the admin UI. Media is
+      # read-only at the OS level, so it is the source for read-only access.
+      # Rules are per group: <folder>-readers on Media, <folder>-writers on
+      # Storage.
+      settings.server.sources = [
+        {
+          path = "/mnt/amarant/media/Users";
+          name = "Home";
+          config = {
+            defaultEnabled = true;
+            createUserDir = true;
+            # Applies to every source: Media is read-only at the OS level
+            # and Storage is gated by group rules.
+            defaultPermissions = {
+              view = true;
+              download = true;
+              modify = true;
+              create = true;
+              delete = true;
+            };
+          };
+        }
+        {
+          path = "/mnt/media";
+          name = "Media";
+          config = {
+            defaultEnabled = true;
+            denyByDefault = true;
+          };
+        }
+        {
+          path = "/mnt/amarant/media";
+          name = "Storage";
+          config = {
+            defaultEnabled = true;
+            denyByDefault = true;
+          };
+        }
+      ];
+    };
     services.immich = {
       enable = true;
       domain = "immich.elwert.cloud";

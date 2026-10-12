@@ -6,6 +6,7 @@ let
   # atticd, forgejo, and the woodpecker server and agent all run on vivi.
   service-atticd = [ keys.system-vivi ];
   service-forgejo = [ keys.system-vivi ];
+  service-filebrowser-quantum = [ keys.system-freya ];
   service-immich = [ keys.system-freya ];
   service-kavita = [ keys.system-freya ];
   service-linkding = [ keys.system-vivi ];
@@ -24,6 +25,8 @@ in
 
   "acme-cloudflare-env.age".publicKeys = users ++ [ keys.system-zidane ];
   "belak-password.age".publicKeys = users ++ systems;
+
+  "filebrowser-quantum-env.age".publicKeys = service-filebrowser-quantum ++ users;
 
   "forgejo-oidc-client-id.age".publicKeys = service-forgejo ++ users;
   "forgejo-oidc-client-secret.age".publicKeys = service-forgejo ++ users;

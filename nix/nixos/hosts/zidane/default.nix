@@ -82,6 +82,9 @@
         "btta.elwert.cloud" = {
           backend = "http://freya.elwert.dev";
         };
+        "files.elwert.cloud" = {
+          backend = "http://freya.elwert.dev";
+        };
         "immich.elwert.cloud" = {
           backend = "http://freya.elwert.dev";
         };
