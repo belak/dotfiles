@@ -14,7 +14,6 @@
     };
   };
 
-
   nixpkgs.config.problems.handlers = {
     beets-filetote.broken = "warn";
   };
