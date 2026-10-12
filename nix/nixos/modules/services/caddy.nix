@@ -9,6 +9,15 @@ let
 
   # Plain HTTP sites need an explicit scheme so Caddy skips automatic HTTPS.
   address = host: if cfg.tls then host else "http://${host}";
+
+  # Access logs go to the journal and include the authenticated user. They need
+  # their own output: the NixOS module sets the default logger to ERROR, which
+  # would drop them.
+  accessLog = ''
+    log {
+      output stderr
+    }
+  '';
 in
 {
   options = {
@@ -70,30 +79,38 @@ in
         }
       '';
 
-      virtualHosts = lib.concatMapAttrs (name: value: {
-        ${value.hostName} = {
-          hostName = address value.hostName;
-          serverAliases = map address value.extraHosts;
-          useACMEHost = if cfg.tls then value.useACMEHost else null;
-          # Access logs go to the journal and include the authenticated user.
-          # They need their own output: the NixOS module sets the default
-          # logger to ERROR, which would drop them. The clacks headers are only
-          # added at the edge: backend responses pass through it, and adding
-          # them there too would duplicate them.
-          extraConfig = ''
-            log {
-              output stderr
-            }
-            ${lib.optionalString cfg.tls ''
-              header +X-Clacks-Overhead "GNU Douglas Adams"
-              header +X-Clacks-Overhead "GNU Robert Asprin"
-            ''}
-            ${lib.optionalString (value.backend != null) "reverse_proxy ${value.backend}"}
+      virtualHosts =
+        lib.concatMapAttrs (name: value: {
+          ${value.hostName} = {
+            hostName = address value.hostName;
+            serverAliases = map address value.extraHosts;
+            useACMEHost = if cfg.tls then value.useACMEHost else null;
+            # The clacks headers are only added at the edge: backend responses
+            # pass through it, and adding them there too would duplicate them.
+            extraConfig = ''
+              ${accessLog}
+              ${lib.optionalString cfg.tls ''
+                header +X-Clacks-Overhead "GNU Douglas Adams"
+                header +X-Clacks-Overhead "GNU Robert Asprin"
+              ''}
+              ${lib.optionalString (value.backend != null) "reverse_proxy ${value.backend}"}
 
-            ${value.extraConfig}
-          '';
+              ${value.extraConfig}
+            '';
+          };
+        }) cfg.virtualHosts
+        // {
+          # Unknown hosts get a 404 instead of an empty 200. At the edge this has
+          # to be an https:// site: an http:// one would stop Caddy redirecting
+          # known hosts to HTTPS.
+          ${if cfg.tls then "https://" else "http://"} = {
+            useACMEHost = if cfg.tls then "primary" else null;
+            extraConfig = ''
+              ${accessLog}
+              respond 404
+            '';
+          };
         };
-      }) cfg.virtualHosts;
     };
 
     networking.firewall.allowedTCPPorts = [
