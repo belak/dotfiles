@@ -32,6 +32,7 @@
 
     services.caddy = {
       enable = true;
+      tls = true;
 
       virtualHosts = {
         # Hosted here (zidane)
