@@ -46,6 +46,7 @@ in
       openssl
       pwgen
       scc
+      single-file-cli
       starship
       tmux
       tree
