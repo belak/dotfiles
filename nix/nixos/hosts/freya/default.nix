@@ -137,7 +137,7 @@ in
       device = "/mnt/amarant/media/TV";
       options = [
         "bind"
-        "rw"
+        "ro"
       ];
       fsType = "none";
     };
