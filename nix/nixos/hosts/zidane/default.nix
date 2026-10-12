@@ -47,7 +47,7 @@
         "forgejo.elwert.cloud" = {
           backend = "http://vivi.elwert.dev";
         };
-        "linkding.elwert.cloud" = {
+        "bookmarks.elwert.cloud" = {
           backend = "http://vivi.elwert.dev";
         };
         "taskwarrior.elwert.cloud" = {
@@ -73,13 +73,10 @@
         "files.elwert.cloud" = {
           backend = "http://freya.elwert.dev";
         };
-        "immich.elwert.cloud" = {
-          backend = "http://freya.elwert.dev";
-        };
         "photos.elwert.cloud" = {
           backend = "http://freya.elwert.dev";
         };
-        "miniflux.elwert.cloud" = {
+        "rss.elwert.cloud" = {
           backend = "http://freya.elwert.dev";
         };
         "kavita.elwert.cloud" = {

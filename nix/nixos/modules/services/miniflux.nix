@@ -5,7 +5,7 @@ in
 {
   options.belak.services.miniflux = {
     enable = lib.mkEnableOption "miniflux";
-    domain = lib.mkOption { default = "miniflux.elwert.cloud"; };
+    domain = lib.mkOption { default = "rss.elwert.cloud"; };
   };
 
   config = lib.mkIf cfg.enable {

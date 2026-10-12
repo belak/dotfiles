@@ -95,11 +95,7 @@ in
         }
       ];
     };
-    services.immich = {
-      enable = true;
-      domain = "immich.elwert.cloud";
-      extraDomains = [ "photos.elwert.cloud" ];
-    };
+    services.immich.enable = true;
     services.kavita = {
       enable = true;
       oidc = {

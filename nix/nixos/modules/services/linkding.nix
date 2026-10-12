@@ -15,7 +15,7 @@ in
 
     domain = lib.mkOption {
       type = lib.types.str;
-      default = "linkding.elwert.cloud";
+      default = "bookmarks.elwert.cloud";
     };
 
     port = lib.mkOption {
