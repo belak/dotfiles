@@ -6,7 +6,7 @@ in
   options.belak.services.woodpecker = {
     enable = lib.mkEnableOption "woodpecker CI server";
 
-    domain = lib.mkOption { default = "woodpecker.elwert.cloud"; };
+    domain = lib.mkOption { default = "ci.elwert.cloud"; };
     forgejoUrl = lib.mkOption { default = "https://forgejo.elwert.cloud"; };
 
     admins = lib.mkOption {

@@ -53,7 +53,7 @@
         "taskwarrior.elwert.cloud" = {
           backend = "http://vivi.elwert.dev";
         };
-        "woodpecker.elwert.cloud" = {
+        "ci.elwert.cloud" = {
           backend = "http://vivi.elwert.dev";
         };
         "attic.elwert.cloud" = {
