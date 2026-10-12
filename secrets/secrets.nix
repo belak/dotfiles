@@ -50,7 +50,6 @@ in
 
   "syncthing-gui-password.age".publicKeys = service-syncthing ++ users;
 
-  "taskchampion-basic-auth.age".publicKeys = service-taskchampion ++ users;
   "taskchampion-basic-auth-accounts.age".publicKeys = service-taskchampion ++ users;
 
   "woodpecker-agent-secret.age".publicKeys = service-woodpecker-agent ++ users;
