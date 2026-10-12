@@ -12,7 +12,6 @@
     ./kavita.nix
     ./linkding.nix
     ./miniflux.nix
-    ./nginx.nix
     ./plex.nix
     ./pocket-id.nix
     ./podman.nix

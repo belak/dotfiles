@@ -1,4 +1,4 @@
-# Runs Linkding behind nginx with SQLite and Pocket ID authentication.
+# Runs Linkding behind Caddy with SQLite and Pocket ID authentication.
 # The Pocket ID client's callback URL is https://<domain>/oidc/callback/ (with
 # the trailing slash). linkding-env.age holds OIDC_RP_CLIENT_ID and
 # OIDC_RP_CLIENT_SECRET. Run `linkding-manage createsuperuser` with the email
