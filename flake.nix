@@ -6,6 +6,11 @@
     nixpkgs.url = "github:nixos/nixpkgs/nixos-26.05";
     nixpkgs-unstable.url = "github:nixos/nixpkgs/nixpkgs-unstable";
 
+    nixos-hardware-t2-fork = {
+      url = "github:soopyc/nixos-hardware/apple-t2-updates";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
     flake-parts = {
       url = "github:hercules-ci/flake-parts";
       inputs.nixpkgs-lib.follows = "nixpkgs";
@@ -123,6 +128,17 @@
             ];
             homeUsers = {
               belak = ./nix/home/users/belak/freya.nix;
+            };
+          };
+
+          # Intel MacBook Pro (2020)
+          "kuja" = myLib.mkNixosSystem {
+            modules = [
+              ./nix/nixos/hosts/kuja
+              ./nix/nixos/users/belak
+            ];
+            homeUsers = {
+              belak = ./nix/home/users/belak/kuja.nix;
             };
           };
 

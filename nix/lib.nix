@@ -5,6 +5,7 @@
   disko,
   home-manager,
   darwin,
+  nixos-hardware-t2-fork,
   ...
 }:
 {
@@ -31,6 +32,7 @@
       specialArgs = {
         inherit self;
         inherit agenix;
+        inherit nixos-hardware-t2-fork;
       };
 
       modules = [

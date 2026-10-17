@@ -2,6 +2,7 @@
 # the server module.
 rec {
   user-belak-melinoe = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIMzuXboQDv2VCig0+A780O0+sKs1euw+3OafnRA6z14P";
+  user-belak-kuja = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIILa2aiNwqsDBfcBZ1CKvp2+i2wSeAbnXTGDflrzcAfC";
   user-belak-quina = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAINjxw57nR3VIhpVt9zYipzLqZ0ecHhDBjyP8dNhxL5mP";
   user-belak-zidane = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIGfuFjYRYRoE754QGk6TGuG1ggad3T3mQ6v2Au32Ax/M belak@zidane";
   user-belak-zorn = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIOvdWkVKcV087KDa9e2fdaubwW8SztSo+k+lYaeEKILC";
@@ -10,6 +11,7 @@ rec {
 
   users = [
     user-belak-melinoe
+    user-belak-kuja
     user-belak-quina
     user-belak-zidane
     user-belak-zorn
@@ -19,6 +21,7 @@ rec {
 
   system-garnet = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAINWG8LZ+epXNdE/gpZXE1YId/GKZ3y5lL7u7dPoSiJQa";
   system-freya = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIDU1rGovd901nTi60c/WTDtTrkWSJ8V2lDMJr6MusKWS";
+  system-kuja = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIKgN2NGKhy1tyzoL+xOIaZp4VQ61PV/oDA6yYjnomwia";
   system-quina = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIBZ06jS8rephEg8IZgqkwBJ7QRPH7Osh+HE0LU6q2YvC";
   system-vivi = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIDx5Y7VvA9CUdrsiVpNbRufBdJdvJZEfRQXIGnPgqynH";
   system-zidane = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIL8pkaoi6ASLpjFP+9v/frMX6wAiWrM3LTMvkdnU8Rd0";
@@ -27,6 +30,7 @@ rec {
   systems = [
     system-freya
     system-garnet
+    system-kuja
     system-quina
     system-vivi
     system-zidane

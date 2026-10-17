@@ -327,6 +327,27 @@
         "type": "github"
       }
     },
+    "nixos-hardware-t2-fork": {
+      "inputs": {
+        "nixpkgs": [
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1791374722,
+        "narHash": "sha256-AUX62uKym9uJgqNQ4pCoTB0fEdyHqpSBNcSolAidalg=",
+        "owner": "soopyc",
+        "repo": "nixos-hardware",
+        "rev": "7082b484432124bd8d53790a11b808429b73fb6b",
+        "type": "github"
+      },
+      "original": {
+        "owner": "soopyc",
+        "ref": "apple-t2-updates",
+        "repo": "nixos-hardware",
+        "type": "github"
+      }
+    },
     "nixpkgs": {
       "locked": {
         "lastModified": 1791662279,
@@ -372,6 +393,7 @@
         "home-manager": "home-manager",
         "llm-agents": "llm-agents",
         "nix-vscode-extensions": "nix-vscode-extensions",
+        "nixos-hardware-t2-fork": "nixos-hardware-t2-fork",
         "nixpkgs": "nixpkgs",
         "nixpkgs-unstable": "nixpkgs-unstable"
       }
