@@ -31,7 +31,6 @@
 
   belak = {
     gnome.enable = true;
-    gui.enable = true;
   };
 
   programs.firefox.enable = true;
