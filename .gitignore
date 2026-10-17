@@ -42,10 +42,6 @@ config/fish/functions
 config/fish/themes
 config/fish/config.local.fish
 
-# A few hosts need private firmware, which can't legally be committed to the
-# repo.
-nix/nixos/hosts/*/firmware
-
 # Ignore specifically named binaries, so I can drop them in temporarily without
 # git picking them up.
 bin/tmp-*

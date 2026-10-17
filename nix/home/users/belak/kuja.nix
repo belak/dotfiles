@@ -19,7 +19,7 @@
   ];
 
   home.packages = with pkgs; [
-    #llm-agents.claude-code
+    llm-agents.claude-code
     #spotify
     my.senpai
   ];
