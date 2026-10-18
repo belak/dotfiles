@@ -133,6 +133,18 @@ in
       fsType = "none";
     };
 
+    "/mnt/media/Games" = {
+      depends = [
+        "/mnt/amarant/media"
+      ];
+      device = "/mnt/amarant/media/Games";
+      options = [
+        "bind"
+        "ro"
+      ];
+      fsType = "none";
+    };
+
     "/mnt/media/Home Videos" = {
       depends = [
         "/mnt/amarant/media"
