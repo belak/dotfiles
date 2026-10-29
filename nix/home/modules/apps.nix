@@ -35,6 +35,7 @@ in
     home.packages =
       with pkgs;
       [
+        unstable.gram
         unstable.lapce
         unstable.lite-xl
         unstable.obsidian
