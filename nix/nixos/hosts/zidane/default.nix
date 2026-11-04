@@ -43,6 +43,17 @@
           useACMEHost = "blog";
         };
 
+        # Files in /srv/caddy-drop are served by exact URL only.
+        "drop.elwert.cloud" = {
+          extraConfig = ''
+            @hidden path */.*
+            respond @hidden 404
+
+            root * /srv/caddy-drop
+            file_server
+          '';
+        };
+
         # Hosted on vivi
         "forgejo.elwert.cloud" = {
           backend = "http://vivi.elwert.dev";
@@ -120,6 +131,11 @@
       };
     };
   };
+
+  # World-readable so Caddy can serve what belak uploads.
+  systemd.tmpfiles.rules = [
+    "d /srv/caddy-drop 0755 belak users -"
+  ];
 
   systemd.services.belak-blog = {
     wantedBy = [ "multi-user.target" ];
