@@ -39,6 +39,7 @@ in
         unstable.lapce
         unstable.lite-xl
         unstable.obsidian
+        unstable.prismlauncher
         unstable.zed-editor
       ]
       ++ lib.optionals pkgs.stdenv.isLinux [

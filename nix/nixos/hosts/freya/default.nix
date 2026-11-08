@@ -13,6 +13,11 @@ let
       ${pkgs.mcrcon}/bin/mcrcon -P 25575 -p $(cat /var/lib/minecraft/all-the-calzones/server.properties | grep rcon.password | cut -b 15-) $@
     ''
   );
+  mc-cozy-rcon = (
+    pkgs.writeShellScriptBin "mc-calzone-rcon" ''
+      ${pkgs.mcrcon}/bin/mcrcon -P 25575 -p $(cat /var/lib/minecraft/cozy-calzones/server.properties | grep rcon.password | cut -b 15-) $@
+    ''
+  );
 in
 {
   imports = [
@@ -318,22 +323,51 @@ in
 
   users.groups.minecraft-all-the-calzones = { };
 
-  systemd.services.minecraft-all-the-calzones = {
+  #systemd.services.minecraft-all-the-calzones = {
+  #  wantedBy = [ "multi-user.target" ];
+  #  wants = [ "network-online.target" ];
+  #  after = [ "network-online.target" ];
+  #  path = with pkgs; [
+  #    openjdk21_headless
+  #  ];
+  #  serviceConfig = {
+  #    Restart = "always";
+  #    ExecStart = "${pkgs.bash}/bin/bash /var/lib/minecraft/all-the-calzones/run.sh";
+  #    WorkingDirectory = "/var/lib/minecraft/all-the-calzones";
+  #    StateDirectory = "minecraft/all-the-calzones";
+  #    CacheDirectory = "minecraft/all-the-calzones";
+  #    ExecStop = "${mc-calzone-rcon}/bin/mc-calzone-rcon stop";
+  #    User = "minecraft-all-the-calzones";
+  #    Group = "minecraft-all-the-calzones";
+  #  };
+  #};
+
+  users.users.minecraft-cozy-calzones = {
+    group = "minecraft-cozy-calzones";
+    isSystemUser = true;
+  };
+
+  users.groups.minecraft-cozy-calzones = { };
+
+  systemd.services.minecraft-cozy-calzones = {
     wantedBy = [ "multi-user.target" ];
     wants = [ "network-online.target" ];
     after = [ "network-online.target" ];
     path = with pkgs; [
-      openjdk21_headless
+      openjdk17_headless
     ];
     serviceConfig = {
       Restart = "always";
-      ExecStart = "${pkgs.bash}/bin/bash /var/lib/minecraft/all-the-calzones/run.sh";
-      WorkingDirectory = "/var/lib/minecraft/all-the-calzones";
-      StateDirectory = "minecraft/all-the-calzones";
-      CacheDirectory = "minecraft/all-the-calzones";
-      ExecStop = "${mc-calzone-rcon}/bin/mc-calzone-rcon stop";
-      User = "minecraft-all-the-calzones";
-      Group = "minecraft-all-the-calzones";
+      ExecStart = "${pkgs.bash}/bin/bash /var/lib/minecraft/cozy-calzones/startserver.sh";
+      Environment = [
+        "HOMESTEAD_RESTART=false"
+      ];
+      WorkingDirectory = "/var/lib/minecraft/cozy-calzones";
+      StateDirectory = "minecraft/cozy-calzones";
+      CacheDirectory = "minecraft/cozy-calzones";
+      ExecStop = "${mc-cozy-rcon}/bin/mc-cozy-rcon stop";
+      User = "minecraft-cozy-calzones";
+      Group = "minecraft-cozy-calzones";
     };
   };
 
