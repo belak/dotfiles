@@ -14,7 +14,7 @@ let
     ''
   );
   mc-cozy-rcon = (
-    pkgs.writeShellScriptBin "mc-calzone-rcon" ''
+    pkgs.writeShellScriptBin "mc-cozy-rcon" ''
       ${pkgs.mcrcon}/bin/mcrcon -P 25575 -p $(cat /var/lib/minecraft/cozy-calzones/server.properties | grep rcon.password | cut -b 15-) $@
     ''
   );
@@ -49,6 +49,7 @@ in
     libva-utils
     libxml2
     mc-calzone-rcon
+    mc-cozy-rcon
   ];
 
   belak = {
@@ -354,6 +355,7 @@ in
     wants = [ "network-online.target" ];
     after = [ "network-online.target" ];
     path = with pkgs; [
+      gawk
       openjdk17_headless
     ];
     serviceConfig = {
