@@ -26,6 +26,8 @@
 
   home.packages = with pkgs; [
     llm-agents.claude-code
+    llm-agents.pi
+    nodejs # npm is needed by pi
 
     neomutt
     pandoc
