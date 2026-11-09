@@ -97,7 +97,7 @@
           backend = "http://freya.elwert.dev:8096";
         };
         "mc-calzone.elwert.cloud" = {
-          backend = "http://freya.elwert.dev:8080";
+          backend = "http://freya.elwert.dev";
         };
         "plex.elwert.cloud" = {
           backend = ''

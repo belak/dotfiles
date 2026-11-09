@@ -373,8 +373,10 @@ in
     };
   };
 
+  # BlueMap's web server for cozy-calzones; zidane proxies to this vhost.
+  belak.services.caddy.virtualHosts."mc-calzone.elwert.cloud".backend = "http://127.0.0.1:8100";
+
   networking.firewall.allowedTCPPorts = [
-    8080
     25565
   ];
 
