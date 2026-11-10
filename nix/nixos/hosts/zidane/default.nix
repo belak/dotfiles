@@ -115,18 +115,18 @@
           extraHosts = [
             "*.seabird.chat"
           ];
-          backend = "http://kupo.infra.seabird.chat";
+          backend = "h2c://kupo.infra.seabird.chat";
           useACMEHost = "seabird";
         };
         "staging.seabird.chat" = {
           extraHosts = [
             "*.staging.seabird.chat"
           ];
-          backend = "http://stiltzkin.infra.seabird.chat";
+          backend = "h2c://stiltzkin.infra.seabird.chat";
           useACMEHost = "seabird";
         };
         "seabird-core.elwert.cloud" = {
-          backend = "http://kupo.infra.seabird.chat";
+          backend = "h2c://kupo.infra.seabird.chat";
         };
       };
     };
