@@ -12,6 +12,7 @@
     ./kavita.nix
     ./linkding.nix
     ./miniflux.nix
+    ./oauth2-proxy.nix
     ./plex.nix
     ./pocket-id.nix
     ./podman.nix
