@@ -8,6 +8,7 @@ let
   service-forgejo = [ keys.system-vivi ];
   service-filebrowser-quantum = [ keys.system-freya ];
   service-immich = [ keys.system-freya ];
+  service-inkheart = [ keys.system-freya ];
   service-kavita = [ keys.system-freya ];
   service-linkding = [ keys.system-vivi ];
   service-miniflux = [ keys.system-freya ];
@@ -35,6 +36,8 @@ in
   "immich-smtp-password.age".publicKeys = service-immich ++ users;
   "immich-oidc-client-id.age".publicKeys = service-immich ++ users;
   "immich-oidc-client-secret.age".publicKeys = service-immich ++ users;
+
+  "inkheart-oauth2-proxy-env.age".publicKeys = service-inkheart ++ users;
 
   "kavita-token-key.age".publicKeys = service-kavita ++ users;
   "kavita-oidc-client-secret.age".publicKeys = service-kavita ++ users;

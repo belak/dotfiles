@@ -8,6 +8,7 @@
     ./filebrowser-quantum.nix
     ./forgejo.nix
     ./immich.nix
+    ./inkheart.nix
     ./jellyfin.nix
     ./kavita.nix
     ./linkding.nix

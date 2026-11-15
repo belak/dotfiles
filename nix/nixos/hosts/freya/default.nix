@@ -102,6 +102,10 @@ in
       ];
     };
     services.immich.enable = true;
+    services.inkheart = {
+      enable = true;
+      mediaDir = "/mnt/media/Documents/Reference";
+    };
     services.kavita = {
       enable = true;
       oidc = {
@@ -132,6 +136,18 @@ in
         "/mnt/amarant/media"
       ];
       device = "/mnt/amarant/media/Audiobooks";
+      options = [
+        "bind"
+        "ro"
+      ];
+      fsType = "none";
+    };
+
+    "/mnt/media/Documents" = {
+      depends = [
+        "/mnt/amarant/media"
+      ];
+      device = "/mnt/amarant/media/Documents";
       options = [
         "bind"
         "ro"

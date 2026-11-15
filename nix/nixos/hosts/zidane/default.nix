@@ -84,6 +84,9 @@
         "files.elwert.cloud" = {
           backend = "http://freya.elwert.dev";
         };
+        "inkheart.elwert.cloud" = {
+          backend = "http://freya.elwert.dev";
+        };
         "photos.elwert.cloud" = {
           backend = "http://freya.elwert.dev";
         };
