@@ -47,7 +47,7 @@
   i18n.defaultLocale = "en_US.UTF-8";
 
   # Default to US Pacific, but allow it to be overridden, such as in server.nix
-  time.timeZone = lib.mkDefault "US/Pacific";
+  time.timeZone = lib.mkDefault "America/Los_Angeles";
 
   programs.fish = {
     enable = true;
