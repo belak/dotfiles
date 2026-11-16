@@ -9,11 +9,11 @@ let
   certCfg = config.security.acme.certs.soju;
 
   stateDir = "/var/lib/soju";
-  #runtimeDir = "/run/soju";
+  httpSocket = "/run/soju/http.sock";
 
   configFile = pkgs.writeText "soju.conf" ''
     listen ircs://:7000
-    listen http+insecure://localhost:7001
+    listen http+unix://${httpSocket}
     hostname soju.elwert.cloud
     tls ${certCfg.directory}/fullchain.pem ${certCfg.directory}/key.pem
     db sqlite3 ${stateDir}/soju.db
@@ -67,17 +67,18 @@ in
       isSystemUser = true;
     };
 
-    users.groups.soju = { };
+    # Caddy needs the group to connect to the HTTP socket.
+    users.groups.soju.members = [ "caddy" ];
 
     belak.acme.enable = true;
 
     belak.services.caddy.virtualHosts.${cfg.gamjaDomain}.extraConfig = ''
       handle /socket* {
-        reverse_proxy http://localhost:7001
+        reverse_proxy unix/${httpSocket}
       }
 
       handle /uploads* {
-        reverse_proxy http://localhost:7001
+        reverse_proxy unix/${httpSocket}
       }
 
       handle {
