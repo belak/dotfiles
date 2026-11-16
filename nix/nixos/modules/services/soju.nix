@@ -13,11 +13,13 @@ let
 
   configFile = pkgs.writeText "soju.conf" ''
     listen ircs://:7000
-    listen ws+insecure://localhost:7001
+    listen http+insecure://localhost:7001
     hostname soju.elwert.cloud
     tls ${certCfg.directory}/fullchain.pem ${certCfg.directory}/key.pem
     db sqlite3 ${stateDir}/soju.db
     message-store db
+    http-ingress https://${cfg.gamjaDomain}
+    file-upload fs ${stateDir}/uploads
   '';
 
   sojuctl = pkgs.writeShellScriptBin "sojuctl" ''
@@ -71,6 +73,10 @@ in
 
     belak.services.caddy.virtualHosts.${cfg.gamjaDomain}.extraConfig = ''
       handle /socket* {
+        reverse_proxy http://localhost:7001
+      }
+
+      handle /uploads* {
         reverse_proxy http://localhost:7001
       }
 
