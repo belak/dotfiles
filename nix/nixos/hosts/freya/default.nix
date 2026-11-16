@@ -389,6 +389,19 @@ in
     };
   };
 
+  # Nightly restart at 3am Pacific, independent of the host timezone.
+  systemd.services.minecraft-cozy-calzones-restart = {
+    serviceConfig = {
+      Type = "oneshot";
+      ExecStart = "${pkgs.systemd}/bin/systemctl restart minecraft-cozy-calzones.service";
+    };
+  };
+
+  systemd.timers.minecraft-cozy-calzones-restart = {
+    wantedBy = [ "timers.target" ];
+    timerConfig.OnCalendar = "*-*-* 03:00:00 America/Los_Angeles";
+  };
+
   # BlueMap's web server for cozy-calzones; zidane proxies to this vhost.
   belak.services.caddy.virtualHosts."mc-calzone.elwert.cloud".backend = "http://127.0.0.1:8100";
 
