@@ -1,7 +1,6 @@
 {
   self,
   nixpkgs,
-  agenix,
   disko,
   home-manager,
   darwin,
@@ -18,13 +17,11 @@
     nixpkgs.lib.nixosSystem {
       specialArgs = {
         inherit self;
-        inherit agenix;
         inherit nixos-hardware-t2-fork;
       };
 
       modules = [
         self.nixosModules.default
-        agenix.nixosModules.default
         disko.nixosModules.disko
         home-manager.nixosModules.default
         { home-manager.users = homeUsers; }
@@ -47,12 +44,10 @@
 
       specialArgs = {
         inherit self;
-        inherit agenix;
       };
 
       modules = [
         self.darwinModules.default
-        agenix.darwinModules.default
         home-manager.darwinModules.default
         { home-manager.users = homeUsers; }
       ]
@@ -74,7 +69,6 @@
 
       modules = [
         self.homeModules.default
-        agenix.homeManagerModules.default
       ]
       ++ modules;
     };

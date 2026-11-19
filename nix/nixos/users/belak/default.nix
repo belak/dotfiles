@@ -7,7 +7,8 @@ in
   users.users.belak = {
     home = "/home/belak";
     isNormalUser = true;
-    hashedPasswordFile = config.age.secrets.belak-password.path;
+    # Provisioned by hand on each machine; see README.md in this directory.
+    hashedPasswordFile = "/etc/secrets/belak-password";
     description = "Kaleb Elwert";
     extraGroups = [
       "cdrom"
@@ -31,6 +32,4 @@ in
       }
     ];
   };
-
-  age.secrets.belak-password.file = ../../../../secrets/belak-password.age;
 }

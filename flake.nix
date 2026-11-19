@@ -42,11 +42,6 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    agenix = {
-      url = "github:ryantm/agenix";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
-
     llm-agents = {
       url = "github:numtide/llm-agents.nix";
       inputs.nixpkgs.follows = "nixpkgs-unstable";
@@ -58,7 +53,6 @@
       self,
       nixpkgs,
       flake-parts,
-      agenix,
       ...
     }:
     let
@@ -119,15 +113,7 @@
           ...
         }:
         {
-          # Normally we'd use the default nixpkgs here, but we want to install
-          # agenix.
-          _module.args.pkgs = import inputs.nixpkgs {
-            inherit system;
-            overlays = [
-              agenix.overlays.default
-            ];
-            config = { };
-          };
+          _module.args.pkgs = inputs.nixpkgs.legacyPackages.${system};
 
           formatter = pkgs.treefmt.withConfig {
             runtimeInputs = [ pkgs.nixfmt ];
@@ -141,14 +127,6 @@
                 command = "nixfmt";
                 includes = [ "*.nix" ];
               };
-            };
-          };
-
-          devShells = {
-            default = pkgs.mkShell {
-              packages = [
-                pkgs.agenix
-              ];
             };
           };
         };

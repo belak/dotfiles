@@ -1,6 +1,5 @@
 {
   nixpkgs-unstable,
-  agenix,
   llm-agents,
   emacs-overlay,
   nix-vscode-extensions,

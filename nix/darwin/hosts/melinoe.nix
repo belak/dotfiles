@@ -1,6 +1,5 @@
 {
   self,
-  agenix,
   config,
   lib,
   pkgs,

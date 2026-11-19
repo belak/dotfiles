@@ -2,7 +2,6 @@
 # nix/nixos/modules. Check both when changing this one.
 {
   self,
-  agenix,
   ...
 }:
 {
@@ -21,7 +20,6 @@
 
       sharedModules = [
         self.homeModules.default
-        agenix.homeManagerModules.default
       ];
     };
   };
