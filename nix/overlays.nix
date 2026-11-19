@@ -2,11 +2,8 @@
   nixpkgs-unstable,
   agenix,
   llm-agents,
-  deploy-rs,
   emacs-overlay,
   nix-vscode-extensions,
-  belak-blog,
-  belak-btta,
   ...
 }:
 {
@@ -15,33 +12,11 @@
       callPackage = final.callPackage;
       directory = ./pkgs;
     };
-
-    belak-blog = belak-blog.packages.${final.stdenv.hostPlatform.system}.default;
-    belak-btta = belak-btta.packages.${final.stdenv.hostPlatform.system}.default;
   };
-
-  agenix = agenix.overlays.default;
 
   llm-agents = llm-agents.overlays.shared-nixpkgs;
 
-  deploy-rs-overlay = deploy-rs.overlays.default;
-
   emacs = emacs-overlay.overlays.default;
-
-  # This is a modified version of what's in the deploy-rs readme. For some
-  # reason overriding deploy-rs entirely seems to clobber the needed `lib` attr,
-  # and oddly enough the `deploy-rs` binary is accessed through
-  # deploy-rs.reploy-rs, so we need to provide that as well.
-  #
-  # Note that this depends on our "unstable" overlay because it's the easiest
-  # way to make sure we get a package from nixpkgs and not from the deploy-rs
-  # source. Another option would be creating a new nixpkgs instance.
-  deploy-rs-pkg-override = final: prev: {
-    deploy-rs = final.unstable.deploy-rs // {
-      inherit (final.unstable) deploy-rs;
-      inherit (prev.deploy-rs) lib;
-    };
-  };
 
   unstable = final: _prev: {
     unstable = import nixpkgs-unstable {

@@ -9,19 +9,6 @@
   ...
 }:
 {
-  # We could use nixpkgs.lib.systems.flakeExposed, but I prefer to only
-  # expose architectures I actually run.
-  forAllSystems = nixpkgs.lib.genAttrs [
-    "aarch64-linux"
-    "x86_64-linux"
-    "aarch64-darwin"
-    "x86_64-darwin"
-  ];
-
-  mkOptionals = check: data: if check then data else [ ];
-
-  optionalFile = path: if builtins.pathExists path then [ path ] else [ ];
-
   # mkNixosSystem is a convenience function for declaring a nixos system.
   mkNixosSystem =
     {
@@ -90,31 +77,5 @@
         agenix.homeManagerModules.default
       ]
       ++ modules;
-    };
-
-  # mkNixosDeploy takes a nixosConfig, generated using mkNixosSystem, and
-  # generates an opinionated deploy-rs config.
-  mkNixosDeploy =
-    nixosConfig:
-    let
-      pkgs = nixosConfig._module.args.pkgs;
-    in
-    {
-      user = "root";
-      sshUser = "root";
-      path = pkgs.deploy-rs.lib.activate.nixos nixosConfig;
-    };
-
-  # mkHomeDeploy takes a homeManagerConfig, generated using mkHome, and
-  # generates an opinionated deploy-rs config.
-  mkHomeDeploy =
-    homeManagerConfig:
-    let
-      pkgs = homeManagerConfig.pkgs;
-    in
-    {
-      user = homeManagerConfig.config.home.username;
-      sshUser = "root";
-      path = pkgs.deploy-rs.lib.activate.home-manager homeManagerConfig;
     };
 }
