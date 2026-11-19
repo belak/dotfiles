@@ -7,9 +7,6 @@
     dev.enable = true;
     emacs.enable = true;
     ghostty.enable = true;
-
-    # Scratch library for trying config changes before they reach freya.
-    beets.enable = true;
     vscode.enable = true;
 
     # Taskwarrior

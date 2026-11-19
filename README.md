@@ -1,36 +1,17 @@
 # belak's dotfiles
 
-## Nix
+belak's personal workstation config: random dotfiles and nix modules which don't
+make sense to keep in project configs.
 
-For setup, run the following:
+## Setup
 
 ``` shell
-# NixOS setup
-sudo ln -sf ~/.dotfiles/nix/flake.nix /etc/nixos/flake.nix
-sudo nixos-rebuild switch --flake ~/.dotfiles
+# nix-darwin
+sudo darwin-rebuild --flake ~/.dotfiles switch
 
-# nix-darwin setup
-nix run nix-darwin -- switch --flake ~/.dotfiles
-
-# home-manager setup
-nix run github:nix-community/home-manager -- switch --flake ~/.dotfiles
+# NixOS
+sudo nixos-rebuild switch --flake ~/.dotfiles#kuja
 ```
 
-### Concepts
-
-Hosts are configured with a user-level nix target (`home-manager`) and often a
-host-level nix target (`nix-darwin`, `nixos`, etc).
-
-In general, packages should be installed at the user-level unless they need to
-be installed at a system level to work properly. This includes things like
-system daemons, programs needed to set up the system, and shells.
-
-Setup and recovery notes live beside the
-[service modules](nix/nixos/modules/services) and
-[host configurations](nix/nixos/hosts).
-
-### Work Computers
-
-Note that the Nix flake in this repo is also used as a dependency in a private
-work flake. This allows me to keep most common configuration here, in modules,
-and have any work-specific config in a private repo.
+NixOS hosts need a login password provisioned by hand before the first boot.
+See [the user module](nix/nixos/users/belak/README.md).

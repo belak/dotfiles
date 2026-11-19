@@ -7,9 +7,6 @@ host-*
 result
 .direnv
 
-# personal tweaks
-config/belak/repos
-
 # vim/nvim related
 config/nvim/.netrwhist
 config/nvim/plugged

@@ -23,17 +23,12 @@ in
     home.file = {
       "bin" = mkSource "bin";
 
-      # Installed as base.yaml, not config.yaml: the belak.beets module
-      # generates config.yaml with the per-host paths and includes this.
-      ".config/beets/base.yaml" = mkSource "config/beets/config.yaml";
-      ".config/belak" = mkSource "config/belak";
       ".config/direnv/direnv.toml" = mkSource "config/direnv/direnv.toml";
       ".config/emacs" = mkSource "config/emacs";
       ".config/finicky" = mkSource "config/finicky";
       ".config/fish" = mkSource "config/fish";
       ".config/git" = mkSource "config/git";
       ".config/jj/config.toml" = mkSource "config/jj/config.toml";
-      ".config/noctalia" = mkSource "config/noctalia";
       ".config/nvim" = mkSource "config/nvim";
       ".config/starship.toml" = mkSource "config/starship.toml";
       ".config/tmux" = mkSource "config/tmux";
@@ -41,9 +36,6 @@ in
       ".editorconfig" = mkSource "editorconfig";
       ".hammerspoon" = mkSource "hammerspoon";
       ".vimrc" = mkSource "vimrc";
-      ".zshenv" = mkSource "zshenv";
-      ".zshrc" = mkSource "zshrc";
-      ".zsh_plugins.txt" = mkSource "zsh_plugins.txt";
     };
   };
 }
